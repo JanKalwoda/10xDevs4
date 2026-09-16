@@ -1,13 +1,17 @@
 ---
 project: "DryFire Drill Timer"
 context_type: greenfield
+product_type: web-app
+target_scale:
+  users: small
 created: 2026-09-16
 updated: 2026-09-16
 timeline_budget:
   mvp_weeks: 2
+  hard_deadline: 2027-01-10
 checkpoint:
-  current_phase: 5
-  phases_completed: [1, 2, 3, 4]
+  current_phase: 6
+  phases_completed: [1, 2, 3, 4, 5]
   gray_areas_resolved:
     - topic: "Typ kontekstu projektu"
       decision: "Greenfield — użytkownik potwierdził budowę nowej aplikacji od zera."
@@ -16,7 +20,7 @@ checkpoint:
     - topic: "Cel losowego startu"
       decision: "Start ma wymuszać reakcję na sygnał, zamiast pozwalać na przygotowanie reakcji dzięki przewidywalnemu czasowi."
     - topic: "Rozdzielczość losowania a dokładność sygnału"
-      decision: "Wartości opóźnienia są losowane co 0,01 s. Sygnał może wystąpić z błędem; tolerancji jeszcze nie określono."
+      decision: "Wartości opóźnienia są losowane co 0,01 s. Akceptowalny bezwzględny błąd momentu sygnału względem zaplanowanego momentu wynosi maksymalnie 0,2 s."
     - topic: "Role i własność konfiguracji"
       decision: "Jeden rodzaj konta; każdy zarządza wyłącznie własnymi konfiguracjami, bez administratorów i udostępniania."
     - topic: "Metoda logowania"
@@ -45,6 +49,16 @@ checkpoint:
       decision: "Użytkownik nadaje nazwę przy zapisie; lista pokazuje nazwę i parametry; usunięcie wymaga potwierdzenia z nazwą konfiguracji."
     - topic: "Jednozdaniowa reguła biznesowa"
       decision: "Timer prowadzi użytkownika przez skonfigurowane fazy i powtórzenia, a przy włączonym losowym starcie poprzedza każde ćwiczenie niezależnym, ukrytym oczekiwaniem 1–5 s, aby użytkownik reagował na sygnał bez znajomości momentu startu."
+    - topic: "Przejście aplikacji w tło i blokada ekranu"
+      decision: "Przejście do innej aplikacji lub zablokowanie ekranu powoduje pauzę; po powrocie wymagane jest ręczne wznowienie według ustalonych reguł."
+    - topic: "Środowisko weryfikacji"
+      decision: "Chrome na iPhonie 15 Pro Max."
+    - topic: "Początkowa skala użytkowników"
+      decision: "Autor projektu i najwyżej kilka osób."
+    - topic: "Wpływ skali na reguły timera"
+      decision: "Reguły timera pozostają takie same niezależnie od liczby użytkowników."
+    - topic: "Terminy kalendarzowe"
+      decision: "Twardy termin: 10 stycznia 2027. Cel preferowany: 4 listopada 2026; cel zapasowy w razie problemów: 6 grudnia 2026. Plan nakładu pracy pozostaje równy 2 tygodniom po 10–15 godzin tygodniowo."
   frs_drafted: 12
   quality_check_status: pending
 ---
@@ -57,7 +71,7 @@ checkpoint:
 
 Autor projektu podczas ćwiczeń strzeleckich na sucho korzysta z timera HIIT, który obsługuje czas przygotowania, ćwiczenia, odpoczynku i liczbę powtórzeń. Brakuje w nim losowego opóźnienia startu z zadanego przedziału. Przewidywalny czas pozwala przygotować reakcję z wyprzedzeniem zamiast reagować na sygnał, co ogranicza przydatność obecnego timera w tym zastosowaniu.
 
-DryFire Drill Timer ma zachować potrzebny przebieg faz i powtórzeń oraz umożliwić nieprzewidywalny start. Użytkownik chce symulować opisany przez siebie scenariusz zawodów IPSC: po potwierdzeniu gotowości i komendzie „standby” sygnał startu pojawia się po losowym opóźnieniu od 1 do 5 sekund. Jest to opis motywacji użytkownika, a nie deklaracja zgodności aplikacji z regulaminem zawodów.
+DryFire Drill Timer ma zachować potrzebny przebieg faz i powtórzeń oraz umożliwić nieprzewidywalny start. Użytkownik chce symulować opisany przez siebie scenariusz zawodów IPSC: po potwierdzeniu gotowości i komendzie „standby” sygnał startu pojawia się po losowym opóźnieniu od 1 do 5 sekund. Jest to opis motywacji użytkownika, a nie deklaracja zgodności aplikacji z regulaminem zawodów. Reguły timera pozostają takie same niezależnie od liczby użytkowników, również przy stukrotnym wzroście skali.
 
 ## User & Persona
 
@@ -115,7 +129,7 @@ Użytkownik potwierdził wszystkie 12 wymagań jako must-have. Runda wyzwania So
 
 ### Sterowanie timerem
 
-- FR-006: Użytkownik może zatrzymać przebieg i go wznowić; po pauzie w Standby lub ćwiczeniu odliczany jest pełny czas przygotowania, po czym to samo powtórzenie zaczyna się od początku z właściwymi sygnałami i nowym losowaniem, jeśli włączone, z zachowaniem ukończonych powtórzeń; przygotowanie i odpoczynek kontynuują pozostały czas bez ponawiania sygnału początku fazy. Priority: must-have
+- FR-006: Użytkownik może zatrzymać przebieg i go wznowić; przejście do innej aplikacji lub zablokowanie ekranu również powoduje pauzę wymagającą ręcznego wznowienia; po pauzie w Standby lub ćwiczeniu odliczany jest pełny czas przygotowania, po czym to samo powtórzenie zaczyna się od początku z właściwymi sygnałami i nowym losowaniem, jeśli włączone, z zachowaniem ukończonych powtórzeń; przygotowanie i odpoczynek kontynuują pozostały czas bez ponawiania sygnału początku fazy. Priority: must-have
   > Socrates: Kontrargument: wznowienie ćwiczenia bez przygotowania może zaskoczyć użytkownika. Decyzja użytkownika: pełne przygotowanie i rozpoczęcie tego samego powtórzenia od początku, wraz z dźwiękami i nowym losowaniem, jeśli włączone; nie kontynuacja pozostałego czasu ćwiczenia.
 - FR-007: Użytkownik może anulować przebieg i wrócić do konfiguracji z zachowaniem ustawień. Priority: must-have
   > Socrates: Kontrargument: przypadkowe naciśnięcie może zakończyć przebieg wbrew intencji użytkownika. Decyzja użytkownika: bez zmian.
@@ -133,6 +147,13 @@ Użytkownik potwierdził wszystkie 12 wymagań jako must-have. Runda wyzwania So
 - FR-012: Zalogowany użytkownik może edytować i usuwać własne konfiguracje, przy czym usunięcie wymaga potwierdzenia z nazwą konfiguracji. Priority: must-have
   > Socrates: Kontrargument: przypadkowo usuniętą konfigurację trzeba odtworzyć z pamięci. Decyzja użytkownika: potwierdzenie usunięcia z nazwą konfiguracji.
 
+## Non-Functional Requirements
+
+- Podczas aktywnego przebiegu bezwzględny błąd momentu emisji sygnału dźwiękowego względem zaplanowanego momentu nie przekracza 0,2 s. Krok losowania 0,01 s jest odrębną właściwością.
+- Aplikacja umożliwia konfigurację i pełny przebieg timera oraz uzgodnioną obsługę pauzy w Chrome na iPhonie 15 Pro Max. Wersje Chrome i iOS do sprecyzowania przy weryfikacji.
+- Konfiguracje zapisane na koncie są dostępne wyłącznie właścicielowi.
+- W trakcie Standby użytkownik nie otrzymuje informacji ujawniającej pozostały czas ani zaplanowany moment startu.
+
 ## Business Logic
 
 Timer prowadzi użytkownika przez skonfigurowane fazy i powtórzenia, a przy włączonym losowym starcie poprzedza każde ćwiczenie niezależnym, ukrytym oczekiwaniem 1–5 s, aby użytkownik reagował na sygnał bez znajomości momentu startu.
@@ -141,7 +162,7 @@ Wejściem są czasy przygotowania, ćwiczenia i odpoczynku w pełnych sekundach,
 
 Użytkownik rozpoznaje fazy po sygnałach: Standby — dwa krótkie dźwięki w innej tonacji niż start ćwiczenia, ćwiczenie — jeden długi dźwięk, odpoczynek — jeden krótki dźwięk. Przygotowanie nie ma dźwięku. Podczas Standby widoczny jest wyłącznie ten napis, a podczas pozostałych faz pozostały czas. Przed startem użytkownik może odsłuchać sygnały przy odpowiednich ustawieniach wraz z informacją o ich znaczeniu.
 
-Wznowienie pauzy w Standby lub ćwiczeniu dodaje pełne przygotowanie i rozpoczyna to samo powtórzenie od początku, zachowując ukończone powtórzenia; przy włączonym losowym starcie opóźnienie losowane jest ponownie. Wznowienie przygotowania lub odpoczynku kontynuuje pozostały czas bez ponownego sygnału. Anulowanie wraca do konfiguracji z zachowaniem ustawień, a ponowne uruchomienie rozpoczyna cały przebieg od przygotowania.
+Wznowienie pauzy w Standby lub ćwiczeniu dodaje pełne przygotowanie i rozpoczyna to samo powtórzenie od początku, zachowując ukończone powtórzenia; przy włączonym losowym starcie opóźnienie losowane jest ponownie. Wznowienie przygotowania lub odpoczynku kontynuuje pozostały czas bez ponownego sygnału. Przejście do innej aplikacji lub blokada ekranu powoduje pauzę wymagającą ręcznego wznowienia po powrocie według tych samych reguł. Anulowanie wraca do konfiguracji z zachowaniem ustawień, a ponowne uruchomienie rozpoczyna cały przebieg od przygotowania.
 
 ## Access Control
 
@@ -153,7 +174,7 @@ Jeden rodzaj konta. Każdy zalogowany użytkownik zarządza wyłącznie własnym
 
 ## Open Questions
 
-1. Jaki dopuszczalny błąd czasu emisji sygnału jest akceptowalny? Właściciel: użytkownik. Losowanie wartości co 0,01 s jest potwierdzone, lecz nie oznacza wymaganej dokładności sygnału 0,01 s. Do ustalenia w fazie wymagań jakościowych.
+1. Jakie wersje Chrome i iOS obejmuje weryfikacja na iPhonie 15 Pro Max? Właściciel: użytkownik. Do sprecyzowania przed weryfikacją MVP.
 
 ## MVP flow
 
@@ -170,6 +191,7 @@ Przykład podany przez użytkownika: 3 powtórzenia, przygotowanie 5 s, ćwiczen
 ### Sterowanie przebiegiem
 
 - Zatrzymanie oznacza pauzę z możliwością wznowienia.
+- Przejście do innej aplikacji lub zablokowanie ekranu powoduje pauzę. Powrót do aplikacji nie wznawia automatycznie przebiegu; użytkownik wznawia go ręcznie według reguł właściwych dla przerwanej fazy.
 - Wznowienie po pauzie w Standby lub ćwiczeniu odlicza pełny skonfigurowany czas przygotowania, a następnie rozpoczyna to samo powtórzenie od początku. Przy włączonym losowym starcie podwójny krótki sygnał rozpoczyna nowe oczekiwanie losowane z 1–5 s, po którym długi sygnał rozpoczyna pełny czas ćwiczenia. Przy wyłączonym losowym starcie po przygotowaniu długi sygnał rozpoczyna od razu pełny czas ćwiczenia. Ukończone powtórzenia pozostają zachowane. Dodatkowe przygotowanie dotyczy takiego wznowienia, nie wszystkich kolejnych powtórzeń.
 - Wznowienie podczas przygotowania lub odpoczynku kontynuuje pozostały czas bez ponownego sygnału początku fazy.
 - Anulowanie kończy przebieg i wraca do konfiguracji, zachowując ustawienia.
@@ -179,6 +201,8 @@ Przykład podany przez użytkownika: 3 powtórzenia, przygotowanie 5 s, ćwiczen
 
 Użytkownik zakłada 2 tygodnie na całe MVP przy zaangażowaniu 10–15 godzin tygodniowo.
 
+Twardy, nieprzekraczalny termin zakończenia: 10 stycznia 2027. Wcześniejsze cele kalendarzowe: 4 listopada 2026 — preferowany termin, jeśli uda się go osiągnąć; 6 grudnia 2026 — termin zapasowy dający dodatkowy czas w razie problemów. Cele kalendarzowe nie zmieniają dwutygodniowego planu pracy nad MVP.
+
 ## Session status
 
-Fazy 1–4 zostały ukończone, włącznie z rundą wyzwania Sokratesowego dla wszystkich 12 wymagań must-have. Potwierdzono US-01. Bieżąca faza: 5 (logika biznesowa i właściwości jakościowe). Pozostałe decyzje oraz pytania z `idea-notes.md` będą rozpatrywane w odpowiednich fazach.
+Fazy 1–5 zostały ukończone, włącznie z rundą wyzwania Sokratesowego dla wszystkich 12 wymagań must-have. Potwierdzono US-01, regułę biznesową i wymagania jakościowe. Bieżąca faza: 6 (ramy produktu). Typ produktu web-app wynika z `idea-notes.md`. Pozostałe decyzje oraz pytania z `idea-notes.md` będą rozpatrywane w odpowiednich fazach.
