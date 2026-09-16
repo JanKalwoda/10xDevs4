@@ -9,9 +9,10 @@ updated: 2026-09-16
 timeline_budget:
   mvp_weeks: 2
   hard_deadline: 2027-01-10
+  after_hours_only: true
 checkpoint:
-  current_phase: 6
-  phases_completed: [1, 2, 3, 4, 5]
+  current_phase: 7
+  phases_completed: [1, 2, 3, 4, 5, 6]
   gray_areas_resolved:
     - topic: "Typ kontekstu projektu"
       decision: "Greenfield — użytkownik potwierdził budowę nowej aplikacji od zera."
@@ -22,7 +23,7 @@ checkpoint:
     - topic: "Rozdzielczość losowania a dokładność sygnału"
       decision: "Wartości opóźnienia są losowane co 0,01 s. Akceptowalny bezwzględny błąd momentu sygnału względem zaplanowanego momentu wynosi maksymalnie 0,2 s."
     - topic: "Role i własność konfiguracji"
-      decision: "Jeden rodzaj konta; każdy zarządza wyłącznie własnymi konfiguracjami, bez administratorów i udostępniania."
+      decision: "Jeden rodzaj konta; każdy zarządza wyłącznie własnymi konfiguracjami."
     - topic: "Metoda logowania"
       decision: "Magic link — jednorazowy link wysyłany na adres email użytkownika."
     - topic: "Tworzenie konta"
@@ -59,6 +60,14 @@ checkpoint:
       decision: "Reguły timera pozostają takie same niezależnie od liczby użytkowników."
     - topic: "Terminy kalendarzowe"
       decision: "Twardy termin: 10 stycznia 2027. Cel preferowany: 4 listopada 2026; cel zapasowy w razie problemów: 6 grudnia 2026. Plan nakładu pracy pozostaje równy 2 tygodniom po 10–15 godzin tygodniowo."
+    - topic: "Odświeżenie strony"
+      decision: "Dla gościa dane nie są zachowywane. Zalogowany użytkownik wraca na stronę startową z listą zapisanych konfiguracji; aktywny przebieg nie jest wznawiany po odświeżeniu."
+    - topic: "Zapobieganie wygaszaniu"
+      decision: "Podczas uruchomionego przebiegu ekran ma pozostawać włączony. Ręczna blokada ekranu nadal powoduje pauzę."
+    - topic: "Limity konfiguracji"
+      decision: "Powtórzenia: 1–100. Przygotowanie: 0–600 s; ćwiczenie i odpoczynek: 1–600 s. Czasy ustawiane w pełnych sekundach. Losowy start pozostaje w stałym przedziale 1–5 s co 0,01 s. Przygotowanie 0 s oznacza pominięcie tej fazy."
+    - topic: "Zakres zgodności wersji"
+      decision: "iPhone 15 Pro Max z najnowszymi stabilnymi wersjami Chrome i iOS dostępnymi w dniu odbioru MVP; konkretne numery wersji zapisane przy testach."
   frs_drafted: 12
   quality_check_status: pending
 ---
@@ -116,7 +125,7 @@ Użytkownik potwierdził wszystkie 12 wymagań jako must-have. Runda wyzwania So
 
 ### Konfiguracja i przebieg timera
 
-- FR-001: Użytkownik może bez logowania ustawić czas przygotowania, ćwiczenia i odpoczynku w pełnych sekundach oraz liczbę powtórzeń. Priority: must-have
+- FR-001: Użytkownik może bez logowania ustawić czas przygotowania 0–600 s, ćwiczenia i odpoczynku po 1–600 s, w pełnych sekundach, oraz liczbę powtórzeń 1–100; przygotowanie 0 s jest pomijane. Priority: must-have
   > Socrates: Kontrargument: pełne sekundy mogą być zbyt mało precyzyjne dla krótkich ćwiczeń. Decyzja użytkownika: bez zmian.
 - FR-002: Użytkownik może włączyć lub wyłączyć losowy start o stałym przedziale 1–5 s, z osobnym losowaniem co 0,01 s przed każdym powtórzeniem. Priority: must-have
   > Socrates: Kontrargument: stałe 1–5 s wystarczy, a dowolny przedział zwiększa liczbę ustawień. Decyzja użytkownika: stałe 1–5 s z możliwością włączenia lub wyłączenia losowego startu.
@@ -142,7 +151,7 @@ Użytkownik potwierdził wszystkie 12 wymagań jako must-have. Runda wyzwania So
   > Socrates: Kontrargument: otwieranie poczty może utrudnić dostęp do konfiguracji przed ćwiczeniem. Decyzja użytkownika: bez zmian.
 - FR-010: Zalogowany użytkownik może zapisać własną konfigurację timera, nadając jej nazwę. Priority: must-have
   > Socrates: Kontrargument: bez rozróżnialnych nazw trudno rozpoznać zapisaną konfigurację. Decyzja użytkownika: nadawanie nazwy przy zapisie.
-- FR-011: Zalogowany użytkownik może przeglądać listę własnych konfiguracji z nazwami i parametrami oraz ich szczegóły i uruchomić wybraną konfigurację. Priority: must-have
+- FR-011: Zalogowany użytkownik może przeglądać listę własnych konfiguracji z nazwami i parametrami oraz ich szczegóły i uruchomić wybraną konfigurację; lista jest stroną startową, na którą trafia po odświeżeniu strony. Priority: must-have
   > Socrates: Kontrargument: wybór bez widocznych parametrów może prowadzić do uruchomienia niewłaściwego ćwiczenia. Decyzja użytkownika: nazwa i parametry widoczne na liście przed uruchomieniem.
 - FR-012: Zalogowany użytkownik może edytować i usuwać własne konfiguracje, przy czym usunięcie wymaga potwierdzenia z nazwą konfiguracji. Priority: must-have
   > Socrates: Kontrargument: przypadkowo usuniętą konfigurację trzeba odtworzyć z pamięci. Decyzja użytkownika: potwierdzenie usunięcia z nazwą konfiguracji.
@@ -150,7 +159,8 @@ Użytkownik potwierdził wszystkie 12 wymagań jako must-have. Runda wyzwania So
 ## Non-Functional Requirements
 
 - Podczas aktywnego przebiegu bezwzględny błąd momentu emisji sygnału dźwiękowego względem zaplanowanego momentu nie przekracza 0,2 s. Krok losowania 0,01 s jest odrębną właściwością.
-- Aplikacja umożliwia konfigurację i pełny przebieg timera oraz uzgodnioną obsługę pauzy w Chrome na iPhonie 15 Pro Max. Wersje Chrome i iOS do sprecyzowania przy weryfikacji.
+- Aplikacja umożliwia konfigurację i pełny przebieg timera oraz uzgodnioną obsługę pauzy na iPhonie 15 Pro Max w najnowszych stabilnych wersjach Chrome i iOS dostępnych w dniu odbioru MVP. Konkretne numery wersji zostaną zapisane przy testach.
+- Podczas uruchomionego przebiegu ekran nie wygasza się automatycznie. Ręczna blokada ekranu powoduje pauzę według ustalonych reguł.
 - Konfiguracje zapisane na koncie są dostępne wyłącznie właścicielowi.
 - W trakcie Standby użytkownik nie otrzymuje informacji ujawniającej pozostały czas ani zaplanowany moment startu.
 
@@ -158,7 +168,7 @@ Użytkownik potwierdził wszystkie 12 wymagań jako must-have. Runda wyzwania So
 
 Timer prowadzi użytkownika przez skonfigurowane fazy i powtórzenia, a przy włączonym losowym starcie poprzedza każde ćwiczenie niezależnym, ukrytym oczekiwaniem 1–5 s, aby użytkownik reagował na sygnał bez znajomości momentu startu.
 
-Wejściem są czasy przygotowania, ćwiczenia i odpoczynku w pełnych sekundach, liczba powtórzeń oraz wybór włączenia lub wyłączenia losowego startu. Przedział losowania 1–5 s jest stały; wartości losowane są co 0,01 s. Nieprzerwany przebieg zaczyna się przygotowaniem, po którym następuje zadana liczba cykli obejmujących opcjonalne Standby, pełny czas ćwiczenia i odpoczynek, także po ostatnim ćwiczeniu. Losowe oczekiwanie nie skraca ćwiczenia.
+Wejściem są czas przygotowania 0–600 s, czasy ćwiczenia i odpoczynku po 1–600 s (wszystkie w pełnych sekundach), liczba powtórzeń 1–100 oraz wybór włączenia lub wyłączenia losowego startu. Przedział losowania 1–5 s jest stały; wartości losowane są co 0,01 s. Nieprzerwany przebieg zaczyna się przygotowaniem, po którym następuje zadana liczba cykli obejmujących opcjonalne Standby, pełny czas ćwiczenia i odpoczynek, także po ostatnim ćwiczeniu. Przygotowanie 0 s jest pomijane, również przy wznowieniu i restarcie. Losowe oczekiwanie nie skraca ćwiczenia.
 
 Użytkownik rozpoznaje fazy po sygnałach: Standby — dwa krótkie dźwięki w innej tonacji niż start ćwiczenia, ćwiczenie — jeden długi dźwięk, odpoczynek — jeden krótki dźwięk. Przygotowanie nie ma dźwięku. Podczas Standby widoczny jest wyłącznie ten napis, a podczas pozostałych faz pozostały czas. Przed startem użytkownik może odsłuchać sygnały przy odpowiednich ustawieniach wraz z informacją o ich znaczeniu.
 
@@ -170,17 +180,28 @@ Timer jest dostępny bez logowania, bez możliwości zapisywania konfiguracji na
 
 Logowanie odbywa się przez magic link — jednorazowy link wysyłany na adres email użytkownika. Pierwsze poprawne użycie linku dla nowego adresu tworzy konto, a kolejne loguje do istniejącego konta. Nie ma osobnego formularza rejestracji.
 
-Jeden rodzaj konta. Każdy zalogowany użytkownik zarządza wyłącznie własnymi konfiguracjami. MVP nie obejmuje administratorów ani udostępniania konfiguracji.
+Jeden rodzaj konta. Każdy zalogowany użytkownik zarządza wyłącznie własnymi konfiguracjami.
+
+Po odświeżeniu strony dane niezalogowanego użytkownika nie są zachowywane. Zalogowany użytkownik trafia na stronę startową — listę zapisanych konfiguracji. Odświeżenie nie wznawia aktywnego przebiegu.
+
+## Non-Goals
+
+- Historia treningów i statystyki — MVP prowadzi bieżące ćwiczenie, bez zapisywania zakończonych sesji (daty, użytej konfiguracji, ukończonych powtórzeń, czasu ćwiczeń) i zestawień aktywności między sesjami.
+- Udostępnianie konfiguracji, funkcje społecznościowe i rozbudowane role — produkt służy samodzielnej pracy z własnymi konfiguracjami.
+- Gotowa biblioteka drillów — użytkownik sam konfiguruje ćwiczenia.
+- Integracje z urządzeniami zewnętrznymi i sprzętem treningowym — przebieg obsługiwany jest w aplikacji na telefonie.
+- Tryb offline i pełna aplikacja PWA — MVP nie zapewnia działania offline ani pełnego zakresu PWA.
+- Powiadomienia poza aktywną aplikacją — przejście w tło powoduje pauzę z ręcznym wznowieniem po powrocie.
 
 ## Open Questions
 
-1. Jakie wersje Chrome i iOS obejmuje weryfikacja na iPhonie 15 Pro Max? Właściciel: użytkownik. Do sprecyzowania przed weryfikacją MVP.
+Brak nierozstrzygniętych pytań z końcowej kontroli zakresu produktu. Konkretne wersje środowiska odbioru zostaną odnotowane przy testach zgodnie z wymaganiem zgodności.
 
 ## MVP flow
 
-1. Użytkownik otwiera aplikację i ustawia czas przygotowania, ćwiczenia, odpoczynku oraz liczbę powtórzeń.
+1. Użytkownik otwiera aplikację i ustawia czas przygotowania 0–600 s, ćwiczenia i odpoczynku po 1–600 s oraz liczbę powtórzeń 1–100.
 2. Opcjonalnie włącza losowy start o stałym przedziale 1–5 s, bez edycji granic. Pozostałe ustawienia czasu są w pełnych sekundach, np. 0:02, 0:05, 0:10. Przy ustawieniach ćwiczenia, odpoczynku i opcji Standby może odsłuchać właściwy sygnał wraz z informacją o jego znaczeniu.
-3. Użytkownik uruchamia timer. Czas przygotowania jest odliczany raz na początku nieprzerwanego przebiegu, bez sygnału dźwiękowego.
+3. Użytkownik uruchamia timer. Czas przygotowania jest odliczany raz na początku nieprzerwanego przebiegu, bez sygnału dźwiękowego; przy 0 s faza jest pomijana.
 4. Jeśli włączono losowy start, przed każdym ćwiczeniem losowane jest nowe opóźnienie 1–5 s co 0,01 s. Dwa krótkie sygnały rozpoczynają oczekiwanie z widocznym wyłącznie napisem „Standby”. Opóźnienie poprzedza czas ćwiczenia i nie skraca go.
 5. Jeden długi sygnał rozpoczyna odliczanie pełnego czasu ćwiczenia.
 6. Jeden krótki sygnał rozpoczyna odliczanie odpoczynku.
@@ -196,13 +217,39 @@ Przykład podany przez użytkownika: 3 powtórzenia, przygotowanie 5 s, ćwiczen
 - Wznowienie podczas przygotowania lub odpoczynku kontynuuje pozostały czas bez ponownego sygnału początku fazy.
 - Anulowanie kończy przebieg i wraca do konfiguracji, zachowując ustawienia.
 - Ponowne uruchomienie rozpoczyna cały przebieg od przygotowania.
+- Odświeżenie strony nie zachowuje danych gościa; zalogowanego użytkownika kieruje na listę zapisanych konfiguracji. Aktywny przebieg nie jest wznawiany po odświeżeniu.
+- Podczas uruchomionego przebiegu ekran ma pozostawać włączony bez automatycznego wygaszania.
+- Przygotowanie ustawione na 0 s jest pomijane także przy wznowieniu lub ponownym uruchomieniu przebiegu.
 
 ## Timeline budget
 
-Użytkownik zakłada 2 tygodnie na całe MVP przy zaangażowaniu 10–15 godzin tygodniowo.
+Użytkownik zakłada 2 tygodnie na całe MVP przy zaangażowaniu 10–15 godzin tygodniowo, wyłącznie po godzinach pracy.
 
 Twardy, nieprzekraczalny termin zakończenia: 10 stycznia 2027. Wcześniejsze cele kalendarzowe: 4 listopada 2026 — preferowany termin, jeśli uda się go osiągnąć; 6 grudnia 2026 — termin zapasowy dający dodatkowy czas w razie problemów. Cele kalendarzowe nie zmieniają dwutygodniowego planu pracy nad MVP.
 
+## Forward: technical-roadmap
+
+Wymagania procesu dostarczone w `idea-notes.md`, do przejęcia w planowaniu technicznym:
+
+- Pierwszy działający kamień milowy: pełny timer z fazami, powtórzeniami i losowym startem przed dodaniem zapisywania konfiguracji.
+- Co najmniej jeden test pełnego przepływu z perspektywy użytkownika; w notatkach dopuszczono test automatyczny lub inny powtarzalny test akceptacyjny.
+- Wersja wdrożona pod adresem umożliwiającym demonstrację oraz dokumentacja kontekstowa opisująca decyzje, ograniczenia i sposób weryfikacji wyników agentów.
+- Cel autora: implementacja wykonywana przez agentów LLM; autor definiuje zadania, weryfikuje rezultaty, uruchamia testy i kieruje poprawkami bez ręcznego pisania kodu.
+- Do rozstrzygnięcia po wyborze technologii: mechanizm wdrożenia i przechowywania danych oraz zestaw dokumentów i dowodów procesu pracy agentów.
+
+## Quality cross-check
+
+| Kryterium | Wynik |
+| --- | --- |
+| Access Control | present — magic link, dostęp gościa, własność konfiguracji |
+| Business Logic | present — zatwierdzona jednozdaniowa reguła i opis przebiegu |
+| Project artifacts | present — shape-notes.md i checkpoint |
+| Timeline-cost acknowledgment | present — MVP 2 tygodnie, dodatkowe potwierdzenie dłuższego terminu nie jest wymagane |
+| Non-Goals | present — jawne wyłączenia zakresu |
+| Preserved behavior | n/a — greenfield |
+
+Nie wykryto braków w kryteriach kontroli. Wszystkie 12 FR-ów ma zapis rundy Sokratesowej; US-01 jest potwierdzony. Wynik oczekuje na końcową akceptację użytkownika.
+
 ## Session status
 
-Fazy 1–5 zostały ukończone, włącznie z rundą wyzwania Sokratesowego dla wszystkich 12 wymagań must-have. Potwierdzono US-01, regułę biznesową i wymagania jakościowe. Bieżąca faza: 6 (ramy produktu). Typ produktu web-app wynika z `idea-notes.md`. Pozostałe decyzje oraz pytania z `idea-notes.md` będą rozpatrywane w odpowiednich fazach.
+Fazy 1–6 zostały ukończone, włącznie z rundą wyzwania Sokratesowego dla wszystkich 12 wymagań must-have. Potwierdzono US-01, regułę biznesową, wymagania jakościowe i granice MVP. Bieżąca faza: 7 (końcowa kontrola krzyżowa). Kontrola zakończona bez braków; oczekuje na końcową akceptację użytkownika.
