@@ -40,9 +40,11 @@ checkpoint:
     - topic: "Stały przedział losowego startu"
       decision: "Losowy start można włączyć lub wyłączyć; przedział 1–5 s jest stały i nie podlega konfiguracji. Losowanie co 0,01 s."
     - topic: "Odsłuch sygnałów"
-      decision: "Przy konfiguracji każdego czasu dostępny jest przycisk odtwarzający sygnał z informacją o jego znaczeniu. Sygnał przygotowania nie został jeszcze określony."
+      decision: "Przygotowanie nie ma dźwięku. Przy ustawieniach ćwiczenia, odpoczynku i opcji Standby dostępny jest przycisk odsłuchu właściwego sygnału z informacją o jego znaczeniu."
     - topic: "Rozpoznawanie i usuwanie konfiguracji"
       decision: "Użytkownik nadaje nazwę przy zapisie; lista pokazuje nazwę i parametry; usunięcie wymaga potwierdzenia z nazwą konfiguracji."
+    - topic: "Jednozdaniowa reguła biznesowa"
+      decision: "Timer prowadzi użytkownika przez skonfigurowane fazy i powtórzenia, a przy włączonym losowym starcie poprzedza każde ćwiczenie niezależnym, ukrytym oczekiwaniem 1–5 s, aby użytkownik reagował na sygnał bez znajomości momentu startu."
   frs_drafted: 12
   quality_check_status: pending
 ---
@@ -106,8 +108,8 @@ Użytkownik potwierdził wszystkie 12 wymagań jako must-have. Runda wyzwania So
   > Socrates: Kontrargument: stałe 1–5 s wystarczy, a dowolny przedział zwiększa liczbę ustawień. Decyzja użytkownika: stałe 1–5 s z możliwością włączenia lub wyłączenia losowego startu.
 - FR-003: Użytkownik może uruchomić pełny przebieg z jednorazowym przygotowaniem i zadaną liczbą cykli obejmujących opcjonalne Standby, ćwiczenie i odpoczynek, także po ostatnim ćwiczeniu. Priority: must-have
   > Socrates: Kontrargument: użytkownik może oczekiwać zakończenia od razu po ostatnim ćwiczeniu. Decyzja użytkownika: bez zmian, ostatni odpoczynek pozostaje.
-- FR-004: Użytkownik może rozpoznać początek Standby po dwóch krótkich dźwiękach w innej tonacji niż start ćwiczenia, początek ćwiczenia po jednym długim dźwięku i początek odpoczynku po jednym krótkim dźwięku oraz przy konfiguracji każdego czasu użyć przycisku odsłuchu sygnału z informacją o jego znaczeniu. Priority: must-have
-  > Socrates: Kontrargument: bez wcześniejszego odsłuchu znaczenie sygnałów może być niejasne. Decyzja użytkownika: przy konfiguracji każdego czasu przycisk odtwarzania sygnału wraz z informacją o jego znaczeniu. Sygnał przygotowania pozostaje do doprecyzowania.
+- FR-004: Użytkownik może rozpoznać początek Standby po dwóch krótkich dźwiękach w innej tonacji niż start ćwiczenia, początek ćwiczenia po jednym długim dźwięku i początek odpoczynku po jednym krótkim dźwięku oraz przy ustawieniach ćwiczenia, odpoczynku i opcji Standby użyć przycisku odsłuchu sygnału z informacją o jego znaczeniu; przygotowanie nie ma sygnału dźwiękowego. Priority: must-have
+  > Socrates: Kontrargument: bez wcześniejszego odsłuchu znaczenie sygnałów może być niejasne. Decyzja użytkownika: przyciski odsłuchu z informacją o znaczeniu przy ćwiczeniu, odpoczynku i opcji Standby; przygotowanie pozostaje bez dźwięku i bez przycisku odsłuchu.
 - FR-005: Użytkownik może obserwować pozostały czas przygotowania, ćwiczenia i odpoczynku, natomiast podczas losowego oczekiwania widzi wyłącznie napis „Standby”. Priority: must-have
   > Socrates: Kontrargument: odliczanie podczas ćwiczenia może odciągać od niego uwagę. Decyzja użytkownika: bez zmian.
 
@@ -131,6 +133,16 @@ Użytkownik potwierdził wszystkie 12 wymagań jako must-have. Runda wyzwania So
 - FR-012: Zalogowany użytkownik może edytować i usuwać własne konfiguracje, przy czym usunięcie wymaga potwierdzenia z nazwą konfiguracji. Priority: must-have
   > Socrates: Kontrargument: przypadkowo usuniętą konfigurację trzeba odtworzyć z pamięci. Decyzja użytkownika: potwierdzenie usunięcia z nazwą konfiguracji.
 
+## Business Logic
+
+Timer prowadzi użytkownika przez skonfigurowane fazy i powtórzenia, a przy włączonym losowym starcie poprzedza każde ćwiczenie niezależnym, ukrytym oczekiwaniem 1–5 s, aby użytkownik reagował na sygnał bez znajomości momentu startu.
+
+Wejściem są czasy przygotowania, ćwiczenia i odpoczynku w pełnych sekundach, liczba powtórzeń oraz wybór włączenia lub wyłączenia losowego startu. Przedział losowania 1–5 s jest stały; wartości losowane są co 0,01 s. Nieprzerwany przebieg zaczyna się przygotowaniem, po którym następuje zadana liczba cykli obejmujących opcjonalne Standby, pełny czas ćwiczenia i odpoczynek, także po ostatnim ćwiczeniu. Losowe oczekiwanie nie skraca ćwiczenia.
+
+Użytkownik rozpoznaje fazy po sygnałach: Standby — dwa krótkie dźwięki w innej tonacji niż start ćwiczenia, ćwiczenie — jeden długi dźwięk, odpoczynek — jeden krótki dźwięk. Przygotowanie nie ma dźwięku. Podczas Standby widoczny jest wyłącznie ten napis, a podczas pozostałych faz pozostały czas. Przed startem użytkownik może odsłuchać sygnały przy odpowiednich ustawieniach wraz z informacją o ich znaczeniu.
+
+Wznowienie pauzy w Standby lub ćwiczeniu dodaje pełne przygotowanie i rozpoczyna to samo powtórzenie od początku, zachowując ukończone powtórzenia; przy włączonym losowym starcie opóźnienie losowane jest ponownie. Wznowienie przygotowania lub odpoczynku kontynuuje pozostały czas bez ponownego sygnału. Anulowanie wraca do konfiguracji z zachowaniem ustawień, a ponowne uruchomienie rozpoczyna cały przebieg od przygotowania.
+
 ## Access Control
 
 Timer jest dostępny bez logowania, bez możliwości zapisywania konfiguracji na koncie. Konto jest potrzebne do zapisywania własnych konfiguracji.
@@ -142,13 +154,12 @@ Jeden rodzaj konta. Każdy zalogowany użytkownik zarządza wyłącznie własnym
 ## Open Questions
 
 1. Jaki dopuszczalny błąd czasu emisji sygnału jest akceptowalny? Właściciel: użytkownik. Losowanie wartości co 0,01 s jest potwierdzone, lecz nie oznacza wymaganej dokładności sygnału 0,01 s. Do ustalenia w fazie wymagań jakościowych.
-2. Czy przygotowanie ma własny sygnał, czy przycisk odsłuchu dotyczy tylko faz z wcześniej ustalonym dźwiękiem? Właściciel: użytkownik. Propozycja przycisku przy każdym czasie obejmuje przygotowanie, dla którego dotąd nie ustalono sygnału.
 
 ## MVP flow
 
 1. Użytkownik otwiera aplikację i ustawia czas przygotowania, ćwiczenia, odpoczynku oraz liczbę powtórzeń.
-2. Opcjonalnie włącza losowy start o stałym przedziale 1–5 s, bez edycji granic. Pozostałe ustawienia czasu są w pełnych sekundach, np. 0:02, 0:05, 0:10. Przy konfiguracji czasów może odsłuchać sygnały wraz z informacją o ich znaczeniu.
-3. Użytkownik uruchamia timer. Czas przygotowania jest odliczany raz na początku przebiegu.
+2. Opcjonalnie włącza losowy start o stałym przedziale 1–5 s, bez edycji granic. Pozostałe ustawienia czasu są w pełnych sekundach, np. 0:02, 0:05, 0:10. Przy ustawieniach ćwiczenia, odpoczynku i opcji Standby może odsłuchać właściwy sygnał wraz z informacją o jego znaczeniu.
+3. Użytkownik uruchamia timer. Czas przygotowania jest odliczany raz na początku nieprzerwanego przebiegu, bez sygnału dźwiękowego.
 4. Jeśli włączono losowy start, przed każdym ćwiczeniem losowane jest nowe opóźnienie 1–5 s co 0,01 s. Dwa krótkie sygnały rozpoczynają oczekiwanie z widocznym wyłącznie napisem „Standby”. Opóźnienie poprzedza czas ćwiczenia i nie skraca go.
 5. Jeden długi sygnał rozpoczyna odliczanie pełnego czasu ćwiczenia.
 6. Jeden krótki sygnał rozpoczyna odliczanie odpoczynku.
