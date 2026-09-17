@@ -32,7 +32,7 @@ Pierwszym użytkownikiem jest autor projektu, ćwiczący strzelanie na sucho. Si
 
 ### Secondary
 
-- Użytkownik może wygodnie skonfigurować i uruchomić timer na telefonie.
+- Użytkownik może wygodnie skonfigurować i uruchomić timer w przeglądarce na telefonie lub komputerze.
 
 ### Guardrails
 
@@ -97,7 +97,8 @@ Użytkownik potwierdził wszystkie 12 wymagań jako must-have. Runda wyzwania So
 ## Non-Functional Requirements
 
 - Podczas aktywnego przebiegu bezwzględny błąd momentu emisji sygnału dźwiękowego względem zaplanowanego momentu nie przekracza 0,2 s. Krok losowania 0,01 s jest odrębną właściwością.
-- Aplikacja umożliwia konfigurację i pełny przebieg timera oraz uzgodnioną obsługę pauzy na iPhonie 15 Pro Max w najnowszych stabilnych wersjach Chrome i iOS dostępnych w dniu odbioru MVP. Konkretne numery wersji zostaną zapisane przy testach.
+- Aplikacja webowa umożliwia konfigurację i pełny przebieg timera oraz uzgodnioną obsługę pauzy w przeglądarce na telefonie lub komputerze, bez ograniczenia do konkretnego modelu urządzenia lub systemu operacyjnego.
+- Interfejs dostosowuje się do ekranów telefonów i komputerów, bez konieczności przewijania w poziomie. Na telefonie obszary dotykowe przycisków mają co najmniej 44 × 44 piksele CSS i odstępy ograniczające przypadkowe naciśnięcia. Podczas działania timera faza i odliczanie są czytelne bez powiększania, a sterowanie jest łatwo dostępne.
 - Podczas uruchomionego przebiegu ekran nie wygasza się automatycznie. Ręczna blokada ekranu powoduje pauzę według ustalonych reguł.
 - Konfiguracje zapisane na koncie są dostępne wyłącznie właścicielowi.
 - W trakcie Standby użytkownik nie otrzymuje informacji ujawniającej pozostały czas ani zaplanowany moment startu.
@@ -142,4 +143,4 @@ Wyłączenia dotyczące pierwszej wersji; nie stanowią zobowiązania do impleme
 
 ## Open Questions
 
-Brak nierozstrzygniętych pytań z końcowej kontroli zakresu produktu. Konkretne wersje środowiska odbioru zostaną odnotowane przy testach zgodnie z wymaganiem zgodności.
+Brak nierozstrzygniętych pytań z końcowej kontroli zakresu produktu. Planowanym środowiskiem testów odbiorowych jest Chrome na iPhonie 15 Pro Max, w najnowszych stabilnych wersjach przeglądarki i iOS dostępnych w dniu odbioru MVP. iPhone jest wyłącznie wskazanym urządzeniem testowym i nie ogranicza platform docelowych aplikacji webowej. Testy mogą być również przeprowadzone na innym telefonie lub w przeglądarce na komputerze. Faktycznie użyte urządzenia, systemy operacyjne i wersje przeglądarek zostaną odnotowane przy testach.
