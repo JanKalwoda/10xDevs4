@@ -90,7 +90,7 @@ starters:
       package_manager: npm
       runtime_version: "node 22"
     cmd_template: "git clone https://github.com/przeprogramowani/10x-astro-starter {name} && cd {name} && {pm} install"
-    deployment_defaults: [cloudflare-pages, vercel, fly]
+    deployment_defaults: [cloudflare-workers, vercel, fly]
     bootstrapper_confidence: first-class
     alternatives_to_consider: [astro, next, t3]
 
