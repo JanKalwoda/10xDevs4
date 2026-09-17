@@ -5,14 +5,14 @@ product_type: web-app
 target_scale:
   users: small
 created: 2026-09-16
-updated: 2026-09-16
+updated: 2026-09-17
 timeline_budget:
   mvp_weeks: 2
   hard_deadline: 2027-01-10
   after_hours_only: true
 checkpoint:
-  current_phase: 7
-  phases_completed: [1, 2, 3, 4, 5, 6]
+  current_phase: 8
+  phases_completed: [1, 2, 3, 4, 5, 6, 7]
   gray_areas_resolved:
     - topic: "Typ kontekstu projektu"
       decision: "Greenfield — użytkownik potwierdził budowę nowej aplikacji od zera."
@@ -69,7 +69,7 @@ checkpoint:
     - topic: "Zakres zgodności wersji"
       decision: "iPhone 15 Pro Max z najnowszymi stabilnymi wersjami Chrome i iOS dostępnymi w dniu odbioru MVP; konkretne numery wersji zapisane przy testach."
   frs_drafted: 12
-  quality_check_status: pending
+  quality_check_status: accepted
 ---
 
 ## Seed idea
@@ -186,10 +186,19 @@ Po odświeżeniu strony dane niezalogowanego użytkownika nie są zachowywane. Z
 
 ## Non-Goals
 
-- Historia treningów i statystyki — MVP prowadzi bieżące ćwiczenie, bez zapisywania zakończonych sesji (daty, użytej konfiguracji, ukończonych powtórzeń, czasu ćwiczeń) i zestawień aktywności między sesjami.
+### Permanent Non-Goals
+
+Trwałe granice produktu: poniższe funkcje nie będą implementowane ani w MVP, ani w przyszłych wersjach aplikacji.
+
 - Udostępnianie konfiguracji, funkcje społecznościowe i rozbudowane role — produkt służy samodzielnej pracy z własnymi konfiguracjami.
+- Integracje z urządzeniami zewnętrznymi i sprzętem treningowym — produkt pozostaje samodzielnym timerem bez integracji sprzętowych.
+
+### MVP Non-Goals
+
+Wyłączenia dotyczące pierwszej wersji; nie stanowią zobowiązania do implementacji w przyszłości.
+
+- Historia treningów i statystyki — MVP prowadzi bieżące ćwiczenie, bez zapisywania zakończonych sesji (daty, użytej konfiguracji, ukończonych powtórzeń, czasu ćwiczeń) i zestawień aktywności między sesjami.
 - Gotowa biblioteka drillów — użytkownik sam konfiguruje ćwiczenia.
-- Integracje z urządzeniami zewnętrznymi i sprzętem treningowym — przebieg obsługiwany jest w aplikacji na telefonie.
 - Tryb offline i pełna aplikacja PWA — MVP nie zapewnia działania offline ani pełnego zakresu PWA.
 - Powiadomienia poza aktywną aplikacją — przejście w tło powoduje pauzę z ręcznym wznowieniem po powrocie.
 
@@ -248,8 +257,8 @@ Wymagania procesu dostarczone w `idea-notes.md`, do przejęcia w planowaniu tech
 | Non-Goals | present — jawne wyłączenia zakresu |
 | Preserved behavior | n/a — greenfield |
 
-Nie wykryto braków w kryteriach kontroli. Wszystkie 12 FR-ów ma zapis rundy Sokratesowej; US-01 jest potwierdzony. Wynik oczekuje na końcową akceptację użytkownika.
+Nie wykryto braków w kryteriach kontroli. Wszystkie 12 FR-ów ma zapis rundy Sokratesowej; US-01 jest potwierdzony. Użytkownik zaakceptował całość i zakończenie kształtowania. Końcowy zapis uwzględnia następnie zlecone rozdzielenie trwałych granic produktu od wyłączeń MVP.
 
 ## Session status
 
-Fazy 1–6 zostały ukończone, włącznie z rundą wyzwania Sokratesowego dla wszystkich 12 wymagań must-have. Potwierdzono US-01, regułę biznesową, wymagania jakościowe i granice MVP. Bieżąca faza: 7 (końcowa kontrola krzyżowa). Kontrola zakończona bez braków; oczekuje na końcową akceptację użytkownika.
+Kształtowanie zakończone. Fazy 1–7 ukończone; 12 wymagań must-have, US-01, reguła biznesowa, wymagania jakościowe i granice produktu zaakceptowane. Kontrola jakości: accepted. Notatki gotowe do /10x-prd. Dla greenfield kolejne kroki po PRD to wybór technologii i bootstrap projektu.
