@@ -44,12 +44,14 @@ checkpoint:
       decision: "Użytkownik potwierdził wszystkie 12 wymagań jako obowiązkowe w MVP."
     - topic: "Stały przedział losowego startu"
       decision: "Losowy start można włączyć lub wyłączyć; przedział 1–5 s jest stały i nie podlega konfiguracji. Losowanie co 0,01 s."
+    - topic: "Początek odliczania losowego startu"
+      decision: "Losowe oczekiwanie 1–5 s zaczyna się dopiero po zakończeniu drugiego krótkiego dźwięku Standby; czas odtwarzania obu dźwięków nie wlicza się do opóźnienia. Ta kolejność obowiązuje również przy wznowieniu powtórzenia."
     - topic: "Odsłuch sygnałów"
       decision: "Przygotowanie nie ma dźwięku. Przy ustawieniach ćwiczenia, odpoczynku i opcji Standby dostępny jest przycisk odsłuchu właściwego sygnału z informacją o jego znaczeniu."
     - topic: "Rozpoznawanie i usuwanie konfiguracji"
       decision: "Użytkownik nadaje nazwę przy zapisie; lista pokazuje nazwę i parametry; usunięcie wymaga potwierdzenia z nazwą konfiguracji."
     - topic: "Jednozdaniowa reguła biznesowa"
-      decision: "Timer prowadzi użytkownika przez skonfigurowane fazy i powtórzenia, a przy włączonym losowym starcie poprzedza każde ćwiczenie niezależnym, ukrytym oczekiwaniem 1–5 s, aby użytkownik reagował na sygnał bez znajomości momentu startu."
+      decision: "Timer realizuje ustawione fazy i powtórzenia, a przy włączonym losowym starcie każde ćwiczenie poprzedza niezależnie losowanym oczekiwaniem 1–5 s, ukrywając przed użytkownikiem moment sygnału startu."
     - topic: "Przejście aplikacji w tło i blokada ekranu"
       decision: "Przejście do innej aplikacji lub zablokowanie ekranu powoduje pauzę; po powrocie wymagane jest ręczne wznowienie według ustalonych reguł."
     - topic: "Środowisko weryfikacji"
@@ -91,7 +93,7 @@ Pierwszym użytkownikiem jest autor projektu, ćwiczący strzelanie na sucho. Si
 ### Primary
 
 - Użytkownik bez logowania ustawia czasy przygotowania, ćwiczenia i odpoczynku oraz liczbę powtórzeń i opcjonalnie włącza losowy start o stałym przedziale 1–5 s, a następnie uruchamia pełny przebieg. Nieprzerwany przebieg obejmuje jednorazowe przygotowanie i zadaną liczbę cykli: opcjonalne losowe oczekiwanie, ćwiczenie, odpoczynek, włącznie z odpoczynkiem po ostatnim ćwiczeniu.
-- Przy włączonym losowym starcie każde powtórzenie otrzymuje osobno losowane opóźnienie z przedziału 1–5 s co 0,01 s. Podczas oczekiwania widoczny jest tylko napis „Standby”; pozostałe fazy pokazują czas. Początek oczekiwania sygnalizują dwa krótkie dźwięki w innej tonacji niż start ćwiczenia, początek ćwiczenia jeden długi dźwięk, a początek odpoczynku jeden krótki dźwięk.
+- Przy włączonym losowym starcie każde powtórzenie otrzymuje osobno losowane opóźnienie z przedziału 1–5 s co 0,01 s. Podczas oczekiwania widoczny jest tylko napis „Standby”; pozostałe fazy pokazują czas. Losowe oczekiwanie rozpoczyna się dopiero po zakończeniu obu krótkich dźwięków Standby w innej tonacji niż start ćwiczenia; czas ich odtwarzania nie wlicza się do opóźnienia 1–5 s. Początek ćwiczenia sygnalizuje jeden długi dźwięk, a początek odpoczynku jeden krótki dźwięk.
 
 ### Secondary
 
@@ -114,6 +116,7 @@ Pierwszym użytkownikiem jest autor projektu, ćwiczący strzelanie na sucho. Si
 
 - Przygotowanie występuje raz, przed pierwszym cyklem nieprzerwanego przebiegu.
 - Każdy z trzech cykli otrzymuje osobno losowane opóźnienie z przedziału 1–5 s, co 0,01 s.
+- Odliczanie wylosowanego opóźnienia zaczyna się dopiero po zakończeniu drugiego krótkiego dźwięku Standby; czas odtwarzania obu dźwięków nie wlicza się do opóźnienia. Po upływie całego wylosowanego czasu rozpoczyna się sygnał startu ćwiczenia.
 - W czasie losowego oczekiwania widoczny jest wyłącznie napis „Standby”; pozostałe fazy pokazują czas.
 - Początek Standby sygnalizują dwa krótkie dźwięki w innej tonacji niż start ćwiczenia, początek ćwiczenia jeden długi dźwięk, a początek odpoczynku jeden krótki dźwięk.
 - Czas ćwiczenia wynosi 4 s niezależnie od długości poprzedzającego oczekiwania.
@@ -127,7 +130,7 @@ Użytkownik potwierdził wszystkie 12 wymagań jako must-have. Runda wyzwania So
 
 - FR-001: Użytkownik może bez logowania ustawić czas przygotowania 0–600 s, ćwiczenia i odpoczynku po 1–600 s, w pełnych sekundach, oraz liczbę powtórzeń 1–100; przygotowanie 0 s jest pomijane. Priority: must-have
   > Socrates: Kontrargument: pełne sekundy mogą być zbyt mało precyzyjne dla krótkich ćwiczeń. Decyzja użytkownika: bez zmian.
-- FR-002: Użytkownik może włączyć lub wyłączyć losowy start o stałym przedziale 1–5 s, z osobnym losowaniem co 0,01 s przed każdym powtórzeniem. Priority: must-have
+- FR-002: Użytkownik może włączyć lub wyłączyć losowy start o stałym przedziale 1–5 s, z osobnym losowaniem co 0,01 s przed każdym powtórzeniem; odliczanie wylosowanego czasu zaczyna się dopiero po zakończeniu drugiego krótkiego dźwięku Standby, a czas odtwarzania sygnałów nie wlicza się do opóźnienia 1–5 s. Priority: must-have
   > Socrates: Kontrargument: stałe 1–5 s wystarczy, a dowolny przedział zwiększa liczbę ustawień. Decyzja użytkownika: stałe 1–5 s z możliwością włączenia lub wyłączenia losowego startu.
 - FR-003: Użytkownik może uruchomić pełny przebieg z jednorazowym przygotowaniem i zadaną liczbą cykli obejmujących opcjonalne Standby, ćwiczenie i odpoczynek, także po ostatnim ćwiczeniu. Priority: must-have
   > Socrates: Kontrargument: użytkownik może oczekiwać zakończenia od razu po ostatnim ćwiczeniu. Decyzja użytkownika: bez zmian, ostatni odpoczynek pozostaje.
@@ -166,13 +169,13 @@ Użytkownik potwierdził wszystkie 12 wymagań jako must-have. Runda wyzwania So
 
 ## Business Logic
 
-Timer prowadzi użytkownika przez skonfigurowane fazy i powtórzenia, a przy włączonym losowym starcie poprzedza każde ćwiczenie niezależnym, ukrytym oczekiwaniem 1–5 s, aby użytkownik reagował na sygnał bez znajomości momentu startu.
+Timer realizuje ustawione fazy i powtórzenia, a przy włączonym losowym starcie każde ćwiczenie poprzedza niezależnie losowanym oczekiwaniem 1–5 s, ukrywając przed użytkownikiem moment sygnału startu.
 
 Wejściem są czas przygotowania 0–600 s, czasy ćwiczenia i odpoczynku po 1–600 s (wszystkie w pełnych sekundach), liczba powtórzeń 1–100 oraz wybór włączenia lub wyłączenia losowego startu. Przedział losowania 1–5 s jest stały; wartości losowane są co 0,01 s. Nieprzerwany przebieg zaczyna się przygotowaniem, po którym następuje zadana liczba cykli obejmujących opcjonalne Standby, pełny czas ćwiczenia i odpoczynek, także po ostatnim ćwiczeniu. Przygotowanie 0 s jest pomijane, również przy wznowieniu i restarcie. Losowe oczekiwanie nie skraca ćwiczenia.
 
-Użytkownik rozpoznaje fazy po sygnałach: Standby — dwa krótkie dźwięki w innej tonacji niż start ćwiczenia, ćwiczenie — jeden długi dźwięk, odpoczynek — jeden krótki dźwięk. Przygotowanie nie ma dźwięku. Podczas Standby widoczny jest wyłącznie ten napis, a podczas pozostałych faz pozostały czas. Przed startem użytkownik może odsłuchać sygnały przy odpowiednich ustawieniach wraz z informacją o ich znaczeniu.
+Użytkownik rozpoznaje fazy po sygnałach: Standby — dwa krótkie dźwięki w innej tonacji niż start ćwiczenia, ćwiczenie — jeden długi dźwięk, odpoczynek — jeden krótki dźwięk. Odliczanie losowego oczekiwania 1–5 s rozpoczyna się dopiero po zakończeniu drugiego krótkiego dźwięku Standby. Czas odtwarzania sygnałów nie wlicza się do tego opóźnienia; po jego upływie rozpoczyna się długi sygnał startu ćwiczenia. Przygotowanie nie ma dźwięku. Podczas Standby widoczny jest wyłącznie ten napis, a podczas pozostałych faz pozostały czas. Przed startem użytkownik może odsłuchać sygnały przy odpowiednich ustawieniach wraz z informacją o ich znaczeniu.
 
-Wznowienie pauzy w Standby lub ćwiczeniu dodaje pełne przygotowanie i rozpoczyna to samo powtórzenie od początku, zachowując ukończone powtórzenia; przy włączonym losowym starcie opóźnienie losowane jest ponownie. Wznowienie przygotowania lub odpoczynku kontynuuje pozostały czas bez ponownego sygnału. Przejście do innej aplikacji lub blokada ekranu powoduje pauzę wymagającą ręcznego wznowienia po powrocie według tych samych reguł. Anulowanie wraca do konfiguracji z zachowaniem ustawień, a ponowne uruchomienie rozpoczyna cały przebieg od przygotowania.
+Wznowienie pauzy w Standby lub ćwiczeniu dodaje pełne przygotowanie i rozpoczyna to samo powtórzenie od początku, zachowując ukończone powtórzenia; przy włączonym losowym starcie opóźnienie losowane jest ponownie i odliczane dopiero po zakończeniu obu ponownie odtworzonych krótkich dźwięków Standby. Wznowienie przygotowania lub odpoczynku kontynuuje pozostały czas bez ponownego sygnału. Przejście do innej aplikacji lub blokada ekranu powoduje pauzę wymagającą ręcznego wznowienia po powrocie według tych samych reguł. Anulowanie wraca do konfiguracji z zachowaniem ustawień, a ponowne uruchomienie rozpoczyna cały przebieg od przygotowania.
 
 ## Access Control
 
@@ -211,7 +214,7 @@ Brak nierozstrzygniętych pytań z końcowej kontroli zakresu produktu. Konkretn
 1. Użytkownik otwiera aplikację i ustawia czas przygotowania 0–600 s, ćwiczenia i odpoczynku po 1–600 s oraz liczbę powtórzeń 1–100.
 2. Opcjonalnie włącza losowy start o stałym przedziale 1–5 s, bez edycji granic. Pozostałe ustawienia czasu są w pełnych sekundach, np. 0:02, 0:05, 0:10. Przy ustawieniach ćwiczenia, odpoczynku i opcji Standby może odsłuchać właściwy sygnał wraz z informacją o jego znaczeniu.
 3. Użytkownik uruchamia timer. Czas przygotowania jest odliczany raz na początku nieprzerwanego przebiegu, bez sygnału dźwiękowego; przy 0 s faza jest pomijana.
-4. Jeśli włączono losowy start, przed każdym ćwiczeniem losowane jest nowe opóźnienie 1–5 s co 0,01 s. Dwa krótkie sygnały rozpoczynają oczekiwanie z widocznym wyłącznie napisem „Standby”. Opóźnienie poprzedza czas ćwiczenia i nie skraca go.
+4. Jeśli włączono losowy start, przed każdym ćwiczeniem losowane jest nowe opóźnienie 1–5 s co 0,01 s. Najpierw odtwarzane są dwa krótkie sygnały Standby. Dopiero po zakończeniu drugiego zaczyna się odliczanie całego wylosowanego opóźnienia 1–5 s; czas odtwarzania sygnałów nie wlicza się do opóźnienia. Podczas sygnałów i oczekiwania widoczny jest wyłącznie napis „Standby”. Opóźnienie poprzedza czas ćwiczenia i nie skraca go.
 5. Jeden długi sygnał rozpoczyna odliczanie pełnego czasu ćwiczenia.
 6. Jeden krótki sygnał rozpoczyna odliczanie odpoczynku.
 7. Kroki 4–6 powtarzają się zadaną liczbę razy, a przebieg kończy się po ostatnim odpoczynku. Przy wyłączonym losowym starcie krok 4 jest pomijany.
@@ -222,7 +225,7 @@ Przykład podany przez użytkownika: 3 powtórzenia, przygotowanie 5 s, ćwiczen
 
 - Zatrzymanie oznacza pauzę z możliwością wznowienia.
 - Przejście do innej aplikacji lub zablokowanie ekranu powoduje pauzę. Powrót do aplikacji nie wznawia automatycznie przebiegu; użytkownik wznawia go ręcznie według reguł właściwych dla przerwanej fazy.
-- Wznowienie po pauzie w Standby lub ćwiczeniu odlicza pełny skonfigurowany czas przygotowania, a następnie rozpoczyna to samo powtórzenie od początku. Przy włączonym losowym starcie podwójny krótki sygnał rozpoczyna nowe oczekiwanie losowane z 1–5 s, po którym długi sygnał rozpoczyna pełny czas ćwiczenia. Przy wyłączonym losowym starcie po przygotowaniu długi sygnał rozpoczyna od razu pełny czas ćwiczenia. Ukończone powtórzenia pozostają zachowane. Dodatkowe przygotowanie dotyczy takiego wznowienia, nie wszystkich kolejnych powtórzeń.
+- Wznowienie po pauzie w Standby lub ćwiczeniu odlicza pełny skonfigurowany czas przygotowania, a następnie rozpoczyna to samo powtórzenie od początku. Przy włączonym losowym starcie najpierw odtwarzane są oba krótkie dźwięki Standby, a dopiero po zakończeniu drugiego rozpoczyna się odliczanie nowego oczekiwania losowanego z 1–5 s, po którym długi sygnał rozpoczyna pełny czas ćwiczenia. Przy wyłączonym losowym starcie po przygotowaniu długi sygnał rozpoczyna od razu pełny czas ćwiczenia. Ukończone powtórzenia pozostają zachowane. Dodatkowe przygotowanie dotyczy takiego wznowienia, nie wszystkich kolejnych powtórzeń.
 - Wznowienie podczas przygotowania lub odpoczynku kontynuuje pozostały czas bez ponownego sygnału początku fazy.
 - Anulowanie kończy przebieg i wraca do konfiguracji, zachowując ustawienia.
 - Ponowne uruchomienie rozpoczyna cały przebieg od przygotowania.
