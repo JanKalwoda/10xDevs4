@@ -1,0 +1,55 @@
+# --- allow ---
+
+prefix_rule(pattern = ["npm"], decision = "allow")
+prefix_rule(pattern = ["npx"], decision = "allow")
+prefix_rule(pattern = ["node"], decision = "allow")
+
+prefix_rule(pattern = ["git", "add"], decision = "allow")
+prefix_rule(pattern = ["git", "commit"], decision = "allow")
+prefix_rule(pattern = ["git", "diff"], decision = "allow")
+prefix_rule(pattern = ["git", "log"], decision = "allow")
+prefix_rule(pattern = ["git", "status"], decision = "allow")
+prefix_rule(pattern = ["git", "branch"], decision = "allow")
+prefix_rule(pattern = ["git", "checkout"], decision = "allow")
+prefix_rule(pattern = ["git", "stash"], decision = "allow")
+
+# --- ask ---
+
+prefix_rule(
+    pattern = ["curl"],
+    decision = "prompt",
+    justification = "Dostep sieciowy wymaga potwierdzenia.",
+)
+
+prefix_rule(
+    pattern = ["wget"],
+    decision = "prompt",
+    justification = "Dostep sieciowy wymaga potwierdzenia.",
+)
+
+# Obejmuje zarowno `git push`, jak i `git push <remote> <branch>`.
+prefix_rule(
+    pattern = ["git", "push"],
+    decision = "prompt",
+    justification = "Wyslanie zmian do zdalnego repozytorium wymaga potwierdzenia.",
+)
+
+# --- deny ---
+
+prefix_rule(
+    pattern = ["rm", "-rf"],
+    decision = "forbidden",
+    justification = "Rekurencyjne usuwanie jest zablokowane.",
+)
+
+prefix_rule(
+    pattern = ["rm", "-fr"],
+    decision = "forbidden",
+    justification = "Rekurencyjne usuwanie jest zablokowane.",
+)
+
+prefix_rule(
+    pattern = ["rm", "-r", "-f"],
+    decision = "forbidden",
+    justification = "Rekurencyjne usuwanie jest zablokowane.",
+)
