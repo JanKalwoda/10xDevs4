@@ -13,7 +13,6 @@ Pull requests run isolated CI with local Supabase. Production deploys run from `
 - [ ] Open and merge the existing `feature/m1l5` branch into `main`, preserving `infrastructure.md`.
 - [ ] Create `feature/cloudflare-deployment` from the updated `main`.
 - [ ] Save this approved checklist as `context/deployment/deploy-plan.md`; update its indicators during execution.
-- [ ] Use Node `22.14.0` from `.nvmrc`, not the currently active Node 24 runtime.
 
 ### Phase 1 — Deployment configuration
 
@@ -137,7 +136,7 @@ Complete these sections in order: Docker, Supabase, Cloudflare account, then Wra
 
 ### Phase 5 — First production publication
 
-- [ ] From the reviewed and merged `main`, rebuild with Node 22 and `npm ci`.
+- [ ] From the reviewed and merged `main`, install the locked dependencies with `npm ci` and rebuild the application.
 - [ ] Human gate: create a temporary secret file outside the repository containing only `SUPABASE_URL` and the publishable `SUPABASE_KEY`.
 - [ ] Run the first atomic deployment with `npx wrangler deploy --secrets-file <absolute-temporary-path>`.
 - [ ] Immediately delete the temporary file and verify that it never entered Git history, shell history, logs, or the workspace.
