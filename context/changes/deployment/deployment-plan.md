@@ -8,29 +8,11 @@ Pull requests run isolated CI with local Supabase. Production deploys run from `
 
 ## Phase Checklist
 
-### Phase 0 — Repository and credential safety
-
-- [ ] Open and merge the existing `feature/m1l5` branch into `main`, preserving `infrastructure.md`.
-- [ ] Create `feature/cloudflare-deployment` from the updated `main`.
-- [ ] Save this approved checklist as `context/deployment/deploy-plan.md`; update its indicators during execution.
-
-### Phase 1 — Deployment configuration
-
-- [ ] Change the Worker name from `10x-astro-starter` to `drill-me`.
-- [ ] Keep Workers + Static Assets as the sole target; do not introduce Cloudflare Pages commands.
-- [ ] Keep the tested compatibility date and `nodejs_compat`; update it only in a separately tested maintenance change.
-- [ ] Declare `SUPABASE_URL` and `SUPABASE_KEY` under Wrangler’s required secrets so deploys fail before publication when either is missing.
-- [ ] Set the Astro Cloudflare image service to compile-time optimization. The current application does not need runtime Cloudflare Images, avoiding an unnecessary binding and its 5,000-transformation free-tier boundary. [Cloudflare Images pricing](https://developers.cloudflare.com/images/pricing/)
-- [ ] Retain the automatically provisioned `SESSION` KV binding and existing `ASSETS` binding. No manual KV creation is required. [Astro Cloudflare sessions](https://docs.astro.build/en/guides/integrations-guide/cloudflare/)
-- [ ] Preserve `public/.assetsignore` and validate that the generated Wrangler redirect points at `dist/server/wrangler.json`.
-- [ ] Once the account’s Workers subdomain is known, set Astro’s `site` to `https://drill-me.<account-subdomain>.workers.dev` so sitemap generation no longer warns.
-- [ ] Update README instructions to use the Supabase publishable key, not the legacy `anon` key. Keep the environment name `SUPABASE_KEY` for compatibility, but its value must be `sb_publishable_*`, never `sb_secret_*` or `service_role`. Supabase plans to deprecate legacy keys by the end of 2026. [Supabase API keys](https://supabase.com/docs/guides/getting-started/api-keys)
-
-### Phase 2 — Accounts, CLIs, and local-service prerequisites
+### Phase 0 — Accounts, CLIs, and local-service prerequisites
 
 Complete these sections in order: Docker, Supabase, Cloudflare account, then Wrangler. Wrangler does not have a separate account; it authenticates against the Cloudflare account.
 
-#### 2A — Docker Desktop for local Supabase
+#### 0A — Docker Desktop for local Supabase
 
 - [ ] Confirm Windows virtualization is enabled and WSL 2 is installed and current with `wsl --status` and `wsl --update` from an elevated terminal if an update is required.
 - [ ] Install Docker Desktop for Windows from the [official installer](https://docs.docker.com/desktop/setup/install/windows-install/), select the WSL 2 backend, and restart Windows if the installer requests it.
@@ -43,7 +25,7 @@ Complete these sections in order: Docker, Supabase, Cloudflare account, then Wra
 - [ ] If Docker cannot start, verify virtualization in Task Manager/BIOS, run `wsl --shutdown`, restart Docker Desktop, and check that no corporate policy or unsupported nested-virtualization environment blocks WSL 2.
 - [ ] Before starting Supabase, confirm ports `54321`–`54327` are not occupied. If they are, stop the conflicting process or deliberately update `supabase/config.toml`; do not expose these ports publicly.
 
-#### 2B — Supabase account, hosted project, and CLI
+#### 0B — Supabase account, hosted project, and CLI
 
 - [ ] Create or sign in to a [Supabase account](https://supabase.com/dashboard), verify the account email, enable MFA, and create/select the organization that will own production.
 - [ ] Create a new Free project:
@@ -76,7 +58,7 @@ Complete these sections in order: Docker, Supabase, Cloudflare account, then Wra
   - verify Studio at `http://localhost:54323` and stop services with `npx supabase stop` when finished. [Supabase local development](https://supabase.com/docs/guides/local-development)
 - [ ] Run the local full-auth smoke test and confirm that it uses only local Supabase URLs and keys.
 
-#### 2C — Cloudflare account and production access
+#### 0C — Cloudflare account and production access
 
 - [ ] Create or sign in to the [Cloudflare dashboard](https://dash.cloudflare.com/), verify the account email, and enable MFA before creating production resources.
 - [ ] Select the account that will own `drill-me`. A Cloudflare-managed DNS zone is not required while production uses only `workers.dev`.
@@ -86,7 +68,7 @@ Complete these sections in order: Docker, Supabase, Cloudflare account, then Wra
 - [ ] Store the token once as the GitHub `production` environment secret `CLOUDFLARE_API_TOKEN`; do not place it in `.env`, `.dev.vars`, Wrangler configuration, chat, shell history, or deployment documentation.
 - [ ] Keep destructive account operations human-only: deleting the Worker, changing account ownership, rotating primary credentials, or modifying unrelated DNS/resources are not delegated to CI or an agent.
 
-#### 2D — Wrangler CLI authentication and configuration
+#### 0D — Wrangler CLI authentication and configuration
 
 - [ ] Use the Wrangler version pinned in `package-lock.json`; run it as `npx wrangler` instead of installing a global version.
 - [ ] Verify the local CLI with `npx wrangler --version` and confirm it matches the lockfile-supported major version.
@@ -101,6 +83,24 @@ Complete these sections in order: Docker, Supabase, Cloudflare account, then Wra
 - [ ] Validate locally with `npx wrangler deploy --dry-run`; confirm it selects the generated configuration and does not contact production to publish a version.
 - [ ] For the first production publication, supply `SUPABASE_URL` and `SUPABASE_KEY` through the temporary out-of-repository secrets file described in Phase 5. For later deploys, Wrangler must preserve the existing encrypted Worker secrets.
 - [ ] If authentication fails, rerun `npx wrangler whoami`, confirm the intended account, remove stale local OAuth only through Wrangler’s logout flow, and reauthenticate. Do not fall back to a Global API Key.
+
+### Phase 1 — Repository and credential safety
+
+- [ ] Open and merge the existing `feature/m1l5` branch into `main`, preserving `infrastructure.md`.
+- [ ] Create `feature/cloudflare-deployment` from the updated `main`.
+- [ ] Save this approved checklist as `context/deployment/deploy-plan.md`; update its indicators during execution.
+
+### Phase 2 — Deployment configuration
+
+- [ ] Change the Worker name from `10x-astro-starter` to `drill-me`.
+- [ ] Keep Workers + Static Assets as the sole target; do not introduce Cloudflare Pages commands.
+- [ ] Keep the tested compatibility date and `nodejs_compat`; update it only in a separately tested maintenance change.
+- [ ] Declare `SUPABASE_URL` and `SUPABASE_KEY` under Wrangler’s required secrets so deploys fail before publication when either is missing.
+- [ ] Set the Astro Cloudflare image service to compile-time optimization. The current application does not need runtime Cloudflare Images, avoiding an unnecessary binding and its 5,000-transformation free-tier boundary. [Cloudflare Images pricing](https://developers.cloudflare.com/images/pricing/)
+- [ ] Retain the automatically provisioned `SESSION` KV binding and existing `ASSETS` binding. No manual KV creation is required. [Astro Cloudflare sessions](https://docs.astro.build/en/guides/integrations-guide/cloudflare/)
+- [ ] Preserve `public/.assetsignore` and validate that the generated Wrangler redirect points at `dist/server/wrangler.json`.
+- [ ] Once the account’s Workers subdomain is known, set Astro’s `site` to `https://drill-me.<account-subdomain>.workers.dev` so sitemap generation no longer warns.
+- [ ] Update README instructions to use the Supabase publishable key, not the legacy `anon` key. Keep the environment name `SUPABASE_KEY` for compatibility, but its value must be `sb_publishable_*`, never `sb_secret_*` or `service_role`. Supabase plans to deprecate legacy keys by the end of 2026. [Supabase API keys](https://supabase.com/docs/guides/getting-started/api-keys)
 
 ### Phase 3 — CI/CD and secret boundaries
 
