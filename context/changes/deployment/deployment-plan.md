@@ -14,34 +14,34 @@ Complete these sections in order: Docker, Supabase, Cloudflare account, then Wra
 
 #### 0A — Docker Desktop for local Supabase
 
-- [ ] Confirm Windows virtualization is enabled and WSL 2 is installed and current with `wsl --status` and `wsl --update` from an elevated terminal if an update is required.
-- [ ] Install Docker Desktop for Windows from the [official installer](https://docs.docker.com/desktop/setup/install/windows-install/), select the WSL 2 backend, and restart Windows if the installer requests it.
-- [ ] Start Docker Desktop, accept its terms, and wait until the engine reports that it is running. Signing in to Docker Hub is not required for the local Supabase stack.
-- [ ] Allocate enough Docker Desktop memory for Supabase; target at least 7 GB available to the complete local stack. If resources are constrained, use the repository’s CI exclusion list only after confirming the omitted services are not needed locally.
-- [ ] Verify the engine from PowerShell:
+- [x] Confirm Windows virtualization is enabled and WSL 2 is installed and current with `wsl --status` and `wsl --update` from an elevated terminal if an update is required.
+- [x] Install Docker Desktop for Windows from the [official installer](https://docs.docker.com/desktop/setup/install/windows-install/), select the WSL 2 backend, and restart Windows if the installer requests it.
+- [x] Start Docker Desktop, accept its terms, and wait until the engine reports that it is running. Signing in to Docker Hub is not required for the local Supabase stack.
+- [x] Allocate enough Docker Desktop memory for Supabase; target at least 7 GB available to the complete local stack. If resources are constrained, use the repository’s CI exclusion list only after confirming the omitted services are not needed locally.
+- [x] Verify the engine from PowerShell:
   - `docker version` must show both Client and Server sections;
   - `docker info` must complete without a daemon connection error;
   - `docker ps` must run successfully.
-- [ ] If Docker cannot start, verify virtualization in Task Manager/BIOS, run `wsl --shutdown`, restart Docker Desktop, and check that no corporate policy or unsupported nested-virtualization environment blocks WSL 2.
-- [ ] Before starting Supabase, confirm ports `54321`–`54327` are not occupied. If they are, stop the conflicting process or deliberately update `supabase/config.toml`; do not expose these ports publicly.
+- [x] If Docker cannot start, verify virtualization in Task Manager/BIOS, run `wsl --shutdown`, restart Docker Desktop, and check that no corporate policy or unsupported nested-virtualization environment blocks WSL 2.
+- [x] Before starting Supabase, confirm ports `54321`–`54327` are not occupied. If they are, stop the conflicting process or deliberately update `supabase/config.toml`; do not expose these ports publicly.
 
 #### 0B — Supabase account, hosted project, and CLI
 
-- [ ] Create or sign in to a [Supabase account](https://supabase.com/dashboard), verify the account email, enable MFA, and create/select the organization that will own production.
-- [ ] Create a new Free project:
-  - project name: `drill-me-production`;
+- [x] Create or sign in to a [Supabase account](https://supabase.com/dashboard), verify the account email, enable MFA, and create/select the organization that will own production.
+- [x] Create a new Free project:
+  - project name: `drill-me`;
   - region: Central EU (Frankfurt), nearest to the initial Polish/EU audience;
   - database password: generate a unique password and store it in a password manager, never in the repository;
   - wait until Database, Auth, and API services are healthy. [Supabase regions](https://supabase.com/docs/guides/platform/regions)
-- [ ] In the project’s Connect/API Keys view, copy the Project URL and an `sb_publishable_*` key. Do not use an `sb_secret_*`, legacy `service_role`, or database password as `SUPABASE_KEY`.
-- [ ] Use the project-pinned CLI rather than installing another global copy:
+- [x] In the project’s Connect/API Keys view, copy the Project URL and an `sb_publishable_*` key. Do not use an `sb_secret_*`, legacy `service_role`, or database password as `SUPABASE_KEY`.
+- [x] Use the project-pinned CLI rather than installing another global copy:
   - `npm ci`
   - `npx supabase --version`
   - `npx supabase login` and complete the browser authorization flow
   - `npx supabase projects list` to confirm the intended project is visible
   - `npx supabase link --project-ref <project-ref>` to link this repository
-- [ ] Do not run `supabase db push`: the repository has no migrations and currently uses only built-in Auth. Future tables must be introduced through timestamped migrations with RLS and granular policies.
-- [ ] Configure hosted Auth in Authentication → URL Configuration and Providers:
+- [x] Do not run `supabase db push`: the repository has no migrations and currently uses only built-in Auth. Future tables must be introduced through timestamped migrations with RLS and granular policies.
+- [x] Configure hosted Auth in Authentication → URL Configuration and Providers:
   - Site URL: `https://drill-me.<account-subdomain>.workers.dev`;
   - Redirect allow-list: the same exact production origin/path patterns required by the application, without a broad production wildcard;
   - email/password provider: enabled;
@@ -49,40 +49,40 @@ Complete these sections in order: Docker, Supabase, Cloudflare account, then Wra
   - SMTP: built-in Supabase SMTP for this closed MVP, accepting its two-auth-emails-per-hour limit;
   - OTP expiry: no more than one hour;
   - password policy: at least the application’s current requirements.
-- [ ] Run Supabase Security Advisor, confirm there are no unexpected public tables, and verify that any future public-schema tables have RLS before launch.
-- [ ] Configure local Supabase separately from production:
+- [x] Run Supabase Security Advisor, confirm there are no unexpected public tables, and verify that any future public-schema tables have RLS before launch.
+- [x] Configure local Supabase separately from production:
   - start Docker Desktop first;
   - run `npx supabase start` from the repository root;
   - run `npx supabase status -o env` and map `API_URL` plus `PUBLISHABLE_KEY` into the untracked `.dev.vars` file as `SUPABASE_URL` and `SUPABASE_KEY`;
   - keep local email confirmations disabled as declared in `supabase/config.toml` so the full local smoke flow can sign in immediately;
   - verify Studio at `http://localhost:54323` and stop services with `npx supabase stop` when finished. [Supabase local development](https://supabase.com/docs/guides/local-development)
-- [ ] Run the local full-auth smoke test and confirm that it uses only local Supabase URLs and keys.
+- [x] Run the local full-auth smoke test and confirm that it uses only local Supabase URLs and keys.
 
 #### 0C — Cloudflare account and production access
 
-- [ ] Create or sign in to the [Cloudflare dashboard](https://dash.cloudflare.com/), verify the account email, and enable MFA before creating production resources.
-- [ ] Select the account that will own `drill-me`. A Cloudflare-managed DNS zone is not required while production uses only `workers.dev`.
-- [ ] Open Workers & Pages and configure/confirm the account’s unique `workers.dev` subdomain. Record the resulting production URL as `https://drill-me.<account-subdomain>.workers.dev`.
-- [ ] Copy the Cloudflare Account ID from the dashboard and store it as the GitHub `production` environment secret `CLOUDFLARE_ACCOUNT_ID`; do not commit it to configuration files.
-- [ ] In My Profile → API Tokens, create a custom CI token from “Edit Cloudflare Workers,” restricted to the selected account and only the permissions needed to deploy and inspect this Worker.
-- [ ] Store the token once as the GitHub `production` environment secret `CLOUDFLARE_API_TOKEN`; do not place it in `.env`, `.dev.vars`, Wrangler configuration, chat, shell history, or deployment documentation.
-- [ ] Keep destructive account operations human-only: deleting the Worker, changing account ownership, rotating primary credentials, or modifying unrelated DNS/resources are not delegated to CI or an agent.
+- [x] Create or sign in to the [Cloudflare dashboard](https://dash.cloudflare.com/), verify the account email, and enable MFA before creating production resources.
+- [x] Select the account that will own `drill-me`. A Cloudflare-managed DNS zone is not required while production uses only `workers.dev`.
+- [x] Open Workers & Pages and configure/confirm the account’s unique `workers.dev` subdomain. Record the resulting production URL as `https://drill-me.<account-subdomain>.workers.dev`.
+- [x] Copy the Cloudflare Account ID from the dashboard and store it as the GitHub `production` environment secret `CLOUDFLARE_ACCOUNT_ID`; do not commit it to configuration files.
+- [x] In My Profile → API Tokens, create a custom CI token from “Edit Cloudflare Workers,” restricted to the selected account and only the permissions needed to deploy and inspect this Worker.
+- [x] Store the token once as the GitHub `production` environment secret `CLOUDFLARE_API_TOKEN`; do not place it in `.env`, `.dev.vars`, Wrangler configuration, chat, shell history, or deployment documentation.
+- [x] Keep destructive account operations human-only: deleting the Worker, changing account ownership, rotating primary credentials, or modifying unrelated DNS/resources are not delegated to CI or an agent.
 
 #### 0D — Wrangler CLI authentication and configuration
 
-- [ ] Use the Wrangler version pinned in `package-lock.json`; run it as `npx wrangler` instead of installing a global version.
-- [ ] Verify the local CLI with `npx wrangler --version` and confirm it matches the lockfile-supported major version.
-- [ ] Authenticate the developer workstation with `npx wrangler login`, complete the browser OAuth flow for the selected Cloudflare account, and verify it with `npx wrangler whoami`.
-- [ ] If browser login cannot open, copy the displayed authorization URL into a browser on the same workstation. For CI, never use interactive login; use only the scoped API token and Account ID.
-- [ ] Review `wrangler.jsonc` before any remote command and confirm:
+- [x] Use the Wrangler version pinned in `package-lock.json`; run it as `npx wrangler` instead of installing a global version.
+- [x] Verify the local CLI with `npx wrangler --version` and confirm it matches the lockfile-supported major version.
+- [x] Authenticate the developer workstation with `npx wrangler login`, complete the browser OAuth flow for the selected Cloudflare account, and verify it with `npx wrangler whoami`.
+- [x] If browser login cannot open, copy the displayed authorization URL into a browser on the same workstation. For CI, never use interactive login; use only the scoped API token and Account ID.
+- [x] Review `wrangler.jsonc` before any remote command and confirm:
   - Worker name is `drill-me`;
   - target is Workers + Static Assets, not Pages;
   - `nodejs_compat`, assets, observability, and required Supabase secret names are declared;
   - no credential values appear in the file.
-- [ ] Run `npm run build` before every Wrangler preview/deploy command because Astro generates `.wrangler/deploy/config.json` and the deployable `dist/server/wrangler.json` during the build.
-- [ ] Validate locally with `npx wrangler deploy --dry-run`; confirm it selects the generated configuration and does not contact production to publish a version.
-- [ ] For the first production publication, supply `SUPABASE_URL` and `SUPABASE_KEY` through the temporary out-of-repository secrets file described in Phase 5. For later deploys, Wrangler must preserve the existing encrypted Worker secrets.
-- [ ] If authentication fails, rerun `npx wrangler whoami`, confirm the intended account, remove stale local OAuth only through Wrangler’s logout flow, and reauthenticate. Do not fall back to a Global API Key.
+- [x] Run `npm run build` before every Wrangler preview/deploy command because Astro generates `.wrangler/deploy/config.json` and the deployable `dist/server/wrangler.json` during the build.
+- [x] Validate locally with `npx wrangler deploy --dry-run`; confirm it selects the generated configuration and does not contact production to publish a version.
+- [x] For the first production publication, supply `SUPABASE_URL` and `SUPABASE_KEY` through the temporary out-of-repository secrets file described in Phase 5. For later deploys, Wrangler must preserve the existing encrypted Worker secrets.
+- [x] If authentication fails, rerun `npx wrangler whoami`, confirm the intended account, remove stale local OAuth only through Wrangler’s logout flow, and reauthenticate. Do not fall back to a Global API Key.
 
 ### Phase 1 — Repository and credential safety
 
