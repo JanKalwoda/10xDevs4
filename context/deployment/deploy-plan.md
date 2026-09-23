@@ -133,12 +133,12 @@ Execution status (2026-09-23): Phase 0 was completed before this branch. Local S
   - `npm run smoke` against local Supabase
 - [x] Confirm the dry run contains `ASSETS` and `SESSION`, does not contain `IMAGES`, and uses the generated `dist/server` configuration.
 - [x] Confirm no tracked file or Git diff contains a credential value.
-- [ ] Commit on `feature/cloudflare-deployment`, open a PR to `main`, and wait for all CI checks and review.
-- [ ] Merge only after CI passes.
+- [x] Commit on `feature/cloudflare-deployment`, open PR #3 to `main`, and wait for all CI checks and review.
+- [x] Merge only after CI passes. PR #3 merged as `4b15d27`; both jobs also passed on the resulting `main` push in CI run `35897584300`. The gated deploy job skipped as intended.
 
 ### Phase 5 — First production publication
 
-- [ ] From the reviewed and merged `main`, install the locked dependencies with `npm ci` and rebuild the application.
+- [x] From the reviewed and merged `main`, install the locked dependencies with `npm ci` and rebuild the application. The generated Worker also passed `npx wrangler deploy --dry-run`.
 - [ ] Human gate: create a temporary secret file outside the repository containing only `SUPABASE_URL` and the publishable `SUPABASE_KEY`.
 - [ ] Run the first atomic deployment with `npx wrangler deploy --secrets-file <absolute-temporary-path>`.
 - [ ] Immediately delete the temporary file and verify that it never entered Git history, shell history, logs, or the workspace.
