@@ -56,12 +56,15 @@ Obecny timer HIIT pozwala ustawić fazy i powtórzenia, lecz jego przewidywalny 
 
 ## Streams
 
-Strumienie ułatwiają czytanie równoległych ścieżek. O kolejności prac rozstrzygają zależności elementów.
+Strumienie ułatwiają czytanie równoległych ścieżek. Strzałka oznacza zależność, a przecinek oddziela przekroje, które można prowadzić równolegle. O kolejności prac rozstrzygają pola `Prerequisites`.
 
 | Stream | Theme | Chain | Note |
 | --- | --- | --- | --- |
-| A | Przebieg timera | `S-01` → `S-02` → `S-03` → `S-04` → `S-05` → `S-06` → `S-07` → `S-08` | Najpierw dostarcza działający timer; rodzeństwo po S-02 można realizować niezależnie. |
-| B | Konto i własne ustawienia | `S-09` → `S-10` → `S-11` → `S-12` → `S-13` | S-10 łączy się ze strumieniem A przy S-05. |
+| A | Główny przebieg i widok | `S-01` → `S-02` → `S-04` → `S-05` | Najpierw dostarcza przebieg z losowym startem. |
+| B | Odsłuch sygnałów | `S-03` | Korzysta z sygnałów wprowadzonych w S-02. |
+| C | Sterowanie przebiegiem | `S-06`, `S-07`, `S-08` | S-07 wymaga S-01; S-06 i S-08 wymagają S-02. |
+| D | Dostęp do konta i zapis | `S-09` → `S-10` | Zapis S-10 wymaga też wyboru kolorów z S-05. |
+| E | Korzystanie z zapisów | `S-11`, `S-12`, `S-13` | Trzy niezależne działania po zapisie S-10. |
 
 ## Baseline
 
