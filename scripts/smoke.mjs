@@ -1,32 +1,37 @@
-// Smoke test: proves the built app, the Cloudflare adapter and the Supabase auth flow still work together.
-// Zero dependencies on purpose. Run against a live server: BASE_URL=http://localhost:4321 node scripts/smoke.mjs
+// Smoke test for local Supabase or a verified production test account.
+// Run with SMOKE_MODE=local|remote and BASE_URL pointing at a running app.
 
-const BASE_URL = process.env.BASE_URL ?? "http://localhost:4321";
-const email = `smoke-${Date.now()}@example.com`;
-const password = "Smoke-Test-Passw0rd!";
+const mode = process.env.SMOKE_MODE ?? "local";
+if (!["local", "remote"].includes(mode)) throw new Error("SMOKE_MODE must be local or remote");
+
+const baseUrl = (process.env.BASE_URL ?? "http://localhost:4321").replace(/\/$/, "");
+const email = mode === "remote" ? process.env.SMOKE_EMAIL : `smoke-${Date.now()}@example.com`;
+const password = mode === "remote" ? process.env.SMOKE_PASSWORD : "Smoke-Test-Passw0rd!";
+if (!email || !password) throw new Error("Remote smoke requires SMOKE_EMAIL and SMOKE_PASSWORD");
+
 const jar = new Map();
 
 function cookieHeader() {
-    return [...jar.entries()].map(([k, v]) => `${k}=${v}`).join("; ");
+    return [...jar.entries()].map(([name, value]) => `${name}=${value}`).join("; ");
 }
 
 function storeCookies(response) {
     for (const raw of response.headers.getSetCookie()) {
         const [pair, ...attrs] = raw.split(";");
         const [name, ...rest] = pair.split("=");
-        const expired = attrs.some((a) => /max-age=0/i.test(a.trim()));
+        const expired = attrs.some((attr) => /max-age=0/i.test(attr.trim()));
         if (expired) jar.delete(name.trim());
         else jar.set(name.trim(), rest.join("="));
     }
 }
 
 async function request(path, { method = "GET", form } = {}) {
-    const response = await fetch(BASE_URL + path, {
+    const response = await fetch(baseUrl + path, {
         method,
         redirect: "manual",
         headers: {
             Cookie: cookieHeader(),
-            Origin: BASE_URL,
+            Origin: baseUrl,
             ...(form ? { "Content-Type": "application/x-www-form-urlencoded" } : {}),
         },
         body: form ? new URLSearchParams(form).toString() : undefined,
@@ -38,8 +43,16 @@ async function request(path, { method = "GET", form } = {}) {
 const steps = [
     ["home renders", () => request("/"), { status: 200 }],
     ["dashboard redirects anonymous user", () => request("/dashboard"), { status: 302, location: "/auth/signin" }],
-    ["signup creates account", () => request("/api/auth/signup", { method: "POST", form: { email, password } }), { status: 302, location: "/auth/confirm-email" }],
-    ["signin rejects wrong password", () => request("/api/auth/signin", { method: "POST", form: { email, password: "wrong" } }), { status: 302, location: "/auth/signin?error=" }],
+    ...(mode === "local"
+        ? [
+              ["signup creates account", () => request("/api/auth/signup", { method: "POST", form: { email, password } }), { status: 302, location: "/auth/confirm-email" }],
+              [
+                  "signin rejects wrong password",
+                  () => request("/api/auth/signin", { method: "POST", form: { email, password: "wrong" } }),
+                  { status: 302, location: "/auth/signin?error=" },
+              ],
+          ]
+        : []),
     ["signin accepts correct password", () => request("/api/auth/signin", { method: "POST", form: { email, password } }), { status: 302, location: "/" }],
     ["dashboard renders for signed-in user", () => request("/dashboard"), { status: 200 }],
     ["signout clears session", () => request("/api/auth/signout", { method: "POST" }), { status: 302, location: "/" }],

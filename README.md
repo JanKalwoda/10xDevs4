@@ -106,8 +106,8 @@ npx supabase start
 4. Copy the credentials printed by the CLI into your `.env` and `.dev.vars`:
 
 ```
-SUPABASE_URL=http://127.0.0.1:54321
-SUPABASE_KEY=<anon key from CLI output>
+SUPABASE_URL=http://127.0.0.1:55321
+SUPABASE_KEY=<publishable key from CLI output>
 ```
 
 5. To stop the stack when done:
@@ -116,7 +116,7 @@ SUPABASE_KEY=<anon key from CLI output>
 npx supabase stop
 ```
 
-The local Studio UI is available at `http://localhost:54323`.
+The local Studio UI is available at `http://localhost:55323`.
 
 No database tables or migrations are required — this project uses Supabase Auth's built-in `auth.users` table only.
 
@@ -127,11 +127,11 @@ If you prefer to use a hosted Supabase project, add these variables to your `.en
 | Variable       | Description                                                |
 | -------------- | ---------------------------------------------------------- |
 | `SUPABASE_URL` | Project URL from Supabase dashboard → Settings → API       |
-| `SUPABASE_KEY` | `anon` public key from Supabase dashboard → Settings → API |
+| `SUPABASE_KEY` | `sb_publishable_*` key from Supabase dashboard → Settings → API Keys |
 
 ```
 SUPABASE_URL=https://<project-ref>.supabase.co
-SUPABASE_KEY=<anon-key>
+SUPABASE_KEY=<sb_publishable_key>
 ```
 
 ### Email confirmation in local development
@@ -171,18 +171,18 @@ npm run build
 npx wrangler deploy
 ```
 
-Set `SUPABASE_URL` and `SUPABASE_KEY` as secrets in your Cloudflare dashboard or via `npx wrangler secret put`.
+Set `SUPABASE_URL` and `SUPABASE_KEY` as Cloudflare Worker secrets. `SUPABASE_KEY` must be a publishable key, never a secret or service-role key. For the first deployment, use the temporary out-of-repository secrets file and `npx wrangler deploy --secrets-file <absolute-path>` described in [the deployment plan](context/deployment/deploy-plan.md).
 
 ## Smoke test
 
-`scripts/smoke.mjs` is a dependency-free Node script that walks the whole auth flow (sign-up, sign-in, protected page, sign-out) over HTTP. Run it against the dev server or the production preview after dependency upgrades:
+`scripts/smoke.mjs` is a dependency-free Node script with two modes. Local mode walks the full sign-up, sign-in, protected page, and sign-out flow against local Supabase. Remote mode signs in with an existing, confirmed, low-privilege smoke account and does not create users.
 
 ```bash
 npm run dev            # or: npm run build && npm run preview
-BASE_URL=http://localhost:4321 npm run smoke
+SMOKE_MODE=local BASE_URL=http://localhost:4321 npm run smoke
 ```
 
-It needs a reachable Supabase instance (local or cloud) with email confirmation disabled.
+Local mode needs local Supabase with email confirmation disabled. For production, set `SMOKE_MODE=remote`, `BASE_URL`, `SMOKE_EMAIL`, and `SMOKE_PASSWORD` in the process environment. Production email confirmation stays enabled.
 
 > **Note:** this script exists primarily to guard the development of the starter itself — it is a fast sanity check that dependency upgrades did not break the build, the Cloudflare adapter or the Supabase auth flow. It is **not** a substitute for a real test suite. Once you build your own product on top of this starter, add proper tests (unit, integration, end-to-end) suited to your application.
 
@@ -190,8 +190,9 @@ It needs a reachable Supabase instance (local or cloud) with email confirmation 
 
 GitHub Actions runs two jobs on every push and PR to `main`:
 
-- **ci** — lint, `astro check` and build. Configure `SUPABASE_URL` and `SUPABASE_KEY` as repository secrets for the build step.
+- **ci** — lint, `astro check` and build without production credentials.
 - **smoke** — starts a local Supabase via the Supabase CLI, builds, serves the production preview on the Cloudflare runtime and runs `npm run smoke` against it. No secrets required.
+- **deploy** — after both checks pass on a push to `main`, deploys with Wrangler only when the repository variable `PRODUCTION_DEPLOY_ENABLED` is `true`. The `production` environment holds the scoped Cloudflare token, account ID, smoke account credentials, and `PRODUCTION_URL` variable. Worker Supabase credentials stay in Cloudflare.
 
 ## License
 
