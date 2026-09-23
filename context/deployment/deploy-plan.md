@@ -118,7 +118,7 @@ Execution status (2026-09-23): Phase 0 was completed before this branch. Local S
   - runs `npm ci`, `npm run build`, and the repository-pinned Wrangler deploy;
   - runs the remote smoke test and records the deployed version.
 - [x] Create a GitHub `production` environment restricted to `main`.
-- [ ] Store `CLOUDFLARE_ACCOUNT_ID`, `CLOUDFLARE_API_TOKEN`, `SMOKE_EMAIL`, and `SMOKE_PASSWORD` as production-environment secrets.
+- [x] Store `CLOUDFLARE_ACCOUNT_ID`, `CLOUDFLARE_API_TOKEN`, `SMOKE_EMAIL`, and `SMOKE_PASSWORD` as production-environment secrets. All four names were verified in the GitHub `production` environment without reading values.
 - [x] Keep Supabase application credentials only in Cloudflare Worker secrets, avoiding a second copy in GitHub.
 - [x] Leave `PRODUCTION_DEPLOY_ENABLED` unset/false until the first manual deployment succeeds.
 - [x] Do not create public PR preview deployments until a separate preview Supabase project exists. Version preview URLs are public unless protected with Cloudflare Access. [Cloudflare preview URLs](https://developers.cloudflare.com/workers/versions-and-deployments/preview-urls/)
@@ -133,17 +133,18 @@ Execution status (2026-09-23): Phase 0 was completed before this branch. Local S
   - `npm run smoke` against local Supabase
 - [x] Confirm the dry run contains `ASSETS` and `SESSION`, does not contain `IMAGES`, and uses the generated `dist/server` configuration.
 - [x] Confirm no tracked file or Git diff contains a credential value.
-- [ ] Commit on `feature/cloudflare-deployment`, open a PR to `main`, and wait for all CI checks and review.
-- [ ] Merge only after CI passes.
+- [x] Commit on `feature/cloudflare-deployment`, open PR #3 to `main`, and wait for all CI checks and review.
+- [x] Merge only after CI passes. PR #3 merged as `4b15d27`; both jobs also passed on the resulting `main` push in CI run `35897584300`. The gated deploy job skipped as intended.
 
 ### Phase 5 — First production publication
 
-- [ ] From the reviewed and merged `main`, install the locked dependencies with `npm ci` and rebuild the application.
-- [ ] Human gate: create a temporary secret file outside the repository containing only `SUPABASE_URL` and the publishable `SUPABASE_KEY`.
-- [ ] Run the first atomic deployment with `npx wrangler deploy --secrets-file <absolute-temporary-path>`.
-- [ ] Immediately delete the temporary file and verify that it never entered Git history, shell history, logs, or the workspace.
-- [ ] Verify the resulting `https://drill-me.<account-subdomain>.workers.dev` URL and update Supabase Site URL if the actual subdomain differs.
-- [ ] Register and confirm one dedicated smoke account, then store its low-privilege credentials in the GitHub production environment.
+- [x] From the reviewed and merged `main`, install the locked dependencies with `npm ci` and rebuild the application. The generated Worker also passed `npx wrangler deploy --dry-run`.
+- [x] Human gate: create a temporary secret file outside the repository containing only `SUPABASE_URL` and the publishable `SUPABASE_KEY`. The owner approved publication and provided the path without disclosing values in chat.
+- [x] Run the first atomic deployment with `npx wrangler deploy --secrets-file <absolute-temporary-path>`. Deployed from `main` commit `4b15d27` on 2026-09-23.
+- [x] Immediately delete the temporary file and verify that it never entered Git history, shell history, logs, or the workspace. The out-of-repository file was deleted and its absence verified; the repository worktree remained clean.
+- [x] Verify the resulting `https://drill-me.twincoder.workers.dev` URL and update Supabase Site URL if the actual subdomain differs. The URL matched the planned subdomain; home returned 200 and anonymous dashboard redirected to sign-in.
+- [x] Register and confirm one dedicated smoke account, then store its low-privilege credentials in the GitHub production environment. The owner confirmed account setup and both secret names are present; the remote smoke will verify the login.
+- [ ] Run the manual `Production smoke` workflow on `main` to exercise the remote mode with protected environment secrets before enabling automatic deployment.
 - [ ] Execute the remote smoke mode:
   - home returns 200;
   - anonymous dashboard request redirects to sign-in;
@@ -151,8 +152,8 @@ Execution status (2026-09-23): Phase 0 was completed before this branch. Local S
   - protected dashboard returns 200;
   - sign-out clears the session;
   - subsequent dashboard access redirects again.
-- [ ] Inspect errors with `npx wrangler tail drill-me --format json --status error`.
-- [ ] Record `npx wrangler versions list` and `npx wrangler deployments list` output identifiers in the deployment artifact, without copying secrets or user data.
+- [x] Inspect errors with `npx wrangler tail drill-me --format json --status error`. No error events appeared during the initial home and anonymous dashboard requests; repeat after authenticated smoke.
+- [x] Record `npx wrangler versions list` and `npx wrangler deployments list` output identifiers in the deployment artifact, without copying secrets or user data. Both list version `4ff49a46-cffd-4eb8-8b03-f0bcc52d06e3` at 100% traffic, created 2026-09-23 17:52:09 UTC.
 - [ ] Set `PRODUCTION_DEPLOY_ENABLED=true`; future merges to `main` deploy automatically after CI.
 
 ## Interfaces and Operational Contract

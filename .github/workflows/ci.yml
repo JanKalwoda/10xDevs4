@@ -35,7 +35,11 @@ jobs:
       - run: npm ci
       - name: Start local Supabase
         run: |
-          supabase start -x studio,imgproxy,mailpit,edge-runtime,logflare,vector,realtime,storage-api,postgres-meta,supavisor
+          if ! supabase start -x studio,imgproxy,mailpit,edge-runtime,logflare,vector,realtime,storage-api,postgres-meta,supavisor; then
+            echo "Primary image registry unavailable; retrying with Docker Hub"
+            sleep 15
+            SUPABASE_INTERNAL_IMAGE_REGISTRY=docker.io supabase start -x studio,imgproxy,mailpit,edge-runtime,logflare,vector,realtime,storage-api,postgres-meta,supavisor
+          fi
           supabase status -o env | grep -E '^(API_URL|PUBLISHABLE_KEY|ANON_KEY)=' > supabase.env
       - name: Configure secrets for build and preview
         run: |
