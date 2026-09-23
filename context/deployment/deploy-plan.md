@@ -144,17 +144,17 @@ Execution status (2026-09-23): Phase 0 was completed before this branch. Local S
 - [x] Immediately delete the temporary file and verify that it never entered Git history, shell history, logs, or the workspace. The out-of-repository file was deleted and its absence verified; the repository worktree remained clean.
 - [x] Verify the resulting `https://drill-me.twincoder.workers.dev` URL and update Supabase Site URL if the actual subdomain differs. The URL matched the planned subdomain; home returned 200 and anonymous dashboard redirected to sign-in.
 - [x] Register and confirm one dedicated smoke account, then store its low-privilege credentials in the GitHub production environment. The owner confirmed account setup and both secret names are present; the remote smoke will verify the login.
-- [ ] Run the manual `Production smoke` workflow on `main` to exercise the remote mode with protected environment secrets before enabling automatic deployment.
-- [ ] Execute the remote smoke mode:
+- [x] Run the manual `Production smoke` workflow on `main` to exercise the remote mode with protected environment secrets before enabling automatic deployment. GitHub Actions runs `35900950688` and `35901114060` passed.
+- [x] Execute the remote smoke mode:
   - home returns 200;
   - anonymous dashboard request redirects to sign-in;
   - verified user can sign in;
   - protected dashboard returns 200;
   - sign-out clears the session;
   - subsequent dashboard access redirects again.
-- [x] Inspect errors with `npx wrangler tail drill-me --format json --status error`. No error events appeared during the initial home and anonymous dashboard requests; repeat after authenticated smoke.
+- [x] Inspect errors with `npx wrangler tail drill-me --format json --status error`. No error events appeared during the initial requests or during the repeated authenticated smoke.
 - [x] Record `npx wrangler versions list` and `npx wrangler deployments list` output identifiers in the deployment artifact, without copying secrets or user data. Both list version `4ff49a46-cffd-4eb8-8b03-f0bcc52d06e3` at 100% traffic, created 2026-09-23 17:52:09 UTC.
-- [ ] Set `PRODUCTION_DEPLOY_ENABLED=true`; future merges to `main` deploy automatically after CI.
+- [x] Set `PRODUCTION_DEPLOY_ENABLED=true`; future merges to `main` deploy automatically after CI. The first ensuing `main` push must verify this path.
 
 ## Interfaces and Operational Contract
 
@@ -177,4 +177,4 @@ Execution status (2026-09-23): Phase 0 was completed before this branch. Local S
 - [ ] Supabase latency is excessive: verify Frankfurt project placement, measure authenticated route latency, and remove sequential database requests before considering a platform change.
 - [ ] Free Workers CPU/request limits are approached: record CPU and request usage in the Cloudflare dashboard and define Workers Paid as the first scaling step.
 - [ ] Future custom-domain migration: add the Cloudflare custom domain, update Astro `site` and Supabase Site URL/redirects atomically, redeploy, and repeat the complete auth smoke test.
-- [ ] Deployment is accepted only when CI is green, the production auth flow passes, Workers logs contain no new errors, required secrets are present, and rollback identifiers are recorded.
+- [x] Deployment is accepted only when CI is green, the production auth flow passes, Workers logs contain no new errors, required secrets are present, and rollback identifiers are recorded. These conditions passed for the manual publication; automatic deployment verification remains pending.
