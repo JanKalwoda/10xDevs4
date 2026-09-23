@@ -139,10 +139,10 @@ Execution status (2026-09-23): Phase 0 was completed before this branch. Local S
 ### Phase 5 — First production publication
 
 - [x] From the reviewed and merged `main`, install the locked dependencies with `npm ci` and rebuild the application. The generated Worker also passed `npx wrangler deploy --dry-run`.
-- [ ] Human gate: create a temporary secret file outside the repository containing only `SUPABASE_URL` and the publishable `SUPABASE_KEY`.
-- [ ] Run the first atomic deployment with `npx wrangler deploy --secrets-file <absolute-temporary-path>`.
-- [ ] Immediately delete the temporary file and verify that it never entered Git history, shell history, logs, or the workspace.
-- [ ] Verify the resulting `https://drill-me.<account-subdomain>.workers.dev` URL and update Supabase Site URL if the actual subdomain differs.
+- [x] Human gate: create a temporary secret file outside the repository containing only `SUPABASE_URL` and the publishable `SUPABASE_KEY`. The owner approved publication and provided the path without disclosing values in chat.
+- [x] Run the first atomic deployment with `npx wrangler deploy --secrets-file <absolute-temporary-path>`. Deployed from `main` commit `4b15d27` on 2026-09-23.
+- [x] Immediately delete the temporary file and verify that it never entered Git history, shell history, logs, or the workspace. The out-of-repository file was deleted and its absence verified; the repository worktree remained clean.
+- [x] Verify the resulting `https://drill-me.twincoder.workers.dev` URL and update Supabase Site URL if the actual subdomain differs. The URL matched the planned subdomain; home returned 200 and anonymous dashboard redirected to sign-in.
 - [ ] Register and confirm one dedicated smoke account, then store its low-privilege credentials in the GitHub production environment.
 - [ ] Execute the remote smoke mode:
   - home returns 200;
@@ -151,8 +151,8 @@ Execution status (2026-09-23): Phase 0 was completed before this branch. Local S
   - protected dashboard returns 200;
   - sign-out clears the session;
   - subsequent dashboard access redirects again.
-- [ ] Inspect errors with `npx wrangler tail drill-me --format json --status error`.
-- [ ] Record `npx wrangler versions list` and `npx wrangler deployments list` output identifiers in the deployment artifact, without copying secrets or user data.
+- [x] Inspect errors with `npx wrangler tail drill-me --format json --status error`. No error events appeared during the initial home and anonymous dashboard requests; repeat after authenticated smoke.
+- [x] Record `npx wrangler versions list` and `npx wrangler deployments list` output identifiers in the deployment artifact, without copying secrets or user data. Both list version `4ff49a46-cffd-4eb8-8b03-f0bcc52d06e3` at 100% traffic, created 2026-09-23 17:52:09 UTC.
 - [ ] Set `PRODUCTION_DEPLOY_ENABLED=true`; future merges to `main` deploy automatically after CI.
 
 ## Interfaces and Operational Contract
