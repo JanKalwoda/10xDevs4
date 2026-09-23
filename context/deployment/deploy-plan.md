@@ -154,7 +154,7 @@ Execution status (2026-09-23): Phase 0 was completed before this branch. Local S
   - subsequent dashboard access redirects again.
 - [x] Inspect errors with `npx wrangler tail drill-me --format json --status error`. No error events appeared during the initial requests or during the repeated authenticated smoke.
 - [x] Record `npx wrangler versions list` and `npx wrangler deployments list` output identifiers in the deployment artifact, without copying secrets or user data. Both list version `4ff49a46-cffd-4eb8-8b03-f0bcc52d06e3` at 100% traffic, created 2026-09-23 17:52:09 UTC.
-- [x] Set `PRODUCTION_DEPLOY_ENABLED=true`; future merges to `main` deploy automatically after CI. The first ensuing `main` push must verify this path.
+- [x] Set `PRODUCTION_DEPLOY_ENABLED=true`; future merges to `main` deploy automatically after CI. The first successful gated run was [CI run 35902832490](https://github.com/JanKalwoda/10xDevs4/actions/runs/35902832490): lint/build, local smoke, Worker deploy, remote smoke, and version recording all passed. It deployed version `0d3bb1ba-2ca0-4dd1-be92-e7a88ffcc8bd` at 100% traffic on 2026-09-23 18:32:49 UTC.
 
 ## Interfaces and Operational Contract
 
