@@ -29,9 +29,7 @@ jobs:
         with:
           node-version: 24.21.0
           cache: npm
-      - uses: supabase/setup-cli@v1
-        with:
-          version: latest
+      - uses: supabase/setup-cli@v2
       - run: npm ci
       - name: Start local Supabase
         run: |
