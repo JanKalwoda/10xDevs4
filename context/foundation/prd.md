@@ -27,7 +27,7 @@ Pierwszym użytkownikiem jest autor projektu, ćwiczący strzelanie na sucho. Si
 
 ### Primary
 
-- Użytkownik bez logowania ustawia czasy przygotowania, ćwiczenia i odpoczynku oraz liczbę powtórzeń i opcjonalnie włącza losowy start o stałym przedziale 1–5 s, a następnie uruchamia pełny przebieg. Nieprzerwany przebieg obejmuje jednorazowe przygotowanie i zadaną liczbę cykli: opcjonalne losowe oczekiwanie, ćwiczenie, odpoczynek, włącznie z odpoczynkiem po ostatnim ćwiczeniu.
+- Użytkownik bez logowania ustawia czasy przygotowania, ćwiczenia i odpoczynku oraz liczbę powtórzeń i opcjonalnie włącza losowy start o stałym przedziale 1–5 s, a następnie uruchamia pełny przebieg. Nieprzerwany przebieg obejmuje jednorazowe przygotowanie, jeśli trwa dłużej niż 0 s, oraz zadaną liczbę cykli: opcjonalne losowe oczekiwanie, ćwiczenie i odpoczynek, jeśli trwa dłużej niż 0 s. Dodatni odpoczynek występuje również po ostatnim ćwiczeniu; przy odpoczynku 0 s przebieg kończy się po ostatnim ćwiczeniu.
 - Przy włączonym losowym starcie każde powtórzenie otrzymuje osobno losowane opóźnienie z przedziału 1–5 s co 0,01 s. Podczas oczekiwania bieżąca faza pokazuje napis „Standby” bez odliczania; podgląd wskazuje kolejne ćwiczenie i jego pełny czas. Dla pozostałych faz tylko główna sekcja odlicza pozostały czas, a sekcja aktualnej fazy pokazuje jej pełny skonfigurowany czas. Losowe oczekiwanie rozpoczyna się dopiero po zakończeniu obu krótkich dźwięków Standby w innej tonacji niż start ćwiczenia; czas ich odtwarzania nie wlicza się do opóźnienia 1–5 s. Początek ćwiczenia sygnalizuje jeden długi dźwięk, a początek odpoczynku jeden krótki dźwięk.
 
 ### Secondary
@@ -49,6 +49,8 @@ Pierwszym użytkownikiem jest autor projektu, ćwiczący strzelanie na sucho. Si
 
 #### Acceptance Criteria
 
+- Konfiguracja czasów i liczby powtórzeń z przyciskiem Start jest osobnym widokiem na `/`. Po poprawnym uruchomieniu formularz znika, a pod tym samym adresem zastępuje go widok przebiegu; formularz i działający timer nie są wyświetlane jednocześnie. Niepoprawne wartości pozostawiają użytkownika przy formularzu z błędami pól.
+- Po ostatnim dodatnim odpoczynku albo po ostatnim ćwiczeniu przy odpoczynku 0 s użytkownik widzi angielski komunikat „Completed” i może wrócić do konfiguracji z ostatnio użytymi wartościami; odświeżenie strony nadal nie zachowuje danych gościa.
 - Przygotowanie występuje raz, przed pierwszym cyklem nieprzerwanego przebiegu.
 - Każdy z trzech cykli otrzymuje osobno losowane opóźnienie z przedziału 1–5 s, co 0,01 s.
 - Odliczanie wylosowanego opóźnienia zaczyna się dopiero po zakończeniu drugiego krótkiego dźwięku Standby; czas odtwarzania obu dźwięków nie wlicza się do opóźnienia. Po upływie całego wylosowanego czasu rozpoczyna się sygnał startu ćwiczenia.
@@ -56,12 +58,13 @@ Pierwszym użytkownikiem jest autor projektu, ćwiczący strzelanie na sucho. Si
 - Początek Standby sygnalizują dwa krótkie dźwięki w innej tonacji niż start ćwiczenia, początek ćwiczenia jeden długi dźwięk, a początek odpoczynku jeden krótki dźwięk.
 - Czas ćwiczenia wynosi 4 s niezależnie od długości poprzedzającego oczekiwania.
 - Przebieg kończy się po odpoczynku trzeciego cyklu.
+- Gdy odpoczynek jest ustawiony na 0 s, faza odpoczynku i jej sygnał są pomijane w każdym cyklu; po ostatnim ćwiczeniu przebieg przechodzi bezpośrednio do „Completed”.
 
 ### US-02: Użytkownik obserwuje timer w trzech sekcjach
 
 - **Given** użytkownik uruchomił timer z czasem ćwiczenia 4 s i odpoczynku 2 s.
 - **When** trwa ćwiczenie.
-- **Then** widzi trzy sekcje: główną z odliczaniem pozostałego czasu ćwiczenia, sekcję aktualnej fazy z nazwą ćwiczenia i stałym skonfigurowanym czasem 4 s oraz sekcję następnej fazy „Następnie: odpoczynek — 2 s”.
+- **Then** widzi trzy sekcje: główną z odliczaniem pozostałego czasu ćwiczenia, sekcję aktualnej fazy z nazwą ćwiczenia i stałym skonfigurowanym czasem 4 s oraz sekcję następnej fazy „Next: Rest — 2 s”.
 
 #### Acceptance Criteria
 
@@ -74,8 +77,9 @@ Pierwszym użytkownikiem jest autor projektu, ćwiczący strzelanie na sucho. Si
 - Przy przejściu do kolejnej fazy treść i kolory wszystkich trzech sekcji aktualizują się zgodnie z przebiegiem timera.
 - Podgląd aktualizuje się przy zmianie fazy i uwzględnia wyłączenie Standby oraz pominięcie przygotowania ustawionego na 0 s.
 - Podczas Standby podgląd pokazuje następne ćwiczenie i jego pełny czas, bez ujawniania pozostałego czasu Standby.
-- Gdy następna faza to Standby, podgląd pokazuje „Następnie: Standby”, bez czasu.
+- Gdy następna faza to Standby, podgląd pokazuje „Next: Standby”, bez czasu.
 - Podczas ostatniego odpoczynku podgląd informuje o zakończeniu przebiegu zamiast zapowiadać kolejną fazę z czasem.
+- Przy odpoczynku 0 s podgląd pomija odpoczynek: po ćwiczeniu pokazuje następną fazę właściwą dla kolejnego powtórzenia albo zakończenie po ostatnim ćwiczeniu.
 
 ### US-03: Użytkownik wybiera kolory faz
 
@@ -103,13 +107,13 @@ Pierwotne wymagania FR-001–FR-012 zostały potwierdzone jako must-have i przes
 
 ### Konfiguracja i przebieg timera
 
-- FR-001: Użytkownik może bez logowania ustawić czas przygotowania 0–600 s, ćwiczenia i odpoczynku po 1–600 s, w pełnych sekundach, oraz liczbę powtórzeń 1–100; przygotowanie 0 s jest pomijane. Priority: must-have
+- FR-001: Użytkownik może bez logowania ustawić czas przygotowania i odpoczynku po 0–600 s oraz ćwiczenia 1–600 s, w pełnych sekundach, a także liczbę powtórzeń 1–100; przygotowanie i odpoczynek ustawione na 0 s są pomijane. Priority: must-have
   > Socrates: Kontrargument: pełne sekundy mogą być zbyt mało precyzyjne dla krótkich ćwiczeń. Decyzja użytkownika: bez zmian.
 - FR-002: Użytkownik może włączyć lub wyłączyć losowy start o stałym przedziale 1–5 s, z osobnym losowaniem co 0,01 s przed każdym powtórzeniem; odliczanie wylosowanego czasu zaczyna się dopiero po zakończeniu drugiego krótkiego dźwięku Standby, a czas odtwarzania sygnałów nie wlicza się do opóźnienia 1–5 s. Priority: must-have
   > Socrates: Kontrargument: stałe 1–5 s wystarczy, a dowolny przedział zwiększa liczbę ustawień. Decyzja użytkownika: stałe 1–5 s z możliwością włączenia lub wyłączenia losowego startu.
-- FR-003: Użytkownik może uruchomić pełny przebieg z jednorazowym przygotowaniem i zadaną liczbą cykli obejmujących opcjonalne Standby, ćwiczenie i odpoczynek, także po ostatnim ćwiczeniu. Priority: must-have
-  > Socrates: Kontrargument: użytkownik może oczekiwać zakończenia od razu po ostatnim ćwiczeniu. Decyzja użytkownika: bez zmian, ostatni odpoczynek pozostaje.
-- FR-004: Użytkownik może rozpoznać początek Standby po dwóch krótkich dźwiękach w innej tonacji niż start ćwiczenia, początek ćwiczenia po jednym długim dźwięku i początek odpoczynku po jednym krótkim dźwięku oraz przy ustawieniach ćwiczenia, odpoczynku i opcji Standby użyć przycisku odsłuchu sygnału z informacją o jego znaczeniu; przygotowanie nie ma sygnału dźwiękowego. Priority: must-have
+- FR-003: Użytkownik może uruchomić pełny przebieg z jednorazowym przygotowaniem, jeśli ma dodatni czas, i zadaną liczbą cykli obejmujących opcjonalne Standby, ćwiczenie oraz odpoczynek, jeśli ma dodatni czas, również po ostatnim ćwiczeniu. Przy odpoczynku 0 s każdy odpoczynek jest pomijany, a przebieg kończy się po ostatnim ćwiczeniu. Priority: must-have
+  > Socrates: Wcześniejsza decyzja zachowywała ostatni odpoczynek. Aktualizacja użytkownika: odpoczynek 0 s jest pomijany także w ostatnim cyklu; dodatni ostatni odpoczynek pozostaje.
+- FR-004: Użytkownik może rozpoznać początek Standby po dwóch krótkich dźwiękach w innej tonacji niż start ćwiczenia, początek ćwiczenia po jednym długim dźwięku i początek dodatniego odpoczynku po jednym krótkim dźwięku oraz przy ustawieniach ćwiczenia, odpoczynku i opcji Standby użyć przycisku odsłuchu sygnału z informacją o jego znaczeniu; przygotowanie i pominięty odpoczynek 0 s nie mają sygnału dźwiękowego. Priority: must-have
   > Socrates: Kontrargument: bez wcześniejszego odsłuchu znaczenie sygnałów może być niejasne. Decyzja użytkownika: przyciski odsłuchu z informacją o znaczeniu przy ćwiczeniu, odpoczynku i opcji Standby; przygotowanie pozostaje bez dźwięku i bez przycisku odsłuchu.
 - FR-005: Użytkownik może w głównej sekcji obserwować pozostały czas przygotowania, ćwiczenia i odpoczynku, natomiast podczas losowego oczekiwania w obszarze bieżącej fazy widzi napis „Standby” bez odliczania; podgląd następnej fazy opisuje FR-013. Priority: must-have
   > Socrates: Kontrargument: odliczanie podczas ćwiczenia może odciągać od niego uwagę. Decyzja użytkownika: bez zmian.
@@ -141,6 +145,8 @@ Pierwotne wymagania FR-001–FR-012 zostały potwierdzone jako must-have i przes
 
 ## Non-Functional Requirements
 
+- Cały interfejs aplikacji jest w języku angielskim: nazwy faz, etykiety pól i przycisków, nawigacja, podglądy, komunikaty końcowe, walidacyjne i błędów oraz komunikaty uwierzytelniania. Dokumentacja projektu może pozostać po polsku.
+
 - Nazwa bieżącej fazy, jej czas oraz podgląd następnej fazy pozostają czytelne na każdym tle z predefiniowanej palety; kolor nie jest jedynym sposobem rozpoznania fazy.
 - Kolory tła mają łagodne odcienie zapewniające dobrą czytelność czasu wyświetlanego czarną czcionką.
 - Paleta zapewnia także wyraźne różnice między kolorami, pozwalające łatwo odróżniać kolejne fazy; łagodność odcieni nie może zacierać tych różnic.
@@ -157,9 +163,9 @@ Pierwotne wymagania FR-001–FR-012 zostały potwierdzone jako must-have i przes
 
 Timer realizuje ustawione fazy i powtórzenia, a przy włączonym losowym starcie każde ćwiczenie poprzedza niezależnie losowanym oczekiwaniem 1–5 s, ukrywając przed użytkownikiem moment sygnału startu.
 
-Wejściem są czas przygotowania 0–600 s, czasy ćwiczenia i odpoczynku po 1–600 s (wszystkie w pełnych sekundach), liczba powtórzeń 1–100 oraz wybór włączenia lub wyłączenia losowego startu. Przedział losowania 1–5 s jest stały; wartości losowane są co 0,01 s. Nieprzerwany przebieg zaczyna się przygotowaniem, po którym następuje zadana liczba cykli obejmujących opcjonalne Standby, pełny czas ćwiczenia i odpoczynek, także po ostatnim ćwiczeniu. Przygotowanie 0 s jest pomijane, również przy wznowieniu i restarcie. Losowe oczekiwanie nie skraca ćwiczenia.
+Wejściem są czas przygotowania i odpoczynku po 0–600 s, czas ćwiczenia 1–600 s (wszystkie w pełnych sekundach), liczba powtórzeń 1–100 oraz wybór włączenia lub wyłączenia losowego startu. Przedział losowania 1–5 s jest stały; wartości losowane są co 0,01 s. Nieprzerwany przebieg zaczyna się przygotowaniem, jeśli ma dodatni czas, po którym następuje zadana liczba cykli obejmujących opcjonalne Standby, pełny czas ćwiczenia i odpoczynek, jeśli ma dodatni czas, także po ostatnim ćwiczeniu. Przygotowanie i odpoczynek 0 s są pomijane, również przy wznowieniu i restarcie; po ostatnim ćwiczeniu z odpoczynkiem 0 s przebieg kończy się od razu. Losowe oczekiwanie nie skraca ćwiczenia.
 
-Użytkownik rozpoznaje fazy po sygnałach: Standby — dwa krótkie dźwięki w innej tonacji niż start ćwiczenia, ćwiczenie — jeden długi dźwięk, odpoczynek — jeden krótki dźwięk. Odliczanie losowego oczekiwania 1–5 s rozpoczyna się dopiero po zakończeniu drugiego krótkiego dźwięku Standby. Czas odtwarzania sygnałów nie wlicza się do tego opóźnienia; po jego upływie rozpoczyna się długi sygnał startu ćwiczenia. Przygotowanie nie ma dźwięku. Podczas Standby główna sekcja i sekcja aktualnej fazy pokazują ten napis bez czasu. Dla pozostałych faz odliczanie odbywa się wyłącznie w głównej sekcji, a sekcja aktualnej fazy pokazuje stały pełny skonfigurowany czas. Dodatkowy podgląd pokazuje nazwę i pełny czas następnej fazy bez ujawniania wylosowanego opóźnienia Standby; podczas ostatniego odpoczynku zapowiada zakończenie przebiegu. Tło aktywnej fazy ma kolor wybrany dla niej z predefiniowanej palety. Przed startem użytkownik może odsłuchać sygnały przy odpowiednich ustawieniach wraz z informacją o ich znaczeniu.
+Użytkownik rozpoznaje fazy po sygnałach: Standby — dwa krótkie dźwięki w innej tonacji niż start ćwiczenia, ćwiczenie — jeden długi dźwięk, dodatni odpoczynek — jeden krótki dźwięk. Pominięty odpoczynek 0 s nie emituje sygnału. Odliczanie losowego oczekiwania 1–5 s rozpoczyna się dopiero po zakończeniu drugiego krótkiego dźwięku Standby. Czas odtwarzania sygnałów nie wlicza się do tego opóźnienia; po jego upływie rozpoczyna się długi sygnał startu ćwiczenia. Przygotowanie nie ma dźwięku. Podczas Standby główna sekcja i sekcja aktualnej fazy pokazują ten napis bez czasu. Dla pozostałych faz odliczanie odbywa się wyłącznie w głównej sekcji, a sekcja aktualnej fazy pokazuje stały pełny skonfigurowany czas. Dodatkowy podgląd pokazuje nazwę i pełny czas następnej rzeczywistej fazy bez ujawniania wylosowanego opóźnienia Standby; podczas ostatniego dodatniego odpoczynku zapowiada zakończenie przebiegu, a przy odpoczynku 0 s zapowiada je już podczas ostatniego ćwiczenia. Tło aktywnej fazy ma kolor wybrany dla niej z predefiniowanej palety. Przed startem użytkownik może odsłuchać sygnały przy odpowiednich ustawieniach wraz z informacją o ich znaczeniu.
 
 Wznowienie pauzy w Standby lub ćwiczeniu dodaje pełne przygotowanie i rozpoczyna to samo powtórzenie od początku, zachowując ukończone powtórzenia; przy włączonym losowym starcie opóźnienie losowane jest ponownie i odliczane dopiero po zakończeniu obu ponownie odtworzonych krótkich dźwięków Standby. Wznowienie przygotowania lub odpoczynku kontynuuje pozostały czas bez ponownego sygnału. Przejście do innej aplikacji lub blokada ekranu powoduje pauzę wymagającą ręcznego wznowienia po powrocie według tych samych reguł. Anulowanie wraca do konfiguracji z zachowaniem ustawień, a ponowne uruchomienie rozpoczyna cały przebieg od przygotowania.
 
