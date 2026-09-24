@@ -56,11 +56,12 @@ Never commit `.env` or `.dev.vars`. `SUPABASE_URL` and `SUPABASE_KEY` are server
 
 For each change:
 
-1. Create a dedicated branch from `main`.
-2. Implement and verify the change.
-3. Commit the changes on that branch.
-4. Open a pull request targeting `main`.
-5. Merge the pull request after review and passing CI.
+1. If you are already on other branch than 'main' continu on it.
+2. If you are on 'main' branch thatn create a dedicated branch from `main`.
+3. Implement and verify the change.
+4. Commit the changes on that branch.
+5. Open a pull request targeting `main`.
+6. Merge the pull request after review and passing CI.
 
 Do not commit changes directly to `main`.
 
