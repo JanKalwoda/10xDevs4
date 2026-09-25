@@ -70,12 +70,16 @@ export function firstDrillPhase(configuration: DrillConfiguration): DrillPhase {
         return { kind: "preparation", durationSeconds: configuration.preparationSeconds };
     }
 
-    return { kind: "exercise", durationSeconds: configuration.exerciseSeconds, repetition: 1 };
+    return configuration.randomStartEnabled ? { kind: "standby", repetition: 1 } : { kind: "exercise", durationSeconds: configuration.exerciseSeconds, repetition: 1 };
 }
 
 export function nextDrillPhase(configuration: DrillConfiguration, current: DrillPhase): DrillPhase | null {
     if (current.kind === "preparation") {
-        return { kind: "exercise", durationSeconds: configuration.exerciseSeconds, repetition: 1 };
+        return configuration.randomStartEnabled ? { kind: "standby", repetition: 1 } : { kind: "exercise", durationSeconds: configuration.exerciseSeconds, repetition: 1 };
+    }
+
+    if (current.kind === "standby") {
+        return { kind: "exercise", durationSeconds: configuration.exerciseSeconds, repetition: current.repetition };
     }
 
     if (current.kind === "exercise") {
@@ -90,6 +94,8 @@ export function nextDrillPhase(configuration: DrillConfiguration, current: Drill
     } else if (current.repetition === configuration.repetitions) {
         return null;
     }
+
+    if (configuration.randomStartEnabled) return { kind: "standby", repetition: current.repetition + 1 };
 
     return {
         kind: "exercise",

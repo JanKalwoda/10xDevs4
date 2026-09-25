@@ -6,6 +6,7 @@ export interface DrillConfiguration {
     randomStartEnabled: boolean;
 }
 
-export type DrillPhaseKind = "preparation" | "exercise" | "rest";
+export type DrillPhaseKind = "preparation" | "standby" | "exercise" | "rest";
 
-export type DrillPhase = { kind: "preparation"; durationSeconds: number } | { kind: "exercise" | "rest"; durationSeconds: number; repetition: number };
+export type DrillPhase =
+    { kind: "preparation"; durationSeconds: number } | { kind: "standby"; repetition: number } | { kind: "exercise" | "rest"; durationSeconds: number; repetition: number };

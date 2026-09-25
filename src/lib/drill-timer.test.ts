@@ -127,3 +127,20 @@ void test("random-start sample spans inclusive 1.00–5.00 seconds in centisecon
         500,
     );
 });
+
+void test("random start inserts one separate Standby before every exercise", () => {
+    const random = { ...defaults, randomStartEnabled: true, preparationSeconds: 0, restSeconds: 0 };
+    assert.deepEqual(phases(random), [
+        { kind: "standby", repetition: 1 },
+        { kind: "exercise", durationSeconds: 4, repetition: 1 },
+        { kind: "standby", repetition: 2 },
+        { kind: "exercise", durationSeconds: 4, repetition: 2 },
+        { kind: "standby", repetition: 3 },
+        { kind: "exercise", durationSeconds: 4, repetition: 3 },
+    ]);
+    const one = phases({ ...random, repetitions: 1, restSeconds: 2 });
+    assert.deepEqual(one.at(-1), { kind: "rest", durationSeconds: 2, repetition: 1 });
+    const hundred = phases({ ...random, repetitions: 100 });
+    assert.equal(hundred.filter((phase) => phase.kind === "standby").length, 100);
+    assert.deepEqual(hundred.at(-1), { kind: "exercise", durationSeconds: 4, repetition: 100 });
+});

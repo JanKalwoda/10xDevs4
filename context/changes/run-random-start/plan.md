@@ -224,19 +224,19 @@ No database or API migration. Existing S-01 settings stay in memory; the new swi
 
 #### Automated
 
-- [x] 1.1 `npm run test` covers switch parsing and inclusive 1.00/5.00 s boundaries in 0.01 s steps; existing S-01 zero preparation/rest, final positive rest, and one/100 repetition tests still pass.
-- [x] 1.2 `npm run lint` and `npx astro check` pass after the model and form changes.
+- [x] 1.1 `npm run test` covers switch parsing and inclusive 1.00/5.00 s boundaries in 0.01 s steps; existing S-01 zero preparation/rest, final positive rest, and one/100 repetition tests still pass. — 2731257
+- [x] 1.2 `npm run lint` and `npx astro check` pass after the model and form changes. — 2731257
 
 #### Manual
 
-- [x] 1.3 The form exposes a clearly labeled, initially off random-start option with a fixed 1–5 s description.
+- [x] 1.3 The form exposes a clearly labeled, initially off random-start option with a fixed 1–5 s description. — 2731257
 
 ### Phase 2: Signal and timeline engine
 
 #### Automated
 
-- [ ] 2.1 `npm run test` passes sequence checks for one fresh Standby sample per repetition, zero preparation/rest, final positive rest, and one/100 repetitions, plus deterministic clock/audio-scheduler checks for cue order, full Standby wait, exact exercise/rest duration, audio failure before/after the second Standby sound ends and during exercise/rest, hide/resume from repetition 2 and the final repetition without returning to 1, cancellation, delayed callbacks, and the ≤0.2 s programmed-schedule comparison.
-- [ ] 2.2 `npm run lint` and `npx astro check` pass with the audio and timeline modules.
+- [x] 2.1 `npm run test` passes sequence checks for one fresh Standby sample per repetition, zero preparation/rest, final positive rest, and one/100 repetitions, plus deterministic clock/audio-scheduler checks for cue order, full Standby wait, exact exercise/rest duration, audio failure before/after the second Standby sound ends and during exercise/rest, hide/resume from repetition 2 and the final repetition without returning to 1, cancellation, delayed callbacks, and the ≤0.2 s programmed-schedule comparison.
+- [x] 2.2 `npm run lint` and `npx astro check` pass with the audio and timeline modules.
 
 ### Phase 3: Running view integration and acceptance
 
