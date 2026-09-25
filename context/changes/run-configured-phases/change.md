@@ -1,9 +1,9 @@
 ---
 change_id: run-configured-phases
 title: Run configured phases
-status: planned
+status: plan_reviewed
 created: 2026-09-24
-updated: 2026-09-24
+updated: 2026-09-25
 archived_at: null
 ---
 

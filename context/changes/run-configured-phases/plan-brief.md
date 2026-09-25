@@ -20,6 +20,7 @@ At `/`, a guest first sees a configuration view with editable times, repetitions
 | --- | --- | --- | --- |
 | Numeric limits | Preparation/rest 0–600 s; exercise 1–600 s; repetitions 1–100; whole seconds | Defines the validated inputs | PRD FR-001 |
 | Time entry | Strict `m:ss`, e.g. `0:05`, `3:15`, `10:00`; reject `5`, `3:5`, and seconds ≥ 60 | Gives one unambiguous entry format | Plan interview |
+| Phone input | Time fields use `type="text"` and `inputMode="text"`; acceptance uses a real phone keyboard | Ensures users can enter the required colon, correct errors, and start the timer | Plan review F2 |
 | Sequence | Preparation once when positive; each exercise has rest only when rest is positive; skip every rest at `0:00` | Matches the updated full-run outcome | PRD FR-003 / roadmap S-01 |
 | Defaults | `0:05`/`0:04`/`0:02`/3 | Runs the short PRD example immediately | Plan interview |
 | Invalid fields | Retain the entry, show an error at that field, block start | Makes the correction clear | Plan interview |

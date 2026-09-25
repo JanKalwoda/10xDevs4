@@ -85,7 +85,7 @@ Build the accessible form that validates settings and hands one immutable config
 
 **Intent**: Let guests enter all four S-01 values and understand errors beside the affected fields.
 
-**Contract**: Receive editable values initialized to `0:05`/`0:04`/`0:02`/3 by the owning app view; use English labels and field-level error messages, labeled text fields with numeric input hints for `:`, a labeled whole-number repetition field, and a Start button. State the `m:ss` format and FR-001 ranges. On submission, call the phase-model parser; retain invalid entries and the configuration view, show field-specific errors, and emit only a valid immutable configuration via a typed callback. The form is absent while a run is active.
+**Contract**: Receive editable values initialized to `0:05`/`0:04`/`0:02`/3 by the owning app view; use English labels and field-level error messages, labeled time fields with `type="text"` and `inputMode="text"` so the keyboard supports entering `:`, a labeled whole-number repetition field, and a Start button. State the `m:ss` format and FR-001 ranges. On submission, call the phase-model parser; retain invalid entries and the configuration view, show field-specific errors, and emit only a valid immutable configuration via a typed callback. The form is absent while a run is active.
 
 ### Success Criteria:
 
@@ -153,6 +153,7 @@ Replace the starter home with a complete, responsive S-01 timer flow.
 - At `/`, the configuration form and running timer never appear together: valid Start replaces the form, invalid Start keeps it visible, and return from “Completed” restores the last-used values.
 - The S-01 running view shows the current phase, countdown, and repetition without a next-phase preview.
 - With preparation `0:00`, exercise `0:01`, rest `0:00`, and two repetitions, the visible sequence is Exercise 1 → Exercise 2 → “Completed”, with no Rest view.
+- On a real phone browser, enter a complete `m:ss` value including `:`, correct an invalid entry, and start the timer successfully using the on-screen keyboard.
 
 **Implementation Note**: After automated verification, obtain human confirmation of the browser checks before closing this phase.
 
@@ -175,7 +176,7 @@ Replace the starter home with a complete, responsive S-01 timer flow.
 2. Run `0:00`/`0:01`/`0:01`/1 and verify exercise begins immediately, followed by one rest and completion.
 3. Run `0:00`/`0:01`/`0:00`/2 and verify Exercise 1 → Exercise 2 → “Completed” with no Rest view.
 4. Try `5`, `3:5`, `0:60`, empty, and out-of-range values in the time fields and verify that each field keeps its input while start is prevented.
-5. Repeat the short flow on a phone browser or viewport and confirm readable layout without horizontal scroll.
+5. Repeat the short flow in a browser on a real phone and confirm readable layout without horizontal scroll. Using the on-screen keyboard, enter a complete `m:ss` value including `:`, correct an invalid entry, and start the timer successfully. Record the phone/browser used; viewport emulation alone does not satisfy this check.
 6. Check English labels and errors throughout the flow; inspect the missing-Supabase warning with credentials absent.
 7. Confirm the form disappears after valid Start, no next-phase panel appears during S-01, and return from “Completed” restores the last-used values on `/`.
 
@@ -229,3 +230,4 @@ No database or API migration. The public `/` page replaces starter content; exis
 - [ ] 3.8 At `/`, the configuration form and running timer never appear together: valid Start replaces the form, invalid Start keeps it visible, and return from “Completed” restores the last-used values.
 - [ ] 3.9 The S-01 running view shows the current phase, countdown, and repetition without a next-phase preview.
 - [ ] 3.10 With preparation `0:00`, exercise `0:01`, rest `0:00`, and two repetitions, the visible sequence is Exercise 1 → Exercise 2 → “Completed”, with no Rest view.
+- [ ] 3.11 On a real phone browser, enter a complete `m:ss` value including `:`, correct an invalid entry, and start the timer successfully using the on-screen keyboard.
