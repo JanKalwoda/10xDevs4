@@ -217,17 +217,17 @@ No database or API migration. The public `/` page replaces starter content; exis
 
 #### Automated
 
-- [ ] 3.1 `npm run test`, `npm run lint`, `npx astro check`, and `npm run build` pass.
-- [ ] 3.2 The existing `npm run smoke` home check still returns 200 against a running production preview when its local Supabase prerequisites are available.
+- [x] 3.1 `npm run test`, `npm run lint`, `npx astro check`, and `npm run build` pass.
+- [x] 3.2 The existing `npm run smoke` home check still returns 200 against a running production preview when its local Supabase prerequisites are available.
 
 #### Manual
 
-- [ ] 3.3 In a visible desktop browser, default `0:05`/`0:04`/`0:02`/3 runs as preparation once, then three exercise/rest pairs, and shows “Completed” only after rest 3; returning to settings works.
-- [ ] 3.4 Preparation `0:00` with one repetition starts at exercise 1 and completes after its positive rest; exercise `0:01`–`10:00`, rest `0:00`–`10:00`, and 1–100 repetitions remain enforceable.
-- [ ] 3.5 Empty, bare seconds (`5`), malformed `m:ss` (`3:5`, `0:60`), negative, nonnumeric, and out-of-range values show the affected field's error, retain the entry, and do not start the timer.
-- [ ] 3.6 On a phone viewport, fields and the active countdown remain readable and usable without horizontal scrolling.
-- [ ] 3.7 Configuration, active run, completion, validation errors, and the missing-Supabase warning use English user-facing text.
-- [ ] 3.8 At `/`, the configuration form and running timer never appear together: valid Start replaces the form, invalid Start keeps it visible, and return from “Completed” restores the last-used values.
-- [ ] 3.9 The S-01 running view shows the current phase, countdown, and repetition without a next-phase preview.
-- [ ] 3.10 With preparation `0:00`, exercise `0:01`, rest `0:00`, and two repetitions, the visible sequence is Exercise 1 → Exercise 2 → “Completed”, with no Rest view.
-- [ ] 3.11 On a real phone browser, enter a complete `m:ss` value including `:`, correct an invalid entry, and start the timer successfully using the on-screen keyboard.
+- [x] 3.3 In a visible desktop browser, default `0:05`/`0:04`/`0:02`/3 runs as preparation once, then three exercise/rest pairs, and shows “Completed” only after rest 3; returning to settings works.
+- [x] 3.4 Preparation `0:00` with one repetition starts at exercise 1 and completes after its positive rest; exercise `0:01`–`10:00`, rest `0:00`–`10:00`, and 1–100 repetitions remain enforceable.
+- [x] 3.5 Empty, bare seconds (`5`), malformed `m:ss` (`3:5`, `0:60`), negative, nonnumeric, and out-of-range values show the affected field's error, retain the entry, and do not start the timer.
+- [x] 3.6 On a phone viewport, fields and the active countdown remain readable and usable without horizontal scrolling.
+- [x] 3.7 Configuration, active run, completion, validation errors, and the missing-Supabase warning use English user-facing text.
+- [x] 3.8 At `/`, the configuration form and running timer never appear together: valid Start replaces the form, invalid Start keeps it visible, and return from “Completed” restores the last-used values.
+- [x] 3.9 The S-01 running view shows the current phase, countdown, and repetition without a next-phase preview.
+- [x] 3.10 With preparation `0:00`, exercise `0:01`, rest `0:00`, and two repetitions, the visible sequence is Exercise 1 → Exercise 2 → “Completed”, with no Rest view.
+- [x] 3.11 On a real phone browser, enter a complete `m:ss` value including `:`, correct an invalid entry, and start the timer successfully using the on-screen keyboard.
