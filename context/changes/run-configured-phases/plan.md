@@ -203,15 +203,15 @@ No database or API migration. The public `/` page replaces starter content; exis
 
 #### Automated
 
-- [x] 1.1 `npm run test` passes the model cases, including skipped preparation/rest at `0:00`, final positive rest, strict `m:ss`, and numeric boundaries.
-- [x] 1.2 `npm run lint` and `npx astro check` pass after the new types and helper are added.
+- [x] 1.1 `npm run test` passes the model cases, including skipped preparation/rest at `0:00`, final positive rest, strict `m:ss`, and numeric boundaries. — d30e1be
+- [x] 1.2 `npm run lint` and `npx astro check` pass after the new types and helper are added. — d30e1be
 
 ### Phase 2: Configuration form
 
 #### Automated
 
-- [ ] 2.1 `npm run test` continues to pass the shared parser and phase sequence cases.
-- [ ] 2.2 `npm run lint` and `npx astro check` pass with the form component.
+- [x] 2.1 `npm run test` continues to pass the shared parser and phase sequence cases. — 39972c5
+- [x] 2.2 `npm run lint` and `npx astro check` pass with the form component. — 39972c5
 
 ### Phase 3: Public timer and completion flow
 
