@@ -3,7 +3,7 @@ project: "DryFire Drill Timer"
 version: 1
 status: draft
 created: 2026-09-23
-updated: 2026-09-23
+updated: 2026-09-25
 prd_version: 1
 main_goal: speed
 top_blocker: capacity
@@ -30,6 +30,8 @@ milestone_status: open
 
 Obecny timer HIIT pozwala ustawić fazy i powtórzenia, lecz jego przewidywalny start umożliwia przygotowanie reakcji przed sygnałem. Aplikacja zachowuje potrzebny przebieg, dodając osobne, ukryte przed użytkownikiem losowe opóźnienie przed każdym ćwiczeniem.
 
+**Zasada przekrojowa interfejsu:** Cały tekst widoczny dla użytkownika jest po angielsku, również nazwy faz, etykiety, komunikaty walidacji i błędów, uwierzytelnianie oraz zakończenie przebiegu. Opisy roadmapy pozostają po polsku.
+
 ## North star
 
 **S-02: Użytkownik przechodzi pełne ćwiczenie z losowym startem i sygnałami** — ten przepływ usuwa główny brak obecnego timera opisany w wizji oraz realizuje pierwsze kryterium sukcesu.
@@ -40,7 +42,7 @@ Obecny timer HIIT pozwala ustawić fazy i powtórzenia, lecz jego przewidywalny 
 
 | ID | Change ID | Outcome (user can …) | Prerequisites | PRD refs | Status |
 | --- | --- | --- | --- | --- | --- |
-| S-01 | run-configured-phases | Użytkownik ustawia czasy i wykonuje pełny przebieg faz bez losowego startu | — | US-01, FR-001, FR-003, FR-005 | ready |
+| S-01 | run-configured-phases | Użytkownik przechodzi z osobnego formularza do pełnego przebiegu faz bez losowego startu | — | US-01, FR-001, FR-003, FR-005 | in-progress |
 | S-02 | run-random-start | Użytkownik wykonuje pełny przebieg z osobnym losowym startem i sygnałami | S-01 | US-01, FR-002, FR-003, FR-004, FR-005 | proposed |
 | S-03 | preview-phase-signals | Użytkownik odsłuchuje sygnały i rozumie ich znaczenie przed uruchomieniem | S-02 | US-01, FR-004 | proposed |
 | S-04 | view-three-phase-sections | Użytkownik widzi odliczanie, aktualną i następną fazę w trzech sekcjach | S-02 | US-02, FR-005, FR-013 | proposed |
@@ -83,21 +85,21 @@ Brak osobnych Foundations. Konfigurację danych, ochronę własności i weryfika
 
 ## Slices
 
-### S-01: Pełny przebieg podstawowych faz
+### S-01: Konfiguracja i pełny przebieg podstawowych faz
 
-- **Outcome:** Użytkownik ustawia dozwolone czasy i liczbę powtórzeń, po czym wykonuje jednorazowe przygotowanie oraz pełną liczbę cykli ćwiczenia i odpoczynku, łącznie z ostatnim odpoczynkiem.
+- **Outcome:** Na `/` użytkownik widzi osobny formularz czasu i powtórzeń z przyciskiem Start. Poprawny start zastępuje formularz widokiem bieżącej fazy, odliczania i powtórzenia. Przygotowanie i odpoczynek ustawione na 0 s są pomijane w każdym właściwym miejscu; dodatni odpoczynek pozostaje także po ostatnim ćwiczeniu, a przy 0 s przebieg kończy się po ostatnim ćwiczeniu. Po zakończeniu można wrócić do formularza z ostatnimi wartościami. Podgląd następnej fazy wprowadza S-04.
 - **Change ID:** run-configured-phases
 - **PRD refs:** US-01, FR-001, FR-003, FR-005
 - **Prerequisites:** —
 - **Parallel with:** S-09
 - **Blockers:** —
 - **Unknowns:** —
-- **Risk:** Poprawny przebieg i odliczanie muszą być dostępne przed dodaniem losowego startu, by odróżnić błędy faz od błędów losowania.
-- **Status:** ready
+- **Risk:** Poprawny przebieg i odliczanie, w tym pominięcie odpoczynku 0 s w każdym powtórzeniu, muszą być dostępne przed dodaniem losowego startu, by odróżnić błędy faz od błędów losowania.
+- **Status:** in-progress
 
 ### S-02: Losowy start w pełnym przebiegu
 
-- **Outcome:** Użytkownik uruchamia przebieg, w którym każde ćwiczenie poprzedza nowe, ukryte oczekiwanie 1–5 s liczone po dwóch sygnałach Standby, a rozpoczęcie ćwiczenia i odpoczynku ma ustalone dźwięki.
+- **Outcome:** Użytkownik uruchamia przebieg, w którym każde ćwiczenie poprzedza nowe, ukryte oczekiwanie 1–5 s liczone po dwóch sygnałach Standby, a rozpoczęcie ćwiczenia i dodatniego odpoczynku ma ustalone dźwięki; odpoczynek 0 s nie emituje sygnału.
 - **Change ID:** run-random-start
 - **PRD refs:** US-01, FR-002, FR-003, FR-004, FR-005
 - **Prerequisites:** S-01
@@ -122,14 +124,14 @@ Brak osobnych Foundations. Konfigurację danych, ochronę własności i weryfika
 
 ### S-04: Czytelny widok bieżącej i następnej fazy
 
-- **Outcome:** Użytkownik widzi trzy sekcje: główne odliczanie lub Standby, stały pełny czas bieżącej fazy oraz nazwę i pełny czas następnej fazy, także przy pominiętych fazach i końcu przebiegu.
+- **Outcome:** Użytkownik widzi trzy sekcje: główne odliczanie lub Standby, stały pełny czas bieżącej fazy oraz nazwę i pełny czas następnej rzeczywistej fazy, z pominięciem przygotowania lub odpoczynku 0 s i z informacją o końcu przebiegu.
 - **Change ID:** view-three-phase-sections
 - **PRD refs:** US-02, FR-005, FR-013
 - **Prerequisites:** S-02
 - **Parallel with:** S-03, S-06, S-07, S-08, S-09
 - **Blockers:** —
 - **Unknowns:** —
-- **Risk:** Podgląd nie może ujawnić długości oczekiwania Standby ani sugerować fazy po ostatnim odpoczynku.
+- **Risk:** Podgląd nie może ujawnić długości oczekiwania Standby ani sugerować pominiętego odpoczynku 0 s lub fazy po zakończeniu przebiegu.
 - **Status:** proposed
 
 ### S-05: Niezależne kolory faz
