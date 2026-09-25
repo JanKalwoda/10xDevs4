@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
-import { firstDrillPhase, nextDrillPhase, parseDrillConfig } from "./drill-timer.ts";
+import { firstDrillPhase, nextDrillPhase, parseDrillConfig, sampleRandomStartCentiseconds } from "./drill-timer.ts";
 import type { DrillConfiguration, DrillPhase } from "../types";
 
 const defaults: DrillConfiguration = {
@@ -9,6 +9,7 @@ const defaults: DrillConfiguration = {
     exerciseSeconds: 4,
     restSeconds: 2,
     repetitions: 3,
+    randomStartEnabled: false,
 };
 
 function phases(configuration: DrillConfiguration): DrillPhase[] {
@@ -60,28 +61,30 @@ void test("100 repetitions end at repetition 100", () => {
 });
 
 void test("valid m:ss boundaries parse into whole seconds", () => {
-    assert.deepEqual(parseDrillConfig({ preparation: "0:00", exercise: "0:01", rest: "10:00", repetitions: "100" }), {
+    assert.deepEqual(parseDrillConfig({ preparation: "0:00", exercise: "0:01", rest: "10:00", repetitions: "100", randomStartEnabled: false }), {
         valid: true,
         configuration: {
             preparationSeconds: 0,
             exerciseSeconds: 1,
             restSeconds: 600,
             repetitions: 100,
+            randomStartEnabled: false,
         },
     });
-    assert.deepEqual(parseDrillConfig({ preparation: "10:00", exercise: "10:00", rest: "0:00", repetitions: "1" }), {
+    assert.deepEqual(parseDrillConfig({ preparation: "10:00", exercise: "10:00", rest: "0:00", repetitions: "1", randomStartEnabled: false }), {
         valid: true,
         configuration: {
             preparationSeconds: 600,
             exerciseSeconds: 600,
             restSeconds: 0,
             repetitions: 1,
+            randomStartEnabled: false,
         },
     });
 });
 
 void test("invalid fields produce their own errors without coercion", () => {
-    const validInput = { preparation: "0:05", exercise: "0:04", rest: "0:02", repetitions: "3" };
+    const validInput = { preparation: "0:05", exercise: "0:04", rest: "0:02", repetitions: "3", randomStartEnabled: false };
     const invalidTimes = ["", "5", "3:5", "0:60", "10:01", "-1:00", "1.5:00", "abc", "01:00"];
 
     for (const field of ["preparation", "exercise", "rest"] as const) {
@@ -101,4 +104,26 @@ void test("invalid fields produce their own errors without coercion", () => {
         assert.equal(result.valid, false, `repetitions accepted ${JSON.stringify(repetitions)}`);
         assert.ok(result.errors.repetitions);
     }
+});
+
+void test("random-start switch is retained in the parsed configuration", () => {
+    const input = { preparation: "0:05", exercise: "0:04", rest: "0:02", repetitions: "3", randomStartEnabled: true };
+    const result = parseDrillConfig(input);
+    if (!result.valid) assert.fail("Expected a valid configuration");
+    assert.equal(result.configuration.randomStartEnabled, true);
+});
+
+void test("random-start sample spans inclusive 1.00–5.00 seconds in centisecond steps", () => {
+    for (let centiseconds = 100; centiseconds <= 500; centiseconds++) {
+        const sample = sampleRandomStartCentiseconds(() => (centiseconds - 100 + 0.5) / 401);
+        assert.equal(sample, centiseconds);
+    }
+    assert.equal(
+        sampleRandomStartCentiseconds(() => 0),
+        100,
+    );
+    assert.equal(
+        sampleRandomStartCentiseconds(() => 1 - Number.EPSILON),
+        500,
+    );
 });

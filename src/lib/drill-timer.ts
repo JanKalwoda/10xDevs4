@@ -5,6 +5,7 @@ export interface DrillConfigInput {
     exercise: string;
     rest: string;
     repetitions: string;
+    randomStartEnabled: boolean;
 }
 
 export type DrillConfigErrors = Partial<Record<keyof DrillConfigInput, string>>;
@@ -55,8 +56,13 @@ export function parseDrillConfig(input: DrillConfigInput): DrillConfigResult {
             exerciseSeconds,
             restSeconds,
             repetitions,
+            randomStartEnabled: input.randomStartEnabled,
         },
     };
+}
+
+export function sampleRandomStartCentiseconds(random: () => number = Math.random): number {
+    return 100 + Math.floor(random() * 401);
 }
 
 export function firstDrillPhase(configuration: DrillConfiguration): DrillPhase {

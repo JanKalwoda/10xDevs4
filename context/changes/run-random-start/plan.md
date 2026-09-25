@@ -224,12 +224,12 @@ No database or API migration. Existing S-01 settings stay in memory; the new swi
 
 #### Automated
 
-- [ ] 1.1 `npm run test` covers switch parsing and inclusive 1.00/5.00 s boundaries in 0.01 s steps; existing S-01 zero preparation/rest, final positive rest, and one/100 repetition tests still pass.
-- [ ] 1.2 `npm run lint` and `npx astro check` pass after the model and form changes.
+- [x] 1.1 `npm run test` covers switch parsing and inclusive 1.00/5.00 s boundaries in 0.01 s steps; existing S-01 zero preparation/rest, final positive rest, and one/100 repetition tests still pass.
+- [x] 1.2 `npm run lint` and `npx astro check` pass after the model and form changes.
 
 #### Manual
 
-- [ ] 1.3 The form exposes a clearly labeled, initially off random-start option with a fixed 1–5 s description.
+- [x] 1.3 The form exposes a clearly labeled, initially off random-start option with a fixed 1–5 s description.
 
 ### Phase 2: Signal and timeline engine
 

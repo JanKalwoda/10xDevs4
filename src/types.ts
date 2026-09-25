@@ -3,6 +3,7 @@ export interface DrillConfiguration {
     exerciseSeconds: number;
     restSeconds: number;
     repetitions: number;
+    randomStartEnabled: boolean;
 }
 
 export type DrillPhaseKind = "preparation" | "exercise" | "rest";

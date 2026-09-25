@@ -10,6 +10,7 @@ const DEFAULT_VALUES: DrillConfigInput = {
     exercise: "0:04",
     rest: "0:02",
     repetitions: "3",
+    randomStartEnabled: false,
 };
 
 export default function DrillApp() {
