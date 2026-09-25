@@ -12,7 +12,7 @@ S-01 is implemented and merged, although the roadmap still labels it `in-progres
 
 The configuration view has a guest-accessible random-start switch, off by default, with a fixed, non-editable 1–5 s range. With it on, every exercise gets a separately sampled value from the 401 centisecond values from 1.00 through 5.00 s. Standby appears without a countdown while two short, differently pitched signals play. The random wait starts at the end of the second signal; at its end a long exercise-start signal begins and the full exercise time starts. Every positive rest starts with one short signal, including the last rest. Preparation and skipped 0 s rests are silent. With random start off, the S-01 sequence remains, with exercise and positive-rest signals. A completed run still ends after the last actual phase.
 
-If audio cannot run, the timer continues silently with a visible English warning; Standby's random wait begins on entry because no Standby sounds can finish. Hiding the page stops active and queued signals and pauses the run. Returning does not resume it automatically. Manual resume preserves completed repetitions and starts the interrupted repetition again after a full preparation phase when its configured duration is positive; zero preparation is skipped. A currently interrupted preparation or rest keeps its remaining time and resumes without repeating its entry signal. This is the minimum pause behavior needed by the S-02 visibility decision; S-06 remains the full pause-control slice.
+If audio cannot run at Start, the timer continues silently with a visible English warning; Standby's random wait begins on entry because no Standby sounds can finish. If audio fails mid-run, the controller rebases the remaining phase time onto the silent clock. During Standby sounds, it starts the full sampled wait at failure; after the second sound has ended, it preserves only the remaining sampled wait. Hiding the page stops active and queued signals and pauses the run. Returning does not resume it automatically. Manual resume preserves completed repetitions and starts the interrupted repetition again after a full preparation phase when its configured duration is positive; zero preparation is skipped. A currently interrupted preparation or rest keeps its remaining time and resumes without repeating its entry signal. This is the minimum pause behavior needed by the S-02 visibility decision; S-06 remains the full pause-control slice.
 
 ### Key Discoveries:
 
@@ -30,37 +30,37 @@ If audio cannot run, the timer continues silently with a visible English warning
 
 ## Implementation Approach
 
-Extend the pure sequence and configuration model so Standby is inserted before each exercise only when enabled. Inject a random integer source in model checks and keep the chosen centisecond value private to the run controller. Give the run controller one monotonic timeline shared with audio scheduling: schedule each signal at its phase boundary on the Web Audio clock when available, derive Standby's deadline from the second signal's scheduled end, and start exercise at the scheduled long-signal onset. Rendering reads the current phase but never drives sound onset. Use a silent monotonic-clock fallback and a visible warning when audio is unavailable. On page hide, cancel future sound sources, freeze the current run position, and require an explicit resume action on return. Preserve the existing React island, immutable start snapshot, and completion behavior.
+Add the configuration switch and pure centisecond sampler first, while keeping the S-01 phase type and runner compatible. In Phase 2, extend the sequence with Standby and adapt the timer to the new phase shape in the same phase. Keep the chosen centisecond value private to the run controller. Give the run controller one monotonic timeline shared with audio scheduling: schedule each signal at its phase boundary on the Web Audio clock when available, derive Standby's deadline from the second signal's scheduled end, and start exercise at the scheduled long-signal onset. Rendering reads the current phase but never drives sound onset. Use a silent monotonic-clock fallback and a visible warning when audio is unavailable. On page hide, cancel future sound sources, freeze the current run position, and require an explicit resume action on return. Preserve the existing React island, immutable start snapshot, and completion behavior.
 
 ## Critical Implementation Details
 
 ### Timing & lifecycle
 
-The second Standby sound's **end**, not the start of Standby or the second sound's onset, anchors the sampled 1–5 s wait. Do not add its duration to exercise time. Scheduled audio sources must be cancelled on hide, unmount, completion, or a switch to silent mode; otherwise a queued cue can fire after the visible run pauses. A callback delayed across multiple boundaries must not replay obsolete cues or shift deadlines to callback time.
+The second Standby sound's **end**, not the start of Standby or the second sound's onset, anchors the sampled 1–5 s wait. Do not add its duration to exercise time. Scheduled audio sources must be cancelled on hide, unmount, completion, or a switch to silent mode; otherwise a queued cue can fire after the visible run pauses. When audio fails, capture remaining time against the last trustworthy audio-clock position and rebase it to the silent monotonic clock; never compare raw timestamps from different clocks. A callback delayed across multiple boundaries must not replay obsolete cues or shift deadlines to callback time.
 
 ## Phase 1: Random-start model and configuration
 
 ### Overview
 
-Add an explicit option and an independently sampled Standby before every exercise while retaining the S-01 sequence when disabled.
+Add an explicit option and pure random sampling without changing the S-01 runner's phase type yet.
 
 ### Changes Required:
 
-#### 1. Shared configuration and phase contracts
+#### 1. Shared configuration contract
 
 **File**: `src/types.ts`
 
-**Intent**: Represent the selected mode and Standby as first-class run state so the form and runner agree about sequence and repetition ownership.
+**Intent**: Represent the selected mode in the validated configuration while keeping the existing phase union compatible with the current timer during this phase.
 
-**Contract**: Extend `DrillConfiguration` with `randomStartEnabled: boolean`; extend `DrillPhase` with a `standby` variant carrying its repetition. Keep the sampled delay in the run controller, outside the display-facing phase value. Preparation, exercise, and rest retain their existing durations and repetition semantics.
+**Contract**: Extend `DrillConfiguration` with `randomStartEnabled: boolean`; leave `DrillPhase` unchanged until Phase 2. Existing preparation, exercise, and rest retain their durations and repetition semantics.
 
-#### 2. Parsing, random sampling, and phase progression
+#### 2. Parsing and random sampling
 
 **File**: `src/lib/drill-timer.ts`; `src/lib/drill-timer.test.ts`
 
-**Intent**: Keep one pure source of truth for the optional Standby sequence and the exact inclusive random range.
+**Intent**: Establish the exact inclusive random range before it is inserted into the phase sequence.
 
-**Contract**: Parse the switch as a boolean without changing existing `m:ss` and repetition validation. Expose a sample operation returning an integer in `[100, 500]` centiseconds from an injectable random source; each entry to Standby samples anew. With the switch on, first phase is preparation when positive, otherwise Standby 1; after preparation and every positive rest, go to the next Standby; after an exercise with rest 0 s, go to the next Standby or completion. Standby advances to exercise of the same repetition. With the switch off, the previous phase sequence is unchanged. Never add Standby after the last actual phase.
+**Contract**: Parse the switch as a boolean without changing existing `m:ss` and repetition validation. Expose a sample operation returning an integer in `[100, 500]` centiseconds from an injectable random source. Do not change `firstDrillPhase`/`nextDrillPhase` or the phase union in this phase; Phase 2 inserts Standby and samples once per entry.
 
 #### 3. Guest configuration control
 
@@ -74,7 +74,7 @@ Add an explicit option and an independently sampled Standby before every exercis
 
 #### Automated Verification:
 
-- `npm run test` covers both switch states, inclusive 1.00/5.00 s boundaries and 0.01 s steps, one new sample per repetition, zero preparation/rest, final positive rest, and one/100 repetitions.
+- `npm run test` covers switch parsing and inclusive 1.00/5.00 s boundaries in 0.01 s steps; existing S-01 zero preparation/rest, final positive rest, and one/100 repetition tests still pass.
 - `npm run lint` and `npx astro check` pass after the model and form changes.
 
 #### Manual Verification:
@@ -91,7 +91,15 @@ Add a browser audio scheduler and a run timeline that keeps cues, hidden waiting
 
 ### Changes Required:
 
-#### 1. Browser audio scheduler
+#### 1. Standby phase and compatible timer
+
+**File**: `src/types.ts`; `src/lib/drill-timer.ts`; `src/lib/drill-timer.test.ts`; `src/components/timer/DrillTimer.tsx`
+
+**Intent**: Insert a separately sampled Standby before every exercise while making the existing mounted timer safe for the new phase shape before the final UI wiring.
+
+**Contract**: Extend `DrillPhase` with `standby` carrying its repetition; keep the sampled delay in the run controller, outside the display-facing phase value. With random start on, enter Standby before every exercise, including the first when preparation is 0; advance Standby to exercise of the same repetition. With it off, preserve the old sequence and positive final rest. Update `DrillTimer` in this same phase so it does not read `durationSeconds` or render a countdown for Standby; Phase 3 completes audio activation, warning, and visible resume wiring.
+
+#### 2. Browser audio scheduler
 
 **File**: `src/lib/drill-audio.ts`
 
@@ -99,15 +107,15 @@ Add a browser audio scheduler and a run timeline that keeps cues, hidden waiting
 
 **Contract**: Own one Web Audio context per active run, initialized or resumed from the user Start action. Define fixed, documented durations, spacing, and pitches: two short Standby sounds in a pitch distinct from exercise, one long exercise sound, and one short rest sound. Expose scheduled start/end times and cancellation of pending sources; report unavailable/suspended/interrupted audio to the run controller. No sound for preparation or a skipped rest.
 
-#### 2. Run timeline and visibility behavior
+#### 3. Run timeline and visibility behavior
 
 **File**: `src/lib/drill-run.ts`; `src/lib/drill-run.test.ts`
 
 **Intent**: Separate time-sensitive transitions from display updates, and make paused or silent behavior deterministic.
 
-**Contract**: Coordinate sequence, sampled wait, scheduled audio boundaries, and a monotonic clock behind injectable clock/audio ports for deterministic Node checks. The Standby wait begins at the scheduled end of the second Standby sound when audio works, or at Standby entry in silent mode. Exercise begins with the long signal's scheduled onset and runs for its full configured duration; positive rest begins with its short signal. Skipped rests emit nothing. On hide, cancel future sources and freeze without auto-resume. On manual resume, preserve completed repetitions; interrupted Standby/exercise restarts that repetition after full configured preparation if positive, while interrupted preparation/rest continues its remaining time without repeating an entry cue. Ignore stale callbacks from a prior run generation. Expose only phase, repetition, and permitted display state to the UI; keep sampled Standby delay/deadline private.
+**Contract**: Coordinate sequence, sampled wait, scheduled audio boundaries, and a monotonic clock behind injectable clock/audio ports for deterministic Node checks. The Standby wait begins at the scheduled end of the second Standby sound when audio works, or at Standby entry in silent mode. Exercise begins with the long signal's scheduled onset and runs for its full configured duration; positive rest begins with its short signal. Skipped rests emit nothing. If audio fails mid-run, cancel pending sources and rebase remaining phase time to the silent clock. Before the second Standby sound ends, begin the full sampled wait at failure; after it ends, retain the remaining sampled wait. Exercise/rest retain their remaining time. On hide, cancel future sources and freeze without auto-resume. On manual resume from Standby/exercise, store the interrupted repetition as an explicit resume target; after full configured preparation if positive, enter that repetition's Standby or exercise directly, without using the ordinary preparation-to-repetition-1 transition. Preserve completed repetitions. Interrupted preparation/rest continues its remaining time without repeating an entry cue. Ignore stale callbacks from a prior run generation. Expose only phase, repetition, and permitted display state to the UI; keep sampled Standby delay/deadline private.
 
-#### 3. Programmatic schedule evidence
+#### 4. Programmatic schedule evidence
 
 **File**: `src/lib/drill-run.test.ts` or a focused browser verification helper under `scripts/`
 
@@ -119,7 +127,7 @@ Add a browser audio scheduler and a run timeline that keeps cues, hidden waiting
 
 #### Automated Verification:
 
-- `npm run test` passes deterministic clock/audio-scheduler checks for cue order, full Standby wait, exact exercise/rest duration, silent fallback, hide/resume, cancellation, delayed callbacks, and the ≤0.2 s programmed-schedule comparison.
+- `npm run test` passes sequence checks for one fresh Standby sample per repetition, zero preparation/rest, final positive rest, and one/100 repetitions, plus deterministic clock/audio-scheduler checks for cue order, full Standby wait, exact exercise/rest duration, audio failure before/after the second Standby sound ends and during exercise/rest, hide/resume from repetition 2 and the final repetition without returning to 1, cancellation, delayed callbacks, and the ≤0.2 s programmed-schedule comparison.
 - `npm run lint` and `npx astro check` pass with the audio and timeline modules.
 
 ---
@@ -161,8 +169,8 @@ Connect the new engine to the existing run view and verify the user flow on desk
 - With preparation and rest at `0:00`, two repetitions and random start on, the sequence is Standby 1 → Exercise 1 → Standby 2 → Exercise 2 → `Completed`, with no rest view or rest sound.
 - With random start off, no Standby appears; exercises and positive rests still signal, and the S-01 countdown/completion behavior remains.
 - Returning from `Completed` restores the last value of the random-start switch along with the time and repetition settings until page reload.
-- With audio unavailable, the run continues silently with a visible English warning; each Standby wait begins immediately on entering Standby and still lasts a sampled 1–5 s.
-- Hiding the page during Standby or exercise stops pending audio and progression; returning requires Resume, preserves completed repetitions, and restarts the interrupted repetition after full preparation if positive. Hiding during preparation/rest resumes its remaining time without repeating a start cue.
+- With audio unavailable at Start, the run continues silently with a visible English warning; each Standby wait begins immediately on entering Standby and still lasts a sampled 1–5 s. A mid-run audio failure shows the same warning and preserves the remaining phase time under the Phase 2 fallback rules.
+- Hiding the page during Standby or exercise in repetition 2 or the final repetition stops pending audio and progression; returning requires Resume, preserves completed repetitions, and restarts that same repetition after full preparation if positive. Hiding during preparation/rest resumes its remaining time without repeating a start cue.
 - Standby never exposes its sampled duration or remaining time; the running view has no next-phase preview and remains usable without horizontal scrolling on desktop and phone.
 
 **Implementation Note**: Human confirmation of the desktop and real-phone checks is required before closing this phase. Record browser/device versions and the limitation of the software-only timing evidence.
@@ -216,7 +224,7 @@ No database or API migration. Existing S-01 settings stay in memory; the new swi
 
 #### Automated
 
-- [ ] 1.1 `npm run test` covers both switch states, inclusive 1.00/5.00 s boundaries and 0.01 s steps, one new sample per repetition, zero preparation/rest, final positive rest, and one/100 repetitions.
+- [ ] 1.1 `npm run test` covers switch parsing and inclusive 1.00/5.00 s boundaries in 0.01 s steps; existing S-01 zero preparation/rest, final positive rest, and one/100 repetition tests still pass.
 - [ ] 1.2 `npm run lint` and `npx astro check` pass after the model and form changes.
 
 #### Manual
@@ -227,7 +235,7 @@ No database or API migration. Existing S-01 settings stay in memory; the new swi
 
 #### Automated
 
-- [ ] 2.1 `npm run test` passes deterministic clock/audio-scheduler checks for cue order, full Standby wait, exact exercise/rest duration, silent fallback, hide/resume, cancellation, delayed callbacks, and the ≤0.2 s programmed-schedule comparison.
+- [ ] 2.1 `npm run test` passes sequence checks for one fresh Standby sample per repetition, zero preparation/rest, final positive rest, and one/100 repetitions, plus deterministic clock/audio-scheduler checks for cue order, full Standby wait, exact exercise/rest duration, audio failure before/after the second Standby sound ends and during exercise/rest, hide/resume from repetition 2 and the final repetition without returning to 1, cancellation, delayed callbacks, and the ≤0.2 s programmed-schedule comparison.
 - [ ] 2.2 `npm run lint` and `npx astro check` pass with the audio and timeline modules.
 
 ### Phase 3: Running view integration and acceptance
@@ -243,6 +251,6 @@ No database or API migration. Existing S-01 settings stay in memory; the new swi
 - [ ] 3.4 With preparation and rest at `0:00`, two repetitions and random start on, the sequence is Standby 1 → Exercise 1 → Standby 2 → Exercise 2 → `Completed`, with no rest view or rest sound.
 - [ ] 3.5 With random start off, no Standby appears; exercises and positive rests still signal, and the S-01 countdown/completion behavior remains.
 - [ ] 3.6 Returning from `Completed` restores the last value of the random-start switch along with the time and repetition settings until page reload.
-- [ ] 3.7 With audio unavailable, the run continues silently with a visible English warning; each Standby wait begins immediately on entering Standby and still lasts a sampled 1–5 s.
-- [ ] 3.8 Hiding the page during Standby or exercise stops pending audio and progression; returning requires Resume, preserves completed repetitions, and restarts the interrupted repetition after full preparation if positive. Hiding during preparation/rest resumes its remaining time without repeating a start cue.
+- [ ] 3.7 With audio unavailable at Start, the run continues silently with a visible English warning; each Standby wait begins immediately on entering Standby and still lasts a sampled 1–5 s. A mid-run audio failure shows the same warning and preserves the remaining phase time under the Phase 2 fallback rules.
+- [ ] 3.8 Hiding the page during Standby or exercise in repetition 2 or the final repetition stops pending audio and progression; returning requires Resume, preserves completed repetitions, and restarts that same repetition after full preparation if positive. Hiding during preparation/rest resumes its remaining time without repeating a start cue.
 - [ ] 3.9 Standby never exposes its sampled duration or remaining time; the running view has no next-phase preview and remains usable without horizontal scrolling on desktop and phone.

@@ -1,7 +1,7 @@
 ---
 change_id: run-random-start
 title: Run random start
-status: planned
+status: plan_reviewed
 created: 2026-09-25
 updated: 2026-09-25
 archived_at: null
