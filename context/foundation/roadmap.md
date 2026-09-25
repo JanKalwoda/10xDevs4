@@ -43,7 +43,7 @@ Obecny timer HIIT pozwala ustawić fazy i powtórzenia, lecz jego przewidywalny 
 | ID | Change ID | Outcome (user can …) | Prerequisites | PRD refs | Status |
 | --- | --- | --- | --- | --- | --- |
 | S-01 | run-configured-phases | Użytkownik przechodzi z osobnego formularza do pełnego przebiegu faz bez losowego startu | — | US-01, FR-001, FR-003, FR-005 | in-progress |
-| S-02 | run-random-start | Użytkownik wykonuje pełny przebieg z osobnym losowym startem i sygnałami | S-01 | US-01, FR-002, FR-003, FR-004, FR-005 | proposed |
+| S-02 | run-random-start | Użytkownik wykonuje pełny przebieg z osobnym losowym startem i sygnałami | S-01 | US-01, FR-002, FR-003, FR-004, FR-005 | planning |
 | S-03 | preview-phase-signals | Użytkownik odsłuchuje sygnały i rozumie ich znaczenie przed uruchomieniem | S-02 | US-01, FR-004 | proposed |
 | S-04 | view-three-phase-sections | Użytkownik widzi odliczanie, aktualną i następną fazę w trzech sekcjach | S-02 | US-02, FR-005, FR-013 | proposed |
 | S-05 | choose-phase-colors | Użytkownik wybiera i widzi osobne kolory czterech faz | S-04 | US-03, FR-013, FR-014 | blocked |
@@ -108,7 +108,7 @@ Brak osobnych Foundations. Konfigurację danych, ochronę własności i weryfika
 - **Unknowns:**
   - Czy przeglądarki docelowe utrzymują błąd emisji sygnału poniżej 0,2 s w aktywnej karcie? — Owner: team. Block: no.
 - **Risk:** Moment startu oczekiwania musi następować po dźwiękach, a pomiar obejmować rzeczywistą emisję; to główne ryzyko działania produktu.
-- **Status:** proposed
+- **Status:** planning
 
 ### S-03: Odsłuch znaczenia sygnałów
 
