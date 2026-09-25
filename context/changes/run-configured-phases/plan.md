@@ -203,8 +203,8 @@ No database or API migration. The public `/` page replaces starter content; exis
 
 #### Automated
 
-- [ ] 1.1 `npm run test` passes the model cases, including skipped preparation/rest at `0:00`, final positive rest, strict `m:ss`, and numeric boundaries.
-- [ ] 1.2 `npm run lint` and `npx astro check` pass after the new types and helper are added.
+- [x] 1.1 `npm run test` passes the model cases, including skipped preparation/rest at `0:00`, final positive rest, strict `m:ss`, and numeric boundaries.
+- [x] 1.2 `npm run lint` and `npx astro check` pass after the new types and helper are added.
 
 ### Phase 2: Configuration form
 

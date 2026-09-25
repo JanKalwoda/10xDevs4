@@ -3,7 +3,7 @@ project: "DryFire Drill Timer"
 version: 1
 status: draft
 created: 2026-09-23
-updated: 2026-09-24
+updated: 2026-09-25
 prd_version: 1
 main_goal: speed
 top_blocker: capacity
@@ -42,7 +42,7 @@ Obecny timer HIIT pozwala ustawić fazy i powtórzenia, lecz jego przewidywalny 
 
 | ID | Change ID | Outcome (user can …) | Prerequisites | PRD refs | Status |
 | --- | --- | --- | --- | --- | --- |
-| S-01 | run-configured-phases | Użytkownik przechodzi z osobnego formularza do pełnego przebiegu faz bez losowego startu | — | US-01, FR-001, FR-003, FR-005 | planning |
+| S-01 | run-configured-phases | Użytkownik przechodzi z osobnego formularza do pełnego przebiegu faz bez losowego startu | — | US-01, FR-001, FR-003, FR-005 | in-progress |
 | S-02 | run-random-start | Użytkownik wykonuje pełny przebieg z osobnym losowym startem i sygnałami | S-01 | US-01, FR-002, FR-003, FR-004, FR-005 | proposed |
 | S-03 | preview-phase-signals | Użytkownik odsłuchuje sygnały i rozumie ich znaczenie przed uruchomieniem | S-02 | US-01, FR-004 | proposed |
 | S-04 | view-three-phase-sections | Użytkownik widzi odliczanie, aktualną i następną fazę w trzech sekcjach | S-02 | US-02, FR-005, FR-013 | proposed |
@@ -95,7 +95,7 @@ Brak osobnych Foundations. Konfigurację danych, ochronę własności i weryfika
 - **Blockers:** —
 - **Unknowns:** —
 - **Risk:** Poprawny przebieg i odliczanie, w tym pominięcie odpoczynku 0 s w każdym powtórzeniu, muszą być dostępne przed dodaniem losowego startu, by odróżnić błędy faz od błędów losowania.
-- **Status:** planning
+- **Status:** in-progress
 
 ### S-02: Losowy start w pełnym przebiegu
 
