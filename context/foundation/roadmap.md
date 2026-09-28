@@ -42,8 +42,8 @@ Obecny timer HIIT pozwala ustawić fazy i powtórzenia, lecz jego przewidywalny 
 
 | ID | Change ID | Outcome (user can …) | Prerequisites | PRD refs | Status |
 | --- | --- | --- | --- | --- | --- |
-| S-01 | run-configured-phases | Użytkownik przechodzi z osobnego formularza do pełnego przebiegu faz bez losowego startu | — | US-01, FR-001, FR-003, FR-005 | in-progress |
-| S-02 | run-random-start | Użytkownik wykonuje pełny przebieg z osobnym losowym startem i sygnałami | S-01 | US-01, FR-002, FR-003, FR-004, FR-005 | in-progress |
+| S-01 | run-configured-phases | Użytkownik przechodzi z osobnego formularza do pełnego przebiegu faz bez losowego startu | — | US-01, FR-001, FR-003, FR-005 | done |
+| S-02 | run-random-start | Użytkownik wykonuje pełny przebieg z osobnym losowym startem i sygnałami | S-01 | US-01, FR-002, FR-003, FR-004, FR-005 | done |
 | S-03 | preview-phase-signals | Użytkownik odsłuchuje sygnały i rozumie ich znaczenie przed uruchomieniem | S-02 | US-01, FR-004 | proposed |
 | S-04 | view-three-phase-sections | Użytkownik widzi odliczanie, aktualną i następną fazę w trzech sekcjach | S-02 | US-02, FR-005, FR-013 | proposed |
 | S-05 | choose-phase-colors | Użytkownik wybiera i widzi osobne kolory czterech faz | S-04 | US-03, FR-013, FR-014 | blocked |
@@ -96,7 +96,7 @@ Brak osobnych Foundations. Konfigurację danych, ochronę własności i weryfika
 - **Blockers:** —
 - **Unknowns:** —
 - **Risk:** Poprawny przebieg i odliczanie, w tym pominięcie odpoczynku 0 s w każdym powtórzeniu, muszą być dostępne przed dodaniem losowego startu, by odróżnić błędy faz od błędów losowania.
-- **Status:** in-progress
+- **Status:** done
 
 ### S-02: Losowy start w pełnym przebiegu
 
@@ -109,7 +109,7 @@ Brak osobnych Foundations. Konfigurację danych, ochronę własności i weryfika
 - **Unknowns:**
   - Czy przeglądarki docelowe utrzymują błąd emisji sygnału poniżej 0,2 s w aktywnej karcie? — Owner: team. Block: no.
 - **Risk:** Moment startu oczekiwania musi następować po dźwiękach. Programowe czasy nie mierzą fizycznej emisji; na komputerze i iPhonie 15 Pro Max słuchawki Bluetooth miały zauważalne opóźnienie względem widoku. Synchronizację wyodrębniono do S-14.
-- **Status:** in-progress
+- **Status:** done
 
 ### S-03: Odsłuch znaczenia sygnałów
 
@@ -298,4 +298,5 @@ Brak zamkniętych kamieni milowych.
 
 ## Done
 
-Brak ukończonych przekrojów.
+- **S-01: Użytkownik przechodzi z osobnego formularza do pełnego przebiegu faz bez losowego startu** — Archived 2026-09-28 → `context/archive/2026-09-24-run-configured-phases/`. Lesson: —.
+- **S-02: Użytkownik uruchamia przebieg, w którym każde ćwiczenie poprzedza nowe, ukryte oczekiwanie 1–5 s liczone po dwóch sygnałach Standby, a rozpoczęcie ćwiczenia i dodatniego odpoczynku ma ustalone dźwięki; odpoczynek 0 s nie emituje sygnału.** — Archived 2026-09-28 → `context/archive/2026-09-25-run-random-start/`. Lesson: —.
