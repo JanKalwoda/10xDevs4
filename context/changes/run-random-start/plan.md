@@ -242,15 +242,15 @@ No database or API migration. Existing S-01 settings stay in memory; the new swi
 
 #### Automated
 
-- [x] 3.1 `npm run test`, `npm run lint`, `npx astro check`, and `npm run build` pass; the existing production-preview `npm run smoke` passes when its local Supabase prerequisites are available.
-- [x] 3.2 Programmatic instrumentation records expected and scheduled Web Audio timestamps and passes its ≤0.2 s comparison for the acceptance run, explicitly without claiming physical-emission measurement.
+- [x] 3.1 `npm run test`, `npm run lint`, `npx astro check`, and `npm run build` pass; the existing production-preview `npm run smoke` passes when its local Supabase prerequisites are available. — 7d9951a
+- [x] 3.2 Programmatic instrumentation records expected and scheduled Web Audio timestamps and passes its ≤0.2 s comparison for the acceptance run, explicitly without claiming physical-emission measurement. — 7d9951a
 
 #### Manual
 
-- [x] 3.3 On desktop and a real phone browser, a run with `0:05` preparation, `0:04` exercise, `0:02` rest, three repetitions, and random start on has one preparation, three separate hidden Standby waits with two sounds each, three full exercises with long start sounds, three rests with short start sounds, then `Completed`.
-- [x] 3.4 With preparation and rest at `0:00`, two repetitions and random start on, the sequence is Standby 1 → Exercise 1 → Standby 2 → Exercise 2 → `Completed`, with no rest view or rest sound.
-- [x] 3.5 With random start off, no Standby appears; exercises and positive rests still signal, and the S-01 countdown/completion behavior remains.
-- [x] 3.6 Returning from `Completed` restores the last value of the random-start switch along with the time and repetition settings until page reload.
-- [x] 3.7 With audio unavailable at Start, the run continues silently with a visible English warning; each Standby wait begins immediately on entering Standby and still lasts a sampled 1–5 s. A mid-run audio failure shows the same warning and preserves the remaining phase time under the Phase 2 fallback rules.
-- [x] 3.8 Hiding the page during Standby or exercise in repetition 2 or the final repetition stops pending audio and progression; returning requires Resume, preserves completed repetitions, and restarts that same repetition after full preparation if positive. Hiding during preparation/rest resumes its remaining time without repeating a start cue.
-- [x] 3.9 Standby never exposes its sampled duration or remaining time; the running view has no next-phase preview and remains usable without horizontal scrolling on desktop and phone.
+- [x] 3.3 On desktop and a real phone browser, a run with `0:05` preparation, `0:04` exercise, `0:02` rest, three repetitions, and random start on has one preparation, three separate hidden Standby waits with two sounds each, three full exercises with long start sounds, three rests with short start sounds, then `Completed`. — 7d9951a
+- [x] 3.4 With preparation and rest at `0:00`, two repetitions and random start on, the sequence is Standby 1 → Exercise 1 → Standby 2 → Exercise 2 → `Completed`, with no rest view or rest sound. — 7d9951a
+- [x] 3.5 With random start off, no Standby appears; exercises and positive rests still signal, and the S-01 countdown/completion behavior remains. — 7d9951a
+- [x] 3.6 Returning from `Completed` restores the last value of the random-start switch along with the time and repetition settings until page reload. — 7d9951a
+- [x] 3.7 With audio unavailable at Start, the run continues silently with a visible English warning; each Standby wait begins immediately on entering Standby and still lasts a sampled 1–5 s. A mid-run audio failure shows the same warning and preserves the remaining phase time under the Phase 2 fallback rules. — 7d9951a
+- [x] 3.8 Hiding the page during Standby or exercise in repetition 2 or the final repetition stops pending audio and progression; returning requires Resume, preserves completed repetitions, and restarts that same repetition after full preparation if positive. Hiding during preparation/rest resumes its remaining time without repeating a start cue. — 7d9951a
+- [x] 3.9 Standby never exposes its sampled duration or remaining time; the running view has no next-phase preview and remains usable without horizontal scrolling on desktop and phone. — 7d9951a
