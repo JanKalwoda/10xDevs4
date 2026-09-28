@@ -11,12 +11,12 @@ interface DrillConfigFormProps {
 
 interface ConfigFieldProps {
     id: string;
-    field: keyof DrillConfigInput;
+    field: Exclude<keyof DrillConfigInput, "randomStartEnabled">;
     label: string;
     hint: string;
     value: string;
     error?: string;
-    onChange: (field: keyof DrillConfigInput, value: string) => void;
+    onChange: (field: Exclude<keyof DrillConfigInput, "randomStartEnabled">, value: string) => void;
 }
 
 function ConfigField({ id, field, label, hint, value, error, onChange }: ConfigFieldProps) {
@@ -57,7 +57,7 @@ export default function DrillConfigForm({ values, onValuesChange, onStart }: Dri
     const id = useId();
     const [errors, setErrors] = useState<DrillConfigErrors>({});
 
-    function handleChange(field: keyof DrillConfigInput, value: string) {
+    function handleChange(field: Exclude<keyof DrillConfigInput, "randomStartEnabled">, value: string) {
         onValuesChange({ ...values, [field]: value });
         if (errors[field]) setErrors((current) => ({ ...current, [field]: undefined }));
     }
@@ -97,6 +97,25 @@ export default function DrillConfigForm({ values, onValuesChange, onStart }: Dri
                 error={errors.repetitions}
                 onChange={handleChange}
             />
+            <div className="space-y-1">
+                <label htmlFor={`${id}-random-start`} className="flex items-center gap-2 text-sm font-medium">
+                    <input
+                        id={`${id}-random-start`}
+                        name="randomStartEnabled"
+                        type="checkbox"
+                        checked={values.randomStartEnabled}
+                        onChange={(event) => {
+                            onValuesChange({ ...values, randomStartEnabled: event.target.checked });
+                        }}
+                        aria-describedby={`${id}-random-start-hint`}
+                        className="size-4 accent-blue-600"
+                    />
+                    Random start
+                </label>
+                <p id={`${id}-random-start-hint`} className="text-sm text-slate-600">
+                    Wait a random 1–5 seconds before exercise starts.
+                </p>
+            </div>
             <Button type="submit" className="w-full">
                 Start
             </Button>

@@ -3,7 +3,7 @@ project: "DryFire Drill Timer"
 version: 1
 status: draft
 created: 2026-09-23
-updated: 2026-09-25
+updated: 2026-09-28
 prd_version: 1
 main_goal: speed
 top_blocker: capacity
@@ -43,7 +43,7 @@ Obecny timer HIIT pozwala ustawić fazy i powtórzenia, lecz jego przewidywalny 
 | ID | Change ID | Outcome (user can …) | Prerequisites | PRD refs | Status |
 | --- | --- | --- | --- | --- | --- |
 | S-01 | run-configured-phases | Użytkownik przechodzi z osobnego formularza do pełnego przebiegu faz bez losowego startu | — | US-01, FR-001, FR-003, FR-005 | in-progress |
-| S-02 | run-random-start | Użytkownik wykonuje pełny przebieg z osobnym losowym startem i sygnałami | S-01 | US-01, FR-002, FR-003, FR-004, FR-005 | proposed |
+| S-02 | run-random-start | Użytkownik wykonuje pełny przebieg z osobnym losowym startem i sygnałami | S-01 | US-01, FR-002, FR-003, FR-004, FR-005 | in-progress |
 | S-03 | preview-phase-signals | Użytkownik odsłuchuje sygnały i rozumie ich znaczenie przed uruchomieniem | S-02 | US-01, FR-004 | proposed |
 | S-04 | view-three-phase-sections | Użytkownik widzi odliczanie, aktualną i następną fazę w trzech sekcjach | S-02 | US-02, FR-005, FR-013 | proposed |
 | S-05 | choose-phase-colors | Użytkownik wybiera i widzi osobne kolory czterech faz | S-04 | US-03, FR-013, FR-014 | blocked |
@@ -55,6 +55,7 @@ Obecny timer HIIT pozwala ustawić fazy i powtórzenia, lecz jego przewidywalny 
 | S-11 | open-saved-drill | Użytkownik widzi własne konfiguracje i uruchamia wybraną | S-10 | FR-011 | proposed |
 | S-12 | edit-saved-drill | Użytkownik zmienia własną zapisaną konfigurację | S-10 | US-03, FR-012, FR-014 | proposed |
 | S-13 | delete-saved-drill | Użytkownik usuwa własną konfigurację po potwierdzeniu | S-10 | FR-012 | proposed |
+| S-14 | align-bluetooth-audio | Użytkownik ze słuchawkami Bluetooth wyrównuje widok faz ze słyszanymi sygnałami | S-02 | FR-002, FR-004, FR-005 | blocked |
 
 ## Streams
 
@@ -62,7 +63,7 @@ Strumienie ułatwiają czytanie równoległych ścieżek. Strzałka oznacza zale
 
 | Stream | Theme | Chain | Note |
 | --- | --- | --- | --- |
-| A | Główny przebieg i widok | `S-01` → `S-02` → `S-04` → `S-05` | Najpierw dostarcza przebieg z losowym startem. |
+| A | Główny przebieg i widok | `S-01` → `S-02` → (`S-04` → `S-05`, `S-14`) | Po podstawowym przebiegu osobno rozwija widok i synchronizację audio. |
 | B | Odsłuch sygnałów | `S-03` | Korzysta z sygnałów wprowadzonych w S-02. |
 | C | Sterowanie przebiegiem | `S-06`, `S-07`, `S-08` | S-07 wymaga S-01; S-06 i S-08 wymagają S-02. |
 | D | Dostęp do konta i zapis | `S-09` → `S-10` | Zapis S-10 wymaga też wyboru kolorów z S-05. |
@@ -107,8 +108,8 @@ Brak osobnych Foundations. Konfigurację danych, ochronę własności i weryfika
 - **Blockers:** —
 - **Unknowns:**
   - Czy przeglądarki docelowe utrzymują błąd emisji sygnału poniżej 0,2 s w aktywnej karcie? — Owner: team. Block: no.
-- **Risk:** Moment startu oczekiwania musi następować po dźwiękach, a pomiar obejmować rzeczywistą emisję; to główne ryzyko działania produktu.
-- **Status:** proposed
+- **Risk:** Moment startu oczekiwania musi następować po dźwiękach. Programowe czasy nie mierzą fizycznej emisji; na komputerze i iPhonie 15 Pro Max słuchawki Bluetooth miały zauważalne opóźnienie względem widoku. Synchronizację wyodrębniono do S-14.
+- **Status:** in-progress
 
 ### S-03: Odsłuch znaczenia sygnałów
 
@@ -244,6 +245,20 @@ Brak osobnych Foundations. Konfigurację danych, ochronę własności i weryfika
 - **Risk:** Potwierdzenie z nazwą ogranicza przypadkowe usunięcie, a kontrola własności chroni cudze dane.
 - **Status:** proposed
 
+### S-14: Synchronizacja dźwięku Bluetooth z widokiem
+
+- **Outcome:** Użytkownik korzystający ze słuchawek Bluetooth może wyrównać zmianę widocznej fazy ze słyszanym sygnałem bez zmiany odstępu między dwoma sygnałami Standby a startem ćwiczenia i bez ujawniania losowego czasu oczekiwania.
+- **Change ID:** align-bluetooth-audio
+- **PRD refs:** FR-002, FR-004, FR-005
+- **Prerequisites:** S-02
+- **Parallel with:** S-03, S-04, S-06, S-07, S-08, S-09
+- **Blockers:** Ustalenie sposobu wyrównania i weryfikacji na docelowych słuchawkach; same znaczniki planowania Web Audio nie dowodzą chwili słyszalnej emisji.
+- **Unknowns:**
+  - Czy oszacowanie opóźnienia wyjścia przez przeglądarkę wystarczy, czy potrzebna jest kalibracja przez użytkownika? — Owner: team. Block: yes.
+  - Jak zmierzyć błąd słyszalnego sygnału względem widoku na komputerze i telefonie z Bluetooth? — Owner: team. Block: yes.
+- **Risk:** Opóźnienie Bluetooth zależy od urządzenia i toru odtwarzania; korekta nie może skrócić losowego odstępu słyszanego między końcem drugiego sygnału Standby a startem ćwiczenia ani obiecywać dokładności bez pomiaru.
+- **Status:** blocked
+
 ## Backlog Handoff
 
 | Roadmap ID | Change ID | Suggested issue title | Ready for `/10x-plan` | Notes |
@@ -261,10 +276,12 @@ Brak osobnych Foundations. Konfigurację danych, ochronę własności i weryfika
 | S-11 | open-saved-drill | Lista i uruchomienie zapisanej konfiguracji | no | Po S-10. |
 | S-12 | edit-saved-drill | Edycja zapisanej konfiguracji | no | Po S-10. |
 | S-13 | delete-saved-drill | Usunięcie zapisanej konfiguracji | no | Po S-10. |
+| S-14 | align-bluetooth-audio | Wyrównanie widoku i sygnałów na słuchawkach Bluetooth | no | Po S-02; najpierw rozstrzygnąć metodę kalibracji i pomiaru słyszalnego opóźnienia. |
 
 ## Open Roadmap Questions
 
 1. **Jakie dokładne odcienie zastosować dla dziewięciu wybranych kolorów?** — Do dobrania podczas projektowania interfejsu, przed implementacją FR-014, z zachowaniem łagodności, wyraźnego rozróżnienia barw i kontrastu z czarną czcionką. Zestaw kolorów i ich domyślne przypisanie do faz są ustalone. — Owner: user. Block: S-05.
+2. **Jak wyrównać i zmierzyć słyszalny sygnał Bluetooth względem widoku fazy?** — Porównać oszacowanie przeglądarki z kalibracją i sprawdzić wynik na docelowych słuchawkach; programowe znaczniki Web Audio nie wystarczą. — Owner: team. Block: S-14.
 
 ## Parked
 
