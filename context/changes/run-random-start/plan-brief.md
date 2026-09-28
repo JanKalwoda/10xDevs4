@@ -52,6 +52,7 @@ Phase 1 adds the switch and injected centisecond sampler without changing the cu
 ## Open Risks & Assumptions
 
 - Programmed timestamps cannot establish when sound physically leaves the speaker. The PRD's ≤0.2 s physical-emission requirement remains unverified under the chosen acceptance method; do not report it as passed.
+- Manual acceptance found noticeable delay relative to the view with Bluetooth headphones on desktop and iPhone 15 Pro Max; device speakers sounded timely. Roadmap S-14 (`align-bluetooth-audio`) owns a separate follow-up for wireless output alignment and physical timing evidence.
 - Browser audio can be suspended or interrupted. The plan rebases remaining time onto the silent clock at failure and requires a visible warning and verification in the recorded desktop/phone browsers.
 - Hiding the page introduces only the pause behavior needed here; S-06 still owns a user-operated pause control and broader pause UX.
 

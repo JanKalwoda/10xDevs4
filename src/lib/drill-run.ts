@@ -2,6 +2,8 @@ import { firstDrillPhase, nextDrillPhase, sampleRandomStartCentiseconds } from "
 import { STANDBY_SECOND_OFFSET, type DrillAudioPort } from "./drill-audio.ts";
 import type { DrillConfiguration, DrillPhase } from "../types.ts";
 
+const AUDIO_LOOKAHEAD_SECONDS = 5;
+
 export interface DrillClock {
     now(): number;
     setWake(callback: () => void, delayMilliseconds: number): unknown;
@@ -104,12 +106,13 @@ export class DrillRun {
         while (this.segments.length && now >= this.segments[0].end) {
             const completed = this.segments.shift();
             if (!completed) break;
+            const next = completed.phase.kind === "preparation" && this.resumeTarget ? this.resumeTarget : nextDrillPhase(this.configuration, completed.phase);
+            if (completed.phase.kind === "preparation") this.resumeTarget = null;
             if (this.segments.length) continue;
-            const next = this.resumeTarget ?? nextDrillPhase(this.configuration, completed.phase);
-            this.resumeTarget = null;
             if (next) this.rebuild(next, completed.end, undefined, undefined, completed.end >= now - 0.001);
             else this.finished = true;
         }
+        if (!this.silent) this.appendLookahead();
         this.listener(this.display);
         this.armWake();
     }
@@ -158,10 +161,10 @@ export class DrillRun {
     audioFailed() {
         if (this.silent) return;
         const now = this.clock.now();
-        if (!this.pausedAt) this.tick();
-        const current = this.segments.find((item) => now < item.end);
         this.silent = true;
         this.audio?.cancel();
+        if (!this.pausedAt) this.tick();
+        const current = this.segments.find((item) => now < item.end);
         if (this.pausedAt) {
             this.listener(this.display);
             return;
@@ -241,8 +244,46 @@ export class DrillRun {
             return;
         }
         this.segments = segments;
+        if (!this.silent) this.appendLookahead();
         this.listener(this.display);
         this.armWake();
+    }
+
+    private appendLookahead() {
+        const now = this.clock.now();
+        let finishCycle = false;
+        try {
+            while (this.segments.length) {
+                const last = this.segments[this.segments.length - 1];
+                if (!finishCycle && last.end > now + AUDIO_LOOKAHEAD_SECONDS) break;
+                const phase = last.phase.kind === "preparation" && this.resumeTarget ? this.resumeTarget : nextDrillPhase(this.configuration, last.phase);
+                if (!phase) break;
+                let start = last.end;
+                let secondSoundEnd: number | undefined;
+                let sampledWait: number | undefined;
+                let end: number;
+                if (phase.kind === "standby") {
+                    sampledWait = sampleRandomStartCentiseconds(this.random) / 100;
+                    if (start >= now - 0.001 && this.audio) {
+                        const firstSound = this.audio.schedule("standby-first", start);
+                        const secondSound = this.audio.schedule("standby-second", firstSound.start + STANDBY_SECOND_OFFSET);
+                        start = firstSound.start;
+                        secondSoundEnd = secondSound.end;
+                    }
+                    end = (secondSoundEnd ?? start) + sampledWait;
+                } else {
+                    if (phase.kind !== "preparation" && start >= now - 0.001 && this.audio) {
+                        const cue = this.audio.schedule(phase.kind, start);
+                        start = cue.start;
+                    }
+                    end = start + phase.durationSeconds;
+                }
+                this.segments.push({ phase, start, end, secondSoundEnd, sampledWait });
+                finishCycle = phase.kind === "standby" || (phase.kind === "exercise" && this.configuration.restSeconds > 0);
+            }
+        } catch {
+            this.audioFailed();
+        }
     }
 
     private armWake() {
@@ -250,6 +291,9 @@ export class DrillRun {
         const now = this.clock.now();
         const next = this.segments.find((segment) => segment.end > now);
         if (!next || this.pausedAt || this.finished) return;
+        const last = this.segments[this.segments.length - 1];
+        const fillAt = !this.silent && nextDrillPhase(this.configuration, last.phase) ? last.end - AUDIO_LOOKAHEAD_SECONDS : Number.POSITIVE_INFINITY;
+        const wakeAt = Math.min(next.end, fillAt > now ? fillAt : next.end);
         const generation = this.generation;
         this.wake = this.clock.setWake(
             () => {
@@ -257,7 +301,7 @@ export class DrillRun {
                 this.wake = undefined;
                 this.tick();
             },
-            Math.max(0, (next.end - now) * 1000),
+            Math.max(0, (wakeAt - now) * 1000),
         );
     }
 }

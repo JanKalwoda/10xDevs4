@@ -79,18 +79,55 @@ void test("scheduled cues keep exact boundaries and a full wait after the second
         ["standby-first", "standby-second", "exercise", "rest"],
     );
     assert.equal(audio.cues[0].at, 0);
-    assert.equal(audio.cues[1].at, 0.26);
+    assert.equal(audio.cues[1].at, audio.cues[0].end);
+    assert.equal(audio.cues[0].end, 0.3);
+    assert.ok(Math.abs(audio.cues[1].end - 0.45) < 0.001);
     assert.ok(Math.abs(audio.cues[2].at - (audio.cues[1].end + 1)) < 0.2);
     assert.equal(audio.cues[3].at, audio.cues[2].at + 4);
-    clock.advance(5.5); // One callback crosses Standby and exercise boundaries.
+    assert.ok(Math.abs(audio.cues[3].end - audio.cues[3].at - 0.35) < 0.001);
+    clock.advance(5.8); // One callback crosses Standby and exercise boundaries.
     run.tick();
     assert.deepEqual(run.display.phase, { kind: "rest", durationSeconds: 2, repetition: 1 });
-    assert.ok(Math.abs(audio.cues[3].at - 5.38) <= 0.2);
-    clock.advance(7.38);
+    assert.ok(Math.abs(audio.cues[3].at - 5.45) <= 0.2);
+    clock.advance(7.45);
     run.tick();
     assert.deepEqual(run.display.phase, { kind: "standby", repetition: 2 });
     assert.equal(audio.cues.filter(({ cue }) => cue === "standby-first").length, 2);
     // This compares requested Web Audio times, not physical speaker emission.
+});
+
+void test("next repetition cues are queued before rest ends and survive a delayed callback", () => {
+    const { audio, clock, run } = make();
+    clock.advance(5.45);
+    run.tick();
+    const nextStandby = audio.cues.filter(({ cue }) => cue === "standby-first")[1];
+    const nextExercise = audio.cues.filter(({ cue }) => cue === "exercise")[1];
+    const nextRest = audio.cues.filter(({ cue }) => cue === "rest")[1];
+    assert.ok(nextStandby);
+    assert.ok(nextExercise);
+    assert.ok(nextRest);
+    assert.ok(Math.abs(nextStandby.at - 7.45) < 0.001);
+    assert.ok(Math.abs(nextExercise.at - (audio.cues.filter(({ cue }) => cue === "standby-second")[1].end + 1)) < 0.001);
+    assert.ok(Math.abs(nextRest.at - (nextExercise.at + 4)) < 0.001);
+    clock.advance(8);
+    run.tick();
+    assert.deepEqual(run.display.phase, { kind: "standby", repetition: 2 });
+    assert.equal(audio.cues.filter(({ cue }) => cue === "standby-first").length, 2);
+});
+
+void test("the first exercise and rest cues are queued before preparation ends", () => {
+    const { audio, clock, run } = make({ ...configuration, preparationSeconds: 5, randomStartEnabled: false });
+    assert.deepEqual(
+        audio.cues.map(({ cue, at }) => ({ cue, at })),
+        [
+            { cue: "exercise", at: 5 },
+            { cue: "rest", at: 9 },
+        ],
+    );
+    clock.advance(5.3);
+    run.tick();
+    assert.deepEqual(run.display.phase, { kind: "exercise", durationSeconds: 4, repetition: 1 });
+    assert.equal(audio.cues.filter(({ cue }) => cue === "exercise").length, 1);
 });
 
 void test("each repetition receives a fresh centisecond sample", () => {
@@ -98,7 +135,7 @@ void test("each repetition receives a fresh centisecond sample", () => {
     const samples = [0, 0.5, 1 - Number.EPSILON];
     const { audio, clock, run } = make(configuration, () => samples[index++]);
     assert.equal(index, 1);
-    clock.advance(7.38);
+    clock.advance(7.45);
     run.tick();
     assert.equal(index, 2);
     clock.advance(audio.cues.filter(({ cue }) => cue === "rest")[1].at + 2);
@@ -136,7 +173,7 @@ void test("audio failure before and after the second sound preserves the correct
     const late = make();
     late.clock.advance(0.8);
     late.audio.fail();
-    late.clock.advance(1.38);
+    late.clock.advance(1.45);
     late.run.tick();
     assert.equal(late.run.display.phase?.kind, "exercise");
     assert.ok(late.audio.cancelled > 0);
@@ -221,17 +258,17 @@ void test("interrupted preparation and rest retain remaining time without replay
     run.tick();
     assert.equal(run.display.phase.kind, "standby");
 
-    const restCue = audio.cues.find(({ cue }) => cue === "rest");
+    const restCue = audio.cues.filter(({ cue }) => cue === "rest").at(-1);
     assert.ok(restCue);
     const restStart = restCue.at;
     clock.advance(restStart + 0.5);
     run.tick();
     run.hide();
-    const cueCount = audio.cues.length;
     clock.advance(100);
+    const resumeAt = clock.now();
     run.resume();
     assert.deepEqual(run.display.phase, { kind: "rest", durationSeconds: 2, repetition: 1 });
-    assert.equal(audio.cues.length, cueCount);
+    assert.equal(audio.cues.filter(({ cue, at }) => cue === "rest" && at === resumeAt).length, 0);
     clock.advance(101.49);
     run.tick();
     assert.deepEqual(run.display.phase, { kind: "rest", durationSeconds: 2, repetition: 1 });

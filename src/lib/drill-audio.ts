@@ -5,35 +5,59 @@ export interface ScheduledCue {
     end: number;
 }
 
+export interface DrillScheduleEvidence {
+    cue: DrillCue;
+    expectedStart: number;
+    scheduledStart: number;
+    deviationSeconds: number;
+}
+
+export function evaluateDrillSchedule(cues: readonly DrillScheduleEvidence[], repetitions: number, randomStartEnabled: boolean, positiveRest: boolean, audioAvailable: boolean) {
+    const count = (cue: DrillCue) => cues.filter((item) => item.cue === cue).length;
+    const allExpectedCuesScheduled =
+        count("exercise") >= repetitions &&
+        count("rest") >= (positiveRest ? repetitions : 0) &&
+        count("standby-first") >= (randomStartEnabled ? repetitions : 0) &&
+        count("standby-second") >= (randomStartEnabled ? repetitions : 0);
+    return {
+        withinTolerance: audioAvailable && allExpectedCuesScheduled && cues.every(({ deviationSeconds }) => deviationSeconds <= 0.2),
+        allExpectedCuesScheduled,
+        toleranceSeconds: 0.2,
+        physicalSpeakerOutputMeasured: false,
+        cues,
+    };
+}
+
 export interface DrillAudioPort {
     readonly available: boolean;
     schedule(cue: DrillCue, at: number): ScheduledCue;
     cancel(): void;
     close(): void;
     onUnavailable(handler: () => void): void;
+    readonly scheduleEvidence?: readonly DrillScheduleEvidence[];
 }
 
-// Times are seconds. The Standby pair occupies 0.38 s: 0.12 s sounds
-// separated by 0.14 s of silence. Exercise lasts 0.60 s; rest 0.12 s.
+// Times are seconds. The Standby pair occupies 0.45 s: a 0.3 s sound
+// followed immediately by a 0.15 s sound. Exercise lasts 1 s; rest 0.35 s.
 export const CUE_DURATION: Readonly<Record<DrillCue, number>> = {
-    "standby-first": 0.12,
-    "standby-second": 0.12,
-    exercise: 0.6,
-    rest: 0.12,
+    "standby-first": 0.3,
+    "standby-second": 0.15,
+    exercise: 1,
+    rest: 0.35,
 };
-export const STANDBY_SECOND_OFFSET = 0.26;
+export const STANDBY_SECOND_OFFSET = CUE_DURATION["standby-first"];
 
 const CUE_PITCH: Readonly<Record<DrillCue, number>> = {
-    "standby-first": 660,
-    "standby-second": 660,
-    exercise: 880,
-    rest: 440,
+    "standby-first": 450,
+    "standby-second": 750,
+    exercise: 2640,
+    rest: 980,
 };
 
 /** Call during the user Start action so the browser may unlock audio. */
 export async function createDrillAudio(): Promise<DrillAudioPort | null> {
     if (typeof AudioContext === "undefined") return null;
-    let context: AudioContext;
+    let context: AudioContext | undefined;
     try {
         context = new AudioContext();
         await context.resume();
@@ -42,10 +66,12 @@ export async function createDrillAudio(): Promise<DrillAudioPort | null> {
             return null;
         }
     } catch {
+        if (context) void context.close().catch(() => undefined);
         return null;
     }
 
     const sources = new Set<OscillatorNode>();
+    const scheduleEvidence: DrillScheduleEvidence[] = [];
     let unavailableHandler: (() => void) | undefined;
     let closed = false;
     const anchor = performance.now() / 1000 - context.currentTime;
@@ -67,6 +93,9 @@ export async function createDrillAudio(): Promise<DrillAudioPort | null> {
     });
 
     return {
+        get scheduleEvidence() {
+            return scheduleEvidence;
+        },
         get available() {
             return !closed && context.state === "running";
         },
@@ -79,7 +108,9 @@ export async function createDrillAudio(): Promise<DrillAudioPort | null> {
             oscillator.type = "sine";
             oscillator.frequency.value = CUE_PITCH[cue];
             gain.gain.setValueAtTime(0.0001, start);
-            gain.gain.exponentialRampToValueAtTime(0.2, start + 0.01);
+            const volume = 0.2;
+            gain.gain.exponentialRampToValueAtTime(volume, start + 0.01);
+            gain.gain.setValueAtTime(volume, end - 0.04);
             gain.gain.exponentialRampToValueAtTime(0.0001, end);
             oscillator.connect(gain).connect(context.destination);
             oscillator.addEventListener("ended", () => {
@@ -90,6 +121,7 @@ export async function createDrillAudio(): Promise<DrillAudioPort | null> {
             sources.add(oscillator);
             oscillator.start(start);
             oscillator.stop(end);
+            scheduleEvidence.push({ cue, expectedStart: at, scheduledStart: start + anchor, deviationSeconds: Math.abs(start + anchor - at) });
             return { start: start + anchor, end: end + anchor };
         },
         cancel,
