@@ -3,7 +3,7 @@ project: "DryFire Drill Timer"
 version: 1
 status: draft
 created: 2026-09-23
-updated: 2026-09-28
+updated: 2026-09-30
 prd_version: 1
 main_goal: speed
 top_blocker: capacity
@@ -22,9 +22,9 @@ milestone_status: open
 **M-1: Kompletny timer z prywatnymi konfiguracjami** — Status: open
 
 - **Intent:** Użytkownik przeprowadza pełne ćwiczenie z nieprzewidywalnym startem, a po zalogowaniu zachowuje i ponownie wykorzystuje własne ustawienia. Pierwszy działający rezultat to timer bez zapisu konfiguracji, zgodnie z `shape-notes.md` §Forward: technical-roadmap.
-- **Source materials:** `context/foundation/prd.md` (v1); `context/foundation/shape-notes.md` §Forward: technical-roadmap.
+- **Source materials:** `context/foundation/prd.md` (v1); `context/foundation/shape-notes.md` §Forward: technical-roadmap; opis użytkownika dotyczący dopracowania UI głównego timera.
 - **Done when:** każdy F-NN i S-NN poniżej ma status `done`, a pełny przebieg został sprawdzony w przeglądarce na komputerze i telefonie.
-- **Scope anchors:** FR-001–FR-014; US-01–US-03.
+- **Scope anchors:** FR-001–FR-014; US-01–US-03; MS-01: dopracowanie istniejącego widoku głównego timera pod `/` na telefonie i komputerze.
 
 ## Vision recap
 
@@ -44,6 +44,7 @@ Obecny timer HIIT pozwala ustawić fazy i powtórzenia, lecz jego przewidywalny 
 | --- | --- | --- | --- | --- | --- |
 | S-01 | run-configured-phases | Użytkownik przechodzi z osobnego formularza do pełnego przebiegu faz bez losowego startu | — | US-01, FR-001, FR-003, FR-005 | done |
 | S-02 | run-random-start | Użytkownik wykonuje pełny przebieg z osobnym losowym startem i sygnałami | S-01 | US-01, FR-002, FR-003, FR-004, FR-005 | done |
+| S-15 | polish-timer-view | Użytkownik korzysta ze spójnego i czytelnego widoku timera podczas konfiguracji, przebiegu i po zakończeniu | S-02 | MS-01, US-01, FR-005 | planning |
 | S-03 | preview-phase-signals | Użytkownik odsłuchuje sygnały i rozumie ich znaczenie przed uruchomieniem | S-02 | US-01, FR-004 | proposed |
 | S-04 | view-three-phase-sections | Użytkownik widzi odliczanie, aktualną i następną fazę w trzech sekcjach | S-02 | US-02, FR-005, FR-013 | proposed |
 | S-05 | choose-phase-colors | Użytkownik wybiera i widzi osobne kolory czterech faz | S-04 | US-03, FR-013, FR-014 | blocked |
@@ -63,7 +64,7 @@ Strumienie ułatwiają czytanie równoległych ścieżek. Strzałka oznacza zale
 
 | Stream | Theme | Chain | Note |
 | --- | --- | --- | --- |
-| A | Główny przebieg i widok | `S-01` → `S-02` → (`S-04` → `S-05`, `S-14`) | Po podstawowym przebiegu osobno rozwija widok i synchronizację audio. |
+| A | Główny przebieg i widok | `S-01` → `S-02` → (`S-15`, `S-04` → `S-05`, `S-14`) | Po działającym przebiegu dopracowuje jego UI oraz rozwija podgląd faz i synchronizację audio. |
 | B | Odsłuch sygnałów | `S-03` | Korzysta z sygnałów wprowadzonych w S-02. |
 | C | Sterowanie przebiegiem | `S-06`, `S-07`, `S-08` | S-07 wymaga S-01; S-06 i S-08 wymagają S-02. |
 | D | Dostęp do konta i zapis | `S-09` → `S-10` | Zapis S-10 wymaga też wyboru kolorów z S-05. |
@@ -110,6 +111,18 @@ Brak osobnych Foundations. Konfigurację danych, ochronę własności i weryfika
   - Czy przeglądarki docelowe utrzymują błąd emisji sygnału poniżej 0,2 s w aktywnej karcie? — Owner: team. Block: no.
 - **Risk:** Moment startu oczekiwania musi następować po dźwiękach. Programowe czasy nie mierzą fizycznej emisji; na komputerze i iPhonie 15 Pro Max słuchawki Bluetooth miały zauważalne opóźnienie względem widoku. Synchronizację wyodrębniono do S-14.
 - **Status:** done
+
+### S-15: Dopracowany widok głównego timera
+
+- **Outcome:** Użytkownik wygodnie konfiguruje timer, śledzi przebieg i rozpoznaje jego zakończenie w spójnym, czytelnym widoku pod `/` na telefonie i komputerze; wszystkie istniejące stany i działania pozostają zrozumiałe oraz dostępne.
+- **Change ID:** polish-timer-view
+- **PRD refs:** MS-01, US-01, FR-005
+- **Prerequisites:** S-02
+- **Parallel with:** S-03, S-04, S-06, S-07, S-08, S-09, S-14
+- **Blockers:** —
+- **Unknowns:** —
+- **Risk:** Dopracowanie jednego działającego widoku powinno wyznaczyć spójny wzorzec dla kolejnych zmian UI, bez zmiany logiki timera ani wyprzedzania funkcji z późniejszych przekrojów.
+- **Status:** planning
 
 ### S-03: Odsłuch znaczenia sygnałów
 
@@ -265,6 +278,7 @@ Brak osobnych Foundations. Konfigurację danych, ochronę własności i weryfika
 | --- | --- | --- | --- | --- |
 | S-01 | run-configured-phases | Pełny przebieg faz bez losowego startu | yes | Uruchom `/10x-plan run-configured-phases`. |
 | S-02 | run-random-start | Losowy start i sygnały w każdym cyklu | no | Po S-01; gwiazda przewodnia. |
+| S-15 | polish-timer-view | Dopracowanie widoku głównego timera | yes | Działający widok pod `/`; dla `/10x-ui` użyj Change ID `polish-timer-view`. |
 | S-03 | preview-phase-signals | Odsłuch sygnałów w konfiguracji | no | Po S-02. |
 | S-04 | view-three-phase-sections | Trzy sekcje przebiegu i podglądu | no | Po S-02. |
 | S-05 | choose-phase-colors | Wybór kolorów faz | no | Wymaga wyboru odcieni i S-04. |
