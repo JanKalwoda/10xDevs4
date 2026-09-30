@@ -33,6 +33,10 @@ For each change:
 
 Do not commit changes directly to `main`.
 
+## UI
+- Design tokens: `src/styles/global.css` (`:root`, `.dark`, `@theme inline`). Every new color must have its own token. Never use hardcoded color values.
+- Components: `src/components/ui`. Before creating a new component, check this directory. If a component is missing, add it from the shadcn registry.
+
 ## Commands
 
 @package.json
