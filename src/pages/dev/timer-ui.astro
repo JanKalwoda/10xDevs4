@@ -1,0 +1,26 @@
+---
+import "@/styles/global.css";
+import TimerUiPreview from "@/components/timer/TimerUiPreview";
+
+const isDevelopment = import.meta.env.DEV;
+if (!isDevelopment) {
+    Astro.response.status = 404;
+}
+
+const dark = Astro.url.searchParams.get("theme") === "dark";
+---
+
+<!doctype html>
+{isDevelopment && (
+    <html lang="en" class:list={{ dark }}>
+        <head>
+            <meta charset="UTF-8" />
+            <meta name="viewport" content="width=device-width" />
+            <meta name="robots" content="noindex" />
+            <title>Timer UI preview</title>
+        </head>
+        <body>
+            <TimerUiPreview client:load />
+        </body>
+    </html>
+)}
