@@ -40,9 +40,14 @@ class FakeAudio implements DrillAudioPort {
     available = true;
     cues: { cue: DrillCue; at: number; end: number }[] = [];
     cancelled = 0;
+    closed = 0;
     pending: { cue: DrillCue; at: number; end: number }[] = [];
     handler: (() => void) | undefined;
+    get scheduleEvidence() {
+        return this.cues.map(({ cue, at }) => ({ cue, expectedStart: at, scheduledStart: at, deviationSeconds: 0 }));
+    }
     schedule(cue: DrillCue, at: number): ScheduledCue {
+        if (!this.available) throw new Error("Audio unavailable");
         const end = at + CUE_DURATION[cue];
         this.cues.push({ cue, at, end });
         this.pending.push({ cue, at, end });
@@ -53,6 +58,7 @@ class FakeAudio implements DrillAudioPort {
         this.pending = [];
     }
     close() {
+        this.closed++;
         this.available = false;
     }
     onUnavailable(handler: () => void) {
@@ -285,4 +291,165 @@ void test("100 repetitions do not sample or schedule beyond the current repetiti
     });
     assert.equal(samples, 1);
     assert.equal(audio.cues.length, 4);
+});
+
+void test("Resume restores cues after audio interruption in either visibility event order", async () => {
+    for (const audioFailsFirst of [true, false]) {
+        const { clock, audio, run } = make({ ...configuration, preparationSeconds: 2 });
+        clock.advance(4);
+        run.tick();
+        if (audioFailsFirst) audio.fail();
+        run.hide();
+        if (!audioFailsFirst) audio.fail();
+        assert.equal(run.display.audioAvailable, false);
+        clock.advance(100);
+        const recovered = new FakeAudio();
+        let called = false;
+        const recovery = run.resumeWithAudio(() => {
+            called = true;
+            return Promise.resolve(recovered);
+        });
+        assert.equal(called, true, "audio creation starts in the gesture call stack");
+        assert.equal(run.display.paused, true, "wait for audio before advancing the timeline");
+        await recovery;
+        assert.equal(run.display.audioAvailable, true);
+        assert.equal(run.display.paused, false);
+        assert.equal(audio.closed, 1);
+        assert.equal(recovered.cues[0].cue, "standby-first");
+        assert.equal(recovered.cues[0].at, 102);
+        clock.advance(102);
+        run.tick();
+        assert.deepEqual(run.display.phase, { kind: "standby", repetition: 1 });
+        audio.fail();
+        assert.equal(run.display.audioAvailable, true, "retired context notifications cannot silence replacement");
+        run.stop();
+    }
+});
+
+void test("repeated lock and Resume replace audio each time", async () => {
+    const { clock, run } = make();
+    for (const at of [100, 200, 300]) {
+        run.hide();
+        clock.advance(at);
+        const replacement = new FakeAudio();
+        await run.resumeWithAudio(() => Promise.resolve(replacement));
+        assert.equal(run.display.audioAvailable, true);
+        assert.equal(replacement.cues[0].at, at);
+        assert.equal(replacement.cues[0].cue, "standby-first");
+    }
+    run.stop();
+});
+
+void test("failed audio recovery still resumes silently", async () => {
+    for (const createAudio of [() => Promise.resolve(null), () => Promise.reject(new Error("blocked"))]) {
+        const { audio, run } = make();
+        run.hide();
+        await run.resumeWithAudio(createAudio);
+        assert.equal(run.display.paused, false);
+        assert.equal(run.display.audioAvailable, false);
+        assert.equal(audio.closed, 1);
+        run.stop();
+    }
+});
+
+void test("duplicate Resume actions only create one context", async () => {
+    const { run } = make();
+    run.hide();
+    const recovered = new FakeAudio();
+    let resolveAudio!: (audio: DrillAudioPort) => void;
+    const pending = new Promise<DrillAudioPort>((resolve) => {
+        resolveAudio = resolve;
+    });
+    const first = run.resumeWithAudio(() => pending);
+    await run.resumeWithAudio(() => {
+        assert.fail("duplicate recovery must not acquire audio");
+    });
+    resolveAudio(recovered);
+    await first;
+    assert.equal(run.display.paused, false);
+    run.stop();
+});
+
+void test("hide or stop during recovery closes late audio without resuming", async () => {
+    for (const action of ["hide", "stop"] as const) {
+        const { run } = make();
+        run.hide();
+        let resolveAudio!: (audio: DrillAudioPort) => void;
+        const pending = new Promise<DrillAudioPort>((resolve) => {
+            resolveAudio = resolve;
+        });
+        const recovery = run.resumeWithAudio(() => pending);
+        run[action]();
+        const late = new FakeAudio();
+        resolveAudio(late);
+        await recovery;
+        assert.equal(late.closed, 1);
+        assert.equal(late.cues.length, 0);
+        if (action === "hide") {
+            assert.equal(run.display.paused, true);
+            await run.resumeWithAudio(() => Promise.resolve(new FakeAudio()));
+            assert.equal(run.display.paused, false);
+        }
+        run.stop();
+    }
+});
+
+void test("a newer recovery survives an older result arriving last", async () => {
+    const { run } = make();
+    run.hide();
+    let resolveOld!: (audio: DrillAudioPort) => void;
+    const oldAttempt = run.resumeWithAudio(
+        () =>
+            new Promise<DrillAudioPort>((resolve) => {
+                resolveOld = resolve;
+            }),
+    );
+    run.hide();
+    const current = new FakeAudio();
+    await run.resumeWithAudio(() => Promise.resolve(current));
+    const old = new FakeAudio();
+    resolveOld(old);
+    await oldAttempt;
+    assert.equal(old.closed, 1);
+    assert.equal(current.closed, 0);
+    assert.equal(run.display.audioAvailable, true);
+    run.stop();
+});
+
+void test("rest recovery keeps remaining time and does not replay rest cue", async () => {
+    const { clock, audio, run } = make();
+    const rest = audio.cues.find(({ cue }) => cue === "rest");
+    assert.ok(rest);
+    clock.advance(rest.at + 0.5);
+    run.tick();
+    run.hide();
+    audio.fail();
+    clock.advance(100);
+    const recovered = new FakeAudio();
+    await run.resumeWithAudio(() => Promise.resolve(recovered));
+    assert.equal(run.display.phase?.kind, "rest");
+    assert.equal(
+        recovered.cues.some(({ cue, at }) => cue === "rest" && at === 100),
+        false,
+    );
+    assert.equal(recovered.cues[0].cue, "standby-first");
+    assert.equal(recovered.cues[0].at, 101.5);
+    run.stop();
+});
+
+void test("schedule evidence includes original and successive recovered ports", async () => {
+    const { audio, clock, run } = make();
+    const ports = [audio];
+    for (const at of [100, 200]) {
+        run.hide();
+        clock.advance(at);
+        const recovered = new FakeAudio();
+        await run.resumeWithAudio(() => Promise.resolve(recovered));
+        ports.push(recovered);
+        assert.deepEqual(
+            run.scheduleEvidence,
+            ports.flatMap((port) => port.scheduleEvidence),
+        );
+    }
+    run.stop();
 });

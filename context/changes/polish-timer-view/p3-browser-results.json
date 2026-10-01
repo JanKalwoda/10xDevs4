@@ -1,0 +1,1212 @@
+{
+    "date": "2026-10-01",
+    "browser": "Edg/154.0.4258.37",
+    "screenshots": [
+        "p3-light-1280-config.png",
+        "p3-light-1280-error.png",
+        "p3-light-1280-running.png",
+        "p3-light-1280-paused.png",
+        "p3-light-1280-completed.png",
+        "p3-light-1280-standby.png",
+        "p3-dark-1280-config.png",
+        "p3-dark-1280-error.png",
+        "p3-dark-1280-running.png",
+        "p3-dark-1280-paused.png",
+        "p3-dark-1280-completed.png",
+        "p3-dark-1280-standby.png",
+        "p3-light-390-config.png",
+        "p3-light-390-error.png",
+        "p3-light-390-running.png",
+        "p3-light-390-paused.png",
+        "p3-light-390-completed.png",
+        "p3-light-390-standby.png",
+        "p3-dark-390-config.png",
+        "p3-dark-390-error.png",
+        "p3-dark-390-running.png",
+        "p3-dark-390-paused.png",
+        "p3-dark-390-completed.png",
+        "p3-dark-390-standby.png",
+        "p3-audio-pending.png",
+        "p3-audio-silent.png",
+        "p3-audio-unmount.png"
+    ],
+    "checks": [
+        {
+            "name": "p3-light-1280-config",
+            "contrast": [
+                {
+                    "text": "Drill timer",
+                    "ratio": 19.8,
+                    "required": 3
+                },
+                {
+                    "text": "Switch to dark mode (currently light)",
+                    "ratio": 19.8,
+                    "required": 4.5
+                },
+                {
+                    "text": "Enter times in m:ss format (for example, 0:05).",
+                    "ratio": 4.74,
+                    "required": 4.5
+                },
+                {
+                    "text": "0:00 to 10:00",
+                    "ratio": 4.74,
+                    "required": 4.5
+                },
+                {
+                    "text": "0:01 to 10:00",
+                    "ratio": 4.74,
+                    "required": 4.5
+                },
+                {
+                    "text": "0:00 to 10:00",
+                    "ratio": 4.74,
+                    "required": 4.5
+                },
+                {
+                    "text": "Whole number from 1 to 100",
+                    "ratio": 4.74,
+                    "required": 4.5
+                },
+                {
+                    "text": "on",
+                    "ratio": 19.8,
+                    "required": 4.5
+                },
+                {
+                    "text": "Wait a random 1–5 seconds before exercise starts.",
+                    "ratio": 4.74,
+                    "required": 4.5
+                },
+                {
+                    "text": "Start",
+                    "ratio": 17.18,
+                    "required": 4.5
+                }
+            ],
+            "noOverflow": true
+        },
+        {
+            "name": "p3-light-1280-error",
+            "contrast": [
+                {
+                    "text": "Drill timer",
+                    "ratio": 19.8,
+                    "required": 3
+                },
+                {
+                    "text": "Switch to dark mode (currently light)",
+                    "ratio": 19.8,
+                    "required": 4.5
+                },
+                {
+                    "text": "Enter times in m:ss format (for example, 0:05).",
+                    "ratio": 4.74,
+                    "required": 4.5
+                },
+                {
+                    "text": "0:00 to 10:00",
+                    "ratio": 4.74,
+                    "required": 4.5
+                },
+                {
+                    "text": "Enter a time from 0:00 to 10:00 in m:ss format.",
+                    "ratio": 4.77,
+                    "required": 4.5
+                },
+                {
+                    "text": "0:01 to 10:00",
+                    "ratio": 4.74,
+                    "required": 4.5
+                },
+                {
+                    "text": "Enter a time from 0:01 to 10:00 in m:ss format.",
+                    "ratio": 4.77,
+                    "required": 4.5
+                },
+                {
+                    "text": "0:00 to 10:00",
+                    "ratio": 4.74,
+                    "required": 4.5
+                },
+                {
+                    "text": "Enter a time from 0:00 to 10:00 in m:ss format.",
+                    "ratio": 4.77,
+                    "required": 4.5
+                },
+                {
+                    "text": "Whole number from 1 to 100",
+                    "ratio": 4.74,
+                    "required": 4.5
+                },
+                {
+                    "text": "Enter a whole number from 1 to 100.",
+                    "ratio": 4.77,
+                    "required": 4.5
+                },
+                {
+                    "text": "on",
+                    "ratio": 19.8,
+                    "required": 4.5
+                },
+                {
+                    "text": "Wait a random 1–5 seconds before exercise starts.",
+                    "ratio": 4.74,
+                    "required": 4.5
+                },
+                {
+                    "text": "Start",
+                    "ratio": 17.18,
+                    "required": 4.5
+                }
+            ],
+            "noOverflow": true
+        },
+        {
+            "name": "p3-light-1280-running",
+            "contrast": [
+                {
+                    "text": "Drill timer",
+                    "ratio": 19.8,
+                    "required": 3
+                },
+                {
+                    "text": "Switch to dark mode (currently light)",
+                    "ratio": 19.8,
+                    "required": 4.5
+                },
+                {
+                    "text": "Preparation",
+                    "ratio": 19.8,
+                    "required": 3
+                },
+                {
+                    "text": "0:01",
+                    "ratio": 19.8,
+                    "required": 3
+                },
+                {
+                    "text": "Preparing",
+                    "ratio": 4.74,
+                    "required": 4.5
+                }
+            ],
+            "noOverflow": true
+        },
+        {
+            "name": "p3-light-1280-paused",
+            "contrast": [
+                {
+                    "text": "Drill timer",
+                    "ratio": 19.8,
+                    "required": 3
+                },
+                {
+                    "text": "Switch to dark mode (currently light)",
+                    "ratio": 19.8,
+                    "required": 4.5
+                },
+                {
+                    "text": "Paused while the page was hidden.",
+                    "ratio": 18.16,
+                    "required": 4.5
+                },
+                {
+                    "text": "Resume",
+                    "ratio": 17.18,
+                    "required": 4.5
+                },
+                {
+                    "text": "Preparation",
+                    "ratio": 19.8,
+                    "required": 3
+                },
+                {
+                    "text": "0:01",
+                    "ratio": 19.8,
+                    "required": 3
+                },
+                {
+                    "text": "Preparing",
+                    "ratio": 4.74,
+                    "required": 4.5
+                }
+            ],
+            "noOverflow": true
+        },
+        {
+            "name": "p3-light-1280-completed",
+            "contrast": [
+                {
+                    "text": "Drill timer",
+                    "ratio": 19.8,
+                    "required": 3
+                },
+                {
+                    "text": "Switch to dark mode (currently light)",
+                    "ratio": 19.8,
+                    "required": 4.5
+                },
+                {
+                    "text": "Completed",
+                    "ratio": 19.8,
+                    "required": 3
+                },
+                {
+                    "text": "Return to configuration",
+                    "ratio": 17.18,
+                    "required": 4.5
+                }
+            ],
+            "noOverflow": true
+        },
+        {
+            "name": "p3-light-1280-standby",
+            "contrast": [
+                {
+                    "text": "Drill timer",
+                    "ratio": 19.8,
+                    "required": 3
+                },
+                {
+                    "text": "Switch to dark mode (currently light)",
+                    "ratio": 19.8,
+                    "required": 4.5
+                },
+                {
+                    "text": "Standby",
+                    "ratio": 19.8,
+                    "required": 3
+                },
+                {
+                    "text": "Repetition 1 of 1",
+                    "ratio": 4.74,
+                    "required": 4.5
+                }
+            ],
+            "noOverflow": true
+        },
+        {
+            "width": 1280,
+            "theme": "light",
+            "validation": true,
+            "errorClears": true,
+            "finalRest": true,
+            "zeroTimes": true,
+            "standbyHidden": true,
+            "pauseResume": true,
+            "valuesRetained": true
+        },
+        {
+            "name": "p3-dark-1280-config",
+            "contrast": [
+                {
+                    "text": "Drill timer",
+                    "ratio": 17.18,
+                    "required": 3
+                },
+                {
+                    "text": "Switch to light mode (currently dark)",
+                    "ratio": 15.43,
+                    "required": 4.5
+                },
+                {
+                    "text": "Enter times in m:ss format (for example, 0:05).",
+                    "ratio": 6.94,
+                    "required": 4.5
+                },
+                {
+                    "text": "0:00 to 10:00",
+                    "ratio": 6.94,
+                    "required": 4.5
+                },
+                {
+                    "text": "0:01 to 10:00",
+                    "ratio": 6.94,
+                    "required": 4.5
+                },
+                {
+                    "text": "0:00 to 10:00",
+                    "ratio": 6.94,
+                    "required": 4.5
+                },
+                {
+                    "text": "Whole number from 1 to 100",
+                    "ratio": 6.94,
+                    "required": 4.5
+                },
+                {
+                    "text": "on",
+                    "ratio": 15.43,
+                    "required": 4.5
+                },
+                {
+                    "text": "Wait a random 1–5 seconds before exercise starts.",
+                    "ratio": 6.94,
+                    "required": 4.5
+                },
+                {
+                    "text": "Start",
+                    "ratio": 14.23,
+                    "required": 4.5
+                }
+            ],
+            "noOverflow": true
+        },
+        {
+            "name": "p3-dark-1280-error",
+            "contrast": [
+                {
+                    "text": "Drill timer",
+                    "ratio": 17.18,
+                    "required": 3
+                },
+                {
+                    "text": "Switch to light mode (currently dark)",
+                    "ratio": 15.43,
+                    "required": 4.5
+                },
+                {
+                    "text": "Enter times in m:ss format (for example, 0:05).",
+                    "ratio": 6.94,
+                    "required": 4.5
+                },
+                {
+                    "text": "0:00 to 10:00",
+                    "ratio": 6.94,
+                    "required": 4.5
+                },
+                {
+                    "text": "Enter a time from 0:00 to 10:00 in m:ss format.",
+                    "ratio": 6.21,
+                    "required": 4.5
+                },
+                {
+                    "text": "0:01 to 10:00",
+                    "ratio": 6.94,
+                    "required": 4.5
+                },
+                {
+                    "text": "Enter a time from 0:01 to 10:00 in m:ss format.",
+                    "ratio": 6.21,
+                    "required": 4.5
+                },
+                {
+                    "text": "0:00 to 10:00",
+                    "ratio": 6.94,
+                    "required": 4.5
+                },
+                {
+                    "text": "Enter a time from 0:00 to 10:00 in m:ss format.",
+                    "ratio": 6.21,
+                    "required": 4.5
+                },
+                {
+                    "text": "Whole number from 1 to 100",
+                    "ratio": 6.94,
+                    "required": 4.5
+                },
+                {
+                    "text": "Enter a whole number from 1 to 100.",
+                    "ratio": 6.21,
+                    "required": 4.5
+                },
+                {
+                    "text": "on",
+                    "ratio": 15.43,
+                    "required": 4.5
+                },
+                {
+                    "text": "Wait a random 1–5 seconds before exercise starts.",
+                    "ratio": 6.94,
+                    "required": 4.5
+                },
+                {
+                    "text": "Start",
+                    "ratio": 14.23,
+                    "required": 4.5
+                }
+            ],
+            "noOverflow": true
+        },
+        {
+            "name": "p3-dark-1280-running",
+            "contrast": [
+                {
+                    "text": "Drill timer",
+                    "ratio": 17.18,
+                    "required": 3
+                },
+                {
+                    "text": "Switch to light mode (currently dark)",
+                    "ratio": 15.43,
+                    "required": 4.5
+                },
+                {
+                    "text": "Preparation",
+                    "ratio": 17.18,
+                    "required": 3
+                },
+                {
+                    "text": "0:01",
+                    "ratio": 17.18,
+                    "required": 3
+                },
+                {
+                    "text": "Preparing",
+                    "ratio": 6.94,
+                    "required": 4.5
+                }
+            ],
+            "noOverflow": true
+        },
+        {
+            "name": "p3-dark-1280-paused",
+            "contrast": [
+                {
+                    "text": "Drill timer",
+                    "ratio": 17.18,
+                    "required": 3
+                },
+                {
+                    "text": "Switch to light mode (currently dark)",
+                    "ratio": 15.43,
+                    "required": 4.5
+                },
+                {
+                    "text": "Paused while the page was hidden.",
+                    "ratio": 14.5,
+                    "required": 4.5
+                },
+                {
+                    "text": "Resume",
+                    "ratio": 14.23,
+                    "required": 4.5
+                },
+                {
+                    "text": "Preparation",
+                    "ratio": 17.18,
+                    "required": 3
+                },
+                {
+                    "text": "0:01",
+                    "ratio": 17.18,
+                    "required": 3
+                },
+                {
+                    "text": "Preparing",
+                    "ratio": 6.94,
+                    "required": 4.5
+                }
+            ],
+            "noOverflow": true
+        },
+        {
+            "name": "p3-dark-1280-completed",
+            "contrast": [
+                {
+                    "text": "Drill timer",
+                    "ratio": 17.18,
+                    "required": 3
+                },
+                {
+                    "text": "Switch to light mode (currently dark)",
+                    "ratio": 15.43,
+                    "required": 4.5
+                },
+                {
+                    "text": "Completed",
+                    "ratio": 17.18,
+                    "required": 3
+                },
+                {
+                    "text": "Return to configuration",
+                    "ratio": 14.23,
+                    "required": 4.5
+                }
+            ],
+            "noOverflow": true
+        },
+        {
+            "name": "p3-dark-1280-standby",
+            "contrast": [
+                {
+                    "text": "Drill timer",
+                    "ratio": 17.18,
+                    "required": 3
+                },
+                {
+                    "text": "Switch to light mode (currently dark)",
+                    "ratio": 15.43,
+                    "required": 4.5
+                },
+                {
+                    "text": "Standby",
+                    "ratio": 17.18,
+                    "required": 3
+                },
+                {
+                    "text": "Repetition 1 of 1",
+                    "ratio": 6.94,
+                    "required": 4.5
+                }
+            ],
+            "noOverflow": true
+        },
+        {
+            "width": 1280,
+            "theme": "dark",
+            "validation": true,
+            "errorClears": true,
+            "finalRest": true,
+            "zeroTimes": true,
+            "standbyHidden": true,
+            "pauseResume": true,
+            "valuesRetained": true
+        },
+        {
+            "name": "p3-light-390-config",
+            "contrast": [
+                {
+                    "text": "Drill timer",
+                    "ratio": 19.8,
+                    "required": 3
+                },
+                {
+                    "text": "Switch to dark mode (currently light)",
+                    "ratio": 19.8,
+                    "required": 4.5
+                },
+                {
+                    "text": "Enter times in m:ss format (for example, 0:05).",
+                    "ratio": 4.74,
+                    "required": 4.5
+                },
+                {
+                    "text": "0:00 to 10:00",
+                    "ratio": 4.74,
+                    "required": 4.5
+                },
+                {
+                    "text": "0:01 to 10:00",
+                    "ratio": 4.74,
+                    "required": 4.5
+                },
+                {
+                    "text": "0:00 to 10:00",
+                    "ratio": 4.74,
+                    "required": 4.5
+                },
+                {
+                    "text": "Whole number from 1 to 100",
+                    "ratio": 4.74,
+                    "required": 4.5
+                },
+                {
+                    "text": "on",
+                    "ratio": 19.8,
+                    "required": 4.5
+                },
+                {
+                    "text": "Wait a random 1–5 seconds before exercise starts.",
+                    "ratio": 4.74,
+                    "required": 4.5
+                },
+                {
+                    "text": "Start",
+                    "ratio": 17.18,
+                    "required": 4.5
+                }
+            ],
+            "noOverflow": true
+        },
+        {
+            "name": "p3-light-390-error",
+            "contrast": [
+                {
+                    "text": "Drill timer",
+                    "ratio": 19.8,
+                    "required": 3
+                },
+                {
+                    "text": "Switch to dark mode (currently light)",
+                    "ratio": 19.8,
+                    "required": 4.5
+                },
+                {
+                    "text": "Enter times in m:ss format (for example, 0:05).",
+                    "ratio": 4.74,
+                    "required": 4.5
+                },
+                {
+                    "text": "0:00 to 10:00",
+                    "ratio": 4.74,
+                    "required": 4.5
+                },
+                {
+                    "text": "Enter a time from 0:00 to 10:00 in m:ss format.",
+                    "ratio": 4.77,
+                    "required": 4.5
+                },
+                {
+                    "text": "0:01 to 10:00",
+                    "ratio": 4.74,
+                    "required": 4.5
+                },
+                {
+                    "text": "Enter a time from 0:01 to 10:00 in m:ss format.",
+                    "ratio": 4.77,
+                    "required": 4.5
+                },
+                {
+                    "text": "0:00 to 10:00",
+                    "ratio": 4.74,
+                    "required": 4.5
+                },
+                {
+                    "text": "Enter a time from 0:00 to 10:00 in m:ss format.",
+                    "ratio": 4.77,
+                    "required": 4.5
+                },
+                {
+                    "text": "Whole number from 1 to 100",
+                    "ratio": 4.74,
+                    "required": 4.5
+                },
+                {
+                    "text": "Enter a whole number from 1 to 100.",
+                    "ratio": 4.77,
+                    "required": 4.5
+                },
+                {
+                    "text": "on",
+                    "ratio": 19.8,
+                    "required": 4.5
+                },
+                {
+                    "text": "Wait a random 1–5 seconds before exercise starts.",
+                    "ratio": 4.74,
+                    "required": 4.5
+                },
+                {
+                    "text": "Start",
+                    "ratio": 17.18,
+                    "required": 4.5
+                }
+            ],
+            "noOverflow": true
+        },
+        {
+            "name": "p3-light-390-running",
+            "contrast": [
+                {
+                    "text": "Drill timer",
+                    "ratio": 19.8,
+                    "required": 3
+                },
+                {
+                    "text": "Switch to dark mode (currently light)",
+                    "ratio": 19.8,
+                    "required": 4.5
+                },
+                {
+                    "text": "Preparation",
+                    "ratio": 19.8,
+                    "required": 3
+                },
+                {
+                    "text": "0:01",
+                    "ratio": 19.8,
+                    "required": 3
+                },
+                {
+                    "text": "Preparing",
+                    "ratio": 4.74,
+                    "required": 4.5
+                }
+            ],
+            "noOverflow": true
+        },
+        {
+            "name": "p3-light-390-paused",
+            "contrast": [
+                {
+                    "text": "Drill timer",
+                    "ratio": 19.8,
+                    "required": 3
+                },
+                {
+                    "text": "Switch to dark mode (currently light)",
+                    "ratio": 19.8,
+                    "required": 4.5
+                },
+                {
+                    "text": "Paused while the page was hidden.",
+                    "ratio": 18.16,
+                    "required": 4.5
+                },
+                {
+                    "text": "Resume",
+                    "ratio": 17.18,
+                    "required": 4.5
+                },
+                {
+                    "text": "Preparation",
+                    "ratio": 19.8,
+                    "required": 3
+                },
+                {
+                    "text": "0:01",
+                    "ratio": 19.8,
+                    "required": 3
+                },
+                {
+                    "text": "Preparing",
+                    "ratio": 4.74,
+                    "required": 4.5
+                }
+            ],
+            "noOverflow": true
+        },
+        {
+            "name": "p3-light-390-completed",
+            "contrast": [
+                {
+                    "text": "Drill timer",
+                    "ratio": 19.8,
+                    "required": 3
+                },
+                {
+                    "text": "Switch to dark mode (currently light)",
+                    "ratio": 19.8,
+                    "required": 4.5
+                },
+                {
+                    "text": "Completed",
+                    "ratio": 19.8,
+                    "required": 3
+                },
+                {
+                    "text": "Return to configuration",
+                    "ratio": 17.18,
+                    "required": 4.5
+                }
+            ],
+            "noOverflow": true
+        },
+        {
+            "name": "p3-light-390-standby",
+            "contrast": [
+                {
+                    "text": "Drill timer",
+                    "ratio": 19.8,
+                    "required": 3
+                },
+                {
+                    "text": "Switch to dark mode (currently light)",
+                    "ratio": 19.8,
+                    "required": 4.5
+                },
+                {
+                    "text": "Standby",
+                    "ratio": 19.8,
+                    "required": 3
+                },
+                {
+                    "text": "Repetition 1 of 1",
+                    "ratio": 4.74,
+                    "required": 4.5
+                }
+            ],
+            "noOverflow": true
+        },
+        {
+            "width": 390,
+            "theme": "light",
+            "validation": true,
+            "errorClears": true,
+            "finalRest": true,
+            "zeroTimes": true,
+            "standbyHidden": true,
+            "pauseResume": true,
+            "valuesRetained": true
+        },
+        {
+            "name": "p3-dark-390-config",
+            "contrast": [
+                {
+                    "text": "Drill timer",
+                    "ratio": 17.18,
+                    "required": 3
+                },
+                {
+                    "text": "Switch to light mode (currently dark)",
+                    "ratio": 15.43,
+                    "required": 4.5
+                },
+                {
+                    "text": "Enter times in m:ss format (for example, 0:05).",
+                    "ratio": 6.94,
+                    "required": 4.5
+                },
+                {
+                    "text": "0:00 to 10:00",
+                    "ratio": 6.94,
+                    "required": 4.5
+                },
+                {
+                    "text": "0:01 to 10:00",
+                    "ratio": 6.94,
+                    "required": 4.5
+                },
+                {
+                    "text": "0:00 to 10:00",
+                    "ratio": 6.94,
+                    "required": 4.5
+                },
+                {
+                    "text": "Whole number from 1 to 100",
+                    "ratio": 6.94,
+                    "required": 4.5
+                },
+                {
+                    "text": "on",
+                    "ratio": 15.43,
+                    "required": 4.5
+                },
+                {
+                    "text": "Wait a random 1–5 seconds before exercise starts.",
+                    "ratio": 6.94,
+                    "required": 4.5
+                },
+                {
+                    "text": "Start",
+                    "ratio": 14.23,
+                    "required": 4.5
+                }
+            ],
+            "noOverflow": true
+        },
+        {
+            "name": "p3-dark-390-error",
+            "contrast": [
+                {
+                    "text": "Drill timer",
+                    "ratio": 17.18,
+                    "required": 3
+                },
+                {
+                    "text": "Switch to light mode (currently dark)",
+                    "ratio": 15.43,
+                    "required": 4.5
+                },
+                {
+                    "text": "Enter times in m:ss format (for example, 0:05).",
+                    "ratio": 6.94,
+                    "required": 4.5
+                },
+                {
+                    "text": "0:00 to 10:00",
+                    "ratio": 6.94,
+                    "required": 4.5
+                },
+                {
+                    "text": "Enter a time from 0:00 to 10:00 in m:ss format.",
+                    "ratio": 6.21,
+                    "required": 4.5
+                },
+                {
+                    "text": "0:01 to 10:00",
+                    "ratio": 6.94,
+                    "required": 4.5
+                },
+                {
+                    "text": "Enter a time from 0:01 to 10:00 in m:ss format.",
+                    "ratio": 6.21,
+                    "required": 4.5
+                },
+                {
+                    "text": "0:00 to 10:00",
+                    "ratio": 6.94,
+                    "required": 4.5
+                },
+                {
+                    "text": "Enter a time from 0:00 to 10:00 in m:ss format.",
+                    "ratio": 6.21,
+                    "required": 4.5
+                },
+                {
+                    "text": "Whole number from 1 to 100",
+                    "ratio": 6.94,
+                    "required": 4.5
+                },
+                {
+                    "text": "Enter a whole number from 1 to 100.",
+                    "ratio": 6.21,
+                    "required": 4.5
+                },
+                {
+                    "text": "on",
+                    "ratio": 15.43,
+                    "required": 4.5
+                },
+                {
+                    "text": "Wait a random 1–5 seconds before exercise starts.",
+                    "ratio": 6.94,
+                    "required": 4.5
+                },
+                {
+                    "text": "Start",
+                    "ratio": 14.23,
+                    "required": 4.5
+                }
+            ],
+            "noOverflow": true
+        },
+        {
+            "name": "p3-dark-390-running",
+            "contrast": [
+                {
+                    "text": "Drill timer",
+                    "ratio": 17.18,
+                    "required": 3
+                },
+                {
+                    "text": "Switch to light mode (currently dark)",
+                    "ratio": 15.43,
+                    "required": 4.5
+                },
+                {
+                    "text": "Preparation",
+                    "ratio": 17.18,
+                    "required": 3
+                },
+                {
+                    "text": "0:01",
+                    "ratio": 17.18,
+                    "required": 3
+                },
+                {
+                    "text": "Preparing",
+                    "ratio": 6.94,
+                    "required": 4.5
+                }
+            ],
+            "noOverflow": true
+        },
+        {
+            "name": "p3-dark-390-paused",
+            "contrast": [
+                {
+                    "text": "Drill timer",
+                    "ratio": 17.18,
+                    "required": 3
+                },
+                {
+                    "text": "Switch to light mode (currently dark)",
+                    "ratio": 15.43,
+                    "required": 4.5
+                },
+                {
+                    "text": "Paused while the page was hidden.",
+                    "ratio": 14.5,
+                    "required": 4.5
+                },
+                {
+                    "text": "Resume",
+                    "ratio": 14.23,
+                    "required": 4.5
+                },
+                {
+                    "text": "Preparation",
+                    "ratio": 17.18,
+                    "required": 3
+                },
+                {
+                    "text": "0:01",
+                    "ratio": 17.18,
+                    "required": 3
+                },
+                {
+                    "text": "Preparing",
+                    "ratio": 6.94,
+                    "required": 4.5
+                }
+            ],
+            "noOverflow": true
+        },
+        {
+            "name": "p3-dark-390-completed",
+            "contrast": [
+                {
+                    "text": "Drill timer",
+                    "ratio": 17.18,
+                    "required": 3
+                },
+                {
+                    "text": "Switch to light mode (currently dark)",
+                    "ratio": 15.43,
+                    "required": 4.5
+                },
+                {
+                    "text": "Completed",
+                    "ratio": 17.18,
+                    "required": 3
+                },
+                {
+                    "text": "Return to configuration",
+                    "ratio": 14.23,
+                    "required": 4.5
+                }
+            ],
+            "noOverflow": true
+        },
+        {
+            "name": "p3-dark-390-standby",
+            "contrast": [
+                {
+                    "text": "Drill timer",
+                    "ratio": 17.18,
+                    "required": 3
+                },
+                {
+                    "text": "Switch to light mode (currently dark)",
+                    "ratio": 15.43,
+                    "required": 4.5
+                },
+                {
+                    "text": "Standby",
+                    "ratio": 17.18,
+                    "required": 3
+                },
+                {
+                    "text": "Repetition 1 of 1",
+                    "ratio": 6.94,
+                    "required": 4.5
+                }
+            ],
+            "noOverflow": true
+        },
+        {
+            "width": 390,
+            "theme": "dark",
+            "validation": true,
+            "errorClears": true,
+            "finalRest": true,
+            "zeroTimes": true,
+            "standbyHidden": true,
+            "pauseResume": true,
+            "valuesRetained": true
+        },
+        {
+            "name": "p3-audio-pending",
+            "contrast": [
+                {
+                    "text": "Drill timer",
+                    "ratio": 17.18,
+                    "required": 3
+                },
+                {
+                    "text": "Switch to light mode (currently dark)",
+                    "ratio": 15.43,
+                    "required": 4.5
+                },
+                {
+                    "text": "Preparation",
+                    "ratio": 17.18,
+                    "required": 3
+                },
+                {
+                    "text": "Starting timer…",
+                    "ratio": 6.94,
+                    "required": 4.5
+                },
+                {
+                    "text": "Preparing",
+                    "ratio": 6.94,
+                    "required": 4.5
+                }
+            ],
+            "noOverflow": true
+        },
+        {
+            "name": "p3-audio-silent",
+            "contrast": [
+                {
+                    "text": "Drill timer",
+                    "ratio": 17.18,
+                    "required": 3
+                },
+                {
+                    "text": "Switch to light mode (currently dark)",
+                    "ratio": 15.43,
+                    "required": 4.5
+                },
+                {
+                    "text": "Preparation",
+                    "ratio": 17.18,
+                    "required": 3
+                },
+                {
+                    "text": "0:01",
+                    "ratio": 17.18,
+                    "required": 3
+                },
+                {
+                    "text": "Preparing",
+                    "ratio": 6.94,
+                    "required": 4.5
+                }
+            ],
+            "noOverflow": true
+        },
+        {
+            "audio": "pending",
+            "passed": true
+        },
+        {
+            "audio": "null",
+            "passed": true
+        },
+        {
+            "audio": "reject",
+            "passed": true
+        },
+        {
+            "name": "p3-audio-unmount",
+            "contrast": [
+                {
+                    "text": "Drill timer",
+                    "ratio": 17.18,
+                    "required": 3
+                },
+                {
+                    "text": "Switch to light mode (currently dark)",
+                    "ratio": 15.43,
+                    "required": 4.5
+                },
+                {
+                    "text": "Preparation",
+                    "ratio": 17.18,
+                    "required": 3
+                },
+                {
+                    "text": "Starting timer…",
+                    "ratio": 6.94,
+                    "required": 4.5
+                },
+                {
+                    "text": "Preparing",
+                    "ratio": 6.94,
+                    "required": 4.5
+                }
+            ],
+            "noOverflow": true
+        },
+        {
+            "audio": "unmount",
+            "passed": true
+        }
+    ]
+}

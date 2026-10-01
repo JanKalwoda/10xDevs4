@@ -18,6 +18,8 @@ jobs:
       - run: npm ci
       - run: npx astro sync
       - run: npm run lint
+      - run: npm test
+      - run: node --test scripts/eslint-rules/timer-ui-contract.test.mjs
       - run: npx astro check
       - run: npm run build
 
@@ -50,6 +52,7 @@ jobs:
           npm run preview -- --port 4321 &
           for i in $(seq 1 60); do curl -sf -o /dev/null http://localhost:4321/ && break; sleep 1; done
           SMOKE_MODE=local BASE_URL=http://localhost:4321 npm run smoke
+          test "$(curl -s -o /dev/null -w '%{http_code}' http://localhost:4321/dev/timer-ui)" = 404
       - if: always()
         run: supabase stop --no-backup
 

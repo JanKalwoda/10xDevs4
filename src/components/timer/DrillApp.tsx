@@ -1,7 +1,9 @@
 import { useCallback, useState } from "react";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import DrillConfigForm from "@/components/timer/DrillConfigForm";
 import DrillTimer from "@/components/timer/DrillTimer";
+import ThemeToggle from "@/components/timer/ThemeToggle";
 import { createDrillAudio, type DrillAudioPort } from "@/lib/drill-audio";
 import type { DrillConfigInput } from "@/lib/drill-timer";
 import type { DrillConfiguration } from "@/types";
@@ -17,6 +19,17 @@ const DEFAULT_VALUES: DrillConfigInput = {
 interface ActiveRun {
     configuration: Readonly<DrillConfiguration>;
     audio: Promise<DrillAudioPort | null>;
+}
+
+export function DrillCompleted({ onReturn }: { onReturn: () => void }) {
+    return (
+        <section className="space-y-6 text-center">
+            <h2 className="text-2xl font-semibold">Completed</h2>
+            <Button type="button" className="w-full" onClick={onReturn}>
+                Return to configuration
+            </Button>
+        </section>
+    );
 }
 
 export default function DrillApp() {
@@ -35,26 +48,25 @@ export default function DrillApp() {
     }
 
     return (
-        <main className="flex min-h-screen items-center justify-center bg-slate-100 px-4 py-8 text-slate-900">
-            <div className="w-full max-w-md rounded-2xl bg-white p-6 shadow-sm sm:p-8">
-                <h1 className="mb-6 text-center text-3xl font-bold">Drill timer</h1>
-                {view === "configuration" && <DrillConfigForm values={values} onValuesChange={setValues} onStart={start} />}
-                {view === "running" && activeRun && <DrillTimer configuration={activeRun.configuration} audio={activeRun.audio} onComplete={complete} />}
-                {view === "completed" && (
-                    <section className="space-y-6 text-center">
-                        <h2 className="text-2xl font-semibold">Completed</h2>
-                        <Button
-                            type="button"
-                            className="w-full"
-                            onClick={() => {
+        <main className="bg-background text-foreground flex min-h-screen items-center justify-center px-4 py-8">
+            <Card className="w-full max-w-md">
+                <CardHeader className="flex flex-row items-center justify-between">
+                    <span aria-hidden="true" className="size-9" />
+                    <h1 className="text-center text-3xl font-bold">Drill timer</h1>
+                    <ThemeToggle />
+                </CardHeader>
+                <CardContent>
+                    {view === "configuration" && <DrillConfigForm values={values} onValuesChange={setValues} onStart={start} />}
+                    {view === "running" && activeRun && <DrillTimer configuration={activeRun.configuration} audio={activeRun.audio} onComplete={complete} />}
+                    {view === "completed" && (
+                        <DrillCompleted
+                            onReturn={() => {
                                 setView("configuration");
                             }}
-                        >
-                            Return to configuration
-                        </Button>
-                    </section>
-                )}
-            </div>
+                        />
+                    )}
+                </CardContent>
+            </Card>
         </main>
     );
 }

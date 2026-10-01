@@ -1,5 +1,8 @@
 import { useId, useState, type SubmitEvent } from "react";
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { parseDrillConfig, type DrillConfigErrors, type DrillConfigInput } from "@/lib/drill-timer";
 import type { DrillConfiguration } from "@/types";
 
@@ -25,10 +28,8 @@ function ConfigField({ id, field, label, hint, value, error, onChange }: ConfigF
 
     return (
         <div className="space-y-1">
-            <label htmlFor={id} className="block text-sm font-medium">
-                {label}
-            </label>
-            <input
+            <Label htmlFor={id}>{label}</Label>
+            <Input
                 id={id}
                 name={field}
                 type="text"
@@ -39,13 +40,12 @@ function ConfigField({ id, field, label, hint, value, error, onChange }: ConfigF
                 }}
                 aria-invalid={Boolean(error)}
                 aria-describedby={`${hintId}${error ? ` ${errorId}` : ""}`}
-                className="w-full rounded-md border border-slate-400 bg-white px-3 py-2 text-slate-950 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 aria-invalid:border-red-600"
             />
-            <p id={hintId} className="text-sm text-slate-600">
+            <p id={hintId} className="text-muted-foreground text-sm">
                 {hint}
             </p>
             {error && (
-                <p id={errorId} className="text-sm text-red-700" role="alert">
+                <p id={errorId} className="text-destructive text-sm" role="alert">
                     {error}
                 </p>
             )}
@@ -76,7 +76,7 @@ export default function DrillConfigForm({ values, onValuesChange, onStart }: Dri
 
     return (
         <form onSubmit={handleSubmit} noValidate className="space-y-5">
-            <p className="text-sm text-slate-600">Enter times in m:ss format (for example, 0:05).</p>
+            <p className="text-muted-foreground text-sm">Enter times in m:ss format (for example, 0:05).</p>
             <ConfigField
                 id={`${id}-preparation`}
                 field="preparation"
@@ -98,21 +98,19 @@ export default function DrillConfigForm({ values, onValuesChange, onStart }: Dri
                 onChange={handleChange}
             />
             <div className="space-y-1">
-                <label htmlFor={`${id}-random-start`} className="flex items-center gap-2 text-sm font-medium">
-                    <input
+                <div className="flex items-center gap-2">
+                    <Checkbox
                         id={`${id}-random-start`}
                         name="randomStartEnabled"
-                        type="checkbox"
                         checked={values.randomStartEnabled}
-                        onChange={(event) => {
-                            onValuesChange({ ...values, randomStartEnabled: event.target.checked });
+                        onCheckedChange={(checked) => {
+                            onValuesChange({ ...values, randomStartEnabled: checked === true });
                         }}
                         aria-describedby={`${id}-random-start-hint`}
-                        className="size-4 accent-blue-600"
                     />
-                    Random start
-                </label>
-                <p id={`${id}-random-start-hint`} className="text-sm text-slate-600">
+                    <Label htmlFor={`${id}-random-start`}>Random start</Label>
+                </div>
+                <p id={`${id}-random-start-hint`} className="text-muted-foreground text-sm">
                     Wait a random 1–5 seconds before exercise starts.
                 </p>
             </div>

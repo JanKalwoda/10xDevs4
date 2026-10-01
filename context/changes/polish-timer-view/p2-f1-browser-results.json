@@ -1,0 +1,340 @@
+{
+  "date": "2026-10-01",
+  "browser": "Edg/154.0.4258.37",
+  "screenshots": [
+    "p2-f1-light-1280-running.png",
+    "p2-f1-light-1280-paused.png",
+    "p2-f1-dark-1280-running.png",
+    "p2-f1-dark-1280-paused.png",
+    "p2-f1-light-390-running.png",
+    "p2-f1-light-390-paused.png",
+    "p2-f1-dark-390-running.png",
+    "p2-f1-dark-390-paused.png"
+  ],
+  "checks": [
+    {
+      "width": 1280,
+      "theme": "light",
+      "state": "running",
+      "contrast": [
+        {
+          "text": "Drill timer",
+          "ratio": 19.8,
+          "required": 3
+        },
+        {
+          "text": "Switch to dark mode (currently light)",
+          "ratio": 19.8,
+          "required": 4.5
+        },
+        {
+          "text": "Exercise",
+          "ratio": 19.8,
+          "required": 3
+        },
+        {
+          "text": "1:00",
+          "ratio": 19.8,
+          "required": 3
+        },
+        {
+          "text": "Repetition 1 of 1",
+          "ratio": 4.74,
+          "required": 4.5
+        }
+      ],
+      "noOverflow": true
+    },
+    {
+      "width": 1280,
+      "theme": "light",
+      "state": "paused",
+      "contrast": [
+        {
+          "text": "Drill timer",
+          "ratio": 19.8,
+          "required": 3
+        },
+        {
+          "text": "Switch to dark mode (currently light)",
+          "ratio": 19.8,
+          "required": 4.5
+        },
+        {
+          "text": "Paused while the page was hidden.",
+          "ratio": 18.16,
+          "required": 4.5
+        },
+        {
+          "text": "Resume",
+          "ratio": 17.18,
+          "required": 4.5
+        },
+        {
+          "text": "Exercise",
+          "ratio": 19.8,
+          "required": 3
+        },
+        {
+          "text": "1:00",
+          "ratio": 19.8,
+          "required": 3
+        },
+        {
+          "text": "Repetition 1 of 1",
+          "ratio": 4.74,
+          "required": 4.5
+        }
+      ],
+      "noOverflow": true
+    },
+    {
+      "width": 1280,
+      "theme": "light",
+      "resumeWorks": true
+    },
+    {
+      "width": 1280,
+      "theme": "dark",
+      "state": "running",
+      "contrast": [
+        {
+          "text": "Drill timer",
+          "ratio": 17.18,
+          "required": 3
+        },
+        {
+          "text": "Switch to light mode (currently dark)",
+          "ratio": 15.43,
+          "required": 4.5
+        },
+        {
+          "text": "Exercise",
+          "ratio": 17.18,
+          "required": 3
+        },
+        {
+          "text": "1:00",
+          "ratio": 17.18,
+          "required": 3
+        },
+        {
+          "text": "Repetition 1 of 1",
+          "ratio": 6.94,
+          "required": 4.5
+        }
+      ],
+      "noOverflow": true
+    },
+    {
+      "width": 1280,
+      "theme": "dark",
+      "state": "paused",
+      "contrast": [
+        {
+          "text": "Drill timer",
+          "ratio": 17.18,
+          "required": 3
+        },
+        {
+          "text": "Switch to light mode (currently dark)",
+          "ratio": 15.43,
+          "required": 4.5
+        },
+        {
+          "text": "Paused while the page was hidden.",
+          "ratio": 14.5,
+          "required": 4.5
+        },
+        {
+          "text": "Resume",
+          "ratio": 14.23,
+          "required": 4.5
+        },
+        {
+          "text": "Exercise",
+          "ratio": 17.18,
+          "required": 3
+        },
+        {
+          "text": "1:00",
+          "ratio": 17.18,
+          "required": 3
+        },
+        {
+          "text": "Repetition 1 of 1",
+          "ratio": 6.94,
+          "required": 4.5
+        }
+      ],
+      "noOverflow": true
+    },
+    {
+      "width": 1280,
+      "theme": "dark",
+      "resumeWorks": true
+    },
+    {
+      "width": 390,
+      "theme": "light",
+      "state": "running",
+      "contrast": [
+        {
+          "text": "Drill timer",
+          "ratio": 19.8,
+          "required": 3
+        },
+        {
+          "text": "Switch to dark mode (currently light)",
+          "ratio": 19.8,
+          "required": 4.5
+        },
+        {
+          "text": "Exercise",
+          "ratio": 19.8,
+          "required": 3
+        },
+        {
+          "text": "1:00",
+          "ratio": 19.8,
+          "required": 3
+        },
+        {
+          "text": "Repetition 1 of 1",
+          "ratio": 4.74,
+          "required": 4.5
+        }
+      ],
+      "noOverflow": true
+    },
+    {
+      "width": 390,
+      "theme": "light",
+      "state": "paused",
+      "contrast": [
+        {
+          "text": "Drill timer",
+          "ratio": 19.8,
+          "required": 3
+        },
+        {
+          "text": "Switch to dark mode (currently light)",
+          "ratio": 19.8,
+          "required": 4.5
+        },
+        {
+          "text": "Paused while the page was hidden.",
+          "ratio": 18.16,
+          "required": 4.5
+        },
+        {
+          "text": "Resume",
+          "ratio": 17.18,
+          "required": 4.5
+        },
+        {
+          "text": "Exercise",
+          "ratio": 19.8,
+          "required": 3
+        },
+        {
+          "text": "1:00",
+          "ratio": 19.8,
+          "required": 3
+        },
+        {
+          "text": "Repetition 1 of 1",
+          "ratio": 4.74,
+          "required": 4.5
+        }
+      ],
+      "noOverflow": true
+    },
+    {
+      "width": 390,
+      "theme": "light",
+      "resumeWorks": true
+    },
+    {
+      "width": 390,
+      "theme": "dark",
+      "state": "running",
+      "contrast": [
+        {
+          "text": "Drill timer",
+          "ratio": 17.18,
+          "required": 3
+        },
+        {
+          "text": "Switch to light mode (currently dark)",
+          "ratio": 15.43,
+          "required": 4.5
+        },
+        {
+          "text": "Exercise",
+          "ratio": 17.18,
+          "required": 3
+        },
+        {
+          "text": "1:00",
+          "ratio": 17.18,
+          "required": 3
+        },
+        {
+          "text": "Repetition 1 of 1",
+          "ratio": 6.94,
+          "required": 4.5
+        }
+      ],
+      "noOverflow": true
+    },
+    {
+      "width": 390,
+      "theme": "dark",
+      "state": "paused",
+      "contrast": [
+        {
+          "text": "Drill timer",
+          "ratio": 17.18,
+          "required": 3
+        },
+        {
+          "text": "Switch to light mode (currently dark)",
+          "ratio": 15.43,
+          "required": 4.5
+        },
+        {
+          "text": "Paused while the page was hidden.",
+          "ratio": 14.5,
+          "required": 4.5
+        },
+        {
+          "text": "Resume",
+          "ratio": 14.23,
+          "required": 4.5
+        },
+        {
+          "text": "Exercise",
+          "ratio": 17.18,
+          "required": 3
+        },
+        {
+          "text": "1:00",
+          "ratio": 17.18,
+          "required": 3
+        },
+        {
+          "text": "Repetition 1 of 1",
+          "ratio": 6.94,
+          "required": 4.5
+        }
+      ],
+      "noOverflow": true
+    },
+    {
+      "width": 390,
+      "theme": "dark",
+      "resumeWorks": true
+    }
+  ]
+}

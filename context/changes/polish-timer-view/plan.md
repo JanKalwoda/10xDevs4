@@ -228,6 +228,10 @@ Zamknąć macierz stanów, utrwalić bramkę wizualną i zapewnić, że kolejne 
 
 **Implementation Note**: Po automatycznej weryfikacji uzyskać potwierdzenie ręcznych kryteriów. Nie zaznaczać wykonania bramki na podstawie samego zielonego CI.
 
+## Verification handoff
+
+2026-10-01: Fazy 3 i 4 mają ukończoną implementację, automatyczne bramki i przeglądy `10x-impl-review`; znalezione luki reguły ESLint zostały poprawione. Zgodnie z poleceniem użytkownika kryteria Manual pozostają do jego końcowego potwierdzenia. Dowody z przeglądarki, ocenione zrzuty i lista nieprzetestowanych warunków fizycznego urządzenia są w `ui-verification.md`. Nie oznaczać ich jako potwierdzone przez użytkownika na podstawie automatyzacji.
+
 ## Testing Strategy
 
 ### Unit Tests:
@@ -277,32 +281,32 @@ Pracować na istniejącej gałęzi `feature/m2l5`. Planowanie pozostawia artefak
 
 #### Automated
 
-- [ ] 1.1 `npm run lint`, `npm run astro -- sync`, `npm run astro -- check` i `npm run build` przechodzą po dodaniu komponentów.
-- [ ] 1.2 Produkcyjny preview zwraca 404 dla `/dev/timer-ui`.
+- [x] 1.1 `npm run lint`, `npm run astro -- sync`, `npm run astro -- check` i `npm run build` przechodzą po dodaniu komponentów. — c352124
+- [x] 1.2 Produkcyjny preview zwraca 404 dla `/dev/timer-ui`. — c352124
 
 #### Manual
 
-- [ ] 1.3 W podglądzie wszystkie kontrolki mają nazwy, widoczny fokus klawiatury i poprawny stan disabled; checkbox działa klawiaturą.
-- [ ] 1.4 Zapisano i oceniono zrzuty podglądu przy 1280 px i 390 px w light/dark oraz skan widoku nie zwiększa bazowych 22 wystąpień klas palety.
+- [x] 1.3 W podglądzie wszystkie kontrolki mają nazwy, widoczny fokus klawiatury i poprawny stan disabled; checkbox działa klawiaturą. — c352124
+- [x] 1.4 Zapisano i oceniono zrzuty podglądu przy 1280 px i 390 px w light/dark oraz skan widoku nie zwiększa bazowych 22 wystąpień klas palety. — c352124
 
 ### Phase 2: Tokeny i motyw
 
 #### Automated
 
-- [ ] 2.1 `npm run lint`, `npm run astro -- check` i `npm run build` przechodzą po zmianach motywu.
+- [x] 2.1 `npm run lint`, `npm run astro -- check` i `npm run build` przechodzą po zmianach motywu. — 9ebd652
 
 #### Manual
 
-- [ ] 2.2 Bez zapisanej preferencji pierwsze malowanie i późniejsze zmiany wyglądu urządzenia dają właściwy motyw; ręczny wybór wygrywa po odświeżeniu, a zablokowany magazyn nie blokuje ćwiczenia.
-- [ ] 2.3 Przełącznik działa klawiaturą, ma czytelną nazwę i stan, a oba motywy zachowują kontrast tekstu co najmniej 4,5:1 dla zwykłego i 3:1 dla dużego tekstu oraz widoczny fokus.
-- [ ] 2.4 Zapisano i oceniono zrzuty przy 1280 px i 390 px w light/dark; skan widoku nie zwiększa liczby literałów, a strony konta zachowują dotychczasową prezentację.
+- [x] 2.2 Bez zapisanej preferencji pierwsze malowanie i późniejsze zmiany wyglądu urządzenia dają właściwy motyw; ręczny wybór wygrywa po odświeżeniu, a zablokowany magazyn nie blokuje ćwiczenia. — 9ebd652
+- [x] 2.3 Przełącznik działa klawiaturą, ma czytelną nazwę i stan, a oba motywy zachowują kontrast tekstu co najmniej 4,5:1 dla zwykłego i 3:1 dla dużego tekstu oraz widoczny fokus. — 9ebd652
+- [x] 2.4 Zapisano i oceniono zrzuty przy 1280 px i 390 px w light/dark; skan widoku nie zwiększa liczby literałów, a strony konta zachowują dotychczasową prezentację. — 9ebd652
 
 ### Phase 3: Widok timera
 
 #### Automated
 
-- [ ] 3.1 `npm run lint`, `npm test`, `npm run astro -- check` i `npm run build` przechodzą; testy faz, losowania, audio i wznowienia zachowują dotychczasowe wyniki.
-- [ ] 3.2 Skan plików widoku, wydzielonej prezentacji i przełącznika wykazuje zero klas palety, literałów kolorów i arbitralnych wymiarów; obejmuje także prefiks accent.
+- [x] 3.1 `npm run lint`, `npm test`, `npm run astro -- check` i `npm run build` przechodzą; testy faz, losowania, audio i wznowienia zachowują dotychczasowe wyniki. — bb6c0fc
+- [x] 3.2 Skan plików widoku, wydzielonej prezentacji i przełącznika wykazuje zero klas palety, literałów kolorów i arbitralnych wymiarów; obejmuje także prefiks accent. — bb6c0fc
 
 #### Manual
 
@@ -315,9 +319,9 @@ Pracować na istniejącej gałęzi `feature/m2l5`. Planowanie pozostawia artefak
 
 #### Automated
 
-- [ ] 4.1 `npm run lint`, `npm test`, `npm run astro -- sync`, `npm run astro -- check` i `npm run build` przechodzą; CI zawiera uruchomienie istniejących testów.
-- [ ] 4.2 Kontrola kontraktu odrzuca próbne klasy palety, accent palety, arbitralne kolory/wymiary i inline kolory, dopuszcza semantyczne tokeny oraz skalę systemu; końcowy skan widoku ma zero trafień.
-- [ ] 4.3 `npm run smoke` przechodzi przeciw produkcyjnemu preview z lokalnym Supabase, a `/dev/timer-ui` zwraca w tym preview 404.
+- [x] 4.1 `npm run lint`, `npm test`, `npm run astro -- sync`, `npm run astro -- check` i `npm run build` przechodzą; CI zawiera uruchomienie istniejących testów. — 4aa5672
+- [x] 4.2 Kontrola kontraktu odrzuca próbne klasy palety, accent palety, arbitralne kolory/wymiary i inline kolory, dopuszcza semantyczne tokeny oraz skalę systemu; końcowy skan widoku ma zero trafień. — 4aa5672
+- [x] 4.3 `npm run smoke` przechodzi przeciw produkcyjnemu preview z lokalnym Supabase, a `/dev/timer-ui` zwraca w tym preview 404. — 4aa5672
 
 #### Manual
 

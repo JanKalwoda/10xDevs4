@@ -1,9 +1,9 @@
 ---
 change_id: polish-timer-view
 title: Dopracowanie widoku głównego timera
-status: planned
+status: impl_reviewed
 created: 2026-09-30
-updated: 2026-09-30
+updated: 2026-10-01
 archived_at: null
 ---
 

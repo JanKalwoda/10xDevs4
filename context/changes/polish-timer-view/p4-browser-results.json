@@ -1,0 +1,1776 @@
+{
+    "date": "2026-10-01",
+    "browser": "Edg/154.0.4258.37",
+    "screenshots": [
+        "p4-light-1280-matrix.png",
+        "p4-light-1280-hover.png",
+        "p4-light-1280-focus.png",
+        "p4-light-1280-checkbox-focus.png",
+        "p4-dark-1280-matrix.png",
+        "p4-dark-1280-hover.png",
+        "p4-dark-1280-focus.png",
+        "p4-dark-1280-checkbox-focus.png",
+        "p4-light-390-matrix.png",
+        "p4-light-390-hover.png",
+        "p4-light-390-focus.png",
+        "p4-light-390-checkbox-focus.png",
+        "p4-dark-390-matrix.png",
+        "p4-dark-390-hover.png",
+        "p4-dark-390-focus.png",
+        "p4-dark-390-checkbox-focus.png"
+    ],
+    "checks": [
+        {
+            "width": 1280,
+            "theme": "light",
+            "contrast": [
+                {
+                    "text": "Timer UI preview",
+                    "ratio": 19.8,
+                    "required": 3
+                },
+                {
+                    "text": "Shared controls. Use Tab to inspect focus and Space to toggle the checkbox.",
+                    "ratio": 4.74,
+                    "required": 4.5
+                },
+                {
+                    "text": "Enter times in m:ss format (for example, 0:05).",
+                    "ratio": 4.74,
+                    "required": 4.5
+                },
+                {
+                    "text": "Preparation",
+                    "ratio": 19.8,
+                    "required": 4.5
+                },
+                {
+                    "text": "0:05",
+                    "ratio": 19.8,
+                    "required": 4.5
+                },
+                {
+                    "text": "0:00 to 10:00",
+                    "ratio": 4.74,
+                    "required": 4.5
+                },
+                {
+                    "text": "Exercise",
+                    "ratio": 19.8,
+                    "required": 4.5
+                },
+                {
+                    "text": "0:04",
+                    "ratio": 19.8,
+                    "required": 4.5
+                },
+                {
+                    "text": "0:01 to 10:00",
+                    "ratio": 4.74,
+                    "required": 4.5
+                },
+                {
+                    "text": "Rest",
+                    "ratio": 19.8,
+                    "required": 4.5
+                },
+                {
+                    "text": "0:02",
+                    "ratio": 19.8,
+                    "required": 4.5
+                },
+                {
+                    "text": "0:00 to 10:00",
+                    "ratio": 4.74,
+                    "required": 4.5
+                },
+                {
+                    "text": "Repetitions",
+                    "ratio": 19.8,
+                    "required": 4.5
+                },
+                {
+                    "text": "3",
+                    "ratio": 19.8,
+                    "required": 4.5
+                },
+                {
+                    "text": "Whole number from 1 to 100",
+                    "ratio": 4.74,
+                    "required": 4.5
+                },
+                {
+                    "text": "on",
+                    "ratio": 19.8,
+                    "required": 4.5
+                },
+                {
+                    "text": "on",
+                    "ratio": 19.8,
+                    "required": 4.5
+                },
+                {
+                    "text": "Random start",
+                    "ratio": 19.8,
+                    "required": 4.5
+                },
+                {
+                    "text": "Wait a random 1–5 seconds before exercise starts.",
+                    "ratio": 4.74,
+                    "required": 4.5
+                },
+                {
+                    "text": "Start",
+                    "ratio": 17.18,
+                    "required": 4.5
+                },
+                {
+                    "text": "Enter times in m:ss format (for example, 0:05).",
+                    "ratio": 4.74,
+                    "required": 4.5
+                },
+                {
+                    "text": "Preparation",
+                    "ratio": 19.8,
+                    "required": 4.5
+                },
+                {
+                    "text": null,
+                    "ratio": 19.8,
+                    "required": 4.5
+                },
+                {
+                    "text": "0:00 to 10:00",
+                    "ratio": 4.74,
+                    "required": 4.5
+                },
+                {
+                    "text": "Enter a time from 0:00 to 10:00 in m:ss format.",
+                    "ratio": 4.77,
+                    "required": 4.5
+                },
+                {
+                    "text": "Exercise",
+                    "ratio": 19.8,
+                    "required": 4.5
+                },
+                {
+                    "text": null,
+                    "ratio": 19.8,
+                    "required": 4.5
+                },
+                {
+                    "text": "0:01 to 10:00",
+                    "ratio": 4.74,
+                    "required": 4.5
+                },
+                {
+                    "text": "Enter a time from 0:01 to 10:00 in m:ss format.",
+                    "ratio": 4.77,
+                    "required": 4.5
+                },
+                {
+                    "text": "Rest",
+                    "ratio": 19.8,
+                    "required": 4.5
+                },
+                {
+                    "text": null,
+                    "ratio": 19.8,
+                    "required": 4.5
+                },
+                {
+                    "text": "0:00 to 10:00",
+                    "ratio": 4.74,
+                    "required": 4.5
+                },
+                {
+                    "text": "Enter a time from 0:00 to 10:00 in m:ss format.",
+                    "ratio": 4.77,
+                    "required": 4.5
+                },
+                {
+                    "text": "Repetitions",
+                    "ratio": 19.8,
+                    "required": 4.5
+                },
+                {
+                    "text": null,
+                    "ratio": 19.8,
+                    "required": 4.5
+                },
+                {
+                    "text": "Whole number from 1 to 100",
+                    "ratio": 4.74,
+                    "required": 4.5
+                },
+                {
+                    "text": "Enter a whole number from 1 to 100.",
+                    "ratio": 4.77,
+                    "required": 4.5
+                },
+                {
+                    "text": "on",
+                    "ratio": 19.8,
+                    "required": 4.5
+                },
+                {
+                    "text": "on",
+                    "ratio": 19.8,
+                    "required": 4.5
+                },
+                {
+                    "text": "Random start",
+                    "ratio": 19.8,
+                    "required": 4.5
+                },
+                {
+                    "text": "Wait a random 1–5 seconds before exercise starts.",
+                    "ratio": 4.74,
+                    "required": 4.5
+                },
+                {
+                    "text": "Start",
+                    "ratio": 17.18,
+                    "required": 4.5
+                },
+                {
+                    "text": "Preparation",
+                    "ratio": 19.8,
+                    "required": 3
+                },
+                {
+                    "text": "Starting timer…",
+                    "ratio": 4.74,
+                    "required": 4.5
+                },
+                {
+                    "text": "Preparing",
+                    "ratio": 4.74,
+                    "required": 4.5
+                },
+                {
+                    "text": "Preparation",
+                    "ratio": 19.8,
+                    "required": 3
+                },
+                {
+                    "text": "0:05",
+                    "ratio": 19.8,
+                    "required": 3
+                },
+                {
+                    "text": "Preparing",
+                    "ratio": 4.74,
+                    "required": 4.5
+                },
+                {
+                    "text": "Exercise",
+                    "ratio": 19.8,
+                    "required": 3
+                },
+                {
+                    "text": "0:03",
+                    "ratio": 19.8,
+                    "required": 3
+                },
+                {
+                    "text": "Repetition 2 of 3",
+                    "ratio": 4.74,
+                    "required": 4.5
+                },
+                {
+                    "text": "Rest",
+                    "ratio": 19.8,
+                    "required": 3
+                },
+                {
+                    "text": "0:02",
+                    "ratio": 19.8,
+                    "required": 3
+                },
+                {
+                    "text": "Repetition 3 of 3",
+                    "ratio": 4.74,
+                    "required": 4.5
+                },
+                {
+                    "text": "Standby",
+                    "ratio": 19.8,
+                    "required": 3
+                },
+                {
+                    "text": "Repetition 2 of 3",
+                    "ratio": 4.74,
+                    "required": 4.5
+                },
+                {
+                    "text": "Paused while the page was hidden.",
+                    "ratio": 18.16,
+                    "required": 4.5
+                },
+                {
+                    "text": "Resume",
+                    "ratio": 17.18,
+                    "required": 4.5
+                },
+                {
+                    "text": "Exercise",
+                    "ratio": 19.8,
+                    "required": 3
+                },
+                {
+                    "text": "0:03",
+                    "ratio": 19.8,
+                    "required": 3
+                },
+                {
+                    "text": "Repetition 2 of 3",
+                    "ratio": 4.74,
+                    "required": 4.5
+                },
+                {
+                    "text": "Audio is unavailable. The drill will continue silently.",
+                    "ratio": 4.74,
+                    "required": 4.5
+                },
+                {
+                    "text": "Exercise",
+                    "ratio": 19.8,
+                    "required": 3
+                },
+                {
+                    "text": "0:03",
+                    "ratio": 19.8,
+                    "required": 3
+                },
+                {
+                    "text": "Repetition 2 of 3",
+                    "ratio": 4.74,
+                    "required": 4.5
+                },
+                {
+                    "text": "Completed",
+                    "ratio": 19.8,
+                    "required": 3
+                },
+                {
+                    "text": "Return to configuration",
+                    "ratio": 17.18,
+                    "required": 4.5
+                },
+                {
+                    "text": "Preparation",
+                    "ratio": 19.8,
+                    "required": 4.5
+                },
+                {
+                    "text": "0:05",
+                    "ratio": 19.8,
+                    "required": 4.5
+                },
+                {
+                    "text": "0:00 to 10:00, in m:ss format.",
+                    "ratio": 4.74,
+                    "required": 4.5
+                },
+                {
+                    "text": "Exercise (error example)",
+                    "ratio": 19.8,
+                    "required": 4.5
+                },
+                {
+                    "text": "0:00",
+                    "ratio": 19.8,
+                    "required": 4.5
+                },
+                {
+                    "text": "0:01 to 10:00, in m:ss format.",
+                    "ratio": 4.74,
+                    "required": 4.5
+                },
+                {
+                    "text": "Enter an exercise time from 0:01 to 10:00.",
+                    "ratio": 4.77,
+                    "required": 4.5
+                },
+                {
+                    "text": "Repetitions (disabled example)",
+                    "ratio": 4.74,
+                    "required": 4.5
+                },
+                {
+                    "text": "Whole number from 1 to 100.",
+                    "ratio": 4.74,
+                    "required": 4.5
+                },
+                {
+                    "text": "on",
+                    "ratio": 19.8,
+                    "required": 4.5
+                },
+                {
+                    "text": "Random start",
+                    "ratio": 19.8,
+                    "required": 4.5
+                },
+                {
+                    "text": "Wait a random 1–5 seconds before exercise starts.",
+                    "ratio": 4.74,
+                    "required": 4.5
+                },
+                {
+                    "text": "Current value: false",
+                    "ratio": 4.74,
+                    "required": 4.5
+                },
+                {
+                    "text": "Disabled checkbox",
+                    "ratio": 4.74,
+                    "required": 4.5
+                },
+                {
+                    "text": "Audio unavailable",
+                    "ratio": 19.8,
+                    "required": 4.5
+                },
+                {
+                    "text": "The drill will continue silently.",
+                    "ratio": 4.74,
+                    "required": 4.5
+                },
+                {
+                    "text": "Check the configuration",
+                    "ratio": 4.77,
+                    "required": 4.5
+                },
+                {
+                    "text": "Correct the exercise time before starting.",
+                    "ratio": 4.53,
+                    "required": 4.5
+                }
+            ],
+            "noOverflow": true,
+            "hover": true,
+            "focusVisible": true,
+            "validation": true,
+            "keyboardCheckbox": true,
+            "disabledControls": true,
+            "reducedMotion": true
+        },
+        {
+            "width": 1280,
+            "theme": "dark",
+            "contrast": [
+                {
+                    "text": "Timer UI preview",
+                    "ratio": 18.97,
+                    "required": 3
+                },
+                {
+                    "text": "Shared controls. Use Tab to inspect focus and Space to toggle the checkbox.",
+                    "ratio": 7.66,
+                    "required": 4.5
+                },
+                {
+                    "text": "Enter times in m:ss format (for example, 0:05).",
+                    "ratio": 6.94,
+                    "required": 4.5
+                },
+                {
+                    "text": "Preparation",
+                    "ratio": 17.18,
+                    "required": 4.5
+                },
+                {
+                    "text": "0:05",
+                    "ratio": 15.43,
+                    "required": 4.5
+                },
+                {
+                    "text": "0:00 to 10:00",
+                    "ratio": 6.94,
+                    "required": 4.5
+                },
+                {
+                    "text": "Exercise",
+                    "ratio": 17.18,
+                    "required": 4.5
+                },
+                {
+                    "text": "0:04",
+                    "ratio": 15.43,
+                    "required": 4.5
+                },
+                {
+                    "text": "0:01 to 10:00",
+                    "ratio": 6.94,
+                    "required": 4.5
+                },
+                {
+                    "text": "Rest",
+                    "ratio": 17.18,
+                    "required": 4.5
+                },
+                {
+                    "text": "0:02",
+                    "ratio": 15.43,
+                    "required": 4.5
+                },
+                {
+                    "text": "0:00 to 10:00",
+                    "ratio": 6.94,
+                    "required": 4.5
+                },
+                {
+                    "text": "Repetitions",
+                    "ratio": 17.18,
+                    "required": 4.5
+                },
+                {
+                    "text": "3",
+                    "ratio": 15.43,
+                    "required": 4.5
+                },
+                {
+                    "text": "Whole number from 1 to 100",
+                    "ratio": 6.94,
+                    "required": 4.5
+                },
+                {
+                    "text": "on",
+                    "ratio": 15.43,
+                    "required": 4.5
+                },
+                {
+                    "text": "on",
+                    "ratio": 17.18,
+                    "required": 4.5
+                },
+                {
+                    "text": "Random start",
+                    "ratio": 17.18,
+                    "required": 4.5
+                },
+                {
+                    "text": "Wait a random 1–5 seconds before exercise starts.",
+                    "ratio": 6.94,
+                    "required": 4.5
+                },
+                {
+                    "text": "Start",
+                    "ratio": 14.23,
+                    "required": 4.5
+                },
+                {
+                    "text": "Enter times in m:ss format (for example, 0:05).",
+                    "ratio": 6.94,
+                    "required": 4.5
+                },
+                {
+                    "text": "Preparation",
+                    "ratio": 17.18,
+                    "required": 4.5
+                },
+                {
+                    "text": null,
+                    "ratio": 15.43,
+                    "required": 4.5
+                },
+                {
+                    "text": "0:00 to 10:00",
+                    "ratio": 6.94,
+                    "required": 4.5
+                },
+                {
+                    "text": "Enter a time from 0:00 to 10:00 in m:ss format.",
+                    "ratio": 6.21,
+                    "required": 4.5
+                },
+                {
+                    "text": "Exercise",
+                    "ratio": 17.18,
+                    "required": 4.5
+                },
+                {
+                    "text": null,
+                    "ratio": 15.43,
+                    "required": 4.5
+                },
+                {
+                    "text": "0:01 to 10:00",
+                    "ratio": 6.94,
+                    "required": 4.5
+                },
+                {
+                    "text": "Enter a time from 0:01 to 10:00 in m:ss format.",
+                    "ratio": 6.21,
+                    "required": 4.5
+                },
+                {
+                    "text": "Rest",
+                    "ratio": 17.18,
+                    "required": 4.5
+                },
+                {
+                    "text": null,
+                    "ratio": 15.43,
+                    "required": 4.5
+                },
+                {
+                    "text": "0:00 to 10:00",
+                    "ratio": 6.94,
+                    "required": 4.5
+                },
+                {
+                    "text": "Enter a time from 0:00 to 10:00 in m:ss format.",
+                    "ratio": 6.21,
+                    "required": 4.5
+                },
+                {
+                    "text": "Repetitions",
+                    "ratio": 17.18,
+                    "required": 4.5
+                },
+                {
+                    "text": null,
+                    "ratio": 15.43,
+                    "required": 4.5
+                },
+                {
+                    "text": "Whole number from 1 to 100",
+                    "ratio": 6.94,
+                    "required": 4.5
+                },
+                {
+                    "text": "Enter a whole number from 1 to 100.",
+                    "ratio": 6.21,
+                    "required": 4.5
+                },
+                {
+                    "text": "on",
+                    "ratio": 15.43,
+                    "required": 4.5
+                },
+                {
+                    "text": "on",
+                    "ratio": 17.18,
+                    "required": 4.5
+                },
+                {
+                    "text": "Random start",
+                    "ratio": 17.18,
+                    "required": 4.5
+                },
+                {
+                    "text": "Wait a random 1–5 seconds before exercise starts.",
+                    "ratio": 6.94,
+                    "required": 4.5
+                },
+                {
+                    "text": "Start",
+                    "ratio": 14.23,
+                    "required": 4.5
+                },
+                {
+                    "text": "Preparation",
+                    "ratio": 17.18,
+                    "required": 3
+                },
+                {
+                    "text": "Starting timer…",
+                    "ratio": 6.94,
+                    "required": 4.5
+                },
+                {
+                    "text": "Preparing",
+                    "ratio": 6.94,
+                    "required": 4.5
+                },
+                {
+                    "text": "Preparation",
+                    "ratio": 17.18,
+                    "required": 3
+                },
+                {
+                    "text": "0:05",
+                    "ratio": 17.18,
+                    "required": 3
+                },
+                {
+                    "text": "Preparing",
+                    "ratio": 6.94,
+                    "required": 4.5
+                },
+                {
+                    "text": "Exercise",
+                    "ratio": 17.18,
+                    "required": 3
+                },
+                {
+                    "text": "0:03",
+                    "ratio": 17.18,
+                    "required": 3
+                },
+                {
+                    "text": "Repetition 2 of 3",
+                    "ratio": 6.94,
+                    "required": 4.5
+                },
+                {
+                    "text": "Rest",
+                    "ratio": 17.18,
+                    "required": 3
+                },
+                {
+                    "text": "0:02",
+                    "ratio": 17.18,
+                    "required": 3
+                },
+                {
+                    "text": "Repetition 3 of 3",
+                    "ratio": 6.94,
+                    "required": 4.5
+                },
+                {
+                    "text": "Standby",
+                    "ratio": 17.18,
+                    "required": 3
+                },
+                {
+                    "text": "Repetition 2 of 3",
+                    "ratio": 6.94,
+                    "required": 4.5
+                },
+                {
+                    "text": "Paused while the page was hidden.",
+                    "ratio": 14.5,
+                    "required": 4.5
+                },
+                {
+                    "text": "Resume",
+                    "ratio": 14.23,
+                    "required": 4.5
+                },
+                {
+                    "text": "Exercise",
+                    "ratio": 17.18,
+                    "required": 3
+                },
+                {
+                    "text": "0:03",
+                    "ratio": 17.18,
+                    "required": 3
+                },
+                {
+                    "text": "Repetition 2 of 3",
+                    "ratio": 6.94,
+                    "required": 4.5
+                },
+                {
+                    "text": "Audio is unavailable. The drill will continue silently.",
+                    "ratio": 6.94,
+                    "required": 4.5
+                },
+                {
+                    "text": "Exercise",
+                    "ratio": 17.18,
+                    "required": 3
+                },
+                {
+                    "text": "0:03",
+                    "ratio": 17.18,
+                    "required": 3
+                },
+                {
+                    "text": "Repetition 2 of 3",
+                    "ratio": 6.94,
+                    "required": 4.5
+                },
+                {
+                    "text": "Completed",
+                    "ratio": 17.18,
+                    "required": 3
+                },
+                {
+                    "text": "Return to configuration",
+                    "ratio": 14.23,
+                    "required": 4.5
+                },
+                {
+                    "text": "Preparation",
+                    "ratio": 17.18,
+                    "required": 4.5
+                },
+                {
+                    "text": "0:05",
+                    "ratio": 15.43,
+                    "required": 4.5
+                },
+                {
+                    "text": "0:00 to 10:00, in m:ss format.",
+                    "ratio": 6.94,
+                    "required": 4.5
+                },
+                {
+                    "text": "Exercise (error example)",
+                    "ratio": 17.18,
+                    "required": 4.5
+                },
+                {
+                    "text": "0:00",
+                    "ratio": 15.43,
+                    "required": 4.5
+                },
+                {
+                    "text": "0:01 to 10:00, in m:ss format.",
+                    "ratio": 6.94,
+                    "required": 4.5
+                },
+                {
+                    "text": "Enter an exercise time from 0:01 to 10:00.",
+                    "ratio": 6.21,
+                    "required": 4.5
+                },
+                {
+                    "text": "Repetitions (disabled example)",
+                    "ratio": 6.94,
+                    "required": 4.5
+                },
+                {
+                    "text": "Whole number from 1 to 100.",
+                    "ratio": 6.94,
+                    "required": 4.5
+                },
+                {
+                    "text": "on",
+                    "ratio": 15.43,
+                    "required": 4.5
+                },
+                {
+                    "text": "Random start",
+                    "ratio": 17.18,
+                    "required": 4.5
+                },
+                {
+                    "text": "Wait a random 1–5 seconds before exercise starts.",
+                    "ratio": 6.94,
+                    "required": 4.5
+                },
+                {
+                    "text": "Current value: false",
+                    "ratio": 6.94,
+                    "required": 4.5
+                },
+                {
+                    "text": "Disabled checkbox",
+                    "ratio": 6.94,
+                    "required": 4.5
+                },
+                {
+                    "text": "Audio unavailable",
+                    "ratio": 17.18,
+                    "required": 4.5
+                },
+                {
+                    "text": "The drill will continue silently.",
+                    "ratio": 6.94,
+                    "required": 4.5
+                },
+                {
+                    "text": "Check the configuration",
+                    "ratio": 6.21,
+                    "required": 4.5
+                },
+                {
+                    "text": "Correct the exercise time before starting.",
+                    "ratio": 5.25,
+                    "required": 4.5
+                }
+            ],
+            "noOverflow": true,
+            "hover": true,
+            "focusVisible": true,
+            "validation": true,
+            "keyboardCheckbox": true,
+            "disabledControls": true,
+            "reducedMotion": true
+        },
+        {
+            "width": 390,
+            "theme": "light",
+            "contrast": [
+                {
+                    "text": "Timer UI preview",
+                    "ratio": 19.8,
+                    "required": 3
+                },
+                {
+                    "text": "Shared controls. Use Tab to inspect focus and Space to toggle the checkbox.",
+                    "ratio": 4.74,
+                    "required": 4.5
+                },
+                {
+                    "text": "Enter times in m:ss format (for example, 0:05).",
+                    "ratio": 4.74,
+                    "required": 4.5
+                },
+                {
+                    "text": "Preparation",
+                    "ratio": 19.8,
+                    "required": 4.5
+                },
+                {
+                    "text": "0:05",
+                    "ratio": 19.8,
+                    "required": 4.5
+                },
+                {
+                    "text": "0:00 to 10:00",
+                    "ratio": 4.74,
+                    "required": 4.5
+                },
+                {
+                    "text": "Exercise",
+                    "ratio": 19.8,
+                    "required": 4.5
+                },
+                {
+                    "text": "0:04",
+                    "ratio": 19.8,
+                    "required": 4.5
+                },
+                {
+                    "text": "0:01 to 10:00",
+                    "ratio": 4.74,
+                    "required": 4.5
+                },
+                {
+                    "text": "Rest",
+                    "ratio": 19.8,
+                    "required": 4.5
+                },
+                {
+                    "text": "0:02",
+                    "ratio": 19.8,
+                    "required": 4.5
+                },
+                {
+                    "text": "0:00 to 10:00",
+                    "ratio": 4.74,
+                    "required": 4.5
+                },
+                {
+                    "text": "Repetitions",
+                    "ratio": 19.8,
+                    "required": 4.5
+                },
+                {
+                    "text": "3",
+                    "ratio": 19.8,
+                    "required": 4.5
+                },
+                {
+                    "text": "Whole number from 1 to 100",
+                    "ratio": 4.74,
+                    "required": 4.5
+                },
+                {
+                    "text": "on",
+                    "ratio": 19.8,
+                    "required": 4.5
+                },
+                {
+                    "text": "on",
+                    "ratio": 19.8,
+                    "required": 4.5
+                },
+                {
+                    "text": "Random start",
+                    "ratio": 19.8,
+                    "required": 4.5
+                },
+                {
+                    "text": "Wait a random 1–5 seconds before exercise starts.",
+                    "ratio": 4.74,
+                    "required": 4.5
+                },
+                {
+                    "text": "Start",
+                    "ratio": 17.18,
+                    "required": 4.5
+                },
+                {
+                    "text": "Enter times in m:ss format (for example, 0:05).",
+                    "ratio": 4.74,
+                    "required": 4.5
+                },
+                {
+                    "text": "Preparation",
+                    "ratio": 19.8,
+                    "required": 4.5
+                },
+                {
+                    "text": null,
+                    "ratio": 19.8,
+                    "required": 4.5
+                },
+                {
+                    "text": "0:00 to 10:00",
+                    "ratio": 4.74,
+                    "required": 4.5
+                },
+                {
+                    "text": "Enter a time from 0:00 to 10:00 in m:ss format.",
+                    "ratio": 4.77,
+                    "required": 4.5
+                },
+                {
+                    "text": "Exercise",
+                    "ratio": 19.8,
+                    "required": 4.5
+                },
+                {
+                    "text": null,
+                    "ratio": 19.8,
+                    "required": 4.5
+                },
+                {
+                    "text": "0:01 to 10:00",
+                    "ratio": 4.74,
+                    "required": 4.5
+                },
+                {
+                    "text": "Enter a time from 0:01 to 10:00 in m:ss format.",
+                    "ratio": 4.77,
+                    "required": 4.5
+                },
+                {
+                    "text": "Rest",
+                    "ratio": 19.8,
+                    "required": 4.5
+                },
+                {
+                    "text": null,
+                    "ratio": 19.8,
+                    "required": 4.5
+                },
+                {
+                    "text": "0:00 to 10:00",
+                    "ratio": 4.74,
+                    "required": 4.5
+                },
+                {
+                    "text": "Enter a time from 0:00 to 10:00 in m:ss format.",
+                    "ratio": 4.77,
+                    "required": 4.5
+                },
+                {
+                    "text": "Repetitions",
+                    "ratio": 19.8,
+                    "required": 4.5
+                },
+                {
+                    "text": null,
+                    "ratio": 19.8,
+                    "required": 4.5
+                },
+                {
+                    "text": "Whole number from 1 to 100",
+                    "ratio": 4.74,
+                    "required": 4.5
+                },
+                {
+                    "text": "Enter a whole number from 1 to 100.",
+                    "ratio": 4.77,
+                    "required": 4.5
+                },
+                {
+                    "text": "on",
+                    "ratio": 19.8,
+                    "required": 4.5
+                },
+                {
+                    "text": "on",
+                    "ratio": 19.8,
+                    "required": 4.5
+                },
+                {
+                    "text": "Random start",
+                    "ratio": 19.8,
+                    "required": 4.5
+                },
+                {
+                    "text": "Wait a random 1–5 seconds before exercise starts.",
+                    "ratio": 4.74,
+                    "required": 4.5
+                },
+                {
+                    "text": "Start",
+                    "ratio": 17.18,
+                    "required": 4.5
+                },
+                {
+                    "text": "Preparation",
+                    "ratio": 19.8,
+                    "required": 3
+                },
+                {
+                    "text": "Starting timer…",
+                    "ratio": 4.74,
+                    "required": 4.5
+                },
+                {
+                    "text": "Preparing",
+                    "ratio": 4.74,
+                    "required": 4.5
+                },
+                {
+                    "text": "Preparation",
+                    "ratio": 19.8,
+                    "required": 3
+                },
+                {
+                    "text": "0:05",
+                    "ratio": 19.8,
+                    "required": 3
+                },
+                {
+                    "text": "Preparing",
+                    "ratio": 4.74,
+                    "required": 4.5
+                },
+                {
+                    "text": "Exercise",
+                    "ratio": 19.8,
+                    "required": 3
+                },
+                {
+                    "text": "0:03",
+                    "ratio": 19.8,
+                    "required": 3
+                },
+                {
+                    "text": "Repetition 2 of 3",
+                    "ratio": 4.74,
+                    "required": 4.5
+                },
+                {
+                    "text": "Rest",
+                    "ratio": 19.8,
+                    "required": 3
+                },
+                {
+                    "text": "0:02",
+                    "ratio": 19.8,
+                    "required": 3
+                },
+                {
+                    "text": "Repetition 3 of 3",
+                    "ratio": 4.74,
+                    "required": 4.5
+                },
+                {
+                    "text": "Standby",
+                    "ratio": 19.8,
+                    "required": 3
+                },
+                {
+                    "text": "Repetition 2 of 3",
+                    "ratio": 4.74,
+                    "required": 4.5
+                },
+                {
+                    "text": "Paused while the page was hidden.",
+                    "ratio": 18.16,
+                    "required": 4.5
+                },
+                {
+                    "text": "Resume",
+                    "ratio": 17.18,
+                    "required": 4.5
+                },
+                {
+                    "text": "Exercise",
+                    "ratio": 19.8,
+                    "required": 3
+                },
+                {
+                    "text": "0:03",
+                    "ratio": 19.8,
+                    "required": 3
+                },
+                {
+                    "text": "Repetition 2 of 3",
+                    "ratio": 4.74,
+                    "required": 4.5
+                },
+                {
+                    "text": "Audio is unavailable. The drill will continue silently.",
+                    "ratio": 4.74,
+                    "required": 4.5
+                },
+                {
+                    "text": "Exercise",
+                    "ratio": 19.8,
+                    "required": 3
+                },
+                {
+                    "text": "0:03",
+                    "ratio": 19.8,
+                    "required": 3
+                },
+                {
+                    "text": "Repetition 2 of 3",
+                    "ratio": 4.74,
+                    "required": 4.5
+                },
+                {
+                    "text": "Completed",
+                    "ratio": 19.8,
+                    "required": 3
+                },
+                {
+                    "text": "Return to configuration",
+                    "ratio": 17.18,
+                    "required": 4.5
+                },
+                {
+                    "text": "Preparation",
+                    "ratio": 19.8,
+                    "required": 4.5
+                },
+                {
+                    "text": "0:05",
+                    "ratio": 19.8,
+                    "required": 4.5
+                },
+                {
+                    "text": "0:00 to 10:00, in m:ss format.",
+                    "ratio": 4.74,
+                    "required": 4.5
+                },
+                {
+                    "text": "Exercise (error example)",
+                    "ratio": 19.8,
+                    "required": 4.5
+                },
+                {
+                    "text": "0:00",
+                    "ratio": 19.8,
+                    "required": 4.5
+                },
+                {
+                    "text": "0:01 to 10:00, in m:ss format.",
+                    "ratio": 4.74,
+                    "required": 4.5
+                },
+                {
+                    "text": "Enter an exercise time from 0:01 to 10:00.",
+                    "ratio": 4.77,
+                    "required": 4.5
+                },
+                {
+                    "text": "Repetitions (disabled example)",
+                    "ratio": 4.74,
+                    "required": 4.5
+                },
+                {
+                    "text": "Whole number from 1 to 100.",
+                    "ratio": 4.74,
+                    "required": 4.5
+                },
+                {
+                    "text": "on",
+                    "ratio": 19.8,
+                    "required": 4.5
+                },
+                {
+                    "text": "Random start",
+                    "ratio": 19.8,
+                    "required": 4.5
+                },
+                {
+                    "text": "Wait a random 1–5 seconds before exercise starts.",
+                    "ratio": 4.74,
+                    "required": 4.5
+                },
+                {
+                    "text": "Current value: false",
+                    "ratio": 4.74,
+                    "required": 4.5
+                },
+                {
+                    "text": "Disabled checkbox",
+                    "ratio": 4.74,
+                    "required": 4.5
+                },
+                {
+                    "text": "Audio unavailable",
+                    "ratio": 19.8,
+                    "required": 4.5
+                },
+                {
+                    "text": "The drill will continue silently.",
+                    "ratio": 4.74,
+                    "required": 4.5
+                },
+                {
+                    "text": "Check the configuration",
+                    "ratio": 4.77,
+                    "required": 4.5
+                },
+                {
+                    "text": "Correct the exercise time before starting.",
+                    "ratio": 4.53,
+                    "required": 4.5
+                }
+            ],
+            "noOverflow": true,
+            "hover": true,
+            "focusVisible": true,
+            "validation": true,
+            "keyboardCheckbox": true,
+            "disabledControls": true,
+            "reducedMotion": true
+        },
+        {
+            "width": 390,
+            "theme": "dark",
+            "contrast": [
+                {
+                    "text": "Timer UI preview",
+                    "ratio": 18.97,
+                    "required": 3
+                },
+                {
+                    "text": "Shared controls. Use Tab to inspect focus and Space to toggle the checkbox.",
+                    "ratio": 7.66,
+                    "required": 4.5
+                },
+                {
+                    "text": "Enter times in m:ss format (for example, 0:05).",
+                    "ratio": 6.94,
+                    "required": 4.5
+                },
+                {
+                    "text": "Preparation",
+                    "ratio": 17.18,
+                    "required": 4.5
+                },
+                {
+                    "text": "0:05",
+                    "ratio": 15.43,
+                    "required": 4.5
+                },
+                {
+                    "text": "0:00 to 10:00",
+                    "ratio": 6.94,
+                    "required": 4.5
+                },
+                {
+                    "text": "Exercise",
+                    "ratio": 17.18,
+                    "required": 4.5
+                },
+                {
+                    "text": "0:04",
+                    "ratio": 15.43,
+                    "required": 4.5
+                },
+                {
+                    "text": "0:01 to 10:00",
+                    "ratio": 6.94,
+                    "required": 4.5
+                },
+                {
+                    "text": "Rest",
+                    "ratio": 17.18,
+                    "required": 4.5
+                },
+                {
+                    "text": "0:02",
+                    "ratio": 15.43,
+                    "required": 4.5
+                },
+                {
+                    "text": "0:00 to 10:00",
+                    "ratio": 6.94,
+                    "required": 4.5
+                },
+                {
+                    "text": "Repetitions",
+                    "ratio": 17.18,
+                    "required": 4.5
+                },
+                {
+                    "text": "3",
+                    "ratio": 15.43,
+                    "required": 4.5
+                },
+                {
+                    "text": "Whole number from 1 to 100",
+                    "ratio": 6.94,
+                    "required": 4.5
+                },
+                {
+                    "text": "on",
+                    "ratio": 15.43,
+                    "required": 4.5
+                },
+                {
+                    "text": "on",
+                    "ratio": 17.18,
+                    "required": 4.5
+                },
+                {
+                    "text": "Random start",
+                    "ratio": 17.18,
+                    "required": 4.5
+                },
+                {
+                    "text": "Wait a random 1–5 seconds before exercise starts.",
+                    "ratio": 6.94,
+                    "required": 4.5
+                },
+                {
+                    "text": "Start",
+                    "ratio": 14.23,
+                    "required": 4.5
+                },
+                {
+                    "text": "Enter times in m:ss format (for example, 0:05).",
+                    "ratio": 6.94,
+                    "required": 4.5
+                },
+                {
+                    "text": "Preparation",
+                    "ratio": 17.18,
+                    "required": 4.5
+                },
+                {
+                    "text": null,
+                    "ratio": 15.43,
+                    "required": 4.5
+                },
+                {
+                    "text": "0:00 to 10:00",
+                    "ratio": 6.94,
+                    "required": 4.5
+                },
+                {
+                    "text": "Enter a time from 0:00 to 10:00 in m:ss format.",
+                    "ratio": 6.21,
+                    "required": 4.5
+                },
+                {
+                    "text": "Exercise",
+                    "ratio": 17.18,
+                    "required": 4.5
+                },
+                {
+                    "text": null,
+                    "ratio": 15.43,
+                    "required": 4.5
+                },
+                {
+                    "text": "0:01 to 10:00",
+                    "ratio": 6.94,
+                    "required": 4.5
+                },
+                {
+                    "text": "Enter a time from 0:01 to 10:00 in m:ss format.",
+                    "ratio": 6.21,
+                    "required": 4.5
+                },
+                {
+                    "text": "Rest",
+                    "ratio": 17.18,
+                    "required": 4.5
+                },
+                {
+                    "text": null,
+                    "ratio": 15.43,
+                    "required": 4.5
+                },
+                {
+                    "text": "0:00 to 10:00",
+                    "ratio": 6.94,
+                    "required": 4.5
+                },
+                {
+                    "text": "Enter a time from 0:00 to 10:00 in m:ss format.",
+                    "ratio": 6.21,
+                    "required": 4.5
+                },
+                {
+                    "text": "Repetitions",
+                    "ratio": 17.18,
+                    "required": 4.5
+                },
+                {
+                    "text": null,
+                    "ratio": 15.43,
+                    "required": 4.5
+                },
+                {
+                    "text": "Whole number from 1 to 100",
+                    "ratio": 6.94,
+                    "required": 4.5
+                },
+                {
+                    "text": "Enter a whole number from 1 to 100.",
+                    "ratio": 6.21,
+                    "required": 4.5
+                },
+                {
+                    "text": "on",
+                    "ratio": 15.43,
+                    "required": 4.5
+                },
+                {
+                    "text": "on",
+                    "ratio": 17.18,
+                    "required": 4.5
+                },
+                {
+                    "text": "Random start",
+                    "ratio": 17.18,
+                    "required": 4.5
+                },
+                {
+                    "text": "Wait a random 1–5 seconds before exercise starts.",
+                    "ratio": 6.94,
+                    "required": 4.5
+                },
+                {
+                    "text": "Start",
+                    "ratio": 14.23,
+                    "required": 4.5
+                },
+                {
+                    "text": "Preparation",
+                    "ratio": 17.18,
+                    "required": 3
+                },
+                {
+                    "text": "Starting timer…",
+                    "ratio": 6.94,
+                    "required": 4.5
+                },
+                {
+                    "text": "Preparing",
+                    "ratio": 6.94,
+                    "required": 4.5
+                },
+                {
+                    "text": "Preparation",
+                    "ratio": 17.18,
+                    "required": 3
+                },
+                {
+                    "text": "0:05",
+                    "ratio": 17.18,
+                    "required": 3
+                },
+                {
+                    "text": "Preparing",
+                    "ratio": 6.94,
+                    "required": 4.5
+                },
+                {
+                    "text": "Exercise",
+                    "ratio": 17.18,
+                    "required": 3
+                },
+                {
+                    "text": "0:03",
+                    "ratio": 17.18,
+                    "required": 3
+                },
+                {
+                    "text": "Repetition 2 of 3",
+                    "ratio": 6.94,
+                    "required": 4.5
+                },
+                {
+                    "text": "Rest",
+                    "ratio": 17.18,
+                    "required": 3
+                },
+                {
+                    "text": "0:02",
+                    "ratio": 17.18,
+                    "required": 3
+                },
+                {
+                    "text": "Repetition 3 of 3",
+                    "ratio": 6.94,
+                    "required": 4.5
+                },
+                {
+                    "text": "Standby",
+                    "ratio": 17.18,
+                    "required": 3
+                },
+                {
+                    "text": "Repetition 2 of 3",
+                    "ratio": 6.94,
+                    "required": 4.5
+                },
+                {
+                    "text": "Paused while the page was hidden.",
+                    "ratio": 14.5,
+                    "required": 4.5
+                },
+                {
+                    "text": "Resume",
+                    "ratio": 14.23,
+                    "required": 4.5
+                },
+                {
+                    "text": "Exercise",
+                    "ratio": 17.18,
+                    "required": 3
+                },
+                {
+                    "text": "0:03",
+                    "ratio": 17.18,
+                    "required": 3
+                },
+                {
+                    "text": "Repetition 2 of 3",
+                    "ratio": 6.94,
+                    "required": 4.5
+                },
+                {
+                    "text": "Audio is unavailable. The drill will continue silently.",
+                    "ratio": 6.94,
+                    "required": 4.5
+                },
+                {
+                    "text": "Exercise",
+                    "ratio": 17.18,
+                    "required": 3
+                },
+                {
+                    "text": "0:03",
+                    "ratio": 17.18,
+                    "required": 3
+                },
+                {
+                    "text": "Repetition 2 of 3",
+                    "ratio": 6.94,
+                    "required": 4.5
+                },
+                {
+                    "text": "Completed",
+                    "ratio": 17.18,
+                    "required": 3
+                },
+                {
+                    "text": "Return to configuration",
+                    "ratio": 14.23,
+                    "required": 4.5
+                },
+                {
+                    "text": "Preparation",
+                    "ratio": 17.18,
+                    "required": 4.5
+                },
+                {
+                    "text": "0:05",
+                    "ratio": 15.43,
+                    "required": 4.5
+                },
+                {
+                    "text": "0:00 to 10:00, in m:ss format.",
+                    "ratio": 6.94,
+                    "required": 4.5
+                },
+                {
+                    "text": "Exercise (error example)",
+                    "ratio": 17.18,
+                    "required": 4.5
+                },
+                {
+                    "text": "0:00",
+                    "ratio": 15.43,
+                    "required": 4.5
+                },
+                {
+                    "text": "0:01 to 10:00, in m:ss format.",
+                    "ratio": 6.94,
+                    "required": 4.5
+                },
+                {
+                    "text": "Enter an exercise time from 0:01 to 10:00.",
+                    "ratio": 6.21,
+                    "required": 4.5
+                },
+                {
+                    "text": "Repetitions (disabled example)",
+                    "ratio": 6.94,
+                    "required": 4.5
+                },
+                {
+                    "text": "Whole number from 1 to 100.",
+                    "ratio": 6.94,
+                    "required": 4.5
+                },
+                {
+                    "text": "on",
+                    "ratio": 15.43,
+                    "required": 4.5
+                },
+                {
+                    "text": "Random start",
+                    "ratio": 17.18,
+                    "required": 4.5
+                },
+                {
+                    "text": "Wait a random 1–5 seconds before exercise starts.",
+                    "ratio": 6.94,
+                    "required": 4.5
+                },
+                {
+                    "text": "Current value: false",
+                    "ratio": 6.94,
+                    "required": 4.5
+                },
+                {
+                    "text": "Disabled checkbox",
+                    "ratio": 6.94,
+                    "required": 4.5
+                },
+                {
+                    "text": "Audio unavailable",
+                    "ratio": 17.18,
+                    "required": 4.5
+                },
+                {
+                    "text": "The drill will continue silently.",
+                    "ratio": 6.94,
+                    "required": 4.5
+                },
+                {
+                    "text": "Check the configuration",
+                    "ratio": 6.21,
+                    "required": 4.5
+                },
+                {
+                    "text": "Correct the exercise time before starting.",
+                    "ratio": 5.25,
+                    "required": 4.5
+                }
+            ],
+            "noOverflow": true,
+            "hover": true,
+            "focusVisible": true,
+            "validation": true,
+            "keyboardCheckbox": true,
+            "disabledControls": true,
+            "reducedMotion": true
+        }
+    ]
+}

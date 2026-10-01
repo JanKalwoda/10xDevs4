@@ -1,0 +1,16 @@
+<script is:inline>
+    (() => {
+        const key = "drill-timer-theme";
+        let preference = null;
+
+        try {
+            const stored = window.localStorage.getItem(key);
+            if (stored === "light" || stored === "dark") preference = stored;
+        } catch {
+            // Storage may be unavailable; follow the device preference instead.
+        }
+
+        const dark = preference ? preference === "dark" : window.matchMedia("(prefers-color-scheme: dark)").matches;
+        document.documentElement.classList.toggle("dark", dark);
+    })();
+</script>
