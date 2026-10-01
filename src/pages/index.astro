@@ -3,6 +3,6 @@ import DrillApp from "@/components/timer/DrillApp";
 import Layout from "@/layouts/Layout.astro";
 ---
 
-<Layout title="Drill timer" enableTimerTheme>
+<Layout title="Drill timer" enableTimerTheme showConfigWarnings={false}>
     <DrillApp client:load />
 </Layout>

@@ -1,5 +1,26 @@
 # Timer UI verification
 
+## Phase 3 — timer view
+
+Date: 2026-10-01. Implemented and reviewed using 10x-implement / 10x-impl-review. Manual Progress remains pending for the user's final verification, as requested.
+
+- Gates passed: lint, 22 engine/audio tests, Astro check (zero diagnostics), production build. Static scan now finds zero palette classes, literal colors or arbitrary dimensions in timer components and both entry routes, including accent.
+- Native headless Edge exercised the actual root page in light/dark at 1280/390 px: empty-field validation, clearing edited errors, Start, positive preparation/exercise/final rest, completion, return retaining all values, zero preparation/rest, Random start with no Standby countdown, pause on visibility handler and manual Resume. No horizontal overflow. Rendered heading/message/button text meets 4.5:1 normal / 3:1 large thresholds; final form/fixture controls are measured in phase 4.
+- Browser-only interception of the development audio module exercised pending, null, rejected and post-unmount resolution, without adding production test controls. Pending exposes status and no timer; the countdown area keeps the same height when initialization resolves. Null/rejection starts silently. The late port closes after unmount and no countdown starts.
+- Inspected all 27 phase 3 captures. Neutral surfaces and one-column form remain readable, with no clipping; mobile hints and error text wrap. Intentional differences: Card provides the shared radius/border/spacing; inputs now use theme surfaces, audio uses neutral Alert, and Standby retains the countdown area without displaying a value.
+- A stale development dependency cache caused HTTP 500 after build; restarting the existing project development process restored HTTP 200 without code/config changes.
+
+Measurements: [Phase 3 browser results](p3-browser-results.json). Captures use `screenshots/p3-{light|dark}-{1280|390}-{config|error|running|paused|standby|completed}.png`; controlled audio captures use `screenshots/p3-audio-{pending|silent|unmount}.png`.
+
+## Final human checklist — remaining verification
+
+The browser checks use desktop Edge with a 390 px viewport, not a physical phone. Visibility is simulated through the actual visibility handler. These checks remain for the user after implementation:
+
+1. On an actual phone and desktop, background the browser or lock the device during preparation, Standby, exercise and final rest. Return and verify it stays paused, then Resume with the same repetition.
+2. Listen to physical speaker/Bluetooth output. Confirm cues are audible and acceptable; automated scheduling evidence cannot measure physical playback.
+3. Inspect the linked light/dark captures and `/dev/timer-ui` for visual acceptance. Confirm keyboard names, focus, errors and disabled controls with your assistive technology if used.
+4. Confirm manual Progress 3.3–3.6 and 4.4–4.6 after the final evidence is available. Automated browser results are supplied as evidence, not substituted for your confirmation.
+
 ## Phase 2 — F1 review fix
 
 Date: 2026-10-01. Timer phase/countdown/repetition and pause now use semantic tokens; Resume uses the existing Button. This intentional visual change removes dark text on the dark card and light text on the old light pause surface.
@@ -10,12 +31,12 @@ Measurements: [F1 browser results](p2-f1-browser-results.json). Screenshots:
 
 After the fix, `npm run lint`, `npm test` (22 passed), `npm run astro -- check` (0 errors/warnings/hints), and `npm run build` passed.
 
-| Theme | Width | Running | Paused |
-| --- | --- | --- | --- |
-| Light | 1280 | [Running](screenshots/p2-f1-light-1280-running.png) | [Paused](screenshots/p2-f1-light-1280-paused.png) |
-| Dark | 1280 | [Running](screenshots/p2-f1-dark-1280-running.png) | [Paused](screenshots/p2-f1-dark-1280-paused.png) |
-| Light | 390 | [Running](screenshots/p2-f1-light-390-running.png) | [Paused](screenshots/p2-f1-light-390-paused.png) |
-| Dark | 390 | [Running](screenshots/p2-f1-dark-390-running.png) | [Paused](screenshots/p2-f1-dark-390-paused.png) |
+| Theme | Width | Running                                             | Paused                                            |
+| ----- | ----- | --------------------------------------------------- | ------------------------------------------------- |
+| Light | 1280  | [Running](screenshots/p2-f1-light-1280-running.png) | [Paused](screenshots/p2-f1-light-1280-paused.png) |
+| Dark  | 1280  | [Running](screenshots/p2-f1-dark-1280-running.png)  | [Paused](screenshots/p2-f1-dark-1280-paused.png)  |
+| Light | 390   | [Running](screenshots/p2-f1-light-390-running.png)  | [Paused](screenshots/p2-f1-light-390-paused.png)  |
+| Dark  | 390   | [Running](screenshots/p2-f1-dark-390-running.png)   | [Paused](screenshots/p2-f1-dark-390-paused.png)   |
 
 Inspected desktop and mobile captures: countdown, phase, repetition and pause notice remain legible; surfaces and controls fit within the viewport. The palette scan decreases by seven occurrences, from 15 to 8. Remaining form/audio palettes belong to phase 3.
 

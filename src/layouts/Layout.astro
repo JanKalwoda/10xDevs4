@@ -7,9 +7,10 @@ import { missingConfigs } from "@/lib/config-status";
 interface Props {
     title?: string;
     enableTimerTheme?: boolean;
+    showConfigWarnings?: boolean;
 }
 
-const { title = "10x Astro Starter", enableTimerTheme = false } = Astro.props;
+const { title = "10x Astro Starter", enableTimerTheme = false, showConfigWarnings = true } = Astro.props;
 ---
 
 <!doctype html>
@@ -22,20 +23,21 @@ const { title = "10x Astro Starter", enableTimerTheme = false } = Astro.props;
         {enableTimerTheme && <ThemeInit />}
     </head>
     <body>
-        {missingConfigs.map((cfg) => (
-            <Banner variant="error">
-                <strong>Notice:</strong> {cfg.message}
-                {cfg.docsUrl && (
-                    <>
-                        {" "}
-                        <a href={cfg.docsUrl} target="_blank" rel="noopener noreferrer">
-                            {cfg.docsLabel ?? "Documentation"}
-                        </a>
-                        .
-                    </>
-                )}
-            </Banner>
-        ))}
+        {showConfigWarnings &&
+            missingConfigs.map((cfg) => (
+                <Banner variant="error">
+                    <strong>Notice:</strong> {cfg.message}
+                    {cfg.docsUrl && (
+                        <>
+                            {" "}
+                            <a href={cfg.docsUrl} target="_blank" rel="noopener noreferrer">
+                                {cfg.docsLabel ?? "Documentation"}
+                            </a>
+                            .
+                        </>
+                    )}
+                </Banner>
+            ))}
         <slot />
     </body>
 </html>

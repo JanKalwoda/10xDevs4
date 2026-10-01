@@ -301,8 +301,8 @@ Pracować na istniejącej gałęzi `feature/m2l5`. Planowanie pozostawia artefak
 
 #### Automated
 
-- [ ] 3.1 `npm run lint`, `npm test`, `npm run astro -- check` i `npm run build` przechodzą; testy faz, losowania, audio i wznowienia zachowują dotychczasowe wyniki.
-- [ ] 3.2 Skan plików widoku, wydzielonej prezentacji i przełącznika wykazuje zero klas palety, literałów kolorów i arbitralnych wymiarów; obejmuje także prefiks accent.
+- [x] 3.1 `npm run lint`, `npm test`, `npm run astro -- check` i `npm run build` przechodzą; testy faz, losowania, audio i wznowienia zachowują dotychczasowe wyniki.
+- [x] 3.2 Skan plików widoku, wydzielonej prezentacji i przełącznika wykazuje zero klas palety, literałów kolorów i arbitralnych wymiarów; obejmuje także prefiks accent.
 
 #### Manual
 
