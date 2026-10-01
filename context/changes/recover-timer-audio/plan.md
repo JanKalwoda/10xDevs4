@@ -80,10 +80,10 @@ Use deterministic clock/audio fakes for timeline and deferred recovery races; mo
 
 #### Automated
 
-- [x] 1.1 Unit regression suite passes
-- [x] 1.2 Lint passes
-- [x] 1.3 Types pass
-- [x] 1.4 Production build passes
+- [x] 1.1 Unit regression suite passes — 75e12c7
+- [x] 1.2 Lint passes — 75e12c7
+- [x] 1.3 Types pass — 75e12c7
+- [x] 1.4 Production build passes — 75e12c7
 
 #### Manual
 
