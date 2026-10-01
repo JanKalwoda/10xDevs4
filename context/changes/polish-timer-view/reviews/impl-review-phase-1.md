@@ -29,7 +29,7 @@
 - **Location**: context/changes/polish-timer-view/plan.md:280
 - **Detail**: Rows 1.1–1.4 cite bc227dd. This object exists locally but no current local or remote branch contains it. The landed phase commit is c3521249b89b72607fb8415294d460269c368194. Comparing the two commits shows identical implementation and only Progress documentation differences. Verification is supported; durable commit traceability is weaker than intended.
 - **Fix**: Record the bc227dd → c352124 mapping and correct the references through the authorized implementation/archive workflow; implementation review itself must not edit Progress.
-- **Decision**: PENDING
+- **Decision**: FIXED — user explicitly authorized correcting the references on 2026-10-01. Rows 1.1–1.4 now reference c352124; checkboxes and step titles are unchanged.
 
 ## Scope and evidence
 

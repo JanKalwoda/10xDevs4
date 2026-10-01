@@ -277,13 +277,13 @@ Pracować na istniejącej gałęzi `feature/m2l5`. Planowanie pozostawia artefak
 
 #### Automated
 
-- [x] 1.1 `npm run lint`, `npm run astro -- sync`, `npm run astro -- check` i `npm run build` przechodzą po dodaniu komponentów. — bc227dd
-- [x] 1.2 Produkcyjny preview zwraca 404 dla `/dev/timer-ui`. — bc227dd
+- [x] 1.1 `npm run lint`, `npm run astro -- sync`, `npm run astro -- check` i `npm run build` przechodzą po dodaniu komponentów. — c352124
+- [x] 1.2 Produkcyjny preview zwraca 404 dla `/dev/timer-ui`. — c352124
 
 #### Manual
 
-- [x] 1.3 W podglądzie wszystkie kontrolki mają nazwy, widoczny fokus klawiatury i poprawny stan disabled; checkbox działa klawiaturą. — bc227dd
-- [x] 1.4 Zapisano i oceniono zrzuty podglądu przy 1280 px i 390 px w light/dark oraz skan widoku nie zwiększa bazowych 22 wystąpień klas palety. — bc227dd
+- [x] 1.3 W podglądzie wszystkie kontrolki mają nazwy, widoczny fokus klawiatury i poprawny stan disabled; checkbox działa klawiaturą. — c352124
+- [x] 1.4 Zapisano i oceniono zrzuty podglądu przy 1280 px i 390 px w light/dark oraz skan widoku nie zwiększa bazowych 22 wystąpień klas palety. — c352124
 
 ### Phase 2: Tokeny i motyw
 
