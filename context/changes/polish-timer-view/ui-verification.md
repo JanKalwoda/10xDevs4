@@ -1,5 +1,34 @@
 # Timer UI verification
 
+## Phase 2 — theme
+
+Date: 2026-10-01. The user confirmed the final visual evidence and all phase 2 manual verification on 2026-10-01.
+
+### Checks
+
+- `npm run lint`, `npm run astro -- check` and `npm run build` passed after the final source edits. A leftover project `astro preview` and its `workerd` child locked `dist`; stopping those processes allowed the normal build to complete.
+- Native Edge DevTools automation passed first-frame system theme, dynamic system changes, keyboard toggle, accessible current/target labels, manual preference after reload, visible keyboard focus and no horizontal overflow at 1280/390 px in light/dark.
+- Actual rendered text contrast passed WCAG thresholds (4.5:1 normal, 3:1 large) for the configuration heading, labels, hints, inputs and buttons in all four combinations. Measurements are in [browser results](p2-browser-results.json). This does not claim coverage of all future phase 3 run/error states.
+- With both storage reads and writes throwing SecurityError, the toggle and in-memory manual preference worked, and an actual click started a one-second exercise that reached Completed.
+- All three account pages remained outside the timer theme opt-in. Account source files and global token values were unchanged; the sign-in screenshot retains the existing presentation.
+- Palette occurrences decreased from 22 to 15, including `accent-*`. No new literal color was introduced.
+- The user already confirmed system/manual behavior, keyboard focus and the accessible current/target theme labels.
+
+### Screenshots and assessment
+
+| Theme | Width   | Default                                     | Theme control focus                                |
+| ----- | ------- | ------------------------------------------- | -------------------------------------------------- |
+| Light | 1280 px | [Screenshot](screenshots/p2-light-1280.png) | [Focus](screenshots/p2-light-1280-theme-focus.png) |
+| Dark  | 1280 px | [Screenshot](screenshots/p2-dark-1280.png)  | [Focus](screenshots/p2-dark-1280-theme-focus.png)  |
+| Light | 390 px  | [Screenshot](screenshots/p2-light-390.png)  | [Focus](screenshots/p2-light-390-theme-focus.png)  |
+| Dark  | 390 px  | [Screenshot](screenshots/p2-dark-390.png)   | [Focus](screenshots/p2-dark-390-theme-focus.png)   |
+
+[Existing sign-in presentation, 390 px](screenshots/p2-account-signin-390.png).
+
+The card fits both widths. Labels and hints remain legible in both themes; the theme button has visible focus. Form inputs retain their existing light surfaces until phase 3. The initial dark screenshot revealed insufficient hint contrast; semantic text utilities fixed that without changing global tokens. Theme opt-in on the root route was brought forward to verify the first paint on the actual view.
+
+The temporary browser harness used Node's built-in WebSocket and existing headless Edge; no runner or test dependency was installed. Harness corrections included foreground/focus emulation and a real mouse click for Start. The earlier synthetic Enter failed to submit the form; no timer engine change was needed.
+
 ## Phase 1 — shared controls
 
 Date: 2026-09-30. The user confirmed manual Progress rows 1.3 and 1.4 and authorized the phase commit.

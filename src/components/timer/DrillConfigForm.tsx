@@ -41,11 +41,11 @@ function ConfigField({ id, field, label, hint, value, error, onChange }: ConfigF
                 aria-describedby={`${hintId}${error ? ` ${errorId}` : ""}`}
                 className="w-full rounded-md border border-slate-400 bg-white px-3 py-2 text-slate-950 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 aria-invalid:border-red-600"
             />
-            <p id={hintId} className="text-sm text-slate-600">
+            <p id={hintId} className="text-muted-foreground text-sm">
                 {hint}
             </p>
             {error && (
-                <p id={errorId} className="text-sm text-red-700" role="alert">
+                <p id={errorId} className="text-destructive text-sm" role="alert">
                     {error}
                 </p>
             )}
@@ -76,7 +76,7 @@ export default function DrillConfigForm({ values, onValuesChange, onStart }: Dri
 
     return (
         <form onSubmit={handleSubmit} noValidate className="space-y-5">
-            <p className="text-sm text-slate-600">Enter times in m:ss format (for example, 0:05).</p>
+            <p className="text-muted-foreground text-sm">Enter times in m:ss format (for example, 0:05).</p>
             <ConfigField
                 id={`${id}-preparation`}
                 field="preparation"
@@ -112,7 +112,7 @@ export default function DrillConfigForm({ values, onValuesChange, onStart }: Dri
                     />
                     Random start
                 </label>
-                <p id={`${id}-random-start-hint`} className="text-sm text-slate-600">
+                <p id={`${id}-random-start-hint`} className="text-muted-foreground text-sm">
                     Wait a random 1–5 seconds before exercise starts.
                 </p>
             </div>

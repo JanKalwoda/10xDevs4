@@ -1,0 +1,440 @@
+{
+    "date": "2026-10-01",
+    "browser": "Edg/154.0.4258.37",
+    "screenshots": [
+        "p2-light-1280.png",
+        "p2-light-1280-theme-focus.png",
+        "p2-dark-1280.png",
+        "p2-dark-1280-theme-focus.png",
+        "p2-light-390.png",
+        "p2-light-390-theme-focus.png",
+        "p2-dark-390.png",
+        "p2-dark-390-theme-focus.png",
+        "p2-account-signin-390.png"
+    ],
+    "checks": [
+        {
+            "width": 1280,
+            "theme": "light",
+            "label": "Switch to dark mode (currently light)",
+            "contrast": [
+                {
+                    "text": "Drill timer",
+                    "ratio": 19.8,
+                    "required": 3
+                },
+                {
+                    "text": "Switch to dark mode (currently light)",
+                    "ratio": 19.8,
+                    "required": 4.5
+                },
+                {
+                    "text": "Enter times in m:ss format (for example, 0:05).",
+                    "ratio": 4.74,
+                    "required": 4.5
+                },
+                {
+                    "text": "Preparation",
+                    "ratio": 19.8,
+                    "required": 4.5
+                },
+                {
+                    "text": "0:05",
+                    "ratio": 20.16,
+                    "required": 4.5
+                },
+                {
+                    "text": "0:00 to 10:00",
+                    "ratio": 4.74,
+                    "required": 4.5
+                },
+                {
+                    "text": "Exercise",
+                    "ratio": 19.8,
+                    "required": 4.5
+                },
+                {
+                    "text": "0:04",
+                    "ratio": 20.16,
+                    "required": 4.5
+                },
+                {
+                    "text": "0:01 to 10:00",
+                    "ratio": 4.74,
+                    "required": 4.5
+                },
+                {
+                    "text": "Rest",
+                    "ratio": 19.8,
+                    "required": 4.5
+                },
+                {
+                    "text": "0:02",
+                    "ratio": 20.16,
+                    "required": 4.5
+                },
+                {
+                    "text": "0:00 to 10:00",
+                    "ratio": 4.74,
+                    "required": 4.5
+                },
+                {
+                    "text": "Repetitions",
+                    "ratio": 19.8,
+                    "required": 4.5
+                },
+                {
+                    "text": "3",
+                    "ratio": 20.16,
+                    "required": 4.5
+                },
+                {
+                    "text": "Whole number from 1 to 100",
+                    "ratio": 4.74,
+                    "required": 4.5
+                },
+                {
+                    "text": "Random start",
+                    "ratio": 19.8,
+                    "required": 4.5
+                },
+                {
+                    "text": "Wait a random 1–5 seconds before exercise starts.",
+                    "ratio": 4.74,
+                    "required": 4.5
+                },
+                {
+                    "text": "Start",
+                    "ratio": 17.18,
+                    "required": 4.5
+                }
+            ],
+            "focus": true,
+            "firstFrame": true,
+            "noOverflow": true
+        },
+        {
+            "width": 1280,
+            "theme": "dark",
+            "label": "Switch to light mode (currently dark)",
+            "contrast": [
+                {
+                    "text": "Drill timer",
+                    "ratio": 17.18,
+                    "required": 3
+                },
+                {
+                    "text": "Switch to light mode (currently dark)",
+                    "ratio": 15.43,
+                    "required": 4.5
+                },
+                {
+                    "text": "Enter times in m:ss format (for example, 0:05).",
+                    "ratio": 6.94,
+                    "required": 4.5
+                },
+                {
+                    "text": "Preparation",
+                    "ratio": 17.18,
+                    "required": 4.5
+                },
+                {
+                    "text": "0:05",
+                    "ratio": 20.16,
+                    "required": 4.5
+                },
+                {
+                    "text": "0:00 to 10:00",
+                    "ratio": 6.94,
+                    "required": 4.5
+                },
+                {
+                    "text": "Exercise",
+                    "ratio": 17.18,
+                    "required": 4.5
+                },
+                {
+                    "text": "0:04",
+                    "ratio": 20.16,
+                    "required": 4.5
+                },
+                {
+                    "text": "0:01 to 10:00",
+                    "ratio": 6.94,
+                    "required": 4.5
+                },
+                {
+                    "text": "Rest",
+                    "ratio": 17.18,
+                    "required": 4.5
+                },
+                {
+                    "text": "0:02",
+                    "ratio": 20.16,
+                    "required": 4.5
+                },
+                {
+                    "text": "0:00 to 10:00",
+                    "ratio": 6.94,
+                    "required": 4.5
+                },
+                {
+                    "text": "Repetitions",
+                    "ratio": 17.18,
+                    "required": 4.5
+                },
+                {
+                    "text": "3",
+                    "ratio": 20.16,
+                    "required": 4.5
+                },
+                {
+                    "text": "Whole number from 1 to 100",
+                    "ratio": 6.94,
+                    "required": 4.5
+                },
+                {
+                    "text": "Random start",
+                    "ratio": 17.18,
+                    "required": 4.5
+                },
+                {
+                    "text": "Wait a random 1–5 seconds before exercise starts.",
+                    "ratio": 6.94,
+                    "required": 4.5
+                },
+                {
+                    "text": "Start",
+                    "ratio": 14.23,
+                    "required": 4.5
+                }
+            ],
+            "focus": true,
+            "firstFrame": true,
+            "noOverflow": true
+        },
+        {
+            "width": 390,
+            "theme": "light",
+            "label": "Switch to dark mode (currently light)",
+            "contrast": [
+                {
+                    "text": "Drill timer",
+                    "ratio": 19.8,
+                    "required": 3
+                },
+                {
+                    "text": "Switch to dark mode (currently light)",
+                    "ratio": 19.8,
+                    "required": 4.5
+                },
+                {
+                    "text": "Enter times in m:ss format (for example, 0:05).",
+                    "ratio": 4.74,
+                    "required": 4.5
+                },
+                {
+                    "text": "Preparation",
+                    "ratio": 19.8,
+                    "required": 4.5
+                },
+                {
+                    "text": "0:05",
+                    "ratio": 20.16,
+                    "required": 4.5
+                },
+                {
+                    "text": "0:00 to 10:00",
+                    "ratio": 4.74,
+                    "required": 4.5
+                },
+                {
+                    "text": "Exercise",
+                    "ratio": 19.8,
+                    "required": 4.5
+                },
+                {
+                    "text": "0:04",
+                    "ratio": 20.16,
+                    "required": 4.5
+                },
+                {
+                    "text": "0:01 to 10:00",
+                    "ratio": 4.74,
+                    "required": 4.5
+                },
+                {
+                    "text": "Rest",
+                    "ratio": 19.8,
+                    "required": 4.5
+                },
+                {
+                    "text": "0:02",
+                    "ratio": 20.16,
+                    "required": 4.5
+                },
+                {
+                    "text": "0:00 to 10:00",
+                    "ratio": 4.74,
+                    "required": 4.5
+                },
+                {
+                    "text": "Repetitions",
+                    "ratio": 19.8,
+                    "required": 4.5
+                },
+                {
+                    "text": "3",
+                    "ratio": 20.16,
+                    "required": 4.5
+                },
+                {
+                    "text": "Whole number from 1 to 100",
+                    "ratio": 4.74,
+                    "required": 4.5
+                },
+                {
+                    "text": "Random start",
+                    "ratio": 19.8,
+                    "required": 4.5
+                },
+                {
+                    "text": "Wait a random 1–5 seconds before exercise starts.",
+                    "ratio": 4.74,
+                    "required": 4.5
+                },
+                {
+                    "text": "Start",
+                    "ratio": 17.18,
+                    "required": 4.5
+                }
+            ],
+            "focus": true,
+            "firstFrame": true,
+            "noOverflow": true
+        },
+        {
+            "width": 390,
+            "theme": "dark",
+            "label": "Switch to light mode (currently dark)",
+            "contrast": [
+                {
+                    "text": "Drill timer",
+                    "ratio": 17.18,
+                    "required": 3
+                },
+                {
+                    "text": "Switch to light mode (currently dark)",
+                    "ratio": 15.43,
+                    "required": 4.5
+                },
+                {
+                    "text": "Enter times in m:ss format (for example, 0:05).",
+                    "ratio": 6.94,
+                    "required": 4.5
+                },
+                {
+                    "text": "Preparation",
+                    "ratio": 17.18,
+                    "required": 4.5
+                },
+                {
+                    "text": "0:05",
+                    "ratio": 20.16,
+                    "required": 4.5
+                },
+                {
+                    "text": "0:00 to 10:00",
+                    "ratio": 6.94,
+                    "required": 4.5
+                },
+                {
+                    "text": "Exercise",
+                    "ratio": 17.18,
+                    "required": 4.5
+                },
+                {
+                    "text": "0:04",
+                    "ratio": 20.16,
+                    "required": 4.5
+                },
+                {
+                    "text": "0:01 to 10:00",
+                    "ratio": 6.94,
+                    "required": 4.5
+                },
+                {
+                    "text": "Rest",
+                    "ratio": 17.18,
+                    "required": 4.5
+                },
+                {
+                    "text": "0:02",
+                    "ratio": 20.16,
+                    "required": 4.5
+                },
+                {
+                    "text": "0:00 to 10:00",
+                    "ratio": 6.94,
+                    "required": 4.5
+                },
+                {
+                    "text": "Repetitions",
+                    "ratio": 17.18,
+                    "required": 4.5
+                },
+                {
+                    "text": "3",
+                    "ratio": 20.16,
+                    "required": 4.5
+                },
+                {
+                    "text": "Whole number from 1 to 100",
+                    "ratio": 6.94,
+                    "required": 4.5
+                },
+                {
+                    "text": "Random start",
+                    "ratio": 17.18,
+                    "required": 4.5
+                },
+                {
+                    "text": "Wait a random 1–5 seconds before exercise starts.",
+                    "ratio": 6.94,
+                    "required": 4.5
+                },
+                {
+                    "text": "Start",
+                    "ratio": 14.23,
+                    "required": 4.5
+                }
+            ],
+            "focus": true,
+            "firstFrame": true,
+            "noOverflow": true
+        },
+        {
+            "systemChanges": true,
+            "keyboardToggle": true,
+            "manualPreferenceSurvivesReload": true
+        },
+        {
+            "account": "/auth/signin",
+            "timerThemeDisabled": true
+        },
+        {
+            "account": "/auth/signup",
+            "timerThemeDisabled": true
+        },
+        {
+            "account": "/auth/confirm-email",
+            "timerThemeDisabled": true
+        },
+        {
+            "blockedStorageReadAndWrite": true,
+            "toggleWorks": true,
+            "manualChoiceSurvivesSystemChange": true,
+            "exerciseCompletes": true
+        }
+    ]
+}
