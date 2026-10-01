@@ -21,6 +21,17 @@ interface ActiveRun {
     audio: Promise<DrillAudioPort | null>;
 }
 
+export function DrillCompleted({ onReturn }: { onReturn: () => void }) {
+    return (
+        <section className="space-y-6 text-center">
+            <h2 className="text-2xl font-semibold">Completed</h2>
+            <Button type="button" className="w-full" onClick={onReturn}>
+                Return to configuration
+            </Button>
+        </section>
+    );
+}
+
 export default function DrillApp() {
     const [values, setValues] = useState<DrillConfigInput>(DEFAULT_VALUES);
     const [activeRun, setActiveRun] = useState<ActiveRun | null>(null);
@@ -48,18 +59,11 @@ export default function DrillApp() {
                     {view === "configuration" && <DrillConfigForm values={values} onValuesChange={setValues} onStart={start} />}
                     {view === "running" && activeRun && <DrillTimer configuration={activeRun.configuration} audio={activeRun.audio} onComplete={complete} />}
                     {view === "completed" && (
-                        <section className="space-y-6 text-center">
-                            <h2 className="text-2xl font-semibold">Completed</h2>
-                            <Button
-                                type="button"
-                                className="w-full"
-                                onClick={() => {
-                                    setView("configuration");
-                                }}
-                            >
-                                Return to configuration
-                            </Button>
-                        </section>
+                        <DrillCompleted
+                            onReturn={() => {
+                                setView("configuration");
+                            }}
+                        />
                     )}
                 </CardContent>
             </Card>

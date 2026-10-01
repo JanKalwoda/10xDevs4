@@ -1,5 +1,62 @@
 # Timer UI verification
 
+## Phase 4 — fixtures, contract guard and final evidence
+
+Date: 2026-10-01. No manual Progress checkbox is marked by automation; final human acceptance is reserved for the user.
+
+### Seven-state matrix
+
+| State         | Production component / evidence                                                                                                                                               |
+| ------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Default       | Real DrillConfigForm with valid values; four matrix captures below.                                                                                                           |
+| Hover         | Real mouse hover over Start changes its computed background; separate hover captures.                                                                                         |
+| Focus-visible | Real Tab navigation shows the Input focus ring; subsequent Tab/Space checks and captures show checked Checkbox focus.                                                         |
+| Disabled      | Real Input, Checkbox and Button are disabled in the shared-controls fixture; browser confirms all three disabled controls. No artificial production business state was added. |
+| Error         | Start on the real empty form triggers all four parser errors and aria-invalid; phase 3 confirms each error clears when that field is edited.                                  |
+| Empty         | Saved-configuration list is N/A: this view has no list. Empty field validation is shown through the actual form, not a fabricated list.                                       |
+| Loading       | Real DrillTimerView displays accessible Starting timer status, no countdown and a reserved countdown area. Reduced motion disables the spinner animation.                     |
+
+Additional fixtures cover preparation, exercise, final rest, Standby (no time), pause/Resume, unavailable audio and completion. They are static displays with no clock or audio. The preview uses the production form, presentation and shared DrillCompleted component. Preview action callbacks cannot start a real drill. Extracting DrillCompleted is an intentional phase 4 adaptation needed to reuse the real completion view.
+
+### Screenshots and assessment
+
+| Theme | Width | Matrix                                         | Hover                                        | Input focus                                  | Checkbox focus                                           |
+| ----- | ----- | ---------------------------------------------- | -------------------------------------------- | -------------------------------------------- | -------------------------------------------------------- |
+| Light | 1280  | [Matrix](screenshots/p4-light-1280-matrix.png) | [Hover](screenshots/p4-light-1280-hover.png) | [Focus](screenshots/p4-light-1280-focus.png) | [Checkbox](screenshots/p4-light-1280-checkbox-focus.png) |
+| Dark  | 1280  | [Matrix](screenshots/p4-dark-1280-matrix.png)  | [Hover](screenshots/p4-dark-1280-hover.png)  | [Focus](screenshots/p4-dark-1280-focus.png)  | [Checkbox](screenshots/p4-dark-1280-checkbox-focus.png)  |
+| Light | 390   | [Matrix](screenshots/p4-light-390-matrix.png)  | [Hover](screenshots/p4-light-390-hover.png)  | [Focus](screenshots/p4-light-390-focus.png)  | [Checkbox](screenshots/p4-light-390-checkbox-focus.png)  |
+| Dark  | 390   | [Matrix](screenshots/p4-dark-390-matrix.png)   | [Hover](screenshots/p4-dark-390-hover.png)   | [Focus](screenshots/p4-dark-390-focus.png)   | [Checkbox](screenshots/p4-dark-390-checkbox-focus.png)   |
+
+Agent inspected all matrix and interaction captures. The form remains one column; mobile hints/errors wrap without clipping. Paused/audio surfaces are neutral and the standalone fixtures preserve the real countdown area. Focus remains visible; disabled controls have appropriately reduced emphasis. Rendered enabled labels, inputs, descriptions, messages and buttons meet 4.5:1 normal / 3:1 large text thresholds in all four combinations. No horizontal overflow (desktop vertical scrollbar correctly reduces client width by 15 px). Disabled text is excluded from the contrast threshold. Measurements: [Phase 4 results](p4-browser-results.json).
+
+Intentional registry adaptations: CardHeader uses standard grid utilities; Alert uses system spacing with an optional positioned icon instead of arbitrary grid dimensions. Current production Alert has no icon. Existing Button and account palettes were not restyled.
+
+### Automated gates and entry checks
+
+- `npm run lint`, `npm test` (22/22), `npm run astro -- sync`, `npm run astro -- check` (52 files, zero diagnostics), `npm run build`: PASS.
+- Mechanical guard tests PASS: reject palettes including accent, directional borders and ring offsets, negative/translated arbitrary dimensions, arbitrary colors, literal CSS colors, named colors/shorthands/gradients and named var fallbacks. Accept semantic classes with opacity, scale utilities and token references. Integration tests exercise the actual React/Astro ESLint scope and confirm account exclusion.
+- Deliberately disabling the guard makes both mechanical tests fail. Source is restored unconditionally, and final tests/lint run again. No test dependency or browser runner installed.
+- `npm run smoke` against production preview on port 4322 and local Supabase: all eight auth/home steps PASS. `/dev/timer-ui` returns HTTP 404 and no preview markup. CI now runs engine tests, guard tests and the same preview 404 check.
+- Isolated local production Worker on port 4323 overrides Supabase bindings to empty values without modifying local secrets. Guest root has no configuration warning; a real short drill with unavailable AudioContext completes silently in light/dark at 1280/390 px. Sign-in retains the missing-Supabase diagnostic. [Guest results](p4-guest-results.json); screenshots use `p4-guest-{light|dark}-{1280|390}-{silent|account}.png`.
+- Final UI contract scan: zero violations in timer components, root, development preview and the five new primitives. Existing global token values and Button/account palettes are outside the scoped rule.
+
+### C1–C5 and UI checklist
+
+| Finding / requirement            | Outcome                                                                                                                                                                         |
+| -------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| C1 — palettes bypass tokens      | FIXED: semantic tokens; scan reduced from 22 to zero; scoped guard and documented source.                                                                                       |
+| C2 — separate controls           | FIXED: shared Input/Label/Checkbox; real validation, names, descriptions and boolean contract retained.                                                                         |
+| C3 — separate Resume             | FIXED: shared Button, hidden-page guard preserved.                                                                                                                              |
+| C4 — ambiguous audio startup     | FIXED: explicit accessible loading, no fake countdown, silent fallback and late-unmount cleanup verified.                                                                       |
+| C5 — account warning on timer    | FIXED: root opt-out; actual missing-Supabase preview proves root exercise and account warning.                                                                                  |
+| Tokens and components            | PASS: existing Tailwind/shadcn contract; no duplicate primitive or second system.                                                                                               |
+| Entry routes / no data           | PASS: guest root, real empty-field validation; list empty N/A justified.                                                                                                        |
+| Seven states / responsive / dark | PASS: documented matrix, four combinations, real hover/focus captures and contrast measurements.                                                                                |
+| Guard / agent rules              | PASS: scoped ESLint uses existing lint/CI; rule outside CLI block names source, primitives, shadcn path and visual gate.                                                        |
+| Visual gate / review / scope     | PASS in agent verification: preview is development-only; phase reviews recorded, guard defects fixed; one view, no engine/auth redesign. Human/device acceptance remains below. |
+
+No C1–C5 implementation charge is deferred. Physical device, speaker output and final visual acceptance are verification deferrals authorized by the user.
+
 ## Phase 3 — timer view
 
 Date: 2026-10-01. Implemented and reviewed using 10x-implement / 10x-impl-review. Manual Progress remains pending for the user's final verification, as requested.

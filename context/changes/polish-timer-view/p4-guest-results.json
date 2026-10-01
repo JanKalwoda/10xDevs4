@@ -1,0 +1,44 @@
+{
+    "date": "2026-10-01",
+    "browser": "Edg/154.0.4258.37",
+    "screenshots": [
+        "p4-guest-light-1280-silent.png",
+        "p4-guest-light-1280-account.png",
+        "p4-guest-dark-1280-silent.png",
+        "p4-guest-dark-1280-account.png",
+        "p4-guest-light-390-silent.png",
+        "p4-guest-light-390-account.png",
+        "p4-guest-dark-390-silent.png",
+        "p4-guest-dark-390-account.png"
+    ],
+    "checks": [
+        {
+            "width": 1280,
+            "theme": "light",
+            "rootNoWarning": true,
+            "silentCompletion": true,
+            "accountDiagnostic": true
+        },
+        {
+            "width": 1280,
+            "theme": "dark",
+            "rootNoWarning": true,
+            "silentCompletion": true,
+            "accountDiagnostic": true
+        },
+        {
+            "width": 390,
+            "theme": "light",
+            "rootNoWarning": true,
+            "silentCompletion": true,
+            "accountDiagnostic": true
+        },
+        {
+            "width": 390,
+            "theme": "dark",
+            "rootNoWarning": true,
+            "silentCompletion": true,
+            "accountDiagnostic": true
+        }
+    ]
+}

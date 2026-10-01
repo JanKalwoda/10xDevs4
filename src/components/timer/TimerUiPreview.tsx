@@ -5,6 +5,54 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import DrillConfigForm from "@/components/timer/DrillConfigForm";
+import { DrillCompleted } from "@/components/timer/DrillApp";
+import DrillTimerView from "@/components/timer/DrillTimerView";
+import type { DrillConfigInput } from "@/lib/drill-timer";
+import type { DrillDisplay } from "@/lib/drill-run";
+
+const fixtures: { title: string; display: DrillDisplay; initializing?: boolean }[] = [
+    { title: "Loading", display: { phase: { kind: "preparation", durationSeconds: 5 }, remainingSeconds: 5, paused: false, audioAvailable: true }, initializing: true },
+    { title: "Preparation", display: { phase: { kind: "preparation", durationSeconds: 5 }, remainingSeconds: 5, paused: false, audioAvailable: true } },
+    { title: "Exercise", display: { phase: { kind: "exercise", durationSeconds: 4, repetition: 2 }, remainingSeconds: 3, paused: false, audioAvailable: true } },
+    { title: "Rest", display: { phase: { kind: "rest", durationSeconds: 2, repetition: 3 }, remainingSeconds: 2, paused: false, audioAvailable: true } },
+    { title: "Standby", display: { phase: { kind: "standby", repetition: 2 }, remainingSeconds: null, paused: false, audioAvailable: true } },
+    { title: "Paused", display: { phase: { kind: "exercise", durationSeconds: 4, repetition: 2 }, remainingSeconds: 3, paused: true, audioAvailable: true } },
+    { title: "Audio unavailable", display: { phase: { kind: "exercise", durationSeconds: 4, repetition: 2 }, remainingSeconds: 3, paused: false, audioAvailable: false } },
+];
+
+function ConfigurationFixture({ empty = false }: { empty?: boolean }) {
+    const [values, setValues] = useState<DrillConfigInput>({
+        preparation: empty ? "" : "0:05",
+        exercise: empty ? "" : "0:04",
+        rest: empty ? "" : "0:02",
+        repetitions: empty ? "" : "3",
+        randomStartEnabled: false,
+    });
+    const [valid, setValid] = useState(false);
+    return (
+        <Card data-fixture={empty ? "error" : "default"}>
+            <CardHeader>
+                <CardTitle>{empty ? "Empty fields / validation" : "Default configuration"}</CardTitle>
+                <CardDescription>{empty ? "Press Start to show real validation errors." : "Production form; validation only, no timer or audio."}</CardDescription>
+            </CardHeader>
+            <CardContent>
+                <DrillConfigForm
+                    values={values}
+                    onValuesChange={setValues}
+                    onStart={() => {
+                        setValid(true);
+                    }}
+                />
+                {valid && (
+                    <p role="status" className="text-muted-foreground mt-4 text-sm">
+                        Configuration valid. Preview does not run a drill.
+                    </p>
+                )}
+            </CardContent>
+        </Card>
+    );
+}
 
 export default function TimerUiPreview() {
     const id = useId();
@@ -25,7 +73,25 @@ export default function TimerUiPreview() {
                 </nav>
             </header>
 
-            <Card>
+            <ConfigurationFixture />
+            <ConfigurationFixture empty />
+            {fixtures.map(({ title, display, initializing }) => (
+                <Card key={title} data-fixture={title.toLowerCase().replaceAll(" ", "-")}>
+                    <CardHeader>
+                        <CardTitle>{title} fixture</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                        <DrillTimerView display={display} repetitions={3} initializing={initializing ?? false} onResume={() => undefined} />
+                    </CardContent>
+                </Card>
+            ))}
+            <Card data-fixture="completed">
+                <CardContent>
+                    <DrillCompleted onReturn={() => undefined} />
+                </CardContent>
+            </Card>
+
+            <Card data-fixture="disabled">
                 <CardHeader>
                     <CardTitle>Configuration controls</CardTitle>
                     <CardDescription>Default, error and disabled examples.</CardDescription>

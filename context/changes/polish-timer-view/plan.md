@@ -228,6 +228,10 @@ Zamknąć macierz stanów, utrwalić bramkę wizualną i zapewnić, że kolejne 
 
 **Implementation Note**: Po automatycznej weryfikacji uzyskać potwierdzenie ręcznych kryteriów. Nie zaznaczać wykonania bramki na podstawie samego zielonego CI.
 
+## Verification handoff
+
+2026-10-01: Fazy 3 i 4 mają ukończoną implementację, automatyczne bramki i przeglądy `10x-impl-review`; znalezione luki reguły ESLint zostały poprawione. Zgodnie z poleceniem użytkownika kryteria Manual pozostają do jego końcowego potwierdzenia. Dowody z przeglądarki, ocenione zrzuty i lista nieprzetestowanych warunków fizycznego urządzenia są w `ui-verification.md`. Nie oznaczać ich jako potwierdzone przez użytkownika na podstawie automatyzacji.
+
 ## Testing Strategy
 
 ### Unit Tests:
@@ -301,8 +305,8 @@ Pracować na istniejącej gałęzi `feature/m2l5`. Planowanie pozostawia artefak
 
 #### Automated
 
-- [x] 3.1 `npm run lint`, `npm test`, `npm run astro -- check` i `npm run build` przechodzą; testy faz, losowania, audio i wznowienia zachowują dotychczasowe wyniki.
-- [x] 3.2 Skan plików widoku, wydzielonej prezentacji i przełącznika wykazuje zero klas palety, literałów kolorów i arbitralnych wymiarów; obejmuje także prefiks accent.
+- [x] 3.1 `npm run lint`, `npm test`, `npm run astro -- check` i `npm run build` przechodzą; testy faz, losowania, audio i wznowienia zachowują dotychczasowe wyniki. — bb6c0fc
+- [x] 3.2 Skan plików widoku, wydzielonej prezentacji i przełącznika wykazuje zero klas palety, literałów kolorów i arbitralnych wymiarów; obejmuje także prefiks accent. — bb6c0fc
 
 #### Manual
 
@@ -315,9 +319,9 @@ Pracować na istniejącej gałęzi `feature/m2l5`. Planowanie pozostawia artefak
 
 #### Automated
 
-- [ ] 4.1 `npm run lint`, `npm test`, `npm run astro -- sync`, `npm run astro -- check` i `npm run build` przechodzą; CI zawiera uruchomienie istniejących testów.
-- [ ] 4.2 Kontrola kontraktu odrzuca próbne klasy palety, accent palety, arbitralne kolory/wymiary i inline kolory, dopuszcza semantyczne tokeny oraz skalę systemu; końcowy skan widoku ma zero trafień.
-- [ ] 4.3 `npm run smoke` przechodzi przeciw produkcyjnemu preview z lokalnym Supabase, a `/dev/timer-ui` zwraca w tym preview 404.
+- [x] 4.1 `npm run lint`, `npm test`, `npm run astro -- sync`, `npm run astro -- check` i `npm run build` przechodzą; CI zawiera uruchomienie istniejących testów.
+- [x] 4.2 Kontrola kontraktu odrzuca próbne klasy palety, accent palety, arbitralne kolory/wymiary i inline kolory, dopuszcza semantyczne tokeny oraz skalę systemu; końcowy skan widoku ma zero trafień.
+- [x] 4.3 `npm run smoke` przechodzi przeciw produkcyjnemu preview z lokalnym Supabase, a `/dev/timer-ui` zwraca w tym preview 404.
 
 #### Manual
 
