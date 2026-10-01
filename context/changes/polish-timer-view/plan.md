@@ -319,9 +319,9 @@ Pracować na istniejącej gałęzi `feature/m2l5`. Planowanie pozostawia artefak
 
 #### Automated
 
-- [x] 4.1 `npm run lint`, `npm test`, `npm run astro -- sync`, `npm run astro -- check` i `npm run build` przechodzą; CI zawiera uruchomienie istniejących testów.
-- [x] 4.2 Kontrola kontraktu odrzuca próbne klasy palety, accent palety, arbitralne kolory/wymiary i inline kolory, dopuszcza semantyczne tokeny oraz skalę systemu; końcowy skan widoku ma zero trafień.
-- [x] 4.3 `npm run smoke` przechodzi przeciw produkcyjnemu preview z lokalnym Supabase, a `/dev/timer-ui` zwraca w tym preview 404.
+- [x] 4.1 `npm run lint`, `npm test`, `npm run astro -- sync`, `npm run astro -- check` i `npm run build` przechodzą; CI zawiera uruchomienie istniejących testów. — 4aa5672
+- [x] 4.2 Kontrola kontraktu odrzuca próbne klasy palety, accent palety, arbitralne kolory/wymiary i inline kolory, dopuszcza semantyczne tokeny oraz skalę systemu; końcowy skan widoku ma zero trafień. — 4aa5672
+- [x] 4.3 `npm run smoke` przechodzi przeciw produkcyjnemu preview z lokalnym Supabase, a `/dev/timer-ui` zwraca w tym preview 404. — 4aa5672
 
 #### Manual
 
