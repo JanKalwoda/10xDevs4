@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import DrillTimerView from "@/components/timer/DrillTimerView";
-import { evaluateDrillSchedule, type DrillAudioPort } from "@/lib/drill-audio";
+import { createDrillAudio, evaluateDrillSchedule, type DrillAudioPort } from "@/lib/drill-audio";
 import { DrillRun, browserDrillClock, type DrillDisplay } from "@/lib/drill-run";
 import { firstDrillPhase } from "@/lib/drill-timer";
 import type { DrillConfiguration } from "@/types";
@@ -35,10 +35,10 @@ export default function DrillTimer({ configuration, audio, onComplete }: DrillTi
                 if (!current.phase) {
                     if (!finished) {
                         finished = true;
-                        if (audioPort?.scheduleEvidence?.length) {
+                        if (run?.scheduleEvidence.length) {
                             performance.mark("drill-audio-schedule", {
                                 detail: evaluateDrillSchedule(
-                                    audioPort.scheduleEvidence,
+                                    run.scheduleEvidence,
                                     configuration.repetitions,
                                     configuration.randomStartEnabled,
                                     configuration.restSeconds > 0,
@@ -80,7 +80,7 @@ export default function DrillTimer({ configuration, audio, onComplete }: DrillTi
             repetitions={configuration.repetitions}
             initializing={initializing}
             onResume={() => {
-                if (!document.hidden) runRef.current?.resume();
+                if (!document.hidden) void runRef.current?.resumeWithAudio(createDrillAudio);
             }}
         />
     );

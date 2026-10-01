@@ -1,5 +1,5 @@
 import { firstDrillPhase, nextDrillPhase, sampleRandomStartCentiseconds } from "./drill-timer.ts";
-import { STANDBY_SECOND_OFFSET, type DrillAudioPort } from "./drill-audio.ts";
+import { STANDBY_SECOND_OFFSET, type DrillAudioPort, type DrillScheduleEvidence } from "./drill-audio.ts";
 import type { DrillConfiguration, DrillPhase } from "../types.ts";
 
 const AUDIO_LOOKAHEAD_SECONDS = 5;
@@ -44,7 +44,7 @@ interface PausedAt {
 export class DrillRun {
     private readonly configuration: Readonly<DrillConfiguration>;
     private readonly clock: DrillClock;
-    private readonly audio: DrillAudioPort | null;
+    private audio: DrillAudioPort | null;
     private readonly random: () => number;
     private segments: Segment[] = [];
     private generation = 0;
@@ -54,6 +54,9 @@ export class DrillRun {
     private silent: boolean;
     private listener: (display: DrillDisplay) => void;
     private resumeTarget: DrillPhase | null = null;
+    private recoveryGeneration = 0;
+    private recovering = false;
+    private readonly previousScheduleEvidence: DrillScheduleEvidence[] = [];
 
     constructor(
         configuration: Readonly<DrillConfiguration>,
@@ -69,12 +72,16 @@ export class DrillRun {
         this.listener = listener;
         this.silent = !audio?.available;
         audio?.onUnavailable(() => {
-            this.audioFailed();
+            if (this.audio === audio) this.audioFailed();
         });
     }
 
     start() {
         this.rebuild(firstDrillPhase(this.configuration), this.clock.now());
+    }
+
+    get scheduleEvidence(): readonly DrillScheduleEvidence[] {
+        return [...this.previousScheduleEvidence, ...(this.audio?.scheduleEvidence ?? [])];
     }
 
     get display(): DrillDisplay {
@@ -118,6 +125,8 @@ export class DrillRun {
     }
 
     hide() {
+        this.recoveryGeneration++;
+        this.recovering = false;
         if (this.pausedAt || this.finished) return;
         this.tick();
         const now = this.clock.now();
@@ -138,9 +147,38 @@ export class DrillRun {
         this.listener(this.display);
     }
 
+    /** Invoke directly from the Resume gesture to unlock a fresh audio context. */
+    async resumeWithAudio(createAudio: () => Promise<DrillAudioPort | null>): Promise<void> {
+        if (!this.pausedAt || this.finished || this.recovering) return;
+        this.recovering = true;
+        const generation = ++this.recoveryGeneration;
+        let replacement: DrillAudioPort | null;
+        try {
+            replacement = await createAudio();
+        } catch {
+            replacement = null;
+        }
+        if (generation !== this.recoveryGeneration) {
+            replacement?.close();
+            return;
+        }
+        this.recovering = false;
+        const previous = this.audio;
+        this.previousScheduleEvidence.push(...(previous?.scheduleEvidence ?? []));
+        this.audio = replacement;
+        previous?.close();
+        this.silent = !replacement?.available;
+        replacement?.onUnavailable(() => {
+            if (this.audio === replacement) this.audioFailed();
+        });
+        this.resume();
+    }
+
     resume() {
         const paused = this.pausedAt;
         if (!paused) return;
+        this.recoveryGeneration++;
+        this.recovering = false;
         this.pausedAt = null;
         const now = this.clock.now();
         if ((paused.phase.kind === "standby" || paused.phase.kind === "exercise") && this.configuration.preparationSeconds > 0) {
@@ -183,6 +221,8 @@ export class DrillRun {
     }
 
     stop() {
+        this.recoveryGeneration++;
+        this.recovering = false;
         this.invalidate();
         this.audio?.cancel();
         this.audio?.close();

@@ -54,20 +54,30 @@ const CUE_PITCH: Readonly<Record<DrillCue, number>> = {
     rest: 980,
 };
 
-/** Call during the user Start action so the browser may unlock audio. */
+/** Call during the user Start or Resume action so the browser may unlock audio. */
 export async function createDrillAudio(): Promise<DrillAudioPort | null> {
     if (typeof AudioContext === "undefined") return null;
     let context: AudioContext | undefined;
+    let resumeTimeout: ReturnType<typeof setTimeout> | undefined;
     try {
         context = new AudioContext();
-        await context.resume();
+        await Promise.race([
+            context.resume(),
+            new Promise<never>((_, reject) => {
+                resumeTimeout = setTimeout(() => {
+                    reject(new Error("Drill audio initialization timed out"));
+                }, 1500);
+            }),
+        ]);
         if (context.state !== "running") {
-            await context.close();
+            void context.close().catch(() => undefined);
             return null;
         }
     } catch {
         if (context) void context.close().catch(() => undefined);
         return null;
+    } finally {
+        clearTimeout(resumeTimeout);
     }
 
     const sources = new Set<OscillatorNode>();
@@ -128,7 +138,7 @@ export async function createDrillAudio(): Promise<DrillAudioPort | null> {
         close() {
             closed = true;
             cancel();
-            void context.close();
+            void context.close().catch(() => undefined);
         },
         onUnavailable(handler) {
             unavailableHandler = handler;
