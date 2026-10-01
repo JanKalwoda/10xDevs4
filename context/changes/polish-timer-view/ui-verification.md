@@ -1,5 +1,24 @@
 # Timer UI verification
 
+## Phase 2 — F1 review fix
+
+Date: 2026-10-01. Timer phase/countdown/repetition and pause now use semantic tokens; Resume uses the existing Button. This intentional visual change removes dark text on the dark card and light text on the old light pause surface.
+
+Native headless Edge verified actual running and paused views in light/dark at 1280/390 px. All rendered text passed its 4.5:1 normal / 3:1 large threshold, no horizontal overflow occurred, and Resume removed the paused state in every combination. Visibility was overridden only in the temporary browser harness to dispatch the actual visibility handler; no application test controls were added.
+
+Measurements: [F1 browser results](p2-f1-browser-results.json). Screenshots:
+
+After the fix, `npm run lint`, `npm test` (22 passed), `npm run astro -- check` (0 errors/warnings/hints), and `npm run build` passed.
+
+| Theme | Width | Running | Paused |
+| --- | --- | --- | --- |
+| Light | 1280 | [Running](screenshots/p2-f1-light-1280-running.png) | [Paused](screenshots/p2-f1-light-1280-paused.png) |
+| Dark | 1280 | [Running](screenshots/p2-f1-dark-1280-running.png) | [Paused](screenshots/p2-f1-dark-1280-paused.png) |
+| Light | 390 | [Running](screenshots/p2-f1-light-390-running.png) | [Paused](screenshots/p2-f1-light-390-paused.png) |
+| Dark | 390 | [Running](screenshots/p2-f1-dark-390-running.png) | [Paused](screenshots/p2-f1-dark-390-paused.png) |
+
+Inspected desktop and mobile captures: countdown, phase, repetition and pause notice remain legible; surfaces and controls fit within the viewport. The palette scan decreases by seven occurrences, from 15 to 8. Remaining form/audio palettes belong to phase 3.
+
 ## Phase 2 — theme
 
 Date: 2026-10-01. The user confirmed the final visual evidence and all phase 2 manual verification on 2026-10-01.

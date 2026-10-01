@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { Button } from "@/components/ui/button";
 import { evaluateDrillSchedule, type DrillAudioPort } from "@/lib/drill-audio";
 import { DrillRun, browserDrillClock, type DrillDisplay } from "@/lib/drill-run";
 import { firstDrillPhase } from "@/lib/drill-timer";
@@ -84,26 +85,26 @@ export default function DrillTimer({ configuration, audio, onComplete }: DrillTi
                 </p>
             )}
             {display.paused && (
-                <div className="space-y-3 rounded-md bg-blue-50 p-4">
+                <div className="bg-muted text-foreground space-y-3 rounded-md p-4">
                     <p className="font-medium">Paused while the page was hidden.</p>
-                    <button
+                    <Button
                         type="button"
-                        className="w-full rounded-md bg-blue-700 px-4 py-2 font-medium text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-700"
+                        className="w-full"
                         onClick={() => {
                             if (!document.hidden) runRef.current?.resume();
                         }}
                     >
                         Resume
-                    </button>
+                    </Button>
                 </div>
             )}
-            <h2 className="text-2xl font-semibold text-slate-900">{phaseName}</h2>
+            <h2 className="text-foreground text-2xl font-semibold">{phaseName}</h2>
             {phase.kind !== "standby" && (
-                <p className="text-6xl font-bold text-slate-950 tabular-nums sm:text-7xl" role="timer" aria-label={`${formatTime(display.remainingSeconds ?? 0)} remaining`}>
+                <p className="text-foreground text-6xl font-bold tabular-nums sm:text-7xl" role="timer" aria-label={`${formatTime(display.remainingSeconds ?? 0)} remaining`}>
                     {formatTime(display.remainingSeconds ?? 0)}
                 </p>
             )}
-            <p className="text-lg text-slate-700">{phase.kind === "preparation" ? "Preparing" : `Repetition ${phase.repetition} of ${configuration.repetitions}`}</p>
+            <p className="text-muted-foreground text-lg">{phase.kind === "preparation" ? "Preparing" : `Repetition ${phase.repetition} of ${configuration.repetitions}`}</p>
         </section>
     );
 }
