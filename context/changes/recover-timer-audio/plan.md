@@ -69,6 +69,8 @@ Audio creation must execute synchronously in the click call stack before awaitin
 
 Use deterministic clock/audio fakes for timeline and deferred recovery races; mocked Web Audio for context initialization and anchors. Physical output remains an iPhone acceptance check. No markup/style change is planned.
 
+Device acceptance on 2026-10-01: the user confirmed that audio continues working after phone lock, unlock and Resume in the updated production preview. The report confirms the original symptom is resolved; it does not enumerate phase-by-phase results or the number of repeated cycles.
+
 ## References
 
 - `context/changes/recover-timer-audio/frame.md`

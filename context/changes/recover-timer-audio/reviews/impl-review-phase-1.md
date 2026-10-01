@@ -40,4 +40,4 @@
 - Repository lint passes.
 - Standard production build passes after stopping the previous Wrangler/workerd preview on port 4323 that locked dist/client. A separate output-directory build also passed before stopping the preview.
 - Two independent read-only reviewers found no recovery correctness or safety defects. Review tasks: /root/audio_interruption and /root/resume_timeline.
-- iPhone Chrome physical speaker output and repeated lock/resume remain unconfirmed; Progress item 1.5 stays unchecked.
+- 2026-10-01: the user confirmed audible output after locking/unlocking the iPhone and pressing Resume in the updated production preview. The original symptom is resolved. The report does not enumerate repeated cycles or phase-specific checks, so the broader Progress item 1.5 remains unchecked.
