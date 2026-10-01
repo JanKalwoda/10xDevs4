@@ -289,13 +289,13 @@ Pracować na istniejącej gałęzi `feature/m2l5`. Planowanie pozostawia artefak
 
 #### Automated
 
-- [x] 2.1 `npm run lint`, `npm run astro -- check` i `npm run build` przechodzą po zmianach motywu.
+- [x] 2.1 `npm run lint`, `npm run astro -- check` i `npm run build` przechodzą po zmianach motywu. — 9ebd652
 
 #### Manual
 
-- [x] 2.2 Bez zapisanej preferencji pierwsze malowanie i późniejsze zmiany wyglądu urządzenia dają właściwy motyw; ręczny wybór wygrywa po odświeżeniu, a zablokowany magazyn nie blokuje ćwiczenia.
-- [x] 2.3 Przełącznik działa klawiaturą, ma czytelną nazwę i stan, a oba motywy zachowują kontrast tekstu co najmniej 4,5:1 dla zwykłego i 3:1 dla dużego tekstu oraz widoczny fokus.
-- [x] 2.4 Zapisano i oceniono zrzuty przy 1280 px i 390 px w light/dark; skan widoku nie zwiększa liczby literałów, a strony konta zachowują dotychczasową prezentację.
+- [x] 2.2 Bez zapisanej preferencji pierwsze malowanie i późniejsze zmiany wyglądu urządzenia dają właściwy motyw; ręczny wybór wygrywa po odświeżeniu, a zablokowany magazyn nie blokuje ćwiczenia. — 9ebd652
+- [x] 2.3 Przełącznik działa klawiaturą, ma czytelną nazwę i stan, a oba motywy zachowują kontrast tekstu co najmniej 4,5:1 dla zwykłego i 3:1 dla dużego tekstu oraz widoczny fokus. — 9ebd652
+- [x] 2.4 Zapisano i oceniono zrzuty przy 1280 px i 390 px w light/dark; skan widoku nie zwiększa liczby literałów, a strony konta zachowują dotychczasową prezentację. — 9ebd652
 
 ### Phase 3: Widok timera
 
