@@ -60,9 +60,9 @@ Use native headless Edge/CDP and the existing fixtures without adding a browser 
 
 #### Automated
 
-- [x] 1.1 Registry installation and token contract verified
-- [x] 1.2 Four theme/width combinations and seven states verified visually
-- [x] 1.3 Lint and production build pass
+- [x] 1.1 Registry installation and token contract verified — 395f43f
+- [x] 1.2 Four theme/width combinations and seven states verified visually — 395f43f
+- [x] 1.3 Lint and production build pass — 395f43f
 
 #### Manual
 
