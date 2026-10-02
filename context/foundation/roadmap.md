@@ -48,7 +48,7 @@ Obecny timer HIIT pozwala ustawić fazy i powtórzenia, lecz jego przewidywalny 
 | S-03 | preview-phase-signals | Użytkownik odsłuchuje sygnały i rozumie ich znaczenie przed uruchomieniem | S-02 | US-01, FR-004 | ready |
 | S-04 | view-three-phase-sections | Użytkownik widzi odliczanie, aktualną i następną fazę w trzech sekcjach | S-02 | US-02, FR-005, FR-013 | ready |
 | S-05 | choose-phase-colors | Użytkownik wybiera i widzi osobne kolory czterech faz | S-04 | US-03, FR-013, FR-014 | blocked |
-| S-06 | pause-and-resume-drill | Użytkownik wstrzymuje przebieg i wznawia właściwe powtórzenie | S-02 | US-01, FR-006 | in-progress |
+| S-06 | pause-and-resume-drill | Użytkownik wstrzymuje przebieg i wznawia właściwe powtórzenie | S-02 | US-01, FR-006 | proposed |
 | S-07 | cancel-current-drill | Użytkownik anuluje przebieg i wraca do ustawień | S-01 | US-01, FR-007 | ready |
 | S-08 | restart-whole-drill | Użytkownik uruchamia cały przebieg ponownie od początku | S-02 | US-01, FR-008 | ready |
 | S-09 | enter-account-by-email-link | Użytkownik tworzy konto lub loguje się przez link email | — | FR-009 | ready |
@@ -170,9 +170,9 @@ Brak osobnych Foundations. Konfigurację danych, ochronę własności i weryfika
 - **Parallel with:** S-03, S-04, S-05, S-07, S-08, S-09
 - **Blockers:** —
 - **Unknowns:**
-  - Audio po blokadzie ekranu i ręcznym Resume działa na iPhonie w Chrome (2026-10-01; `context/archive/2026-10-01-recover-timer-audio/`). Zachowanie innych przeglądarek oraz utrzymywanie włączonego ekranu pozostają do sprawdzenia. — Owner: team. Block: no.
+  - Jak zachowują się pauza po blokadzie ekranu i utrzymanie włączonego ekranu w przeglądarkach odbiorowych? — Owner: team. Block: no.
 - **Risk:** Wznowienie Standby lub ćwiczenia musi zachować ukończone powtórzenia i ponowić pełne przygotowanie bez automatycznego startu po powrocie.
-- **Status:** in-progress
+- **Status:** proposed
 
 ### S-07: Anulowanie przebiegu
 
