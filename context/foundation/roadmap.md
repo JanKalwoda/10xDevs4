@@ -3,7 +3,7 @@ project: "DryFire Drill Timer"
 version: 1
 status: draft
 created: 2026-09-23
-updated: 2026-09-30
+updated: 2026-10-02
 prd_version: 1
 main_goal: speed
 top_blocker: capacity
@@ -44,13 +44,13 @@ Obecny timer HIIT pozwala ustawić fazy i powtórzenia, lecz jego przewidywalny 
 | --- | --- | --- | --- | --- | --- |
 | S-01 | run-configured-phases | Użytkownik przechodzi z osobnego formularza do pełnego przebiegu faz bez losowego startu | — | US-01, FR-001, FR-003, FR-005 | done |
 | S-02 | run-random-start | Użytkownik wykonuje pełny przebieg z osobnym losowym startem i sygnałami | S-01 | US-01, FR-002, FR-003, FR-004, FR-005 | done |
-| S-15 | polish-timer-view | Użytkownik korzysta ze spójnego i czytelnego widoku timera podczas konfiguracji, przebiegu i po zakończeniu | S-02 | MS-01, US-01, FR-005 | in-progress |
-| S-03 | preview-phase-signals | Użytkownik odsłuchuje sygnały i rozumie ich znaczenie przed uruchomieniem | S-02 | US-01, FR-004 | proposed |
-| S-04 | view-three-phase-sections | Użytkownik widzi odliczanie, aktualną i następną fazę w trzech sekcjach | S-02 | US-02, FR-005, FR-013 | proposed |
+| S-15 | polish-timer-view | Użytkownik korzysta ze spójnego i czytelnego widoku timera podczas konfiguracji, przebiegu i po zakończeniu | S-02 | MS-01, US-01, FR-005 | done |
+| S-03 | preview-phase-signals | Użytkownik odsłuchuje sygnały i rozumie ich znaczenie przed uruchomieniem | S-02 | US-01, FR-004 | ready |
+| S-04 | view-three-phase-sections | Użytkownik widzi odliczanie, aktualną i następną fazę w trzech sekcjach | S-02 | US-02, FR-005, FR-013 | ready |
 | S-05 | choose-phase-colors | Użytkownik wybiera i widzi osobne kolory czterech faz | S-04 | US-03, FR-013, FR-014 | blocked |
-| S-06 | pause-and-resume-drill | Użytkownik wstrzymuje przebieg i wznawia właściwe powtórzenie | S-02 | US-01, FR-006 | proposed |
-| S-07 | cancel-current-drill | Użytkownik anuluje przebieg i wraca do ustawień | S-01 | US-01, FR-007 | proposed |
-| S-08 | restart-whole-drill | Użytkownik uruchamia cały przebieg ponownie od początku | S-02 | US-01, FR-008 | proposed |
+| S-06 | pause-and-resume-drill | Użytkownik wstrzymuje przebieg i wznawia właściwe powtórzenie | S-02 | US-01, FR-006 | ready |
+| S-07 | cancel-current-drill | Użytkownik anuluje przebieg i wraca do ustawień | S-01 | US-01, FR-007 | ready |
+| S-08 | restart-whole-drill | Użytkownik uruchamia cały przebieg ponownie od początku | S-02 | US-01, FR-008 | ready |
 | S-09 | enter-account-by-email-link | Użytkownik tworzy konto lub loguje się przez link email | — | FR-009 | ready |
 | S-10 | save-named-drill | Użytkownik zapisuje nazwaną konfigurację ze swoimi kolorami | S-05, S-09 | US-03, FR-010, FR-014 | proposed |
 | S-11 | open-saved-drill | Użytkownik widzi własne konfiguracje i uruchamia wybraną | S-10 | FR-011 | proposed |
@@ -122,7 +122,7 @@ Brak osobnych Foundations. Konfigurację danych, ochronę własności i weryfika
 - **Blockers:** —
 - **Unknowns:** —
 - **Risk:** Dopracowanie jednego działającego widoku powinno wyznaczyć spójny wzorzec dla kolejnych zmian UI, bez zmiany logiki timera ani wyprzedzania funkcji z późniejszych przekrojów.
-- **Status:** in-progress
+- **Status:** done
 
 ### S-03: Odsłuch znaczenia sygnałów
 
@@ -134,7 +134,7 @@ Brak osobnych Foundations. Konfigurację danych, ochronę własności i weryfika
 - **Blockers:** —
 - **Unknowns:** —
 - **Risk:** Odsłuch powinien używać tych samych sygnałów co przebieg, aby objaśnienie nie wprowadzało w błąd.
-- **Status:** proposed
+- **Status:** ready
 
 ### S-04: Czytelny widok bieżącej i następnej fazy
 
@@ -146,7 +146,7 @@ Brak osobnych Foundations. Konfigurację danych, ochronę własności i weryfika
 - **Blockers:** —
 - **Unknowns:** —
 - **Risk:** Podgląd nie może ujawnić długości oczekiwania Standby ani sugerować pominiętego odpoczynku 0 s lub fazy po zakończeniu przebiegu.
-- **Status:** proposed
+- **Status:** ready
 
 ### S-05: Niezależne kolory faz
 
@@ -172,7 +172,7 @@ Brak osobnych Foundations. Konfigurację danych, ochronę własności i weryfika
 - **Unknowns:**
   - Jak zachowują się pauza po blokadzie ekranu i utrzymanie włączonego ekranu w przeglądarkach odbiorowych? — Owner: team. Block: no.
 - **Risk:** Wznowienie Standby lub ćwiczenia musi zachować ukończone powtórzenia i ponowić pełne przygotowanie bez automatycznego startu po powrocie.
-- **Status:** proposed
+- **Status:** ready
 
 ### S-07: Anulowanie przebiegu
 
@@ -184,7 +184,7 @@ Brak osobnych Foundations. Konfigurację danych, ochronę własności i weryfika
 - **Blockers:** —
 - **Unknowns:** —
 - **Risk:** Anulowanie ma zakończyć bieżący przebieg bez utraty konfiguracji i bez niezamierzonego wznowienia.
-- **Status:** proposed
+- **Status:** ready
 
 ### S-08: Ponowne uruchomienie od początku
 
@@ -196,7 +196,7 @@ Brak osobnych Foundations. Konfigurację danych, ochronę własności i weryfika
 - **Blockers:** —
 - **Unknowns:** —
 - **Risk:** Restart nie może zachować postępu ani poprzedniego opóźnienia losowego.
-- **Status:** proposed
+- **Status:** ready
 
 ### S-09: Dostęp do konta przez link email
 
@@ -279,12 +279,12 @@ Brak osobnych Foundations. Konfigurację danych, ochronę własności i weryfika
 | S-01 | run-configured-phases | Pełny przebieg faz bez losowego startu | yes | Uruchom `/10x-plan run-configured-phases`. |
 | S-02 | run-random-start | Losowy start i sygnały w każdym cyklu | no | Po S-01; gwiazda przewodnia. |
 | S-15 | polish-timer-view | Dopracowanie widoku głównego timera | yes | Działający widok pod `/`; dla `/10x-ui` użyj Change ID `polish-timer-view`. |
-| S-03 | preview-phase-signals | Odsłuch sygnałów w konfiguracji | no | Po S-02. |
-| S-04 | view-three-phase-sections | Trzy sekcje przebiegu i podglądu | no | Po S-02. |
+| S-03 | preview-phase-signals | Odsłuch sygnałów w konfiguracji | yes | Po S-02. |
+| S-04 | view-three-phase-sections | Trzy sekcje przebiegu i podglądu | yes | Po S-02. |
 | S-05 | choose-phase-colors | Wybór kolorów faz | no | Wymaga wyboru odcieni i S-04. |
-| S-06 | pause-and-resume-drill | Pauza i ręczne wznowienie | no | Po S-02. |
-| S-07 | cancel-current-drill | Anulowanie przebiegu | no | Po S-01. |
-| S-08 | restart-whole-drill | Restart przebiegu | no | Po S-02. |
+| S-06 | pause-and-resume-drill | Pauza i ręczne wznowienie | yes | Po S-02. |
+| S-07 | cancel-current-drill | Anulowanie przebiegu | yes | Po S-01. |
+| S-08 | restart-whole-drill | Restart przebiegu | yes | Po S-02. |
 | S-09 | enter-account-by-email-link | Wejście do konta linkiem email | yes | Równolegle z S-01, po pierwszym działającym timerze w domyślnej kolejności. |
 | S-10 | save-named-drill | Zapis nazwanej konfiguracji | no | Po S-05 i S-09. |
 | S-11 | open-saved-drill | Lista i uruchomienie zapisanej konfiguracji | no | Po S-10. |
@@ -311,6 +311,8 @@ Brak osobnych Foundations. Konfigurację danych, ochronę własności i weryfika
 Brak zamkniętych kamieni milowych.
 
 ## Done
+
+- **S-15: Użytkownik wygodnie konfiguruje timer, śledzi przebieg i rozpoznaje jego zakończenie w spójnym, czytelnym widoku pod `/` na telefonie i komputerze; wszystkie istniejące stany i działania pozostają zrozumiałe oraz dostępne.** — Archived 2026-10-02 → `context/archive/2026-09-30-polish-timer-view/`. Lesson: —.
 
 - **S-01: Użytkownik przechodzi z osobnego formularza do pełnego przebiegu faz bez losowego startu** — Archived 2026-09-28 → `context/archive/2026-09-24-run-configured-phases/`. Lesson: —.
 - **S-02: Użytkownik uruchamia przebieg, w którym każde ćwiczenie poprzedza nowe, ukryte oczekiwanie 1–5 s liczone po dwóch sygnałach Standby, a rozpoczęcie ćwiczenia i dodatniego odpoczynku ma ustalone dźwięki; odpoczynek 0 s nie emituje sygnału.** — Archived 2026-09-28 → `context/archive/2026-09-25-run-random-start/`. Lesson: —.

@@ -273,6 +273,8 @@ Pracować na istniejącej gałęzi `feature/m2l5`. Planowanie pozostawia artefak
 - `src/lib/drill-run.test.ts:75`, `src/lib/drill-timer.test.ts:25`, `src/lib/drill-audio.test.ts:13` — istniejące regresje silnika.
 - `.agents/skills/10x-ui/references/ui-quality-checklist.md` — bramka przeglądu UI.
 
+User confirmation (2026-10-02): the user confirmed that manual checks 3.3–3.6 and 4.4–4.6 were completed and communicated during implementation.
+
 ## Progress
 
 > Convention: `- [ ]` pending, `- [x]` done. Append ` — <commit sha>` when a step lands. Do not rename step titles.
@@ -310,10 +312,10 @@ Pracować na istniejącej gałęzi `feature/m2l5`. Planowanie pozostawia artefak
 
 #### Manual
 
-- [ ] 3.3 Konfiguracja, błędy, poprawny Start i Return to configuration działają jak wcześniej; formularz pozostaje w jednej kolumnie przy 1280 px i 390 px bez poziomego przewijania.
-- [ ] 3.4 Pending audio pokazuje „Starting timer…” bez udawanego odliczania i skoku obszaru licznika; null/rejection przechodzi do przebiegu w ciszy z komunikatem, a rozwiązanie po unmount nie uruchamia ćwiczenia.
-- [ ] 3.5 Losowy przebieg ukrywa czas Standby, pauza po ukryciu nie wznawia się sama, Resume działa po powrocie, a końcowy odpoczynek i pomijanie czasów 0 s pozostają zgodne z silnikiem.
-- [ ] 3.6 Bez Supabase i bez logowania `/` pozwala ćwiczyć bez ostrzeżenia konta, podczas gdy strony konta nadal pokazują diagnostykę; zrzuty konfiguracji, przebiegu i zakończenia oceniono w obu motywach przy 1280 px i 390 px.
+- [x] 3.3 Konfiguracja, błędy, poprawny Start i Return to configuration działają jak wcześniej; formularz pozostaje w jednej kolumnie przy 1280 px i 390 px bez poziomego przewijania.
+- [x] 3.4 Pending audio pokazuje „Starting timer…” bez udawanego odliczania i skoku obszaru licznika; null/rejection przechodzi do przebiegu w ciszy z komunikatem, a rozwiązanie po unmount nie uruchamia ćwiczenia.
+- [x] 3.5 Losowy przebieg ukrywa czas Standby, pauza po ukryciu nie wznawia się sama, Resume działa po powrocie, a końcowy odpoczynek i pomijanie czasów 0 s pozostają zgodne z silnikiem.
+- [x] 3.6 Bez Supabase i bez logowania `/` pozwala ćwiczyć bez ostrzeżenia konta, podczas gdy strony konta nadal pokazują diagnostykę; zrzuty konfiguracji, przebiegu i zakończenia oceniono w obu motywach przy 1280 px i 390 px.
 
 ### Phase 4: Weryfikacja i utrwalenie
 
@@ -325,6 +327,6 @@ Pracować na istniejącej gałęzi `feature/m2l5`. Planowanie pozostawia artefak
 
 #### Manual
 
-- [ ] 4.4 Macierz siedmiu stanów jest udokumentowana wraz z uzasadnieniem empty N/A, a zrzuty obu motywów przy 1280 px i 390 px oceniono pod kątem czytelności, fokusu i kontrastu.
-- [ ] 4.5 Pełny przebieg sprawdzono w przeglądarce na komputerze i telefonie: walidacja, motyw, Start, Standby, pauza/Resume, brak audio, zakończenie i zachowanie konfiguracji.
-- [ ] 4.6 Przegląd `/10x-impl-review` przypisuje wynik każdemu C1–C5 i ustaleniu UI; poprawki przechodzą ponownie bramkę, a odroczenia mają uzasadnienie w dokumentacji.
+- [x] 4.4 Macierz siedmiu stanów jest udokumentowana wraz z uzasadnieniem empty N/A, a zrzuty obu motywów przy 1280 px i 390 px oceniono pod kątem czytelności, fokusu i kontrastu.
+- [x] 4.5 Pełny przebieg sprawdzono w przeglądarce na komputerze i telefonie: walidacja, motyw, Start, Standby, pauza/Resume, brak audio, zakończenie i zachowanie konfiguracji.
+- [x] 4.6 Przegląd `/10x-impl-review` przypisuje wynik każdemu C1–C5 i ustaleniu UI; poprawki przechodzą ponownie bramkę, a odroczenia mają uzasadnienie w dokumentacji.
