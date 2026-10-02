@@ -44,6 +44,8 @@ Install through the supplied registry command, retain token roles, store provena
 
 - User accepts the Ocean Breeze appearance using the preview or saved screenshots.
 
+User acceptance (2026-10-02): the user confirmed that the Ocean Breeze appearance is accepted.
+
 ## Testing Strategy
 
 Use native headless Edge/CDP and the existing fixtures without adding a browser test dependency. Review the saved images; run the existing lint/build checks. No logic changes or new unit tests are needed for token installation.
@@ -66,4 +68,4 @@ Use native headless Edge/CDP and the existing fixtures without adding a browser 
 
 #### Manual
 
-- [ ] 1.4 User accepts Ocean Breeze appearance
+- [x] 1.4 User accepts Ocean Breeze appearance
