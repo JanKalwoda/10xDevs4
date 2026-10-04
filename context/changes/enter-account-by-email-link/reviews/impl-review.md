@@ -73,3 +73,17 @@ Production route smoke does not establish email delivery or authentication excha
 ## Release gate update
 
 The user authorized continuation after configuring Brevo. Hosted SMTP enabled/host/port, Site URL, preserved confirmations=true, callback allowlist, both subjects and both template bodies were verified with the isolated scoped config and an idempotent auth up_to_date push. The earlier provider blocker and user deferral are historical and resolved. CI and full Mailpit smoke passed at edede35 (run 37228476962); this documentation checkpoint requires final-head CI before merge. Production deploy, both remote route checks and user real-email verification remain pending.
+
+## Production completion — 2026-10-04
+
+S-09 is complete. PR #31 merged as 3117e5132d24b4af22753e295819d9be954ba184 after final-head CI and Mailpit smoke passed in run 37231391340. Main run 37231557734 passed CI, full local Mailpit smoke, Cloudflare Worker deployment and production public-route/dashboard-guard smoke. Separate production-smoke run 37231757622 also passed at the same merge commit.
+
+The user explicitly reported that all requested manual test steps passed: login request, receipt of the magic-link email, opening the link and reaching the timer, authenticated dashboard access, and sign-out. This closes Progress 3.5 based on the user's observation; no token, callback URL or mailbox access was collected. The user did not separately identify the tested mailbox/account states, so this record does not invent a second mailbox or account-creation test. New/existing account paths are independently covered by the full local Mailpit E2E.
+
+Hosted Brevo SMTP and both scoped templates/callback settings were verified before merge; generated Wrangler query-string redaction evidence remains in the integration checkpoint. All Progress gates are complete, implementation review covers phases 1, 2, 3 and all findings are fixed. No further S-09 implementation or verification is pending. S-07/S-08 are separate ongoing changes.
+
+Evidence:
+- https://github.com/JanKalwoda/10xDevs4/pull/31
+- https://github.com/JanKalwoda/10xDevs4/actions/runs/37231391340
+- https://github.com/JanKalwoda/10xDevs4/actions/runs/37231557734
+- https://github.com/JanKalwoda/10xDevs4/actions/runs/37231757622
