@@ -1,6 +1,14 @@
 # Coordinator checkpoint — resumed
 
-Date: 2026-10-03
+Date: 2026-10-04
+
+## Current state (supersedes historical updates below)
+
+User resumed work; no pause is outstanding. Timer phases committed separately: 61ddf1e, 9dcd9f2, 1460d0f. All local Phase 3 gates and browser/visual evidence passed after fixing the pre-effect hidden race and the screenshot harness hydration race. Full implementation review by two focused GPT-6-Luna xHigh reviewers is APPROVED with no actionable findings; coordinator repeated all automated gates successfully (45 tests, lint, 2 guard tests, sync/check with zero diagnostics and build). Port 4322 is stopped. Native compact succeeded and clear was verified after Phase 3; timer-controls is idle in a clean thread. Next: coordinator review/documentation commit, push and PR; green CI before merge. Physical-device Wake Lock behavior remains unverified.
+
+Auth Phase 1 committed in e75eecd; Phase 2 committed in 42d2bc5 with separate documentation writeback 7d85d4a. Gates passed: 48 unit tests, lint, both UI guards (4 tests), sync/check with zero diagnostics, 68 browser screenshots in all four theme/viewport variants, no external origins/5xx/runtime errors. Coordinator inspected representative desktop/light and mobile/dark renders; agent inspected all variant contact sheets. Auth preview 4323 stopped. Native compact succeeded and clear was verified; Phase 3 now active in session 01a10625-1912-71a0-acfd-9ce55652ed4c. Phase 3 owns Mailpit E2E, workflows/smoke and Wrangler query redaction. Existing local Supabase starter containers have no Mailpit; agent must coordinate a data-preserving local restart or isolation before changing them. A coordinator-only read-only production configuration preparation note exists in its worktree; no production mutation has been performed. Hosted confirmations=true and Site URL are independently verified. Production callback allowlist/templates still require coordinator application before merge. User manual production email-link check remains pending.
+
+No push, PR or merge exists yet for either stream. Auth full implementation review still follows its Phase 3 checkpoint. Preserve phase commit history when merging (repository permits merge commits). S07 and S08 remain unstarted until preceding review, green CI and coordinator merge. Root main's pre-existing edits remain untouched. This file is coordinator-owned and included separately in the coordinator review documentation commit.
 
 ## Status
 
@@ -50,3 +58,9 @@ Both deep plan reviews and coordinator triage are complete; both plans are accep
 Timer completed /compact and /clear after review and was assigned ONLY Phase 1 with tests and a separate commit; no Phase 2 authorization yet. Auth must finish its review checkpoint, then /compact and /clear before ONLY Phase 1. The coordinator has approved routine implementation/commit decisions; no repeat user approval needed. Preserve actual evidence: at this acceptance point no implementation commit exists. Read git status and canonical Progress on resumption, do not assume a phase finished.
 
 Herdr shows low remaining usage. If quota interrupts an agent, preserve its existing partial edits; do not claim tests or commits completed. Resume the interrupted phase before proceeding. Keep model GPT-6-Luna xHigh. User manual production magic-link check remains required and pending.
+
+## Coordinator execution update — 2026-10-03 evening
+
+S06 Phase 1 completed in commit 61ddf1e (Refs #15). Reported gates: 39 unit tests, lint, astro sync/check (54 files, no diagnostics), 2 timer lint-rule tests passed. Native compact succeeded, clear was verified, and timer-controls now implements ONLY Phase 2 in a fresh GPT-6-Luna xHigh thread. Preserve Phase 1 SHA writeback in plan/handoff and include it in the next phase commit. Phase 2 includes real UI screenshots; Phase 3 remains unauthorized until its checkpoint is reviewed.
+
+S09 completed native compact/clear after review and is implementing ONLY Phase 1. Wait for actual commit and handoff; do not assume completion from checkboxes alone. No push/PR/merge yet. Existing production manual magic-link gate remains pending. Root main and its unrelated archive edits remain untouched.
