@@ -95,7 +95,7 @@ After each scenario, unmount explicitly and verify disposal is idempotent: count
 #### Manual Verification
 
 - On `/`, separately from the preview fixture, Cancel is visible and enabled during initialization, active running, paused, and pending Resume. Each activation returns to configuration with all entered values intact.
-- The bar sits below time/count/repetition with Cancel/X left, a noninteractive empty middle slot, and the 48px Pause/Resume target on the right; paused/loading content does not shift its vertical position.
+- The bar sits below time/count/repetition with Cancel/X left, a noninteractive empty middle slot, and the 48px Pause/Resume target on the right; paused/loading content does not shift its vertical position. Before the Phase 1 commit, capture and review screenshots of initialization, active, paused, and pending Resume at desktop 1280 px and mobile 390 px in light and dark themes; save them under `context/changes/cancel-current-drill/screenshots/phase-1/`. This is covered by existing Progress item 1.4.
 - The held-mounted fixture passes for late initial audio/grant, active stale clock wake, paused Cancel, and pending Resume/audio/grant. It proves no display revival or completion, no post-cancel audio scheduling or Wake Lock request, and no duplicate disposal after the held child is explicitly unmounted.
 - Commit Phase 1 separately after its gates; record its SHA in Progress and handoff.
 
@@ -133,7 +133,7 @@ Expand the existing preview to make Cancel's states and interaction easy to insp
 #### Manual Verification
 
 - In `/dev/timer-ui`, inspect default, hover, focus-visible, disabled, error, empty/N/A, and loading states in light and dark at 1280 px and 390 px. For each of the four viewport/theme combinations, keep the same fixture instance mounted, hold the pointer over the right target, transition ACTIVE→PAUSED→RESUMING, and use browser `getBoundingClientRect()` to assert identical x/y/width/height and a 48px (`size-12`) hitbox for Pause, Resume, and pending Resume; verify the pointer remains over that hitbox. Record pass/fail for each combination. Confirm Cancel stays enabled and named, focus is visible, and completed has no control bar. Empty is N/A because `phase: null` routes to Completed.
-- Save and review screenshots in `context/changes/cancel-current-drill/screenshots/phase-2/`; run the prescribed hard-coded-value scan on the timer entry/view/preview and confirm it remains at zero matches.
+- Save and review screenshots in `context/changes/cancel-current-drill/screenshots/phase-2/`; this includes the bar bounds from the preceding manual check and maps to existing Progress item 2.3. Run the prescribed hard-coded-value scan on the timer entry/view/preview and confirm it remains at zero matches.
 - Re-run the controlled held-mounted race gate after visual changes. Physical-device Wake Lock behavior remains outside this change.
 - Commit Phase 2 separately after its gates. The coordinator handles PR review, final-head CI/production-preview smoke, and merge; do not change CI/smoke configuration in this slice.
 
