@@ -1,7 +1,7 @@
 ---
 change_id: enter-account-by-email-link
 title: Account entry by email link
-status: implementing
+status: impl_reviewed
 created: 2026-10-03
 updated: 2026-10-04
 archived_at: null
