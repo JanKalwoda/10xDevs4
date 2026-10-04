@@ -14,9 +14,9 @@ if (!["http:", "https:"].includes(baseUrl.protocol) || baseUrl.username || baseU
     throw new Error("BASE_URL must be a public app origin");
 }
 const appOrigin = baseUrl.origin;
-const loopbackHosts = ["localhost", "127.0.0.1", "[::1]"];
-if (mode === "local" && !loopbackHosts.includes(baseUrl.hostname)) {
-    throw new Error("Local smoke requires a loopback BASE_URL");
+const localAppOrigins = ["http://localhost:4321", "http://localhost:4323"];
+if (mode === "local" && !localAppOrigins.includes(appOrigin)) {
+    throw new Error("Local smoke requires a configured localhost app origin");
 }
 const mailpitUrl = new URL(process.env.MAILPIT_URL ?? "http://localhost:55324");
 if (

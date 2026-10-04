@@ -19,7 +19,7 @@ jobs:
       - run: npx astro sync
       - run: npm run lint
       - run: npm test
-      - run: node --test scripts/eslint-rules/timer-ui-contract.test.mjs
+      - run: node --test scripts/eslint-rules/timer-ui-contract.test.mjs scripts/eslint-rules/account-entry-ui-contract.test.mjs
       - run: npx astro check
       - run: npm run build
 
