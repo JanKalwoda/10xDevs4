@@ -4,13 +4,15 @@ Date: 2026-10-04
 
 ## Checkpoint status
 
-- Stage: Phase 2 implementation, automated gates, and visual review complete; Phase 2 is committed, with this separate no-amend documentation commit recording its SHA and final evidence.
-- Review verdict: SOUND after coordinator triage. All seven findings have approved dispositions recorded in the report, plan, and brief; F1 is resolved with both email templates and hosted policy confirmation.
+- Stage: Phase 3 implementation and local verification complete; `CHECKPOINT READY`. Phase 3 code commit is `07fb16988976c38eaecf227cff21142dd3e98058`; this separate documentation writeback records its SHA and final evidence without amending it.
+- Review verdict: Phase 1/2 review verdict remains SOUND after coordinator triage. No Phase 3 implementation review was run. The combined-tree review is deferred until the user updates from `origin/main` and starts the separate review after this checkpoint.
 - Worktree: D:/Dev/10xDevs4-enter-account-by-email-link
 - Branch: feature/enter-account-by-email-link
-- HEAD after Phase 2 implementation: 42d2bc5.
-- Main worktree was not accessed for edits. Phase 2 changes are confined to this worktree; no push, PR, merge, or remote Supabase change was made.
-- change.md remains implementing because Phase 3 is pending. Phase 1 and Phase 2 Progress rows are complete; Phase 3 rows remain pending.
+- Phase 2 documentation writeback base: 7d85d4a. Phase 3 implementation commit: 07fb16988976c38eaecf227cff21142dd3e98058.
+- Main worktree was not accessed for edits. No push, PR, merge, `origin/main` update, production setting change, or hosted email was used.
+- The user reports S-06 is merged in `main` at `4160aca`; this branch has not yet been updated from `origin/main`. The user will do that update and request full review after this checkpoint.
+- `change.md` remains implementing. Progress 3.1 is complete; 3.2/3.3 await actual GitHub Actions runs, 3.4 awaits coordinator-owned hosted settings, and 3.5 remains the user's manual production test. S-09 is not complete.
+- The untracked `coordinator-production-preparation.md` is coordinator-owned and was left untouched and unstaged.
 - Phase 1 commit SHA: e75eecd (`feat(enter-account-by-email-link): Server Flow and Contracts (p1)`).
 - Phase 2 commit SHA: 42d2bc5 (`feat(enter-account-by-email-link): email-only account entry (p2)`, `Refs #18`).
 
@@ -35,12 +37,27 @@ Date: 2026-10-04
 - Visual verification used a fake callback token and intercepted the callback POST. It did not send email, verify a real OTP, or prove the Supabase SSR cookie roundtrip; these remain Phase 3 Mailpit E2E evidence.
 - The coordinator confirmed hosted `auth.email.enable_confirmations=true` via read-only inspection and prepared a scoped production configuration outside this Phase 2 commit. The production allowlist/templates remain coordinator-owned; no config push or remote write occurred.
 
+## Phase 3 results
+
+- Added credential-free local Mailpit smoke for new-account confirmation and existing-account magic-link email, confirmation GET without token consumption, explicit callback POST, actual Astro SSR cookies, dashboard access, sign-out, malformed/reused link retry, and the root account shell. Authenticated responses show the exact `Account` → `/dashboard` link; after sign-out the exact `Sign in` → `/auth/signin` link returns. Both new and existing account paths passed.
+- The local smoke prints only static PASS/FAIL step names; callback links and token hashes stay in memory. Failures suppress response, email, and token details. The loopback guard rejected `https://example.com` in local mode before network activity, and the Mailpit message count did not change.
+- Mailpit delivery was verified against the actual isolated stack. Preview `.dev.vars` pointed to the isolated API at `127.0.0.1:55421`; the isolated GoTrue container used SMTP host `supabase_inbucket_enter-account-email-e2e`, port `1025`, matching that project's Mailpit container. The tracked callback allowlist includes the actual preview origin `http://localhost:4321`.
+- Mailpit v1.30.2 returns recipient addresses as `To[].Address`; the current API swagger describes `To[].Email`. The smoke accepts either field. The shell diagnostic found a parser bug: the `<a>` class contained a quoted `>` character, which had prematurely ended a regex tag match. The parser now respects quoted tag attributes, strips comments, normalizes whitespace, and checks the exact nav label and href.
+- `SMOKE_MODE=local BASE_URL=http://localhost:4321 MAILPIT_URL=http://localhost:55424 npm run smoke`: all 20 steps passed against an Astro production preview built from this worktree.
+- `SMOKE_MODE=remote BASE_URL=http://localhost:4321 npm run smoke`: all four public-route and anonymous-dashboard checks passed against that local preview. No production URL was queried; neither remote workflow was dispatched.
+- `npm test`: 48/48 passed. `npm run lint`: passed. Both UI guard suites passed, 4/4. `npx astro sync`, `npx astro check` (58 files, 0 errors/warnings/hints), and `npm run build` passed.
+- `npx wrangler deploy --dry-run --outdir .wrangler/phase3-dry-run` passed. The generated `dist/server/wrangler.json` had `observability.enabled=true` and `observability.redact_query_string=true`. No live logs or secrets were read. The generated dry-run and build output were removed after inspection.
+- CI now starts Supabase with Mailpit enabled and runs the local email smoke against `localhost:55324`; both production workflows run remote mode without `SMOKE_EMAIL`/`SMOKE_PASSWORD` and state their route-only evidence limit. Actual hosted CI remains pending because this branch was not pushed.
+- Isolated E2E setup used `%TEMP%\enter-account-by-email-link-e2e-stack`, project ID `enter-account-email-e2e`, with these configured ports: 55420 shadow DB, 55421 API/Kong, 55422 Postgres, 55423 Studio (excluded), 55424 Mailpit API/UI (SMTP is internal port 1025), and 55427 analytics (excluded). Astro preview used port 4321. The tracked `supabase/config.toml` was not changed; only an external copy's project ID and isolation ports were changed.
+- Scoped start command: `npx supabase --workdir "%TEMP%\enter-account-by-email-link-e2e-stack" start --exclude studio,imgproxy,edge-runtime,logflare,vector,realtime,storage-api,postgres-meta,supavisor`. Scoped cleanup command used: `npx supabase --workdir "%TEMP%\enter-account-by-email-link-e2e-stack" stop --project-id enter-account-email-e2e --no-backup`. It removed the isolated containers/volumes; no E2E containers or volumes remain. The pre-existing `10x-astro-starter` containers are still running and `supabase_db_10x-astro-starter` remains present. Preview, `.env`, `.dev.vars`, `dist`, and the Wrangler dry-run output were cleaned up.
+- No production auth config was pushed. Coordinator-owned hosted callback/templates remain pending; the real post-deployment production magic-link test remains user-owned and pending.
+
 ## Settled decisions
 
 - S-09 / FR-009: one email-only magic-link path for new and existing accounts; no password registration. Preserve guest timer at /, SSR cookie sessions, protected dashboard, and sign-out.
 - Keep Zod as a direct dependency; GET confirmation must not consume tokens; explicit POST calls verifyOtp through the SSR client. Local confirmations are enabled; both confirmation and magic_link templates use the same callback and type=email. Hosted policy is preserved and confirmed by the coordinator before merge.
-- The plan pins localhost:4321 for CI and localhost:4323 for auth dev, with 127.0.0.1 only if actually used and BASE_URL aligned. Mailpit E2E will cover new and existing users through both templates and prove actual Astro SSR cookie persistence; Node unit tests stop at a pure injected service/adapter boundary. Production automation checks public routes and anonymous dashboard protection only.
-- User manually verifies a real production magic link after deployment. Phase 3 sets observability.redact_query_string=true in wrangler.jsonc while keeping observability enabled; verify generated deployment config before merge, do not inspect live logs/secrets, keep app logs/errors free of token URLs, and record browser history as a residual limitation. No remote setting is changed in this planning checkpoint.
+- The plan pins localhost:4321 for CI and localhost:4323 for auth dev, with 127.0.0.1 only if actually used and BASE_URL aligned. Phase 3 local Mailpit E2E now proves both account paths and the Astro SSR cookie roundtrip; Node unit tests still stop at a pure injected service/adapter boundary. Production automation checks public routes and anonymous dashboard protection only.
+- User manually verifies a real production magic link after deployment. Phase 3 sets observability.redact_query_string=true in wrangler.jsonc while keeping observability enabled; the generated deployment config was verified locally. Do not inspect live logs/secrets, keep app logs/errors free of token URLs, and record browser history as a residual limitation. No remote setting was changed.
 - Account navigation belongs in the Astro index shell. Apply the `/10x-ui` default/hover/focus-visible/disabled/error/empty-or-justified-N/A/loading matrix at 1280/390 px in light/dark. Timer components stay out of scope. Coordinate before changing global CSS, Layout.astro, or shared UI components.
 
 ## Resolved review dispositions
@@ -64,6 +81,6 @@ Details and dispositions are in the review report. No new broad research was per
 
 ## Next step and workflow
 
-Phase 2 is complete in `42d2bc5`; this documentation-only commit records the post-commit SHA/evidence writeback without amending it. Stop at `CHECKPOINT READY`. The next implementation work is Phase 3 only, in a fresh thread after coordinator compact/clear; do not start Phase 3 in this thread.
+Phase 3 implementation is committed in `07fb16988976c38eaecf227cff21142dd3e98058`; this documentation-only commit records the post-commit SHA/evidence writeback without amending it. Stop at `CHECKPOINT READY`.
 
-Phase 3 remains pending: local Mailpit E2E, CI changes, the coordinator-owned scoped production auth/template update, credential-free remote route smoke, and the generated Wrangler config check. The real post-deploy email-link/session check remains user-owned and pending. No push, PR, merge, Phase 3 implementation, or production mutation occurred in this Phase 2 checkpoint.
+After this checkpoint, the user will update the feature branch from `origin/main` (which now includes S-06 at `4160aca`) and start a separate full review of the combined tree. No push, PR, merge, remote production configuration, or production email test was performed here. Actual GitHub CI, coordinator-owned hosted callback/template settings, and the user's post-deployment production magic-link/session check remain pending. Do not mark S-09 complete until the user reports the manual test.
