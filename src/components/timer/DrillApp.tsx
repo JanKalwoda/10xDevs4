@@ -55,6 +55,10 @@ export default function DrillApp() {
     const complete = useCallback(() => {
         setView("completed");
     }, []);
+    const cancel = useCallback(() => {
+        setActiveRun(null);
+        setView("configuration");
+    }, []);
 
     function start(snapshot: Readonly<DrillConfiguration>) {
         // Begin unlocking Web Audio while the Start gesture is still active.
@@ -88,7 +92,7 @@ export default function DrillApp() {
                 <CardContent>
                     {view === "configuration" && <DrillConfigForm values={values} onValuesChange={setValues} onStart={start} />}
                     {view === "running" && activeRun && (
-                        <DrillTimer configuration={activeRun.configuration} audio={activeRun.audio} wakeLock={activeRun.wakeLock} onComplete={complete} />
+                        <DrillTimer configuration={activeRun.configuration} audio={activeRun.audio} wakeLock={activeRun.wakeLock} onComplete={complete} onCancel={cancel} />
                     )}
                     {view === "completed" && (
                         <DrillCompleted

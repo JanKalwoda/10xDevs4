@@ -166,14 +166,14 @@ Not applicable; cancellation is local to the active guest run and does not persi
 
 #### Automated
 
-- [ ] 1.1 `npm test` passes with the focused stop regression and existing async cleanup coverage.
-- [ ] 1.2 `npm run lint` passes, including the timer UI contract.
-- [ ] 1.3 Astro sync, timer UI rule tests, `npx astro check`, and `npm run build` pass with every required `DrillTimerView` caller updated.
+- [x] 1.1 `npm test` passes with the focused stop regression and existing async cleanup coverage.
+- [x] 1.2 `npm run lint` passes, including the timer UI contract.
+- [x] 1.3 Astro sync, timer UI rule tests, `npx astro check`, and `npm run build` pass with every required `DrillTimerView` caller updated.
 
 #### Manual
 
-- [ ] 1.4 Production Cancel works in initialization, active, paused, and pending Resume; it returns with configuration retained.
-- [ ] 1.5 The held-mounted controlled race gate rejects late initialization/display/completion/Resume work and releases late resources without post-cancel starts or duplicate teardown.
+- [x] 1.4 Production Cancel works in initialization, active, paused, and pending Resume; it returns with configuration retained.
+- [x] 1.5 The held-mounted controlled race gate rejects late initialization/display/completion/Resume work and releases late resources without post-cancel starts or duplicate teardown.
 - [ ] 1.6 Phase 1 is committed separately after its gates; record its SHA in Progress and handoff.
 
 ### Phase 2: Visual fixtures, durable rule, and final UI gate
