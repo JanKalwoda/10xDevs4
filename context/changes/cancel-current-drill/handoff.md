@@ -2,14 +2,18 @@
 
 ## Checkpoint
 
-**Checkpoint: READY — plan_reviewed; F1 fixed; next: Phase 1 in a fresh thread. Stop this coordinator thread before implementation.**
+**CHECKPOINT READY — Phase 1 is committed and verified; next: coordinator-owned compact/clear, then Phase 2. Stop before Phase 2.**
 
 - Worktree: `D:/Dev/10xDevs4-cancel-current-drill`
 - Branch: `feature/cancel-current-drill`
+- Phase 1 commit: `9e38abf628765c4400f6c11204b00b544a8aebd0` (`feat(timer): cancel active drills safely`)
 - Base / merged main: `47252992f1e15c8426a4200a40b85f3173bf48f2` (S09 complete, deployed, and manually verified); merge into this feature: `55246c0`
 - Change: `context/changes/cancel-current-drill/`
-- Plan status: `plan_reviewed`; F1 triaged as fixed; implementation has not started.
-- No tests/builds were run in this planning checkpoint. No production code was changed. No push, PR, or merge was performed. S08 was not started. Root worktree `D:/Dev/10xDevs4` was not modified.
+- Plan status: Phase 1 complete; overall change remains `implementing`. F1 is fixed. Phase 2 and S08 have not started.
+- Phase 1 gates passed: 62/62 `npm test`, `npm run lint`, 2/2 timer UI contract tests, `npx astro sync`, `npx astro check` (0 diagnostics), and `npm run build`. The build reports absent local `SUPABASE_URL`/`SUPABASE_KEY`; no secrets were added or changed.
+- Production `/` Cancel retained the four entered configuration values across initialization, active, paused, and pending Resume. The 16 saved screenshots were visually inspected. Held-mounted cases A/B/C/D pass; B invoked the latest retained cleared wake (`staleWakeFires=1`). Audio/Wake Lock fallback alerts remain visible while ACTIVE→PAUSED→RESUMING control bounds stay fixed.
+- Phase 1 screenshots: `context/changes/cancel-current-drill/screenshots/phase-1/` (1280/390 × light/dark × initializing/active/paused/pending Resume). An initial screenshot set exposed the Wake Lock alert shift; all 16 were replaced after reserving a stable warning slot and were reviewed again.
+- The local timer dev server started by this work was stopped (PID 6444); temporary browser helpers were removed. Supabase 55321 was not started or stopped. No push, PR, merge, or deployment was performed. Root worktree `D:/Dev/10xDevs4` was not modified.
 
 ## Scope and Decisions
 
@@ -41,4 +45,4 @@
 
 ## Next
 
-Start Phase 1 in a fresh implementation thread using `plan.md`, this brief, and the fixed F1 report. Preserve the approved race scenarios and UI slot contract; keep all Progress titles unchanged and checkboxes pending. Stop here for coordinator-owned compact/clear.
+After the coordinator's successful compact and verified clear, continue with Phase 2 only. Keep the completed Phase 1 commit intact, preserve all Progress titles, and keep S08 deferred until S07 is complete. The coordinator owns final implementation review, PR/CI, and merge.
