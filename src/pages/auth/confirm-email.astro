@@ -1,32 +1,33 @@
 ---
 import Layout from "@/layouts/Layout.astro";
+import { Card, CardContent, CardDescription, CardHeader } from "@/components/ui/card";
+import { buttonVariants } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import { isSafeNextPath, setEmailLinkPageSecurityHeaders } from "@/lib/email-auth";
 
-const isAutoConfirmed = import.meta.env.DEV;
+setEmailLinkPageSecurityHeaders(Astro.response.headers);
 
-const content = isAutoConfirmed
-    ? {
-          emoji: "✅",
-          heading: "Registration successful",
-          description: "Your account has been created. You can now sign in.",
-          linkText: "Go to sign in",
-      }
-    : {
-          emoji: "📧",
-          heading: "Check your email",
-          description: "We've sent a confirmation link to your email address. Click it to activate your account.",
-          linkText: "Back to sign in",
-      };
+const requestedNext = Astro.url.searchParams.get("next");
+const next = isSafeNextPath(requestedNext) ? requestedNext : "/";
+const signInHref = next === "/" ? "/auth/signin" : "/auth/signin?next=" + encodeURIComponent(next);
 ---
 
-<Layout title={content.heading}>
-    <div class="bg-cosmic flex min-h-screen items-center justify-center p-4">
-        <div class="w-full max-w-sm rounded-2xl border border-white/10 bg-white/10 p-8 text-center text-white backdrop-blur-xl">
-            <div class="mb-4 text-5xl">{content.emoji}</div>
-            <h1 class="mb-3 bg-gradient-to-r from-blue-200 to-purple-200 bg-clip-text text-2xl font-bold text-transparent">{content.heading}</h1>
-            <p class="mb-6 text-blue-100/80">{content.description}</p>
-            <a href="/auth/signin" class="text-sm text-purple-300 hover:underline">
-                {content.linkText}
-            </a>
-        </div>
-    </div>
+<Layout title="Check your email" enableTimerTheme showConfigWarnings={false}>
+    <main class="flex min-h-screen items-center justify-center bg-background p-4 text-foreground">
+        <Card className="w-full max-w-md gap-0 overflow-hidden py-0">
+            <CardHeader className="gap-3 px-6 pt-8 sm:px-8">
+                <p class="text-primary text-sm font-medium">Drill Me</p>
+                <h1 class="text-2xl font-semibold tracking-tight">Check your email</h1>
+                <CardDescription>If an account can use that email address, a sign-in link will arrive shortly. Open the link to continue.</CardDescription>
+            </CardHeader>
+            <CardContent className="flex flex-col gap-3 px-6 pb-8 sm:px-8">
+                <a href={signInHref} class:list={[cn(buttonVariants({ variant: "default" }), "w-full")]}>
+                    Use a different email address
+                </a>
+                <a href="/" class:list={[buttonVariants({ variant: "ghost" })]}>
+                    Back to the timer
+                </a>
+            </CardContent>
+        </Card>
+    </main>
 </Layout>

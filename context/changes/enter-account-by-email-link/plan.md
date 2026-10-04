@@ -219,20 +219,20 @@ No database migration is required. Existing password-created accounts continue t
 
 #### Automated
 
-- [x] 1.1 Node unit tests cover email/token validation, safe `next`, account-neutral request behavior, explicit POST delegation and injected cookie-writer contract calls; actual Astro SSR cookies are verified in Phase 3 E2E.
-- [x] 1.2 `npm run lint` passes for the server-flow changes.
-- [x] 1.3 `npx astro check` passes for route and middleware contracts.
+- [x] 1.1 Node unit tests cover email/token validation, safe `next`, account-neutral request behavior, explicit POST delegation and injected cookie-writer contract calls; actual Astro SSR cookies are verified in Phase 3 E2E. — e75eecd
+- [x] 1.2 `npm run lint` passes for the server-flow changes. — e75eecd
+- [x] 1.3 `npx astro check` passes for route and middleware contracts. — e75eecd
 
 ### Phase 2: UI, Routing, and Email Template
 
 #### Automated
 
-- [ ] 2.1 Unit tests prove callback GET does not verify tokens and that callback headers, safe form values, and neutral failure behavior meet the contract.
-- [ ] 2.2 `npm run lint` and `npx astro check` pass for auth pages, shell navigation, callback wiring, both local email templates, confirmation policy, and callback allowlist.
+- [x] 2.1 Unit tests prove callback GET does not verify tokens and that callback headers, safe form values, and neutral failure behavior meet the contract.
+- [x] 2.2 `npm run lint` and `npx astro check` pass for auth pages, shell navigation, callback wiring, both local email templates, confirmation policy, and callback allowlist.
 
 #### Manual
 
-- [ ] 2.3 `/10x-ui` screenshots cover default, hover, focus-visible, disabled, error, empty or justified N/A, and loading at 1280px/390px in light/dark for each changed existing view; root navigation and guest timer are also reviewed.
+- [x] 2.3 `/10x-ui` screenshots cover default, hover, focus-visible, disabled, error, empty or justified N/A, and loading at 1280px/390px in light/dark for each changed existing view; root navigation and guest timer are also reviewed.
 
 ### Phase 3: Mailpit E2E, CI, and Deployment Smoke
 

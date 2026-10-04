@@ -1,0 +1,87 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader } from "@/components/ui/card";
+import { EMAIL_LINK_RETRY_MESSAGE, emailLinkCallbackPageState, setEmailLinkPageSecurityHeaders } from "@/lib/email-auth";
+
+setEmailLinkPageSecurityHeaders(Astro.response.headers);
+const state = emailLinkCallbackPageState(Astro.url.href);
+const title = state.kind === "confirm" ? "Confirm your sign-in" : "Sign-in link unavailable";
+---
+
+<Layout title={title} enableTimerTheme showConfigWarnings={false}>
+    <main class="flex min-h-screen items-center justify-center bg-background p-4 text-foreground">
+        <Card className="w-full max-w-md gap-0 overflow-hidden py-0">
+            <CardHeader className="gap-3 px-6 pt-8 sm:px-8">
+                <p class="text-primary text-sm font-medium">Drill Me</p>
+                {state.kind === "confirm" ? (
+                    <>
+                        <h1 class="text-2xl font-semibold tracking-tight">Confirm your sign-in</h1>
+                        <CardDescription>Continue to finish signing in to your account.</CardDescription>
+                    </>
+                ) : (
+                    <>
+                        <h1 class="text-2xl font-semibold tracking-tight">Sign-in link unavailable</h1>
+                        <CardDescription>{EMAIL_LINK_RETRY_MESSAGE}</CardDescription>
+                    </>
+                )}
+            </CardHeader>
+            <CardContent className="flex flex-col gap-3 px-6 pb-8 sm:px-8">
+                {state.kind === "confirm" ? (
+                    <form id="email-link-confirmation" method="POST" action="/api/auth/callback">
+                        <input type="hidden" name="token_hash" value={state.tokenHash} />
+                        <input type="hidden" name="type" value="email" />
+                        <input type="hidden" name="next" value={state.next} />
+                        <Button type="submit" className="w-full" id="email-link-confirm-button">
+                            Continue to account
+                        </Button>
+                        <p id="email-link-confirm-error" class="mt-3 text-destructive text-sm" role="alert" hidden></p>
+                    </form>
+                ) : (
+                    <a class="text-primary text-sm font-medium underline-offset-4 hover:underline" href="/auth/signin">
+                        Request a new sign-in link
+                    </a>
+                )}
+                <a class="text-muted-foreground text-sm underline-offset-4 hover:text-foreground hover:underline" href="/">
+                    Back to the timer
+                </a>
+            </CardContent>
+        </Card>
+    </main>
+</Layout>
+
+<script>
+    const form = document.querySelector<HTMLFormElement>("#email-link-confirmation");
+    form?.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        const button = form.querySelector<HTMLButtonElement>("#email-link-confirm-button");
+        if (!button) return;
+
+        button.disabled = true;
+        button.setAttribute("aria-busy", "true");
+        button.textContent = "Confirming…";
+
+        try {
+            const response = await fetch(form.action, {
+                method: form.method,
+                body: new FormData(form),
+                headers: { Accept: "text/html" },
+                redirect: "follow",
+            });
+            if (!response.redirected) throw new Error("Callback did not redirect");
+
+            const destination = new URL(response.url, window.location.href);
+            if (destination.origin !== window.location.origin) throw new Error("Callback redirect left the current origin");
+            window.location.assign(destination.pathname + destination.search + destination.hash);
+        } catch {
+            button.disabled = false;
+            button.removeAttribute("aria-busy");
+            button.textContent = "Try confirming again";
+            const error = document.querySelector<HTMLParagraphElement>("#email-link-confirm-error");
+            if (error) {
+                error.textContent = "We couldn't confirm this link. Please request a new sign-in link.";
+                error.hidden = false;
+            }
+        }
+    });
+</script>

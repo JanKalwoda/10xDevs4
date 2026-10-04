@@ -1,8 +1,17 @@
 ---
 import DrillApp from "@/components/timer/DrillApp";
+import { buttonVariants } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 import Layout from "@/layouts/Layout.astro";
+
+const accountLink = Astro.locals.user ? { href: "/dashboard", label: "Account" } : { href: "/auth/signin", label: "Sign in" };
 ---
 
 <Layout title="Drill timer" enableTimerTheme showConfigWarnings={false}>
+    <nav aria-label="Account" class="pointer-events-none fixed inset-x-0 top-0 z-50 flex justify-end p-3 sm:p-4">
+        <a href={accountLink.href} class:list={[cn(buttonVariants({ variant: "outline", size: "sm" }), "pointer-events-auto")]}>
+            {accountLink.label}
+        </a>
+    </nav>
     <DrillApp client:load />
 </Layout>

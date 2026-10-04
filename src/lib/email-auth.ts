@@ -2,6 +2,10 @@ import { z } from "zod";
 
 export const EMAIL_LINK_MESSAGE = "If an account can use this email, a sign-in link will arrive shortly.";
 export const EMAIL_LINK_RETRY_MESSAGE = "This sign-in link is invalid or expired. Request a new link.";
+export const EMAIL_LINK_PAGE_HEADERS = {
+    "Cache-Control": "no-store",
+    "Referrer-Policy": "no-referrer",
+} as const;
 
 const LOCAL_PATH_ORIGIN = "https://local.invalid";
 const SAFE_RESPONSE_HEADERS = {
@@ -61,6 +65,43 @@ export const emailLinkCallbackSchema = z.object({
     type: z.literal("email"),
     next: safeNextPathSchema,
 });
+
+export type EmailLinkCallbackPageState = { kind: "confirm"; tokenHash: string; next: string } | { kind: "retry"; message: string; next: string };
+
+export function setEmailLinkPageSecurityHeaders(headers: Headers): void {
+    for (const [name, value] of Object.entries(EMAIL_LINK_PAGE_HEADERS)) {
+        headers.set(name, value);
+    }
+}
+
+export function emailLinkCallbackPageState(url: string): EmailLinkCallbackPageState {
+    try {
+        const callbackUrl = new URL(url);
+        const requestedNext = callbackUrl.searchParams.get("next");
+        const next = isSafeNextPath(requestedNext) ? requestedNext : "/";
+
+        if (callbackUrl.searchParams.has("error") || (callbackUrl.searchParams.has("next") && !isSafeNextPath(requestedNext))) {
+            return { kind: "retry", message: EMAIL_LINK_RETRY_MESSAGE, next };
+        }
+
+        const parsed = emailLinkCallbackSchema.safeParse({
+            token_hash: callbackUrl.searchParams.get("token_hash"),
+            type: callbackUrl.searchParams.get("type"),
+            next: callbackUrl.searchParams.has("next") ? requestedNext : undefined,
+        });
+        if (!parsed.success) {
+            return { kind: "retry", message: EMAIL_LINK_RETRY_MESSAGE, next };
+        }
+
+        return { kind: "confirm", tokenHash: parsed.data.token_hash, next: parsed.data.next };
+    } catch {
+        return { kind: "retry", message: EMAIL_LINK_RETRY_MESSAGE, next: "/" };
+    }
+}
+
+export function legacySignupRedirectUrl(next: unknown): string {
+    return isSafeNextPath(next) ? "/auth/signin?next=" + encodeURIComponent(next) : "/auth/signin";
+}
 
 export interface EmailLinkRequest {
     email: string;

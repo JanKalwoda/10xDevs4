@@ -7,6 +7,7 @@ import pluginReact from "eslint-plugin-react";
 import eslintPluginReactHooks from "eslint-plugin-react-hooks";
 import path from "node:path";
 import tseslint from "typescript-eslint";
+import accountEntryUiContract from "./scripts/eslint-rules/account-entry-ui-contract.mjs";
 import timerUiContract from "./scripts/eslint-rules/timer-ui-contract.mjs";
 
 // eslint-plugin-react still uses context APIs removed in ESLint 10; wrap it until it ships native support.
@@ -87,6 +88,17 @@ export default defineConfig(
     eslintPluginAstro.configs["flat/jsx-a11y-recommended"],
     astroConfig,
     scriptsConfig,
+    {
+        files: [
+            "src/components/auth/SignInForm.tsx",
+            "src/pages/auth/signin.astro",
+            "src/pages/auth/confirm-email.astro",
+            "src/pages/auth/callback.astro",
+            "src/pages/index.astro",
+        ],
+        plugins: { "account-entry-ui": { rules: { contract: accountEntryUiContract } } },
+        rules: { "account-entry-ui/contract": "error" },
+    },
     {
         files: ["src/components/timer/**/*.{ts,tsx}", "src/pages/index.astro", "src/pages/dev/timer-ui.astro", "src/components/ui/{input,label,checkbox,card,alert}.tsx"],
         plugins: { "timer-ui": { rules: { contract: timerUiContract } } },

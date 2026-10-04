@@ -1,17 +1,22 @@
 import assert from "node:assert/strict";
+import { readFile } from "node:fs/promises";
 import test from "node:test";
 
 import {
+    EMAIL_LINK_PAGE_HEADERS,
     EMAIL_LINK_MESSAGE,
     EMAIL_LINK_RETRY_MESSAGE,
     buildEmailRedirectTo,
+    emailLinkCallbackPageState,
     emailLinkCallbackSchema,
     emailLinkRequestSchema,
     forwardAuthCookies,
     handleEmailLinkCallback,
     handleEmailLinkRequest,
     isSafeNextPath,
+    legacySignupRedirectUrl,
     requestEmailLink,
+    setEmailLinkPageSecurityHeaders,
     signInUrlForProtectedPath,
     verifyEmailLink,
 } from "./email-auth.ts";
@@ -231,4 +236,87 @@ void test("callback verifier normalizes thrown and malformed-token failures", as
         next: "/",
         message: EMAIL_LINK_RETRY_MESSAGE,
     });
+});
+
+void test("callback GET prepares safe confirmation values and leaves verification to POST", async () => {
+    const state = emailLinkCallbackPageState("https://drill.example/auth/callback?token_hash=opaque-token%26value&type=email&next=%2Fdashboard%3Ftab%3Ddrill");
+    assert.deepEqual(state, {
+        kind: "confirm",
+        tokenHash: "opaque-token&value",
+        next: "/dashboard?tab=drill",
+    });
+
+    const callbackPage = await readFile(new URL("../pages/auth/callback.astro", import.meta.url), "utf8");
+    assert.ok(callbackPage.includes("emailLinkCallbackPageState(Astro.url.href)"));
+    assert.ok(callbackPage.includes('method="POST" action="/api/auth/callback"'));
+    assert.ok(callbackPage.includes('name="token_hash" value={state.tokenHash}'));
+    assert.ok(callbackPage.includes('name="next" value={state.next}'));
+    assert.ok(callbackPage.includes("event.preventDefault()"));
+    assert.ok(callbackPage.includes("new FormData(form)"));
+    assert.ok(callbackPage.includes("window.location.assign(destination.pathname + destination.search + destination.hash)"));
+    assert.equal(/\b(?:verifyOtp|handleEmailLinkCallback|createClient)\b/.test(callbackPage), false);
+
+    const postRoute = await readFile(new URL("../pages/api/auth/callback.ts", import.meta.url), "utf8");
+    assert.ok(postRoute.includes("export const POST"));
+    assert.equal(postRoute.includes("export const GET"), false);
+});
+
+void test("callback page applies no-store and no-referrer headers", () => {
+    const headers = new Headers();
+    setEmailLinkPageSecurityHeaders(headers);
+
+    assert.deepEqual(EMAIL_LINK_PAGE_HEADERS, {
+        "Cache-Control": "no-store",
+        "Referrer-Policy": "no-referrer",
+    });
+    assert.equal(headers.get("cache-control"), "no-store");
+    assert.equal(headers.get("referrer-policy"), "no-referrer");
+});
+
+void test("invalid and unsafe callback values produce the same neutral retry state", () => {
+    const invalidStates = [
+        emailLinkCallbackPageState("https://drill.example/auth/callback"),
+        emailLinkCallbackPageState("https://drill.example/auth/callback?token_hash=token&type=recovery"),
+        emailLinkCallbackPageState("https://drill.example/auth/callback?token_hash=token&type=email&next=%2F%2Fevil.example"),
+        emailLinkCallbackPageState("https://drill.example/auth/callback?error=invalid&next=%2Fdashboard"),
+    ];
+
+    const retryStates = invalidStates.map((state) => {
+        assert.ok(state.kind === "retry");
+        return state;
+    });
+    assert.deepEqual(
+        retryStates.map((state) => state.message),
+        invalidStates.map(() => EMAIL_LINK_RETRY_MESSAGE),
+    );
+    const unsafeNext = retryStates[2];
+    const callbackError = retryStates[3];
+    assert.ok(unsafeNext);
+    assert.ok(callbackError);
+    assert.equal(unsafeNext.next, "/");
+    assert.equal(callbackError.next, "/dashboard");
+});
+
+void test("legacy signup redirects preserve only a safe local next path", () => {
+    assert.equal(legacySignupRedirectUrl("/dashboard?tab=drill"), "/auth/signin?next=%2Fdashboard%3Ftab%3Ddrill");
+    assert.equal(legacySignupRedirectUrl("//evil.example"), "/auth/signin");
+    assert.equal(legacySignupRedirectUrl("https://evil.example"), "/auth/signin");
+});
+
+void test("local confirmation and magic-link templates share the callback contract", async () => {
+    const config = await readFile(new URL("../../supabase/config.toml", import.meta.url), "utf8");
+    const template = await readFile(new URL("../../supabase/templates/magic_link.html", import.meta.url), "utf8");
+    const authSection = config.split("[auth]")[1]?.split("[auth.rate_limit]")[0] ?? "";
+    const emailSection = config.split("[auth.email]")[1]?.split("[auth.email.template.confirmation]")[0] ?? "";
+
+    assert.ok(authSection.includes("http://localhost:4321/auth/callback*"));
+    assert.ok(authSection.includes("http://localhost:4323/auth/callback*"));
+    assert.ok(emailSection.includes("enable_confirmations = true"));
+    for (const templateName of ["confirmation", "magic_link"]) {
+        const header = "[auth.email.template." + templateName + "]";
+        const section = config.split(header)[1]?.split("\n[")[0] ?? "";
+        assert.ok(section.includes('subject = "Your Drill Me sign-in link"'));
+        assert.ok(section.includes('content_path = "./supabase/templates/magic_link.html"'));
+    }
+    assert.ok(template.includes("{{ .RedirectTo }}&amp;token_hash={{ .TokenHash }}&amp;type=email"));
 });
