@@ -112,3 +112,17 @@ Details and dispositions are in the review report. No new broad research was per
 Phase 3 implementation is committed in `07fb16988976c38eaecf227cff21142dd3e98058`; this documentation-only commit records the post-commit SHA/evidence writeback without amending it. Stop at `CHECKPOINT READY`.
 
 After this checkpoint, the user will update the feature branch from `origin/main` (which now includes S-06 at `4160aca`) and start a separate full review of the combined tree. No push, PR, merge, remote production configuration, or production email test was performed here. Actual GitHub CI, coordinator-owned hosted callback/template settings, and the user's post-deployment production magic-link/session check remain pending. Do not mark S-09 complete until the user reports the manual test.
+
+## Production completion — 2026-10-04
+
+S-09 is complete. PR #31 merged as 3117e5132d24b4af22753e295819d9be954ba184 after final-head CI and Mailpit smoke passed in run 37231391340. Main run 37231557734 passed CI, full local Mailpit smoke, Cloudflare Worker deployment and production public-route/dashboard-guard smoke. Separate production-smoke run 37231757622 also passed at the same merge commit.
+
+The user explicitly reported that all requested manual test steps passed: login request, receipt of the magic-link email, opening the link and reaching the timer, authenticated dashboard access, and sign-out. This closes Progress 3.5 based on the user's observation; no token, callback URL or mailbox access was collected. The user did not separately identify the tested mailbox/account states, so this record does not invent a second mailbox or account-creation test. New/existing account paths are independently covered by the full local Mailpit E2E.
+
+Hosted Brevo SMTP and both scoped templates/callback settings were verified before merge; generated Wrangler query-string redaction evidence remains in the integration checkpoint. All Progress gates are complete, implementation review covers phases 1, 2, 3 and all findings are fixed. No further S-09 implementation or verification is pending. S-07/S-08 are separate ongoing changes.
+
+Evidence:
+- https://github.com/JanKalwoda/10xDevs4/pull/31
+- https://github.com/JanKalwoda/10xDevs4/actions/runs/37231391340
+- https://github.com/JanKalwoda/10xDevs4/actions/runs/37231557734
+- https://github.com/JanKalwoda/10xDevs4/actions/runs/37231757622
