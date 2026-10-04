@@ -238,7 +238,7 @@ No database migration is required. Existing password-created accounts continue t
 
 #### Automated
 
-- [ ] 3.1 Local Mailpit smoke proves new/existing email sign-in through the confirmation/magic-link templates, actual Astro SSR cookie persistence, dashboard access, sign-out, malformed link, and consumed-link reuse without logging token material.
+- [x] 3.1 Local Mailpit smoke proves new/existing email sign-in through the confirmation/magic-link templates, actual Astro SSR cookie persistence, dashboard access, sign-out, authenticated `Account` → `/dashboard` and signed-out `Sign in` → `/auth/signin` home-shell links, malformed link, and consumed-link reuse without logging token material.
 - [ ] 3.2 CI keeps Mailpit enabled and passes lint, unit tests, Astro checks, build, and local email smoke.
 - [ ] 3.3 Both remote smoke workflows pass public-route/dashboard-guard checks without email/password secrets and clearly state that they do not verify full authentication.
 
