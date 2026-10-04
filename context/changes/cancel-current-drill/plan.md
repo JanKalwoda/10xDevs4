@@ -180,10 +180,10 @@ Not applicable; cancellation is local to the active guest run and does not persi
 
 #### Automated
 
-- [x] 2.1 `npm test` and `npm run lint` pass after preview and agent-rule updates.
-- [x] 2.2 Astro sync, timer UI rule tests, `npx astro check`, and `npm run build` pass.
+- [x] 2.1 `npm test` and `npm run lint` pass after preview and agent-rule updates. — fdf649568cc35355488292878aa33907c4b6748f
+- [x] 2.2 Astro sync, timer UI rule tests, `npx astro check`, and `npm run build` pass. — fdf649568cc35355488292878aa33907c4b6748f
 
 #### Manual
 
-- [x] 2.3 The seven-state `/dev/timer-ui` gate passes in light/dark at 1280/390 px; screenshots are saved/reviewed and the hard-coded-value scan remains at zero.
+- [x] 2.3 The seven-state `/dev/timer-ui` gate passes in light/dark at 1280/390 px; screenshots are saved/reviewed and the hard-coded-value scan remains at zero. — fdf649568cc35355488292878aa33907c4b6748f
 - [ ] 2.4 The held-mounted lifecycle gate still passes and Phase 2 is committed separately; final-head review and required PR CI/smoke pass before coordinator merge.

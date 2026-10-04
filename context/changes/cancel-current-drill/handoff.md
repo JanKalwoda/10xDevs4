@@ -2,18 +2,22 @@
 
 ## Checkpoint
 
-**CHECKPOINT READY — Phase 1 is committed and verified; next: coordinator-owned compact/clear, then Phase 2. Stop before Phase 2.**
+**CHECKPOINT READY — Phase 2 is separately committed and verified. Stop here for coordinator-owned compact/clear and final-head review/PR CI; keep Progress 2.4 pending until those gates pass.**
 
 - Worktree: `D:/Dev/10xDevs4-cancel-current-drill`
 - Branch: `feature/cancel-current-drill`
 - Phase 1 commit: `9e38abf628765c4400f6c11204b00b544a8aebd0` (`feat(timer): cancel active drills safely`)
+- Phase 2 commit: `fdf649568cc35355488292878aa33907c4b6748f` (`chore(timer): complete cancel-current-drill Phase 2 UI gate`)
 - Base / merged main: `47252992f1e15c8426a4200a40b85f3173bf48f2` (S09 complete, deployed, and manually verified); merge into this feature: `55246c0`
 - Change: `context/changes/cancel-current-drill/`
-- Plan status: Phase 1 complete; overall change remains `implementing`. F1 is fixed. Phase 2 and S08 have not started.
+- Plan status: Phase 1 and Phase 2 implementation complete; overall change remains `implementing`. Progress 2.1–2.3 records Phase 2 commit `fdf6495`; 2.4 remains pending final-head review and coordinator-owned PR CI/smoke. F1 is fixed. S08 has not started.
 - Phase 1 gates passed: 62/62 `npm test`, `npm run lint`, 2/2 timer UI contract tests, `npx astro sync`, `npx astro check` (0 diagnostics), and `npm run build`. The build reports absent local `SUPABASE_URL`/`SUPABASE_KEY`; no secrets were added or changed.
+- Phase 2 gates passed: 62/62 `npm test`, `npm run lint`, 2/2 timer UI contract tests, `npx astro sync`, `npx astro check` (0 diagnostics), and `npm run build` (same local Supabase-secret warning). The seven requested preview states plus paused are saved as 32 reviewed screenshots at `context/changes/cancel-current-drill/screenshots/phase-2/`; hard-coded-value scan: 0 matches.
+- Final Phase 2 browser evidence: the same preview instance traversed ACTIVE→PAUSED→RESUMING with the pointer over the right target; its 48×48 `getBoundingClientRect()` was identical in all four theme/viewport combinations (desktop x=902.984375,y=581; mobile x=300.984375,y=621). Both audio and Wake Lock fallback messages remained visible. Held-mounted A/B/C/D passed again after preview changes.
+- The corrected root-owned keyboard helper passed light/dark × 1280/390 after waiting for the `TimerUiPreview` Astro island to hydrate: real Tab/Shift+Tab showed focus-visible on Cancel and Pause, and Enter left focus on Resume. Results: `C:/Users/Jasiek/AppData/Local/Temp/10x-s07-review-helpers/keyboard-focus-results.json`.
 - Production `/` Cancel retained the four entered configuration values across initialization, active, paused, and pending Resume. The 16 saved screenshots were visually inspected. Held-mounted cases A/B/C/D pass; B invoked the latest retained cleared wake (`staleWakeFires=1`). Audio/Wake Lock fallback alerts remain visible while ACTIVE→PAUSED→RESUMING control bounds stay fixed.
 - Phase 1 screenshots: `context/changes/cancel-current-drill/screenshots/phase-1/` (1280/390 × light/dark × initializing/active/paused/pending Resume). An initial screenshot set exposed the Wake Lock alert shift; all 16 were replaced after reserving a stable warning slot and were reviewed again.
-- The local timer dev server started by this work was stopped (PID 6444); temporary browser helpers were removed. Supabase 55321 was not started or stopped. No push, PR, merge, or deployment was performed. Root worktree `D:/Dev/10xDevs4` was not modified.
+- The Phase 2 dev server on 4324 was stopped (owned PID 8644); the user-owned helper files were preserved. Supabase 55321 was not started or stopped, and reserved port 4322 was untouched. No push, PR, merge, deployment, final-head review, or final CI/smoke was performed. Root worktree `D:/Dev/10xDevs4` was not modified.
 
 ## Scope and Decisions
 
@@ -45,4 +49,4 @@
 
 ## Next
 
-After the coordinator's successful compact and verified clear, continue with Phase 2 only. Keep the completed Phase 1 commit intact, preserve all Progress titles, and keep S08 deferred until S07 is complete. The coordinator owns final implementation review, PR/CI, and merge.
+After the coordinator's successful compact and verified clear, coordinate final-head implementation review and PR CI/production-preview smoke. Progress 2.4 remains pending until those coordinator-owned gates pass. Keep both phase commits intact, preserve Progress titles, and keep S08 deferred. Stop here; no push, PR, merge, or full review was started.
