@@ -29,3 +29,15 @@ Source references:
 - https://raw.githubusercontent.com/supabase/cli/v2.117.0/apps/cli/src/commands/config/push/push.encoders.ts
 
 Production completion remains pending until deployment, credential-free route smoke and the user's real email-link/session check. Route smoke does not prove email delivery or token exchange.
+
+## Brevo unblock and release authorization
+
+The user selected Brevo, reported completing account/sender/SMTP setup, and explicitly authorized continuation of step 5 (production configuration, release and verification).
+
+The coordinator verified hosted custom SMTP is enabled with smtp-relay.brevo.com on port 587. Credentials and the sender address were not printed or committed. The previously prepared isolated config was checked against the committed template, then pushed successfully. Only the callback allowlist, two subjects and two template bodies were in scope; Site URL and confirmations=true were preserved, and SMTP properties were undeclared and left untouched.
+
+Post-update config diff has zero declared updates. A second idempotent config push reports auth up_to_date, no changes and Nothing to push. This also verifies both declared template bodies against the hosted content, unlike a subject-only diff. Both use the explicit-POST callback contract.
+
+Final checkpoint head edede35 passed CI and Mailpit smoke in GitHub Actions 37228476962. Existing implementation review is APPROVED, all findings fixed; generated Wrangler observability/redaction evidence is recorded in handoff.md. The earlier user deferral and default-provider blocker are resolved by this authorization and verified custom SMTP setup.
+
+Merge/deploy and both production route-smoke workflows remain to be recorded. The user's actual production email delivery, explicit confirmation and authenticated dashboard/session remain pending; route smoke is not a substitute.

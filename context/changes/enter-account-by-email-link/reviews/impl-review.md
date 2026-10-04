@@ -69,3 +69,7 @@ GitHub Actions [37194457446](https://github.com/JanKalwoda/10xDevs4/actions/runs
 - User manually verifies a real production magic link, explicit confirmation, session and dashboard. S09 remains incomplete until the user confirms this gate.
 
 Production route smoke does not establish email delivery or authentication exchange. Browser history remains a callback-token limitation; query redaction does not remove browser history. No live logs, hosted secret values or real production email were inspected by this review.
+
+## Release gate update
+
+The user authorized continuation after configuring Brevo. Hosted SMTP enabled/host/port, Site URL, preserved confirmations=true, callback allowlist, both subjects and both template bodies were verified with the isolated scoped config and an idempotent auth up_to_date push. The earlier provider blocker and user deferral are historical and resolved. CI and full Mailpit smoke passed at edede35 (run 37228476962); this documentation checkpoint requires final-head CI before merge. Production deploy, both remote route checks and user real-email verification remain pending.

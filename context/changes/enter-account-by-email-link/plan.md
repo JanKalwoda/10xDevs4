@@ -239,10 +239,10 @@ No database migration is required. Existing password-created accounts continue t
 #### Automated
 
 - [x] 3.1 Local Mailpit smoke proves new/existing email sign-in through the confirmation/magic-link templates, actual Astro SSR cookie persistence, dashboard access, sign-out, authenticated `Account` → `/dashboard` and signed-out `Sign in` → `/auth/signin` home-shell links, malformed link, and consumed-link reuse without logging token material. — 07fb169
-- [ ] 3.2 CI keeps Mailpit enabled and passes lint, unit tests, Astro checks, build, and local email smoke.
+- [x] 3.2 CI keeps Mailpit enabled and passes lint, unit tests, Astro checks, build, and local email smoke.
 - [ ] 3.3 Both remote smoke workflows pass public-route/dashboard-guard checks without email/password secrets and clearly state that they do not verify full authentication.
 
 #### Manual
 
-- [ ] 3.4 Before merge, coordinator confirms hosted email-confirmation policy, production callback allowlist and both templates, and verifies the generated Wrangler config retains `observability.enabled = true` and `observability.redact_query_string = true`; no live logs or secrets are inspected, and browser history is recorded as a residual limitation.
+- [x] 3.4 Before merge, coordinator confirms hosted email-confirmation policy, production callback allowlist and both templates, and verifies the generated Wrangler config retains `observability.enabled = true` and `observability.redact_query_string = true`; no live logs or secrets are inspected, and browser history is recorded as a residual limitation.
 - [ ] 3.5 User verifies a real production magic link and authenticated dashboard after deployment.
