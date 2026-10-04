@@ -53,6 +53,6 @@ Coordinator visual inspection found an initial invalid dark capture caused by a 
 
 ## Pending external gates and limitations
 
-- Progress 3.8 remains unchecked until the PR and required CI, including production-preview smoke, pass. This report approves the local implementation; it does not claim CI has already run or authorize a merge before green CI.
+- PR #30 CI run 37192553128 on dcbfa53527b9a61a3a645f9f465822eff401d10b passed both `ci` and `smoke` on 2026-10-04. Progress 3.8 now records that evidence. The final documentation head still must pass CI before coordinator merge; this report does not claim that subsequent run has already finished.
 - Physical-device Wake Lock behavior is unverified and explicitly reported as such.
 - No auth, shared CSS/Layout/UI primitives, dependency, persistence or S07/S08 implementation was introduced.

@@ -55,3 +55,7 @@ Plan, plan-brief, research and reviews/plan-review.md are in this change folder.
 - Local gates passed: `npm run test` (45/45), `npm run lint`, `npx astro sync`, timer UI contract rule tests (2/2), `npx astro check` (60 files, 0 diagnostics), `npm run build`, and browser lifecycle/visual gates. Build reported only the expected missing `SUPABASE_URL` and `SUPABASE_KEY` warnings for this guest timer environment. No dependency was added.
 - Physical-device Wake Lock behavior remains unverified. PR CI, including production-preview smoke, is pending under Progress 3.8.
 - Phase 3 commit: `1460d0f` — `feat(pause-and-resume-drill): run integration and final gates (p3)` (`Refs: #15`). Phase 3 SHA is written to completed Progress rows. 3.8 stays unchecked pending coordinator review and PR CI. The coordinator-owned `coordinator-checkpoint.md` remains unstaged and outside this commit.
+
+## Coordinator PR/CI checkpoint — 2026-10-04
+
+PR #30: https://github.com/JanKalwoda/10xDevs4/pull/30. Review approved without findings. Required CI run 37192553128 passed ci and production-preview smoke on dcbfa53527b9a61a3a645f9f465822eff401d10b. Progress 3.8 records this actual evidence. This documentation update has no production-code changes; wait for its own head CI before coordinator merge. Preserve phase history with a merge commit, do not squash. The main roadmap receives only S06 status done and the date update when the PR merges. S07 remains unstarted until the merge. Physical device Wake Lock remains unverified.

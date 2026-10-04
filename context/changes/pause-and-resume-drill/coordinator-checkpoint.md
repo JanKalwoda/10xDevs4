@@ -64,3 +64,7 @@ Herdr shows low remaining usage. If quota interrupts an agent, preserve its exis
 S06 Phase 1 completed in commit 61ddf1e (Refs #15). Reported gates: 39 unit tests, lint, astro sync/check (54 files, no diagnostics), 2 timer lint-rule tests passed. Native compact succeeded, clear was verified, and timer-controls now implements ONLY Phase 2 in a fresh GPT-6-Luna xHigh thread. Preserve Phase 1 SHA writeback in plan/handoff and include it in the next phase commit. Phase 2 includes real UI screenshots; Phase 3 remains unauthorized until its checkpoint is reviewed.
 
 S09 completed native compact/clear after review and is implementing ONLY Phase 1. Wait for actual commit and handoff; do not assume completion from checkboxes alone. No push/PR/merge yet. Existing production manual magic-link gate remains pending. Root main and its unrelated archive edits remain untouched.
+
+## Coordinator PR/CI checkpoint — 2026-10-04
+
+PR #30: https://github.com/JanKalwoda/10xDevs4/pull/30. Review approved without findings. Required CI run 37192553128 passed ci and production-preview smoke on dcbfa53527b9a61a3a645f9f465822eff401d10b. Progress 3.8 records this actual evidence. This documentation update has no production-code changes; wait for its own head CI before coordinator merge. Preserve phase history with a merge commit, do not squash. The main roadmap receives only S06 status done and the date update when the PR merges. S07 remains unstarted until the merge. Physical device Wake Lock remains unverified.
