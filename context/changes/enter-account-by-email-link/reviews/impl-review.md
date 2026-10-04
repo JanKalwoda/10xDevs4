@@ -7,7 +7,7 @@
 - **Date**: 2026-10-04
 - **Reviewed code**: ba41520, with review fixes verified at 7ae916f.
 - **Verdict**: APPROVED for implemented code; completion and release remain gated below.
-- **Findings**: 0 critical, 1 warning, 2 observations; F1 and F2 fixed, F3 evidence pending.
+- **Findings**: 0 critical, 1 warning, 2 observations; all three fixed.
 
 ## Verdicts
 
@@ -18,7 +18,7 @@
 | Safety & Quality | PASS |
 | Architecture | PASS |
 | Pattern Consistency | PASS after F2 fix |
-| Success Criteria | WARNING: F3 evidence and external release gates pending |
+| Success Criteria | PASS for implemented/local gates; external release gates pending |
 
 ## Findings
 
@@ -50,21 +50,21 @@
 - **Location**: context/changes/enter-account-by-email-link/screenshots/README.md:3
 - **Detail**: The Phase 2 captures predate the S-06 merge and show the root configuration state. No source conflict was found, but the fixed account navigation needs a post-merge check beside the running and paused timer.
 - **Fix**: Save and inspect post-merge running/paused root captures at 1280/390 px in light/dark.
-- **Decision**: PENDING — assigned to the native email-auth agent during integrated verification.
+- **Decision**: FIXED — eight post-merge running/paused root captures and their contact sheet are saved in `screenshots/integration/`. The native agent inspected the captures and the coordinator independently inspected the contact sheet: light/dark applied correctly, navigation does not overlap the timer, and there is no horizontal overflow at either width. Controlled browser run reports no runtime errors or external requests.
 
 ## Evidence and integration
 
 Two independent GPT-6-Luna xHigh read-only reviewers inspected plan drift and safety/patterns. Neither found a critical auth defect. GET prepares confirmation without token consumption; explicit POST verifies through the existing SSR client. Safe return paths, neutral errors, callback security headers, remote GET-only smoke, local templates, and Worker query redaction follow the plan. The account UI guard reuses the timer contract. No S09 timer-component or shared CSS/Layout change was made.
 
-The coordinator merged origin/main containing S-06 4160aca into the feature branch at ba41520 without conflicts or rewriting phase commits. The native integrated verification reports 61/61 unit tests, lint, both guard suites 4/4, Astro check of 66 files with no diagnostics, and build passing at 7ae916f. Full local Mailpit re-verification, generated deployment-config inspection and F3 captures are in progress; the earlier Phase 3 checkpoint records the successful 20-step real local journey and both query-redaction fields.
+The coordinator merged origin/main containing S-06 4160aca into the feature branch at ba41520 without conflicts or rewriting phase commits. The native integrated verification reports 61/61 unit tests, lint, both guard suites 4/4, Astro check of 66 files with no diagnostics, and build passing at 7ae916f. Full local Mailpit re-verification and remote-mode checks against the local production preview passed. F3 captures are now saved and inspected. The earlier Phase 3 checkpoint records the successful 20-step real local journey and both query-redaction fields; the integrated checkpoint will record its generated-config verification and cleanup.
 
 GitHub Actions [37194457446](https://github.com/JanKalwoda/10xDevs4/actions/runs/37194457446) passed CI and full local Mailpit production-preview smoke at 7ae916f. Deploy was skipped for the pull request, as intended. Draft PR is [#31](https://github.com/JanKalwoda/10xDevs4/pull/31). Later documentation changes require final-head CI before merge.
 
 ## Remaining gates
 
-- Complete integrated local verification and close F3 with observable screenshots.
+- Record the completed integrated verification, generated-config check and scoped cleanup in the checkpoint.
 - Pass final-head PR CI/smoke after checkpoint/review documentation.
-- Coordinator applies and verifies only the hosted callback allowlist and two approved email templates while preserving hosted confirmations and Site URL; no production mutation has occurred yet.
+- Coordinator applies and verifies only the hosted callback allowlist and two approved email templates while preserving hosted confirmations and Site URL. The scoped update is blocked by Supabase HTTP 400: free-tier projects using the default email provider cannot modify email templates. A read-only check still shows the redirect/subject changes pending. The user has been asked to choose custom SMTP, a plan upgrade, or deferred deployment. Do not merge while this gate is unresolved.
 - Deploy the merged code and pass both credential-free production route-smoke workflows.
 - User manually verifies a real production magic link, explicit confirmation, session and dashboard. S09 remains incomplete until the user confirms this gate.
 
