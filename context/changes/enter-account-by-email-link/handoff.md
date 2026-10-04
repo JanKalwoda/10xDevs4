@@ -4,6 +4,8 @@ Date: 2026-10-04
 
 ## Checkpoint status
 
+> Historical snapshot: this section and the original “Next step and workflow” below describe the state before later S-06 integration and coordinator/root actions. Current results are recorded in the separate sections below.
+
 - Stage: Phase 3 implementation and local verification complete; `CHECKPOINT READY`. Phase 3 code commit is `07fb16988976c38eaecf227cff21142dd3e98058`; this separate documentation writeback records its SHA and final evidence without amending it.
 - Review verdict: Phase 1/2 review verdict remains SOUND after coordinator triage. No Phase 3 implementation review was run. The combined-tree review is deferred until the user updates from `origin/main` and starts the separate review after this checkpoint.
 - Worktree: D:/Dev/10xDevs4-enter-account-by-email-link
@@ -15,6 +17,32 @@ Date: 2026-10-04
 - The untracked `coordinator-production-preparation.md` is coordinator-owned and was left untouched and unstaged.
 - Phase 1 commit SHA: e75eecd (`feat(enter-account-by-email-link): Server Flow and Contracts (p1)`).
 - Phase 2 commit SHA: 42d2bc5 (`feat(enter-account-by-email-link): email-only account entry (p2)`, `Refs #18`).
+
+## Coordinator/root actions after the historical checkpoint
+
+- The coordinator fetched and merged origin/main into this feature branch in merge commit ba41520; S-06 commit 4160aca is in its history and the merge had no conflicts.
+- Root applied the two reviewed safety fixes in separate commit 7ae916f: local app smoke origins are limited to the callback allowlist, and the account-entry UI guard suite is included in CI.
+- Root completed the implementation review with APPROVED and 0 critical findings. F1/F2 were fixed in 7ae916f; the coordinator reviewed the contact sheet below and confirmed F3 PASS. Root recorded review status impl_reviewed in change.md and owns reviews/impl-review.md and coordinator-production-preparation.md; none are part of this documentation checkpoint.
+- The coordinator opened DRAFT PR #31 at 7ae916f and reported GitHub CI plus smoke run 37194457446 passing on that commit. This verification did not push or update the PR. Root will add this checkpoint and remaining coordinator evidence to the PR separately.
+- The user chose to defer the S-09 rollout and not upgrade Supabase now. The PR remains unmerged. Root will investigate a free custom SMTP option and report back; this verification performed no provider research or configuration changes. Hosted settings are not claimed saved, and checks 3.4/3.5 remain pending.
+
+## Integrated verification after S-06 merge
+
+The implementation tree verified here was commit 7ae916f, whose history includes merge ba41520 and S-06 commit 4160aca. The later local commits 5143f5b and c0d36ae contain coordinator/root documentation only; runtime gates below were run against the implementation tree at 7ae916f.
+
+- npx astro sync: passed.
+- npm test with TAP reporter: 61/61 passed.
+- npm run lint: passed.
+- Timer and account-entry UI guard suites: 4/4 passed.
+- npx astro check: 66 files, 0 errors.
+- npm run build: passed before preview startup.
+- Local Mailpit E2E against the isolated project: passed, including new/existing account paths, SSR session exchange, dashboard, sign-out, invalid/reused-link handling and shell navigation. Output was kept private.
+- Remote smoke mode against the same local preview: passed; no production URL was queried.
+- Wrangler deployment dry-run: passed. The generated config retained observability.enabled=true and observability.redact_query_string=true.
+- Integrated guest-root visual check: eight browser captures cover RUNNING and PAUSED at 1280×800 and 390×844 in light and dark. The account link did not overlap Pause/Resume, mobile had no horizontal overflow, and the run reported no page errors or external requests. The coordinator reviewed the contact sheet and confirmed PASS; state mapping is in screenshots/integration/.
+- The isolated Supabase project enter-account-email-e2e used the external %TEMP%/enter-account-by-email-link-e2e-stack config and ports 5542x; preview used port 4321. Cleanup stopped only that project and removed its containers/volumes, this run's .dev.vars, dist, Wrangler dry-run output, temporary logs and capture helper. The evidence screenshots remain.
+
+Progress rows 3.2, 3.3, 3.4 and 3.5 remain unchecked as directed. S-09 is not complete. The production rollout is deferred; merge remains blocked until the coordinator resolves the hosted-configuration limitation and the remaining release gates pass.
 
 ## Phase 1 results
 

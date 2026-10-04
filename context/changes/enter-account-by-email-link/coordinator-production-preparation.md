@@ -21,7 +21,7 @@ Supabase rejected the Auth update with HTTP 400 (`LegacyConfigPushAuthUpdateStat
 
 The failed attempt was followed by read-only inspection; all three declared comparable updates remained pending. Subsequent attempts collected the same provider error without changing the intended scope. No successful hosted configuration update is claimed. No real production email was sent and no live logs or hosted secret values were inspected.
 
-The coordinator asked the user to choose custom SMTP, a Supabase plan upgrade, or deferred S09 deployment. Keep PR #31 unmerged and Progress 3.4/3.5 pending until the provider restriction is resolved and the hosted templates/configuration are actually verified. Do not substitute a GET-consuming default template for the planned explicit-POST contract. S07/S08 can continue independently.
+The user chose deferred S09 deployment and rejected upgrading Supabase. Keep PR #31 unmerged and Progress 3.4/3.5 pending until the provider restriction is resolved, the hosted templates/configuration are actually verified, and deployment is authorized again. The coordinator researched free SMTP alternatives in `coordinator-email-options.md` and asked about domain/DNS access; no provider was selected or configured. Do not substitute a GET-consuming default template for the planned explicit-POST contract. S07/S08 can continue independently.
 
 Source references:
 - https://raw.githubusercontent.com/supabase/cli/v2.117.0/apps/cli/src/commands/config/push/push.plan.ts
