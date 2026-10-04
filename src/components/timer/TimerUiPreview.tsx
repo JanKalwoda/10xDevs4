@@ -110,6 +110,10 @@ export default function TimerUiPreview() {
                 </Card>
             ))}
             <Card data-fixture="completed">
+                <CardHeader>
+                    <CardTitle>Empty timer state — N/A</CardTitle>
+                    <CardDescription>phase: null is routed to the completion view; the timer never renders an empty phase.</CardDescription>
+                </CardHeader>
                 <CardContent>
                     <DrillCompleted onReturn={() => undefined} />
                 </CardContent>

@@ -1,54 +1,27 @@
 # S06 Handoff
 
-## Zadanie i zakres
+## Current checkpoint — 2026-10-04
 
-S-06 pause-and-resume-drill (FR-006): dodać ręczną pauzę do gościnnego timera /, wykorzystując istniejące DrillRun.hide / resumeWithAudio / resume. Zachować wznowienie faz, ukończonych powtórzeń, sygnałów i losowania. S-07 cancel i S-08 restart są poza zakresem. phase: null pozostaje completion; unieważnienie nie może emitować fałszywego ukończenia.
+Worktree: D:/Dev/10xDevs4-pause-and-resume-drill
+Branch: feature/pause-and-resume-drill
+Base: 2cb10d0f96e4cc53df0c07ec42fc2bc70d873679
+HEAD: 9dcd9f2 (Phase 3 commit pending)
 
-## Git i środowisko
+Plan and deep review are approved SOUND. Phase 1 completed in 61ddf1e; Phase 2 completed in 9dcd9f2. Phase 3 implementation and local gates are complete; make its separate p3 commit, then stop for the coordinator's full `/10x-impl-review`. Canonical Progress in plan.md is authoritative. Phase 2 SHA writeback in plan/handoff is included in the p3 commit. Keep 3.8 pending until coordinator review and required PR CI pass. Do not push, open a PR, merge, or start S07/S08 from this checkpoint.
 
-- Worktree: D:\Dev\10xDevs4-pause-and-resume-drill
-- Branch: feature/pause-and-resume-drill
-- Baza/HEAD: 2cb10d0f96e4cc53df0c07ec42fc2bc70d873679; brak commitów implementacji S06.
+The Astro dev server on port 4322 is stopped (last PID 35048); port 4323 was not touched. Shared Playwright 1.63 is at C:/Users/Jasiek/AppData/Local/npm-cache/_npx/e41f203b7505f1fb/node_modules/playwright, with Chromium/headless shell in the shared user cache. Temporary browser scripts remain outside the repository. Physical-device Wake Lock behavior has not been checked.
 
-## Etap planowania — ukończony
+## Scope and accepted decisions
 
-- Research: context/changes/pause-and-resume-drill/research.md
-- Plan: context/changes/pause-and-resume-drill/plan.md
-- Brief: context/changes/pause-and-resume-drill/plan-brief.md
-- Progress w planie ma trzy fazy; kryteria sukcesu mapują się 1:1 na odznaczone wpisy.
-- change.md: plan_reviewed; S-06 w roadmapie: planning.
-- Nie zmieniono kodu. S-07/S-08 pozostają osobnymi zmianami.
+FR006: manual Pause/Resume, guest timer, correct same-repetition recovery and preserved remaining Preparation/Rest time. Keep phase:null reserved for real completion. Wake Lock is best-effort: acquire only on visible Start or explicit visible Resume; release on pause, hidden visibility, completion and unmount. Late grants must be released. Never resume/reacquire automatically on visibility return. Failed/unavailable lock gives calm English feedback without blocking the timer. Preserve Web Audio creation in the user gesture.
 
-## Etap 10x-plan-review — ukończony
+Use GPT-6-Luna xHigh. Each phase is tested and committed separately, then checkpoint, compact and clear. Questions go to coordinator w4:p1. S07 and S08 start only after the preceding change is reviewed, passes CI and is merged by the coordinator. No auth, shared CSS/Layout/UI or dependency changes belong to S06 without coordination. Agent must not merge.
 
-- Raport deep review: context/changes/pause-and-resume-drill/reviews/plan-review.md
-- Werdykt po triage: SOUND; oba warningi F1/F2 naprawione zgodnie z akceptacją koordynatora.
-- F1 FIXED: wszystkie fazy mają astro sync, timer-ui-contract test i astro check; Phase 3 wymaga też PR CI z produkcyjnym smoke.
-- F2 FIXED: pending Resume jest generation-owned; hidden invalidation czyści je natychmiast, a stary finally nie może wyczyścić nowszej próby. Zaplanowano regresję hide pending → visible → nowy Resume → stary wynik.
-- Plan i brief zaktualizowano. Zweryfikowano mapowanie Progress↔Success Criteria 1:1, ścieżki, symbole, wszystkich wywołujących DrillTimer/DrillTimerView, bramki CI i typowany kontrakt Wake Lock. Fazy 1 i 2 pozostają niezależne od integracji fazy 3.
-- Kolejność Phase 3 jest jawna: lokalne testy/build i ręczne bramki → osobny commit (3.6) → push/PR → review + CI (3.8 pozostaje pending do PR CI) → merge wyłącznie przez koordynatora.
-- Nie zmieniono kodu. Nie uruchomiono testów, lint, build, preview ani kontroli urządzenia.
-- Lokalny diff context/foundation/roadmap.md S06 (ready → planning, data aktualizacji) zachowano.
+Physical-device Wake Lock behavior is not verified; report actual browser/device limitations. Phase 3 must cover real timer integration, final visual/browser checks and build. PR CI is a post-commit gate: local checks -> p3 commit -> review/push/PR -> green CI -> coordinator merge. No PR or push exists yet.
 
-## Decyzje koordynatora
+## References
 
-MEDIUM; trzy fazy. Każda faza ma własne testy, osobny commit i checkpoint. Wake Lock best-effort, bez blokowania timera, z spokojnym komunikatem po angielsku; zwolnij przy pauzie/ukryciu/ukończeniu/unmount. Ponów tylko przy widocznym nowym runie lub jawnym, widocznym Resume. Bez auto-resume lub auto-retry przy visibilitychange. Budżet pytań 1/1 wykorzystany; nie ma otwartych decyzji.
-
-## Następny krok
-
-Koordynator akceptuje plan po poprawkach. Następny krok: CHECKPOINT READY, /compact i /clear, a potem wyłącznie Phase 1 w świeżym wątku. Każdą fazę osobno testować i commitować; po każdej zatrzymać się na checkpoint. Phase 3: lokalne bramki → commit → push/PR → review + CI → merge koordynatora. S-07/S-08 pozostają poza zakresem i zaczynają się dopiero po review, CI i merge poprzedniej zmiany przez koordynatora.
-
-## Weryfikacja i ograniczenia
-
-Nie uruchomiono testów, lint/build, preview ani testów urządzenia podczas plan review/triage. Spójność Progress↔Success Criteria 1:1 sprawdzono po edycji planu. Wake Lock nie był fizycznie weryfikowany; nie twierdzić, że działa na wszystkich urządzeniach. Nie zapisano sekretów.
-
-## Pliki i serwery
-
-Zmiana dotyczy dokumentów plan/brief/review/handoff/checkpoint/metadanych; źródła aplikacji są nietknięte. Nie utworzono commitów. Ten agent nie uruchamiał serwerów. Wspólne porty timera/auth: 4322/4323; ich stanu nie sprawdzano.
-
-## Odzyskanie dokumentów
-
-Koordynator odzyskał i zapisał research.md, plan.md, plan-brief.md oraz handoff.md po błędzie składni JavaScript w poprzednim wywołaniu exec. Dokumentów nie generowano ponownie; ich zapis potwierdzono jednym inspect.
+Plan, plan-brief, research and reviews/plan-review.md are in this change folder. Phase 2 and Phase 3 each have 16 reviewed screenshots in their respective screenshot folders. Details and phase evidence follow.
 
 ## Phase 1 implementation — 2026-10-03
 
@@ -68,5 +41,17 @@ Koordynator odzyskał i zapisał research.md, plan.md, plan-brief.md oraz handof
 - Automated gates passed: `npm run test` (40/40, including the new regression), `npm run lint`, `npx astro sync`, `node --test scripts/eslint-rules/timer-ui-contract.test.mjs` (2/2), and `npx astro check` (56 files, 0 errors/warnings/hints). The timer component/preview/route hardcoded-value scan returned 0 hits.
 - Visual gate used temporary Playwright 1.63.0 from the shared npm cache and compatible Chrome for Testing 153.0.8010.12 (Playwright Chromium build 1243); the browser and script are outside repository dependencies. The script passed light/dark × 1280/390 checks for visible Pause/Resume, pending status and disabled Resume, the notice, loading, validation error, disabled control, completion fixture, keyboard `:focus-visible` on Pause and Resume, and visible Pause hover-color changes in all four variants.
 - Saved 16 screenshots under `context/changes/pause-and-resume-drill/screenshots/phase-2/`: four full-page theme/viewport captures, Pause and Resume focus captures, and Pause hover captures for each variant. Astro's dev toolbar was hidden only in the screenshot page context. Empty is N/A for the timer view: `phase: null` is routed to the existing completion view, which is included as a fixture.
-- Phase 2 commit is pending. After it lands, write its SHA to Phase 2 Progress and this handoff. Next: stop and report CHECKPOINT READY; Phase 3 starts only in a fresh coordinator-cleared thread. Do not push, open a PR, or merge from this phase.
+- Phase 2 commit: `9dcd9f2` — `feat(pause-and-resume-drill): pause controls and view states (p2)` (`Refs: #15`). Its SHA writeback in Progress and this handoff is included in the Phase 3 commit.
 - `context/changes/pause-and-resume-drill/coordinator-checkpoint.md` received concurrent coordinator edits (including S09 status) during this phase and is deliberately excluded from the S06 Phase 2 commit for separate coordinator handling.
+
+## Phase 3 implementation — 2026-10-04
+
+- Integrated the visible-gesture Wake Lock session into Start, Pause, hidden visibility, explicit Resume, completion, and unmount. Visibility subscription starts synchronously during Start so a hide/show before the timer effect mounts is latched; timer-effect listener registration and the pre-effect hide/show boundary were both observed in the browser gate. Visibility return never resumes or reacquires.
+- Initial audio setup now closes a late port if the timer unmounts first. Hidden invalidation clears an observable pending Resume immediately; an older recovery result cannot clear a newer attempt. Unmount during initial audio setup and pending Resume releases the Wake Lock and closes late audio.
+- Browser lifecycle gate passed against the running app with fake Wake Lock and controllable AudioContext: visible Start, denied lock without blocking, hidden during initial audio setup, hide/show before timer-effect listener mount, explicit Resume/no auto-reacquire, hidden pending Resume → new Resume → old result first, Pause release, completion release, and Astro island unmount. Astro defers React unmount until `astro:after-swap`; the gate dispatches that lifecycle event after removing the island before checking cleanup.
+- Screenshot review found an invalid first dark run. Root cause: `preparePreviewPage` waited for the SSR loading fixture, then clicked the SSR validation form before React hydration. The browser performed a native GET and replaced `?theme=dark` with form fields, so the route correctly rendered light. The harness now waits until every `astro-island` has removed `ssr`, then asserts the query theme, `html.dark`, and computed `--background`/body background after validation and before every capture. The query remains the preview's theme mechanism; no app theme API or shared CSS was added.
+- Astro's development toolbar was injected into a shadow root after the page style was added. The browser context now uses an init-script MutationObserver to hide newly inserted toolbar hosts and their shadow content only for the gate. The regenerated screenshots contain no toolbar.
+- All 16 screenshots in `screenshots/phase-3/` passed light/dark × 1280/390 assertions and visual review: full-page state matrix, Pause/Resume `:focus-visible`, and Pause hover. Empty remains N/A because `phase: null` routes to completion; completion is visible in each full-page capture. Coordinator reviewed `phase-3-full-dark-390.png` and `phase-3-pause-focus-dark-390.png` and accepted them; the remaining variants were reviewed here.
+- Local gates passed: `npm run test` (45/45), `npm run lint`, `npx astro sync`, timer UI contract rule tests (2/2), `npx astro check` (60 files, 0 diagnostics), `npm run build`, and browser lifecycle/visual gates. Build reported only the expected missing `SUPABASE_URL` and `SUPABASE_KEY` warnings for this guest timer environment. No dependency was added.
+- Physical-device Wake Lock behavior remains unverified. PR CI, including production-preview smoke, is pending under Progress 3.8.
+- Phase 3 commit is pending. After commit, write its SHA to completed Phase 3 Progress rows and this handoff, leave 3.8 unchecked, and stop for coordinator review. The coordinator-owned `coordinator-checkpoint.md` remains unstaged and outside this commit.

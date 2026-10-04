@@ -225,28 +225,28 @@ Not applicable.
 
 #### Automated
 
-- [x] 2.1 npm run test passes after the control and fixture changes.
-- [x] 2.2 npm run lint passes, including the existing timer UI contract.
-- [x] 2.5 npx astro sync, node --test scripts/eslint-rules/timer-ui-contract.test.mjs, and npx astro check pass for Phase 2.
-- [x] 2.6 npm run test includes and passes the hide-during-pending → visible → new Resume → old-result-first generation regression.
+- [x] 2.1 npm run test passes after the control and fixture changes. — 9dcd9f2
+- [x] 2.2 npm run lint passes, including the existing timer UI contract. — 9dcd9f2
+- [x] 2.5 npx astro sync, node --test scripts/eslint-rules/timer-ui-contract.test.mjs, and npx astro check pass for Phase 2. — 9dcd9f2
+- [x] 2.6 npm run test includes and passes the hide-during-pending → visible → new Resume → old-result-first generation regression. — 9dcd9f2
 
 #### Manual
 
-- [x] 2.3 In /dev/timer-ui, verify Pause/Resume, recovery-pending, disabled, and notice states with keyboard-visible focus in light/dark at 1280 px and 390 px. Save interim screenshots in the change folder; confirm the timer view/preview scan still has zero hardcoded-value hits.
-- [x] 2.4 Phase 2 is committed separately after these checks; record its SHA in Progress and handoff, then stop before Phase 3.
+- [x] 2.3 In /dev/timer-ui, verify Pause/Resume, recovery-pending, disabled, and notice states with keyboard-visible focus in light/dark at 1280 px and 390 px. Save interim screenshots in the change folder; confirm the timer view/preview scan still has zero hardcoded-value hits. — 9dcd9f2
+- [x] 2.4 Phase 2 is committed separately after these checks; record its SHA in Progress and handoff, then stop before Phase 3. — 9dcd9f2
 
 ### Phase 3: Run integration and final gates
 
 #### Automated
 
-- [ ] 3.1 npm run test passes against the integrated lifecycle.
-- [ ] 3.2 npm run lint passes.
-- [ ] 3.3 npm run build passes in the repository's configured environment.
-- [ ] 3.7 npx astro sync, node --test scripts/eslint-rules/timer-ui-contract.test.mjs, and npx astro check pass for Phase 3.
+- [x] 3.1 npm run test passes against the integrated lifecycle.
+- [x] 3.2 npm run lint passes.
+- [x] 3.3 npm run build passes in the repository's configured environment.
+- [x] 3.7 npx astro sync, node --test scripts/eslint-rules/timer-ui-contract.test.mjs, and npx astro check pass for Phase 3.
 
 #### Manual
 
-- [ ] 3.4 On /, verify visible Start tries Wake Lock; denial/absence leaves the timer running with the English notice. Pause, hidden visibility, completion, and unmount release it. Showing the page does not resume/reacquire; only visible explicit Resume retries and resumes per FR-006.
-- [ ] 3.5 The /dev/timer-ui seven-state gate passes in light/dark at 1280 px and 390 px. Save/review screenshots, document empty as N/A, and confirm the view/preview hardcoded-value scan remains at zero.
+- [x] 3.4 On /, verify visible Start tries Wake Lock; denial/absence leaves the timer running with the English notice. Pause, hidden visibility, completion, and unmount release it. Showing the page does not resume/reacquire; only visible explicit Resume retries and resumes per FR-006. — Browser lifecycle gate with fake Wake Lock/audio; includes pre-effect hide/show, initial-audio and pending-Resume unmount cleanup. Physical hardware not checked.
+- [x] 3.5 The /dev/timer-ui seven-state gate passes in light/dark at 1280 px and 390 px. Save/review screenshots, document empty as N/A, and confirm the view/preview hardcoded-value scan remains at zero. — 16 screenshots in screenshots/phase-3/; empty is N/A because phase:null routes to completion. Theme assertion runs after Astro hydration, after validation, and before every capture.
 - [ ] 3.6 Phase 3 is committed separately after its checks; record its SHA in Progress and handoff, then stop for coordinator review.
 - [ ] 3.8 After the Phase 3 commit, push/open the PR; coordinator review and required PR CI, including production-preview smoke, must pass before coordinator merge.
