@@ -11,13 +11,29 @@ import DrillTimerView from "@/components/timer/DrillTimerView";
 import type { DrillConfigInput } from "@/lib/drill-timer";
 import type { DrillDisplay } from "@/lib/drill-run";
 
-const fixtures: { title: string; display: DrillDisplay; initializing?: boolean }[] = [
+const fixtures: {
+    title: string;
+    display: DrillDisplay;
+    initializing?: boolean;
+    resumePending?: boolean;
+    wakeLockUnavailable?: boolean;
+}[] = [
     { title: "Loading", display: { phase: { kind: "preparation", durationSeconds: 5 }, remainingSeconds: 5, paused: false, audioAvailable: true }, initializing: true },
     { title: "Preparation", display: { phase: { kind: "preparation", durationSeconds: 5 }, remainingSeconds: 5, paused: false, audioAvailable: true } },
     { title: "Exercise", display: { phase: { kind: "exercise", durationSeconds: 4, repetition: 2 }, remainingSeconds: 3, paused: false, audioAvailable: true } },
     { title: "Rest", display: { phase: { kind: "rest", durationSeconds: 2, repetition: 3 }, remainingSeconds: 2, paused: false, audioAvailable: true } },
     { title: "Standby", display: { phase: { kind: "standby", repetition: 2 }, remainingSeconds: null, paused: false, audioAvailable: true } },
     { title: "Paused", display: { phase: { kind: "exercise", durationSeconds: 4, repetition: 2 }, remainingSeconds: 3, paused: true, audioAvailable: true } },
+    {
+        title: "Recovery pending",
+        display: { phase: { kind: "exercise", durationSeconds: 4, repetition: 2 }, remainingSeconds: 3, paused: true, audioAvailable: true },
+        resumePending: true,
+    },
+    {
+        title: "Wake Lock unavailable",
+        display: { phase: { kind: "exercise", durationSeconds: 4, repetition: 2 }, remainingSeconds: 3, paused: false, audioAvailable: true },
+        wakeLockUnavailable: true,
+    },
     { title: "Audio unavailable", display: { phase: { kind: "exercise", durationSeconds: 4, repetition: 2 }, remainingSeconds: 3, paused: false, audioAvailable: false } },
 ];
 
@@ -75,17 +91,29 @@ export default function TimerUiPreview() {
 
             <ConfigurationFixture />
             <ConfigurationFixture empty />
-            {fixtures.map(({ title, display, initializing }) => (
+            {fixtures.map(({ title, display, initializing, resumePending, wakeLockUnavailable }) => (
                 <Card key={title} data-fixture={title.toLowerCase().replaceAll(" ", "-")}>
                     <CardHeader>
                         <CardTitle>{title} fixture</CardTitle>
                     </CardHeader>
                     <CardContent>
-                        <DrillTimerView display={display} repetitions={3} initializing={initializing ?? false} onResume={() => undefined} />
+                        <DrillTimerView
+                            display={display}
+                            repetitions={3}
+                            initializing={initializing ?? false}
+                            resumePending={resumePending ?? false}
+                            wakeLockUnavailable={wakeLockUnavailable ?? false}
+                            onPause={() => undefined}
+                            onResume={() => undefined}
+                        />
                     </CardContent>
                 </Card>
             ))}
             <Card data-fixture="completed">
+                <CardHeader>
+                    <CardTitle>Empty timer state — N/A</CardTitle>
+                    <CardDescription>phase: null is routed to the completion view; the timer never renders an empty phase.</CardDescription>
+                </CardHeader>
                 <CardContent>
                     <DrillCompleted onReturn={() => undefined} />
                 </CardContent>
