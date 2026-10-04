@@ -213,27 +213,27 @@ Not applicable.
 
 #### Automated
 
-- [x] 1.1 npm run test passes with Wake Lock edge cases and pause/recovery invariants covered.
-- [x] 1.2 npm run lint passes.
-- [x] 1.4 npx astro sync, node --test scripts/eslint-rules/timer-ui-contract.test.mjs, and npx astro check pass for Phase 1.
+- [x] 1.1 npm run test passes with Wake Lock edge cases and pause/recovery invariants covered. — 61ddf1e
+- [x] 1.2 npm run lint passes. — 61ddf1e
+- [x] 1.4 npx astro sync, node --test scripts/eslint-rules/timer-ui-contract.test.mjs, and npx astro check pass for Phase 1. — 61ddf1e
 
 #### Manual
 
-- [ ] 1.3 Phase 1 is committed separately after these checks; record its SHA in Progress and handoff, then stop before Phase 2.
+- [x] 1.3 Phase 1 is committed separately after these checks; record its SHA in Progress and handoff, then stop before Phase 2. — 61ddf1e
 
 ### Phase 2: Pause controls and view states
 
 #### Automated
 
-- [ ] 2.1 npm run test passes after the control and fixture changes.
-- [ ] 2.2 npm run lint passes, including the existing timer UI contract.
-- [ ] 2.5 npx astro sync, node --test scripts/eslint-rules/timer-ui-contract.test.mjs, and npx astro check pass for Phase 2.
-- [ ] 2.6 npm run test includes and passes the hide-during-pending → visible → new Resume → old-result-first generation regression.
+- [x] 2.1 npm run test passes after the control and fixture changes.
+- [x] 2.2 npm run lint passes, including the existing timer UI contract.
+- [x] 2.5 npx astro sync, node --test scripts/eslint-rules/timer-ui-contract.test.mjs, and npx astro check pass for Phase 2.
+- [x] 2.6 npm run test includes and passes the hide-during-pending → visible → new Resume → old-result-first generation regression.
 
 #### Manual
 
-- [ ] 2.3 In /dev/timer-ui, verify Pause/Resume, recovery-pending, disabled, and notice states with keyboard-visible focus in light/dark at 1280 px and 390 px. Save interim screenshots in the change folder; confirm the timer view/preview scan still has zero hardcoded-value hits.
-- [ ] 2.4 Phase 2 is committed separately after these checks; record its SHA in Progress and handoff, then stop before Phase 3.
+- [x] 2.3 In /dev/timer-ui, verify Pause/Resume, recovery-pending, disabled, and notice states with keyboard-visible focus in light/dark at 1280 px and 390 px. Save interim screenshots in the change folder; confirm the timer view/preview scan still has zero hardcoded-value hits.
+- [x] 2.4 Phase 2 is committed separately after these checks; record its SHA in Progress and handoff, then stop before Phase 3.
 
 ### Phase 3: Run integration and final gates
 

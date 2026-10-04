@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import DrillTimerView from "@/components/timer/DrillTimerView";
 import { createDrillAudio, evaluateDrillSchedule, type DrillAudioPort } from "@/lib/drill-audio";
 import { DrillRun, browserDrillClock, type DrillDisplay } from "@/lib/drill-run";
+import { createDrillResumePendingState } from "@/lib/drill-resume-pending";
 import { firstDrillPhase } from "@/lib/drill-timer";
 import type { DrillConfiguration } from "@/types";
 
@@ -13,7 +14,9 @@ interface DrillTimerProps {
 
 export default function DrillTimer({ configuration, audio, onComplete }: DrillTimerProps) {
     const runRef = useRef<DrillRun | null>(null);
+    const resumePendingRef = useRef(createDrillResumePendingState());
     const [initializing, setInitializing] = useState(true);
+    const [resumePending, setResumePending] = useState(false);
     const [display, setDisplay] = useState<DrillDisplay>(() => {
         const phase = firstDrillPhase(configuration);
         return { phase, remainingSeconds: phase.kind === "standby" ? null : phase.durationSeconds, paused: false, audioAvailable: true };
@@ -59,7 +62,11 @@ export default function DrillTimer({ configuration, audio, onComplete }: DrillTi
             begin(null);
         });
         const onVisibilityChange = () => {
-            if (document.hidden) run?.hide();
+            if (document.hidden) {
+                run?.hide();
+                resumePendingRef.current.invalidate();
+                setResumePending(false);
+            }
         };
         document.addEventListener("visibilitychange", onVisibilityChange);
         const interval = window.setInterval(() => {
@@ -79,8 +86,19 @@ export default function DrillTimer({ configuration, audio, onComplete }: DrillTi
             display={display}
             repetitions={configuration.repetitions}
             initializing={initializing}
+            resumePending={resumePending}
+            onPause={() => {
+                resumePendingRef.current.invalidate();
+                setResumePending(false);
+                runRef.current?.hide();
+            }}
             onResume={() => {
-                if (!document.hidden) void runRef.current?.resumeWithAudio(createDrillAudio);
+                if (document.hidden) return;
+                const attempt = resumePendingRef.current.begin();
+                setResumePending(true);
+                void runRef.current?.resumeWithAudio(createDrillAudio).finally(() => {
+                    if (resumePendingRef.current.finish(attempt)) setResumePending(false);
+                });
             }}
         />
     );

@@ -3,7 +3,7 @@ change_id: pause-and-resume-drill
 title: Pause and safely resume a drill
 status: implementing
 created: 2026-10-03
-updated: 2026-10-03
+updated: 2026-10-04
 archived_at: null
 ---
 
