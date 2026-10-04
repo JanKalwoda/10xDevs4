@@ -1,87 +1,87 @@
-import React, { useState } from "react";
-import { Mail, Lock, LogIn } from "lucide-react";
-import { FormField } from "@/components/auth/FormField";
-import { PasswordToggle } from "@/components/auth/PasswordToggle";
-import { SubmitButton } from "@/components/auth/SubmitButton";
-import { ServerError } from "@/components/auth/ServerError";
+import React, { useRef, useState } from "react";
+
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 interface Props {
-    serverError?: string | null;
+    next: string;
 }
 
-export default function SignInForm({ serverError }: Props) {
+type FormState = "idle" | "pending" | "invalid" | "error";
+
+export default function SignInForm({ next }: Props) {
     const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [showPassword, setShowPassword] = useState(false);
-    const [errors, setErrors] = useState<{ email?: string; password?: string }>({});
+    const [state, setState] = useState<FormState>("idle");
+    const emailInput = useRef<HTMLInputElement>(null);
+    const isPending = state === "pending";
 
-    function validate() {
-        const next: typeof errors = {};
-        if (!email.trim()) {
-            next.email = "Email is required";
-        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-            next.email = "Enter a valid email address";
+    async function handleSubmit(event: React.SubmitEvent<HTMLFormElement>) {
+        event.preventDefault();
+        if (!emailInput.current?.checkValidity()) {
+            setState("invalid");
+            emailInput.current?.focus();
+            return;
         }
-        if (!password) {
-            next.password = "Password is required";
-        }
-        setErrors(next);
-        return Object.keys(next).length === 0;
-    }
 
-    function clearError(field: keyof typeof errors) {
-        if (errors[field]) setErrors((prev) => ({ ...prev, [field]: undefined }));
-    }
-
-    function handleSubmit(e: React.SubmitEvent<HTMLFormElement>) {
-        if (!validate()) {
-            e.preventDefault();
+        setState("pending");
+        const form = new FormData(event.currentTarget);
+        try {
+            const response = await fetch("/api/auth/signin", { method: "POST", body: form });
+            const result = (await response.json()) as { ok?: boolean };
+            if (response.ok && result.ok) {
+                window.location.assign("/auth/confirm-email?next=" + encodeURIComponent(next));
+                return;
+            }
+            setState(response.status === 400 ? "invalid" : "error");
+        } catch {
+            setState("error");
         }
     }
 
     return (
-        <form method="POST" action="/api/auth/signin" className="space-y-4" onSubmit={handleSubmit} noValidate>
-            <FormField
-                id="email"
-                type="email"
-                label="Email"
-                value={email}
-                onChange={(v) => {
-                    setEmail(v);
-                    clearError("email");
-                }}
-                placeholder="you@example.com"
-                error={errors.email}
-                icon={<Mail className="size-4" />}
-            />
+        <form className="space-y-5" onSubmit={handleSubmit} noValidate>
+            <input type="hidden" name="next" value={next} />
+            <div className="space-y-2">
+                <Label htmlFor="email">Email address</Label>
+                <Input
+                    ref={emailInput}
+                    id="email"
+                    name="email"
+                    type="email"
+                    autoComplete="email"
+                    inputMode="email"
+                    placeholder="you@example.com"
+                    value={email}
+                    required
+                    disabled={isPending}
+                    aria-invalid={state === "invalid"}
+                    aria-describedby={state === "invalid" ? "email-error" : undefined}
+                    onChange={(event) => {
+                        setEmail(event.currentTarget.value);
+                        if (state !== "pending") setState("idle");
+                    }}
+                />
+                {state === "invalid" && (
+                    <p id="email-error" className="text-destructive text-sm" role="alert">
+                        Enter a valid email address.
+                    </p>
+                )}
+            </div>
 
-            <FormField
-                id="password"
-                label="Password"
-                type={showPassword ? "text" : "password"}
-                value={password}
-                onChange={(v) => {
-                    setPassword(v);
-                    clearError("password");
-                }}
-                placeholder="Your password"
-                error={errors.password}
-                icon={<Lock className="size-4" />}
-                endContent={
-                    <PasswordToggle
-                        visible={showPassword}
-                        onToggle={() => {
-                            setShowPassword(!showPassword);
-                        }}
-                    />
-                }
-            />
+            {state === "error" && (
+                <p className="text-destructive text-sm" role="alert">
+                    We couldn&apos;t request a sign-in link right now. Please try again.
+                </p>
+            )}
 
-            <ServerError message={serverError} />
+            <Button type="submit" className="w-full" disabled={isPending} aria-busy={isPending}>
+                {isPending ? "Sending link…" : "Email me a sign-in link"}
+            </Button>
 
-            <SubmitButton pendingText="Signing in..." icon={<LogIn className="size-4" />}>
-                Sign in
-            </SubmitButton>
+            <p className="text-muted-foreground text-sm" aria-live="polite">
+                New and existing accounts use the same secure email link.
+            </p>
         </form>
     );
 }
