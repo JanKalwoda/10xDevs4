@@ -1,4 +1,4 @@
-name: Production smoke
+name: Production route smoke (no email delivery or auth exchange)
 
 on:
   workflow_dispatch:
@@ -16,10 +16,8 @@ jobs:
           node-version: 24.21.0
           cache: npm
       - run: npm ci
-      - name: Verify deployed auth flow
+      - name: Verify public routes only (no email delivery or auth exchange)
         run: npm run smoke
         env:
           SMOKE_MODE: remote
           BASE_URL: ${{ vars.PRODUCTION_URL }}
-          SMOKE_EMAIL: ${{ secrets.SMOKE_EMAIL }}
-          SMOKE_PASSWORD: ${{ secrets.SMOKE_PASSWORD }}
