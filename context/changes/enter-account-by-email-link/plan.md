@@ -227,12 +227,12 @@ No database migration is required. Existing password-created accounts continue t
 
 #### Automated
 
-- [x] 2.1 Unit tests prove callback GET does not verify tokens and that callback headers, safe form values, and neutral failure behavior meet the contract.
-- [x] 2.2 `npm run lint` and `npx astro check` pass for auth pages, shell navigation, callback wiring, both local email templates, confirmation policy, and callback allowlist.
+- [x] 2.1 Unit tests prove callback GET does not verify tokens and that callback headers, safe form values, and neutral failure behavior meet the contract. — 42d2bc5
+- [x] 2.2 `npm run lint` and `npx astro check` pass for auth pages, shell navigation, callback wiring, both local email templates, confirmation policy, and callback allowlist. — 42d2bc5
 
 #### Manual
 
-- [x] 2.3 `/10x-ui` screenshots cover default, hover, focus-visible, disabled, error, empty or justified N/A, and loading at 1280px/390px in light/dark for each changed existing view; root navigation and guest timer are also reviewed.
+- [x] 2.3 `/10x-ui` screenshots cover default, hover, focus-visible, disabled, error, empty or justified N/A, and loading at 1280px/390px in light/dark for each changed existing view; root navigation and guest timer are also reviewed. — 42d2bc5
 
 ### Phase 3: Mailpit E2E, CI, and Deployment Smoke
 

@@ -4,15 +4,15 @@ Date: 2026-10-04
 
 ## Checkpoint status
 
-- Stage: Phase 2 implementation, automated gates, and visual review complete; the Phase 2 commit is next, followed by a no-amend SHA writeback.
+- Stage: Phase 2 implementation, automated gates, and visual review complete; Phase 2 is committed, with this separate no-amend documentation commit recording its SHA and final evidence.
 - Review verdict: SOUND after coordinator triage. All seven findings have approved dispositions recorded in the report, plan, and brief; F1 is resolved with both email templates and hosted policy confirmation.
 - Worktree: D:/Dev/10xDevs4-enter-account-by-email-link
 - Branch: feature/enter-account-by-email-link
-- Phase 1 HEAD before its commit: 2cb10d0f96e4cc53df0c07ec42fc2bc70d873679.
+- HEAD after Phase 2 implementation: 42d2bc5.
 - Main worktree was not accessed for edits. Phase 2 changes are confined to this worktree; no push, PR, merge, or remote Supabase change was made.
 - change.md remains implementing because Phase 3 is pending. Phase 1 and Phase 2 Progress rows are complete; Phase 3 rows remain pending.
 - Phase 1 commit SHA: e75eecd (`feat(enter-account-by-email-link): Server Flow and Contracts (p1)`).
-- Phase 2 commit SHA: pending post-commit writeback.
+- Phase 2 commit SHA: 42d2bc5 (`feat(enter-account-by-email-link): email-only account entry (p2)`, `Refs #18`).
 
 ## Phase 1 results
 
@@ -64,6 +64,6 @@ Details and dispositions are in the review report. No new broad research was per
 
 ## Next step and workflow
 
-Phase 2 is complete and committed separately; its SHA and final evidence will be written back immediately after that commit. Stop at `CHECKPOINT READY`. The next implementation work is Phase 3 only, in a fresh thread after coordinator compact/clear; do not start Phase 3 in this thread.
+Phase 2 is complete in `42d2bc5`; this documentation-only commit records the post-commit SHA/evidence writeback without amending it. Stop at `CHECKPOINT READY`. The next implementation work is Phase 3 only, in a fresh thread after coordinator compact/clear; do not start Phase 3 in this thread.
 
 Phase 3 remains pending: local Mailpit E2E, CI changes, the coordinator-owned scoped production auth/template update, credential-free remote route smoke, and the generated Wrangler config check. The real post-deploy email-link/session check remains user-owned and pending. No push, PR, merge, Phase 3 implementation, or production mutation occurred in this Phase 2 checkpoint.
