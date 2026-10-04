@@ -5,6 +5,8 @@ import DrillConfigForm from "@/components/timer/DrillConfigForm";
 import DrillTimer from "@/components/timer/DrillTimer";
 import ThemeToggle from "@/components/timer/ThemeToggle";
 import { createDrillAudio, type DrillAudioPort } from "@/lib/drill-audio";
+import { createDrillWakeLockController, type WakeLockProvider, type WakeLockSentinelPort } from "@/lib/drill-wake-lock";
+import { createDrillWakeLockSession, type DrillWakeLockSession } from "@/lib/drill-wake-lock-session";
 import type { DrillConfigInput } from "@/lib/drill-timer";
 import type { DrillConfiguration } from "@/types";
 
@@ -19,6 +21,20 @@ const DEFAULT_VALUES: DrillConfigInput = {
 interface ActiveRun {
     configuration: Readonly<DrillConfiguration>;
     audio: Promise<DrillAudioPort | null>;
+    wakeLock: DrillWakeLockSession;
+}
+
+type BrowserWakeLockSentinel = WakeLockSentinelPort;
+
+interface BrowserWakeLockApi {
+    request(type: "screen"): Promise<BrowserWakeLockSentinel>;
+}
+
+function createBrowserWakeLockProvider(): WakeLockProvider | null {
+    if (typeof navigator === "undefined") return null;
+    const wakeLock = Reflect.get(navigator, "wakeLock") as BrowserWakeLockApi | undefined;
+    if (!wakeLock) return null;
+    return { request: () => wakeLock.request("screen") };
 }
 
 export function DrillCompleted({ onReturn }: { onReturn: () => void }) {
@@ -43,7 +59,21 @@ export default function DrillApp() {
     function start(snapshot: Readonly<DrillConfiguration>) {
         // Begin unlocking Web Audio while the Start gesture is still active.
         const audio = createDrillAudio();
-        setActiveRun({ configuration: snapshot, audio });
+        const wakeLock = createDrillWakeLockSession(
+            createDrillWakeLockController(createBrowserWakeLockProvider()),
+            () => !document.hidden,
+            (onHidden) => {
+                const onVisibilityChange = () => {
+                    if (document.hidden) onHidden();
+                };
+                document.addEventListener("visibilitychange", onVisibilityChange);
+                return () => {
+                    document.removeEventListener("visibilitychange", onVisibilityChange);
+                };
+            },
+        );
+        void wakeLock.requestForVisibleGesture();
+        setActiveRun({ configuration: snapshot, audio, wakeLock });
         setView("running");
     }
 
@@ -57,7 +87,9 @@ export default function DrillApp() {
                 </CardHeader>
                 <CardContent>
                     {view === "configuration" && <DrillConfigForm values={values} onValuesChange={setValues} onStart={start} />}
-                    {view === "running" && activeRun && <DrillTimer configuration={activeRun.configuration} audio={activeRun.audio} onComplete={complete} />}
+                    {view === "running" && activeRun && (
+                        <DrillTimer configuration={activeRun.configuration} audio={activeRun.audio} wakeLock={activeRun.wakeLock} onComplete={complete} />
+                    )}
                     {view === "completed" && (
                         <DrillCompleted
                             onReturn={() => {

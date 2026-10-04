@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import test from "node:test";
 
 import { CUE_DURATION, type DrillAudioPort, type DrillCue, type ScheduledCue } from "./drill-audio.ts";
-import { DrillRun, type DrillClock } from "./drill-run.ts";
+import { DrillRun, type DrillClock, type DrillDisplay } from "./drill-run.ts";
 import type { DrillConfiguration } from "../types.ts";
 
 const configuration: DrillConfiguration = {
@@ -452,4 +452,37 @@ void test("schedule evidence includes original and successive recovered ports", 
         );
     }
     run.stop();
+});
+
+void test("pause and resume never publish phase:null as a false completion", () => {
+    for (const randomStartEnabled of [false, true]) {
+        const clock = new FakeClock();
+        const audio = new FakeAudio();
+        const displays: DrillDisplay[] = [];
+        const run = new DrillRun(
+            { ...configuration, randomStartEnabled },
+            clock,
+            audio,
+            () => 0,
+            (display) => displays.push(display),
+        );
+        run.start();
+        clock.advance(randomStartEnabled ? 0.1 : 1);
+        run.tick();
+        const activePhase = run.display.phase;
+        assert.ok(activePhase);
+        displays.length = 0;
+
+        run.hide();
+        assert.equal(run.display.paused, true);
+        assert.deepEqual(run.display.phase, activePhase);
+        assert.equal(
+            displays.some(({ phase }) => phase === null),
+            false,
+        );
+
+        run.resume();
+        assert.ok(run.display.phase);
+        run.stop();
+    }
 });
