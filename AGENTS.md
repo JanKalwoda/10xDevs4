@@ -41,6 +41,12 @@ Do not commit changes directly to `main`.
 - Timer UI contract: use semantic tokens from `src/styles/global.css` and the Tailwind spacing/type/radius scale. No palette classes, inline literal colors or arbitrary colors/dimensions in timer components or their entry routes. Add missing primitives with `npx shadcn@latest add [name]`. `npm run lint` enforces this through `scripts/eslint-rules/timer-ui-contract.mjs`.
 - Visual gate: `/dev/timer-ui` is development-only and reuses production components with deterministic fixtures. Inspect default, hover, focus-visible, disabled, error, empty (or justified N/A), and loading in light/dark at 1280/390 px; save and review screenshots in the change folder before accepting UI changes.
 
+### Timer Cancel controls
+
+- Keep Cancel enabled and accessibly named during initialization, active, paused, and pending Resume. Latch cancel intent synchronously and use the existing idempotent S06 teardown path before returning to configuration.
+- Keep the timer bar below time, count, and repetition: Cancel/X left, an empty noninteractive middle slot for future S08 Restart, and Pause/Resume in the same right slot. Pause/Resume remain icon-only, size-12, accessibly named, and in a fixed hitbox.
+- Extend the production-backed `/dev/timer-ui` fixtures when timer states change; preserve the seven-state light/dark visual gate and the held-mounted lifecycle scenarios.
+
 ## Commands
 
 @package.json

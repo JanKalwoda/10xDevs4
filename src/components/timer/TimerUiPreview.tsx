@@ -245,6 +245,51 @@ function createHeldTimerHarness(scenario: CancelScenario, increment: (counter: L
     };
 }
 
+type CancelControlState = "active" | "paused" | "resuming";
+
+function CancelControlTransitionFixture() {
+    const [state, setState] = useState<CancelControlState>("active");
+    const [cancelMessage, setCancelMessage] = useState("");
+    const display: DrillDisplay = {
+        phase: { kind: "exercise", durationSeconds: 45, repetition: 2 },
+        remainingSeconds: 28,
+        paused: state !== "active",
+        audioAvailable: false,
+    };
+
+    return (
+        <Card data-fixture="cancel-control-transition" data-testid="cancel-control-transition-fixture" data-transition-state={state}>
+            <CardHeader>
+                <CardTitle>Cancel and Pause/Resume control states</CardTitle>
+                <CardDescription>Use the right control to move through Active, Paused, and pending Resume; both fallback messages remain visible.</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+                <DrillTimerView
+                    display={display}
+                    repetitions={3}
+                    initializing={false}
+                    resumePending={state === "resuming"}
+                    wakeLockUnavailable
+                    onCancel={() => {
+                        setCancelMessage("Cancel was activated; this preview fixture remains mounted for inspection.");
+                    }}
+                    onPause={() => {
+                        setState("paused");
+                    }}
+                    onResume={() => {
+                        setState("resuming");
+                    }}
+                />
+                {cancelMessage && (
+                    <p data-testid="cancel-preview-response" role="status" className="text-muted-foreground text-sm">
+                        {cancelMessage}
+                    </p>
+                )}
+            </CardContent>
+        </Card>
+    );
+}
+
 function HeldMountedCancelFixture() {
     const [harness, setHarness] = useState<HeldTimerHarness | null>(null);
     const [mounted, setMounted] = useState(false);
@@ -495,7 +540,7 @@ function ConfigurationFixture({ empty = false }: { empty?: boolean }) {
     });
     const [valid, setValid] = useState(false);
     return (
-        <Card data-fixture={empty ? "error" : "default"}>
+        <Card data-fixture={empty ? "error" : "default"} data-testid={empty ? "timer-error-state" : "timer-default-state"} data-visual-state={empty ? "error" : "default"}>
             <CardHeader>
                 <CardTitle>{empty ? "Empty fields / validation" : "Default configuration"}</CardTitle>
                 <CardDescription>{empty ? "Press Start to show real validation errors." : "Production form; validation only, no timer or audio."}</CardDescription>
@@ -524,10 +569,10 @@ export default function TimerUiPreview() {
     const [previewStatus, setPreviewStatus] = useState("");
 
     return (
-        <main className="bg-background text-foreground mx-auto min-h-screen w-full max-w-lg space-y-6 px-4 py-8">
+        <main className="bg-background text-foreground mx-auto min-h-screen w-full max-w-6xl space-y-6 px-4 py-8">
             <header className="space-y-3">
                 <h1 className="text-2xl font-semibold">Timer UI preview</h1>
-                <p className="text-muted-foreground text-sm">Shared controls. Use Tab to inspect focus and Space to toggle the checkbox.</p>
+                <p className="text-muted-foreground text-sm">Inspect default, hover, focus-visible, disabled, error, empty, and loading states in both themes.</p>
                 {previewStatus && (
                     <p role="status" className="text-muted-foreground text-sm">
                         {previewStatus}
@@ -543,77 +588,105 @@ export default function TimerUiPreview() {
                 </nav>
             </header>
 
-            <ConfigurationFixture />
-            <ConfigurationFixture empty />
-            {fixtures.map(({ title, display, initializing, resumePending, wakeLockUnavailable }) => (
-                <Card key={title} data-fixture={title.toLowerCase().replaceAll(" ", "-")}>
+            <div className="mx-auto w-full max-w-2xl">
+                <CancelControlTransitionFixture />
+            </div>
+            <section aria-label="Configuration state examples" className="grid gap-6 lg:grid-cols-3">
+                <ConfigurationFixture />
+                <ConfigurationFixture empty />
+                <Card data-fixture="disabled" data-testid="timer-disabled-state" data-visual-state="disabled">
                     <CardHeader>
-                        <CardTitle>{title} fixture</CardTitle>
+                        <CardTitle>Configuration controls</CardTitle>
+                        <CardDescription>Disabled controls remain readable.</CardDescription>
                     </CardHeader>
-                    <CardContent>
-                        <DrillTimerView
-                            display={display}
-                            repetitions={3}
-                            initializing={initializing ?? false}
-                            resumePending={resumePending ?? false}
-                            wakeLockUnavailable={wakeLockUnavailable ?? false}
-                            onCancel={() => {
-                                setPreviewStatus(`${title} fixture cancelled; the preview remains mounted.`);
-                            }}
-                            onPause={() => {
-                                setPreviewStatus(`${title} fixture paused.`);
-                            }}
-                            onResume={() => {
-                                setPreviewStatus(`${title} fixture resumed.`);
-                            }}
-                        />
+                    <CardContent className="space-y-5">
+                        <div className="space-y-2">
+                            <Label htmlFor={`${id}-preparation`}>Preparation</Label>
+                            <Input id={`${id}-preparation`} name="preparation" defaultValue="0:05" aria-describedby={`${id}-preparation-hint`} />
+                            <p id={`${id}-preparation-hint`} className="text-muted-foreground text-sm">
+                                0:00 to 10:00, in m:ss format.
+                            </p>
+                        </div>
+                        <div className="space-y-2">
+                            <Label htmlFor={`${id}-exercise`}>Exercise (error example)</Label>
+                            <Input id={`${id}-exercise`} name="exercise" defaultValue="0:00" aria-invalid="true" aria-describedby={`${id}-exercise-hint ${id}-exercise-error`} />
+                            <p id={`${id}-exercise-hint`} className="text-muted-foreground text-sm">
+                                0:01 to 10:00, in m:ss format.
+                            </p>
+                            <p id={`${id}-exercise-error`} className="text-destructive text-sm">
+                                Enter an exercise time from 0:01 to 10:00.
+                            </p>
+                        </div>
+                        <div className="space-y-2">
+                            <Label htmlFor={`${id}-repetitions`} className="text-muted-foreground">
+                                Repetitions (disabled example)
+                            </Label>
+                            <Input id={`${id}-repetitions`} name="repetitions" inputMode="numeric" defaultValue="3" disabled aria-describedby={`${id}-repetitions-hint`} />
+                            <p id={`${id}-repetitions-hint`} className="text-muted-foreground text-sm">
+                                Whole number from 1 to 100.
+                            </p>
+                        </div>
+                        <div className="flex items-center gap-2">
+                            <Checkbox id={`${id}-disabled-checkbox`} disabled checked />
+                            <Label htmlFor={`${id}-disabled-checkbox`} className="text-muted-foreground">
+                                Disabled checkbox
+                            </Label>
+                        </div>
+                        <Button type="button" disabled className="w-full">
+                            Start (disabled example)
+                        </Button>
                     </CardContent>
                 </Card>
-            ))}
+            </section>
+            <section aria-label="Timer phase state examples" className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+                {fixtures.map(({ title, display, initializing, resumePending, wakeLockUnavailable }) => (
+                    <Card
+                        key={title}
+                        data-fixture={title.toLowerCase().replaceAll(" ", "-")}
+                        data-testid={`timer-${title.toLowerCase().replaceAll(" ", "-")}-fixture`}
+                        data-visual-state={initializing ? "loading" : resumePending ? "disabled" : "default"}
+                    >
+                        <CardHeader>
+                            <CardTitle>{title} fixture</CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                            <DrillTimerView
+                                display={display}
+                                repetitions={3}
+                                initializing={initializing ?? false}
+                                resumePending={resumePending ?? false}
+                                wakeLockUnavailable={wakeLockUnavailable ?? false}
+                                onCancel={() => {
+                                    setPreviewStatus(`${title} fixture cancelled; the preview remains mounted.`);
+                                }}
+                                onPause={() => {
+                                    setPreviewStatus(`${title} fixture paused.`);
+                                }}
+                                onResume={() => {
+                                    setPreviewStatus(`${title} fixture resumed.`);
+                                }}
+                            />
+                        </CardContent>
+                    </Card>
+                ))}
+            </section>
             <HeldMountedCancelFixture />
-            <Card data-fixture="completed">
-                <CardHeader>
-                    <CardTitle>Empty timer state — N/A</CardTitle>
-                    <CardDescription>phase: null is routed to the completion view; the timer never renders an empty phase.</CardDescription>
-                </CardHeader>
-                <CardContent>
-                    <DrillCompleted onReturn={() => undefined} />
-                </CardContent>
-            </Card>
-
-            <Card data-fixture="disabled">
-                <CardHeader>
-                    <CardTitle>Configuration controls</CardTitle>
-                    <CardDescription>Default, error and disabled examples.</CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-5">
-                    <div className="space-y-2">
-                        <Label htmlFor={`${id}-preparation`}>Preparation</Label>
-                        <Input id={`${id}-preparation`} name="preparation" defaultValue="0:05" aria-describedby={`${id}-preparation-hint`} />
-                        <p id={`${id}-preparation-hint`} className="text-muted-foreground text-sm">
-                            0:00 to 10:00, in m:ss format.
-                        </p>
-                    </div>
-                    <div className="space-y-2">
-                        <Label htmlFor={`${id}-exercise`}>Exercise (error example)</Label>
-                        <Input id={`${id}-exercise`} name="exercise" defaultValue="0:00" aria-invalid="true" aria-describedby={`${id}-exercise-hint ${id}-exercise-error`} />
-                        <p id={`${id}-exercise-hint`} className="text-muted-foreground text-sm">
-                            0:01 to 10:00, in m:ss format.
-                        </p>
-                        <p id={`${id}-exercise-error`} className="text-destructive text-sm">
-                            Enter an exercise time from 0:01 to 10:00.
-                        </p>
-                    </div>
-                    <div className="space-y-2">
-                        <Label htmlFor={`${id}-repetitions`} className="text-muted-foreground">
-                            Repetitions (disabled example)
-                        </Label>
-                        <Input id={`${id}-repetitions`} name="repetitions" inputMode="numeric" defaultValue="3" disabled aria-describedby={`${id}-repetitions-hint`} />
-                        <p id={`${id}-repetitions-hint`} className="text-muted-foreground text-sm">
-                            Whole number from 1 to 100.
-                        </p>
-                    </div>
-                    <div className="space-y-2">
+            <section aria-label="Completion and empty timer state" className="grid gap-6 lg:grid-cols-2">
+                <Card data-fixture="completed" data-testid="timer-empty-state" data-visual-state="empty">
+                    <CardHeader>
+                        <CardTitle>Empty timer state — N/A</CardTitle>
+                        <CardDescription>phase: null is routed to the completion view; the timer never renders an empty phase.</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                        <DrillCompleted onReturn={() => undefined} />
+                    </CardContent>
+                </Card>
+                <Card data-fixture="disabled">
+                    <CardHeader>
+                        <CardTitle>Random start control</CardTitle>
+                        <CardDescription>Enabled checkbox example.</CardDescription>
+                    </CardHeader>
+                    <CardContent className="space-y-5">
                         <div className="flex items-center gap-2">
                             <Checkbox
                                 id={`${id}-random-start`}
@@ -630,27 +703,19 @@ export default function TimerUiPreview() {
                             Wait a random 1–5 seconds before exercise starts.
                         </p>
                         <p className="text-muted-foreground text-sm">Current value: {randomStartEnabled ? "true" : "false"}</p>
-                    </div>
-                    <div className="flex items-center gap-2">
-                        <Checkbox id={`${id}-disabled-checkbox`} disabled checked />
-                        <Label htmlFor={`${id}-disabled-checkbox`} className="text-muted-foreground">
-                            Disabled checkbox
-                        </Label>
-                    </div>
-                    <Button type="button" disabled className="w-full">
-                        Start (disabled example)
-                    </Button>
-                </CardContent>
-            </Card>
-
-            <Alert>
-                <AlertTitle>Audio unavailable</AlertTitle>
-                <AlertDescription>The drill will continue silently.</AlertDescription>
-            </Alert>
-            <Alert variant="destructive">
-                <AlertTitle>Check the configuration</AlertTitle>
-                <AlertDescription>Correct the exercise time before starting.</AlertDescription>
-            </Alert>
+                    </CardContent>
+                </Card>
+            </section>
+            <section aria-label="Alert examples" className="grid gap-6 md:grid-cols-2">
+                <Alert>
+                    <AlertTitle>Audio unavailable</AlertTitle>
+                    <AlertDescription>The drill will continue silently.</AlertDescription>
+                </Alert>
+                <Alert variant="destructive">
+                    <AlertTitle>Check the configuration</AlertTitle>
+                    <AlertDescription>Correct the exercise time before starting.</AlertDescription>
+                </Alert>
+            </section>
         </main>
     );
 }
