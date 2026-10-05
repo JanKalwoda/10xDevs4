@@ -78,6 +78,30 @@ function make(config = configuration, random: () => number = () => 0) {
     return { clock, audio, run };
 }
 
+void test("stop cancels scheduled audio and wakes without publishing a false completion", () => {
+    const config = { ...configuration, restSeconds: 0, repetitions: 1, randomStartEnabled: false };
+    const { clock, audio, run } = make(config);
+    const displays: DrillDisplay[] = [];
+    run.subscribe((display) => displays.push(display));
+    const staleWake = [...clock.callbacks.values()][0];
+    const scheduledCues = audio.cues.length;
+
+    assert.ok(staleWake);
+    assert.ok(scheduledCues > 0);
+    run.stop();
+
+    assert.ok(audio.cancelled > 0);
+    assert.equal(audio.closed, 1);
+    assert.equal(audio.pending.length, 0);
+    assert.equal(clock.callbacks.size, 0);
+    clock.advance(100);
+    staleWake();
+
+    assert.equal(audio.cues.length, scheduledCues);
+    assert.equal(displays.length, 1);
+    assert.ok(displays.every(({ phase }) => phase !== null));
+});
+
 void test("scheduled cues keep exact boundaries and a full wait after the second Standby sound", () => {
     const { audio, clock, run } = make();
     assert.deepEqual(
