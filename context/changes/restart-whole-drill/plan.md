@@ -223,8 +223,8 @@ None. Restart changes the client-side lifecycle of the current in-memory timer c
 
 #### Manual
 
-- [ ] 1.3 Production `/` restart scenarios preserve settings and return to the configured first phase for positive/zero Preparation and random/non-random modes.
-- [ ] 1.4 Phase 1 control-bar screenshots at 1280/390 px in light/dark are reviewed for 48 px hitboxes, accessible names, focus and stable positions.
+- [x] 1.3 Production `/` restart scenarios preserve settings and return to the configured first phase for positive/zero Preparation and random/non-random modes. — zweryfikowane skryptem Playwright na preview + przegląd screenshotów przez koordynatora (nie człowieka)
+- [x] 1.4 Phase 1 control-bar screenshots at 1280/390 px in light/dark are reviewed for 48 px hitboxes, accessible names, focus and stable positions. — zweryfikowane skryptem Playwright na preview + przegląd screenshotów przez koordynatora (nie człowieka)
 
 ### Phase 2: Held-Mounted Lifecycle Regressions and Visual Contract
 
