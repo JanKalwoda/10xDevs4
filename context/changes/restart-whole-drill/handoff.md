@@ -45,3 +45,13 @@ Implement only Phase 1 using /10x-implement restart-whole-drill phase 1 in this 
 **Dalej:** Faza 2 (fixture z held-mounted replacement, port widoczności `drill-visibility.ts`, testy lifecycle, AGENTS.md, screenshoty 7 stanów w `screenshots/phase-2/`).
 
 **Pułapki:** Astro 7 dev to daemon (`astro dev stop` do zatrzymania; start potrafi przekroczyć 30 s przy pierwszym uruchomieniu — ponów). Playwright nie jest w repo; użyto `playwright-core` z katalogu tymczasowego i chromium z `%LOCALAPPDATA%\ms-playwright`. Preview `onRestart` w fazie 1 tylko rejestruje komunikat; pełna wymiana runu to faza 2. Roadmap S-08 ustawiona na in-progress.
+
+## Phase 2 status — 2026-10-06
+
+**Zrobione (commit fazy 2: 9a2b9d2):** `src/lib/drill-visibility.ts` (`DrillVisibilityPort`, `browserDrillVisibility`) używany przez `DrillTimer` (opcjonalny prop `visibility`); fixture `HeldMountedRestartFixture` w `TimerUiPreview.tsx` (klasa `RestartLab`: współdzielony `drill-run-identity`, paczka zasobów na tożsamość, zachowane ukryte stare dzieci, `captureActiveWake`/`fireCapturedWake`, sterowalna widoczność wspólna z `WakeLockSession`); testy Node: martwy wake/tick starego runu, późny grant Wake Lock i zdarzenie hidden, późne audio inicjalne, stan Resume-pending, port widoczności; AGENTS.md (kontrakt Restart); screenshoty + README w `screenshots/phase-2/` (7 stanów, Empty = N/A, 1280/390, jasny/ciemny, plus `lifecycle-restart`).
+
+**Bramki lokalne:** astro sync, lint, npm test (74), testy reguł ESLint (4), astro check (0/0/0), build — PASS. Break-check: usunięcie guardów `generation` + `finished` w `DrillRun` -> nowy test i stary "stop cancels..." czerwone; usunięcie `unsubscribeHidden` w sesji Wake Lock i `close()` w inicjalizatorze audio -> testy czerwone; zmiany odwrócone `git checkout`.
+
+**Weryfikacja ręczna (2.3/2.4) — skryptem Playwright, NIE człowiek:** 40/40 asercji na `/dev/timer-ui` (Restart przy init/active/paused/pending Resume, stary wake odpalony po wymianie, odrzucone stare completion/intencje, hide przy oczekującej wymianie, show nie wznawia ani nie ponawia Wake Lock, podwójne Restart, Restart->Cancel, idempotentny unmount) i 16/16 na produkcyjnym `/` (stale wake przechwycony z `setTimeout`, szybkie Restart, Restart->Cancel zachowuje ustawienia, visibility, stare completion nie kończy nowego runu). Pułapka: `click()` dwa razy w tym samym tasku trafia w ten sam przycisk (React nie zdążył przerenderować) — drugi klik zatrzymuje latch w `DrillTimer`.
+
+**Otwarte:** 2.2 (druga część: smoke w CI na finalnym HEAD PR oraz 404 `/dev/timer-ui` na produkcji) — zostaje dla koordynatora, nie odhaczone.
