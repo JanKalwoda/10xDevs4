@@ -218,8 +218,8 @@ None. Restart changes the client-side lifecycle of the current in-memory timer c
 
 #### Automated
 
-- [ ] 1.1 Fresh-phase, deterministic-random and stale-owner unit tests pass with `npm test`.
-- [ ] 1.2 Phase 1 sync/build pass with npx astro sync and npm run build; lint and Astro checks pass with `npm run lint` and `npx astro check`.
+- [x] 1.1 Fresh-phase, deterministic-random and stale-owner unit tests pass with `npm test`. — f293119
+- [x] 1.2 Phase 1 sync/build pass with npx astro sync and npm run build; lint and Astro checks pass with `npm run lint` and `npx astro check`. — f293119
 
 #### Manual
 
