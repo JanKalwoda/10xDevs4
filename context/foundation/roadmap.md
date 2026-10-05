@@ -40,35 +40,35 @@ Obecny timer HIIT pozwala ustawić fazy i powtórzenia, lecz jego przewidywalny 
 
 ## At a glance
 
-| ID | Change ID | Outcome (user can …) | Prerequisites | PRD refs | Status |
-| --- | --- | --- | --- | --- | --- |
-| S-01 | run-configured-phases | Użytkownik przechodzi z osobnego formularza do pełnego przebiegu faz bez losowego startu | — | US-01, FR-001, FR-003, FR-005 | done |
-| S-02 | run-random-start | Użytkownik wykonuje pełny przebieg z osobnym losowym startem i sygnałami | S-01 | US-01, FR-002, FR-003, FR-004, FR-005 | done |
-| S-15 | polish-timer-view | Użytkownik korzysta ze spójnego i czytelnego widoku timera podczas konfiguracji, przebiegu i po zakończeniu | S-02 | MS-01, US-01, FR-005 | done |
-| S-03 | preview-phase-signals | Użytkownik odsłuchuje sygnały i rozumie ich znaczenie przed uruchomieniem | S-02 | US-01, FR-004 | ready |
-| S-04 | view-three-phase-sections | Użytkownik widzi odliczanie, aktualną i następną fazę w trzech sekcjach | S-02 | US-02, FR-005, FR-013 | ready |
-| S-05 | choose-phase-colors | Użytkownik wybiera i widzi osobne kolory czterech faz | S-04 | US-03, FR-013, FR-014 | blocked |
-| S-06 | pause-and-resume-drill | Użytkownik wstrzymuje przebieg i wznawia właściwe powtórzenie | S-02 | US-01, FR-006 | done |
-| S-07 | cancel-current-drill | Użytkownik anuluje przebieg i wraca do ustawień | S-01 | US-01, FR-007 | in-progress |
-| S-08 | restart-whole-drill | Użytkownik uruchamia cały przebieg ponownie od początku | S-02 | US-01, FR-008 | ready |
-| S-09 | enter-account-by-email-link | Użytkownik tworzy konto lub loguje się przez link email | — | FR-009 | done |
-| S-10 | save-named-drill | Użytkownik zapisuje nazwaną konfigurację ze swoimi kolorami | S-05, S-09 | US-03, FR-010, FR-014 | proposed |
-| S-11 | open-saved-drill | Użytkownik widzi własne konfiguracje i uruchamia wybraną | S-10 | FR-011 | proposed |
-| S-12 | edit-saved-drill | Użytkownik zmienia własną zapisaną konfigurację | S-10 | US-03, FR-012, FR-014 | proposed |
-| S-13 | delete-saved-drill | Użytkownik usuwa własną konfigurację po potwierdzeniu | S-10 | FR-012 | proposed |
-| S-14 | align-bluetooth-audio | Użytkownik ze słuchawkami Bluetooth wyrównuje widok faz ze słyszanymi sygnałami | S-02 | FR-002, FR-004, FR-005 | blocked |
+| ID   | Change ID                   | Outcome (user can …)                                                                                        | Prerequisites | PRD refs                              | Status   |
+| ---- | --------------------------- | ----------------------------------------------------------------------------------------------------------- | ------------- | ------------------------------------- | -------- |
+| S-01 | run-configured-phases       | Użytkownik przechodzi z osobnego formularza do pełnego przebiegu faz bez losowego startu                    | —             | US-01, FR-001, FR-003, FR-005         | done     |
+| S-02 | run-random-start            | Użytkownik wykonuje pełny przebieg z osobnym losowym startem i sygnałami                                    | S-01          | US-01, FR-002, FR-003, FR-004, FR-005 | done     |
+| S-15 | polish-timer-view           | Użytkownik korzysta ze spójnego i czytelnego widoku timera podczas konfiguracji, przebiegu i po zakończeniu | S-02          | MS-01, US-01, FR-005                  | done     |
+| S-03 | preview-phase-signals       | Użytkownik odsłuchuje sygnały i rozumie ich znaczenie przed uruchomieniem                                   | S-02          | US-01, FR-004                         | ready    |
+| S-04 | view-three-phase-sections   | Użytkownik widzi odliczanie, aktualną i następną fazę w trzech sekcjach                                     | S-02          | US-02, FR-005, FR-013                 | ready    |
+| S-05 | choose-phase-colors         | Użytkownik wybiera i widzi osobne kolory czterech faz                                                       | S-04          | US-03, FR-013, FR-014                 | blocked  |
+| S-06 | pause-and-resume-drill      | Użytkownik wstrzymuje przebieg i wznawia właściwe powtórzenie                                               | S-02          | US-01, FR-006                         | done     |
+| S-07 | cancel-current-drill        | Użytkownik anuluje przebieg i wraca do ustawień                                                             | S-01          | US-01, FR-007                         | done     |
+| S-08 | restart-whole-drill         | Użytkownik uruchamia cały przebieg ponownie od początku                                                     | S-02          | US-01, FR-008                         | ready    |
+| S-09 | enter-account-by-email-link | Użytkownik tworzy konto lub loguje się przez link email                                                     | —             | FR-009                                | done     |
+| S-10 | save-named-drill            | Użytkownik zapisuje nazwaną konfigurację ze swoimi kolorami                                                 | S-05, S-09    | US-03, FR-010, FR-014                 | proposed |
+| S-11 | open-saved-drill            | Użytkownik widzi własne konfiguracje i uruchamia wybraną                                                    | S-10          | FR-011                                | proposed |
+| S-12 | edit-saved-drill            | Użytkownik zmienia własną zapisaną konfigurację                                                             | S-10          | US-03, FR-012, FR-014                 | proposed |
+| S-13 | delete-saved-drill          | Użytkownik usuwa własną konfigurację po potwierdzeniu                                                       | S-10          | FR-012                                | proposed |
+| S-14 | align-bluetooth-audio       | Użytkownik ze słuchawkami Bluetooth wyrównuje widok faz ze słyszanymi sygnałami                             | S-02          | FR-002, FR-004, FR-005                | blocked  |
 
 ## Streams
 
 Strumienie ułatwiają czytanie równoległych ścieżek. Strzałka oznacza zależność, a przecinek oddziela przekroje, które można prowadzić równolegle. O kolejności prac rozstrzygają pola `Prerequisites`.
 
-| Stream | Theme | Chain | Note |
-| --- | --- | --- | --- |
-| A | Główny przebieg i widok | `S-01` → `S-02` → (`S-15`, `S-04` → `S-05`, `S-14`) | Po działającym przebiegu dopracowuje jego UI oraz rozwija podgląd faz i synchronizację audio. |
-| B | Odsłuch sygnałów | `S-03` | Korzysta z sygnałów wprowadzonych w S-02. |
-| C | Sterowanie przebiegiem | `S-06`, `S-07`, `S-08` | S-07 wymaga S-01; S-06 i S-08 wymagają S-02. |
-| D | Dostęp do konta i zapis | `S-09` → `S-10` | Zapis S-10 wymaga też wyboru kolorów z S-05. |
-| E | Korzystanie z zapisów | `S-11`, `S-12`, `S-13` | Trzy niezależne działania po zapisie S-10. |
+| Stream | Theme                   | Chain                                               | Note                                                                                          |
+| ------ | ----------------------- | --------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| A      | Główny przebieg i widok | `S-01` → `S-02` → (`S-15`, `S-04` → `S-05`, `S-14`) | Po działającym przebiegu dopracowuje jego UI oraz rozwija podgląd faz i synchronizację audio. |
+| B      | Odsłuch sygnałów        | `S-03`                                              | Korzysta z sygnałów wprowadzonych w S-02.                                                     |
+| C      | Sterowanie przebiegiem  | `S-06`, `S-07`, `S-08`                              | S-07 wymaga S-01; S-06 i S-08 wymagają S-02.                                                  |
+| D      | Dostęp do konta i zapis | `S-09` → `S-10`                                     | Zapis S-10 wymaga też wyboru kolorów z S-05.                                                  |
+| E      | Korzystanie z zapisów   | `S-11`, `S-12`, `S-13`                              | Trzy niezależne działania po zapisie S-10.                                                    |
 
 ## Baseline
 
@@ -108,7 +108,7 @@ Brak osobnych Foundations. Konfigurację danych, ochronę własności i weryfika
 - **Parallel with:** S-07, S-09
 - **Blockers:** —
 - **Unknowns:**
-  - Czy przeglądarki docelowe utrzymują błąd emisji sygnału poniżej 0,2 s w aktywnej karcie? — Owner: team. Block: no.
+    - Czy przeglądarki docelowe utrzymują błąd emisji sygnału poniżej 0,2 s w aktywnej karcie? — Owner: team. Block: no.
 - **Risk:** Moment startu oczekiwania musi następować po dźwiękach. Programowe czasy nie mierzą fizycznej emisji; na komputerze i iPhonie 15 Pro Max słuchawki Bluetooth miały zauważalne opóźnienie względem widoku. Synchronizację wyodrębniono do S-14.
 - **Status:** done
 
@@ -157,7 +157,7 @@ Brak osobnych Foundations. Konfigurację danych, ochronę własności i weryfika
 - **Parallel with:** S-03, S-06, S-07, S-08, S-09
 - **Blockers:** —
 - **Unknowns:**
-  - Jakie dokładne odcienie dziewięciu kolorów spełniają rozróżnialność i kontrast z czarną czcionką? — Owner: user. Block: yes.
+    - Jakie dokładne odcienie dziewięciu kolorów spełniają rozróżnialność i kontrast z czarną czcionką? — Owner: user. Block: yes.
 - **Risk:** Dobór odcieni przed implementacją ogranicza poprawki interfejsu i ryzyko nieczytelności na telefonie.
 - **Status:** blocked
 
@@ -170,7 +170,7 @@ Brak osobnych Foundations. Konfigurację danych, ochronę własności i weryfika
 - **Parallel with:** S-03, S-04, S-05, S-07, S-08, S-09
 - **Blockers:** —
 - **Unknowns:**
-  - Jak zachowują się pauza po blokadzie ekranu i utrzymanie włączonego ekranu w przeglądarkach odbiorowych? — Owner: team. Block: no.
+    - Jak zachowują się pauza po blokadzie ekranu i utrzymanie włączonego ekranu w przeglądarkach odbiorowych? — Owner: team. Block: no.
 - **Risk:** Wznowienie Standby lub ćwiczenia musi zachować ukończone powtórzenia i ponowić pełne przygotowanie bez automatycznego startu po powrocie.
 - **Status:** done
 
@@ -184,7 +184,7 @@ Brak osobnych Foundations. Konfigurację danych, ochronę własności i weryfika
 - **Blockers:** —
 - **Unknowns:** —
 - **Risk:** Anulowanie ma zakończyć bieżący przebieg bez utraty konfiguracji i bez niezamierzonego wznowienia.
-- **Status:** in-progress
+- **Status:** done
 
 ### S-08: Ponowne uruchomienie od początku
 
@@ -267,30 +267,30 @@ Brak osobnych Foundations. Konfigurację danych, ochronę własności i weryfika
 - **Parallel with:** S-03, S-04, S-06, S-07, S-08, S-09
 - **Blockers:** Ustalenie sposobu wyrównania i weryfikacji na docelowych słuchawkach; same znaczniki planowania Web Audio nie dowodzą chwili słyszalnej emisji.
 - **Unknowns:**
-  - Czy oszacowanie opóźnienia wyjścia przez przeglądarkę wystarczy, czy potrzebna jest kalibracja przez użytkownika? — Owner: team. Block: yes.
-  - Jak zmierzyć błąd słyszalnego sygnału względem widoku na komputerze i telefonie z Bluetooth? — Owner: team. Block: yes.
+    - Czy oszacowanie opóźnienia wyjścia przez przeglądarkę wystarczy, czy potrzebna jest kalibracja przez użytkownika? — Owner: team. Block: yes.
+    - Jak zmierzyć błąd słyszalnego sygnału względem widoku na komputerze i telefonie z Bluetooth? — Owner: team. Block: yes.
 - **Risk:** Opóźnienie Bluetooth zależy od urządzenia i toru odtwarzania; korekta nie może skrócić losowego odstępu słyszanego między końcem drugiego sygnału Standby a startem ćwiczenia ani obiecywać dokładności bez pomiaru.
 - **Status:** blocked
 
 ## Backlog Handoff
 
-| Roadmap ID | Change ID | Suggested issue title | Ready for `/10x-plan` | Notes |
-| --- | --- | --- | --- | --- |
-| S-01 | run-configured-phases | Pełny przebieg faz bez losowego startu | yes | Uruchom `/10x-plan run-configured-phases`. |
-| S-02 | run-random-start | Losowy start i sygnały w każdym cyklu | no | Po S-01; gwiazda przewodnia. |
-| S-15 | polish-timer-view | Dopracowanie widoku głównego timera | yes | Działający widok pod `/`; dla `/10x-ui` użyj Change ID `polish-timer-view`. |
-| S-03 | preview-phase-signals | Odsłuch sygnałów w konfiguracji | yes | Po S-02. |
-| S-04 | view-three-phase-sections | Trzy sekcje przebiegu i podglądu | yes | Po S-02. |
-| S-05 | choose-phase-colors | Wybór kolorów faz | no | Wymaga wyboru odcieni i S-04. |
-| S-06 | pause-and-resume-drill | Pauza i ręczne wznowienie | yes | Po S-02. |
-| S-07 | cancel-current-drill | Anulowanie przebiegu | yes | Po S-01. |
-| S-08 | restart-whole-drill | Restart przebiegu | yes | Po S-02. |
-| S-09 | enter-account-by-email-link | Wejście do konta linkiem email | yes | Równolegle z S-01, po pierwszym działającym timerze w domyślnej kolejności. |
-| S-10 | save-named-drill | Zapis nazwanej konfiguracji | no | Po S-05 i S-09. |
-| S-11 | open-saved-drill | Lista i uruchomienie zapisanej konfiguracji | no | Po S-10. |
-| S-12 | edit-saved-drill | Edycja zapisanej konfiguracji | no | Po S-10. |
-| S-13 | delete-saved-drill | Usunięcie zapisanej konfiguracji | no | Po S-10. |
-| S-14 | align-bluetooth-audio | Wyrównanie widoku i sygnałów na słuchawkach Bluetooth | no | Po S-02; najpierw rozstrzygnąć metodę kalibracji i pomiaru słyszalnego opóźnienia. |
+| Roadmap ID | Change ID                   | Suggested issue title                                 | Ready for `/10x-plan` | Notes                                                                              |
+| ---------- | --------------------------- | ----------------------------------------------------- | --------------------- | ---------------------------------------------------------------------------------- |
+| S-01       | run-configured-phases       | Pełny przebieg faz bez losowego startu                | yes                   | Uruchom `/10x-plan run-configured-phases`.                                         |
+| S-02       | run-random-start            | Losowy start i sygnały w każdym cyklu                 | no                    | Po S-01; gwiazda przewodnia.                                                       |
+| S-15       | polish-timer-view           | Dopracowanie widoku głównego timera                   | yes                   | Działający widok pod `/`; dla `/10x-ui` użyj Change ID `polish-timer-view`.        |
+| S-03       | preview-phase-signals       | Odsłuch sygnałów w konfiguracji                       | yes                   | Po S-02.                                                                           |
+| S-04       | view-three-phase-sections   | Trzy sekcje przebiegu i podglądu                      | yes                   | Po S-02.                                                                           |
+| S-05       | choose-phase-colors         | Wybór kolorów faz                                     | no                    | Wymaga wyboru odcieni i S-04.                                                      |
+| S-06       | pause-and-resume-drill      | Pauza i ręczne wznowienie                             | yes                   | Po S-02.                                                                           |
+| S-07       | cancel-current-drill        | Anulowanie przebiegu                                  | yes                   | Po S-01.                                                                           |
+| S-08       | restart-whole-drill         | Restart przebiegu                                     | yes                   | Po S-02.                                                                           |
+| S-09       | enter-account-by-email-link | Wejście do konta linkiem email                        | yes                   | Równolegle z S-01, po pierwszym działającym timerze w domyślnej kolejności.        |
+| S-10       | save-named-drill            | Zapis nazwanej konfiguracji                           | no                    | Po S-05 i S-09.                                                                    |
+| S-11       | open-saved-drill            | Lista i uruchomienie zapisanej konfiguracji           | no                    | Po S-10.                                                                           |
+| S-12       | edit-saved-drill            | Edycja zapisanej konfiguracji                         | no                    | Po S-10.                                                                           |
+| S-13       | delete-saved-drill          | Usunięcie zapisanej konfiguracji                      | no                    | Po S-10.                                                                           |
+| S-14       | align-bluetooth-audio       | Wyrównanie widoku i sygnałów na słuchawkach Bluetooth | no                    | Po S-02; najpierw rozstrzygnąć metodę kalibracji i pomiaru słyszalnego opóźnienia. |
 
 ## Open Roadmap Questions
 
