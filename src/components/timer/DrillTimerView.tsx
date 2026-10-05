@@ -1,4 +1,4 @@
-import { LoaderCircle, Pause, Play, X } from "lucide-react";
+import { LoaderCircle, Pause, Play, RotateCcw, X } from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import type { DrillDisplay } from "@/lib/drill-run";
@@ -10,6 +10,7 @@ interface DrillTimerViewProps {
     resumePending?: boolean;
     wakeLockUnavailable?: boolean;
     onCancel: () => void;
+    onRestart: () => void;
     onPause: () => void;
     onResume: () => void;
 }
@@ -25,6 +26,7 @@ export default function DrillTimerView({
     resumePending = false,
     wakeLockUnavailable = false,
     onCancel,
+    onRestart,
     onPause,
     onResume,
 }: DrillTimerViewProps) {
@@ -60,7 +62,11 @@ export default function DrillTimerView({
                         <X aria-hidden="true" className="size-5" />
                     </Button>
                 </div>
-                <span aria-hidden="true" className="size-12 justify-self-center" />
+                <div className="justify-self-center">
+                    <Button type="button" variant="outline" size="icon" className="size-12" aria-label="Restart drill" title="Restart drill" onClick={onRestart}>
+                        <RotateCcw aria-hidden="true" className="size-5" />
+                    </Button>
+                </div>
                 <div className="justify-self-end">
                     {initializing || resumePending ? (
                         <Button

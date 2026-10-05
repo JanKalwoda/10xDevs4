@@ -2,7 +2,7 @@
 
 ## Checkpoint
 
-S-08 is research/planning only. Do not implement in this checkpoint. The change metadata is `planned`; the full plan and brief are ready for independent deep plan review. Planning artifacts will be committed separately from all future code phases.
+Historical planning checkpoint (see Phase 1 status at the end of this file).
 
 ## Base and worktrees
 
@@ -35,3 +35,13 @@ Future native work must use GPT-6-Luna xHigh. The native reasoning menu exposes 
 ## Next authorized phase
 
 Implement only Phase 1 using /10x-implement restart-whole-drill phase 1 in this worktree. Read the full corrected plan, research, brief, reviews, AGENTS and lessons. Phase 1 must update every required callback consumer, pass its local tests/sync/check/build and browser/screenshot gates, then commit code/tests separately and record SHA in Progress/handoff. Stop for coordinator compact/clear before Phase 2. PR CI stays a post-push coordinator gate. Root handles any delegation requiring Luna xHigh if the native collaboration selector cannot express it.
+
+## Phase 1 status — 2026-10-05
+
+**Zrobione (commit fazy 1, SHA w Progress):** Restart w środkowym slocie paska (`DrillTimerView`, `RotateCcw`, 48 px, `aria-label="Restart drill"`); `DrillTimer` ma wspólny `retireIntent` dla Cancel/Restart (synchroniczny latch + idempotentny dispose); `DrillApp` używa `drill-run-identity` (begin/isCurrent/retire/complete), `key={identity}`, a Start i Restart tworzą zasoby (audio + Wake Lock) synchronicznie w geście przez wspólne `createActiveRun`; `TimerUiPreview` ma `onRestart` w 3 miejscach (stub rejestrujący). Testy: `drill-run-identity.test.ts`, 3 nowe testy w `drill-run.test.ts` (pełne Preparation po stop, zero-prep random z nową próbką, zero-prep bez random). Bramki lokalne: lint, npm test (68), testy reguł ESLint, astro check, build — PASS.
+
+**Weryfikacja ręczna (wykonana automatem Playwright na `/` dev 4322, wymaga potwierdzenia człowieka — 1.3/1.4 nieodhaczone):** Restart po późniejszym powtórzeniu wraca do Preparation 0:03 (prep>0), do Exercise rep 1 (prep 0, bez random) i do Standby rep 1 (prep 0, random); ustawienia zachowane po Cancel; podwójny klik nie psuje stanu; hitboxy 48x48 w stałych pozycjach (1280/390). Screenshoty: `screenshots/phase-1/restart-{1280,390}-{light,dark}.png`.
+
+**Dalej:** Faza 2 (fixture z held-mounted replacement, port widoczności `drill-visibility.ts`, testy lifecycle, AGENTS.md, screenshoty 7 stanów w `screenshots/phase-2/`).
+
+**Pułapki:** Astro 7 dev to daemon (`astro dev stop` do zatrzymania; start potrafi przekroczyć 30 s przy pierwszym uruchomieniu — ponów). Playwright nie jest w repo; użyto `playwright-core` z katalogu tymczasowego i chromium z `%LOCALAPPDATA%\ms-playwright`. Preview `onRestart` w fazie 1 tylko rejestruje komunikat; pełna wymiana runu to faza 2. Roadmap S-08 ustawiona na in-progress.

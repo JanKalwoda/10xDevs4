@@ -273,6 +273,9 @@ function CancelControlTransitionFixture() {
                     onCancel={() => {
                         setCancelMessage("Cancel was activated; this preview fixture remains mounted for inspection.");
                     }}
+                    onRestart={() => {
+                        setCancelMessage("Restart was activated; this preview fixture remains mounted for inspection.");
+                    }}
                     onPause={() => {
                         setState("paused");
                     }}
@@ -337,6 +340,10 @@ function HeldMountedCancelFixture() {
         setMessage("Completion callback recorded.");
         increment("completionCount");
     }, [harness, increment]);
+    const onRestart = useCallback(() => {
+        if (!harness) return;
+        setMessage("Restart callback recorded. The held run remains mounted for this Phase 1 fixture.");
+    }, [harness]);
 
     function mountScenario(scenario: CancelScenario) {
         if (mounted) return;
@@ -436,6 +443,7 @@ function HeldMountedCancelFixture() {
                                     clock={harness.clock}
                                     createResumeAudio={harness.createResumeAudio}
                                     onCancel={onCancel}
+                                    onRestart={onRestart}
                                     onComplete={onComplete}
                                 />
                             </div>
@@ -658,6 +666,9 @@ export default function TimerUiPreview() {
                                 wakeLockUnavailable={wakeLockUnavailable ?? false}
                                 onCancel={() => {
                                     setPreviewStatus(`${title} fixture cancelled; the preview remains mounted.`);
+                                }}
+                                onRestart={() => {
+                                    setPreviewStatus(`${title} fixture restarted; the preview remains mounted.`);
                                 }}
                                 onPause={() => {
                                     setPreviewStatus(`${title} fixture paused.`);

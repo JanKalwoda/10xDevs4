@@ -510,3 +510,124 @@ void test("pause and resume never publish phase:null as a false completion", () 
         run.stop();
     }
 });
+void test("a new run restores full Preparation after an advanced paused run and rejects its late recovery", async () => {
+    const config = Object.freeze({
+        ...configuration,
+        preparationSeconds: 3,
+        exerciseSeconds: 2,
+        restSeconds: 1,
+        repetitions: 2,
+        randomStartEnabled: false,
+    });
+    const clock = new FakeClock();
+    const previousAudio = new FakeAudio();
+    const previousRun = new DrillRun(config, clock, previousAudio, () => 0);
+    previousRun.start();
+    clock.advance(7.5);
+    previousRun.tick();
+    assert.deepEqual(previousRun.display.phase, { kind: "exercise", durationSeconds: 2, repetition: 2 });
+    previousRun.hide();
+    assert.equal(previousRun.display.paused, true);
+    assert.ok(previousRun.scheduleEvidence.length > 0);
+    const previousEvidence = previousRun.scheduleEvidence;
+
+    let resolveLateAudio!: (audio: DrillAudioPort) => void;
+    const pendingRecovery = previousRun.resumeWithAudio(
+        () =>
+            new Promise<DrillAudioPort>((resolve) => {
+                resolveLateAudio = resolve;
+            }),
+    );
+    previousRun.stop();
+    assert.equal(previousAudio.closed, 1);
+
+    const replacementAudio = new FakeAudio();
+    const replacementRun = new DrillRun(config, clock, replacementAudio, () => 0);
+    replacementRun.start();
+    assert.deepEqual(replacementRun.display.phase, { kind: "preparation", durationSeconds: 3 });
+    assert.equal(replacementRun.display.remainingSeconds, 3);
+    assert.equal(replacementRun.display.paused, false);
+    assert.equal(replacementAudio.cues.find(({ cue }) => cue === "exercise")?.at, clock.now() + 3);
+    assert.deepEqual(replacementRun.scheduleEvidence, replacementAudio.scheduleEvidence);
+    assert.notDeepEqual(replacementRun.scheduleEvidence, previousEvidence);
+
+    const lateAudio = new FakeAudio();
+    resolveLateAudio(lateAudio);
+    await pendingRecovery;
+    assert.equal(lateAudio.closed, 1);
+    assert.deepEqual(replacementRun.display.phase, { kind: "preparation", durationSeconds: 3 });
+    assert.equal(replacementAudio.closed, 0);
+    replacementRun.stop();
+});
+
+void test("a new zero-Preparation random run samples a new first wait at repetition 1", () => {
+    const config = Object.freeze({
+        ...configuration,
+        preparationSeconds: 0,
+        restSeconds: 0,
+        repetitions: 1,
+        randomStartEnabled: true,
+    });
+    const clock = new FakeClock();
+    let previousSamples = 0;
+    const previousAudio = new FakeAudio();
+    const previousRun = new DrillRun(config, clock, previousAudio, () => {
+        previousSamples++;
+        return 0;
+    });
+    previousRun.start();
+    clock.advance(2);
+    previousRun.tick();
+    assert.deepEqual(previousRun.display.phase, { kind: "exercise", durationSeconds: 4, repetition: 1 });
+    assert.equal(previousSamples, 1);
+    const previousExerciseStart = previousAudio.cues.find(({ cue }) => cue === "exercise")?.at;
+    previousRun.stop();
+
+    let replacementSamples = 0;
+    const replacementAudio = new FakeAudio();
+    const replacementRun = new DrillRun(config, clock, replacementAudio, () => {
+        replacementSamples++;
+        return 0.75;
+    });
+    replacementRun.start();
+
+    assert.deepEqual(replacementRun.display.phase, { kind: "standby", repetition: 1 });
+    assert.equal(replacementRun.display.paused, false);
+    assert.equal(replacementSamples, 1);
+    const standbyEnd = replacementAudio.cues.find(({ cue }) => cue === "standby-second")?.end;
+    const replacementExerciseStart = replacementAudio.cues.find(({ cue }) => cue === "exercise")?.at;
+    assert.ok(standbyEnd !== undefined);
+    assert.ok(replacementExerciseStart !== undefined);
+    assert.equal(replacementExerciseStart, standbyEnd + 4);
+    assert.notEqual(replacementExerciseStart, previousExerciseStart);
+    assert.deepEqual(replacementRun.scheduleEvidence, replacementAudio.scheduleEvidence);
+    replacementRun.stop();
+});
+
+void test("a new zero-Preparation non-random run starts Exercise at repetition 1 without sampling", () => {
+    const config = Object.freeze({
+        ...configuration,
+        preparationSeconds: 0,
+        restSeconds: 0,
+        repetitions: 2,
+        randomStartEnabled: false,
+    });
+    const clock = new FakeClock();
+    const previousRun = new DrillRun(config, clock, new FakeAudio(), () => 0);
+    previousRun.start();
+    clock.advance(5);
+    previousRun.tick();
+    assert.deepEqual(previousRun.display.phase, { kind: "exercise", durationSeconds: 4, repetition: 2 });
+    previousRun.stop();
+
+    let samples = 0;
+    const replacementRun = new DrillRun(config, clock, new FakeAudio(), () => {
+        samples++;
+        return 0.5;
+    });
+    replacementRun.start();
+    assert.deepEqual(replacementRun.display.phase, { kind: "exercise", durationSeconds: 4, repetition: 1 });
+    assert.equal(replacementRun.display.paused, false);
+    assert.equal(samples, 0);
+    replacementRun.stop();
+});

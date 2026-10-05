@@ -15,14 +15,24 @@ interface DrillTimerProps {
     wakeLock: DrillWakeLockSession;
     onComplete: () => void;
     onCancel: () => void;
+    onRestart: () => void;
     clock?: DrillClock;
     createResumeAudio?: () => Promise<DrillAudioPort | null>;
 }
 
-export default function DrillTimer({ configuration, audio, wakeLock, onComplete, onCancel, clock = browserDrillClock, createResumeAudio = createDrillAudio }: DrillTimerProps) {
+export default function DrillTimer({
+    configuration,
+    audio,
+    wakeLock,
+    onComplete,
+    onCancel,
+    onRestart,
+    clock = browserDrillClock,
+    createResumeAudio = createDrillAudio,
+}: DrillTimerProps) {
     const runRef = useRef<DrillRun | null>(null);
     const resumePendingRef = useRef(createDrillResumePendingState());
-    const cancelIntentRef = useRef(false);
+    const retiredIntentRef = useRef(false);
     const disposeRef = useRef<() => void>(() => undefined);
     const [initializing, setInitializing] = useState(true);
     const [resumePending, setResumePending] = useState(false);
@@ -40,7 +50,7 @@ export default function DrillTimer({ configuration, audio, wakeLock, onComplete,
         const resumePendingState = resumePendingRef.current;
         const unsubscribeWakeLock = wakeLock.subscribe(setWakeLockStatus);
         function begin(audioPort: DrillAudioPort | null) {
-            if (disposed || cancelIntentRef.current) {
+            if (disposed || retiredIntentRef.current) {
                 audioPort?.close();
                 return;
             }
@@ -48,7 +58,7 @@ export default function DrillTimer({ configuration, audio, wakeLock, onComplete,
             runRef.current = run;
             run.start();
             run.subscribe((current) => {
-                if (disposed || cancelIntentRef.current) return;
+                if (disposed || retiredIntentRef.current) return;
                 if (!current.phase) {
                     if (!finished) {
                         finished = true;
@@ -89,7 +99,7 @@ export default function DrillTimer({ configuration, audio, wakeLock, onComplete,
         document.addEventListener("visibilitychange", onVisibilityChange);
         if (document.hidden) onVisibilityChange();
         const interval = window.setInterval(() => {
-            if (!disposed && !cancelIntentRef.current) run?.tick();
+            if (!disposed && !retiredIntentRef.current) run?.tick();
         }, 100);
         const dispose = () => {
             if (disposed) return;
@@ -104,7 +114,7 @@ export default function DrillTimer({ configuration, audio, wakeLock, onComplete,
             runRef.current = null;
         };
         disposeRef.current = dispose;
-        if (cancelIntentRef.current) dispose();
+        if (retiredIntentRef.current) dispose();
 
         return () => {
             if (disposeRef.current === dispose) disposeRef.current = () => undefined;
@@ -112,15 +122,25 @@ export default function DrillTimer({ configuration, audio, wakeLock, onComplete,
         };
     }, [audio, clock, configuration, onComplete, wakeLock]);
 
-    function cancel() {
-        if (cancelIntentRef.current) return;
-        cancelIntentRef.current = true;
+    function retireIntent(): boolean {
+        if (retiredIntentRef.current) return false;
+        retiredIntentRef.current = true;
         disposeRef.current();
+        return true;
+    }
+
+    function cancel() {
+        if (!retireIntent()) return;
         onCancel();
     }
 
+    function restart() {
+        if (!retireIntent()) return;
+        onRestart();
+    }
+
     function pause() {
-        if (cancelIntentRef.current) return;
+        if (retiredIntentRef.current) return;
         resumePendingRef.current.invalidate();
         setResumePending(false);
         runRef.current?.hide();
@@ -128,7 +148,7 @@ export default function DrillTimer({ configuration, audio, wakeLock, onComplete,
     }
 
     function resume() {
-        if (cancelIntentRef.current || document.hidden) return;
+        if (retiredIntentRef.current || document.hidden) return;
         const run = runRef.current;
         if (!run) return;
         const attempt = resumePendingRef.current.begin();
@@ -137,11 +157,11 @@ export default function DrillTimer({ configuration, audio, wakeLock, onComplete,
         void wakeLock.requestForVisibleGesture();
         void recovery.then(
             () => {
-                if (cancelIntentRef.current) return;
+                if (retiredIntentRef.current) return;
                 if (resumePendingRef.current.finish(attempt)) setResumePending(false);
             },
             () => {
-                if (cancelIntentRef.current) return;
+                if (retiredIntentRef.current) return;
                 if (resumePendingRef.current.finish(attempt)) setResumePending(false);
             },
         );
@@ -155,6 +175,7 @@ export default function DrillTimer({ configuration, audio, wakeLock, onComplete,
             resumePending={resumePending}
             wakeLockUnavailable={wakeLockStatus === "unavailable"}
             onCancel={cancel}
+            onRestart={restart}
             onPause={pause}
             onResume={resume}
         />
