@@ -17,21 +17,21 @@ Restart uses the existing middle slot and shared Button, leaves the other contro
 
 ## Key Decisions Made
 
-| Decision | Choice | Why | Source |
-| --- | --- | --- | --- |
-| Restart behavior | Start from the configured first phase without confirmation | Existing `firstDrillPhase` already expresses positive and zero-preparation behavior | Research |
-| Settings and random wait | Reuse the current configuration snapshot; create a fresh run and random sample | Form state is parent-owned; sample and hidden progress are run-owned | Research |
-| Run ownership | Synchronous intent boundary, existing idempotent disposal, fresh run identity/key and parent completion guard | Prop changes alone retain the mounted timer's refs/state, and stop does not clear all per-run fields | Research |
-| Restart resources | Create fresh audio and Wake Lock resources from the Restart gesture | Matches the existing Start path and browser gesture requirements | Coordinator brief / Research |
-| Control bar | Cancel left, Restart middle, Pause/Resume right, each 48 px; preserve semantic tokens and shared Button | Fills the existing slot and preserves S-07 controls | Coordinator brief / Research |
-| UI contract | No new colors, primitives, dependencies or CI changes | Existing token source, Button and lint rule cover the view | Research |
-| Completed view | Leave the current Completed → Return to configuration flow unchanged | Restart is specified in the mounted timer bar | Plan assumption; coordinator to confirm in review |
+| Decision                 | Choice                                                                                                        | Why                                                                                                  | Source                           |
+| ------------------------ | ------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- | -------------------------------- |
+| Restart behavior         | Start from the configured first phase without confirmation                                                    | Existing `firstDrillPhase` already expresses positive and zero-preparation behavior                  | Research                         |
+| Settings and random wait | Reuse the current configuration snapshot; create a fresh run and random sample                                | Form state is parent-owned; sample and hidden progress are run-owned                                 | Research                         |
+| Run ownership            | Synchronous intent boundary, existing idempotent disposal, fresh run identity/key and parent completion guard | Prop changes alone retain the mounted timer's refs/state, and stop does not clear all per-run fields | Research                         |
+| Restart resources        | Create fresh audio and Wake Lock resources from the Restart gesture                                           | Matches the existing Start path and browser gesture requirements                                     | Coordinator brief / Research     |
+| Control bar              | Cancel left, Restart middle, Pause/Resume right, each 48 px; preserve semantic tokens and shared Button       | Fills the existing slot and preserves S-07 controls                                                  | Coordinator brief / Research     |
+| UI contract              | No new colors, primitives, dependencies or CI changes                                                         | Existing token source, Button and lint rule cover the view                                           | Research                         |
+| Completed view           | Leave the current Completed → Return to configuration flow unchanged                                          | Restart is specified in the mounted timer bar                                                        | Coordinator confirmed 2026-10-05 |
 
 ## Scope
 
 **In scope:** `DrillApp`, `DrillTimer`, `DrillTimerView`, focused timer unit tests, `/dev/timer-ui` lifecycle fixtures, timer-specific `AGENTS.md` guidance and S-08 screenshots.
 
-**Out of scope:** auth, data storage, global CSS/tokens, shared UI primitives, new dependencies/test runners, CI/infrastructure changes, S-07 documents/status, roadmap edits, and Restart on the Completed view unless the coordinator changes that assumption.
+**Out of scope:** auth, data storage, global CSS/tokens, shared UI primitives, new dependencies/test runners, CI/infrastructure changes, S-07 documents/status, roadmap edits during planning, and Restart on the Completed view.
 
 ## Architecture / Approach
 
@@ -39,9 +39,9 @@ The parent creates a fresh identity and gesture-owned resources for each accepte
 
 ## Phases at a Glance
 
-| Phase | What it delivers | Key risk |
-| --- | --- | --- |
-| 1. Restart Control and Fresh Run Ownership | Production Restart action, fresh run identity/resources, deterministic phase/random tests | Stale callbacks or retained component state can supersede the new run |
+| Phase                                                     | What it delivers                                                                          | Key risk                                                                                         |
+| --------------------------------------------------------- | ----------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| 1. Restart Control and Fresh Run Ownership                | Production Restart action, fresh run identity/resources, deterministic phase/random tests | Stale callbacks or retained component state can supersede the new run                            |
 | 2. Held-Mounted Lifecycle Regressions and Visual Contract | Production-backed race fixture, lifecycle tests, AGENTS rule and complete screenshot gate | A stale-wake check can pass without firing an old callback unless its preconditions are asserted |
 
 **Prerequisites:** Coordinator deep plan review; before implementation, synchronize with main `45951a61e599215684e28d403665ce9824db8daa` after PR #34.
@@ -49,8 +49,8 @@ The parent creates a fresh identity and gesture-owned resources for each accepte
 
 ## Open Risks & Assumptions
 
-- The requested timer-bar placement implies Restart is limited to a mounted run and the Completed view stays unchanged. Confirm this during coordinator review before implementation.
-- The repository has no declared React DOM/browser test runner. Keep automated tests in the existing Node seams and use the held-mounted production preview to cover the parent/child interaction without adding a dependency.
+- The requested timer-bar placement implies Restart is limited to a mounted run and the Completed view stays unchanged. Confirmed by the coordinator on 2026-10-05.
+- Use the production-used drill-run-identity helper and Node test for parent completion ownership, plus the held-mounted real DrillTimer fixture with per-run bundles, exact captured wake and controlled visibility. No new dependency. Phase 1 updates every required callback caller and independently syncs/checks/builds; PR CI is a coordinator gate after the Phase 2 commit.
 - This planning worktree and both read-only research worktrees were created from `34e8b7d1b942dbb40185727a17e4ee534be3c396`; implementation must synchronize with the coordinator-reported PR #34 main SHA before its first code change.
 
 ## Success Criteria (Summary)

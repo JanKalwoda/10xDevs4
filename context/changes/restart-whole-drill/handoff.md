@@ -23,3 +23,15 @@ S-08 is research/planning only. Do not implement in this checkpoint. The change 
 No model switch was performed. The available collaboration selector exposes GPT-6-Luna with `max` as its highest effort value and no separate `xHigh` value; both research agents were explicitly launched with Luna `max` as the closest exposed setting. All researcher tool calls after correction used their own worktree.
 
 No tests or servers were run. Local Supabase on port 55321 was not touched. Later manual browser checks should use dev port 4322 and stop only the PID started for this worktree.
+
+## Coordinator review checkpoint — 2026-10-05
+
+Planning commit: 11e79da864ca9892e7dc8ac8b74255c7902840f9. Successful native compact (22s), verified clear and GPT-6-Luna xHigh restoration completed before further agent work. No implementation started.
+
+Coordinator confirms Completed stays unchanged and the two-phase split. Deep review found four targeted gaps; the plan now names required callback consumers and build gates, the shared production identity guard, per-run held fixture resources/exact captured wake/visibility port, and coordinator CI after the Phase 2 commit. Focused verification accepted the corrected contracts; the remaining overview sentence was clarified by the coordinator. The final plan verdict is SOUND. Main 45951a6 is merged into this branch. npm ci completed in this worktree; no dependency manifest was changed.
+
+Future native work must use GPT-6-Luna xHigh. The native reasoning menu exposes Extra high separately from More reasoning/Max. If a native collaboration tool cannot select xHigh, route required delegation to the coordinator rather than substituting Max. Existing research work remains attributed to its actual Luna Max setting.
+
+## Next authorized phase
+
+Implement only Phase 1 using /10x-implement restart-whole-drill phase 1 in this worktree. Read the full corrected plan, research, brief, reviews, AGENTS and lessons. Phase 1 must update every required callback consumer, pass its local tests/sync/check/build and browser/screenshot gates, then commit code/tests separately and record SHA in Progress/handoff. Stop for coordinator compact/clear before Phase 2. PR CI stays a post-push coordinator gate. Root handles any delegation requiring Luna xHigh if the native collaboration selector cannot express it.
