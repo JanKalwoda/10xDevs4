@@ -50,7 +50,7 @@ Obecny timer HIIT pozwala ustawić fazy i powtórzenia, lecz jego przewidywalny 
 | S-05 | choose-phase-colors | Użytkownik wybiera i widzi osobne kolory czterech faz | S-04 | US-03, FR-013, FR-014 | blocked |
 | S-06 | pause-and-resume-drill | Użytkownik wstrzymuje przebieg i wznawia właściwe powtórzenie | S-02 | US-01, FR-006 | done |
 | S-07 | cancel-current-drill | Użytkownik anuluje przebieg i wraca do ustawień | S-01 | US-01, FR-007 | done |
-| S-08 | restart-whole-drill | Użytkownik uruchamia cały przebieg ponownie od początku | S-02 | US-01, FR-008 | in-progress |
+| S-08 | restart-whole-drill | Użytkownik uruchamia cały przebieg ponownie od początku | S-02 | US-01, FR-008 | done |
 | S-09 | enter-account-by-email-link | Użytkownik tworzy konto lub loguje się przez link email | — | FR-009 | done |
 | S-10 | save-named-drill | Użytkownik zapisuje nazwaną konfigurację ze swoimi kolorami | S-05, S-09 | US-03, FR-010, FR-014 | proposed |
 | S-11 | open-saved-drill | Użytkownik widzi własne konfiguracje i uruchamia wybraną | S-10 | FR-011 | proposed |
@@ -196,7 +196,7 @@ Brak osobnych Foundations. Konfigurację danych, ochronę własności i weryfika
 - **Blockers:** —
 - **Unknowns:** —
 - **Risk:** Restart nie może zachować postępu ani poprzedniego opóźnienia losowego.
-- **Status:** in-progress
+- **Status:** done
 
 ### S-09: Dostęp do konta przez link email
 

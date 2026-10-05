@@ -59,3 +59,9 @@ Implement only Phase 1 using /10x-implement restart-whole-drill phase 1 in this 
 ## Naprawa findings z impl-review — 2026-10-06
 
 F1 (DrillApp używa `browserDrillVisibility`), F3 (`fireCapturedWake` zwraca realny sygnał z licznika wywołań owiniętego callbacku) i F4 (`useState(createDrillRunIdentityState)`) naprawione w jednym commicie fix. F2 zostaje udokumentowane: kroki 1.3/1.4/2.3/2.4 zweryfikował skrypt Playwright, nie człowiek. Bramki lokalne (astro sync, lint, npm test 74/74, testy reguł ESLint 4/4, astro check 0/0/0, build) PASS. Powtórzony Playwright: 40/40 na `/dev/timer-ui` i 16/16 na `/` (visibility, Restart, stale wake). Audio i Wake Lock bez testu na fizycznym urządzeniu. Otwarte: 2.2 (CI po pushu, 404 `/dev/timer-ui` na produkcji) — koordynator.
+
+## Coordinator completion — 2026-10-06
+
+- PR #36 merged as 3e136ad into main; CI, production-preview smoke and deploy are green on main.
+- Production (checked by the coordinator): `/` = 200, `/dev/timer-ui` = 404.
+- Progress 2.2 is complete. S-08 is done in the roadmap.
