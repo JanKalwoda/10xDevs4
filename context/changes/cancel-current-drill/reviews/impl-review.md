@@ -59,3 +59,7 @@ Progress 2.4 is complete: CI and production-preview Mailpit smoke passed on PR #
 ## Limits
 
 Deterministic clock/audio/Wake Lock fixtures prove application calls and lifecycle ordering, not physical device audio output or Wake Lock behavior. No hardware claim is made. S08 Restart is outside this change.
+
+## Release evidence — 2026-10-05
+
+PR #33 final documentation head 4f57a74420c151d0e978010fc521ea90dd92f1a6 passed CI and production-preview Mailpit smoke in run 37268378985. The reviewed implementation was merged as 34e8b7d1b942dbb40185727a17e4ee534be3c396. Main CI, Mailpit smoke, Cloudflare deployment and production route smoke all passed in run 37268564762. Coordinator remote smoke repeated all four public-route/protection checks successfully.
