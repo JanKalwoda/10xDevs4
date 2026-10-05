@@ -7,6 +7,7 @@ import { createDrillResumePendingState } from "@/lib/drill-resume-pending";
 import type { WakeLockStatus } from "@/lib/drill-wake-lock";
 import type { DrillWakeLockSession } from "@/lib/drill-wake-lock-session";
 import { firstDrillPhase } from "@/lib/drill-timer";
+import { browserDrillVisibility, type DrillVisibilityPort } from "@/lib/drill-visibility";
 import type { DrillConfiguration } from "@/types";
 
 interface DrillTimerProps {
@@ -17,6 +18,7 @@ interface DrillTimerProps {
     onCancel: () => void;
     onRestart: () => void;
     clock?: DrillClock;
+    visibility?: DrillVisibilityPort;
     createResumeAudio?: () => Promise<DrillAudioPort | null>;
 }
 
@@ -28,6 +30,7 @@ export default function DrillTimer({
     onCancel,
     onRestart,
     clock = browserDrillClock,
+    visibility = browserDrillVisibility,
     createResumeAudio = createDrillAudio,
 }: DrillTimerProps) {
     const runRef = useRef<DrillRun | null>(null);
@@ -45,7 +48,7 @@ export default function DrillTimer({
     useEffect(() => {
         let disposed = false;
         let finished = false;
-        let pauseWhenReady = wakeLock.wasHidden() || document.hidden;
+        let pauseWhenReady = wakeLock.wasHidden() || visibility.isHidden();
         let run: DrillRun | null = null;
         const resumePendingState = resumePendingRef.current;
         const unsubscribeWakeLock = wakeLock.subscribe(setWakeLockStatus);
@@ -81,14 +84,14 @@ export default function DrillTimer({
                     setInitializing(false);
                 }
             });
-            if (pauseWhenReady || document.hidden) {
+            if (pauseWhenReady || visibility.isHidden()) {
                 run.hide();
                 void wakeLock.release();
             }
         }
         const disposeAudioInitialization = observeDrillAudioInitialization(audio, begin);
         const onVisibilityChange = () => {
-            if (document.hidden) {
+            if (visibility.isHidden()) {
                 pauseWhenReady = true;
                 void wakeLock.release();
                 run?.hide();
@@ -96,8 +99,8 @@ export default function DrillTimer({
                 setResumePending(false);
             }
         };
-        document.addEventListener("visibilitychange", onVisibilityChange);
-        if (document.hidden) onVisibilityChange();
+        const unsubscribeVisibility = visibility.subscribe(onVisibilityChange);
+        if (visibility.isHidden()) onVisibilityChange();
         const interval = window.setInterval(() => {
             if (!disposed && !retiredIntentRef.current) run?.tick();
         }, 100);
@@ -106,7 +109,7 @@ export default function DrillTimer({
             disposed = true;
             resumePendingState.invalidate();
             disposeAudioInitialization();
-            document.removeEventListener("visibilitychange", onVisibilityChange);
+            unsubscribeVisibility();
             window.clearInterval(interval);
             run?.stop();
             void wakeLock.dispose();
@@ -120,7 +123,7 @@ export default function DrillTimer({
             if (disposeRef.current === dispose) disposeRef.current = () => undefined;
             dispose();
         };
-    }, [audio, clock, configuration, onComplete, wakeLock]);
+    }, [audio, clock, configuration, onComplete, visibility, wakeLock]);
 
     function retireIntent(): boolean {
         if (retiredIntentRef.current) return false;
@@ -148,7 +151,7 @@ export default function DrillTimer({
     }
 
     function resume() {
-        if (retiredIntentRef.current || document.hidden) return;
+        if (retiredIntentRef.current || visibility.isHidden()) return;
         const run = runRef.current;
         if (!run) return;
         const attempt = resumePendingRef.current.begin();

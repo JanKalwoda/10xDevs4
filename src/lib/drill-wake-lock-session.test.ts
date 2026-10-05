@@ -110,3 +110,66 @@ void test("release during initialization invalidates and cleans a late grant", a
     assert.equal(session.getStatus(), "idle");
     await session.dispose();
 });
+
+void test("a disposed run's late grant and hidden event never touch the replacement session", async () => {
+    const hiddenListeners = new Set<() => void>();
+    const subscribeToHidden = (onHidden: () => void) => {
+        hiddenListeners.add(onHidden);
+        return () => {
+            hiddenListeners.delete(onHidden);
+        };
+    };
+    const oldPending = deferred<WakeLockSentinelPort>();
+    const oldSentinel = new FakeWakeLockSentinel();
+    const newSentinel = new FakeWakeLockSentinel();
+    const oldSession = createDrillWakeLockSession(createDrillWakeLockController({ request: () => oldPending.promise }), () => true, subscribeToHidden);
+    const oldRequest = oldSession.requestForVisibleGesture();
+
+    await oldSession.dispose();
+    const newSession = createDrillWakeLockSession(createDrillWakeLockController({ request: () => Promise.resolve(newSentinel) }), () => true, subscribeToHidden);
+    await newSession.requestForVisibleGesture();
+    assert.equal(hiddenListeners.size, 1, "only the replacement stays subscribed to hidden events");
+
+    oldPending.resolve(oldSentinel);
+    await oldRequest;
+
+    assert.equal(oldSentinel.releaseCalls, 1, "the late old grant is released by its own session");
+    assert.equal(newSentinel.releaseCalls, 0);
+    assert.equal(newSession.getStatus(), "held");
+    assert.equal(oldSession.getStatus(), "idle");
+    await newSession.dispose();
+    assert.equal(newSentinel.releaseCalls, 1);
+});
+
+void test("hiding while a replacement grant is pending releases it and show alone never reacquires", async () => {
+    let visible = true;
+    let reportHidden!: () => void;
+    let requests = 0;
+    const pending = deferred<WakeLockSentinelPort>();
+    const sentinel = new FakeWakeLockSentinel();
+    const session = createDrillWakeLockSession(
+        createDrillWakeLockController({
+            request: () => {
+                requests++;
+                return pending.promise;
+            },
+        }),
+        () => visible,
+        (onHidden) => {
+            reportHidden = onHidden;
+            return () => undefined;
+        },
+    );
+    const request = session.requestForVisibleGesture();
+
+    visible = false;
+    reportHidden();
+    pending.resolve(sentinel);
+    await request;
+    visible = true;
+
+    assert.equal(sentinel.releaseCalls, 1);
+    assert.equal(requests, 1, "becoming visible does not request again");
+    assert.equal(session.getStatus(), "idle");
+    await session.dispose();
+});

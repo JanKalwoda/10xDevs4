@@ -631,3 +631,53 @@ void test("a new zero-Preparation non-random run starts Exercise at repetition 1
     assert.equal(samples, 0);
     replacementRun.stop();
 });
+
+void test("a retired run's captured wake and tick cannot change a replacement on the same clock", () => {
+    const config = Object.freeze({
+        ...configuration,
+        preparationSeconds: 3,
+        exerciseSeconds: 4,
+        restSeconds: 0,
+        repetitions: 2,
+        randomStartEnabled: false,
+    });
+    const clock = new FakeClock();
+    const oldAudio = new FakeAudio();
+    const oldRun = new DrillRun(config, clock, oldAudio, () => 0);
+    oldRun.start();
+    clock.advance(3.5);
+    oldRun.tick();
+    const capturedWake = [...clock.callbacks.values()].at(-1);
+    assert.ok(capturedWake);
+    const oldDisplays: DrillDisplay[] = [];
+    oldRun.subscribe((display) => oldDisplays.push(display));
+    oldRun.stop();
+    const oldNotifications = oldDisplays.length;
+    assert.equal(clock.callbacks.size, 0, "stop clears the old wake from the clock");
+
+    const newAudio = new FakeAudio();
+    const newRun = new DrillRun(config, clock, newAudio, () => 0);
+    const displays: DrillDisplay[] = [];
+    newRun.start();
+    newRun.subscribe((display) => displays.push(display));
+    const baselineCues = newAudio.cues.length;
+    const baselineCancelled = newAudio.cancelled;
+    const baselineWakes = clock.callbacks.size;
+    const baselineDisplay = newRun.display;
+    const oldCues = oldAudio.cues.length;
+
+    clock.advance(clock.now() + 50);
+    capturedWake();
+    oldRun.tick();
+    oldRun.hide();
+
+    assert.equal(newAudio.cues.length, baselineCues, "stale wake schedules nothing for the replacement");
+    assert.equal(oldAudio.cues.length, oldCues, "stale wake schedules nothing for the retired run");
+    assert.equal(clock.callbacks.size, baselineWakes, "stale wake does not arm another wake");
+    assert.equal(displays.length, 1, "the replacement listener is not notified by the retired run");
+    assert.equal(oldDisplays.length, oldNotifications, "the retired run publishes nothing after stop");
+    assert.deepEqual(baselineDisplay.phase, { kind: "preparation", durationSeconds: 3 });
+    assert.equal(newAudio.closed, 0);
+    assert.equal(newAudio.cancelled, baselineCancelled);
+    newRun.stop();
+});

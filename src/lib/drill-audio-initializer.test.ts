@@ -63,3 +63,32 @@ void test("a rejected initial audio setup after unmount is ignored", async () =>
 
     assert.equal(onReadyCalls, 0);
 });
+
+void test("a retired run's late audio closes under its owner while the replacement keeps its own", async () => {
+    let resolveOld!: (audio: DrillAudioPort) => void;
+    let resolveNew!: (audio: DrillAudioPort) => void;
+    const oldPending = new Promise<DrillAudioPort>((resolve) => {
+        resolveOld = resolve;
+    });
+    const newPending = new Promise<DrillAudioPort>((resolve) => {
+        resolveNew = resolve;
+    });
+    const oldReady: (DrillAudioPort | null)[] = [];
+    const newReady: (DrillAudioPort | null)[] = [];
+    const disposeOld = observeDrillAudioInitialization(oldPending, (audio) => oldReady.push(audio));
+    const disposeNew = observeDrillAudioInitialization(newPending, (audio) => newReady.push(audio));
+
+    disposeOld();
+    const newAudio = new FakeAudio();
+    const oldAudio = new FakeAudio();
+    resolveNew(newAudio);
+    resolveOld(oldAudio);
+    await Promise.all([oldPending, newPending]);
+    await Promise.resolve();
+
+    assert.deepEqual(oldReady, []);
+    assert.equal(oldAudio.closed, 1);
+    assert.deepEqual(newReady, [newAudio]);
+    assert.equal(newAudio.closed, 0);
+    disposeNew();
+});

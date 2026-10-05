@@ -230,10 +230,10 @@ None. Restart changes the client-side lifecycle of the current in-memory timer c
 
 #### Automated
 
-- [ ] 2.1 Focused Node lifecycle tests prove late resources, visibility and retired-owner callbacks cannot affect the replacement run.
+- [x] 2.1 Focused Node lifecycle tests prove late resources, visibility and retired-owner callbacks cannot affect the replacement run.
 - [ ] 2.2 Full project command gates pass: `npx astro sync`, `npm run lint`, `npm test`, `node --test scripts/eslint-rules/timer-ui-contract.test.mjs scripts/eslint-rules/account-entry-ui-contract.test.mjs`, `npx astro check`, and `npm run build`. After the separately gated Phase 2 commit is pushed to a PR, the coordinator requires that the unchanged CI production-preview `npm run smoke` gate passes and confirms `/dev/timer-ui` returns 404 in production.
 
 #### Manual
 
-- [ ] 2.3 All seven `/dev/timer-ui` states (default, hover, focus-visible, disabled, error, Empty N/A, and loading) are reviewed at 1280/390 px in light/dark, with screenshots saved and the N/A reason documented.
-- [ ] 2.4 Production `/` and held-mounted interactions cover rapid Restart, Restart → Cancel, visibility changes and a retained stale wake that actually fires after replacement without changing its first phase, completion or resources.
+- [x] 2.3 All seven `/dev/timer-ui` states (default, hover, focus-visible, disabled, error, Empty N/A, and loading) are reviewed at 1280/390 px in light/dark, with screenshots saved and the N/A reason documented. — zweryfikowane skryptem Playwright (dev 4322) + przegląd screenshotów przez agenta (nie człowieka)
+- [x] 2.4 Production `/` and held-mounted interactions cover rapid Restart, Restart → Cancel, visibility changes and a retained stale wake that actually fires after replacement without changing its first phase, completion or resources. — zweryfikowane skryptem Playwright (40 asercji na /dev/timer-ui, 16 na /) (nie człowiek)

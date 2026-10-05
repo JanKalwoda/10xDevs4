@@ -35,3 +35,15 @@ void test("an older Resume result cannot clear a newer attempt after hidden inva
     await currentCompletion;
     assert.equal(currentClearedPending, true);
 });
+
+void test("a retired run's invalidated Resume state is independent from the replacement's pending Resume", () => {
+    const retired = createDrillResumePendingState();
+    const replacement = createDrillResumePendingState();
+    const retiredAttempt = retired.begin();
+    const replacementAttempt = replacement.begin();
+
+    retired.invalidate();
+
+    assert.equal(retired.finish(retiredAttempt), false);
+    assert.equal(replacement.finish(replacementAttempt), true);
+});
