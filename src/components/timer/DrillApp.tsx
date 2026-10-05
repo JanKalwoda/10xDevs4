@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import DrillConfigForm from "@/components/timer/DrillConfigForm";
@@ -8,7 +8,8 @@ import { createDrillAudio, type DrillAudioPort } from "@/lib/drill-audio";
 import { createDrillWakeLockController, type WakeLockProvider, type WakeLockSentinelPort } from "@/lib/drill-wake-lock";
 import { createDrillWakeLockSession, type DrillWakeLockSession } from "@/lib/drill-wake-lock-session";
 import type { DrillConfigInput } from "@/lib/drill-timer";
-import { createDrillRunIdentityState, type DrillRunIdentityState } from "@/lib/drill-run-identity";
+import { createDrillRunIdentityState } from "@/lib/drill-run-identity";
+import { browserDrillVisibility } from "@/lib/drill-visibility";
 import type { DrillConfiguration } from "@/types";
 
 const DEFAULT_VALUES: DrillConfigInput = {
@@ -54,9 +55,7 @@ export default function DrillApp() {
     const [values, setValues] = useState<DrillConfigInput>(DEFAULT_VALUES);
     const [activeRun, setActiveRun] = useState<ActiveRun | null>(null);
     const [view, setView] = useState<"configuration" | "running" | "completed">("configuration");
-    const identityStateRef = useRef<DrillRunIdentityState | null>(null);
-    identityStateRef.current ??= createDrillRunIdentityState();
-    const identityState = identityStateRef.current;
+    const [identityState] = useState(createDrillRunIdentityState);
 
     const createActiveRun = useCallback(
         (configuration: Readonly<DrillConfiguration>): ActiveRun => {
@@ -65,16 +64,11 @@ export default function DrillApp() {
             const audio = createDrillAudio();
             const wakeLock = createDrillWakeLockSession(
                 createDrillWakeLockController(createBrowserWakeLockProvider()),
-                () => !document.hidden,
-                (onHidden) => {
-                    const onVisibilityChange = () => {
-                        if (document.hidden) onHidden();
-                    };
-                    document.addEventListener("visibilitychange", onVisibilityChange);
-                    return () => {
-                        document.removeEventListener("visibilitychange", onVisibilityChange);
-                    };
-                },
+                () => !browserDrillVisibility.isHidden(),
+                (onHidden) =>
+                    browserDrillVisibility.subscribe(() => {
+                        if (browserDrillVisibility.isHidden()) onHidden();
+                    }),
             );
             void wakeLock.requestForVisibleGesture();
             return { identity, configuration, audio, wakeLock };

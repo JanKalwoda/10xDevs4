@@ -128,6 +128,7 @@ class FixtureAudio implements DrillAudioPort {
 interface CapturedWake {
     id: number;
     callback: () => void;
+    invocations: number;
 }
 
 class FixtureClock implements DrillClock {
@@ -164,13 +165,25 @@ class FixtureClock implements DrillClock {
     /** Captures the exact callback of the newest scheduled wake; it survives clearWake. */
     captureActiveWake(): CapturedWake | null {
         let captured: CapturedWake | null = null;
-        for (const [id, callback] of this.wakes) captured = { id, callback };
+        for (const [id, callback] of this.wakes) {
+            const wake: CapturedWake = {
+                id,
+                invocations: 0,
+                callback: () => {
+                    wake.invocations += 1;
+                    callback();
+                },
+            };
+            captured = wake;
+        }
         return captured;
     }
 
+    /** True exactly when the captured callback was invoked (observed through its own invocation counter). */
     fireCapturedWake(captured: CapturedWake) {
+        const before = captured.invocations;
         captured.callback();
-        return true;
+        return captured.invocations > before;
     }
 
     fireRetainedWake() {
