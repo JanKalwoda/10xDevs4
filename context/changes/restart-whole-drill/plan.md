@@ -231,7 +231,7 @@ None. Restart changes the client-side lifecycle of the current in-memory timer c
 #### Automated
 
 - [x] 2.1 Focused Node lifecycle tests prove late resources, visibility and retired-owner callbacks cannot affect the replacement run. — 9a2b9d2
-- [ ] 2.2 Full project command gates pass: `npx astro sync`, `npm run lint`, `npm test`, `node --test scripts/eslint-rules/timer-ui-contract.test.mjs scripts/eslint-rules/account-entry-ui-contract.test.mjs`, `npx astro check`, and `npm run build`. After the separately gated Phase 2 commit is pushed to a PR, the coordinator requires that the unchanged CI production-preview `npm run smoke` gate passes and confirms `/dev/timer-ui` returns 404 in production.
+- [x] 2.2 Full project command gates pass: `npx astro sync`, `npm run lint`, `npm test`, `node --test scripts/eslint-rules/timer-ui-contract.test.mjs scripts/eslint-rules/account-entry-ui-contract.test.mjs`, `npx astro check`, and `npm run build`. After the separately gated Phase 2 commit is pushed to a PR, the coordinator requires that the unchanged CI production-preview `npm run smoke` gate passes and confirms `/dev/timer-ui` returns 404 in production. — PR #36 (merge 3e136ad): CI, production-preview smoke and deploy green on main; production `/` = 200, `/dev/timer-ui` = 404 (checked by the coordinator, not by this agent).
 
 #### Manual
 
