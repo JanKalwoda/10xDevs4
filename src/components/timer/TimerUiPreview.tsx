@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useId, useRef, useState } from "react";
+import { useCallback, useEffect, useId, useRef, useState, useSyncExternalStore } from "react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -10,6 +10,8 @@ import { DrillCompleted } from "@/components/timer/DrillApp";
 import DrillTimer from "@/components/timer/DrillTimer";
 import DrillTimerView from "@/components/timer/DrillTimerView";
 import type { DrillConfigInput } from "@/lib/drill-timer";
+import { createDrillRunIdentityState } from "@/lib/drill-run-identity";
+import type { DrillVisibilityPort } from "@/lib/drill-visibility";
 import { CUE_DURATION, type DrillAudioPort, type DrillCue, type ScheduledCue } from "@/lib/drill-audio";
 import type { DrillClock, DrillDisplay } from "@/lib/drill-run";
 import { createDrillWakeLockController, type WakeLockProvider, type WakeLockSentinelPort } from "@/lib/drill-wake-lock";
@@ -63,6 +65,9 @@ interface LifecycleCounters {
     resumeAudioRequests: number;
     staleWakeFires: number;
     displayChanges: number;
+    restartCount: number;
+    rejectedCompletions: number;
+    staleIntents: number;
 }
 
 type LifecycleCounter = keyof LifecycleCounters;
@@ -78,6 +83,9 @@ const EMPTY_LIFECYCLE_COUNTERS: LifecycleCounters = {
     resumeAudioRequests: 0,
     staleWakeFires: 0,
     displayChanges: 0,
+    restartCount: 0,
+    rejectedCompletions: 0,
+    staleIntents: 0,
 };
 
 class FixtureAudio implements DrillAudioPort {
@@ -117,6 +125,12 @@ class FixtureAudio implements DrillAudioPort {
     }
 }
 
+interface CapturedWake {
+    id: number;
+    callback: () => void;
+    invocations: number;
+}
+
 class FixtureClock implements DrillClock {
     private time = 0;
     private nextWake = 0;
@@ -142,6 +156,34 @@ class FixtureClock implements DrillClock {
 
     advancePastRunEnd() {
         this.time = 20;
+    }
+
+    advanceBy(seconds: number) {
+        this.time += seconds;
+    }
+
+    /** Captures the exact callback of the newest scheduled wake; it survives clearWake. */
+    captureActiveWake(): CapturedWake | null {
+        let captured: CapturedWake | null = null;
+        for (const [id, callback] of this.wakes) {
+            const wake: CapturedWake = {
+                id,
+                invocations: 0,
+                callback: () => {
+                    wake.invocations += 1;
+                    callback();
+                },
+            };
+            captured = wake;
+        }
+        return captured;
+    }
+
+    /** True exactly when the captured callback was invoked (observed through its own invocation counter). */
+    fireCapturedWake(captured: CapturedWake) {
+        const before = captured.invocations;
+        captured.callback();
+        return captured.invocations > before;
     }
 
     fireRetainedWake() {
@@ -171,6 +213,28 @@ class FixtureWakeLockSentinel implements WakeLockSentinelPort {
     }
 }
 
+class FixtureVisibility implements DrillVisibilityPort {
+    private hidden = false;
+    private readonly listeners = new Set<() => void>();
+
+    isHidden() {
+        return this.hidden;
+    }
+
+    subscribe(onChange: () => void) {
+        this.listeners.add(onChange);
+        return () => {
+            this.listeners.delete(onChange);
+        };
+    }
+
+    setHidden(hidden: boolean) {
+        if (this.hidden === hidden) return;
+        this.hidden = hidden;
+        for (const listener of [...this.listeners]) listener();
+    }
+}
+
 interface HeldTimerHarness {
     scenario: CancelScenario;
     audio: Promise<DrillAudioPort | null>;
@@ -182,7 +246,7 @@ interface HeldTimerHarness {
     resolveWakeGrants: () => void;
 }
 
-function createHeldTimerHarness(scenario: CancelScenario, increment: (counter: LifecycleCounter) => void): HeldTimerHarness {
+function createHeldTimerHarness(scenario: CancelScenario, increment: (counter: LifecycleCounter) => void, visibility?: FixtureVisibility): HeldTimerHarness {
     const clock = new FixtureClock();
     let resolveInitial!: (audio: DrillAudioPort | null) => void;
     let initialResolved = false;
@@ -211,7 +275,16 @@ function createHeldTimerHarness(scenario: CancelScenario, increment: (counter: L
         },
     };
     const controller = createDrillWakeLockController(provider);
-    const wakeLock = createDrillWakeLockSession(controller, () => true);
+    const wakeLock = visibility
+        ? createDrillWakeLockSession(
+              controller,
+              () => !visibility.isHidden(),
+              (onHidden) =>
+                  visibility.subscribe(() => {
+                      if (visibility.isHidden()) onHidden();
+                  }),
+          )
+        : createDrillWakeLockSession(controller, () => true);
     void wakeLock.requestForVisibleGesture();
 
     return {
@@ -272,6 +345,9 @@ function CancelControlTransitionFixture() {
                     wakeLockUnavailable
                     onCancel={() => {
                         setCancelMessage("Cancel was activated; this preview fixture remains mounted for inspection.");
+                    }}
+                    onRestart={() => {
+                        setCancelMessage("Restart was activated; this preview fixture remains mounted for inspection.");
                     }}
                     onPause={() => {
                         setState("paused");
@@ -337,6 +413,10 @@ function HeldMountedCancelFixture() {
         setMessage("Completion callback recorded.");
         increment("completionCount");
     }, [harness, increment]);
+    const onRestart = useCallback(() => {
+        if (!harness) return;
+        setMessage("Restart callback recorded. Replacement runs are exercised by the Held-mounted Restart lifecycle gate.");
+    }, [harness]);
 
     function mountScenario(scenario: CancelScenario) {
         if (mounted) return;
@@ -436,6 +516,7 @@ function HeldMountedCancelFixture() {
                                     clock={harness.clock}
                                     createResumeAudio={harness.createResumeAudio}
                                     onCancel={onCancel}
+                                    onRestart={onRestart}
                                     onComplete={onComplete}
                                 />
                             </div>
@@ -525,6 +606,406 @@ function HeldMountedCancelFixture() {
                         </div>
                     </>
                 )}
+            </CardContent>
+        </Card>
+    );
+}
+
+const RESTART_FIXTURE_CONFIGURATION: Readonly<DrillConfiguration> = {
+    preparationSeconds: 3,
+    exerciseSeconds: 4,
+    restSeconds: 0,
+    repetitions: 2,
+    randomStartEnabled: false,
+};
+
+type RunOutcome = "current" | "retired" | "cancelled" | "completed";
+
+interface RestartBundle {
+    identity: number;
+    harness: HeldTimerHarness;
+    mounted: boolean;
+    outcome: RunOutcome;
+    capturedWake: CapturedWake | null;
+    onComplete: () => void;
+    onCancel: () => void;
+    onRestart: () => void;
+}
+
+/** Parent stand-in that composes the production identity guard with the production DrillTimer. */
+class RestartLab {
+    readonly identityState = createDrillRunIdentityState();
+    readonly visibility = new FixtureVisibility();
+    bundles: RestartBundle[] = [];
+    readonly counters = new Map<number, LifecycleCounters>();
+    message = "No run started.";
+    private version = 0;
+    private readonly listeners = new Set<() => void>();
+
+    readonly subscribe = (listener: () => void) => {
+        this.listeners.add(listener);
+        return () => {
+            this.listeners.delete(listener);
+        };
+    };
+
+    readonly getVersion = () => this.version;
+
+    private emit() {
+        this.version++;
+        for (const listener of [...this.listeners]) listener();
+    }
+
+    private count(identity: number, counter: LifecycleCounter) {
+        const current = this.counters.get(identity) ?? EMPTY_LIFECYCLE_COUNTERS;
+        this.counters.set(identity, { ...current, [counter]: current[counter] + 1 });
+        this.emit();
+    }
+
+    private find(identity: number) {
+        return this.bundles.find((bundle) => bundle.identity === identity);
+    }
+
+    /** Synchronously allocates identity and a fresh resource bundle, like the production Start/Restart gesture. */
+    private createBundle(scenario: CancelScenario): RestartBundle {
+        const identity = this.identityState.begin();
+        this.counters.set(identity, EMPTY_LIFECYCLE_COUNTERS);
+        const bundle: RestartBundle = {
+            identity,
+            harness: createHeldTimerHarness(
+                scenario,
+                (counter) => {
+                    this.count(identity, counter);
+                },
+                this.visibility,
+            ),
+            mounted: true,
+            outcome: "current",
+            capturedWake: null,
+            onComplete: () => {
+                this.complete(identity);
+            },
+            onCancel: () => {
+                this.cancel(identity);
+            },
+            onRestart: () => {
+                this.restart(identity);
+            },
+        };
+        this.bundles = [...this.bundles, bundle];
+        return bundle;
+    }
+
+    start(scenario: CancelScenario) {
+        if (this.bundles.length) return;
+        this.createBundle(scenario);
+        this.message = `Run 1 started in scenario ${scenario}.`;
+        this.emit();
+    }
+
+    restart(identity: number) {
+        const bundle = this.find(identity);
+        if (!bundle || !this.identityState.retire(identity)) {
+            this.count(identity, "staleIntents");
+            this.message = `Restart from retired run ${identity} rejected.`;
+            this.emit();
+            return;
+        }
+        bundle.outcome = "retired";
+        this.count(identity, "restartCount");
+        const replacement = this.createBundle("A");
+        this.message = `Run ${identity} restarted; run ${replacement.identity} owns the timer.`;
+        this.emit();
+    }
+
+    cancel(identity: number) {
+        const bundle = this.find(identity);
+        if (!bundle || !this.identityState.retire(identity)) {
+            this.count(identity, "staleIntents");
+            this.message = `Cancel from retired run ${identity} rejected.`;
+            this.emit();
+            return;
+        }
+        bundle.outcome = "cancelled";
+        this.count(identity, "cancelCount");
+        this.message = `Run ${identity} cancelled; the timer stays mounted until Unmount.`;
+        this.emit();
+    }
+
+    complete(identity: number) {
+        const bundle = this.find(identity);
+        const accepted =
+            bundle !== undefined &&
+            this.identityState.complete(identity, () => {
+                bundle.outcome = "completed";
+                this.count(identity, "completionCount");
+                this.message = `Run ${identity} completed.`;
+            });
+        if (!accepted) {
+            this.count(identity, "rejectedCompletions");
+            this.message = `Completion from retired run ${identity} rejected.`;
+        }
+        this.emit();
+    }
+
+    replayIntent(identity: number, intent: "restart" | "cancel" | "complete") {
+        const bundle = this.find(identity);
+        if (!bundle) return;
+        if (intent === "restart") bundle.onRestart();
+        else if (intent === "cancel") bundle.onCancel();
+        else bundle.onComplete();
+    }
+
+    advance(identity: number, seconds: number) {
+        this.find(identity)?.harness.clock.advanceBy(seconds);
+        this.message = `Run ${identity} clock advanced by ${seconds}s.`;
+        this.emit();
+    }
+
+    advancePastEnd(identity: number) {
+        this.find(identity)?.harness.clock.advancePastRunEnd();
+        this.message = `Run ${identity} clock advanced past the run end.`;
+        this.emit();
+    }
+
+    captureWake(identity: number) {
+        const bundle = this.find(identity);
+        if (!bundle) return;
+        bundle.capturedWake = bundle.harness.clock.captureActiveWake();
+        this.message = bundle.capturedWake ? `Run ${identity} wake ${bundle.capturedWake.id} captured.` : `Run ${identity} has no scheduled wake to capture.`;
+        this.emit();
+    }
+
+    fireCapturedWake(identity: number) {
+        const bundle = this.find(identity);
+        if (!bundle?.capturedWake) {
+            this.message = `Run ${identity} has no captured wake.`;
+            this.emit();
+            return;
+        }
+        const fired = bundle.harness.clock.fireCapturedWake(bundle.capturedWake);
+        if (fired) this.count(identity, "staleWakeFires");
+        this.message = `Run ${identity} captured wake ${bundle.capturedWake.id} fired: ${fired}.`;
+        this.emit();
+    }
+
+    resolve(identity: number, resource: "audio" | "resume" | "wake") {
+        const harness = this.find(identity)?.harness;
+        if (!harness) return;
+        if (resource === "audio") harness.resolveInitialAudio();
+        else if (resource === "resume") harness.resolveResumeAudio();
+        else harness.resolveWakeGrants();
+        this.message = `Run ${identity} ${resource} resolved.`;
+        this.emit();
+    }
+
+    setHidden(hidden: boolean) {
+        this.visibility.setHidden(hidden);
+        this.message = hidden ? "Fixture page hidden." : "Fixture page visible.";
+        this.emit();
+    }
+
+    unmount(identity: number) {
+        const bundle = this.find(identity);
+        if (!bundle?.mounted) return;
+        bundle.mounted = false;
+        this.message = `Run ${identity} unmounted.`;
+        this.emit();
+    }
+}
+
+const RESTART_COUNTER_LABELS: [LifecycleCounter, string][] = [
+    ["audioSchedules", "audio-schedules"],
+    ["audioCancellations", "audio-cancellations"],
+    ["audioCloses", "audio-closes"],
+    ["wakeRequests", "wake-requests"],
+    ["wakeReleases", "wake-releases"],
+    ["resumeAudioRequests", "resume-audio-requests"],
+    ["staleWakeFires", "stale-wake-fires"],
+    ["completionCount", "completions"],
+    ["rejectedCompletions", "rejected-completions"],
+    ["cancelCount", "cancels"],
+    ["restartCount", "restarts"],
+    ["staleIntents", "stale-intents"],
+];
+
+const RESTART_SCENARIOS: { scenario: CancelScenario; label: string }[] = [
+    { scenario: "A", label: "initial audio pending" },
+    { scenario: "B", label: "active" },
+    { scenario: "C", label: "paused (use Pause)" },
+    { scenario: "D", label: "pending Resume (Pause, then Resume)" },
+];
+
+function RunActionButton({ label, disabled, onAction }: { label: string; disabled?: boolean; onAction: () => void }) {
+    return (
+        <Button type="button" variant="outline" disabled={disabled} onClick={onAction}>
+            {label}
+        </Button>
+    );
+}
+
+function HeldMountedRestartFixture() {
+    const [lab] = useState(() => new RestartLab());
+    useSyncExternalStore(lab.subscribe, lab.getVersion, lab.getVersion);
+    const latest = lab.bundles.at(-1);
+
+    return (
+        <Card data-fixture="held-mounted-restart" data-testid="held-mounted-restart-fixture">
+            <CardHeader>
+                <CardTitle>Held-mounted Restart lifecycle gate</CardTitle>
+                <CardDescription>
+                    Real DrillTimer and run-identity guard. Each Restart creates a new keyed child and resource bundle; retired children stay mounted (hidden) until unmounted.
+                </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+                {!latest && (
+                    <div className="grid gap-2 sm:grid-cols-2">
+                        {RESTART_SCENARIOS.map(({ scenario, label }) => (
+                            <Button
+                                key={scenario}
+                                type="button"
+                                variant="outline"
+                                data-restart-scenario={scenario}
+                                onClick={() => {
+                                    lab.start(scenario);
+                                }}
+                            >
+                                {`Start run ${scenario} — ${label}`}
+                            </Button>
+                        ))}
+                    </div>
+                )}
+                <p role="status" data-testid="restart-message" className="text-muted-foreground text-sm">
+                    {lab.message}
+                </p>
+                <div className="flex flex-wrap items-center gap-2">
+                    <RunActionButton
+                        label="Hide fixture page"
+                        onAction={() => {
+                            lab.setHidden(true);
+                        }}
+                    />
+                    <RunActionButton
+                        label="Show fixture page"
+                        onAction={() => {
+                            lab.setHidden(false);
+                        }}
+                    />
+                    <span data-testid="restart-visibility" className="text-muted-foreground text-sm">
+                        {lab.visibility.isHidden() ? "hidden" : "visible"}
+                    </span>
+                </div>
+                {lab.bundles.map((bundle) => (
+                    <div key={bundle.identity} hidden={bundle !== latest} data-restart-slot={bundle.identity}>
+                        {bundle.mounted ? (
+                            <div data-testid="restart-timer" className="border-border rounded-md border p-4">
+                                <DrillTimer
+                                    configuration={RESTART_FIXTURE_CONFIGURATION}
+                                    audio={bundle.harness.audio}
+                                    wakeLock={bundle.harness.wakeLock}
+                                    clock={bundle.harness.clock}
+                                    visibility={lab.visibility}
+                                    createResumeAudio={bundle.harness.createResumeAudio}
+                                    onComplete={bundle.onComplete}
+                                    onCancel={bundle.onCancel}
+                                    onRestart={bundle.onRestart}
+                                />
+                            </div>
+                        ) : (
+                            <p role="status" className="text-muted-foreground text-sm">
+                                Run {bundle.identity} timer unmounted.
+                            </p>
+                        )}
+                    </div>
+                ))}
+                {lab.bundles.map((bundle) => {
+                    const run = bundle.identity;
+                    const counters = lab.counters.get(run) ?? EMPTY_LIFECYCLE_COUNTERS;
+                    return (
+                        <section key={run} aria-label={`Run ${run} controls`} data-run-controls={run} className="border-border space-y-2 rounded-md border p-3">
+                            <h3 className="text-sm font-semibold">
+                                Run {run} — <span data-run-outcome={run}>{bundle.outcome}</span> — {bundle.mounted ? "mounted" : "unmounted"}
+                            </h3>
+                            <dl className="grid grid-cols-2 gap-x-4 gap-y-1 text-sm" data-run-counters={run}>
+                                {RESTART_COUNTER_LABELS.map(([counter, label]) => (
+                                    <div key={counter} className="contents">
+                                        <dt>{label}</dt>
+                                        <dd data-counter={label}>{counters[counter]}</dd>
+                                    </div>
+                                ))}
+                            </dl>
+                            <div className="grid gap-2 sm:grid-cols-2">
+                                <RunActionButton
+                                    label={`Resolve initial audio (run ${run})`}
+                                    onAction={() => {
+                                        lab.resolve(run, "audio");
+                                    }}
+                                />
+                                <RunActionButton
+                                    label={`Resolve Resume audio (run ${run})`}
+                                    onAction={() => {
+                                        lab.resolve(run, "resume");
+                                    }}
+                                />
+                                <RunActionButton
+                                    label={`Resolve Wake Lock grants (run ${run})`}
+                                    onAction={() => {
+                                        lab.resolve(run, "wake");
+                                    }}
+                                />
+                                <RunActionButton
+                                    label={`Advance clock 4s (run ${run})`}
+                                    onAction={() => {
+                                        lab.advance(run, 4);
+                                    }}
+                                />
+                                <RunActionButton
+                                    label={`Advance clock past end (run ${run})`}
+                                    onAction={() => {
+                                        lab.advancePastEnd(run);
+                                    }}
+                                />
+                                <RunActionButton
+                                    label={`Capture scheduled wake (run ${run})`}
+                                    onAction={() => {
+                                        lab.captureWake(run);
+                                    }}
+                                />
+                                <RunActionButton
+                                    label={`Fire captured wake (run ${run})`}
+                                    onAction={() => {
+                                        lab.fireCapturedWake(run);
+                                    }}
+                                />
+                                <RunActionButton
+                                    label={`Invoke completion callback (run ${run})`}
+                                    onAction={() => {
+                                        lab.replayIntent(run, "complete");
+                                    }}
+                                />
+                                <RunActionButton
+                                    label={`Replay Restart intent (run ${run})`}
+                                    onAction={() => {
+                                        lab.replayIntent(run, "restart");
+                                    }}
+                                />
+                                <RunActionButton
+                                    label={`Replay Cancel intent (run ${run})`}
+                                    onAction={() => {
+                                        lab.replayIntent(run, "cancel");
+                                    }}
+                                />
+                                <RunActionButton
+                                    label={`Unmount run ${run}`}
+                                    disabled={!bundle.mounted}
+                                    onAction={() => {
+                                        lab.unmount(run);
+                                    }}
+                                />
+                            </div>
+                        </section>
+                    );
+                })}
             </CardContent>
         </Card>
     );
@@ -659,6 +1140,9 @@ export default function TimerUiPreview() {
                                 onCancel={() => {
                                     setPreviewStatus(`${title} fixture cancelled; the preview remains mounted.`);
                                 }}
+                                onRestart={() => {
+                                    setPreviewStatus(`${title} fixture restarted; the preview remains mounted.`);
+                                }}
                                 onPause={() => {
                                     setPreviewStatus(`${title} fixture paused.`);
                                 }}
@@ -671,6 +1155,7 @@ export default function TimerUiPreview() {
                 ))}
             </section>
             <HeldMountedCancelFixture />
+            <HeldMountedRestartFixture />
             <section aria-label="Completion and empty timer state" className="grid gap-6 lg:grid-cols-2">
                 <Card data-fixture="completed" data-testid="timer-empty-state" data-visual-state="empty">
                     <CardHeader>

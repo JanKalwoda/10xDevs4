@@ -8,6 +8,8 @@ import { createDrillAudio, type DrillAudioPort } from "@/lib/drill-audio";
 import { createDrillWakeLockController, type WakeLockProvider, type WakeLockSentinelPort } from "@/lib/drill-wake-lock";
 import { createDrillWakeLockSession, type DrillWakeLockSession } from "@/lib/drill-wake-lock-session";
 import type { DrillConfigInput } from "@/lib/drill-timer";
+import { createDrillRunIdentityState } from "@/lib/drill-run-identity";
+import { browserDrillVisibility } from "@/lib/drill-visibility";
 import type { DrillConfiguration } from "@/types";
 
 const DEFAULT_VALUES: DrillConfigInput = {
@@ -19,6 +21,7 @@ const DEFAULT_VALUES: DrillConfigInput = {
 };
 
 interface ActiveRun {
+    identity: number;
     configuration: Readonly<DrillConfiguration>;
     audio: Promise<DrillAudioPort | null>;
     wakeLock: DrillWakeLockSession;
@@ -52,32 +55,48 @@ export default function DrillApp() {
     const [values, setValues] = useState<DrillConfigInput>(DEFAULT_VALUES);
     const [activeRun, setActiveRun] = useState<ActiveRun | null>(null);
     const [view, setView] = useState<"configuration" | "running" | "completed">("configuration");
+    const [identityState] = useState(createDrillRunIdentityState);
+
+    const createActiveRun = useCallback(
+        (configuration: Readonly<DrillConfiguration>): ActiveRun => {
+            const identity = identityState.begin();
+            // Begin unlocking Web Audio while the Start or Restart gesture is still active.
+            const audio = createDrillAudio();
+            const wakeLock = createDrillWakeLockSession(
+                createDrillWakeLockController(createBrowserWakeLockProvider()),
+                () => !browserDrillVisibility.isHidden(),
+                (onHidden) =>
+                    browserDrillVisibility.subscribe(() => {
+                        if (browserDrillVisibility.isHidden()) onHidden();
+                    }),
+            );
+            void wakeLock.requestForVisibleGesture();
+            return { identity, configuration, audio, wakeLock };
+        },
+        [identityState],
+    );
+
     const complete = useCallback(() => {
-        setView("completed");
-    }, []);
+        if (!activeRun) return;
+        identityState.complete(activeRun.identity, () => {
+            setView("completed");
+        });
+    }, [activeRun, identityState]);
+
     const cancel = useCallback(() => {
+        if (!activeRun || !identityState.retire(activeRun.identity)) return;
         setActiveRun(null);
         setView("configuration");
-    }, []);
+    }, [activeRun, identityState]);
+
+    const restart = useCallback(() => {
+        if (!activeRun || !identityState.retire(activeRun.identity)) return;
+        setActiveRun(createActiveRun(activeRun.configuration));
+        setView("running");
+    }, [activeRun, createActiveRun, identityState]);
 
     function start(snapshot: Readonly<DrillConfiguration>) {
-        // Begin unlocking Web Audio while the Start gesture is still active.
-        const audio = createDrillAudio();
-        const wakeLock = createDrillWakeLockSession(
-            createDrillWakeLockController(createBrowserWakeLockProvider()),
-            () => !document.hidden,
-            (onHidden) => {
-                const onVisibilityChange = () => {
-                    if (document.hidden) onHidden();
-                };
-                document.addEventListener("visibilitychange", onVisibilityChange);
-                return () => {
-                    document.removeEventListener("visibilitychange", onVisibilityChange);
-                };
-            },
-        );
-        void wakeLock.requestForVisibleGesture();
-        setActiveRun({ configuration: snapshot, audio, wakeLock });
+        setActiveRun(createActiveRun(snapshot));
         setView("running");
     }
 
@@ -92,7 +111,15 @@ export default function DrillApp() {
                 <CardContent>
                     {view === "configuration" && <DrillConfigForm values={values} onValuesChange={setValues} onStart={start} />}
                     {view === "running" && activeRun && (
-                        <DrillTimer configuration={activeRun.configuration} audio={activeRun.audio} wakeLock={activeRun.wakeLock} onComplete={complete} onCancel={cancel} />
+                        <DrillTimer
+                            key={activeRun.identity}
+                            configuration={activeRun.configuration}
+                            audio={activeRun.audio}
+                            wakeLock={activeRun.wakeLock}
+                            onComplete={complete}
+                            onCancel={cancel}
+                            onRestart={restart}
+                        />
                     )}
                     {view === "completed" && (
                         <DrillCompleted
