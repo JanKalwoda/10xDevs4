@@ -14,14 +14,14 @@
 
 ## Verdicts
 
-| Dimension           | Verdict                                                  |
-| ------------------- | -------------------------------------------------------- |
-| Plan Adherence      | PASS                                                     |
-| Scope Discipline    | PASS                                                     |
-| Safety & Quality    | PASS                                                     |
-| Architecture        | PASS                                                     |
-| Pattern Consistency | PASS                                                     |
-| Success Criteria    | PASS for local implementation gates; PR CI/smoke pending |
+| Dimension           | Verdict                           |
+| ------------------- | --------------------------------- |
+| Plan Adherence      | PASS                              |
+| Scope Discipline    | PASS                              |
+| Safety & Quality    | PASS                              |
+| Architecture        | PASS                              |
+| Pattern Consistency | PASS                              |
+| Success Criteria    | PASS, local gates and PR CI/smoke |
 
 ## Findings
 
@@ -54,7 +54,7 @@ The coordinator's keyboard helper also passed all four viewport/theme combinatio
 
 ## Integration gate
 
-Progress 2.4 remains pending until the required PR CI and production-preview smoke pass. This source review does not assert that those runs or deployment have happened. Merge requires green checks on the actual final PR head.
+Progress 2.4 is complete: CI and production-preview Mailpit smoke passed on PR #33 head 186c63d33780ebbf02a01a7dc22fe8e3295e57d5, workflow run 37268008764. Deployment remains pending. Merge requires green checks on the actual final PR head, including any subsequent documentation commit.
 
 ## Limits
 

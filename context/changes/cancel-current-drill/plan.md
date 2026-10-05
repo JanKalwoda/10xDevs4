@@ -77,6 +77,7 @@ Implement the usable Cancel path and its synchronous resource boundary. Update e
 **Contract**: Add a narrow `DrillRun.stop()` regression for scheduled work/audio cancellation and no false completion. Add a deterministic development-only fixture that mounts the real `DrillTimer` and holds it mounted after Cancel; its parent records `onCancel` without switching views, and a separate Unmount button releases teardown. Count `onCancel`/`onComplete`, audio schedule/cancel/close, Wake Lock provider requests and sentinel releases, and the visible timer display. Use the existing `audio` Promise prop for deferred initial audio, a real `WakeLockSession` built over the real controller with a fake provider, a fake `DrillClock` implementing `now`/`setWake`/`clearWake`, and a deferred `createResumeAudio` factory. Retain a cleared clock callback separately so scenario B can fire that stale wake once. Do not monkeypatch global timers or `performance`, and add no dependency or test framework.
 
 Cover four separate scenarios:
+
 - A — Pending initial audio: start the same initial visible-gesture Wake Lock request as `DrillApp`, mount `DrillTimer` with unresolved audio, click Cancel, then resolve the audio port and pending Wake Lock grant before unmount. The late port closes and late grant releases.
 - B — Active: resolve initial audio and let the real `DrillTimer` start its run and schedule audio. Click Cancel, move fake `now` beyond the run end, then invoke the retained stale clock wake. The production timer display stays unchanged, `onComplete` remains zero, and no further audio schedule occurs.
 - C — Paused: pause an active run, Cancel, and check that no new audio schedule, Wake Lock request, display update, or completion occurs.
@@ -186,4 +187,4 @@ Not applicable; cancellation is local to the active guest run and does not persi
 #### Manual
 
 - [x] 2.3 The seven-state `/dev/timer-ui` gate passes in light/dark at 1280/390 px; screenshots are saved/reviewed and the hard-coded-value scan remains at zero. — fdf649568cc35355488292878aa33907c4b6748f
-- [ ] 2.4 The held-mounted lifecycle gate still passes and Phase 2 is committed separately; final-head review and required PR CI/smoke pass before coordinator merge.
+- [x] 2.4 The held-mounted lifecycle gate still passes and Phase 2 is committed separately; final-head review and required PR CI/smoke pass before coordinator merge. — Phase 2 fdf649568cc35355488292878aa33907c4b6748f; full review APPROVED; CI and Mailpit smoke PASS on 186c63d33780ebbf02a01a7dc22fe8e3295e57d5 (run 37268008764). Any later documentation head must also pass required checks before merge.
