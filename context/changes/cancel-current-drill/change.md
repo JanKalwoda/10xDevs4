@@ -1,7 +1,7 @@
 ---
 change_id: cancel-current-drill
 title: Cancel the current drill
-status: implementing
+status: impl_reviewed
 created: 2026-10-04
 updated: 2026-10-05
 archived_at: null
