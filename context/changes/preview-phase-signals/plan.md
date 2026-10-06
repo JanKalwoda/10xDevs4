@@ -216,7 +216,7 @@ None (no data or env changes).
 #### Automated
 
 - [x] 2.1 All gates pass — 41f306c
-- [ ] 2.2 Preview click never invokes Start
+- [x] 2.2 Preview click never invokes Start — 00a863c
 
 #### Manual
 
@@ -226,7 +226,7 @@ None (no data or env changes).
 
 #### Automated
 
-- [ ] 3.1 All gates pass and screenshots exist for every required state, theme and viewport
+- [x] 3.1 All gates pass and screenshots exist for every required state, theme and viewport — 00a863c
 
 #### Manual
 
