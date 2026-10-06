@@ -97,4 +97,4 @@ All pages are server-rendered by default. API routes must export `const prerende
 
 ## Account-entry UI
 
-- Account-entry pages and the root account link use semantic tokens from src/styles/global.css and existing primitives from src/components/ui; avoid palette classes, literal colors, and arbitrary dimensions. npm run lint enforces this on the auth views and root shell. Keep visual evidence in context/changes/enter-account-by-email-link/screenshots/.
+- Account-entry pages and the root account link use semantic tokens from src/styles/global.css and existing primitives from src/components/ui; avoid palette classes, literal colors, and arbitrary dimensions. npm run lint enforces this on the auth views and root shell. Keep visual evidence in context/archive/2026-10-03-enter-account-by-email-link/screenshots/.
