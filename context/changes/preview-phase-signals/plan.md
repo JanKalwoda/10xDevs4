@@ -208,8 +208,8 @@ None (no data or env changes).
 
 #### Automated
 
-- [x] 1.1 Preview and controller unit tests pass
-- [x] 1.2 Lint, contract rule tests, astro sync/check and build pass
+- [x] 1.1 Preview and controller unit tests pass — e743851
+- [x] 1.2 Lint, contract rule tests, astro sync/check and build pass — e743851
 
 ### Phase 2: Preview controls in the configuration form
 
