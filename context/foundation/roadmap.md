@@ -3,7 +3,7 @@ project: "DryFire Drill Timer"
 version: 1
 status: draft
 created: 2026-09-23
-updated: 2026-10-06
+updated: 2026-10-07
 prd_version: 1
 main_goal: speed
 top_blocker: capacity
@@ -23,7 +23,7 @@ milestone_status: open
 
 - **Intent:** Użytkownik przeprowadza pełne ćwiczenie z nieprzewidywalnym startem, a po zalogowaniu zachowuje i ponownie wykorzystuje własne ustawienia. Pierwszy działający rezultat to timer bez zapisu konfiguracji, zgodnie z `shape-notes.md` §Forward: technical-roadmap.
 - **Source materials:** `context/foundation/prd.md` (v1); `context/foundation/shape-notes.md` §Forward: technical-roadmap; opis użytkownika dotyczący dopracowania UI głównego timera.
-- **Done when:** każdy F-NN i S-NN poniżej ma status `done`, a pełny przebieg został sprawdzony w przeglądarce na komputerze i telefonie.
+- **Done when:** każdy F-NN i S-NN poniżej poza odroczonym S-05 (kolory faz) i zablokowanym S-14 ma status `done`, a pełny przebieg został sprawdzony w przeglądarce na komputerze i telefonie.
 - **Scope anchors:** FR-001–FR-014; US-01–US-03; MS-01: dopracowanie istniejącego widoku głównego timera pod `/` na telefonie i komputerze.
 
 ## Vision recap
@@ -47,14 +47,14 @@ Obecny timer HIIT pozwala ustawić fazy i powtórzenia, lecz jego przewidywalny 
 | S-15 | polish-timer-view | Użytkownik korzysta ze spójnego i czytelnego widoku timera podczas konfiguracji, przebiegu i po zakończeniu | S-02 | MS-01, US-01, FR-005 | done |
 | S-03 | preview-phase-signals | Użytkownik odsłuchuje sygnały i rozumie ich znaczenie przed uruchomieniem | S-02 | US-01, FR-004 | ready |
 | S-04 | view-three-phase-sections | Użytkownik widzi odliczanie, aktualną i następną fazę w trzech sekcjach | S-02 | US-02, FR-005, FR-013 | ready |
-| S-05 | choose-phase-colors | Użytkownik wybiera i widzi osobne kolory czterech faz | S-04 | US-03, FR-013, FR-014 | blocked |
+| S-05 | choose-phase-colors | Użytkownik wybiera i widzi osobne kolory czterech faz | S-04 | US-03, FR-013, FR-014 | deferred |
 | S-06 | pause-and-resume-drill | Użytkownik wstrzymuje przebieg i wznawia właściwe powtórzenie | S-02 | US-01, FR-006 | done |
 | S-07 | cancel-current-drill | Użytkownik anuluje przebieg i wraca do ustawień | S-01 | US-01, FR-007 | done |
 | S-08 | restart-whole-drill | Użytkownik uruchamia cały przebieg ponownie od początku | S-02 | US-01, FR-008 | done |
 | S-09 | enter-account-by-email-link | Użytkownik tworzy konto lub loguje się przez link email | — | FR-009 | done |
-| S-10 | save-named-drill | Użytkownik zapisuje nazwaną konfigurację ze swoimi kolorami | S-05, S-09 | US-03, FR-010, FR-014 | proposed |
+| S-10 | save-named-drill | Użytkownik zapisuje nazwaną konfigurację (bez kolorów faz) | S-09 | FR-010 | proposed |
 | S-11 | open-saved-drill | Użytkownik widzi własne konfiguracje i uruchamia wybraną | S-10 | FR-011 | proposed |
-| S-12 | edit-saved-drill | Użytkownik zmienia własną zapisaną konfigurację | S-10 | US-03, FR-012, FR-014 | proposed |
+| S-12 | edit-saved-drill | Użytkownik zmienia własną zapisaną konfigurację | S-10 | FR-012 | proposed |
 | S-13 | delete-saved-drill | Użytkownik usuwa własną konfigurację po potwierdzeniu | S-10 | FR-012 | proposed |
 | S-14 | align-bluetooth-audio | Użytkownik ze słuchawkami Bluetooth wyrównuje widok faz ze słyszanymi sygnałami | S-02 | FR-002, FR-004, FR-005 | blocked |
 
@@ -64,10 +64,10 @@ Strumienie ułatwiają czytanie równoległych ścieżek. Strzałka oznacza zale
 
 | Stream | Theme | Chain | Note |
 | --- | --- | --- | --- |
-| A | Główny przebieg i widok | `S-01` → `S-02` → (`S-15`, `S-04` → `S-05`, `S-14`) | Po działającym przebiegu dopracowuje jego UI oraz rozwija podgląd faz i synchronizację audio. |
+| A | Główny przebieg i widok | `S-01` → `S-02` → (`S-15`, `S-04` → `S-05` (odroczony), `S-14`) | Po działającym przebiegu dopracowuje jego UI oraz rozwija podgląd faz i synchronizację audio. |
 | B | Odsłuch sygnałów | `S-03` | Korzysta z sygnałów wprowadzonych w S-02. |
 | C | Sterowanie przebiegiem | `S-06`, `S-07`, `S-08` | S-07 wymaga S-01; S-06 i S-08 wymagają S-02. |
-| D | Dostęp do konta i zapis | `S-09` → `S-10` | Zapis S-10 wymaga też wyboru kolorów z S-05. |
+| D | Dostęp do konta i zapis | `S-09` → `S-10` | Zapis S-10 nie wymaga już S-05; kolory faz są odroczone razem z S-05. |
 | E | Korzystanie z zapisów | `S-11`, `S-12`, `S-13` | Trzy niezależne działania po zapisie S-10. |
 
 ## Baseline
@@ -159,7 +159,7 @@ Brak osobnych Foundations. Konfigurację danych, ochronę własności i weryfika
 - **Unknowns:**
   - Jakie dokładne odcienie dziewięciu kolorów spełniają rozróżnialność i kontrast z czarną czcionką? — Owner: user. Block: yes.
 - **Risk:** Dobór odcieni przed implementacją ogranicza poprawki interfejsu i ryzyko nieczytelności na telefonie.
-- **Status:** blocked
+- **Status:** deferred — odroczone decyzją użytkownika (2026-10-07); S-10–S-13 realizujemy bez kolorów faz, bez kolumny na kolory w bazie.
 
 ### S-06: Pauza i bezpieczne wznowienie
 
@@ -212,19 +212,19 @@ Brak osobnych Foundations. Konfigurację danych, ochronę własności i weryfika
 
 ### S-10: Zapis nazwanej konfiguracji
 
-- **Outcome:** Zalogowany użytkownik nadaje nazwę ustawieniom timera i zapisuje je wraz z osobnymi kolorami faz, dostępnymi tylko jemu.
+- **Outcome:** Zalogowany użytkownik tworzy nowy timer pod `/create`, nadaje mu nazwę i zapisuje parametry timera (bez kolorów faz), dostępne tylko dla niego. Nazwa jest unikalna w obrębie użytkownika i ma najwyżej 200 znaków; użytkownik ma najwyżej 50 zapisanych konfiguracji. Gość i zalogowany użytkownik nadal widzą domyślny timer pod `/`.
 - **Change ID:** save-named-drill
-- **PRD refs:** US-03, FR-010, FR-014
-- **Prerequisites:** S-05, S-09
+- **PRD refs:** FR-010
+- **Prerequisites:** S-09
 - **Parallel with:** S-03, S-06, S-07, S-08
 - **Blockers:** —
 - **Unknowns:** —
-- **Risk:** Pierwsze dane aplikacji wymagają ochrony własności od chwili zapisu, zanim zostaną udostępnione na liście.
+- **Risk:** Pierwsze dane aplikacji wymagają ochrony własności (RLS, unikalność nazwy per użytkownik, limit 50) od chwili zapisu, zanim zostaną udostępnione na liście. Migracja musi trafić na hostowany Supabase przed wdrożeniem kodu, który z niej korzysta (merge do `main` wdraża automatycznie). Kolory faz odroczone: bez kolumny na kolory.
 - **Status:** proposed
 
 ### S-11: Powrót do zapisanej konfiguracji
 
-- **Outcome:** Zalogowany użytkownik po wejściu lub odświeżeniu strony widzi listę własnych nazwanych konfiguracji z parametrami, otwiera szczegóły i uruchamia wybraną.
+- **Outcome:** Zalogowany użytkownik po wejściu lub odświeżeniu strony `/dashboard` (strona startowa zalogowanego) widzi listę własnych nazwanych konfiguracji z parametrami albo tekst informujący, że nie ma jeszcze zapisanych timerów; pod `/{id_timera}` otwiera szczegóły i uruchamia wybraną konfigurację.
 - **Change ID:** open-saved-drill
 - **PRD refs:** FR-011
 - **Prerequisites:** S-10
@@ -236,14 +236,14 @@ Brak osobnych Foundations. Konfigurację danych, ochronę własności i weryfika
 
 ### S-12: Edycja własnej konfiguracji
 
-- **Outcome:** Zalogowany użytkownik zmienia parametry i kolory jednej zapisanej konfiguracji bez modyfikowania innych.
+- **Outcome:** Zalogowany użytkownik zmienia nazwę i parametry jednej zapisanej konfiguracji (bez kolorów faz) bez modyfikowania innych; unikalność nazwy per użytkownik i limit 200 znaków obowiązują także przy edycji.
 - **Change ID:** edit-saved-drill
-- **PRD refs:** US-03, FR-012, FR-014
+- **PRD refs:** FR-012
 - **Prerequisites:** S-10
 - **Parallel with:** S-11, S-13
 - **Blockers:** —
 - **Unknowns:** —
-- **Risk:** Zmiana kolorów jednego zestawu nie może przeniknąć do pozostałych zapisanych konfiguracji.
+- **Risk:** Zmiana jednej konfiguracji nie może przeniknąć do pozostałych ani do cudzych danych.
 - **Status:** proposed
 
 ### S-13: Usunięcie własnej konfiguracji
@@ -281,20 +281,20 @@ Brak osobnych Foundations. Konfigurację danych, ochronę własności i weryfika
 | S-15 | polish-timer-view | Dopracowanie widoku głównego timera | yes | Działający widok pod `/`; dla `/10x-ui` użyj Change ID `polish-timer-view`. |
 | S-03 | preview-phase-signals | Odsłuch sygnałów w konfiguracji | yes | Po S-02. |
 | S-04 | view-three-phase-sections | Trzy sekcje przebiegu i podglądu | yes | Po S-02. |
-| S-05 | choose-phase-colors | Wybór kolorów faz | no | Wymaga wyboru odcieni i S-04. |
+| S-05 | choose-phase-colors | Wybór kolorów faz | no | Odroczone (2026-10-07); wymaga wyboru odcieni i S-04. |
 | S-06 | pause-and-resume-drill | Pauza i ręczne wznowienie | yes | Po S-02. |
 | S-07 | cancel-current-drill | Anulowanie przebiegu | yes | Po S-01. |
 | S-08 | restart-whole-drill | Restart przebiegu | yes | Po S-02. |
 | S-09 | enter-account-by-email-link | Wejście do konta linkiem email | yes | Równolegle z S-01, po pierwszym działającym timerze w domyślnej kolejności. |
-| S-10 | save-named-drill | Zapis nazwanej konfiguracji | no | Po S-05 i S-09. |
-| S-11 | open-saved-drill | Lista i uruchomienie zapisanej konfiguracji | no | Po S-10. |
+| S-10 | save-named-drill | Zapis nazwanej konfiguracji | yes | Po S-09; bez kolorów (S-05 odroczone); `/create`, limity 200 znaków i 50 konfiguracji. |
+| S-11 | open-saved-drill | Lista i uruchomienie zapisanej konfiguracji | no | Po S-10; `/dashboard` i `/{id_timera}`. |
 | S-12 | edit-saved-drill | Edycja zapisanej konfiguracji | no | Po S-10. |
 | S-13 | delete-saved-drill | Usunięcie zapisanej konfiguracji | no | Po S-10. |
 | S-14 | align-bluetooth-audio | Wyrównanie widoku i sygnałów na słuchawkach Bluetooth | no | Po S-02; najpierw rozstrzygnąć metodę kalibracji i pomiaru słyszalnego opóźnienia. |
 
 ## Open Roadmap Questions
 
-1. **Jakie dokładne odcienie zastosować dla dziewięciu wybranych kolorów?** — Do dobrania podczas projektowania interfejsu, przed implementacją FR-014, z zachowaniem łagodności, wyraźnego rozróżnienia barw i kontrastu z czarną czcionką. Zestaw kolorów i ich domyślne przypisanie do faz są ustalone. — Owner: user. Block: S-05.
+1. **Jakie dokładne odcienie zastosować dla dziewięciu wybranych kolorów?** — Do dobrania podczas projektowania interfejsu, przed implementacją FR-014, z zachowaniem łagodności, wyraźnego rozróżnienia barw i kontrastu z czarną czcionką. Zestaw kolorów i ich domyślne przypisanie do faz są ustalone. — Owner: user. Block: S-05 (odroczone).
 2. **Jak wyrównać i zmierzyć słyszalny sygnał Bluetooth względem widoku fazy?** — Porównać oszacowanie przeglądarki z kalibracją i sprawdzić wynik na docelowych słuchawkach; programowe znaczniki Web Audio nie wystarczą. — Owner: team. Block: S-14.
 
 ## Parked
