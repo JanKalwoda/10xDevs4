@@ -1,0 +1,3338 @@
+{
+ "checks": 424,
+ "failed": 0,
+ "results": [
+  {
+   "theme": "light",
+   "viewport": 1280,
+   "check": "theme class",
+   "ok": true
+  },
+  {
+   "theme": "light",
+   "viewport": 1280,
+   "fixture": "preparation-exercise",
+   "check": "current",
+   "ok": true,
+   "detail": "Preparation · 0:05"
+  },
+  {
+   "theme": "light",
+   "viewport": 1280,
+   "fixture": "preparation-exercise",
+   "check": "detail",
+   "ok": true,
+   "detail": "Preparing"
+  },
+  {
+   "theme": "light",
+   "viewport": 1280,
+   "fixture": "preparation-exercise",
+   "check": "next",
+   "ok": true,
+   "detail": "Next: Exercise — 0:04"
+  },
+  {
+   "theme": "light",
+   "viewport": 1280,
+   "fixture": "preparation-exercise",
+   "check": "main m:ss with timer role",
+   "ok": true,
+   "detail": "0:05"
+  },
+  {
+   "theme": "light",
+   "viewport": 1280,
+   "fixture": "preparation-exercise",
+   "check": "order main<current<next<controls",
+   "ok": true,
+   "detail": "[305,405,477,547]"
+  },
+  {
+   "theme": "light",
+   "viewport": 1280,
+   "fixture": "preparation-exercise",
+   "check": "font hierarchy main>current>next",
+   "ok": true,
+   "detail": "[72,20,18]"
+  },
+  {
+   "theme": "light",
+   "viewport": 1280,
+   "fixture": "preparation-exercise",
+   "check": "Cancel/Restart named and enabled",
+   "ok": true
+  },
+  {
+   "theme": "light",
+   "viewport": 1280,
+   "fixture": "preparation-exercise",
+   "check": "no card overflow",
+   "ok": true,
+   "detail": "[355,355]"
+  },
+  {
+   "theme": "light",
+   "viewport": 1280,
+   "fixture": "preparation-standby",
+   "check": "current",
+   "ok": true,
+   "detail": "Preparation · 0:05"
+  },
+  {
+   "theme": "light",
+   "viewport": 1280,
+   "fixture": "preparation-standby",
+   "check": "detail",
+   "ok": true,
+   "detail": "Preparing"
+  },
+  {
+   "theme": "light",
+   "viewport": 1280,
+   "fixture": "preparation-standby",
+   "check": "next",
+   "ok": true,
+   "detail": "Next: Standby"
+  },
+  {
+   "theme": "light",
+   "viewport": 1280,
+   "fixture": "preparation-standby",
+   "check": "main m:ss with timer role",
+   "ok": true,
+   "detail": "0:05"
+  },
+  {
+   "theme": "light",
+   "viewport": 1280,
+   "fixture": "preparation-standby",
+   "check": "no m:ss in Next: Standby",
+   "ok": true,
+   "detail": "Next: Standby"
+  },
+  {
+   "theme": "light",
+   "viewport": 1280,
+   "fixture": "preparation-standby",
+   "check": "order main<current<next<controls",
+   "ok": true,
+   "detail": "[325,425,497,567]"
+  },
+  {
+   "theme": "light",
+   "viewport": 1280,
+   "fixture": "preparation-standby",
+   "check": "font hierarchy main>current>next",
+   "ok": true,
+   "detail": "[72,20,18]"
+  },
+  {
+   "theme": "light",
+   "viewport": 1280,
+   "fixture": "preparation-standby",
+   "check": "Cancel/Restart named and enabled",
+   "ok": true
+  },
+  {
+   "theme": "light",
+   "viewport": 1280,
+   "fixture": "preparation-standby",
+   "check": "no card overflow",
+   "ok": true,
+   "detail": "[355,355]"
+  },
+  {
+   "theme": "light",
+   "viewport": 1280,
+   "fixture": "exercise-rest",
+   "check": "current",
+   "ok": true,
+   "detail": "Exercise · 0:04"
+  },
+  {
+   "theme": "light",
+   "viewport": 1280,
+   "fixture": "exercise-rest",
+   "check": "detail",
+   "ok": true,
+   "detail": "Repetition 1 of 3"
+  },
+  {
+   "theme": "light",
+   "viewport": 1280,
+   "fixture": "exercise-rest",
+   "check": "next",
+   "ok": true,
+   "detail": "Next: Rest — 0:02"
+  },
+  {
+   "theme": "light",
+   "viewport": 1280,
+   "fixture": "exercise-rest",
+   "check": "main m:ss with timer role",
+   "ok": true,
+   "detail": "0:03"
+  },
+  {
+   "theme": "light",
+   "viewport": 1280,
+   "fixture": "exercise-rest",
+   "check": "order main<current<next<controls",
+   "ok": true,
+   "detail": "[305,405,477,547]"
+  },
+  {
+   "theme": "light",
+   "viewport": 1280,
+   "fixture": "exercise-rest",
+   "check": "font hierarchy main>current>next",
+   "ok": true,
+   "detail": "[72,20,18]"
+  },
+  {
+   "theme": "light",
+   "viewport": 1280,
+   "fixture": "exercise-rest",
+   "check": "Cancel/Restart named and enabled",
+   "ok": true
+  },
+  {
+   "theme": "light",
+   "viewport": 1280,
+   "fixture": "exercise-rest",
+   "check": "no card overflow",
+   "ok": true,
+   "detail": "[355,355]"
+  },
+  {
+   "theme": "light",
+   "viewport": 1280,
+   "fixture": "exercise-complete",
+   "check": "current",
+   "ok": true,
+   "detail": "Exercise · 0:04"
+  },
+  {
+   "theme": "light",
+   "viewport": 1280,
+   "fixture": "exercise-complete",
+   "check": "detail",
+   "ok": true,
+   "detail": "Repetition 1 of 1"
+  },
+  {
+   "theme": "light",
+   "viewport": 1280,
+   "fixture": "exercise-complete",
+   "check": "next",
+   "ok": true,
+   "detail": "Next: Drill complete"
+  },
+  {
+   "theme": "light",
+   "viewport": 1280,
+   "fixture": "exercise-complete",
+   "check": "main m:ss with timer role",
+   "ok": true,
+   "detail": "0:03"
+  },
+  {
+   "theme": "light",
+   "viewport": 1280,
+   "fixture": "exercise-complete",
+   "check": "order main<current<next<controls",
+   "ok": true,
+   "detail": "[429,529,601,671]"
+  },
+  {
+   "theme": "light",
+   "viewport": 1280,
+   "fixture": "exercise-complete",
+   "check": "font hierarchy main>current>next",
+   "ok": true,
+   "detail": "[72,20,18]"
+  },
+  {
+   "theme": "light",
+   "viewport": 1280,
+   "fixture": "exercise-complete",
+   "check": "Cancel/Restart named and enabled",
+   "ok": true
+  },
+  {
+   "theme": "light",
+   "viewport": 1280,
+   "fixture": "exercise-complete",
+   "check": "no card overflow",
+   "ok": true,
+   "detail": "[355,355]"
+  },
+  {
+   "theme": "light",
+   "viewport": 1280,
+   "fixture": "standby-exercise",
+   "check": "current",
+   "ok": true,
+   "detail": "Standby"
+  },
+  {
+   "theme": "light",
+   "viewport": 1280,
+   "fixture": "standby-exercise",
+   "check": "detail",
+   "ok": true,
+   "detail": "Repetition 1 of 3"
+  },
+  {
+   "theme": "light",
+   "viewport": 1280,
+   "fixture": "standby-exercise",
+   "check": "next",
+   "ok": true,
+   "detail": "Next: Exercise — 0:04"
+  },
+  {
+   "theme": "light",
+   "viewport": 1280,
+   "fixture": "standby-exercise",
+   "check": "main is the word Standby, no timer role",
+   "ok": true,
+   "detail": "{\"timer\":null,\"mainText\":\"Standby\",\"mainRole\":null,\"h2\":\"Standby\",\"detail\":\"Repetition 1 of 3\",\"next\":\"Next: Exercise — 0:04\",\"tm\":429,\"th\":529,\"tg\":601,\"tc\":671,\"fm\":72,\"fh\":20,\"fn\":18,\"alert\":null,\"sw\":355,\"cw\":355,\"sectionOverflow\":false}"
+  },
+  {
+   "theme": "light",
+   "viewport": 1280,
+   "fixture": "standby-exercise",
+   "check": "no m:ss in Standby main/current",
+   "ok": true
+  },
+  {
+   "theme": "light",
+   "viewport": 1280,
+   "fixture": "standby-exercise",
+   "check": "order main<current<next<controls",
+   "ok": true,
+   "detail": "[429,529,601,671]"
+  },
+  {
+   "theme": "light",
+   "viewport": 1280,
+   "fixture": "standby-exercise",
+   "check": "font hierarchy main>current>next",
+   "ok": true,
+   "detail": "[72,20,18]"
+  },
+  {
+   "theme": "light",
+   "viewport": 1280,
+   "fixture": "standby-exercise",
+   "check": "Cancel/Restart named and enabled",
+   "ok": true
+  },
+  {
+   "theme": "light",
+   "viewport": 1280,
+   "fixture": "standby-exercise",
+   "check": "no card overflow",
+   "ok": true,
+   "detail": "[355,355]"
+  },
+  {
+   "theme": "light",
+   "viewport": 1280,
+   "fixture": "rest-exercise",
+   "check": "current",
+   "ok": true,
+   "detail": "Rest · 0:02"
+  },
+  {
+   "theme": "light",
+   "viewport": 1280,
+   "fixture": "rest-exercise",
+   "check": "detail",
+   "ok": true,
+   "detail": "Repetition 1 of 3"
+  },
+  {
+   "theme": "light",
+   "viewport": 1280,
+   "fixture": "rest-exercise",
+   "check": "next",
+   "ok": true,
+   "detail": "Next: Exercise — 0:04"
+  },
+  {
+   "theme": "light",
+   "viewport": 1280,
+   "fixture": "rest-exercise",
+   "check": "main m:ss with timer role",
+   "ok": true,
+   "detail": "0:01"
+  },
+  {
+   "theme": "light",
+   "viewport": 1280,
+   "fixture": "rest-exercise",
+   "check": "order main<current<next<controls",
+   "ok": true,
+   "detail": "[429,529,601,671]"
+  },
+  {
+   "theme": "light",
+   "viewport": 1280,
+   "fixture": "rest-exercise",
+   "check": "font hierarchy main>current>next",
+   "ok": true,
+   "detail": "[72,20,18]"
+  },
+  {
+   "theme": "light",
+   "viewport": 1280,
+   "fixture": "rest-exercise",
+   "check": "Cancel/Restart named and enabled",
+   "ok": true
+  },
+  {
+   "theme": "light",
+   "viewport": 1280,
+   "fixture": "rest-exercise",
+   "check": "no card overflow",
+   "ok": true,
+   "detail": "[355,355]"
+  },
+  {
+   "theme": "light",
+   "viewport": 1280,
+   "fixture": "rest-standby",
+   "check": "current",
+   "ok": true,
+   "detail": "Rest · 0:02"
+  },
+  {
+   "theme": "light",
+   "viewport": 1280,
+   "fixture": "rest-standby",
+   "check": "detail",
+   "ok": true,
+   "detail": "Repetition 1 of 3"
+  },
+  {
+   "theme": "light",
+   "viewport": 1280,
+   "fixture": "rest-standby",
+   "check": "next",
+   "ok": true,
+   "detail": "Next: Standby"
+  },
+  {
+   "theme": "light",
+   "viewport": 1280,
+   "fixture": "rest-standby",
+   "check": "main m:ss with timer role",
+   "ok": true,
+   "detail": "0:02"
+  },
+  {
+   "theme": "light",
+   "viewport": 1280,
+   "fixture": "rest-standby",
+   "check": "no m:ss in Next: Standby",
+   "ok": true,
+   "detail": "Next: Standby"
+  },
+  {
+   "theme": "light",
+   "viewport": 1280,
+   "fixture": "rest-standby",
+   "check": "order main<current<next<controls",
+   "ok": true,
+   "detail": "[297,397,469,539]"
+  },
+  {
+   "theme": "light",
+   "viewport": 1280,
+   "fixture": "rest-standby",
+   "check": "font hierarchy main>current>next",
+   "ok": true,
+   "detail": "[72,20,18]"
+  },
+  {
+   "theme": "light",
+   "viewport": 1280,
+   "fixture": "rest-standby",
+   "check": "Cancel/Restart named and enabled",
+   "ok": true
+  },
+  {
+   "theme": "light",
+   "viewport": 1280,
+   "fixture": "rest-standby",
+   "check": "no card overflow",
+   "ok": true,
+   "detail": "[355,355]"
+  },
+  {
+   "theme": "light",
+   "viewport": 1280,
+   "fixture": "rest-complete",
+   "check": "current",
+   "ok": true,
+   "detail": "Rest · 0:02"
+  },
+  {
+   "theme": "light",
+   "viewport": 1280,
+   "fixture": "rest-complete",
+   "check": "detail",
+   "ok": true,
+   "detail": "Repetition 1 of 1"
+  },
+  {
+   "theme": "light",
+   "viewport": 1280,
+   "fixture": "rest-complete",
+   "check": "next",
+   "ok": true,
+   "detail": "Next: Drill complete"
+  },
+  {
+   "theme": "light",
+   "viewport": 1280,
+   "fixture": "rest-complete",
+   "check": "main m:ss with timer role",
+   "ok": true,
+   "detail": "0:01"
+  },
+  {
+   "theme": "light",
+   "viewport": 1280,
+   "fixture": "rest-complete",
+   "check": "order main<current<next<controls",
+   "ok": true,
+   "detail": "[297,397,469,539]"
+  },
+  {
+   "theme": "light",
+   "viewport": 1280,
+   "fixture": "rest-complete",
+   "check": "font hierarchy main>current>next",
+   "ok": true,
+   "detail": "[72,20,18]"
+  },
+  {
+   "theme": "light",
+   "viewport": 1280,
+   "fixture": "rest-complete",
+   "check": "Cancel/Restart named and enabled",
+   "ok": true
+  },
+  {
+   "theme": "light",
+   "viewport": 1280,
+   "fixture": "rest-complete",
+   "check": "no card overflow",
+   "ok": true,
+   "detail": "[355,355]"
+  },
+  {
+   "theme": "light",
+   "viewport": 1280,
+   "fixture": "resume-preparation",
+   "check": "current",
+   "ok": true,
+   "detail": "Preparation · 0:05"
+  },
+  {
+   "theme": "light",
+   "viewport": 1280,
+   "fixture": "resume-preparation",
+   "check": "detail",
+   "ok": true,
+   "detail": "Preparing"
+  },
+  {
+   "theme": "light",
+   "viewport": 1280,
+   "fixture": "resume-preparation",
+   "check": "next",
+   "ok": true,
+   "detail": "Next: Exercise — 0:04"
+  },
+  {
+   "theme": "light",
+   "viewport": 1280,
+   "fixture": "resume-preparation",
+   "check": "main m:ss with timer role",
+   "ok": true,
+   "detail": "0:05"
+  },
+  {
+   "theme": "light",
+   "viewport": 1280,
+   "fixture": "resume-preparation",
+   "check": "order main<current<next<controls",
+   "ok": true,
+   "detail": "[333,433,505,575]"
+  },
+  {
+   "theme": "light",
+   "viewport": 1280,
+   "fixture": "resume-preparation",
+   "check": "font hierarchy main>current>next",
+   "ok": true,
+   "detail": "[72,20,18]"
+  },
+  {
+   "theme": "light",
+   "viewport": 1280,
+   "fixture": "resume-preparation",
+   "check": "Cancel/Restart named and enabled",
+   "ok": true
+  },
+  {
+   "theme": "light",
+   "viewport": 1280,
+   "fixture": "resume-preparation",
+   "check": "no card overflow",
+   "ok": true,
+   "detail": "[355,355]"
+  },
+  {
+   "theme": "light",
+   "viewport": 1280,
+   "fixture": "paused",
+   "check": "current",
+   "ok": true,
+   "detail": "Exercise · 0:04"
+  },
+  {
+   "theme": "light",
+   "viewport": 1280,
+   "fixture": "paused",
+   "check": "detail",
+   "ok": true,
+   "detail": "Repetition 2 of 3"
+  },
+  {
+   "theme": "light",
+   "viewport": 1280,
+   "fixture": "paused",
+   "check": "next",
+   "ok": true,
+   "detail": "Next: Rest — 0:02"
+  },
+  {
+   "theme": "light",
+   "viewport": 1280,
+   "fixture": "paused",
+   "check": "main m:ss with timer role",
+   "ok": true,
+   "detail": "0:02"
+  },
+  {
+   "theme": "light",
+   "viewport": 1280,
+   "fixture": "paused",
+   "check": "order main<current<next<controls",
+   "ok": true,
+   "detail": "[409,509,581,651]"
+  },
+  {
+   "theme": "light",
+   "viewport": 1280,
+   "fixture": "paused",
+   "check": "font hierarchy main>current>next",
+   "ok": true,
+   "detail": "[72,20,18]"
+  },
+  {
+   "theme": "light",
+   "viewport": 1280,
+   "fixture": "paused",
+   "check": "Resume control present",
+   "ok": true
+  },
+  {
+   "theme": "light",
+   "viewport": 1280,
+   "fixture": "paused",
+   "check": "Cancel/Restart named and enabled",
+   "ok": true
+  },
+  {
+   "theme": "light",
+   "viewport": 1280,
+   "fixture": "paused",
+   "check": "no card overflow",
+   "ok": true,
+   "detail": "[355,355]"
+  },
+  {
+   "theme": "light",
+   "viewport": 1280,
+   "fixture": "initializing",
+   "check": "current",
+   "ok": true,
+   "detail": "Preparation · 0:05"
+  },
+  {
+   "theme": "light",
+   "viewport": 1280,
+   "fixture": "initializing",
+   "check": "detail",
+   "ok": true,
+   "detail": "Preparing"
+  },
+  {
+   "theme": "light",
+   "viewport": 1280,
+   "fixture": "initializing",
+   "check": "next",
+   "ok": true,
+   "detail": "Next: Exercise — 0:04"
+  },
+  {
+   "theme": "light",
+   "viewport": 1280,
+   "fixture": "initializing",
+   "check": "no main countdown while initializing",
+   "ok": true,
+   "detail": "[null,null]"
+  },
+  {
+   "theme": "light",
+   "viewport": 1280,
+   "fixture": "initializing",
+   "check": "order current<next<controls",
+   "ok": true
+  },
+  {
+   "theme": "light",
+   "viewport": 1280,
+   "fixture": "initializing",
+   "check": "Cancel/Restart named and enabled",
+   "ok": true
+  },
+  {
+   "theme": "light",
+   "viewport": 1280,
+   "fixture": "initializing",
+   "check": "no card overflow",
+   "ok": true,
+   "detail": "[355,355]"
+  },
+  {
+   "theme": "light",
+   "viewport": 1280,
+   "fixture": "audio-unavailable",
+   "check": "current",
+   "ok": true,
+   "detail": "Exercise · 0:04"
+  },
+  {
+   "theme": "light",
+   "viewport": 1280,
+   "fixture": "audio-unavailable",
+   "check": "detail",
+   "ok": true,
+   "detail": "Repetition 1 of 3"
+  },
+  {
+   "theme": "light",
+   "viewport": 1280,
+   "fixture": "audio-unavailable",
+   "check": "next",
+   "ok": true,
+   "detail": "Next: Rest — 0:02"
+  },
+  {
+   "theme": "light",
+   "viewport": 1280,
+   "fixture": "audio-unavailable",
+   "check": "main m:ss with timer role",
+   "ok": true,
+   "detail": "0:03"
+  },
+  {
+   "theme": "light",
+   "viewport": 1280,
+   "fixture": "audio-unavailable",
+   "check": "order main<current<next<controls",
+   "ok": true,
+   "detail": "[409,509,581,651]"
+  },
+  {
+   "theme": "light",
+   "viewport": 1280,
+   "fixture": "audio-unavailable",
+   "check": "font hierarchy main>current>next",
+   "ok": true,
+   "detail": "[72,20,18]"
+  },
+  {
+   "theme": "light",
+   "viewport": 1280,
+   "fixture": "audio-unavailable",
+   "check": "warning shown",
+   "ok": true,
+   "detail": "Audio unavailable; running silently."
+  },
+  {
+   "theme": "light",
+   "viewport": 1280,
+   "fixture": "audio-unavailable",
+   "check": "Cancel/Restart named and enabled",
+   "ok": true
+  },
+  {
+   "theme": "light",
+   "viewport": 1280,
+   "fixture": "audio-unavailable",
+   "check": "no card overflow",
+   "ok": true,
+   "detail": "[355,355]"
+  },
+  {
+   "theme": "light",
+   "viewport": 1280,
+   "check": "hover changes Restart background",
+   "ok": true,
+   "detail": "oklch(0.9751 0.0127 244.251) -> oklch(0.9505 0.0507 163.051)"
+  },
+  {
+   "theme": "light",
+   "viewport": 1280,
+   "check": "focus-visible ring on Cancel",
+   "ok": true,
+   "detail": "{\"f\":true,\"shadow\":\"rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, oklab(0 0 0 / 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.05) 0px 4px 8px -1px\"}"
+  },
+  {
+   "theme": "light",
+   "viewport": 1280,
+   "check": "initializing: loading slot disabled",
+   "ok": true
+  },
+  {
+   "theme": "light",
+   "viewport": 1280,
+   "check": "Phase sections section has no horizontal overflow",
+   "ok": true,
+   "detail": "{\"sec\":0,\"page\":1280,\"vw\":1280}"
+  },
+  {
+   "theme": "light",
+   "viewport": 1280,
+   "info": "page scrollWidth (whole preview page)",
+   "sec": 0,
+   "page": 1280,
+   "vw": 1280
+  },
+  {
+   "theme": "light",
+   "viewport": 1280,
+   "check": "no page errors",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "theme": "light",
+   "viewport": 390,
+   "check": "theme class",
+   "ok": true
+  },
+  {
+   "theme": "light",
+   "viewport": 390,
+   "fixture": "preparation-exercise",
+   "check": "current",
+   "ok": true,
+   "detail": "Preparation · 0:05"
+  },
+  {
+   "theme": "light",
+   "viewport": 390,
+   "fixture": "preparation-exercise",
+   "check": "detail",
+   "ok": true,
+   "detail": "Preparing"
+  },
+  {
+   "theme": "light",
+   "viewport": 390,
+   "fixture": "preparation-exercise",
+   "check": "next",
+   "ok": true,
+   "detail": "Next: Exercise — 0:04"
+  },
+  {
+   "theme": "light",
+   "viewport": 390,
+   "fixture": "preparation-exercise",
+   "check": "main m:ss with timer role",
+   "ok": true,
+   "detail": "0:05"
+  },
+  {
+   "theme": "light",
+   "viewport": 390,
+   "fixture": "preparation-exercise",
+   "check": "order main<current<next<controls",
+   "ok": true,
+   "detail": "[343,429,501,571]"
+  },
+  {
+   "theme": "light",
+   "viewport": 390,
+   "fixture": "preparation-exercise",
+   "check": "font hierarchy main>current>next",
+   "ok": true,
+   "detail": "[60,20,18]"
+  },
+  {
+   "theme": "light",
+   "viewport": 390,
+   "fixture": "preparation-exercise",
+   "check": "Cancel/Restart named and enabled",
+   "ok": true
+  },
+  {
+   "theme": "light",
+   "viewport": 390,
+   "fixture": "preparation-exercise",
+   "check": "no card overflow",
+   "ok": true,
+   "detail": "[356,356]"
+  },
+  {
+   "theme": "light",
+   "viewport": 390,
+   "fixture": "preparation-standby",
+   "check": "current",
+   "ok": true,
+   "detail": "Preparation · 0:05"
+  },
+  {
+   "theme": "light",
+   "viewport": 390,
+   "fixture": "preparation-standby",
+   "check": "detail",
+   "ok": true,
+   "detail": "Preparing"
+  },
+  {
+   "theme": "light",
+   "viewport": 390,
+   "fixture": "preparation-standby",
+   "check": "next",
+   "ok": true,
+   "detail": "Next: Standby"
+  },
+  {
+   "theme": "light",
+   "viewport": 390,
+   "fixture": "preparation-standby",
+   "check": "main m:ss with timer role",
+   "ok": true,
+   "detail": "0:05"
+  },
+  {
+   "theme": "light",
+   "viewport": 390,
+   "fixture": "preparation-standby",
+   "check": "no m:ss in Next: Standby",
+   "ok": true,
+   "detail": "Next: Standby"
+  },
+  {
+   "theme": "light",
+   "viewport": 390,
+   "fixture": "preparation-standby",
+   "check": "order main<current<next<controls",
+   "ok": true,
+   "detail": "[487,573,645,715]"
+  },
+  {
+   "theme": "light",
+   "viewport": 390,
+   "fixture": "preparation-standby",
+   "check": "font hierarchy main>current>next",
+   "ok": true,
+   "detail": "[60,20,18]"
+  },
+  {
+   "theme": "light",
+   "viewport": 390,
+   "fixture": "preparation-standby",
+   "check": "Cancel/Restart named and enabled",
+   "ok": true
+  },
+  {
+   "theme": "light",
+   "viewport": 390,
+   "fixture": "preparation-standby",
+   "check": "no card overflow",
+   "ok": true,
+   "detail": "[356,356]"
+  },
+  {
+   "theme": "light",
+   "viewport": 390,
+   "fixture": "exercise-rest",
+   "check": "current",
+   "ok": true,
+   "detail": "Exercise · 0:04"
+  },
+  {
+   "theme": "light",
+   "viewport": 390,
+   "fixture": "exercise-rest",
+   "check": "detail",
+   "ok": true,
+   "detail": "Repetition 1 of 3"
+  },
+  {
+   "theme": "light",
+   "viewport": 390,
+   "fixture": "exercise-rest",
+   "check": "next",
+   "ok": true,
+   "detail": "Next: Rest — 0:02"
+  },
+  {
+   "theme": "light",
+   "viewport": 390,
+   "fixture": "exercise-rest",
+   "check": "main m:ss with timer role",
+   "ok": true,
+   "detail": "0:03"
+  },
+  {
+   "theme": "light",
+   "viewport": 390,
+   "fixture": "exercise-rest",
+   "check": "order main<current<next<controls",
+   "ok": true,
+   "detail": "[343,429,501,571]"
+  },
+  {
+   "theme": "light",
+   "viewport": 390,
+   "fixture": "exercise-rest",
+   "check": "font hierarchy main>current>next",
+   "ok": true,
+   "detail": "[60,20,18]"
+  },
+  {
+   "theme": "light",
+   "viewport": 390,
+   "fixture": "exercise-rest",
+   "check": "Cancel/Restart named and enabled",
+   "ok": true
+  },
+  {
+   "theme": "light",
+   "viewport": 390,
+   "fixture": "exercise-rest",
+   "check": "no card overflow",
+   "ok": true,
+   "detail": "[356,356]"
+  },
+  {
+   "theme": "light",
+   "viewport": 390,
+   "fixture": "exercise-complete",
+   "check": "current",
+   "ok": true,
+   "detail": "Exercise · 0:04"
+  },
+  {
+   "theme": "light",
+   "viewport": 390,
+   "fixture": "exercise-complete",
+   "check": "detail",
+   "ok": true,
+   "detail": "Repetition 1 of 1"
+  },
+  {
+   "theme": "light",
+   "viewport": 390,
+   "fixture": "exercise-complete",
+   "check": "next",
+   "ok": true,
+   "detail": "Next: Drill complete"
+  },
+  {
+   "theme": "light",
+   "viewport": 390,
+   "fixture": "exercise-complete",
+   "check": "main m:ss with timer role",
+   "ok": true,
+   "detail": "0:03"
+  },
+  {
+   "theme": "light",
+   "viewport": 390,
+   "fixture": "exercise-complete",
+   "check": "order main<current<next<controls",
+   "ok": true,
+   "detail": "[487,573,645,715]"
+  },
+  {
+   "theme": "light",
+   "viewport": 390,
+   "fixture": "exercise-complete",
+   "check": "font hierarchy main>current>next",
+   "ok": true,
+   "detail": "[60,20,18]"
+  },
+  {
+   "theme": "light",
+   "viewport": 390,
+   "fixture": "exercise-complete",
+   "check": "Cancel/Restart named and enabled",
+   "ok": true
+  },
+  {
+   "theme": "light",
+   "viewport": 390,
+   "fixture": "exercise-complete",
+   "check": "no card overflow",
+   "ok": true,
+   "detail": "[356,356]"
+  },
+  {
+   "theme": "light",
+   "viewport": 390,
+   "fixture": "standby-exercise",
+   "check": "current",
+   "ok": true,
+   "detail": "Standby"
+  },
+  {
+   "theme": "light",
+   "viewport": 390,
+   "fixture": "standby-exercise",
+   "check": "detail",
+   "ok": true,
+   "detail": "Repetition 1 of 3"
+  },
+  {
+   "theme": "light",
+   "viewport": 390,
+   "fixture": "standby-exercise",
+   "check": "next",
+   "ok": true,
+   "detail": "Next: Exercise — 0:04"
+  },
+  {
+   "theme": "light",
+   "viewport": 390,
+   "fixture": "standby-exercise",
+   "check": "main is the word Standby, no timer role",
+   "ok": true,
+   "detail": "{\"timer\":null,\"mainText\":\"Standby\",\"mainRole\":null,\"h2\":\"Standby\",\"detail\":\"Repetition 1 of 3\",\"next\":\"Next: Exercise — 0:04\",\"tm\":343,\"th\":429,\"tg\":501,\"tc\":571,\"fm\":60,\"fh\":20,\"fn\":18,\"alert\":null,\"sw\":356,\"cw\":356,\"sectionOverflow\":false}"
+  },
+  {
+   "theme": "light",
+   "viewport": 390,
+   "fixture": "standby-exercise",
+   "check": "no m:ss in Standby main/current",
+   "ok": true
+  },
+  {
+   "theme": "light",
+   "viewport": 390,
+   "fixture": "standby-exercise",
+   "check": "order main<current<next<controls",
+   "ok": true,
+   "detail": "[343,429,501,571]"
+  },
+  {
+   "theme": "light",
+   "viewport": 390,
+   "fixture": "standby-exercise",
+   "check": "font hierarchy main>current>next",
+   "ok": true,
+   "detail": "[60,20,18]"
+  },
+  {
+   "theme": "light",
+   "viewport": 390,
+   "fixture": "standby-exercise",
+   "check": "Cancel/Restart named and enabled",
+   "ok": true
+  },
+  {
+   "theme": "light",
+   "viewport": 390,
+   "fixture": "standby-exercise",
+   "check": "no card overflow",
+   "ok": true,
+   "detail": "[356,356]"
+  },
+  {
+   "theme": "light",
+   "viewport": 390,
+   "fixture": "rest-exercise",
+   "check": "current",
+   "ok": true,
+   "detail": "Rest · 0:02"
+  },
+  {
+   "theme": "light",
+   "viewport": 390,
+   "fixture": "rest-exercise",
+   "check": "detail",
+   "ok": true,
+   "detail": "Repetition 1 of 3"
+  },
+  {
+   "theme": "light",
+   "viewport": 390,
+   "fixture": "rest-exercise",
+   "check": "next",
+   "ok": true,
+   "detail": "Next: Exercise — 0:04"
+  },
+  {
+   "theme": "light",
+   "viewport": 390,
+   "fixture": "rest-exercise",
+   "check": "main m:ss with timer role",
+   "ok": true,
+   "detail": "0:01"
+  },
+  {
+   "theme": "light",
+   "viewport": 390,
+   "fixture": "rest-exercise",
+   "check": "order main<current<next<controls",
+   "ok": true,
+   "detail": "[487,573,645,715]"
+  },
+  {
+   "theme": "light",
+   "viewport": 390,
+   "fixture": "rest-exercise",
+   "check": "font hierarchy main>current>next",
+   "ok": true,
+   "detail": "[60,20,18]"
+  },
+  {
+   "theme": "light",
+   "viewport": 390,
+   "fixture": "rest-exercise",
+   "check": "Cancel/Restart named and enabled",
+   "ok": true
+  },
+  {
+   "theme": "light",
+   "viewport": 390,
+   "fixture": "rest-exercise",
+   "check": "no card overflow",
+   "ok": true,
+   "detail": "[356,356]"
+  },
+  {
+   "theme": "light",
+   "viewport": 390,
+   "fixture": "rest-standby",
+   "check": "current",
+   "ok": true,
+   "detail": "Rest · 0:02"
+  },
+  {
+   "theme": "light",
+   "viewport": 390,
+   "fixture": "rest-standby",
+   "check": "detail",
+   "ok": true,
+   "detail": "Repetition 1 of 3"
+  },
+  {
+   "theme": "light",
+   "viewport": 390,
+   "fixture": "rest-standby",
+   "check": "next",
+   "ok": true,
+   "detail": "Next: Standby"
+  },
+  {
+   "theme": "light",
+   "viewport": 390,
+   "fixture": "rest-standby",
+   "check": "main m:ss with timer role",
+   "ok": true,
+   "detail": "0:02"
+  },
+  {
+   "theme": "light",
+   "viewport": 390,
+   "fixture": "rest-standby",
+   "check": "no m:ss in Next: Standby",
+   "ok": true,
+   "detail": "Next: Standby"
+  },
+  {
+   "theme": "light",
+   "viewport": 390,
+   "fixture": "rest-standby",
+   "check": "order main<current<next<controls",
+   "ok": true,
+   "detail": "[343,429,501,571]"
+  },
+  {
+   "theme": "light",
+   "viewport": 390,
+   "fixture": "rest-standby",
+   "check": "font hierarchy main>current>next",
+   "ok": true,
+   "detail": "[60,20,18]"
+  },
+  {
+   "theme": "light",
+   "viewport": 390,
+   "fixture": "rest-standby",
+   "check": "Cancel/Restart named and enabled",
+   "ok": true
+  },
+  {
+   "theme": "light",
+   "viewport": 390,
+   "fixture": "rest-standby",
+   "check": "no card overflow",
+   "ok": true,
+   "detail": "[356,356]"
+  },
+  {
+   "theme": "light",
+   "viewport": 390,
+   "fixture": "rest-complete",
+   "check": "current",
+   "ok": true,
+   "detail": "Rest · 0:02"
+  },
+  {
+   "theme": "light",
+   "viewport": 390,
+   "fixture": "rest-complete",
+   "check": "detail",
+   "ok": true,
+   "detail": "Repetition 1 of 1"
+  },
+  {
+   "theme": "light",
+   "viewport": 390,
+   "fixture": "rest-complete",
+   "check": "next",
+   "ok": true,
+   "detail": "Next: Drill complete"
+  },
+  {
+   "theme": "light",
+   "viewport": 390,
+   "fixture": "rest-complete",
+   "check": "main m:ss with timer role",
+   "ok": true,
+   "detail": "0:01"
+  },
+  {
+   "theme": "light",
+   "viewport": 390,
+   "fixture": "rest-complete",
+   "check": "order main<current<next<controls",
+   "ok": true,
+   "detail": "[487,573,645,715]"
+  },
+  {
+   "theme": "light",
+   "viewport": 390,
+   "fixture": "rest-complete",
+   "check": "font hierarchy main>current>next",
+   "ok": true,
+   "detail": "[60,20,18]"
+  },
+  {
+   "theme": "light",
+   "viewport": 390,
+   "fixture": "rest-complete",
+   "check": "Cancel/Restart named and enabled",
+   "ok": true
+  },
+  {
+   "theme": "light",
+   "viewport": 390,
+   "fixture": "rest-complete",
+   "check": "no card overflow",
+   "ok": true,
+   "detail": "[356,356]"
+  },
+  {
+   "theme": "light",
+   "viewport": 390,
+   "fixture": "resume-preparation",
+   "check": "current",
+   "ok": true,
+   "detail": "Preparation · 0:05"
+  },
+  {
+   "theme": "light",
+   "viewport": 390,
+   "fixture": "resume-preparation",
+   "check": "detail",
+   "ok": true,
+   "detail": "Preparing"
+  },
+  {
+   "theme": "light",
+   "viewport": 390,
+   "fixture": "resume-preparation",
+   "check": "next",
+   "ok": true,
+   "detail": "Next: Exercise — 0:04"
+  },
+  {
+   "theme": "light",
+   "viewport": 390,
+   "fixture": "resume-preparation",
+   "check": "main m:ss with timer role",
+   "ok": true,
+   "detail": "0:05"
+  },
+  {
+   "theme": "light",
+   "viewport": 390,
+   "fixture": "resume-preparation",
+   "check": "order main<current<next<controls",
+   "ok": true,
+   "detail": "[361,447,519,589]"
+  },
+  {
+   "theme": "light",
+   "viewport": 390,
+   "fixture": "resume-preparation",
+   "check": "font hierarchy main>current>next",
+   "ok": true,
+   "detail": "[60,20,18]"
+  },
+  {
+   "theme": "light",
+   "viewport": 390,
+   "fixture": "resume-preparation",
+   "check": "Cancel/Restart named and enabled",
+   "ok": true
+  },
+  {
+   "theme": "light",
+   "viewport": 390,
+   "fixture": "resume-preparation",
+   "check": "no card overflow",
+   "ok": true,
+   "detail": "[356,356]"
+  },
+  {
+   "theme": "light",
+   "viewport": 390,
+   "fixture": "paused",
+   "check": "current",
+   "ok": true,
+   "detail": "Exercise · 0:04"
+  },
+  {
+   "theme": "light",
+   "viewport": 390,
+   "fixture": "paused",
+   "check": "detail",
+   "ok": true,
+   "detail": "Repetition 2 of 3"
+  },
+  {
+   "theme": "light",
+   "viewport": 390,
+   "fixture": "paused",
+   "check": "next",
+   "ok": true,
+   "detail": "Next: Rest — 0:02"
+  },
+  {
+   "theme": "light",
+   "viewport": 390,
+   "fixture": "paused",
+   "check": "main m:ss with timer role",
+   "ok": true,
+   "detail": "0:02"
+  },
+  {
+   "theme": "light",
+   "viewport": 390,
+   "fixture": "paused",
+   "check": "order main<current<next<controls",
+   "ok": true,
+   "detail": "[487,573,645,715]"
+  },
+  {
+   "theme": "light",
+   "viewport": 390,
+   "fixture": "paused",
+   "check": "font hierarchy main>current>next",
+   "ok": true,
+   "detail": "[60,20,18]"
+  },
+  {
+   "theme": "light",
+   "viewport": 390,
+   "fixture": "paused",
+   "check": "Resume control present",
+   "ok": true
+  },
+  {
+   "theme": "light",
+   "viewport": 390,
+   "fixture": "paused",
+   "check": "Cancel/Restart named and enabled",
+   "ok": true
+  },
+  {
+   "theme": "light",
+   "viewport": 390,
+   "fixture": "paused",
+   "check": "no card overflow",
+   "ok": true,
+   "detail": "[356,356]"
+  },
+  {
+   "theme": "light",
+   "viewport": 390,
+   "fixture": "initializing",
+   "check": "current",
+   "ok": true,
+   "detail": "Preparation · 0:05"
+  },
+  {
+   "theme": "light",
+   "viewport": 390,
+   "fixture": "initializing",
+   "check": "detail",
+   "ok": true,
+   "detail": "Preparing"
+  },
+  {
+   "theme": "light",
+   "viewport": 390,
+   "fixture": "initializing",
+   "check": "next",
+   "ok": true,
+   "detail": "Next: Exercise — 0:04"
+  },
+  {
+   "theme": "light",
+   "viewport": 390,
+   "fixture": "initializing",
+   "check": "no main countdown while initializing",
+   "ok": true,
+   "detail": "[null,null]"
+  },
+  {
+   "theme": "light",
+   "viewport": 390,
+   "fixture": "initializing",
+   "check": "order current<next<controls",
+   "ok": true
+  },
+  {
+   "theme": "light",
+   "viewport": 390,
+   "fixture": "initializing",
+   "check": "Cancel/Restart named and enabled",
+   "ok": true
+  },
+  {
+   "theme": "light",
+   "viewport": 390,
+   "fixture": "initializing",
+   "check": "no card overflow",
+   "ok": true,
+   "detail": "[356,356]"
+  },
+  {
+   "theme": "light",
+   "viewport": 390,
+   "fixture": "audio-unavailable",
+   "check": "current",
+   "ok": true,
+   "detail": "Exercise · 0:04"
+  },
+  {
+   "theme": "light",
+   "viewport": 390,
+   "fixture": "audio-unavailable",
+   "check": "detail",
+   "ok": true,
+   "detail": "Repetition 1 of 3"
+  },
+  {
+   "theme": "light",
+   "viewport": 390,
+   "fixture": "audio-unavailable",
+   "check": "next",
+   "ok": true,
+   "detail": "Next: Rest — 0:02"
+  },
+  {
+   "theme": "light",
+   "viewport": 390,
+   "fixture": "audio-unavailable",
+   "check": "main m:ss with timer role",
+   "ok": true,
+   "detail": "0:03"
+  },
+  {
+   "theme": "light",
+   "viewport": 390,
+   "fixture": "audio-unavailable",
+   "check": "order main<current<next<controls",
+   "ok": true,
+   "detail": "[487,573,645,715]"
+  },
+  {
+   "theme": "light",
+   "viewport": 390,
+   "fixture": "audio-unavailable",
+   "check": "font hierarchy main>current>next",
+   "ok": true,
+   "detail": "[60,20,18]"
+  },
+  {
+   "theme": "light",
+   "viewport": 390,
+   "fixture": "audio-unavailable",
+   "check": "warning shown",
+   "ok": true,
+   "detail": "Audio unavailable; running silently."
+  },
+  {
+   "theme": "light",
+   "viewport": 390,
+   "fixture": "audio-unavailable",
+   "check": "Cancel/Restart named and enabled",
+   "ok": true
+  },
+  {
+   "theme": "light",
+   "viewport": 390,
+   "fixture": "audio-unavailable",
+   "check": "no card overflow",
+   "ok": true,
+   "detail": "[356,356]"
+  },
+  {
+   "theme": "light",
+   "viewport": 390,
+   "check": "hover changes Restart background",
+   "ok": true,
+   "detail": "oklch(0.9751 0.0127 244.251) -> oklch(0.9505 0.0507 163.051)"
+  },
+  {
+   "theme": "light",
+   "viewport": 390,
+   "check": "focus-visible ring on Cancel",
+   "ok": true,
+   "detail": "{\"f\":true,\"shadow\":\"rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, oklab(0 0 0 / 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.05) 0px 4px 8px -1px\"}"
+  },
+  {
+   "theme": "light",
+   "viewport": 390,
+   "check": "initializing: loading slot disabled",
+   "ok": true
+  },
+  {
+   "theme": "light",
+   "viewport": 390,
+   "check": "Phase sections section has no horizontal overflow",
+   "ok": true,
+   "detail": "{\"sec\":0,\"page\":414,\"vw\":390}"
+  },
+  {
+   "theme": "light",
+   "viewport": 390,
+   "info": "page scrollWidth (whole preview page)",
+   "sec": 0,
+   "page": 414,
+   "vw": 390
+  },
+  {
+   "theme": "light",
+   "viewport": 390,
+   "check": "no page errors",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "theme": "dark",
+   "viewport": 1280,
+   "check": "theme class",
+   "ok": true
+  },
+  {
+   "theme": "dark",
+   "viewport": 1280,
+   "fixture": "preparation-exercise",
+   "check": "current",
+   "ok": true,
+   "detail": "Preparation · 0:05"
+  },
+  {
+   "theme": "dark",
+   "viewport": 1280,
+   "fixture": "preparation-exercise",
+   "check": "detail",
+   "ok": true,
+   "detail": "Preparing"
+  },
+  {
+   "theme": "dark",
+   "viewport": 1280,
+   "fixture": "preparation-exercise",
+   "check": "next",
+   "ok": true,
+   "detail": "Next: Exercise — 0:04"
+  },
+  {
+   "theme": "dark",
+   "viewport": 1280,
+   "fixture": "preparation-exercise",
+   "check": "main m:ss with timer role",
+   "ok": true,
+   "detail": "0:05"
+  },
+  {
+   "theme": "dark",
+   "viewport": 1280,
+   "fixture": "preparation-exercise",
+   "check": "order main<current<next<controls",
+   "ok": true,
+   "detail": "[305,405,477,547]"
+  },
+  {
+   "theme": "dark",
+   "viewport": 1280,
+   "fixture": "preparation-exercise",
+   "check": "font hierarchy main>current>next",
+   "ok": true,
+   "detail": "[72,20,18]"
+  },
+  {
+   "theme": "dark",
+   "viewport": 1280,
+   "fixture": "preparation-exercise",
+   "check": "Cancel/Restart named and enabled",
+   "ok": true
+  },
+  {
+   "theme": "dark",
+   "viewport": 1280,
+   "fixture": "preparation-exercise",
+   "check": "no card overflow",
+   "ok": true,
+   "detail": "[355,355]"
+  },
+  {
+   "theme": "dark",
+   "viewport": 1280,
+   "fixture": "preparation-standby",
+   "check": "current",
+   "ok": true,
+   "detail": "Preparation · 0:05"
+  },
+  {
+   "theme": "dark",
+   "viewport": 1280,
+   "fixture": "preparation-standby",
+   "check": "detail",
+   "ok": true,
+   "detail": "Preparing"
+  },
+  {
+   "theme": "dark",
+   "viewport": 1280,
+   "fixture": "preparation-standby",
+   "check": "next",
+   "ok": true,
+   "detail": "Next: Standby"
+  },
+  {
+   "theme": "dark",
+   "viewport": 1280,
+   "fixture": "preparation-standby",
+   "check": "main m:ss with timer role",
+   "ok": true,
+   "detail": "0:05"
+  },
+  {
+   "theme": "dark",
+   "viewport": 1280,
+   "fixture": "preparation-standby",
+   "check": "no m:ss in Next: Standby",
+   "ok": true,
+   "detail": "Next: Standby"
+  },
+  {
+   "theme": "dark",
+   "viewport": 1280,
+   "fixture": "preparation-standby",
+   "check": "order main<current<next<controls",
+   "ok": true,
+   "detail": "[325,425,497,567]"
+  },
+  {
+   "theme": "dark",
+   "viewport": 1280,
+   "fixture": "preparation-standby",
+   "check": "font hierarchy main>current>next",
+   "ok": true,
+   "detail": "[72,20,18]"
+  },
+  {
+   "theme": "dark",
+   "viewport": 1280,
+   "fixture": "preparation-standby",
+   "check": "Cancel/Restart named and enabled",
+   "ok": true
+  },
+  {
+   "theme": "dark",
+   "viewport": 1280,
+   "fixture": "preparation-standby",
+   "check": "no card overflow",
+   "ok": true,
+   "detail": "[355,355]"
+  },
+  {
+   "theme": "dark",
+   "viewport": 1280,
+   "fixture": "exercise-rest",
+   "check": "current",
+   "ok": true,
+   "detail": "Exercise · 0:04"
+  },
+  {
+   "theme": "dark",
+   "viewport": 1280,
+   "fixture": "exercise-rest",
+   "check": "detail",
+   "ok": true,
+   "detail": "Repetition 1 of 3"
+  },
+  {
+   "theme": "dark",
+   "viewport": 1280,
+   "fixture": "exercise-rest",
+   "check": "next",
+   "ok": true,
+   "detail": "Next: Rest — 0:02"
+  },
+  {
+   "theme": "dark",
+   "viewport": 1280,
+   "fixture": "exercise-rest",
+   "check": "main m:ss with timer role",
+   "ok": true,
+   "detail": "0:03"
+  },
+  {
+   "theme": "dark",
+   "viewport": 1280,
+   "fixture": "exercise-rest",
+   "check": "order main<current<next<controls",
+   "ok": true,
+   "detail": "[305,405,477,547]"
+  },
+  {
+   "theme": "dark",
+   "viewport": 1280,
+   "fixture": "exercise-rest",
+   "check": "font hierarchy main>current>next",
+   "ok": true,
+   "detail": "[72,20,18]"
+  },
+  {
+   "theme": "dark",
+   "viewport": 1280,
+   "fixture": "exercise-rest",
+   "check": "Cancel/Restart named and enabled",
+   "ok": true
+  },
+  {
+   "theme": "dark",
+   "viewport": 1280,
+   "fixture": "exercise-rest",
+   "check": "no card overflow",
+   "ok": true,
+   "detail": "[355,355]"
+  },
+  {
+   "theme": "dark",
+   "viewport": 1280,
+   "fixture": "exercise-complete",
+   "check": "current",
+   "ok": true,
+   "detail": "Exercise · 0:04"
+  },
+  {
+   "theme": "dark",
+   "viewport": 1280,
+   "fixture": "exercise-complete",
+   "check": "detail",
+   "ok": true,
+   "detail": "Repetition 1 of 1"
+  },
+  {
+   "theme": "dark",
+   "viewport": 1280,
+   "fixture": "exercise-complete",
+   "check": "next",
+   "ok": true,
+   "detail": "Next: Drill complete"
+  },
+  {
+   "theme": "dark",
+   "viewport": 1280,
+   "fixture": "exercise-complete",
+   "check": "main m:ss with timer role",
+   "ok": true,
+   "detail": "0:03"
+  },
+  {
+   "theme": "dark",
+   "viewport": 1280,
+   "fixture": "exercise-complete",
+   "check": "order main<current<next<controls",
+   "ok": true,
+   "detail": "[429,529,601,671]"
+  },
+  {
+   "theme": "dark",
+   "viewport": 1280,
+   "fixture": "exercise-complete",
+   "check": "font hierarchy main>current>next",
+   "ok": true,
+   "detail": "[72,20,18]"
+  },
+  {
+   "theme": "dark",
+   "viewport": 1280,
+   "fixture": "exercise-complete",
+   "check": "Cancel/Restart named and enabled",
+   "ok": true
+  },
+  {
+   "theme": "dark",
+   "viewport": 1280,
+   "fixture": "exercise-complete",
+   "check": "no card overflow",
+   "ok": true,
+   "detail": "[355,355]"
+  },
+  {
+   "theme": "dark",
+   "viewport": 1280,
+   "fixture": "standby-exercise",
+   "check": "current",
+   "ok": true,
+   "detail": "Standby"
+  },
+  {
+   "theme": "dark",
+   "viewport": 1280,
+   "fixture": "standby-exercise",
+   "check": "detail",
+   "ok": true,
+   "detail": "Repetition 1 of 3"
+  },
+  {
+   "theme": "dark",
+   "viewport": 1280,
+   "fixture": "standby-exercise",
+   "check": "next",
+   "ok": true,
+   "detail": "Next: Exercise — 0:04"
+  },
+  {
+   "theme": "dark",
+   "viewport": 1280,
+   "fixture": "standby-exercise",
+   "check": "main is the word Standby, no timer role",
+   "ok": true,
+   "detail": "{\"timer\":null,\"mainText\":\"Standby\",\"mainRole\":null,\"h2\":\"Standby\",\"detail\":\"Repetition 1 of 3\",\"next\":\"Next: Exercise — 0:04\",\"tm\":429,\"th\":529,\"tg\":601,\"tc\":671,\"fm\":72,\"fh\":20,\"fn\":18,\"alert\":null,\"sw\":355,\"cw\":355,\"sectionOverflow\":false}"
+  },
+  {
+   "theme": "dark",
+   "viewport": 1280,
+   "fixture": "standby-exercise",
+   "check": "no m:ss in Standby main/current",
+   "ok": true
+  },
+  {
+   "theme": "dark",
+   "viewport": 1280,
+   "fixture": "standby-exercise",
+   "check": "order main<current<next<controls",
+   "ok": true,
+   "detail": "[429,529,601,671]"
+  },
+  {
+   "theme": "dark",
+   "viewport": 1280,
+   "fixture": "standby-exercise",
+   "check": "font hierarchy main>current>next",
+   "ok": true,
+   "detail": "[72,20,18]"
+  },
+  {
+   "theme": "dark",
+   "viewport": 1280,
+   "fixture": "standby-exercise",
+   "check": "Cancel/Restart named and enabled",
+   "ok": true
+  },
+  {
+   "theme": "dark",
+   "viewport": 1280,
+   "fixture": "standby-exercise",
+   "check": "no card overflow",
+   "ok": true,
+   "detail": "[355,355]"
+  },
+  {
+   "theme": "dark",
+   "viewport": 1280,
+   "fixture": "rest-exercise",
+   "check": "current",
+   "ok": true,
+   "detail": "Rest · 0:02"
+  },
+  {
+   "theme": "dark",
+   "viewport": 1280,
+   "fixture": "rest-exercise",
+   "check": "detail",
+   "ok": true,
+   "detail": "Repetition 1 of 3"
+  },
+  {
+   "theme": "dark",
+   "viewport": 1280,
+   "fixture": "rest-exercise",
+   "check": "next",
+   "ok": true,
+   "detail": "Next: Exercise — 0:04"
+  },
+  {
+   "theme": "dark",
+   "viewport": 1280,
+   "fixture": "rest-exercise",
+   "check": "main m:ss with timer role",
+   "ok": true,
+   "detail": "0:01"
+  },
+  {
+   "theme": "dark",
+   "viewport": 1280,
+   "fixture": "rest-exercise",
+   "check": "order main<current<next<controls",
+   "ok": true,
+   "detail": "[429,529,601,671]"
+  },
+  {
+   "theme": "dark",
+   "viewport": 1280,
+   "fixture": "rest-exercise",
+   "check": "font hierarchy main>current>next",
+   "ok": true,
+   "detail": "[72,20,18]"
+  },
+  {
+   "theme": "dark",
+   "viewport": 1280,
+   "fixture": "rest-exercise",
+   "check": "Cancel/Restart named and enabled",
+   "ok": true
+  },
+  {
+   "theme": "dark",
+   "viewport": 1280,
+   "fixture": "rest-exercise",
+   "check": "no card overflow",
+   "ok": true,
+   "detail": "[355,355]"
+  },
+  {
+   "theme": "dark",
+   "viewport": 1280,
+   "fixture": "rest-standby",
+   "check": "current",
+   "ok": true,
+   "detail": "Rest · 0:02"
+  },
+  {
+   "theme": "dark",
+   "viewport": 1280,
+   "fixture": "rest-standby",
+   "check": "detail",
+   "ok": true,
+   "detail": "Repetition 1 of 3"
+  },
+  {
+   "theme": "dark",
+   "viewport": 1280,
+   "fixture": "rest-standby",
+   "check": "next",
+   "ok": true,
+   "detail": "Next: Standby"
+  },
+  {
+   "theme": "dark",
+   "viewport": 1280,
+   "fixture": "rest-standby",
+   "check": "main m:ss with timer role",
+   "ok": true,
+   "detail": "0:02"
+  },
+  {
+   "theme": "dark",
+   "viewport": 1280,
+   "fixture": "rest-standby",
+   "check": "no m:ss in Next: Standby",
+   "ok": true,
+   "detail": "Next: Standby"
+  },
+  {
+   "theme": "dark",
+   "viewport": 1280,
+   "fixture": "rest-standby",
+   "check": "order main<current<next<controls",
+   "ok": true,
+   "detail": "[297,397,469,539]"
+  },
+  {
+   "theme": "dark",
+   "viewport": 1280,
+   "fixture": "rest-standby",
+   "check": "font hierarchy main>current>next",
+   "ok": true,
+   "detail": "[72,20,18]"
+  },
+  {
+   "theme": "dark",
+   "viewport": 1280,
+   "fixture": "rest-standby",
+   "check": "Cancel/Restart named and enabled",
+   "ok": true
+  },
+  {
+   "theme": "dark",
+   "viewport": 1280,
+   "fixture": "rest-standby",
+   "check": "no card overflow",
+   "ok": true,
+   "detail": "[355,355]"
+  },
+  {
+   "theme": "dark",
+   "viewport": 1280,
+   "fixture": "rest-complete",
+   "check": "current",
+   "ok": true,
+   "detail": "Rest · 0:02"
+  },
+  {
+   "theme": "dark",
+   "viewport": 1280,
+   "fixture": "rest-complete",
+   "check": "detail",
+   "ok": true,
+   "detail": "Repetition 1 of 1"
+  },
+  {
+   "theme": "dark",
+   "viewport": 1280,
+   "fixture": "rest-complete",
+   "check": "next",
+   "ok": true,
+   "detail": "Next: Drill complete"
+  },
+  {
+   "theme": "dark",
+   "viewport": 1280,
+   "fixture": "rest-complete",
+   "check": "main m:ss with timer role",
+   "ok": true,
+   "detail": "0:01"
+  },
+  {
+   "theme": "dark",
+   "viewport": 1280,
+   "fixture": "rest-complete",
+   "check": "order main<current<next<controls",
+   "ok": true,
+   "detail": "[297,397,469,539]"
+  },
+  {
+   "theme": "dark",
+   "viewport": 1280,
+   "fixture": "rest-complete",
+   "check": "font hierarchy main>current>next",
+   "ok": true,
+   "detail": "[72,20,18]"
+  },
+  {
+   "theme": "dark",
+   "viewport": 1280,
+   "fixture": "rest-complete",
+   "check": "Cancel/Restart named and enabled",
+   "ok": true
+  },
+  {
+   "theme": "dark",
+   "viewport": 1280,
+   "fixture": "rest-complete",
+   "check": "no card overflow",
+   "ok": true,
+   "detail": "[355,355]"
+  },
+  {
+   "theme": "dark",
+   "viewport": 1280,
+   "fixture": "resume-preparation",
+   "check": "current",
+   "ok": true,
+   "detail": "Preparation · 0:05"
+  },
+  {
+   "theme": "dark",
+   "viewport": 1280,
+   "fixture": "resume-preparation",
+   "check": "detail",
+   "ok": true,
+   "detail": "Preparing"
+  },
+  {
+   "theme": "dark",
+   "viewport": 1280,
+   "fixture": "resume-preparation",
+   "check": "next",
+   "ok": true,
+   "detail": "Next: Exercise — 0:04"
+  },
+  {
+   "theme": "dark",
+   "viewport": 1280,
+   "fixture": "resume-preparation",
+   "check": "main m:ss with timer role",
+   "ok": true,
+   "detail": "0:05"
+  },
+  {
+   "theme": "dark",
+   "viewport": 1280,
+   "fixture": "resume-preparation",
+   "check": "order main<current<next<controls",
+   "ok": true,
+   "detail": "[333,433,505,575]"
+  },
+  {
+   "theme": "dark",
+   "viewport": 1280,
+   "fixture": "resume-preparation",
+   "check": "font hierarchy main>current>next",
+   "ok": true,
+   "detail": "[72,20,18]"
+  },
+  {
+   "theme": "dark",
+   "viewport": 1280,
+   "fixture": "resume-preparation",
+   "check": "Cancel/Restart named and enabled",
+   "ok": true
+  },
+  {
+   "theme": "dark",
+   "viewport": 1280,
+   "fixture": "resume-preparation",
+   "check": "no card overflow",
+   "ok": true,
+   "detail": "[355,355]"
+  },
+  {
+   "theme": "dark",
+   "viewport": 1280,
+   "fixture": "paused",
+   "check": "current",
+   "ok": true,
+   "detail": "Exercise · 0:04"
+  },
+  {
+   "theme": "dark",
+   "viewport": 1280,
+   "fixture": "paused",
+   "check": "detail",
+   "ok": true,
+   "detail": "Repetition 2 of 3"
+  },
+  {
+   "theme": "dark",
+   "viewport": 1280,
+   "fixture": "paused",
+   "check": "next",
+   "ok": true,
+   "detail": "Next: Rest — 0:02"
+  },
+  {
+   "theme": "dark",
+   "viewport": 1280,
+   "fixture": "paused",
+   "check": "main m:ss with timer role",
+   "ok": true,
+   "detail": "0:02"
+  },
+  {
+   "theme": "dark",
+   "viewport": 1280,
+   "fixture": "paused",
+   "check": "order main<current<next<controls",
+   "ok": true,
+   "detail": "[409,509,581,651]"
+  },
+  {
+   "theme": "dark",
+   "viewport": 1280,
+   "fixture": "paused",
+   "check": "font hierarchy main>current>next",
+   "ok": true,
+   "detail": "[72,20,18]"
+  },
+  {
+   "theme": "dark",
+   "viewport": 1280,
+   "fixture": "paused",
+   "check": "Resume control present",
+   "ok": true
+  },
+  {
+   "theme": "dark",
+   "viewport": 1280,
+   "fixture": "paused",
+   "check": "Cancel/Restart named and enabled",
+   "ok": true
+  },
+  {
+   "theme": "dark",
+   "viewport": 1280,
+   "fixture": "paused",
+   "check": "no card overflow",
+   "ok": true,
+   "detail": "[355,355]"
+  },
+  {
+   "theme": "dark",
+   "viewport": 1280,
+   "fixture": "initializing",
+   "check": "current",
+   "ok": true,
+   "detail": "Preparation · 0:05"
+  },
+  {
+   "theme": "dark",
+   "viewport": 1280,
+   "fixture": "initializing",
+   "check": "detail",
+   "ok": true,
+   "detail": "Preparing"
+  },
+  {
+   "theme": "dark",
+   "viewport": 1280,
+   "fixture": "initializing",
+   "check": "next",
+   "ok": true,
+   "detail": "Next: Exercise — 0:04"
+  },
+  {
+   "theme": "dark",
+   "viewport": 1280,
+   "fixture": "initializing",
+   "check": "no main countdown while initializing",
+   "ok": true,
+   "detail": "[null,null]"
+  },
+  {
+   "theme": "dark",
+   "viewport": 1280,
+   "fixture": "initializing",
+   "check": "order current<next<controls",
+   "ok": true
+  },
+  {
+   "theme": "dark",
+   "viewport": 1280,
+   "fixture": "initializing",
+   "check": "Cancel/Restart named and enabled",
+   "ok": true
+  },
+  {
+   "theme": "dark",
+   "viewport": 1280,
+   "fixture": "initializing",
+   "check": "no card overflow",
+   "ok": true,
+   "detail": "[355,355]"
+  },
+  {
+   "theme": "dark",
+   "viewport": 1280,
+   "fixture": "audio-unavailable",
+   "check": "current",
+   "ok": true,
+   "detail": "Exercise · 0:04"
+  },
+  {
+   "theme": "dark",
+   "viewport": 1280,
+   "fixture": "audio-unavailable",
+   "check": "detail",
+   "ok": true,
+   "detail": "Repetition 1 of 3"
+  },
+  {
+   "theme": "dark",
+   "viewport": 1280,
+   "fixture": "audio-unavailable",
+   "check": "next",
+   "ok": true,
+   "detail": "Next: Rest — 0:02"
+  },
+  {
+   "theme": "dark",
+   "viewport": 1280,
+   "fixture": "audio-unavailable",
+   "check": "main m:ss with timer role",
+   "ok": true,
+   "detail": "0:03"
+  },
+  {
+   "theme": "dark",
+   "viewport": 1280,
+   "fixture": "audio-unavailable",
+   "check": "order main<current<next<controls",
+   "ok": true,
+   "detail": "[409,509,581,651]"
+  },
+  {
+   "theme": "dark",
+   "viewport": 1280,
+   "fixture": "audio-unavailable",
+   "check": "font hierarchy main>current>next",
+   "ok": true,
+   "detail": "[72,20,18]"
+  },
+  {
+   "theme": "dark",
+   "viewport": 1280,
+   "fixture": "audio-unavailable",
+   "check": "warning shown",
+   "ok": true,
+   "detail": "Audio unavailable; running silently."
+  },
+  {
+   "theme": "dark",
+   "viewport": 1280,
+   "fixture": "audio-unavailable",
+   "check": "Cancel/Restart named and enabled",
+   "ok": true
+  },
+  {
+   "theme": "dark",
+   "viewport": 1280,
+   "fixture": "audio-unavailable",
+   "check": "no card overflow",
+   "ok": true,
+   "detail": "[355,355]"
+  },
+  {
+   "theme": "dark",
+   "viewport": 1280,
+   "check": "hover changes Restart background",
+   "ok": true,
+   "detail": "oklab(0.4461 -0.00600482 -0.0256053 / 0.3) -> oklab(0.4461 -0.00600482 -0.0256053 / 0.5)"
+  },
+  {
+   "theme": "dark",
+   "viewport": 1280,
+   "check": "focus-visible ring on Cancel",
+   "ok": true,
+   "detail": "{\"f\":true,\"shadow\":\"rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, oklab(0 0 0 / 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.05) 0px 4px 8px -1px\"}"
+  },
+  {
+   "theme": "dark",
+   "viewport": 1280,
+   "check": "initializing: loading slot disabled",
+   "ok": true
+  },
+  {
+   "theme": "dark",
+   "viewport": 1280,
+   "check": "Phase sections section has no horizontal overflow",
+   "ok": true,
+   "detail": "{\"sec\":0,\"page\":1280,\"vw\":1280}"
+  },
+  {
+   "theme": "dark",
+   "viewport": 1280,
+   "info": "page scrollWidth (whole preview page)",
+   "sec": 0,
+   "page": 1280,
+   "vw": 1280
+  },
+  {
+   "theme": "dark",
+   "viewport": 1280,
+   "check": "no page errors",
+   "ok": true,
+   "detail": ""
+  },
+  {
+   "theme": "dark",
+   "viewport": 390,
+   "check": "theme class",
+   "ok": true
+  },
+  {
+   "theme": "dark",
+   "viewport": 390,
+   "fixture": "preparation-exercise",
+   "check": "current",
+   "ok": true,
+   "detail": "Preparation · 0:05"
+  },
+  {
+   "theme": "dark",
+   "viewport": 390,
+   "fixture": "preparation-exercise",
+   "check": "detail",
+   "ok": true,
+   "detail": "Preparing"
+  },
+  {
+   "theme": "dark",
+   "viewport": 390,
+   "fixture": "preparation-exercise",
+   "check": "next",
+   "ok": true,
+   "detail": "Next: Exercise — 0:04"
+  },
+  {
+   "theme": "dark",
+   "viewport": 390,
+   "fixture": "preparation-exercise",
+   "check": "main m:ss with timer role",
+   "ok": true,
+   "detail": "0:05"
+  },
+  {
+   "theme": "dark",
+   "viewport": 390,
+   "fixture": "preparation-exercise",
+   "check": "order main<current<next<controls",
+   "ok": true,
+   "detail": "[343,429,501,571]"
+  },
+  {
+   "theme": "dark",
+   "viewport": 390,
+   "fixture": "preparation-exercise",
+   "check": "font hierarchy main>current>next",
+   "ok": true,
+   "detail": "[60,20,18]"
+  },
+  {
+   "theme": "dark",
+   "viewport": 390,
+   "fixture": "preparation-exercise",
+   "check": "Cancel/Restart named and enabled",
+   "ok": true
+  },
+  {
+   "theme": "dark",
+   "viewport": 390,
+   "fixture": "preparation-exercise",
+   "check": "no card overflow",
+   "ok": true,
+   "detail": "[356,356]"
+  },
+  {
+   "theme": "dark",
+   "viewport": 390,
+   "fixture": "preparation-standby",
+   "check": "current",
+   "ok": true,
+   "detail": "Preparation · 0:05"
+  },
+  {
+   "theme": "dark",
+   "viewport": 390,
+   "fixture": "preparation-standby",
+   "check": "detail",
+   "ok": true,
+   "detail": "Preparing"
+  },
+  {
+   "theme": "dark",
+   "viewport": 390,
+   "fixture": "preparation-standby",
+   "check": "next",
+   "ok": true,
+   "detail": "Next: Standby"
+  },
+  {
+   "theme": "dark",
+   "viewport": 390,
+   "fixture": "preparation-standby",
+   "check": "main m:ss with timer role",
+   "ok": true,
+   "detail": "0:05"
+  },
+  {
+   "theme": "dark",
+   "viewport": 390,
+   "fixture": "preparation-standby",
+   "check": "no m:ss in Next: Standby",
+   "ok": true,
+   "detail": "Next: Standby"
+  },
+  {
+   "theme": "dark",
+   "viewport": 390,
+   "fixture": "preparation-standby",
+   "check": "order main<current<next<controls",
+   "ok": true,
+   "detail": "[487,573,645,715]"
+  },
+  {
+   "theme": "dark",
+   "viewport": 390,
+   "fixture": "preparation-standby",
+   "check": "font hierarchy main>current>next",
+   "ok": true,
+   "detail": "[60,20,18]"
+  },
+  {
+   "theme": "dark",
+   "viewport": 390,
+   "fixture": "preparation-standby",
+   "check": "Cancel/Restart named and enabled",
+   "ok": true
+  },
+  {
+   "theme": "dark",
+   "viewport": 390,
+   "fixture": "preparation-standby",
+   "check": "no card overflow",
+   "ok": true,
+   "detail": "[356,356]"
+  },
+  {
+   "theme": "dark",
+   "viewport": 390,
+   "fixture": "exercise-rest",
+   "check": "current",
+   "ok": true,
+   "detail": "Exercise · 0:04"
+  },
+  {
+   "theme": "dark",
+   "viewport": 390,
+   "fixture": "exercise-rest",
+   "check": "detail",
+   "ok": true,
+   "detail": "Repetition 1 of 3"
+  },
+  {
+   "theme": "dark",
+   "viewport": 390,
+   "fixture": "exercise-rest",
+   "check": "next",
+   "ok": true,
+   "detail": "Next: Rest — 0:02"
+  },
+  {
+   "theme": "dark",
+   "viewport": 390,
+   "fixture": "exercise-rest",
+   "check": "main m:ss with timer role",
+   "ok": true,
+   "detail": "0:03"
+  },
+  {
+   "theme": "dark",
+   "viewport": 390,
+   "fixture": "exercise-rest",
+   "check": "order main<current<next<controls",
+   "ok": true,
+   "detail": "[343,429,501,571]"
+  },
+  {
+   "theme": "dark",
+   "viewport": 390,
+   "fixture": "exercise-rest",
+   "check": "font hierarchy main>current>next",
+   "ok": true,
+   "detail": "[60,20,18]"
+  },
+  {
+   "theme": "dark",
+   "viewport": 390,
+   "fixture": "exercise-rest",
+   "check": "Cancel/Restart named and enabled",
+   "ok": true
+  },
+  {
+   "theme": "dark",
+   "viewport": 390,
+   "fixture": "exercise-rest",
+   "check": "no card overflow",
+   "ok": true,
+   "detail": "[356,356]"
+  },
+  {
+   "theme": "dark",
+   "viewport": 390,
+   "fixture": "exercise-complete",
+   "check": "current",
+   "ok": true,
+   "detail": "Exercise · 0:04"
+  },
+  {
+   "theme": "dark",
+   "viewport": 390,
+   "fixture": "exercise-complete",
+   "check": "detail",
+   "ok": true,
+   "detail": "Repetition 1 of 1"
+  },
+  {
+   "theme": "dark",
+   "viewport": 390,
+   "fixture": "exercise-complete",
+   "check": "next",
+   "ok": true,
+   "detail": "Next: Drill complete"
+  },
+  {
+   "theme": "dark",
+   "viewport": 390,
+   "fixture": "exercise-complete",
+   "check": "main m:ss with timer role",
+   "ok": true,
+   "detail": "0:03"
+  },
+  {
+   "theme": "dark",
+   "viewport": 390,
+   "fixture": "exercise-complete",
+   "check": "order main<current<next<controls",
+   "ok": true,
+   "detail": "[487,573,645,715]"
+  },
+  {
+   "theme": "dark",
+   "viewport": 390,
+   "fixture": "exercise-complete",
+   "check": "font hierarchy main>current>next",
+   "ok": true,
+   "detail": "[60,20,18]"
+  },
+  {
+   "theme": "dark",
+   "viewport": 390,
+   "fixture": "exercise-complete",
+   "check": "Cancel/Restart named and enabled",
+   "ok": true
+  },
+  {
+   "theme": "dark",
+   "viewport": 390,
+   "fixture": "exercise-complete",
+   "check": "no card overflow",
+   "ok": true,
+   "detail": "[356,356]"
+  },
+  {
+   "theme": "dark",
+   "viewport": 390,
+   "fixture": "standby-exercise",
+   "check": "current",
+   "ok": true,
+   "detail": "Standby"
+  },
+  {
+   "theme": "dark",
+   "viewport": 390,
+   "fixture": "standby-exercise",
+   "check": "detail",
+   "ok": true,
+   "detail": "Repetition 1 of 3"
+  },
+  {
+   "theme": "dark",
+   "viewport": 390,
+   "fixture": "standby-exercise",
+   "check": "next",
+   "ok": true,
+   "detail": "Next: Exercise — 0:04"
+  },
+  {
+   "theme": "dark",
+   "viewport": 390,
+   "fixture": "standby-exercise",
+   "check": "main is the word Standby, no timer role",
+   "ok": true,
+   "detail": "{\"timer\":null,\"mainText\":\"Standby\",\"mainRole\":null,\"h2\":\"Standby\",\"detail\":\"Repetition 1 of 3\",\"next\":\"Next: Exercise — 0:04\",\"tm\":343,\"th\":429,\"tg\":501,\"tc\":571,\"fm\":60,\"fh\":20,\"fn\":18,\"alert\":null,\"sw\":356,\"cw\":356,\"sectionOverflow\":false}"
+  },
+  {
+   "theme": "dark",
+   "viewport": 390,
+   "fixture": "standby-exercise",
+   "check": "no m:ss in Standby main/current",
+   "ok": true
+  },
+  {
+   "theme": "dark",
+   "viewport": 390,
+   "fixture": "standby-exercise",
+   "check": "order main<current<next<controls",
+   "ok": true,
+   "detail": "[343,429,501,571]"
+  },
+  {
+   "theme": "dark",
+   "viewport": 390,
+   "fixture": "standby-exercise",
+   "check": "font hierarchy main>current>next",
+   "ok": true,
+   "detail": "[60,20,18]"
+  },
+  {
+   "theme": "dark",
+   "viewport": 390,
+   "fixture": "standby-exercise",
+   "check": "Cancel/Restart named and enabled",
+   "ok": true
+  },
+  {
+   "theme": "dark",
+   "viewport": 390,
+   "fixture": "standby-exercise",
+   "check": "no card overflow",
+   "ok": true,
+   "detail": "[356,356]"
+  },
+  {
+   "theme": "dark",
+   "viewport": 390,
+   "fixture": "rest-exercise",
+   "check": "current",
+   "ok": true,
+   "detail": "Rest · 0:02"
+  },
+  {
+   "theme": "dark",
+   "viewport": 390,
+   "fixture": "rest-exercise",
+   "check": "detail",
+   "ok": true,
+   "detail": "Repetition 1 of 3"
+  },
+  {
+   "theme": "dark",
+   "viewport": 390,
+   "fixture": "rest-exercise",
+   "check": "next",
+   "ok": true,
+   "detail": "Next: Exercise — 0:04"
+  },
+  {
+   "theme": "dark",
+   "viewport": 390,
+   "fixture": "rest-exercise",
+   "check": "main m:ss with timer role",
+   "ok": true,
+   "detail": "0:01"
+  },
+  {
+   "theme": "dark",
+   "viewport": 390,
+   "fixture": "rest-exercise",
+   "check": "order main<current<next<controls",
+   "ok": true,
+   "detail": "[487,573,645,715]"
+  },
+  {
+   "theme": "dark",
+   "viewport": 390,
+   "fixture": "rest-exercise",
+   "check": "font hierarchy main>current>next",
+   "ok": true,
+   "detail": "[60,20,18]"
+  },
+  {
+   "theme": "dark",
+   "viewport": 390,
+   "fixture": "rest-exercise",
+   "check": "Cancel/Restart named and enabled",
+   "ok": true
+  },
+  {
+   "theme": "dark",
+   "viewport": 390,
+   "fixture": "rest-exercise",
+   "check": "no card overflow",
+   "ok": true,
+   "detail": "[356,356]"
+  },
+  {
+   "theme": "dark",
+   "viewport": 390,
+   "fixture": "rest-standby",
+   "check": "current",
+   "ok": true,
+   "detail": "Rest · 0:02"
+  },
+  {
+   "theme": "dark",
+   "viewport": 390,
+   "fixture": "rest-standby",
+   "check": "detail",
+   "ok": true,
+   "detail": "Repetition 1 of 3"
+  },
+  {
+   "theme": "dark",
+   "viewport": 390,
+   "fixture": "rest-standby",
+   "check": "next",
+   "ok": true,
+   "detail": "Next: Standby"
+  },
+  {
+   "theme": "dark",
+   "viewport": 390,
+   "fixture": "rest-standby",
+   "check": "main m:ss with timer role",
+   "ok": true,
+   "detail": "0:02"
+  },
+  {
+   "theme": "dark",
+   "viewport": 390,
+   "fixture": "rest-standby",
+   "check": "no m:ss in Next: Standby",
+   "ok": true,
+   "detail": "Next: Standby"
+  },
+  {
+   "theme": "dark",
+   "viewport": 390,
+   "fixture": "rest-standby",
+   "check": "order main<current<next<controls",
+   "ok": true,
+   "detail": "[343,429,501,571]"
+  },
+  {
+   "theme": "dark",
+   "viewport": 390,
+   "fixture": "rest-standby",
+   "check": "font hierarchy main>current>next",
+   "ok": true,
+   "detail": "[60,20,18]"
+  },
+  {
+   "theme": "dark",
+   "viewport": 390,
+   "fixture": "rest-standby",
+   "check": "Cancel/Restart named and enabled",
+   "ok": true
+  },
+  {
+   "theme": "dark",
+   "viewport": 390,
+   "fixture": "rest-standby",
+   "check": "no card overflow",
+   "ok": true,
+   "detail": "[356,356]"
+  },
+  {
+   "theme": "dark",
+   "viewport": 390,
+   "fixture": "rest-complete",
+   "check": "current",
+   "ok": true,
+   "detail": "Rest · 0:02"
+  },
+  {
+   "theme": "dark",
+   "viewport": 390,
+   "fixture": "rest-complete",
+   "check": "detail",
+   "ok": true,
+   "detail": "Repetition 1 of 1"
+  },
+  {
+   "theme": "dark",
+   "viewport": 390,
+   "fixture": "rest-complete",
+   "check": "next",
+   "ok": true,
+   "detail": "Next: Drill complete"
+  },
+  {
+   "theme": "dark",
+   "viewport": 390,
+   "fixture": "rest-complete",
+   "check": "main m:ss with timer role",
+   "ok": true,
+   "detail": "0:01"
+  },
+  {
+   "theme": "dark",
+   "viewport": 390,
+   "fixture": "rest-complete",
+   "check": "order main<current<next<controls",
+   "ok": true,
+   "detail": "[487,573,645,715]"
+  },
+  {
+   "theme": "dark",
+   "viewport": 390,
+   "fixture": "rest-complete",
+   "check": "font hierarchy main>current>next",
+   "ok": true,
+   "detail": "[60,20,18]"
+  },
+  {
+   "theme": "dark",
+   "viewport": 390,
+   "fixture": "rest-complete",
+   "check": "Cancel/Restart named and enabled",
+   "ok": true
+  },
+  {
+   "theme": "dark",
+   "viewport": 390,
+   "fixture": "rest-complete",
+   "check": "no card overflow",
+   "ok": true,
+   "detail": "[356,356]"
+  },
+  {
+   "theme": "dark",
+   "viewport": 390,
+   "fixture": "resume-preparation",
+   "check": "current",
+   "ok": true,
+   "detail": "Preparation · 0:05"
+  },
+  {
+   "theme": "dark",
+   "viewport": 390,
+   "fixture": "resume-preparation",
+   "check": "detail",
+   "ok": true,
+   "detail": "Preparing"
+  },
+  {
+   "theme": "dark",
+   "viewport": 390,
+   "fixture": "resume-preparation",
+   "check": "next",
+   "ok": true,
+   "detail": "Next: Exercise — 0:04"
+  },
+  {
+   "theme": "dark",
+   "viewport": 390,
+   "fixture": "resume-preparation",
+   "check": "main m:ss with timer role",
+   "ok": true,
+   "detail": "0:05"
+  },
+  {
+   "theme": "dark",
+   "viewport": 390,
+   "fixture": "resume-preparation",
+   "check": "order main<current<next<controls",
+   "ok": true,
+   "detail": "[361,447,519,589]"
+  },
+  {
+   "theme": "dark",
+   "viewport": 390,
+   "fixture": "resume-preparation",
+   "check": "font hierarchy main>current>next",
+   "ok": true,
+   "detail": "[60,20,18]"
+  },
+  {
+   "theme": "dark",
+   "viewport": 390,
+   "fixture": "resume-preparation",
+   "check": "Cancel/Restart named and enabled",
+   "ok": true
+  },
+  {
+   "theme": "dark",
+   "viewport": 390,
+   "fixture": "resume-preparation",
+   "check": "no card overflow",
+   "ok": true,
+   "detail": "[356,356]"
+  },
+  {
+   "theme": "dark",
+   "viewport": 390,
+   "fixture": "paused",
+   "check": "current",
+   "ok": true,
+   "detail": "Exercise · 0:04"
+  },
+  {
+   "theme": "dark",
+   "viewport": 390,
+   "fixture": "paused",
+   "check": "detail",
+   "ok": true,
+   "detail": "Repetition 2 of 3"
+  },
+  {
+   "theme": "dark",
+   "viewport": 390,
+   "fixture": "paused",
+   "check": "next",
+   "ok": true,
+   "detail": "Next: Rest — 0:02"
+  },
+  {
+   "theme": "dark",
+   "viewport": 390,
+   "fixture": "paused",
+   "check": "main m:ss with timer role",
+   "ok": true,
+   "detail": "0:02"
+  },
+  {
+   "theme": "dark",
+   "viewport": 390,
+   "fixture": "paused",
+   "check": "order main<current<next<controls",
+   "ok": true,
+   "detail": "[487,573,645,715]"
+  },
+  {
+   "theme": "dark",
+   "viewport": 390,
+   "fixture": "paused",
+   "check": "font hierarchy main>current>next",
+   "ok": true,
+   "detail": "[60,20,18]"
+  },
+  {
+   "theme": "dark",
+   "viewport": 390,
+   "fixture": "paused",
+   "check": "Resume control present",
+   "ok": true
+  },
+  {
+   "theme": "dark",
+   "viewport": 390,
+   "fixture": "paused",
+   "check": "Cancel/Restart named and enabled",
+   "ok": true
+  },
+  {
+   "theme": "dark",
+   "viewport": 390,
+   "fixture": "paused",
+   "check": "no card overflow",
+   "ok": true,
+   "detail": "[356,356]"
+  },
+  {
+   "theme": "dark",
+   "viewport": 390,
+   "fixture": "initializing",
+   "check": "current",
+   "ok": true,
+   "detail": "Preparation · 0:05"
+  },
+  {
+   "theme": "dark",
+   "viewport": 390,
+   "fixture": "initializing",
+   "check": "detail",
+   "ok": true,
+   "detail": "Preparing"
+  },
+  {
+   "theme": "dark",
+   "viewport": 390,
+   "fixture": "initializing",
+   "check": "next",
+   "ok": true,
+   "detail": "Next: Exercise — 0:04"
+  },
+  {
+   "theme": "dark",
+   "viewport": 390,
+   "fixture": "initializing",
+   "check": "no main countdown while initializing",
+   "ok": true,
+   "detail": "[null,null]"
+  },
+  {
+   "theme": "dark",
+   "viewport": 390,
+   "fixture": "initializing",
+   "check": "order current<next<controls",
+   "ok": true
+  },
+  {
+   "theme": "dark",
+   "viewport": 390,
+   "fixture": "initializing",
+   "check": "Cancel/Restart named and enabled",
+   "ok": true
+  },
+  {
+   "theme": "dark",
+   "viewport": 390,
+   "fixture": "initializing",
+   "check": "no card overflow",
+   "ok": true,
+   "detail": "[356,356]"
+  },
+  {
+   "theme": "dark",
+   "viewport": 390,
+   "fixture": "audio-unavailable",
+   "check": "current",
+   "ok": true,
+   "detail": "Exercise · 0:04"
+  },
+  {
+   "theme": "dark",
+   "viewport": 390,
+   "fixture": "audio-unavailable",
+   "check": "detail",
+   "ok": true,
+   "detail": "Repetition 1 of 3"
+  },
+  {
+   "theme": "dark",
+   "viewport": 390,
+   "fixture": "audio-unavailable",
+   "check": "next",
+   "ok": true,
+   "detail": "Next: Rest — 0:02"
+  },
+  {
+   "theme": "dark",
+   "viewport": 390,
+   "fixture": "audio-unavailable",
+   "check": "main m:ss with timer role",
+   "ok": true,
+   "detail": "0:03"
+  },
+  {
+   "theme": "dark",
+   "viewport": 390,
+   "fixture": "audio-unavailable",
+   "check": "order main<current<next<controls",
+   "ok": true,
+   "detail": "[487,573,645,715]"
+  },
+  {
+   "theme": "dark",
+   "viewport": 390,
+   "fixture": "audio-unavailable",
+   "check": "font hierarchy main>current>next",
+   "ok": true,
+   "detail": "[60,20,18]"
+  },
+  {
+   "theme": "dark",
+   "viewport": 390,
+   "fixture": "audio-unavailable",
+   "check": "warning shown",
+   "ok": true,
+   "detail": "Audio unavailable; running silently."
+  },
+  {
+   "theme": "dark",
+   "viewport": 390,
+   "fixture": "audio-unavailable",
+   "check": "Cancel/Restart named and enabled",
+   "ok": true
+  },
+  {
+   "theme": "dark",
+   "viewport": 390,
+   "fixture": "audio-unavailable",
+   "check": "no card overflow",
+   "ok": true,
+   "detail": "[356,356]"
+  },
+  {
+   "theme": "dark",
+   "viewport": 390,
+   "check": "hover changes Restart background",
+   "ok": true,
+   "detail": "oklab(0.4461 -0.00600482 -0.0256053 / 0.3) -> oklab(0.4461 -0.00600482 -0.0256053 / 0.5)"
+  },
+  {
+   "theme": "dark",
+   "viewport": 390,
+   "check": "focus-visible ring on Cancel",
+   "ok": true,
+   "detail": "{\"f\":true,\"shadow\":\"rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, oklab(0 0 0 / 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.05) 0px 4px 8px -1px\"}"
+  },
+  {
+   "theme": "dark",
+   "viewport": 390,
+   "check": "initializing: loading slot disabled",
+   "ok": true
+  },
+  {
+   "theme": "dark",
+   "viewport": 390,
+   "check": "Phase sections section has no horizontal overflow",
+   "ok": true,
+   "detail": "{\"sec\":0,\"page\":414,\"vw\":390}"
+  },
+  {
+   "theme": "dark",
+   "viewport": 390,
+   "info": "page scrollWidth (whole preview page)",
+   "sec": 0,
+   "page": 414,
+   "vw": 390
+  },
+  {
+   "theme": "dark",
+   "viewport": 390,
+   "check": "no page errors",
+   "ok": true,
+   "detail": ""
+  }
+ ]
+}

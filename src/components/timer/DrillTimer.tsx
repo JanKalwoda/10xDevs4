@@ -6,7 +6,7 @@ import { DrillRun, browserDrillClock, type DrillClock, type DrillDisplay } from 
 import { createDrillResumePendingState } from "@/lib/drill-resume-pending";
 import type { WakeLockStatus } from "@/lib/drill-wake-lock";
 import type { DrillWakeLockSession } from "@/lib/drill-wake-lock-session";
-import { firstDrillPhase } from "@/lib/drill-timer";
+import { initialDrillDisplay } from "@/lib/drill-phase-sections";
 import { browserDrillVisibility, type DrillVisibilityPort } from "@/lib/drill-visibility";
 import type { DrillConfiguration } from "@/types";
 
@@ -40,10 +40,7 @@ export default function DrillTimer({
     const [initializing, setInitializing] = useState(true);
     const [resumePending, setResumePending] = useState(false);
     const [wakeLockStatus, setWakeLockStatus] = useState<WakeLockStatus>(() => wakeLock.getStatus());
-    const [display, setDisplay] = useState<DrillDisplay>(() => {
-        const phase = firstDrillPhase(configuration);
-        return { phase, remainingSeconds: phase.kind === "standby" ? null : phase.durationSeconds, paused: false, audioAvailable: true };
-    });
+    const [display, setDisplay] = useState<DrillDisplay>(() => initialDrillDisplay(configuration));
 
     useEffect(() => {
         let disposed = false;

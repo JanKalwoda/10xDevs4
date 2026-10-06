@@ -21,6 +21,8 @@ export const browserDrillClock: DrillClock = {
 export interface DrillDisplay {
     phase: DrillPhase | null;
     remainingSeconds: number | null;
+    /** The phase that will follow `phase`; a plain phase value, so it never carries the Standby wait. */
+    next: DrillPhase | null;
     paused: boolean;
     audioAvailable: boolean;
 }
@@ -89,6 +91,7 @@ export class DrillRun {
             return {
                 phase: this.pausedAt.phase,
                 remainingSeconds: this.pausedAt.phase.kind === "standby" ? null : Math.ceil(this.pausedAt.remaining),
+                next: this.nextAfter(this.pausedAt.phase),
                 paused: true,
                 audioAvailable: !this.silent,
             };
@@ -97,9 +100,15 @@ export class DrillRun {
         return {
             phase: current?.phase ?? null,
             remainingSeconds: current && current.phase.kind !== "standby" ? Math.max(0, Math.ceil(current.end - now)) : null,
+            next: current ? this.nextAfter(current.phase) : null,
             paused: false,
             audioAvailable: !this.silent,
         };
+    }
+
+    /** After a resume preparation the run jumps to the private resume target, not to the first phase of the drill. */
+    private nextAfter(phase: DrillPhase): DrillPhase | null {
+        return phase.kind === "preparation" && this.resumeTarget ? this.resumeTarget : nextDrillPhase(this.configuration, phase);
     }
 
     subscribe(listener: (display: DrillDisplay) => void) {

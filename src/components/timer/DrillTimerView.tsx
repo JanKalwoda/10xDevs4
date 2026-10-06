@@ -1,6 +1,8 @@
 import { LoaderCircle, Pause, Play, RotateCcw, X } from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
+import PhaseSections from "@/components/timer/PhaseSections";
+import { buildPhaseSections } from "@/lib/drill-phase-sections";
 import type { DrillDisplay } from "@/lib/drill-run";
 
 interface DrillTimerViewProps {
@@ -15,10 +17,6 @@ interface DrillTimerViewProps {
     onResume: () => void;
 }
 
-function formatTime(seconds: number): string {
-    return `${Math.floor(seconds / 60)}:${String(seconds % 60).padStart(2, "0")}`;
-}
-
 export default function DrillTimerView({
     display,
     repetitions,
@@ -30,9 +28,8 @@ export default function DrillTimerView({
     onPause,
     onResume,
 }: DrillTimerViewProps) {
-    const phase = display.phase;
-    if (!phase) return null;
-    const phaseName = phase.kind.charAt(0).toUpperCase() + phase.kind.slice(1);
+    const sections = buildPhaseSections(display, repetitions);
+    if (!sections) return null;
     const timerWarnings = [
         !initializing && !display.audioAvailable ? "Audio unavailable; running silently." : null,
         !initializing && wakeLockUnavailable ? "Screen may lock." : null,
@@ -47,15 +44,7 @@ export default function DrillTimerView({
                     </Alert>
                 )}
             </div>
-            <h2 className="text-foreground text-2xl font-semibold">{phaseName}</h2>
-            <div className="flex min-h-20 items-center justify-center sm:min-h-24">
-                {!initializing && phase.kind !== "standby" ? (
-                    <p className="text-foreground text-6xl font-bold tabular-nums sm:text-7xl" role="timer" aria-label={`${formatTime(display.remainingSeconds ?? 0)} remaining`}>
-                        {formatTime(display.remainingSeconds ?? 0)}
-                    </p>
-                ) : null}
-            </div>
-            <p className="text-muted-foreground text-lg">{phase.kind === "preparation" ? "Preparing" : `Repetition ${phase.repetition} of ${repetitions}`}</p>
+            <PhaseSections sections={sections} initializing={initializing} />
             <div className="grid grid-cols-3 items-center">
                 <div className="justify-self-start">
                     <Button type="button" variant="outline" size="icon" className="size-12" aria-label="Cancel drill" title="Cancel drill" onClick={onCancel}>
