@@ -1,7 +1,7 @@
 ---
 change_id: view-three-phase-sections
 title: View three phase sections
-status: planned
+status: implementing
 created: 2026-10-06
 updated: 2026-10-06
 archived_at: null

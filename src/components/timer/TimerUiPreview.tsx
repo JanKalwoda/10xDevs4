@@ -26,23 +26,90 @@ const fixtures: {
     resumePending?: boolean;
     wakeLockUnavailable?: boolean;
 }[] = [
-    { title: "Loading", display: { phase: { kind: "preparation", durationSeconds: 5 }, remainingSeconds: 5, paused: false, audioAvailable: true }, initializing: true },
-    { title: "Preparation", display: { phase: { kind: "preparation", durationSeconds: 5 }, remainingSeconds: 5, paused: false, audioAvailable: true } },
-    { title: "Exercise", display: { phase: { kind: "exercise", durationSeconds: 4, repetition: 2 }, remainingSeconds: 3, paused: false, audioAvailable: true } },
-    { title: "Rest", display: { phase: { kind: "rest", durationSeconds: 2, repetition: 3 }, remainingSeconds: 2, paused: false, audioAvailable: true } },
-    { title: "Standby", display: { phase: { kind: "standby", repetition: 2 }, remainingSeconds: null, paused: false, audioAvailable: true } },
-    { title: "Paused", display: { phase: { kind: "exercise", durationSeconds: 4, repetition: 2 }, remainingSeconds: 3, paused: true, audioAvailable: true } },
+    {
+        title: "Loading",
+        display: {
+            phase: { kind: "preparation", durationSeconds: 5 },
+            remainingSeconds: 5,
+            next: { kind: "exercise", durationSeconds: 4, repetition: 1 },
+            paused: false,
+            audioAvailable: true,
+        },
+        initializing: true,
+    },
+    {
+        title: "Preparation",
+        display: {
+            phase: { kind: "preparation", durationSeconds: 5 },
+            remainingSeconds: 5,
+            next: { kind: "exercise", durationSeconds: 4, repetition: 1 },
+            paused: false,
+            audioAvailable: true,
+        },
+    },
+    {
+        title: "Exercise",
+        display: {
+            phase: { kind: "exercise", durationSeconds: 4, repetition: 2 },
+            remainingSeconds: 3,
+            next: { kind: "rest", durationSeconds: 2, repetition: 2 },
+            paused: false,
+            audioAvailable: true,
+        },
+    },
+    { title: "Rest", display: { phase: { kind: "rest", durationSeconds: 2, repetition: 3 }, remainingSeconds: 2, next: null, paused: false, audioAvailable: true } },
+    {
+        title: "Standby",
+        display: {
+            phase: { kind: "standby", repetition: 2 },
+            remainingSeconds: null,
+            next: { kind: "exercise", durationSeconds: 4, repetition: 2 },
+            paused: false,
+            audioAvailable: true,
+        },
+    },
+    {
+        title: "Paused",
+        display: {
+            phase: { kind: "exercise", durationSeconds: 4, repetition: 2 },
+            remainingSeconds: 3,
+            next: { kind: "rest", durationSeconds: 2, repetition: 2 },
+            paused: true,
+            audioAvailable: true,
+        },
+    },
     {
         title: "Recovery pending",
-        display: { phase: { kind: "exercise", durationSeconds: 4, repetition: 2 }, remainingSeconds: 3, paused: true, audioAvailable: true },
+        display: {
+            phase: { kind: "exercise", durationSeconds: 4, repetition: 2 },
+            remainingSeconds: 3,
+            next: { kind: "rest", durationSeconds: 2, repetition: 2 },
+            paused: true,
+            audioAvailable: true,
+        },
         resumePending: true,
     },
     {
         title: "Wake Lock unavailable",
-        display: { phase: { kind: "exercise", durationSeconds: 4, repetition: 2 }, remainingSeconds: 3, paused: false, audioAvailable: true },
+        display: {
+            phase: { kind: "exercise", durationSeconds: 4, repetition: 2 },
+            remainingSeconds: 3,
+            next: { kind: "rest", durationSeconds: 2, repetition: 2 },
+            paused: false,
+            audioAvailable: true,
+        },
         wakeLockUnavailable: true,
     },
-    { title: "Audio unavailable", display: { phase: { kind: "exercise", durationSeconds: 4, repetition: 2 }, remainingSeconds: 3, paused: false, audioAvailable: false } },
+    {
+        title: "Audio unavailable",
+        display: {
+            phase: { kind: "exercise", durationSeconds: 4, repetition: 2 },
+            remainingSeconds: 3,
+            next: { kind: "rest", durationSeconds: 2, repetition: 2 },
+            paused: false,
+            audioAvailable: false,
+        },
+    },
 ];
 
 type CancelScenario = "A" | "B" | "C" | "D";
@@ -327,6 +394,7 @@ function CancelControlTransitionFixture() {
     const display: DrillDisplay = {
         phase: { kind: "exercise", durationSeconds: 45, repetition: 2 },
         remainingSeconds: 28,
+        next: { kind: "rest", durationSeconds: 2, repetition: 2 },
         paused: state !== "active",
         audioAvailable: false,
     };

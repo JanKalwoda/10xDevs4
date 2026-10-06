@@ -209,9 +209,9 @@ None (no data, no routes).
 
 #### Automated
 
-- [ ] 1.1 Unit tests pass, including table-driven, drive-the-run, resume and no-leak tests: `npm test`
-- [ ] 1.2 Types pass: `npx astro check`
-- [ ] 1.3 Lint passes: `npm run lint`
+- [x] 1.1 Unit tests pass, including table-driven, drive-the-run, resume and no-leak tests: `npm test`
+- [x] 1.2 Types pass: `npx astro check`
+- [x] 1.3 Lint passes: `npm run lint`
 
 ### Phase 2: Three-section UI
 
