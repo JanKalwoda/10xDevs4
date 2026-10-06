@@ -228,8 +228,8 @@ None (no data, no routes).
 
 #### Automated
 
-- [ ] 3.1 `npm test`, `npm run lint`, `npx astro check` and `npm run build` pass
-- [ ] 3.2 Playwright against `/dev/timer-ui`: section order, "Next: …" per fixture, no `m:ss` pattern in Standby main/current or "Next: Standby", no overflow at 390 px
+- [x] 3.1 `npm test`, `npm run lint`, `npx astro check` and `npm run build` pass — PHASE3SHA
+- [x] 3.2 Playwright against `/dev/timer-ui`: section order, "Next: …" per fixture, no `m:ss` pattern in Standby main/current or "Next: Standby", no overflow at 390 px — PHASE3SHA
 
 #### Manual
 
