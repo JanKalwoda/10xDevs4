@@ -215,7 +215,7 @@ None (no data or env changes).
 
 #### Automated
 
-- [x] 2.1 All gates pass — PHASE2SHA
+- [x] 2.1 All gates pass — 41f306c
 - [ ] 2.2 Preview click never invokes Start
 
 #### Manual
