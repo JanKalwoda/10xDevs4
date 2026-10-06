@@ -322,10 +322,10 @@ At most 50 rows per user; the unique index leads with `user_id`. The advisory lo
 
 #### Automated
 
-- [x] 1.1 Migration applies to the local stack with `npx supabase migration up`
-- [x] 1.2 pgTAP suite passes with `npx supabase test db`
-- [x] 1.3 `npx supabase migration list --local` shows the migration applied and the pgTAP `has_table` assertion passes
-- [x] 1.4 CI workflow diff contains only the new `supabase test db` step
+- [x] 1.1 Migration applies to the local stack with `npx supabase migration up` — 98e14ac
+- [x] 1.2 pgTAP suite passes with `npx supabase test db` — 98e14ac
+- [x] 1.3 `npx supabase migration list --local` shows the migration applied and the pgTAP `has_table` assertion passes — 98e14ac
+- [x] 1.4 CI workflow diff contains only the new `supabase test db` step — 98e14ac
 
 #### Manual
 
