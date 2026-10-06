@@ -64,3 +64,7 @@ This section supersedes the historical Phase 2 checkpoint and Next section above
 - Coordinator repeated production remote smoke: home, sign-in, callback retry and anonymous dashboard protection all PASS.
 - S07 is complete. S08 is now planning in D:/Dev/10xDevs4-restart-whole-drill on feature/restart-whole-drill. No S08 implementation is included here.
 - Screenshot and deterministic fixture limits still apply; no physical device audio or Wake Lock claim is made.
+
+## Weryfikacja ręczna przez użytkownika (2026-10-06)
+
+Użytkownik ręcznie sprawdził wszystkie kroki z listy testów ręcznych dla tej zmiany (S-07) na produkcji i na urządzeniach (w tym dźwięk i Wake Lock tam, gdzie dotyczy) i potwierdził, że wszystko działa poprawnie. To zastępuje wcześniejsze zastrzeżenia, że kroki manualne zweryfikował wyłącznie skrypt Playwright lub agent oraz że fizyczne urządzenia nie były testowane.
