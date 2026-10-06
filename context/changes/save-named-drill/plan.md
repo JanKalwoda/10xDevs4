@@ -329,8 +329,8 @@ At most 50 rows per user; the unique index leads with `user_id`. The advisory lo
 
 #### Manual
 
-- [ ] 1.5 Migration read against the Contract (no anon grant or policy, pinned search_path, security invoker trigger)
-- [ ] 1.6 Rollback comment verified on a scratch database
+- [x] 1.5 Migration read against the Contract (no anon grant or policy, pinned search_path, security invoker trigger) — read line by line on 2026-10-07: columns, 8 named CHECKs, unique index `(user_id, lower(name))`, `revoke all` from anon/authenticated then column-level grants, 4 policies `to authenticated` only, both functions `security invoker` + `set search_path = ''`, EXECUTE revoked; matches the Contract
+- [x] 1.6 Rollback comment verified on a scratch database — dry-run in a rolled-back transaction on the local DB (drop table + both functions: 0 relations, functions and policies left; after ROLLBACK the table and migration history row `20261007120000` are intact); `migration repair` step verified by reading only
 
 ### Phase 2: Validation, service, API route and route protection
 
