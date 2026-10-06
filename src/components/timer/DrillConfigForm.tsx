@@ -1,8 +1,12 @@
-import { useId, useState, type SubmitEvent } from "react";
+import { useId, useState, type ReactNode, type SubmitEvent } from "react";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import SignalPreviewControl from "@/components/timer/SignalPreviewControl";
+import { useSignalPreview } from "@/components/hooks/useSignalPreview";
+import type { DrillAudioPort } from "@/lib/drill-audio";
+import { PREPARATION_NO_SOUND, signalAvailability, type PreviewSignal } from "@/lib/drill-signal-preview";
 import { parseDrillConfig, type DrillConfigErrors, type DrillConfigInput } from "@/lib/drill-timer";
 import type { DrillConfiguration } from "@/types";
 
@@ -10,6 +14,7 @@ interface DrillConfigFormProps {
     values: DrillConfigInput;
     onValuesChange: (values: DrillConfigInput) => void;
     onStart: (configuration: Readonly<DrillConfiguration>) => void;
+    createAudio?: () => Promise<DrillAudioPort | null>;
 }
 
 interface ConfigFieldProps {
@@ -20,9 +25,10 @@ interface ConfigFieldProps {
     value: string;
     error?: string;
     onChange: (field: Exclude<keyof DrillConfigInput, "randomStartEnabled">, value: string) => void;
+    children?: ReactNode;
 }
 
-function ConfigField({ id, field, label, hint, value, error, onChange }: ConfigFieldProps) {
+function ConfigField({ id, field, label, hint, value, error, onChange, children }: ConfigFieldProps) {
     const hintId = `${id}-hint`;
     const errorId = `${id}-error`;
 
@@ -49,13 +55,34 @@ function ConfigField({ id, field, label, hint, value, error, onChange }: ConfigF
                     {error}
                 </p>
             )}
+            {children}
         </div>
     );
 }
 
-export default function DrillConfigForm({ values, onValuesChange, onStart }: DrillConfigFormProps) {
+export default function DrillConfigForm({ values, onValuesChange, onStart, createAudio }: DrillConfigFormProps) {
     const id = useId();
     const [errors, setErrors] = useState<DrillConfigErrors>({});
+    const preview = useSignalPreview(createAudio);
+    const [lastSignal, setLastSignal] = useState<PreviewSignal | null>(null);
+
+    function playPreview(signal: PreviewSignal) {
+        setLastSignal(signal);
+        preview.play(signal);
+    }
+
+    function previewControl(signal: PreviewSignal) {
+        return (
+            <SignalPreviewControl
+                id={`${id}-${signal}-preview`}
+                signal={signal}
+                availability={signalAvailability(values, signal)}
+                status={preview.status}
+                activeSignal={preview.signal ?? lastSignal}
+                onPlay={playPreview}
+            />
+        );
+    }
 
     function handleChange(field: Exclude<keyof DrillConfigInput, "randomStartEnabled">, value: string) {
         onValuesChange({ ...values, [field]: value });
@@ -71,6 +98,7 @@ export default function DrillConfigForm({ values, onValuesChange, onStart }: Dri
         }
 
         setErrors({});
+        preview.release();
         onStart(Object.freeze({ ...result.configuration }));
     }
 
@@ -85,9 +113,15 @@ export default function DrillConfigForm({ values, onValuesChange, onStart }: Dri
                 value={values.preparation}
                 error={errors.preparation}
                 onChange={handleChange}
-            />
-            <ConfigField id={`${id}-exercise`} field="exercise" label="Exercise" hint="0:01 to 10:00" value={values.exercise} error={errors.exercise} onChange={handleChange} />
-            <ConfigField id={`${id}-rest`} field="rest" label="Rest" hint="0:00 to 10:00" value={values.rest} error={errors.rest} onChange={handleChange} />
+            >
+                <p className="text-muted-foreground text-sm">{PREPARATION_NO_SOUND}</p>
+            </ConfigField>
+            <ConfigField id={`${id}-exercise`} field="exercise" label="Exercise" hint="0:01 to 10:00" value={values.exercise} error={errors.exercise} onChange={handleChange}>
+                {previewControl("exercise")}
+            </ConfigField>
+            <ConfigField id={`${id}-rest`} field="rest" label="Rest" hint="0:00 to 10:00" value={values.rest} error={errors.rest} onChange={handleChange}>
+                {previewControl("rest")}
+            </ConfigField>
             <ConfigField
                 id={`${id}-repetitions`}
                 field="repetitions"
@@ -113,6 +147,7 @@ export default function DrillConfigForm({ values, onValuesChange, onStart }: Dri
                 <p id={`${id}-random-start-hint`} className="text-muted-foreground text-sm">
                     Wait a random 1–5 seconds before exercise starts.
                 </p>
+                {previewControl("standby")}
             </div>
             <Button type="submit" className="w-full">
                 Start
