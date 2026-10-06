@@ -100,7 +100,13 @@ export default defineConfig(
         rules: { "account-entry-ui/contract": "error" },
     },
     {
-        files: ["src/components/timer/**/*.{ts,tsx}", "src/pages/index.astro", "src/pages/dev/timer-ui.astro", "src/components/ui/{input,label,checkbox,card,alert}.tsx"],
+        files: [
+            "src/components/timer/**/*.{ts,tsx}",
+            "src/pages/index.astro",
+            "src/pages/create.astro",
+            "src/pages/dev/timer-ui.astro",
+            "src/components/ui/{input,label,checkbox,card,alert}.tsx",
+        ],
         plugins: { "timer-ui": { rules: { contract: timerUiContract } } },
         rules: { "timer-ui/contract": "error" },
     },

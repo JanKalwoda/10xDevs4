@@ -270,6 +270,20 @@ async function verifyAnonymousDrillApi() {
     ensure(location.searchParams.get("next") === "/create");
 }
 
+async function verifyCreatePage() {
+    const dashboard = await appRequest("/dashboard");
+    ensure(dashboard.status === 200);
+    const dashboardMarkup = await dashboard.text();
+    // Tailwind classes such as has-[>svg] contain ">", so the link is matched lazily up to its label instead of by attribute.
+    ensure(/<a href="\/create"[\s\S]*?>\s*Create a timer\s*<\/a>/.test(dashboardMarkup));
+
+    const page = await appRequest("/create");
+    ensure(page.status === 200);
+    const markup = await page.text();
+    ensure(markup.includes("Create a timer"));
+    ensure(markup.includes("Save timer"));
+}
+
 async function verifySavedDrillApi() {
     const first = await saveDrill("Smoke drill");
     ensure(first.status === 201 && first.body.ok === true);
@@ -403,6 +417,7 @@ async function runLocalSmoke() {
         ensure(markup.includes("Dashboard"));
         ensure(markup.includes("Sign out"));
     });
+    await runStep("signed-in user reaches /create and the dashboard links to it", verifyCreatePage);
     await runStep("signed-in user saves, duplicates, invalid and wrong-type requests get stable API answers", verifySavedDrillApi);
     await runStep("the 50-timer limit refuses the 51st save, also for concurrent requests", verifyDrillLimit);
     await runStep("sign-out clears the new-account session", verifyDashboardAndSignOut);
