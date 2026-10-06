@@ -19,6 +19,7 @@ S-04 (US-02, FR-005, FR-013). During a drill the user sees three stacked section
 - Main: remaining time `m:ss` (or "Standby" without countdown), clearly the largest type. Current: phase name + fixed full time (never counts down; for Standby the time slot shows the word "Standby") + "Repetition X of N" / "Preparing". Next: "Next: <Name> — <m:ss>", "Next: Standby" (no time), or "Next: Drill complete" when no phase follows.
 - Correct for: preparation 0 s (skipped), rest 0 s (skipped; last exercise → drill complete), Standby on/off, last repetition, Pause→Resume (next after the resume preparation is the resumed repetition's Standby/exercise), paused and initializing states.
 - Standby never reveals the random wait: neither `DrillDisplay`, the view model nor the DOM contains any value derived from it.
+- **Decision (explicit deviation from PRD wording)**: times are formatted `m:ss` ("Next: Rest — 0:02") for consistency with the main countdown and form fields, whereas PRD US-02 writes "2 s". Approved by the coordinator; tests use the `m:ss` format.
 - Evidence for every behavior is in repo tests (`npm test`); the `/dev/timer-ui` gate adds screenshots, not proofs.
 
 ### Key Discoveries
@@ -32,7 +33,7 @@ S-04 (US-02, FR-005, FR-013). During a drill the user sees three stacked section
 - No phase colors, color tiles, palette or per-phase backgrounds (S-05 deferred); no new color tokens.
 - No change to timing, audio cues, random wait, pause/resume/cancel/restart behavior or the control bar contract.
 - No new route, persistence, auth or database work; no change to the configuration form.
-- No countdown in the current or next sections; no claim of testing on real devices.
+- No countdown in the current or next sections; no claim of device compatibility beyond what optional manual step 3.4 records if a human actually performs it.
 
 ## Implementation Approach
 
@@ -148,19 +149,19 @@ Deterministic states for review, with evidence in the change folder.
 
 **File**: `context/changes/view-three-phase-sections/screenshots/` (PNG + `README.md`)
 
-**Intent**: Screenshots of each fixture state (default, hover/focus-visible of controls, disabled/loading, warning, justified N/A for empty) in light/dark at 1280 and 390 px; README lists the checks.
+**Intent**: Screenshots of each fixture state (default, hover/focus-visible of controls, disabled/loading, warning, justified N/A for empty) in light/dark at 1280 and 390 px; README lists the checks. "Empty" is N/A with justification: `buildPhaseSections` returns `null` only for `phase: null`, which `DrillTimer` treats as completion (`onComplete`), so the view never renders an empty timer.
 
 ### Success Criteria:
 
 #### Automated Verification:
 
 - `npm test`, `npm run lint`, `npx astro check`, `npm run build` pass
-- Playwright against `/dev/timer-ui` (dev server): section order, "Next: …" text per fixture, no digit in Standby main/current, no horizontal overflow at 390 px
+- Playwright against `/dev/timer-ui` (dev server): section order, "Next: …" text per fixture, no `m:ss` pattern (`/\d+:\d\d/`) in Standby main/current or "Next: Standby", no horizontal overflow at 390 px
 
 #### Manual Verification:
 
 - Human review of the screenshots (hierarchy of font sizes, readability, dark mode)
-- A real drill on a phone and a desktop browser shows the correct next phase across a full run including a pause and resume
+- Optional: a real drill on a phone and a desktop browser shows the correct next phase across a full run including a pause and resume (recorded only if a human performs it)
 
 ---
 
@@ -171,7 +172,9 @@ Deterministic states for review, with evidence in the change folder.
 - `buildPhaseSections` table: preparation 0 / >0; rest 0 / >0; Standby on/off; first, middle and last repetition; each (current → next) pair including "Next: Standby" (no time) and "Drill complete"; current time stays fixed while `remainingSeconds` changes; PRD example (exercise 4 s, rest 2 s → "Next: Rest — 0:02").
 - Drive the real `DrillRun` with the fake clock/audio harness of `drill-run.test.ts` through full drills for several configurations: at every phase change `display.next` equals the next distinct phase `display` actually shows, and is `null` exactly at the last phase.
 - Pause/Resume: pause in exercise and in Standby (preparation > 0 and = 0), resume → during the resume preparation `next` is the same repetition's Standby/exercise; paused display keeps correct `next`; pausing again during the resume preparation keeps it.
-- No leak: Standby main/current carry no number (the word "Standby" replaces the time); `next` for Standby has no duration; `Object.keys(display)` equals the allowed set (guards against adding wait fields).
+- Differential no-leak: two runs with injected `random` giving a 1 s and a 5 s wait produce identical `display` + `buildPhaseSections` sequences throughout Standby (deterministic clock) until the wait ends.
+- Resume extras: pause in rest and in preparation (no `resumeTarget`) leaves `next` unchanged; random Standby with injected `random` in the resume path.
+- No leak: Standby main/current carry no time — `main.kind === "standby"`, `current.time === null`, and no `m:ss` pattern (`/\d+:\d\d/`) in main/current text or in "Next: Standby" (the "Repetition X of N" line legitimately contains digits); `next` for Standby has no duration; `Object.keys(display)` equals the allowed set (guards against adding wait fields).
 
 ### Integration Tests:
 
@@ -226,9 +229,9 @@ None (no data, no routes).
 #### Automated
 
 - [ ] 3.1 `npm test`, `npm run lint`, `npx astro check` and `npm run build` pass
-- [ ] 3.2 Playwright against `/dev/timer-ui`: section order, "Next: …" per fixture, no digit in Standby main/current, no overflow at 390 px
+- [ ] 3.2 Playwright against `/dev/timer-ui`: section order, "Next: …" per fixture, no `m:ss` pattern in Standby main/current or "Next: Standby", no overflow at 390 px
 
 #### Manual
 
 - [ ] 3.3 Human review of the screenshots in the change folder
-- [ ] 3.4 Real-device drill with pause and resume shows the correct next phase
+- [ ] 3.4 Optional manual: real-device drill with pause and resume shows the correct next phase (recorded only if performed)

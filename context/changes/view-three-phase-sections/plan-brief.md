@@ -21,7 +21,7 @@ Stacked main / current / next sections on phone and desktop, correct for skipped
 | Where "next" is computed | `DrillRun` adds `DrillDisplay.next` | Only it knows the resume target; deriving from `phase` is wrong after resume | Plan |
 | View logic location | pure `src/lib/drill-phase-sections.ts` | Testable with `npm test` (S-03 lesson) | Plan |
 | Colors | none; layout/size/tokens only | S-05 deferred | Roadmap |
-| Time format | `m:ss` as elsewhere ("Next: Rest — 0:02") | Consistent with the app | Plan (confirmed) |
+| Time format | `m:ss` ("Next: Rest — 0:02"); explicit deviation from PRD "2 s" | Consistent with the app | Plan (approved) |
 | End wording | "Next: Drill complete" | Clear English | Plan (confirmed) |
 | Fixtures | new `PhaseSectionsFixtures.tsx` | Do not grow `TimerUiPreview.tsx` | S-03 lesson |
 | Proof | repo tests drive the real `DrillRun`; Playwright only for screenshots/layout | Behavior evidence must live in repo tests | S-03 lesson |
@@ -54,6 +54,6 @@ Stacked main / current / next sections on phone and desktop, correct for skipped
 
 ## Success Criteria (Summary)
 
-- PRD US-02 examples render exactly ("Next: Rest — 0:02", "Next: Standby", drill complete).
+- PRD US-02 examples render semantically the same: "Next: Rest — 0:02" instead of "2 s" (explicit, approved deviation for `m:ss` consistency), "Next: Standby", drill complete.
 - Tests in `npm test` fail if `next` is wrong or the Standby wait leaks.
 - Screenshots reviewed in light/dark at 1280/390.

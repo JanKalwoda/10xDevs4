@@ -54,3 +54,7 @@
 ## Podsumowanie
 
 Plan jest solidny i poprawnie rozpoznaje pułapkę resume (`resumeTarget` prywatny w `DrillRun`). Przed implementacją: F1 (sprzeczne kryterium), F2 (jawna decyzja o formacie vs PRD), F3 (spójność). Reszta to uzupełnienia testów.
+
+## Decision: ACCEPTED
+
+W1-W3 and O4-O6 accepted by the coordinator (2026-10-06) and applied to plan.md / plan-brief.md: m:ss recorded as explicit PRD deviation (F2), Standby assertions use the m:ss pattern instead of "no digit" (F1), real-device step 3.4 optional and exclusion reworded (F3), extra resume and differential tests (F4, F5), empty-state N/A justified (F6). Plan approved.
