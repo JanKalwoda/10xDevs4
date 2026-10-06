@@ -19,7 +19,11 @@ A migration adds `drill_configurations` with RLS per operation, unique name per 
 | Decision | Choice | Why (1 sentence) | Source |
 | --- | --- | --- | --- |
 | Table | `public.drill_configurations`, no color column | Matches the `DrillConfiguration` type; colors are deferred with S-05 | Plan |
-| Name uniqueness | Unique on `(user_id, lower(name))` + `name = btrim(name)` | "Run" and "run" look like one name on a list | Interview (deviates from brief's literal `(user_id, name)`) |
+| Name uniqueness | Unique on `(user_id, lower(name))` + checks: trimmed, NFC, no control characters | "Run" and "run" (or NFC/NFD forms) look like one name on a list; the DB is the boundary even for direct PostgREST calls | Interview + plan review F3 (deviates from brief's literal `(user_id, name)`) |
+| Column privileges | Client can set only user-chosen columns; `id`, `created_at`, `updated_at` and `user_id` after insert are not writable; `EXECUTE` revoked on trigger functions | RLS protects ownership, grants protect server-owned fields | Plan review F4 |
+| Supabase client in the route | Reuse `locals.supabase` from the middleware; JWT errors map to 401 | A second client would refresh the token twice and could turn a valid session into a 500 | Plan review F1 |
+| Request guards | Media type parsed (charset allowed), 415/413 have their own codes, 4 KB body cap | `text/plain` CORS simple requests must fail; unbounded bodies must not be parsed | Plan review F2 |
+| Rollback | New forward migration (or manual drop + `migration repair --status reverted`) | A bare `drop table` leaves the version recorded in migration history | Plan review F6 |
 | Limit of 50 | `BEFORE INSERT` trigger with per-user advisory lock, errcode `54000` | Race-free enforcement in the database | Plan |
 | Anonymous access | `revoke all` from `anon` + no policy | Default Supabase grants would otherwise allow privilege-level access | Plan |
 | API | `POST /api/drills`, JSON of m:ss strings + name, server reuses `parseDrillConfig` | One rule source for form and server; matches existing API pattern | Plan |
@@ -56,6 +60,8 @@ Database is the security boundary. A pure, port-based service (no Supabase impor
 
 - PRD FR-010 text still lists colors; the roadmap override (2026-10-07) is assumed authoritative.
 - `lower()` is locale-dependent in Postgres; acceptable for names, documented.
+- The local Supabase is shared across worktrees: only `migration up`, no `db reset`; other worktrees should not reset until this change merges.
+- The 50-limit lock is proven by pgTAP boundary tests (including a multi-row insert); the concurrent smoke step is only a regression signal.
 - The pgTAP CI step adds a registry dependency (mitigated by the same retry/fallback the start step uses).
 - Merging before `db push` degrades only saving (503), not other routes.
 
