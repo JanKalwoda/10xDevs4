@@ -15,7 +15,7 @@ export type DrillConfigResult = { valid: true; configuration: DrillConfiguration
 const TIME_PATTERN = /^(0|[1-9]\d*):([0-5]\d)$/;
 const REPETITIONS_PATTERN = /^[1-9]\d*$/;
 
-function parseTime(value: string, allowZero: boolean): number | undefined {
+export function parseDrillTime(value: string, allowZero: boolean): number | undefined {
     const match = TIME_PATTERN.exec(value);
     if (!match) return undefined;
 
@@ -26,9 +26,9 @@ function parseTime(value: string, allowZero: boolean): number | undefined {
 }
 
 export function parseDrillConfig(input: DrillConfigInput): DrillConfigResult {
-    const preparationSeconds = parseTime(input.preparation, true);
-    const exerciseSeconds = parseTime(input.exercise, false);
-    const restSeconds = parseTime(input.rest, true);
+    const preparationSeconds = parseDrillTime(input.preparation, true);
+    const exerciseSeconds = parseDrillTime(input.exercise, false);
+    const restSeconds = parseDrillTime(input.rest, true);
     const repetitions = REPETITIONS_PATTERN.test(input.repetitions) ? Number(input.repetitions) : undefined;
 
     const errors: DrillConfigErrors = {};
@@ -61,8 +61,11 @@ export function parseDrillConfig(input: DrillConfigInput): DrillConfigResult {
     };
 }
 
+export const RANDOM_START_MIN_CENTISECONDS = 100;
+export const RANDOM_START_MAX_CENTISECONDS = 500;
+
 export function sampleRandomStartCentiseconds(random: () => number = Math.random): number {
-    return 100 + Math.floor(random() * 401);
+    return RANDOM_START_MIN_CENTISECONDS + Math.floor(random() * (RANDOM_START_MAX_CENTISECONDS - RANDOM_START_MIN_CENTISECONDS + 1));
 }
 
 export function firstDrillPhase(configuration: DrillConfiguration): DrillPhase {

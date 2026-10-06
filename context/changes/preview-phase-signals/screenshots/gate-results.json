@@ -1,0 +1,585 @@
+{
+  "capturedAt": "2026-10-06T21:38:24.047Z",
+  "results": [
+    {
+      "name": "light-1280 theme class",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "light-1280 signal section has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "light-1280 exercise meaning text",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "light-1280 rest meaning text",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "light-1280 standby meaning text",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "light-1280 random-off note",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "light-1280 preparation no sound",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "light-1280 standby enabled with Random start off",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "light-1280 preview buttons are type=button",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "light-1280 hover changes background",
+      "ok": true,
+      "detail": "oklch(0.9751 0.0127 244.251) -> oklch(0.9505 0.0507 163.051)"
+    },
+    {
+      "name": "light-1280 Tab from Exercise reaches Play exercise (focus-visible)",
+      "ok": true,
+      "detail": "{\"id\":\"_r1R_679_-exercise-preview\",\"fv\":true}"
+    },
+    {
+      "name": "light-1280 Tab order continues to Rest input",
+      "ok": true,
+      "detail": "rest"
+    },
+    {
+      "name": "light-1280 exercise click: Start not invoked",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "light-1280 exercise click: audio created in click, cue = exercise",
+      "ok": true,
+      "detail": "exercise"
+    },
+    {
+      "name": "light-1280 standby plays two cues",
+      "ok": true,
+      "detail": "exercise, standby-first, standby-second"
+    },
+    {
+      "name": "light-1280 standby click reuses audio",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "light-1280 random-on: no off note",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "light-1280 rest 0:00 disabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "light-1280 rest 0:00 visible reason",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "light-1280 rest invalid disabled + reason",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "light-1280 standby enabled in disabled fixture",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "light-1280 error: next click retries createAudio",
+      "ok": true,
+      "detail": "2"
+    },
+    {
+      "name": "light-1280 error: Start not invoked",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "light-1280 loading: aria-busy",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "light-1280 loading: further clicks ignored",
+      "ok": true,
+      "detail": "1"
+    },
+    {
+      "name": "light-1280 loading: grant then plays, busy cleared",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "light-1280 playing: standby cues",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "light-1280 Start releases preview audio before onStart",
+      "ok": true,
+      "detail": "1/1"
+    },
+    {
+      "name": "light-1280 playing text cleared after release",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "light-390 theme class",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "light-390 signal section has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "light-390 exercise meaning text",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "light-390 rest meaning text",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "light-390 standby meaning text",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "light-390 random-off note",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "light-390 preparation no sound",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "light-390 standby enabled with Random start off",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "light-390 preview buttons are type=button",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "light-390 hover changes background",
+      "ok": true,
+      "detail": "oklch(0.9751 0.0127 244.251) -> oklch(0.9505 0.0507 163.051)"
+    },
+    {
+      "name": "light-390 Tab from Exercise reaches Play exercise (focus-visible)",
+      "ok": true,
+      "detail": "{\"id\":\"_r1R_679_-exercise-preview\",\"fv\":true}"
+    },
+    {
+      "name": "light-390 Tab order continues to Rest input",
+      "ok": true,
+      "detail": "rest"
+    },
+    {
+      "name": "light-390 exercise click: Start not invoked",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "light-390 exercise click: audio created in click, cue = exercise",
+      "ok": true,
+      "detail": "exercise"
+    },
+    {
+      "name": "light-390 standby plays two cues",
+      "ok": true,
+      "detail": "exercise, standby-first, standby-second"
+    },
+    {
+      "name": "light-390 standby click reuses audio",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "light-390 random-on: no off note",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "light-390 rest 0:00 disabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "light-390 rest 0:00 visible reason",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "light-390 rest invalid disabled + reason",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "light-390 standby enabled in disabled fixture",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "light-390 error: next click retries createAudio",
+      "ok": true,
+      "detail": "2"
+    },
+    {
+      "name": "light-390 error: Start not invoked",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "light-390 loading: aria-busy",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "light-390 loading: further clicks ignored",
+      "ok": true,
+      "detail": "1"
+    },
+    {
+      "name": "light-390 loading: grant then plays, busy cleared",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "light-390 playing: standby cues",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "light-390 Start releases preview audio before onStart",
+      "ok": true,
+      "detail": "1/1"
+    },
+    {
+      "name": "light-390 playing text cleared after release",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "dark-1280 theme class",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "dark-1280 signal section has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "dark-1280 exercise meaning text",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "dark-1280 rest meaning text",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "dark-1280 standby meaning text",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "dark-1280 random-off note",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "dark-1280 preparation no sound",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "dark-1280 standby enabled with Random start off",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "dark-1280 preview buttons are type=button",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "dark-1280 hover changes background",
+      "ok": true,
+      "detail": "oklab(0.4461 -0.00600482 -0.0256053 / 0.3) -> oklab(0.4461 -0.00600482 -0.0256053 / 0.5)"
+    },
+    {
+      "name": "dark-1280 Tab from Exercise reaches Play exercise (focus-visible)",
+      "ok": true,
+      "detail": "{\"id\":\"_r1R_679_-exercise-preview\",\"fv\":true}"
+    },
+    {
+      "name": "dark-1280 Tab order continues to Rest input",
+      "ok": true,
+      "detail": "rest"
+    },
+    {
+      "name": "dark-1280 exercise click: Start not invoked",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "dark-1280 exercise click: audio created in click, cue = exercise",
+      "ok": true,
+      "detail": "exercise"
+    },
+    {
+      "name": "dark-1280 standby plays two cues",
+      "ok": true,
+      "detail": "exercise, standby-first, standby-second"
+    },
+    {
+      "name": "dark-1280 standby click reuses audio",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "dark-1280 random-on: no off note",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "dark-1280 rest 0:00 disabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "dark-1280 rest 0:00 visible reason",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "dark-1280 rest invalid disabled + reason",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "dark-1280 standby enabled in disabled fixture",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "dark-1280 error: next click retries createAudio",
+      "ok": true,
+      "detail": "2"
+    },
+    {
+      "name": "dark-1280 error: Start not invoked",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "dark-1280 loading: aria-busy",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "dark-1280 loading: further clicks ignored",
+      "ok": true,
+      "detail": "1"
+    },
+    {
+      "name": "dark-1280 loading: grant then plays, busy cleared",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "dark-1280 playing: standby cues",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "dark-1280 Start releases preview audio before onStart",
+      "ok": true,
+      "detail": "1/1"
+    },
+    {
+      "name": "dark-1280 playing text cleared after release",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "dark-390 theme class",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "dark-390 signal section has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "dark-390 exercise meaning text",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "dark-390 rest meaning text",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "dark-390 standby meaning text",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "dark-390 random-off note",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "dark-390 preparation no sound",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "dark-390 standby enabled with Random start off",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "dark-390 preview buttons are type=button",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "dark-390 hover changes background",
+      "ok": true,
+      "detail": "oklab(0.4461 -0.00600482 -0.0256053 / 0.3) -> oklab(0.4461 -0.00600482 -0.0256053 / 0.5)"
+    },
+    {
+      "name": "dark-390 Tab from Exercise reaches Play exercise (focus-visible)",
+      "ok": true,
+      "detail": "{\"id\":\"_r1R_679_-exercise-preview\",\"fv\":true}"
+    },
+    {
+      "name": "dark-390 Tab order continues to Rest input",
+      "ok": true,
+      "detail": "rest"
+    },
+    {
+      "name": "dark-390 exercise click: Start not invoked",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "dark-390 exercise click: audio created in click, cue = exercise",
+      "ok": true,
+      "detail": "exercise"
+    },
+    {
+      "name": "dark-390 standby plays two cues",
+      "ok": true,
+      "detail": "exercise, standby-first, standby-second"
+    },
+    {
+      "name": "dark-390 standby click reuses audio",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "dark-390 random-on: no off note",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "dark-390 rest 0:00 disabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "dark-390 rest 0:00 visible reason",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "dark-390 rest invalid disabled + reason",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "dark-390 standby enabled in disabled fixture",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "dark-390 error: next click retries createAudio",
+      "ok": true,
+      "detail": "2"
+    },
+    {
+      "name": "dark-390 error: Start not invoked",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "dark-390 loading: aria-busy",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "dark-390 loading: further clicks ignored",
+      "ok": true,
+      "detail": "1"
+    },
+    {
+      "name": "dark-390 loading: grant then plays, busy cleared",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "dark-390 playing: standby cues",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "dark-390 Start releases preview audio before onStart",
+      "ok": true,
+      "detail": "1/1"
+    },
+    {
+      "name": "dark-390 playing text cleared after release",
+      "ok": true,
+      "detail": ""
+    }
+  ]
+}
