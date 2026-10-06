@@ -217,8 +217,8 @@ None (no data, no routes).
 
 #### Automated
 
-- [ ] 2.1 `npm test`, `npm run lint`, `npx astro check` and `npm run build` pass
-- [ ] 2.2 Contract rule tests pass: `node --test scripts/eslint-rules/timer-ui-contract.test.mjs scripts/eslint-rules/account-entry-ui-contract.test.mjs`
+- [x] 2.1 `npm test`, `npm run lint`, `npx astro check` and `npm run build` pass — 3bdd6bd
+- [x] 2.2 Contract rule tests pass: `node --test scripts/eslint-rules/timer-ui-contract.test.mjs scripts/eslint-rules/account-entry-ui-contract.test.mjs` — 3bdd6bd
 
 #### Manual
 
