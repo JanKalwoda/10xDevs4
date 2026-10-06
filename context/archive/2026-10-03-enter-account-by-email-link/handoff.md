@@ -126,3 +126,6 @@ Evidence:
 - https://github.com/JanKalwoda/10xDevs4/actions/runs/37231391340
 - https://github.com/JanKalwoda/10xDevs4/actions/runs/37231557734
 - https://github.com/JanKalwoda/10xDevs4/actions/runs/37231757622
+## Weryfikacja ręczna przez użytkownika (2026-10-06)
+
+Użytkownik ręcznie sprawdził wszystkie kroki z listy testów ręcznych dla tej zmiany (S-09) na produkcji i na urządzeniach (w tym dźwięk i Wake Lock tam, gdzie dotyczy) i potwierdził, że wszystko działa poprawnie. To zastępuje wcześniejsze zastrzeżenia, że kroki manualne zweryfikował wyłącznie skrypt Playwright lub agent oraz że fizyczne urządzenia nie były testowane.

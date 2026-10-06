@@ -3,7 +3,7 @@ project: "DryFire Drill Timer"
 version: 1
 status: draft
 created: 2026-09-23
-updated: 2026-10-05
+updated: 2026-10-06
 prd_version: 1
 main_goal: speed
 top_blocker: capacity
@@ -316,3 +316,7 @@ Brak zamkniętych kamieni milowych.
 
 - **S-01: Użytkownik przechodzi z osobnego formularza do pełnego przebiegu faz bez losowego startu** — Archived 2026-09-28 → `context/archive/2026-09-24-run-configured-phases/`. Lesson: —.
 - **S-02: Użytkownik uruchamia przebieg, w którym każde ćwiczenie poprzedza nowe, ukryte oczekiwanie 1–5 s liczone po dwóch sygnałach Standby, a rozpoczęcie ćwiczenia i dodatniego odpoczynku ma ustalone dźwięki; odpoczynek 0 s nie emituje sygnału.** — Archived 2026-09-28 → `context/archive/2026-09-25-run-random-start/`. Lesson: —.
+- **S-06: Użytkownik wstrzymuje ćwiczenie lub wraca do aplikacji po jej ukryciu i ręcznie wznawia właściwą fazę albo to samo powtórzenie według reguł PRD.** — Archived 2026-10-06 → `context/archive/2026-10-03-pause-and-resume-drill/`. Lesson: —.
+- **S-07: Użytkownik anuluje bieżący przebieg i wraca do konfiguracji z zachowanymi ustawieniami.** — Archived 2026-10-06 → `context/archive/2026-10-04-cancel-current-drill/`. Lesson: —.
+- **S-08: Użytkownik uruchamia cały przebieg ponownie od przygotowania, z pierwszym powtórzeniem i nowymi losowaniami, gdy losowy start jest włączony.** — Archived 2026-10-06 → `context/archive/2026-10-05-restart-whole-drill/`. Lesson: —.
+- **S-09: Użytkownik podaje adres email i przez otrzymany link tworzy konto lub wraca do istniejącego konta.** — Archived 2026-10-06 → `context/archive/2026-10-03-enter-account-by-email-link/`. Lesson: —.

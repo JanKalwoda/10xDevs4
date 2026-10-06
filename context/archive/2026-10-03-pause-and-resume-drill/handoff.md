@@ -59,3 +59,7 @@ Plan, plan-brief, research and reviews/plan-review.md are in this change folder.
 ## Coordinator PR/CI checkpoint — 2026-10-04
 
 PR #30: https://github.com/JanKalwoda/10xDevs4/pull/30. Review approved without findings. Required CI run 37192553128 passed ci and production-preview smoke on dcbfa53527b9a61a3a645f9f465822eff401d10b. Progress 3.8 records this actual evidence. This documentation update has no production-code changes; wait for its own head CI before coordinator merge. Preserve phase history with a merge commit, do not squash. The main roadmap receives only S06 status done and the date update when the PR merges. S07 remains unstarted until the merge. Physical device Wake Lock remains unverified.
+
+## Weryfikacja ręczna przez użytkownika (2026-10-06)
+
+Użytkownik ręcznie sprawdził wszystkie kroki z listy testów ręcznych dla tej zmiany (S-06) na produkcji i na urządzeniach (w tym dźwięk i Wake Lock tam, gdzie dotyczy) i potwierdził, że wszystko działa poprawnie. To zastępuje wcześniejsze zastrzeżenia, że kroki manualne zweryfikował wyłącznie skrypt Playwright lub agent oraz że fizyczne urządzenia nie były testowane.

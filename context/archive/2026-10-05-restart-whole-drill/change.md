@@ -1,10 +1,10 @@
 ---
 change_id: restart-whole-drill
 title: Restart the entire drill from its first phase
-status: impl_reviewed
+status: archived
 created: 2026-10-05
 updated: 2026-10-06
-archived_at: null
+archived_at: 2026-10-06T20:40:49Z
 ---
 
 ## Notes

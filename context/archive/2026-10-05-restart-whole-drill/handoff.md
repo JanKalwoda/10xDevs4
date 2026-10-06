@@ -65,3 +65,7 @@ F1 (DrillApp używa `browserDrillVisibility`), F3 (`fireCapturedWake` zwraca rea
 - PR #36 merged as 3e136ad into main; CI, production-preview smoke and deploy are green on main.
 - Production (checked by the coordinator): `/` = 200, `/dev/timer-ui` = 404.
 - Progress 2.2 is complete. S-08 is done in the roadmap.
+
+## Weryfikacja ręczna przez użytkownika (2026-10-06)
+
+Użytkownik ręcznie sprawdził wszystkie kroki z listy testów ręcznych dla tej zmiany (S-08) na produkcji i na urządzeniach (w tym dźwięk i Wake Lock tam, gdzie dotyczy) i potwierdził, że wszystko działa poprawnie. To zastępuje wcześniejsze zastrzeżenia, że kroki manualne zweryfikował wyłącznie skrypt Playwright lub agent oraz że fizyczne urządzenia nie były testowane.
