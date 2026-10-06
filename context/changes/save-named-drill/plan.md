@@ -336,12 +336,12 @@ At most 50 rows per user; the unique index leads with `user_id`. The advisory lo
 
 #### Automated
 
-- [ ] 2.1 `npm test` passes with the new service and route-protection tests
-- [ ] 2.2 `npm run lint` passes
-- [ ] 2.3 Contract rule tests pass
-- [ ] 2.4 `npx astro sync && npx astro check` passes
-- [ ] 2.5 `npm run build` passes
-- [ ] 2.6 Local smoke with the new API steps passes
+- [x] 2.1 `npm test` passes with the new service and route-protection tests — e8f40d1
+- [x] 2.2 `npm run lint` passes — e8f40d1
+- [x] 2.3 Contract rule tests pass — e8f40d1
+- [x] 2.4 `npx astro sync && npx astro check` passes — e8f40d1
+- [x] 2.5 `npm run build` passes — e8f40d1
+- [x] 2.6 Local smoke with the new API steps passes — e8f40d1
 
 #### Manual
 

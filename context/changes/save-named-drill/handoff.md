@@ -41,3 +41,31 @@ The local stack `10x-astro-starter` (ports 55321/55322) is shared by all worktre
 - Service error mapping: unique index name `drill_configurations_user_name_key` (SQLSTATE `23505`), `54000`, `PGRST205`/`42P01` (table missing), `PGRST301`/`PGRST303`/401 (JWT) per the plan.
 - Insert payload may include `user_id` (column grant allows it); do not send `id`, `created_at`, `updated_at`.
 - Bounds to export from `src/lib/drill-timer.ts` and check in the drift test: 600, 100, name 200, limit 50; constraint names above.
+
+## Phase 2 — DONE (commit e8f40d1): validation, service, API route, route protection
+
+Delivered:
+
+- `src/lib/drill-timer.ts`: exported `MAX_DRILL_SECONDS = 600`, `MAX_REPETITIONS = 100`, used in `parseDrillConfig` (no behavior change). `src/types.ts`: `SavedDrill`, `SaveDrillRequest`, `SaveDrillErrorCode`, `SaveDrillFieldErrors`, `SaveDrillResponse`.
+- `src/lib/services/drill-configurations.ts` (no runtime Supabase import): `validateSaveDrillRequest` (zod strict shape + `parseDrillConfig`, all field errors at once; name NFC, control characters/lone surrogates rejected BEFORE trim, then trim, length in code points), `DrillConfigurationStore` port + `createSupabaseDrillStore(client)`, `saveDrillConfiguration`, `classifyStoreError`, `savedDrillFromRow` (for S-11), `isJsonMediaType`, `readLimitedText` (4 KB; Content-Length and streaming cut-off, UTF-8 fatal) and `handleSaveDrillRequest` (whole pipeline: 401 → 503 → 415 → 413 → 400 → save). Messages are exported as `SAVE_DRILL_MESSAGES` (Phase 3 UI can reuse them). Logs carry only the error code.
+- `src/pages/api/drills/index.ts`: thin `POST`, `prerender = false`, `Cache-Control: no-store`; uses `locals.user.id` and `locals.supabase` (one client, created by the middleware). Statuses: 201, 400 validation, 401, 409 (`duplicate_name`, `limit_reached`), 413, 415, 503 `unavailable`, 500 `unexpected`. Wire format: JSON `{ name, preparation, exercise, rest, repetitions, randomStartEnabled }` (m:ss strings, repetitions string, boolean), strict: unknown keys (e.g. `user_id`, `id`) are a 400.
+- `src/lib/protected-routes.ts`: `PROTECTED_ROUTES = ["/dashboard", "/create"]`, `isProtectedPath` matches at a segment boundary on the decoded path with repeated slashes collapsed (`/%63reate`, `//create`, `/create/` protected; `/created` not). Middleware uses it and sets `context.locals.supabase` (`App.Locals.supabase: SupabaseClient | null` in `src/env.d.ts`).
+- `package.json`: `test` also runs `src/lib/services/*.test.ts`.
+- `scripts/smoke.mjs`: `appRequest` `json`/`contentType` options; anonymous 401 + `/create` redirect (local and remote); local: save 201, same name other case 409, invalid 400, `text/plain` 415, then fill to 48 and five concurrent names → exactly two 201 and three 409 `limit_reached`, plus a 51st → 409. Steps run in the first signed-in session before sign-out.
+
+Tests (`npm test`: 124 pass, 53 new in `drill-configurations.test.ts` and `protected-routes.test.ts`): every validation branch, bounds vs `parseDrillConfig`, NFC/NFD, control chars, each error mapping (incl. `PGRST205`, `PGRST301/303`, 401), no payload in logs, media type, body cap (declared, streamed, multibyte), handler status order, drift test that reads the migration (CHECK bounds, limit 50, index name, errcode `54000`).
+
+Gates: `npm test` 124/124; `npm run lint` clean; rule tests 4/4; `astro sync && astro check` 0 errors (one pre-existing hint in `SignalPreviewFixtures.tsx`); `npm run build` ok; `supabase test db` was not rerun (no DB change in this phase; 66/66 in Phase 1). Break-check: nine deliberate breaks (duplicate index check, media type, body cap, NFC, limit code, decode, segment boundary, constant drift, 401 status), each turned a test red and was reverted with `git checkout --`.
+
+Local smoke: all 23 steps passed against the production preview on the shared local stack, remote mode (anonymous checks) passed too. Caveats: (1) the shared stack runs without Mailpit and its GoTrue container serves older email templates (subject `Your sign-in link`), so the unchanged `smoke.mjs` cannot pass the email steps here; I ran a scratchpad copy where only email retrieval is replaced by admin `generate_link`, every other step (including the new API ones) is the repo code. CI starts a fresh stack and uses the real Mailpit. (2) I briefly started a Mailpit container named `supabase_inbucket_10x-astro-starter` on the stack network and removed it afterwards; no DB, container or config of the stack was changed. (3) The smoke user left 50 rows in the shared local DB (`drill_configurations`); harmless, cascades with the user.
+
+Manual items left unchecked (need a human): 2.7 and 2.8.
+- 2.8 evidence: the signed-in smoke saved through real cookies → RLS → trigger; `select` on the DB shows the smoke user with 50 rows and exactly one owner.
+- 2.7 not exercised end to end: dropping the table on the shared DB is not allowed. Evidence: a real PostgREST call for a missing table returns `PGRST205` / HTTP 404 (the code the service maps to `unavailable` → 503, unit tested through the handler), and no page queries the DB at render time. To check by hand, point a scratch stack without the migration at the app, or ask the coordinator.
+
+For Phase 3:
+
+- `.env` / `.dev.vars` exist in this worktree (gitignored, local stack credentials); stop any preview on 4321 when done.
+- Reuse `SAVE_DRILL_MESSAGES` and the `SaveDrillResponse` type; `duplicate_name` carries `fieldErrors.name`; `unauthorized` is 401 (show a sign-in link); `unavailable` covers missing table and missing client.
+- `/create` is already protected by the middleware, but the page does not exist yet (guests get the redirect; a signed-in user would see a 404 until Phase 3).
+- Smoke Phase 3 step still to add: authenticated `GET /create` → 200 containing `Create a timer`.
