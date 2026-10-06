@@ -29,6 +29,22 @@ Gates green: `npm test` (87), `astro sync`, `npm run lint`, contract rule tests 
 
 Open for Phase 3: step 2.2 (click never invokes Start) stays unchecked until the fixture assertion exists; fixtures must inject `createAudio` (the existing `/dev/timer-ui` form fixture still uses the real `createDrillAudio`).
 
-## Not verified / needs a human
+## Phase 3 — DONE (visual gate)
 
-- Audible output, Safari/iOS behaviour (2.3, 3.2); no browser run or screenshots yet.
+Delivered:
+
+- `src/components/timer/SignalPreviewFixtures.tsx` — production `DrillConfigForm` in seven cards (default / Random start on / Rest 0:00 / Rest invalid / error / loading / playing) with injected `createAudio`, an evidence list (Start calls, audio created/closed, cues scheduled) and "Grant held audio" / "Reset fixture" buttons. `TimerUiPreview.tsx` only mounts it (2 lines); the seven timer states and held-mounted lifecycle scenarios are untouched.
+- `screenshots/` — 36 PNG (9 states × light/dark × 1280/390), `README.md`, `gate-results.json`.
+
+## Verified by script (not by a human)
+
+- `npm test` 87/87, `astro sync`, `npm run lint`, contract rule tests 4/4, `astro check` 0 errors, `npm run build` — all green.
+- Playwright against `/dev/timer-ui` (light/dark × 1280/390): 116/116 checks (list in `screenshots/README.md`), including step 2.2 (preview click never calls Start), audio created inside the click, Standby = two cues, retry after unavailable, initializing ignores extra clicks, Start closes preview audio before `onStart`.
+- I viewed representative screenshots (error light 1280, playing dark 390, focus-visible dark 1280); the others were only checked by the script's assertions.
+- Not run in this phase: `/dev/timer-ui` returning 404 on the production preview (CI smoke covers it; the route logic is unchanged).
+
+## Needs a human (not claimed)
+
+- 2.3 / 3.2: audible output on real devices (speakers, headphones, Bluetooth), Safari/iOS autoplay behaviour, and whether the meaning texts are clear to a listener. The fixtures use a fake audio port, so the real `AudioContext` path through the preview button was only exercised by unit tests, never in a browser.
+- Human review of all 36 screenshots.
+- Pre-existing: the "held-mounted restart" fixture overflows the viewport by 24 px at 390 px; not touched here.
