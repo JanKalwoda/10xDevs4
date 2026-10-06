@@ -1,6 +1,7 @@
 # Preview phase signals — Plan Brief
 
 > Full plan: `context/changes/preview-phase-signals/plan.md`
+> Plan review: `context/changes/preview-phase-signals/reviews/plan-review.md` (F1–F8 accepted)
 
 ## What & Why
 
@@ -12,42 +13,43 @@ Signals exist only inside a running drill (`DrillRun` → `DrillAudioPort`). The
 
 ## Desired End State
 
-Play buttons with meaning text under Exercise, Rest and Random start; Preparation says it has no sound; Rest 0 s and Standby-off are disabled with a reason; audio failure shows an inline message.
+Play buttons with meaning text under Exercise, Rest and Random start; Preparation says it has no sound; Rest 0 s/invalid disables the Rest button with a visible reason; Standby is always playable; audio failure shows an alert and the next click retries.
 
 ## Key Decisions Made
 
 | Decision | Choice | Why |
 | --- | --- | --- |
 | Same signals | One cue-sequence helper, tested against `DrillRun` | Explanation always matches the drill |
-| Unavailable signal | Disabled with reason text, not hidden | Stable layout, explains why |
-| Standby with toggle off | Disabled | FR-004 ties it to the option being set |
-| Audio lifetime | One lazy context per form, released on Start/unmount | No overlap with the drill's own audio |
-| Fixtures | Inject audio factory into production form | Visual gate uses real components |
+| Lifecycle | Pure controller in `src/lib` (idle/initializing/playing/unavailable), thin hook | Testable by `npm test`; handles gesture, dead port, retry |
+| Standby | Always enabled; Random start state only as text | FR-004; user must hear it to decide |
+| Rest | Disabled for 0 s and for invalid, with distinct texts | Honest messages; `parseDrillTime` exported |
+| Buttons | `type="button"` | Must not submit the form |
+| Fixtures | Separate module, injected timer/audio | Deterministic loading/playing states |
+| End time | From last `ScheduledCue.end` | Accounts for clamped start |
 
 ## Scope
 
-**In scope:** helper + tests, hook, control, form integration, `/dev/timer-ui` fixtures, screenshots.
+**In scope:** lib helpers + controller + tests, hook, control, form integration, fixtures module, screenshots.
 
 **Out of scope:** preparation/0 s rest signals, new sounds, Bluetooth sync, colors, persistence.
 
 ## Architecture / Approach
 
-Pure lib → hook (gesture-time audio) → control component → form; fixtures reuse `FixtureAudio`.
+Pure lib (catalogue, availability, controller) → thin hook (`useSyncExternalStore`) → control component → form; fixtures reuse `FixtureAudio` with an injected manual timer.
 
 ## Phases at a Glance
 
 | Phase | What it delivers | Key risk |
 | --- | --- | --- |
-| 1. Library | Cue helper, availability, tests | Drift from `DrillRun` (covered by test) |
-| 2. Form UI | Buttons, meaning text, audio lifecycle | Audio unlock in gesture; overlap with run |
-| 3. Visual gate | Fixtures + screenshots | Timer UI contract lint; large preview file |
+| 1. Library + controller | Cue helper, availability, lifecycle state machine, tests | Drift from `DrillRun` (covered by test) |
+| 2. Form UI | Buttons, texts, alerts, tab stops | Audio unlock in gesture; overlap with run |
+| 3. Visual gate | Fixtures module + screenshots | Timer UI contract lint |
 
 **Prerequisites:** S-02 done. **Estimated effort:** ~3 sessions.
 
 ## Open Risks & Assumptions
 
-- Audible output can only be verified by a human on real devices.
-- Assumes Standby button is disabled (not hidden) when Random start is off.
+- Audible output and Safari/iOS behaviour can only be verified by a human on real devices.
 
 ## Success Criteria (Summary)
 
