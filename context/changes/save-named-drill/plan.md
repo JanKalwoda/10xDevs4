@@ -352,9 +352,9 @@ At most 50 rows per user; the unique index leads with `user_id`. The advisory lo
 
 #### Automated
 
-- [ ] 3.1 `npm test`, `npm run lint`, contract rule tests, `npx astro check` and `npm run build` pass
-- [ ] 3.2 Local smoke including authenticated `/create` passes
-- [ ] 3.3 `DrillConfigForm.tsx` diff is additive optional props only
+- [x] 3.1 `npm test`, `npm run lint`, contract rule tests, `npx astro check` and `npm run build` pass — 758c35b
+- [x] 3.2 Local smoke including authenticated `/create` passes — 758c35b
+- [x] 3.3 `DrillConfigForm.tsx` diff is additive optional props only — 758c35b
 
 #### Manual
 
