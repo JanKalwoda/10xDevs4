@@ -6,8 +6,8 @@ export type MainSection = { kind: "time"; text: string } | { kind: "standby" };
 
 export interface CurrentSection {
     name: string;
-    /** Fixed full configured time; the word "Standby" replaces it for Standby. */
-    time: string;
+    /** Fixed full configured time; null for Standby, where the phase name already says "Standby". */
+    time: string | null;
     detail: string;
 }
 
@@ -51,7 +51,7 @@ export function buildPhaseSections(display: DrillDisplay, repetitions: number): 
         main: phase.kind === "standby" ? { kind: "standby" } : { kind: "time", text: formatPhaseTime(display.remainingSeconds ?? 0) },
         current: {
             name: phaseName(phase),
-            time: phaseTime(phase) ?? "Standby",
+            time: phaseTime(phase),
             detail: phase.kind === "preparation" ? "Preparing" : `Repetition ${phase.repetition} of ${repetitions}`,
         },
         next: next ? { kind: "phase", name: phaseName(next), time: phaseTime(next) } : { kind: "end" },

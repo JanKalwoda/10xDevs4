@@ -16,10 +16,10 @@ S-04 (US-02, FR-005, FR-013). During a drill the user sees three stacked section
 ## Desired End State
 
 - Phone (390 px) and desktop (1280 px) show, top to bottom: main section, current-phase section, next-phase section, then the unchanged control bar and status line.
-- Main: remaining time `m:ss` (or "Standby" without countdown), clearly the largest type. Current: phase name + fixed full time (never counts down; for Standby the time slot shows the word "Standby") + "Repetition X of N" / "Preparing". Next: "Next: <Name> — <m:ss>", "Next: Standby" (no time), or "Next: Drill complete" when no phase follows.
+- Main: remaining time `m:ss` (or "Standby" without countdown), clearly the largest type. Current: phase name + fixed full time (never counts down; for Standby there is no time suffix, the name "Standby" is the heading and the detail line is "Repetition X of N") + "Repetition X of N" / "Preparing". Next: "Next: <Name> — <m:ss>", "Next: Standby" (no time), or "Next: Drill complete" when no phase follows.
 - Correct for: preparation 0 s (skipped), rest 0 s (skipped; last exercise → drill complete), Standby on/off, last repetition, Pause→Resume (next after the resume preparation is the resumed repetition's Standby/exercise), paused and initializing states.
 - Standby never reveals the random wait: neither `DrillDisplay`, the view model nor the DOM contains any value derived from it.
-- **Decision (explicit deviation from PRD wording)**: times are formatted `m:ss` ("Next: Rest — 0:02") for consistency with the main countdown and form fields, whereas PRD US-02 writes "2 s". Approved by the coordinator; tests use the `m:ss` format.
+- **Decision (explicit deviation from PRD wording)**: times are formatted `m:ss` ("Next: Rest — 0:02") for consistency with the main countdown and form fields, whereas PRD US-02 writes "2 s". Approved by the coordinator; tests use the `m:ss` format. `prd.md` is intentionally left unchanged; this plan is the record of the deviation (also applies to FR-013).
 - Evidence for every behavior is in repo tests (`npm test`); the `/dev/timer-ui` gate adds screenshots, not proofs.
 
 ### Key Discoveries
@@ -44,7 +44,7 @@ S-04 (US-02, FR-005, FR-013). During a drill the user sees three stacked section
 ## Critical Implementation Details
 
 - **State sequencing** — `DrillRun.display` is built in two places (paused branch and live branch, `drill-run.ts:87-103`); both must set `next` from one private helper: `phase.kind === "preparation" && this.resumeTarget ? this.resumeTarget : nextDrillPhase(configuration, phase)`. When no segment is current (`phase: null`), `next` is `null`.
-- **No leak** — `next` and the view model are built only from `DrillPhase` values; never pass `Segment`, `sampledWait` or remaining wait to the view. A test asserts the exact key set of `display` and that Standby main/current carry no number (the word "Standby" replaces the time).
+- **No leak** — `next` and the view model are built only from `DrillPhase` values; never pass `Segment`, `sampledWait` or remaining wait to the view. A test asserts the exact key set of `display` and that Standby main/current carry no number (the heading "Standby" is the only word, no time suffix).
 
 ---
 

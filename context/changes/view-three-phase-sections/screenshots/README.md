@@ -8,7 +8,7 @@ Captured on 2026-10-07 from the local Astro dev server (`/dev/timer-ui?theme=lig
 | `preparation-standby-*` | Preparation → Standby ("Next: Standby", no time) |
 | `exercise-rest-*` | Exercise → Rest |
 | `exercise-complete-*` | last Exercise, rest 0:00 → Drill complete |
-| `standby-exercise-*` | Standby main = the word, no time |
+| `standby-exercise-*` | Standby: main = the word, current heading "Standby" without time suffix |
 | `rest-exercise-*`, `rest-standby-*`, `rest-complete-*` | Rest → Exercise / Standby / Drill complete |
 | `resume-preparation-*` | resume preparation (next = resumed repetition) |
 | `paused-*` | paused, Resume control |

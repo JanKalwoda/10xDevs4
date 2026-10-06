@@ -78,7 +78,7 @@ void test("sections for every current → next pair", () => {
     });
     assert.deepEqual(buildPhaseSections({ ...base, phase: { kind: "standby", repetition: 2 }, remainingSeconds: null, next: exercise }, 3), {
         main: { kind: "standby" },
-        current: { name: "Standby", time: "Standby", detail: "Repetition 2 of 3" },
+        current: { name: "Standby", time: null, detail: "Repetition 2 of 3" },
         next: { kind: "phase", name: "Exercise", time: "1:30" },
     });
     assert.deepEqual(buildPhaseSections({ ...base, phase: { kind: "rest", durationSeconds: 2, repetition: 3 }, next: null }, 3)?.next, { kind: "end" });
@@ -191,8 +191,8 @@ void test("Standby shows no time and display keys cannot carry the wait", () => 
     const sections = buildPhaseSections(display, 3);
     assert.ok(sections);
     assert.deepEqual(sections.main, { kind: "standby" });
-    assert.equal(sections.current.time, "Standby");
-    assert.ok(!MSS.test(`${sections.main.kind} ${sections.current.name} ${sections.current.time}`));
+    assert.equal(sections.current.time, null);
+    assert.ok(!MSS.test(`${sections.main.kind} ${sections.current.name}`));
     const nextStandby = buildPhaseSections(initialDrillDisplay(config({ randomStartEnabled: true })), 3);
     assert.deepEqual(nextStandby?.next, { kind: "phase", name: "Standby", time: null });
 });

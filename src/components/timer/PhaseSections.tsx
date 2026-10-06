@@ -1,4 +1,3 @@
-import { cn } from "@/lib/utils";
 import { nextPhaseText, type PhaseSections as PhaseSectionsModel } from "@/lib/drill-phase-sections";
 
 interface PhaseSectionsProps {
@@ -22,11 +21,11 @@ export default function PhaseSections({ sections, initializing }: PhaseSectionsP
             <div className="space-y-1">
                 <h2 className="text-foreground text-xl font-semibold">
                     {current.name}
-                    <span className="text-muted-foreground font-normal tabular-nums"> · {current.time}</span>
+                    {current.time ? <span className="text-muted-foreground font-normal tabular-nums"> · {current.time}</span> : null}
                 </h2>
                 <p className="text-muted-foreground text-base">{current.detail}</p>
             </div>
-            <div role="group" aria-label="Next phase" className={cn("bg-muted border-border rounded-lg border px-4 py-3")}>
+            <div role="group" aria-label="Next phase" className="bg-muted border-border rounded-lg border px-4 py-3">
                 <p className="text-foreground text-lg font-medium tabular-nums">{nextPhaseText(next)}</p>
             </div>
         </div>

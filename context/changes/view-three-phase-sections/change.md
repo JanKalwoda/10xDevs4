@@ -1,9 +1,9 @@
 ---
 change_id: view-three-phase-sections
 title: View three phase sections
-status: implementing
+status: impl_reviewed
 created: 2026-10-06
-updated: 2026-10-06
+updated: 2026-10-07
 archived_at: null
 ---
 

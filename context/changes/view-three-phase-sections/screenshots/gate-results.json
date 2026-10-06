@@ -274,7 +274,7 @@
    "fixture": "standby-exercise",
    "check": "current",
    "ok": true,
-   "detail": "Standby · Standby"
+   "detail": "Standby"
   },
   {
    "theme": "light",
@@ -298,7 +298,7 @@
    "fixture": "standby-exercise",
    "check": "main is the word Standby, no timer role",
    "ok": true,
-   "detail": "{\"timer\":null,\"mainText\":\"Standby\",\"mainRole\":null,\"h2\":\"Standby · Standby\",\"detail\":\"Repetition 1 of 3\",\"next\":\"Next: Exercise — 0:04\",\"tm\":429,\"th\":529,\"tg\":601,\"tc\":671,\"fm\":72,\"fh\":20,\"fn\":18,\"alert\":null,\"sw\":355,\"cw\":355,\"sectionOverflow\":false}"
+   "detail": "{\"timer\":null,\"mainText\":\"Standby\",\"mainRole\":null,\"h2\":\"Standby\",\"detail\":\"Repetition 1 of 3\",\"next\":\"Next: Exercise — 0:04\",\"tm\":429,\"th\":529,\"tg\":601,\"tc\":671,\"fm\":72,\"fh\":20,\"fn\":18,\"alert\":null,\"sw\":355,\"cw\":355,\"sectionOverflow\":false}"
   },
   {
    "theme": "light",
@@ -1107,7 +1107,7 @@
    "fixture": "standby-exercise",
    "check": "current",
    "ok": true,
-   "detail": "Standby · Standby"
+   "detail": "Standby"
   },
   {
    "theme": "light",
@@ -1131,7 +1131,7 @@
    "fixture": "standby-exercise",
    "check": "main is the word Standby, no timer role",
    "ok": true,
-   "detail": "{\"timer\":null,\"mainText\":\"Standby\",\"mainRole\":null,\"h2\":\"Standby · Standby\",\"detail\":\"Repetition 1 of 3\",\"next\":\"Next: Exercise — 0:04\",\"tm\":343,\"th\":429,\"tg\":501,\"tc\":571,\"fm\":60,\"fh\":20,\"fn\":18,\"alert\":null,\"sw\":356,\"cw\":356,\"sectionOverflow\":false}"
+   "detail": "{\"timer\":null,\"mainText\":\"Standby\",\"mainRole\":null,\"h2\":\"Standby\",\"detail\":\"Repetition 1 of 3\",\"next\":\"Next: Exercise — 0:04\",\"tm\":343,\"th\":429,\"tg\":501,\"tc\":571,\"fm\":60,\"fh\":20,\"fn\":18,\"alert\":null,\"sw\":356,\"cw\":356,\"sectionOverflow\":false}"
   },
   {
    "theme": "light",
@@ -1940,7 +1940,7 @@
    "fixture": "standby-exercise",
    "check": "current",
    "ok": true,
-   "detail": "Standby · Standby"
+   "detail": "Standby"
   },
   {
    "theme": "dark",
@@ -1964,7 +1964,7 @@
    "fixture": "standby-exercise",
    "check": "main is the word Standby, no timer role",
    "ok": true,
-   "detail": "{\"timer\":null,\"mainText\":\"Standby\",\"mainRole\":null,\"h2\":\"Standby · Standby\",\"detail\":\"Repetition 1 of 3\",\"next\":\"Next: Exercise — 0:04\",\"tm\":429,\"th\":529,\"tg\":601,\"tc\":671,\"fm\":72,\"fh\":20,\"fn\":18,\"alert\":null,\"sw\":355,\"cw\":355,\"sectionOverflow\":false}"
+   "detail": "{\"timer\":null,\"mainText\":\"Standby\",\"mainRole\":null,\"h2\":\"Standby\",\"detail\":\"Repetition 1 of 3\",\"next\":\"Next: Exercise — 0:04\",\"tm\":429,\"th\":529,\"tg\":601,\"tc\":671,\"fm\":72,\"fh\":20,\"fn\":18,\"alert\":null,\"sw\":355,\"cw\":355,\"sectionOverflow\":false}"
   },
   {
    "theme": "dark",
@@ -2773,7 +2773,7 @@
    "fixture": "standby-exercise",
    "check": "current",
    "ok": true,
-   "detail": "Standby · Standby"
+   "detail": "Standby"
   },
   {
    "theme": "dark",
@@ -2797,7 +2797,7 @@
    "fixture": "standby-exercise",
    "check": "main is the word Standby, no timer role",
    "ok": true,
-   "detail": "{\"timer\":null,\"mainText\":\"Standby\",\"mainRole\":null,\"h2\":\"Standby · Standby\",\"detail\":\"Repetition 1 of 3\",\"next\":\"Next: Exercise — 0:04\",\"tm\":343,\"th\":429,\"tg\":501,\"tc\":571,\"fm\":60,\"fh\":20,\"fn\":18,\"alert\":null,\"sw\":356,\"cw\":356,\"sectionOverflow\":false}"
+   "detail": "{\"timer\":null,\"mainText\":\"Standby\",\"mainRole\":null,\"h2\":\"Standby\",\"detail\":\"Repetition 1 of 3\",\"next\":\"Next: Exercise — 0:04\",\"tm\":343,\"th\":429,\"tg\":501,\"tc\":571,\"fm\":60,\"fh\":20,\"fn\":18,\"alert\":null,\"sw\":356,\"cw\":356,\"sectionOverflow\":false}"
   },
   {
    "theme": "dark",

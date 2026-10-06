@@ -52,3 +52,14 @@ Pre-existing: whole preview page is 414 px wide at 390 px because of the older h
 - **3.3** review of the screenshots (hierarchy, readability, dark mode) — not done. Note "Standby · Standby" in the current heading (the coordinator decision) looks redundant; worth a look.
 - **3.4** optional real-device drill with pause/resume — not done.
 - The "resumed repetition" is not visible in the Next text; it is proven only by `npm test`.
+
+## After impl-review fixes (F1, F3, F6)
+
+- Standby: `current.time` is now `string | null` (null for Standby). Current heading is just "Standby" with "Repetition X of N" below; main and "Next: Standby" unchanged. `PhaseSections.tsx` renders ` · time` only when present, and the redundant `cn()` is gone. `plan.md` synced (no time suffix for Standby; `m:ss` deviation from PRD "2 s" recorded; `prd.md` untouched).
+- Gates re-run: `npm test` 100/100, `npm run lint`, contract rule tests 4/4, `npx astro check` 0 errors, `npm run build`; Playwright gate on `/dev/timer-ui` 424 checks, 0 failed; `standby-exercise-*` screenshots refreshed (by script, not a human).
+- F4 / F5: ACCEPTED-AS-IS (see `reviews/impl-review.md`).
+
+### Still needs a human (blocks acceptance, not the PR)
+
+- **2.3** real drill at `/` (390/1280 px, light/dark).
+- **3.3** human review of the screenshots; **3.4** optional real-device run with pause/resume.
