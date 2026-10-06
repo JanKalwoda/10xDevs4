@@ -28,9 +28,27 @@ Break-check: (1) `nextAfter` ignoring `resumeTarget` → "resume keeps the repet
 
 ## Not done / needs a human
 
-- Progress 2.3 (real drill at `/`, 390/1280 px, light/dark) is manual and still open; screenshots and fixtures are Phase 3.
+- Progress 2.3 (real drill at `/`, 390/1280 px, light/dark) — still open; **not** done by the Phase 3 script (it covered `/dev/timer-ui` fixtures only).
 - Initializing with Standby first still shows the word "Standby" in main (not a time); say if it should be hidden.
 
 ## For Phase 3
 
 - `PhaseSectionsFixtures.tsx` mounted from `TimerUiPreview.tsx`; fixtures built with the real `DrillRun`/`initialDrillDisplay`; screenshots into `context/changes/view-three-phase-sections/screenshots/`.
+
+## Phase 3 — DONE (commit 238f674)
+
+- `src/components/timer/PhaseSectionsFixtures.tsx` (mounted by 2 lines in `TimerUiPreview.tsx`): 12 cards rendering production `DrillTimerView` with displays captured from the real `DrillRun` (deterministic fake clock, injected random 0.5, silent fixture audio) or `initialDrillDisplay`: Preparation→Exercise/Standby, Exercise→Rest/Drill complete, Standby→Exercise, Rest→Exercise/Standby/Drill complete, resume preparation, paused, initializing, audio unavailable. No logic duplicated; the existing seven states and held-mounted lifecycle fixtures are untouched.
+- Screenshots + README + `gate-results.json` in `screenshots/` (light/dark × 1280/390).
+- Gates green: `npm test` 100/100, `npm run lint`, contract rule tests 4/4, `npx astro check` 0 errors, `npm run build`.
+
+### Checked by script (Playwright, not a human) — Progress 3.1, 3.2
+
+424 checks, 0 failed, on `/dev/timer-ui` in dev: per-fixture current/detail/"Next: …" text; main `m:ss` + `role="timer"`, or the plain word "Standby" without timer role; no `m:ss` in Standby main/current or in "Next: Standby"; order main < current < next < controls; font size main > current > next; warning text; Resume control when paused; Cancel/Restart named and enabled; hover colour change; focus-visible ring; disabled loading slot; no overflow of the new section at 390 px; no page errors.
+Pre-existing: whole preview page is 414 px wide at 390 px because of the older held-mounted restart fixture (same as S-03).
+
+### Needs a human
+
+- **2.3** real drill at `/` (390/1280 px, light/dark) — not done.
+- **3.3** review of the screenshots (hierarchy, readability, dark mode) — not done. Note "Standby · Standby" in the current heading (the coordinator decision) looks redundant; worth a look.
+- **3.4** optional real-device drill with pause/resume — not done.
+- The "resumed repetition" is not visible in the Next text; it is proven only by `npm test`.
