@@ -1,7 +1,7 @@
 ---
 change_id: preview-phase-signals
 title: Preview phase signals before starting
-status: implementing
+status: impl_reviewed
 created: 2026-10-06
 updated: 2026-10-06
 archived_at: null

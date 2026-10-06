@@ -1,12 +1,12 @@
 import { STANDBY_SECOND_OFFSET, type DrillAudioPort, type DrillCue, type ScheduledCue } from "./drill-audio.ts";
-import { parseDrillTime, type DrillConfigInput } from "./drill-timer.ts";
+import { parseDrillTime, RANDOM_START_MAX_CENTISECONDS, RANDOM_START_MIN_CENTISECONDS, type DrillConfigInput } from "./drill-timer.ts";
 
 export type PreviewSignal = "exercise" | "rest" | "standby";
 
 export const SIGNAL_MEANINGS: Readonly<Record<PreviewSignal, string>> = {
     exercise: "One long high beep marks the start of each exercise.",
     rest: "One short beep marks the start of each rest.",
-    standby: "Two short beeps (lower, then higher) mean Standby: the exercise starts after a hidden random wait of 1–5 s that begins once both beeps end.",
+    standby: `Two short beeps (lower, then higher) mean Standby: the exercise starts after a hidden random wait of ${RANDOM_START_MIN_CENTISECONDS / 100}–${RANDOM_START_MAX_CENTISECONDS / 100} s that begins once both beeps end.`,
 };
 
 export const PREPARATION_NO_SOUND = "Preparation has no sound.";

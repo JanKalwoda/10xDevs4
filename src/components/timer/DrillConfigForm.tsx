@@ -7,7 +7,8 @@ import SignalPreviewControl from "@/components/timer/SignalPreviewControl";
 import { useSignalPreview } from "@/components/hooks/useSignalPreview";
 import type { DrillAudioPort } from "@/lib/drill-audio";
 import { PREPARATION_NO_SOUND, signalAvailability, type PreviewSignal } from "@/lib/drill-signal-preview";
-import { parseDrillConfig, type DrillConfigErrors, type DrillConfigInput } from "@/lib/drill-timer";
+import { submitDrillConfig } from "@/lib/drill-config-submit";
+import type { DrillConfigErrors, DrillConfigInput } from "@/lib/drill-timer";
 import type { DrillConfiguration } from "@/types";
 
 interface DrillConfigFormProps {
@@ -91,15 +92,8 @@ export default function DrillConfigForm({ values, onValuesChange, onStart, creat
 
     function handleSubmit(event: SubmitEvent<HTMLFormElement>) {
         event.preventDefault();
-        const result = parseDrillConfig(values);
-        if (!result.valid) {
-            setErrors(result.errors);
-            return;
-        }
-
-        setErrors({});
-        preview.release();
-        onStart(Object.freeze({ ...result.configuration }));
+        const result = submitDrillConfig(values, { releasePreview: preview.release, onStart });
+        setErrors(result.valid ? {} : result.errors);
     }
 
     return (

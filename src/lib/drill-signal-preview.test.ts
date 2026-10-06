@@ -3,8 +3,8 @@ import test from "node:test";
 
 import { CUE_DURATION, type DrillAudioPort, type DrillCue, type ScheduledCue } from "./drill-audio.ts";
 import { DrillRun, type DrillClock } from "./drill-run.ts";
-import { playSignalPreview, previewCueSequence, signalAvailability } from "./drill-signal-preview.ts";
-import type { DrillConfigInput } from "./drill-timer.ts";
+import { playSignalPreview, previewCueSequence, SIGNAL_MEANINGS, signalAvailability } from "./drill-signal-preview.ts";
+import { RANDOM_START_MAX_CENTISECONDS, RANDOM_START_MIN_CENTISECONDS, type DrillConfigInput } from "./drill-timer.ts";
 
 class RecordingAudio implements DrillAudioPort {
     available = true;
@@ -82,4 +82,8 @@ void test("exercise and Standby are always playable; Standby notes when Random s
     const off = signalAvailability({ ...values, randomStartEnabled: false }, "standby");
     assert.equal(off.enabled, true);
     assert.match(off.note ?? "", /Random start is off/);
+});
+
+void test("Standby meaning derives its wait range from the random-start constants", () => {
+    assert.match(SIGNAL_MEANINGS.standby, new RegExp(`${RANDOM_START_MIN_CENTISECONDS / 100}–${RANDOM_START_MAX_CENTISECONDS / 100} s`));
 });

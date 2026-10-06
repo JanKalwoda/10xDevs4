@@ -61,8 +61,11 @@ export function parseDrillConfig(input: DrillConfigInput): DrillConfigResult {
     };
 }
 
+export const RANDOM_START_MIN_CENTISECONDS = 100;
+export const RANDOM_START_MAX_CENTISECONDS = 500;
+
 export function sampleRandomStartCentiseconds(random: () => number = Math.random): number {
-    return 100 + Math.floor(random() * 401);
+    return RANDOM_START_MIN_CENTISECONDS + Math.floor(random() * (RANDOM_START_MAX_CENTISECONDS - RANDOM_START_MIN_CENTISECONDS + 1));
 }
 
 export function firstDrillPhase(configuration: DrillConfiguration): DrillPhase {

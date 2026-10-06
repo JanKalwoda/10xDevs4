@@ -55,7 +55,7 @@ export default function SignalPreviewControl({ id, signal, availability, status,
                 </p>
             )}
             <p role="status" className="text-sm">
-                {playing ? `Playing ${label} signal` : ""}
+                {initializing ? "Starting sound…" : playing ? `Playing ${label} signal` : ""}
             </p>
             {failed && (
                 <Alert variant="destructive">

@@ -48,3 +48,12 @@ Delivered:
 - 2.3 / 3.2: audible output on real devices (speakers, headphones, Bluetooth), Safari/iOS autoplay behaviour, and whether the meaning texts are clear to a listener. The fixtures use a fake audio port, so the real `AudioContext` path through the preview button was only exercised by unit tests, never in a browser.
 - Human review of all 36 screenshots.
 - Pre-existing: the "held-mounted restart" fixture overflows the viewport by 24 px at 390 px; not touched here.
+
+## Review fixes (impl-review F1–F3) — DONE
+
+- F1: `src/lib/drill-config-submit.ts` + `drill-config-submit.test.ts` — release-before-`onStart` ordering is now tested in `npm test`. "Click never calls Start" remains structural + Playwright only (no DOM test runner).
+- F2: "Starting sound…" in the live region while initializing.
+- F3: Standby meaning uses the new `RANDOM_START_*_CENTISECONDS` constants; test added.
+- F4: accepted as planned.
+- Gates re-run: `npm test` 90/90, `npm run lint` clean, contract rule tests, `astro check` 0 errors, `npm run build` green.
+- Still needs a human: audio on real devices, review of the 36 screenshots. The screenshots were not regenerated; the only visible change is the "Starting sound…" text in the loading state.
