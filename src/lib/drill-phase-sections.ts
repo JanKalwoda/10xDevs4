@@ -57,3 +57,8 @@ export function buildPhaseSections(display: DrillDisplay, repetitions: number): 
         next: next ? { kind: "phase", name: phaseName(next), time: phaseTime(next) } : { kind: "end" },
     };
 }
+
+export function nextPhaseText(next: NextSection): string {
+    if (next.kind === "end") return "Next: Drill complete";
+    return next.time ? `Next: ${next.name} — ${next.time}` : `Next: ${next.name}`;
+}

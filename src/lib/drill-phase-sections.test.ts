@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
-import { buildPhaseSections, formatPhaseTime, initialDrillDisplay } from "./drill-phase-sections.ts";
+import { buildPhaseSections, formatPhaseTime, initialDrillDisplay, nextPhaseText } from "./drill-phase-sections.ts";
 import { DrillRun, type DrillClock, type DrillDisplay } from "./drill-run.ts";
 import type { DrillConfiguration, DrillPhase } from "../types.ts";
 
@@ -213,4 +213,10 @@ void test("a 1 s and a 5 s Standby wait produce identical views until the wait e
     advance(long.clock, long.run, 0.2);
     assert.equal(short.run.display.phase?.kind, "exercise", "the shorter wait ended");
     assert.equal(long.run.display.phase?.kind, "standby", "the longer wait is still running");
+});
+
+void test("next section text: timed phase, Standby without time, end of drill", () => {
+    assert.equal(nextPhaseText({ kind: "phase", name: "Rest", time: "0:02" }), "Next: Rest — 0:02");
+    assert.equal(nextPhaseText({ kind: "phase", name: "Standby", time: null }), "Next: Standby");
+    assert.equal(nextPhaseText({ kind: "end" }), "Next: Drill complete");
 });
