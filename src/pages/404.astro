@@ -1,0 +1,11 @@
+---
+import NotFoundView from "@/components/timer/NotFoundView.astro";
+
+export const prerender = false;
+
+// Serves unmatched paths such as /abc/def; /{id} renders the same view from [id].astro.
+Astro.response.status = 404;
+Astro.response.headers.set("Cache-Control", "private, no-store");
+---
+
+<NotFoundView />

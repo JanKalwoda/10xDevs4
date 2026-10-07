@@ -1,0 +1,25 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { buttonVariants } from "@/components/ui/button";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { cn } from "@/lib/utils";
+
+// The only 404 content. It never prints the requested URL or id, so a foreign and a random id render identical bytes.
+---
+
+<Layout title="Page not found" enableTimerTheme showConfigWarnings={false}>
+    <meta name="robots" content="noindex" slot="head" />
+    <main class="bg-background text-foreground flex min-h-screen items-center justify-center px-4 py-8">
+        <Card className="w-full max-w-md">
+            <CardHeader>
+                <h1 class="text-center text-3xl font-bold">Page not found</h1>
+            </CardHeader>
+            <CardContent className="space-y-5">
+                <p class="text-muted-foreground text-center text-sm">This page does not exist or is not yours.</p>
+                <a href="/" class:list={[cn(buttonVariants({ variant: "link" }), "w-full")]}>
+                    Back to the timer
+                </a>
+            </CardContent>
+        </Card>
+    </main>
+</Layout>

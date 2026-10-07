@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import DrillConfigForm from "@/components/timer/DrillConfigForm";
 import DrillTimer from "@/components/timer/DrillTimer";
+import SavedDrillDetails from "@/components/timer/SavedDrillDetails";
 import ThemeToggle from "@/components/timer/ThemeToggle";
 import { createDrillAudio, type DrillAudioPort } from "@/lib/drill-audio";
 import { createDrillWakeLockController, type WakeLockProvider, type WakeLockSentinelPort } from "@/lib/drill-wake-lock";
@@ -10,7 +11,7 @@ import { createDrillWakeLockSession, type DrillWakeLockSession } from "@/lib/dri
 import type { DrillConfigInput } from "@/lib/drill-timer";
 import { createDrillRunIdentityState } from "@/lib/drill-run-identity";
 import { browserDrillVisibility } from "@/lib/drill-visibility";
-import type { DrillConfiguration } from "@/types";
+import type { DrillConfiguration, SavedDrill } from "@/types";
 
 const DEFAULT_VALUES: DrillConfigInput = {
     preparation: "0:05",
@@ -40,18 +41,19 @@ function createBrowserWakeLockProvider(): WakeLockProvider | null {
     return { request: () => wakeLock.request("screen") };
 }
 
-export function DrillCompleted({ onReturn }: { onReturn: () => void }) {
+export function DrillCompleted({ onReturn, returnLabel = "Return to configuration" }: { onReturn: () => void; returnLabel?: string }) {
     return (
         <section className="space-y-6 text-center">
             <h2 className="text-2xl font-semibold">Completed</h2>
             <Button type="button" className="w-full" onClick={onReturn}>
-                Return to configuration
+                {returnLabel}
             </Button>
         </section>
     );
 }
 
-export default function DrillApp() {
+// With savedDrill the app runs that stored timer: read-only details instead of the configuration form.
+export default function DrillApp({ savedDrill }: { savedDrill?: SavedDrill }) {
     const [values, setValues] = useState<DrillConfigInput>(DEFAULT_VALUES);
     const [activeRun, setActiveRun] = useState<ActiveRun | null>(null);
     const [view, setView] = useState<"configuration" | "running" | "completed">("configuration");
@@ -105,11 +107,12 @@ export default function DrillApp() {
             <Card className="w-full max-w-md">
                 <CardHeader className="flex flex-row items-center justify-between">
                     <span aria-hidden="true" className="size-9" />
-                    <h1 className="text-center text-3xl font-bold">Drill timer</h1>
+                    <h1 className={savedDrill ? "text-center text-3xl font-bold break-words" : "text-center text-3xl font-bold"}>{savedDrill ? savedDrill.name : "Drill timer"}</h1>
                     <ThemeToggle />
                 </CardHeader>
                 <CardContent>
-                    {view === "configuration" && <DrillConfigForm values={values} onValuesChange={setValues} onStart={start} />}
+                    {view === "configuration" && !savedDrill && <DrillConfigForm values={values} onValuesChange={setValues} onStart={start} />}
+                    {view === "configuration" && savedDrill && <SavedDrillDetails drill={savedDrill} onStart={start} />}
                     {view === "running" && activeRun && (
                         <DrillTimer
                             key={activeRun.identity}
@@ -123,6 +126,7 @@ export default function DrillApp() {
                     )}
                     {view === "completed" && (
                         <DrillCompleted
+                            returnLabel={savedDrill ? "Return to timer" : undefined}
                             onReturn={() => {
                                 setView("configuration");
                             }}
