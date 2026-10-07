@@ -1,7 +1,7 @@
 ---
 change_id: delete-saved-drill
 title: Delete a saved timer after confirmation
-status: planned
+status: plan_reviewed
 created: 2026-10-07
 updated: 2026-10-07
 archived_at: null

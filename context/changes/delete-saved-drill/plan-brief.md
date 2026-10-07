@@ -19,19 +19,21 @@ The table already has the DELETE grant and the `delete_own` RLS policy. `/api/dr
 | Decision | Choice | Why | Source |
 | --- | --- | --- | --- |
 | Where is Delete | Only `/{id}` slot `saved-drill-actions`; list unchanged | Minimal; one place to confirm with context | Plan (recommended in [Q]) |
-| Confirmation | shadcn `alert-dialog`, Cancel focused, name in text | Radix gives focus trap, Esc, aria | Plan |
-| API | `DELETE /api/drills/{id}`, 204 empty body, 401 → 503 → 404 → 204 | Mirrors PUT order; same 404 as PUT | Plan |
-| CSRF | No body/415; non-simple method needs a preflight, Astro `checkOrigin` as second layer | DELETE has nothing to type | Plan |
-| After delete | Redirect to `/dashboard`, no flash message | Minimal; the list is the confirmation | Plan (recommended in [Q]) |
+| Confirmation | shadcn `alert-dialog` with `AlertDialogTrigger`, Cancel focused, name in text; `Delete` uses `preventDefault` so the dialog stays open until the result; overlay is inert, Esc/Cancel close | Radix gives focus trap, Esc, aria; its action would otherwise close early | Plan + review F1–F3 |
+| API | `DELETE /api/drills/{id}`, 204 via `new Response(null, …)` (not `Response.json`), 401 → 503 → 404 → 204 | Mirrors PUT order; same 404 as PUT | Plan + review F6 |
+| CSRF | No body/415; layers: Astro `checkOrigin` (403 without matching `Origin`), no CORS preflight approval, SameSite=Lax; pinned by a scripted 403 check | DELETE has nothing to type | Plan + review F8 |
+| After delete | `location.replace("/dashboard")`, no flash message; `pageshow` persisted resets the stuck state | Minimal; no history entry, bfcache-safe | Plan (recommended in [Q]) + review F7 |
 | Race / double delete | Zero rows → 404; UI treats 404 as done | Goal state reached either way | Plan |
 | Database | No migration; pgTAP extended | Grant and policy exist | Plan |
-| Overlay colour | New semantic token instead of `bg-black/50` | AGENTS.md: no hardcoded colours | Plan |
+| Colours and lint | `--overlay` token (light and dark); `alert-dialog.tsx` added to the lint glob; Delete button on tokens, contrast measured | AGENTS.md: no hardcoded colours; otherwise unenforced | Plan + review F5 |
+| Fixtures | `DeleteDrillDialog` takes `deleteDrill`/`navigate`/`defaultOpen`; one open modal per scenario | Production component in fixtures, modals do not stack | Plan + review F4 |
+| a11y verification | Playwright script on the preview, marked scripted | No DOM tests in the repo | Plan + review F10 |
 
 ## Scope
 
 **In scope:** store/service/handler, route DELETE and 405 `Allow`, dialog + controller, fixtures, smoke, pgTAP, screenshots, docs.
 
-**Out of scope:** delete from the list, toast, undo/soft delete, bulk delete, migration, `db reset`/`db push`.
+**Out of scope:** delete from the list, overlay-click dismissal, toast, undo/soft delete, bulk delete, migration, `db reset`/`db push`.
 
 ## Architecture / Approach
 
