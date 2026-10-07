@@ -14,6 +14,7 @@ Planning decisions (coordinator Q1–Q5, recommendations applied; see `plan-brie
 - `src/pages/api/drills/index.ts` exports only `POST`. `src/pages/[id].astro` renders `DrillApp savedDrill`; `SavedDrillDetails` has an intentionally empty `data-slot="saved-drill-actions"` div reserved for S-12/S-13.
 - `src/lib/protected-routes.ts`: `/dashboard`, `/create` (+ subpaths) and `/{uuid}` (`SAVED_DRILL_PATH`) are protected; every other single segment is public and 404.
 - `DrillCreateForm` (presentational, props-driven, `Save timer`/`Saving…` hard-coded, `Saved "<name>".` status) + `createDrillCreateController` (clears name on success) + `useDrillCreate` + `postSaveDrill` are the save path of `/create`; `DrillConfigForm` takes `values`/`onValuesChange`/`onStart`/`submitLabel`/`leading`/`beforeSubmit`/`pending`/`onSubmitAttempt`.
+- CSRF assumption (review F4): `PUT` with `Content-Type: application/json` forces a CORS preflight (the app sends no CORS headers), the handler rejects any non-JSON content type with 415 before reading the body or touching the store, and the `@supabase/ssr` cookies are SameSite=Lax. Accepting other content types or adding CORS later would open CSRF; tests below pin it.
 - Existing contracts that must not regress: timer UI lint scope (`eslint.config.js` lists `create.astro`, `dashboard.astro`, `[id].astro`, `404.astro`), `/dev/timer-ui` fixtures and the screenshot gate, smoke script (`scripts/smoke.mjs`), CI.
 
 ## Desired End State
@@ -35,6 +36,7 @@ Verify: `npm test`, `npm run lint`, rule tests, `astro check`, `npm run build`, 
 - A zero-row UPDATE under RLS returns no error; the app must treat `maybeSingle()` returning `null` as `not_found` (same technique as `findById`).
 - The unique index checks other tuples only, so a case-only rename of the same row passes with no special handling (already asserted in pgTAP).
 - `classifyStoreError` already maps the duplicate index and unauthorized codes; only `not_found` is new, and `limit_reached` cannot occur on update.
+- ESLint globs (review F1): in minimatch `[id]` is a character class, so the existing S-11 entry `src/pages/[id].astro` does not match the file and `/{id}` has not been under the timer UI contract since S-11; the literal-file form is `src/pages/[[]id[]].astro`.
 - `[id].astro` and `[id]/edit.astro` coexist in Astro; `/{x}/edit` for a non-UUID `x` must give the same 404 as `/{x}` and must not redirect a guest (no oracle).
 
 ## What We're NOT Doing
@@ -97,7 +99,7 @@ Three phases, each independently green: (1) server side — store `update`, serv
 
 **Intent**: Cover the update matrix with fake stores.
 
-**Contract**: success 200 maps row and sends only the six columns (no `user_id`, no `id`, no timestamps); same validation table as save for update (name 1/200/201 code points, NFC/NFD, control chars, ranges, unknown fields); `null` → 404 identical body for any id; non-UUID/odd-case/trailing-space ids (404 without store call; upper-case UUID is lower-cased); duplicate → 409 with `fieldErrors.name`; 401/503/415/413/400 order; thrown store → 500, empty/odd data → 500; log content is only the code; a handler test that the foreign-row case (store returns null) and the missing-row case are byte-identical.
+**Contract**: success 200 maps row and sends only the six columns (no `user_id`, no `id`, no timestamps); same validation table as save for update (name 1/200/201 code points, NFC/NFD, control chars, ranges, unknown fields); `null` → 404 identical body for any id; non-UUID/odd-case/trailing-space ids (404 without store call; upper-case UUID is lower-cased); duplicate → 409 with `fieldErrors.name`; 401/503/415/413/400 order; thrown store → 500, empty/odd data → 500; log content is only the code; `PUT` with `text/plain` and `application/x-www-form-urlencoded` → 415 without a store call (CSRF assumption); a handler test that the foreign-row case (store returns null) and the missing-row case are byte-identical.
 
 #### 6. pgTAP
 
@@ -148,7 +150,7 @@ Three phases, each independently green: (1) server side — store `update`, serv
 
 **Intent**: Reuse the controller for edit through options, not a copy: initial name, keep name/values after success, and a `PUT` port.
 
-**Contract**: `createDrillCreateController(saveDrill, options?: { initialName?: string; keepAfterSave?: boolean })` (defaults keep today's create behavior, which is covered by existing tests); with `keepAfterSave` the snapshot after success keeps `name` = saved name and `status: "saved"`, `savedName` set, and the next `setName` returns to `idle`. `putSaveDrill(id)` returns a `SaveDrillPort` built on a shared request helper with `postSaveDrill` (method and URL parameters; response guard unchanged; status fallback adds `404 → not_found`). `failureFrom` treats `not_found` as an alert-level failure (not a name error). `useDrillCreate(saveDrill, options)` passes options through.
+**Contract**: `createDrillCreateController(saveDrill, options?: { initialName?: string; keepAfterSave?: boolean })` (defaults keep today's create behavior, which is covered by existing tests); with `keepAfterSave` the snapshot after success keeps `name` = saved name and `status: "saved"`, `savedName` set, and the next `setName` returns to `idle`. `putSaveDrill(id)` returns a `SaveDrillPort` built on a shared request helper with `postSaveDrill` (method, URL and a per-port status fallback map; response guard unchanged). POST keeps today's map (`409 → limit_reached`); PUT uses `409 → duplicate_name`, `404 → not_found` (tested with an unreadable body). Add `markEdited()` to the controller (`saved`/`error` → `idle`, clearing `savedName`/`failure`, no-op while `saving`) and call it from `onValuesChange` in `DrillEditApp`, so `Saved "…"` or an alert never outlives a change of parameters (review F2); typed name and values are kept on every failure. `failureFrom` treats `not_found` as an alert-level failure (not a name error). `useDrillCreate(saveDrill, options)` passes options through.
 
 #### 3. Form reuse
 
@@ -164,7 +166,7 @@ Three phases, each independently green: (1) server side — store `update`, serv
 
 **Intent**: Mirror `DrillCreateApp` (Card shell, `h1` “Edit timer”, `ThemeToggle`) with initial values from the stored configuration; the page mirrors `[id].astro` branch by branch.
 
-**Contract**: `DrillEditApp({ drill: SavedDrill })`: values from `drill.configuration` formatted as `m:ss` (reuse/export the formatter used by `describeDrillConfiguration` in `src/lib/saved-drill-summary.ts` instead of a second one); `useDrillCreate(putSaveDrill(drill.id), { initialName: drill.name, keepAfterSave: true })`; after save links `Back to timer` → `/{id}`, `Back to dashboard`. Page: `prerender = false`, `Cache-Control: private, no-store`, `resolveSavedDrillPage(user?.id ?? null, id, store)`; `sign_in` → 302 to `signInUrlForProtectedPath("/" + id + "/edit")` (set on the response like `[id].astro`), `not_found` → shared `NotFoundView` with status 404, `unavailable` → 503 view with `OPEN_DRILL_MESSAGES.unavailable`, `ok` → `DrillEditApp client:load` with `noindex`. The unavailable/404 views must not echo the id.
+**Contract**: `DrillEditApp({ drill: SavedDrill })`: initial values from a new pure `configInputFromSavedDrill(configuration): DrillConfigInput` in `src/lib/saved-drill-summary.ts` built on `formatPhaseTime` (`src/lib/drill-phase-sections.ts`), unit-tested round-trip with `parseDrillConfig` (0:00, 10:00, random start, review F5); `useDrillCreate(putSaveDrill(drill.id), { initialName: drill.name, keepAfterSave: true })`; after save links `Back to timer` → `/{id}`, `Back to dashboard`. Page: `prerender = false`, `Cache-Control: private, no-store`, `resolveSavedDrillPage(user?.id ?? null, id, store)`; `sign_in` → 302 to `signInUrlForProtectedPath("/" + id + "/edit")` (set on the response like `[id].astro`), `not_found` → shared `NotFoundView` with status 404, `unavailable` → 503 view with `OPEN_DRILL_MESSAGES.unavailable`, `ok` → `DrillEditApp client:load` with `noindex`. The unavailable/404 views must not echo the id.
 
 #### 5. Edit action and reserved Delete slot
 
@@ -178,7 +180,9 @@ Three phases, each independently green: (1) server side — store `update`, serv
 
 **File**: `eslint.config.js`
 
-**Intent**: Add `src/pages/[id]/edit.astro` to the timer UI contract file list (path with brackets in a glob must be matched correctly; verify the rule actually lints it, e.g. by a temporary literal color).
+**Intent**: Put both dynamic pages under the timer UI contract with globs that really match (review F1), fix any violations this reveals in the existing `[id].astro` within this change (note them in the handoff), and keep a permanent proof.
+
+**Contract**: files list uses `src/pages/[[]id[]].astro` and `src/pages/[[]id[]]/edit.astro`; a persistent test (in `scripts/eslint-rules/timer-ui-contract.test.mjs` or a CI step with `eslint --stdin --stdin-filename`) asserts that a literal color in each of the two files is reported by `timer-ui/contract`.
 
 ### Success Criteria:
 
@@ -189,12 +193,13 @@ Three phases, each independently green: (1) server side — store `update`, serv
 - Rule tests: `node --test scripts/eslint-rules/timer-ui-contract.test.mjs scripts/eslint-rules/account-entry-ui-contract.test.mjs`
 - Types: `npx astro sync && npx astro check`
 - Build: `npm run build`
+- Both `[id].astro` and `[id]/edit.astro` are covered by the timer UI contract (persistent test/CI step from the lint-scope change)
 - Create flow unchanged: existing `drill-create-controller` tests green without edits to their expectations
 
 #### Manual Verification:
 
 - Owner: `/{id}` → Edit → prefilled form → change name and a parameter → `Saved "…"` → Back to timer shows the new data; Start runs the new parameters.
-- Duplicate name shows the field error and every typed value (name and parameters) stays in the form; case-only rename of the own name saves (no self-collision); the 201st code point is refused with the name error.
+- Changing a parameter after `Saved "…"` removes the message (no stale success); duplicate name shows the field error and every typed value (name and parameters) stays in the form; case-only rename of the own name saves (no self-collision); the 201st code point is refused with the name error.
 - Foreign id, random UUID and non-UUID at `/{x}/edit` show the identical 404; guest on `/{uuid}/edit` is sent to sign-in with `next=/{uuid}/edit`, guest on `/not-a-uuid/edit` gets 404.
 - Keyboard: Tab order Name → fields → Save; focus lands on the name after saving (existing behavior); Edit link has a visible focus ring.
 
@@ -314,6 +319,7 @@ None. Production already has the table, policy, grant and trigger from S-10; not
 - [ ] 2.4 Types: `npx astro sync && npx astro check`
 - [ ] 2.5 Build: `npm run build`
 - [ ] 2.6 Create flow unchanged: existing `drill-create-controller` tests green without edits to their expectations
+- [ ] 2.11 Both `[id].astro` and `[id]/edit.astro` are covered by the timer UI contract (persistent test or CI step)
 
 #### Manual
 

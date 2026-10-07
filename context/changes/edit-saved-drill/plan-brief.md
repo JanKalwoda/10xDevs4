@@ -26,6 +26,9 @@ S-10 shipped the private `drill_configurations` table with an UPDATE-own policy,
 | After save | Stay on the edit page with `Saved` and links back | Matches `/create`, no redirect state to test | Plan (Q4=A) |
 | Migration | None | Policy, grant, trigger and index already exist; limit 50 is INSERT-only, 200 is the name CHECK | Plan (Q5=A) |
 | Reuse | Generalize `createDrillCreateController`/`useDrillCreate`/`DrillCreateForm` by options, `savedDrillFromRow`, `resolveSavedDrillPage` | No duplicated form, DTO or store client | User + Plan |
+| Lint scope | Globs `src/pages/[[]id[]].astro` and `[[]id[]]/edit.astro` plus a persistent test; existing `[id].astro` violations (if any) fixed here | `[id]` is a minimatch character class, so S-11's entry never matched | Plan review F1 |
+| Stale messages | `markEdited()` clears Saved/alert on parameter change; PUT fallback `409 → duplicate_name`, `404 → not_found` | A success note must not outlive an unsaved edit | Plan review F2, F3 |
+| CSRF | Documented assumption (JSON-only + preflight, 415 otherwise) with `text/plain` and form tests | Keeps the protection from being removed silently | Plan review F4 |
 | Delete room | Existing `saved-drill-actions` slot holds `Edit`; S-13 adds Delete | Layout room without implementing Delete | User |
 
 ## Scope
@@ -54,7 +57,7 @@ Browser form → `PUT /api/drills/{id}` → `handleUpdateDrillRequest` (auth, id
 - Last write wins: two tabs editing the same timer overwrite each other.
 - `updated_at` changes on edit but list order is by `created_at`, so edited timers do not move.
 - Guest on `/{uuid}/edit` is redirected (UUID shape only), same as `/{uuid}`.
-- Eslint glob for `[id]/edit.astro` must be verified to actually apply the contract rule.
+- Fixing the eslint globs may reveal contract violations in the existing `[id].astro` (S-11); they are fixed in this change.
 
 ## Success Criteria (Summary)
 
