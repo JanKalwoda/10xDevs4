@@ -272,11 +272,11 @@ One delete by primary key; nothing to optimize.
 
 #### Automated
 
-- [ ] 3.1 `npm test`, `npm run lint`, rule tests, `npx astro check`, `npm run build` pass
-- [ ] 3.2 `npx supabase test db` passes (no reset)
-- [ ] 3.3 Smoke (scratchpad copy, local mode) passes all steps and the remote-mode script passes
-- [ ] 3.4 `/dev/timer-ui` answers 404 on the production preview
-- [ ] 3.5 Screenshots exist for the state matrix at 1280/390 in light/dark and the gate script reports 0 failed checks
+- [x] 3.1 `npm test`, `npm run lint`, rule tests, `npx astro check`, `npm run build` pass
+- [x] 3.2 `npx supabase test db` passes (no reset)
+- [x] 3.3 Smoke (scratchpad copy, local mode) passes all steps and the remote-mode script passes
+- [x] 3.4 `/dev/timer-ui` answers 404 on the production preview
+- [x] 3.5 Screenshots exist for the state matrix at 1280/390 in light/dark and the gate script reports 0 failed checks
 
 #### Manual
 

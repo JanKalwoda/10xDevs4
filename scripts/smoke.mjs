@@ -88,6 +88,20 @@ async function appRequest(path, { method = "GET", form, json, contentType } = {}
     return response;
 }
 
+// An unsafe request with a chosen Origin (or none): Astro checkOrigin must answer 403 before the handler runs.
+async function originRequest(path, { method, origin }) {
+    const target = new URL(path, appOrigin);
+    if (target.origin !== appOrigin) throw new Error("app origin mismatch");
+    let response;
+    try {
+        response = await fetch(target, { method, redirect: "manual", headers: { Cookie: cookieHeader(), ...(origin ? { Origin: origin } : {}) } });
+    } catch {
+        throw new Error("app request failed");
+    }
+    storeCookies(response);
+    return response;
+}
+
 async function mailpitJson(path) {
     let response;
     try {
@@ -314,10 +328,13 @@ async function verifySavedDrillApi() {
 // Two drills are already saved; fill up to 48 so exactly two of five concurrent distinct names fit under the limit of 50.
 // The outcome is a regression signal only (it also holds if the requests happen to serialise);
 // the advisory lock itself is proven by the pgTAP boundary tests.
+const fillerIds = [];
+
 async function verifyDrillLimit() {
     for (let index = 3; index <= 48; index += 1) {
         const filler = await saveDrill("Smoke filler " + index);
         ensure(filler.status === 201);
+        fillerIds.push(filler.body.drill.id);
     }
 
     const results = await Promise.all(["A", "B", "C", "D", "E"].map((suffix) => saveDrill("Smoke concurrent " + suffix)));
@@ -543,6 +560,93 @@ async function verifyFirstUserTimersUnchanged() {
     ensure(text.includes(otherDrill.name) && text.includes(OTHER_LINE));
 }
 
+async function deleteDrillRequest(id, options = {}) {
+    return appRequest("/api/drills/" + id, { method: "DELETE", ...options });
+}
+
+async function snapshotDelete(id) {
+    const response = await deleteDrillRequest(id);
+    return { status: response.status, raw: await response.text(), headers: ["cache-control", "content-type", "referrer-policy"].map((name) => response.headers.get(name)) };
+}
+
+async function dashboardMarkup() {
+    const dashboard = await appRequest("/dashboard");
+    ensure(dashboard.status === 200);
+    return dashboard.text();
+}
+
+// Runs at the 50-timer limit, signed in as the first user.
+async function verifyOwnerDelete() {
+    ensure(savedDrill !== null && otherDrill !== null && fillerIds.length >= 3);
+    const [first, second] = fillerIds;
+
+    // Cross-origin protection: a foreign or missing Origin never reaches the handler and the timer survives.
+    const foreignOrigin = await originRequest("/api/drills/" + first, { method: "DELETE", origin: "https://evil.example" });
+    ensure(foreignOrigin.status === 403);
+    const noOrigin = await originRequest("/api/drills/" + first, { method: "DELETE" });
+    ensure(noOrigin.status === 403);
+    ensure((await appRequest("/" + first)).status === 200);
+
+    // The method list advertises DELETE and the other methods stay refused.
+    for (const method of ["GET", "POST", "PATCH"]) {
+        const refused = await appRequest("/api/drills/" + first, { method });
+        ensure(refused.status === 405 && refused.headers.get("allow") === "PUT, DELETE");
+    }
+
+    const removed = await deleteDrillRequest(first);
+    ensure(removed.status === 204);
+    ensure((await removed.text()) === "");
+    ensure(removed.headers.get("cache-control")?.includes("no-store"));
+    ensure((await appRequest("/" + first)).status === 404);
+    ensure(!(await dashboardMarkup()).includes(first));
+
+    // Double delete is the same 404 as a foreign, random or malformed id.
+    const repeated = await snapshotDelete(first);
+    const random = await snapshotDelete(randomUUID());
+    const malformed = await snapshotDelete("not-a-uuid");
+    ensure(repeated.status === 404 && random.status === 404 && malformed.status === 404);
+    ensure(repeated.raw === random.raw && repeated.raw === malformed.raw);
+    ensure(JSON.stringify(repeated.headers) === JSON.stringify(random.headers) && JSON.stringify(repeated.headers) === JSON.stringify(malformed.headers));
+    ensure(repeated.headers[0]?.includes("no-store") && !repeated.raw.includes(first));
+
+    // A freed slot at the limit takes exactly one save, and the deleted name is reusable.
+    const refill = await saveDrill("Smoke filler 3");
+    ensure(refill.status === 201);
+    const full = await saveDrill("Smoke after refill");
+    ensure(full.status === 409 && full.body.code === "limit_reached");
+
+    // Deleting one timer leaves the others alone.
+    const gone = await deleteDrillRequest(second);
+    ensure(gone.status === 204);
+    const markup = await dashboardMarkup();
+    ensure(!markup.includes(second) && markup.includes(refill.body.drill.id) && markup.includes(savedDrill.id) && markup.includes(otherDrill.id));
+    const after = await saveDrill("Smoke filler 4");
+    ensure(after.status === 201);
+    const text = visibleText(markup);
+    ensure(text.includes(savedDrill.name) && text.includes(otherDrill.name));
+}
+
+async function verifyGuestDelete(id) {
+    const response = await deleteDrillRequest(id);
+    ensure(response.status === 401 && response.headers.get("cache-control")?.includes("no-store"));
+    const body = await response.json().catch(() => null);
+    ensure(body?.ok === false && body.code === "unauthorized");
+}
+
+async function verifyForeignDelete() {
+    ensure(savedDrill !== null && otherDrill !== null);
+    const foreign = await snapshotDelete(savedDrill.id);
+    const random = await snapshotDelete(randomUUID());
+    const malformed = await snapshotDelete("not-a-uuid");
+    ensure(foreign.status === 404 && random.status === 404 && malformed.status === 404);
+    ensure(foreign.raw === random.raw && foreign.raw === malformed.raw);
+    ensure(JSON.stringify(foreign.headers) === JSON.stringify(random.headers) && JSON.stringify(foreign.headers) === JSON.stringify(malformed.headers));
+    ensure(foreign.headers[0]?.includes("no-store") && !foreign.raw.includes(savedDrill.id));
+    // The foreign attempt matches the 404 of PUT byte for byte.
+    const put = await snapshotUpdate(savedDrill.id);
+    ensure(foreign.raw === put.raw);
+}
+
 async function signInNewAccount(email) {
     await requestEmailLink(email, "/dashboard");
     const link = callbackFromMessage(await waitForEmail(email));
@@ -603,6 +707,7 @@ async function runRemoteSmoke() {
     });
 
     await runStep("anonymous PUT /api/drills/{id} answers 401 and /{uuid}/edit redirects to sign-in", () => verifyGuestEdit(randomUUID()));
+    await runStep("anonymous DELETE /api/drills/{id} answers 401", () => verifyGuestDelete(randomUUID()));
 }
 
 async function runLocalSmoke() {
@@ -661,14 +766,20 @@ async function runLocalSmoke() {
     await runStep("edit rules: duplicate 409, case-only rename 200, 200/201 characters, invalid 400, wrong type 415", verifyEditRules);
     await runStep("the 50-timer limit refuses the 51st save, also for concurrent requests", verifyDrillLimit);
     await runStep("a timer can still be edited at the 50-timer limit", verifyEditAtLimit);
+    await runStep(
+        "owner deletes at the limit: 403 without the app Origin, 405 Allow, 204, repeat is the same 404 as a foreign id, a freed slot takes one save, the other timers stay",
+        verifyOwnerDelete,
+    );
     await runStep("sign-out clears the new-account session", verifyDashboardAndSignOut);
     await runStep("anonymous /{id} redirects to sign-in with next and a non-UUID path is a plain 404", verifyGuestSavedDrillRouting);
     await runStep("anonymous PUT is 401, /{id}/edit redirects with next, /not-a-uuid/edit is the plain 404", () => verifyGuestEdit(savedDrill.id));
+    await runStep("anonymous DELETE is 401", () => verifyGuestDelete(savedDrill.id));
 
     const otherEmail = "smoke-other-" + Date.now() + "-" + randomUUID() + "@example.com";
     await runStep("a second, distinct account signs in", () => signInNewAccount(otherEmail));
     await runStep("second account gets identical 404s for a foreign and a random id and sees none of the first user's timers", verifyForeignSavedDrillPages);
     await runStep("second account's PUT and /edit page give identical 404s for a foreign, a random and a malformed id", verifyForeignEdit);
+    await runStep("second account DELETE gives identical 404s for a foreign, a random and a malformed id", verifyForeignDelete);
     await runStep("sign-out clears the second account session", verifyDashboardAndSignOut);
 
     await runStep("signed-out SSR home shell links Sign in to the sign-in page", async () => {

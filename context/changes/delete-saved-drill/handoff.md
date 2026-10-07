@@ -46,3 +46,24 @@ Findings for the coordinator:
 - **Pre-existing, not fixed (out of scope):** on `/{id}` a 200-character name without spaces makes the page itself scroll horizontally (`scrollWidth` 3432 at 390 px) even before the dialog opens — the header in `DrillApp` does not wrap long words. The dialog is fine. The 2.9 wording "no horizontal scroll" is therefore verified for the dialog only. A one-class fix (`wrap-anywhere`/`break-words` on the heading) would change a view outside this change; say if you want it in Phase 3.
 - Preview/dist lock: `npm run build` fails with EPERM while `astro preview` runs from the same worktree; stop the preview first.
 - Rows 2.6–2.8 stay open for a human.
+
+## Phase 3 — implemented: fixtures, smoke, screenshots, docs
+
+Delivered:
+
+- **Fix of an S-11 bug (decision of the coordinator, outside the original S-13 scope):** a 200-character name without spaces made `/{id}` scroll horizontally (`scrollWidth` 3432 at 390 px) because the `DrillApp` header `h1` was a flex item with `break-words` and `min-width: auto`. The saved-timer heading now uses `SAVED_DRILL_HEADING_CLASS` (`min-w-0 … wrap-anywhere`, exported from `DrillApp.tsx`); the unnamed "Drill timer" heading and the rest of the layout are unchanged. Covered by the `page-long-name-*` fixture card (same class and header structure, the preview cannot mount `DrillApp` because its `ThemeToggle` overrides the `?theme=` class) and by a real-page script on the production preview (`e2e-long-heading.json`: 390 and 1280 px, no horizontal scroll, the whole name rendered).
+- **Dark hover of the confirm button:** the gate found that `Delete` had no hover change in dark (`dark:bg-destructive` from Phase 2 beat the variant's `hover:bg-destructive/90`); added `dark:hover:bg-destructive/90` (contrast on hover 6.03:1 dark, 5.32:1 light).
+- `src/components/timer/DeleteDrillFixtures.tsx` (new): production `DeleteDrillDialog` with injected ports, one open modal per scenario (a Radix modal hides and traps the page), chosen by buttons or `?delete=<state>` (read with `useSyncExternalStore`, so nothing opens by default and the other preview sections and their scripts stay reachable). States: default, long name (200 chars), emoji/NFD name, deleting (port never resolves), error (unavailable), unauthorized (sign-in link); deleting/error/unauthorized need `Delete` pressed (the gate script does it). Wired into `TimerUiPreview.tsx`.
+- `SavedDrillDetails` takes an optional `deletePorts` (type `DeleteDrillDialogPorts`, exported from `DeleteDrillDialog.tsx`); the `saved-details` card in `SavedDrillFixtures.tsx` passes inert ports so the preview can never delete a real row, and shows the closed `Delete timer` trigger next to `Edit timer`.
+- `scripts/smoke.mjs`: `originRequest` (DELETE with a foreign Origin / without Origin → 403 and the timer intact), `fillerIds`, `verifyOwnerDelete` (runs at the 50-timer limit: 405 `Allow: PUT, DELETE` for GET/POST/PATCH, 204 with an empty `no-store` body, `/{id}` 404 and gone from `/dashboard`, repeat / random / malformed DELETE byte-identical 404, a freed slot takes exactly one save and the deleted name is reusable, the other timers stay), `verifyForeignDelete` (second account, identical 404 and the same body as PUT's 404), `verifyGuestDelete` (401, also in remote mode).
+- Screenshots and `gate-results.json` in `screenshots/` (README with the state table, contrast table and the S-11 fix evidence); `AGENTS.md` (Delete UI rule and fixtures), `README.md` (`/{id}` row, `DELETE` API line).
+
+Gates (worktree): `npm test` 204/204; `npm run lint` clean; rule tests 5/5; `astro check` 0 errors; `npm run build` OK; `npx supabase test db` 105/105 PASS (no reset); no migration; production preview answers 404 on `/dev/timer-ui`. Smoke on the production preview (port 4323, shared stack without Mailpit) with a **scratchpad copy that replaces only `waitForEmail`** (GoTrue admin `generate_link` → a fake message with the callback link): all local steps passed, including the new delete steps and the 403 origin checks; remote mode passed (guest DELETE 401 included). Visual gate: 240 checks, 0 failed. Break-check: N/A for this phase (no new unit test; fixtures, smoke and docs only).
+
+Scripted, not human: the smoke runs, the gate (`gate-results.json`) and the long-heading check (`e2e-long-heading.json`). Screenshots were reviewed by the agent (dialog error dark 390, long name light 390, long heading, focus ring on Delete dark 1280); the human review (3.6) and the final click-through (3.7) stay open.
+
+Notes for the coordinator:
+
+- The smoke cleanup removed every `smoke-*@example.com` GoTrue user on the shared stack (38, mostly leftovers of earlier runs).
+- Full smoke with Mailpit runs in CI; this phase only proved the delete steps against the preview.
+- Rows 1.8, 2.6–2.8, 3.6 and 3.7 stay unchecked for a human.

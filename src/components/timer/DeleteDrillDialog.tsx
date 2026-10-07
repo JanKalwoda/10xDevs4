@@ -16,12 +16,15 @@ import { useDrillDelete } from "@/components/hooks/useDrillDelete";
 import { deleteDrillRequest, type DeleteDrillPort } from "@/lib/drill-delete-controller";
 import { cn } from "@/lib/utils";
 
-interface DeleteDrillDialogProps {
-    drill: { id: string; name: string };
+export interface DeleteDrillDialogPorts {
     /** Defaults to `DELETE /api/drills/{id}`; `/dev/timer-ui` injects deterministic ports. */
     deleteDrill?: DeleteDrillPort;
     /** Defaults to `location.replace`, so the deleted page leaves no history entry. */
     navigate?: (href: string) => void;
+}
+
+interface DeleteDrillDialogProps extends DeleteDrillDialogPorts {
+    drill: { id: string; name: string };
     /** Fixtures render the open dialog without a click. */
     defaultOpen?: boolean;
 }
@@ -87,7 +90,7 @@ export default function DeleteDrillDialog({ drill, deleteDrill, navigate = repla
                         variant="destructive"
                         // aria-disabled instead of disabled keeps the focus inside the dialog while the request runs.
                         aria-disabled={deleting || undefined}
-                        className="text-destructive-foreground focus-visible:border-ring focus-visible:ring-ring/50 dark:bg-destructive aria-disabled:pointer-events-none aria-disabled:opacity-50"
+                        className="text-destructive-foreground focus-visible:border-ring focus-visible:ring-ring/50 dark:bg-destructive dark:hover:bg-destructive/90 aria-disabled:pointer-events-none aria-disabled:opacity-50"
                         onClick={(event) => {
                             // Radix closes the dialog right after onClick; it must stay open until the result arrives.
                             event.preventDefault();
