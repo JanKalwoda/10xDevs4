@@ -280,7 +280,7 @@ void test("markEdited drops a stale confirmation or alert but keeps the typed na
     assert.deepEqual(failing.getSnapshot(), { name: "Run", nameError: null, status: "idle", failure: null, savedName: null });
 });
 
-void test("markEdited is a no-op while saving and while idle, and does not notify subscribers then", async () => {
+void test("markEdited while saving does not change the snapshot or notify subscribers and while idle is a no-op", async () => {
     const port = deferredPort();
     const controller = createDrillCreateController(port.port, EDIT);
     let notifications = 0;
@@ -297,7 +297,57 @@ void test("markEdited is a no-op while saving and while idle, and does not notif
     assert.equal(notifications, seen);
     port.resolve({ ok: true, drill: drill("Run") });
     await pending;
-    assert.equal(controller.getSnapshot().status, "saved");
+});
+
+void test("a parameter change during a successful save leaves no Saved confirmation behind", async () => {
+    const port = deferredPort();
+    const controller = createDrillCreateController(port.port, EDIT);
+    const pending = controller.save(VALUES);
+    controller.markEdited();
+    assert.equal(controller.getSnapshot().status, "saving");
+    port.resolve({ ok: true, drill: drill("Run") });
+    await pending;
+    assert.deepEqual(controller.getSnapshot(), { name: "Run", nameError: null, status: "idle", failure: null, savedName: null });
+});
+
+void test("the edited-during-save flag does not leak into the next save", async () => {
+    const port = deferredPort();
+    const controller = createDrillCreateController(port.port, EDIT);
+    const first = controller.save(VALUES);
+    controller.markEdited();
+    port.resolve({ ok: true, drill: drill("Run") });
+    await first;
+    assert.equal(controller.getSnapshot().status, "idle");
+
+    const second = controller.save(VALUES);
+    port.resolve({ ok: true, drill: drill("Run") });
+    await second;
+    assert.deepEqual(controller.getSnapshot(), { name: "Run", nameError: null, status: "saved", failure: null, savedName: "Run" });
+});
+
+void test("a parameter change during a failed save drops the alert but keeps a name error", async () => {
+    const unavailable: SaveDrillResponse = { ok: false, code: "unavailable", message: SAVE_DRILL_MESSAGES.unavailable };
+    const alert = deferredPort();
+    const controller = createDrillCreateController(alert.port, EDIT);
+    const pending = controller.save(VALUES);
+    controller.markEdited();
+    alert.resolve(unavailable);
+    await pending;
+    assert.deepEqual(controller.getSnapshot(), { name: "Run", nameError: null, status: "idle", failure: null, savedName: null });
+
+    const duplicate: SaveDrillResponse = {
+        ok: false,
+        code: "duplicate_name",
+        message: SAVE_DRILL_MESSAGES.duplicate_name,
+        fieldErrors: { name: SAVE_DRILL_MESSAGES.duplicate_name },
+    };
+    const named = deferredPort();
+    const other = createDrillCreateController(named.port, EDIT);
+    const second = other.save(VALUES);
+    other.markEdited();
+    named.resolve(duplicate);
+    await second;
+    assert.deepEqual(other.getSnapshot(), { name: "Run", nameError: SAVE_DRILL_MESSAGES.duplicate_name, status: "idle", failure: null, savedName: null });
 });
 
 void test("markEdited keeps a name error so the field stays flagged until the name changes", async () => {

@@ -23,7 +23,10 @@ export interface DrillCreateController {
     /** Validates the name at the start of a submit so its error shows together with parameter errors. */
     submitAttempt(): void;
     save(values: DrillConfigInput): Promise<void>;
-    /** The parameters changed: a stale `Saved "…"` or alert is dropped. The typed name and any name error stay. No-op while saving. */
+    /**
+     * The parameters changed: a stale `Saved "…"` or alert is dropped. The typed name and any name error stay.
+     * While saving it only remembers the change, so the reply of that save does not report the edited values as saved.
+     */
     markEdited(): void;
     subscribe(listener: () => void): () => void;
     getSnapshot(): DrillCreateSnapshot;
@@ -50,6 +53,15 @@ function failureFrom(response: Extract<SaveDrillResponse, { ok: false }>): Pick<
 export function createDrillCreateController(saveDrill: SaveDrillPort, options: DrillCreateOptions = {}): DrillCreateController {
     const listeners = new Set<() => void>();
     let snapshot: DrillCreateSnapshot = { name: options.initialName ?? "", nameError: null, status: "idle", failure: null, savedName: null };
+    // The parameters changed after the request left: its reply describes values the form no longer shows.
+    let editedDuringSave = false;
+
+    // A function so the flag read after the `await` is not narrowed to the `false` assigned before it.
+    function takeEditedDuringSave(): boolean {
+        const edited = editedDuringSave;
+        editedDuringSave = false;
+        return edited;
+    }
 
     function publish(next: DrillCreateSnapshot) {
         snapshot = next;
@@ -79,6 +91,7 @@ export function createDrillCreateController(saveDrill: SaveDrillPort, options: D
                 return;
             }
 
+            editedDuringSave = false;
             publish({ ...snapshot, nameError: null, status: "saving", failure: null, savedName: null });
 
             let response: SaveDrillResponse;
@@ -88,14 +101,27 @@ export function createDrillCreateController(saveDrill: SaveDrillPort, options: D
                 response = { ok: false, code: "unexpected", message: SAVE_DRILL_MESSAGES.unexpected };
             }
 
+            // Edited during the request: drop the outcome the way `markEdited` does after a reply, so neither `Saved "…"` nor an alert refers to the old values.
+            const stale = takeEditedDuringSave();
+
             if (response.ok) {
-                publish({ name: options.keepAfterSave ? response.drill.name : "", nameError: null, status: "saved", failure: null, savedName: response.drill.name });
+                const name = options.keepAfterSave ? response.drill.name : "";
+                publish(
+                    stale
+                        ? { name, nameError: null, status: "idle", failure: null, savedName: null }
+                        : { name, nameError: null, status: "saved", failure: null, savedName: response.drill.name },
+                );
                 return;
             }
-            publish({ ...snapshot, status: "error", savedName: null, ...failureFrom(response) });
+            const failure = failureFrom(response);
+            publish({ ...snapshot, savedName: null, ...failure, status: stale ? "idle" : "error", failure: stale ? null : failure.failure });
         },
 
         markEdited() {
+            if (snapshot.status === "saving") {
+                editedDuringSave = true;
+                return;
+            }
             if (snapshot.status !== "saved" && snapshot.status !== "error") return;
             publish({ ...snapshot, status: "idle", failure: null, savedName: null });
         },

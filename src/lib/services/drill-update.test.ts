@@ -8,6 +8,7 @@ import {
     OPEN_DRILL_MESSAGES,
     SAVE_DRILL_MESSAGES,
     handleUpdateDrillRequest,
+    methodNotAllowedResponse,
     updateDrillConfiguration,
     type DrillConfigurationStore,
     type DrillConfigurationUpdate,
@@ -245,4 +246,12 @@ void test("the success body is the saved drill and is never cached", async () =>
     assert.equal(response.status, 200);
     assert.equal(response.headers.get("cache-control"), "no-store");
     assert.equal(body.ok && body.drill.name, "Evening draw");
+});
+
+void test("the answer for methods other than PUT is a bodiless 405 with Allow: PUT and no-store", async () => {
+    const response = methodNotAllowedResponse();
+    assert.equal(response.status, 405);
+    assert.equal(response.headers.get("allow"), "PUT");
+    assert.equal(response.headers.get("cache-control"), "no-store");
+    assert.equal(await response.text(), "");
 });

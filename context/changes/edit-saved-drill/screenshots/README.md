@@ -5,7 +5,7 @@ Captured on 2026-10-07 from the local Astro dev server (`/dev/timer-ui?theme=lig
 | File prefix                                      | State                                                               | Visual-gate state                         |
 | ------------------------------------------------ | ------------------------------------------------------------------- | ----------------------------------------- |
 | `default-*`                                      | prefilled stored name and parameters (0:00 rest, 10:00 exercise)    | default (also the "empty" N/A, see below) |
-| `hover-*`                                        | hover on `Save changes` (background change asserted)                | hover                                     |
+| `hover-*`                                        | hover on `Save changes` (real pointer; background change asserted)  | hover                                     |
 | `focus-visible-*`                                | keyboard Tab from the name onto `Save changes` (ring asserted)      | focus-visible                             |
 | `saved-*`                                        | `Saved "Morning drill".`, name kept, links stay                     | default (success)                         |
 | `saving-*`                                       | `Saving…`, button disabled, name read-only                          | disabled and loading                      |

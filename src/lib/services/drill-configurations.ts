@@ -426,6 +426,12 @@ export async function handleUpdateDrillRequest(request: Request, context: Update
     return toResponse(await updateDrillConfiguration(context.store, context.userId, context.id, json.input, context.log));
 }
 
+// Any method but PUT on /api/drills/{id}: no session, id or store is read, so the answer reveals nothing about ownership.
+// DELETE is reserved for S-13 and is 405 until then.
+export function methodNotAllowedResponse(): Response {
+    return new Response(null, { status: 405, headers: { Allow: "PUT", "Cache-Control": "no-store" } });
+}
+
 export const OPEN_DRILL_MESSAGES = {
     unavailable: "Your saved timers are temporarily unavailable. Please try again later.",
     empty: "You have no saved timers yet.",

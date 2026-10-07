@@ -1,7 +1,7 @@
 ---
 change_id: edit-saved-drill
 title: Edit own saved timer (name and parameters)
-status: implementing
+status: impl_reviewed
 created: 2026-10-07
 updated: 2026-10-07
 archived_at: null

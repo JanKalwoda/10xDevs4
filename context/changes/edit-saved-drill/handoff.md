@@ -69,3 +69,15 @@ Break-check (smoke): with the `isDrillId` guards removed from `updateDrillConfig
 Rows 2.7–2.10 were executed **by a Playwright script, not a human** (production preview, real browser, two throw-away users via GoTrue admin, deleted afterwards) and are checked in the plan with that annotation: owner flow including Start running the new parameters (`Repetition 1 of 1`, exercise from 0:02); duplicate / case-only / 200 / 201; foreign, random and non-UUID `/{x}/edit` identical 404, guest redirects; Tab order, focus after save, focus rings. Extra scripted: a row deleted behind the form (not-found alert) and a cleared session (unauthorized alert with a sign-in link back to the edit page). Visual-gate note: the preview page is 414 px wide at 390 px even without the new section (existing preview content), so the check asserts only that the edit section does not widen it.
 
 Still open for a human: 1.7 (scripted in Phase 1, left unchecked), 3.4 (review of the screenshots; the existing seven-state timer gate was not re-screenshotted, only a section was added to `TimerUiPreview`) and 3.5 (final click-through in a real browser, including bfcache Back after saving; also emoji/NFD names, real devices, sound, screen reader).
+
+## Review fixes — impl-review (APPROVED, 0 critical / 2 warnings / 2 observations)
+
+One follow-up commit; decisions are in `reviews/impl-review.md`.
+
+- **F1** `src/lib/drill-create-controller.ts`: `markEdited` during `saving` sets `editedDuringSave`; the reply then publishes `idle` without `savedName` / alert (name error kept, name per `keepAfterSave`). 3 new controller tests (27 in the file); break-check red without the flag.
+- **F2** `screenshots/hover-{light,dark}-1280.png` re-captured with a real `hover()` (not byte-identical to `default-*` any more); README hover row unchanged in meaning.
+- **F3** accepted as-is: 1.7, 3.4, 3.5 and human confirmation of 2.7–2.10 stay with the user.
+- **F4** `src/pages/api/drills/[id].ts` `ALL` → `methodNotAllowedResponse()` (405, `Allow: PUT`, `no-store`, empty body); unit test plus a check on the production preview (GET/POST/PATCH/DELETE → 405). DELETE is not implemented (S-13).
+
+Gates (local, worktree): `npm test` 187/187; `npm run lint` clean; rule tests 5/5; `npx astro check` 0 errors (1 pre-existing hint); `npm run build` OK; `npx supabase test db` 90/90 PASS (shared stack, no reset); no migration, no `db push`/`db reset`.
+
