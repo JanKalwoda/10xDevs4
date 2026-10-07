@@ -298,12 +298,12 @@ None. Production already has the table, policy, grant and trigger from S-10; not
 
 #### Automated
 
-- [ ] 1.1 Unit tests pass: `npm test`
-- [ ] 1.2 Lint passes: `npm run lint`
-- [ ] 1.3 Types pass: `npx astro sync && npx astro check`
-- [ ] 1.4 pgTAP passes against the shared local stack (no reset): `npx supabase test db`
-- [ ] 1.5 No migration added: `git diff --name-only main -- supabase/migrations` is empty
-- [ ] 1.6 Build passes: `npm run build`
+- [x] 1.1 Unit tests pass: `npm test`
+- [x] 1.2 Lint passes: `npm run lint`
+- [x] 1.3 Types pass: `npx astro sync && npx astro check`
+- [x] 1.4 pgTAP passes against the shared local stack (no reset): `npx supabase test db`
+- [x] 1.5 No migration added: `git diff --name-only main -- supabase/migrations` is empty
+- [x] 1.6 Build passes: `npm run build`
 
 #### Manual
 

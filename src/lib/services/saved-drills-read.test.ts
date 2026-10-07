@@ -48,6 +48,7 @@ function store(list: () => PromiseLike<ListResult>, find: (id: string) => Promis
             calls.find.push(id);
             return find(id);
         },
+        update: () => Promise.reject(new Error("update is not used when reading")),
     };
 }
 
