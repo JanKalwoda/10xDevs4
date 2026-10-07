@@ -19,14 +19,15 @@ S-10 shipped the private `drill_configurations` table (RLS select-own, on produc
 | Decision | Choice | Why (1 sentence) | Source |
 | --- | --- | --- | --- |
 | Route | `src/pages/[id].astro`, strict UUID, else 404 | Static routes win in Astro, so no collision; non-UUID never hits the DB | Plan (coordinator Q4=A) |
-| Not-found | One 404 for foreign/nonexistent/non-UUID via `Astro.rewrite("/404")` | RLS returns zero rows for both, so no existence leak | User + Plan |
+| Not-found | One shared `NotFoundView` for foreign/nonexistent/non-UUID, status and `no-store` set directly (no rewrite) | RLS returns zero rows for both and the body never echoes the id; no second middleware run | User + Plan |
 | Guests | Redirect to sign-in only for UUID paths; other paths 404 | Keeps the guard from becoming an oracle or redirecting every typo | Plan (Q5=A) |
 | Detail view | Read-only summary + `Start` in `DrillApp` saved mode, spare actions area | Reuses the run lifecycle; Edit/Delete belong to S-12/S-13 (layout room only) | Plan (Q1=A + coordinator note) |
 | Service | Extend the existing store port with `list`/`findById` | No duplicate DTO/client; same error mapping as save | User + Plan |
 | Errors | Unavailable gives alert (dashboard) / 503 (`/{id}`), never the empty text | Outage must not read as "no timers" | Plan (Q3=A) |
 | Order | `created_at desc, id desc`, max 50 rows, no pagination | Deterministic; the per-user limit is 50 | Plan (Q2=A) |
 | Migration | None | Policy, grant and index already cover reads | Plan (Q6=A) |
-| Refresh | No run resume; state in memory only | Stated requirement; made a tested property | User |
+| Refresh | No run resume; state in memory only | Stated requirement; SSR check in smoke plus a manual point (bfcache noted) | User |
+| Defense in depth | `[id]` and dashboard redirect when `locals.user` is missing; read errors never become an empty list | Protection must not rely on middleware alone; an outage must not read as empty | Plan review F2, F3 |
 | Evidence | Unit + pgTAP + two-user smoke + screenshot gate | Ownership proven at DB, route and UI level | Plan (Q7, Q8=A) |
 
 ## Scope
@@ -44,8 +45,8 @@ Pure functions over a store port (`listSavedDrills`, `getSavedDrill`) return `ok
 | Phase | What it delivers | Key risk |
 | --- | --- | --- |
 | 1. Read service | Port/functions, UUID guard, protection rule, pgTAP read isolation | Leaking existence through distinct outcomes |
-| 2. Pages | Dashboard, `[id]`, 404, saved mode in `DrillApp` | Regressing `/`; `Astro.rewrite` status and headers |
-| 3. Evidence | Two-user smoke, fixtures, screenshots, docs | Shared local Supabase and Mailpit differences for smoke |
+| 2. Pages | Dashboard, `[id]`, 404, saved mode in `DrillApp` | Regressing `/`; `prerender = false` and headers on the 404 path |
+| 3. Evidence | Two-account smoke (separate e-mail), fixtures, screenshots, docs | Shared local Supabase and Mailpit differences for smoke |
 
 **Prerequisites:** S-10 merged and migrated (done). **Estimated effort:** ~2–3 sessions.
 

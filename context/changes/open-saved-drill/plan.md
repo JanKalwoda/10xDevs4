@@ -17,7 +17,7 @@ A signed-in user lands on `/dashboard`, sees their own saved timers (name + para
 
 - Astro gives static routes priority over dynamic ones, so `src/pages/[id].astro` cannot shadow `/dashboard`, `/create`, `/auth/*`, `/api/*`, `/dev/*`; it only sees single-segment paths nobody else owns, so it must itself reject everything that is not a UUID.
 - RLS makes "foreign" and "nonexistent" the same query result (zero rows), so returning 404 for zero rows gives non-disclosure without extra logic, provided the page never reveals the difference (same markup, status and headers).
-- "Do not resume after refresh" is satisfied by design: run state lives only in React memory; the page is re-rendered from the database into the read-only detail view. It is made a tested property, not an accident.
+- "Do not resume after refresh" is satisfied by design: run state lives only in React memory; the page is re-rendered from the database into the read-only detail view. It is documented as a design property and verified manually plus by the SSR HTML check in smoke (`Start`, not a run view); `node --test` cannot render React. Back/Forward (bfcache) may restore in-memory state exactly as on `/` today and is noted in the handoff as an explicit manual check.
 - An unavailable store (missing table, no client, JWT error) must not render the empty-state text, otherwise an outage looks like "you have no timers".
 
 ## Desired End State
@@ -54,7 +54,7 @@ Pure, tested logic with no UI: how timers are read, how ids are validated and wh
 
 **Intent**: Add reading to the existing service so list and detail pages share ownership/error semantics with save, and nothing is duplicated.
 
-**Contract**: `DrillConfigurationStore` gains `list()` and `findById(id)` (supabase-js shapes: rows array / `maybeSingle` row, `error`, `status`); `createSupabaseDrillStore` implements them with an explicit column list (no `user_id` selected), ordered `created_at desc, id desc`, `limit MAX_SAVED_DRILLS`. New exported `isDrillId(value)` (case-insensitive `8-4-4-4-12` hex, nothing else) and `normalizeDrillId` (lower-case). New `listSavedDrills(store, log?)` returning `{ kind: "ok", drills } | { kind: "unavailable" | "unauthorized" }` and `getSavedDrill(store, id, log?)` returning `{ kind: "ok", drill } | { kind: "not_found" } | { kind: "unavailable" | "unauthorized" }`. Non-UUID id gives `not_found` without touching the store; zero rows gives `not_found`; exceptions and unknown errors give `unavailable`, logging only the error code (as in save). `OPEN_DRILL_MESSAGES` (unavailable, empty, not found) sits next to `SAVE_DRILL_MESSAGES`. Existing store fakes in tests gain the new methods; save behavior is unchanged.
+**Contract**: `DrillConfigurationStore` gains `list()` and `findById(id)` (supabase-js shapes: rows array / `maybeSingle` row, `error`, `status`); `createSupabaseDrillStore` implements them with an explicit column list (no `user_id` selected), ordered `created_at desc, id desc`, `limit MAX_SAVED_DRILLS`. New exported `isDrillId(value)` (case-insensitive `8-4-4-4-12` hex, nothing else) and `normalizeDrillId` (lower-case). New `listSavedDrills(store, log?)` returning `{ kind: "ok", drills } | { kind: "unavailable" | "unauthorized" }` and `getSavedDrill(store, id, log?)` returning `{ kind: "ok", drill } | { kind: "not_found" } | { kind: "unavailable" | "unauthorized" }`. Non-UUID id gives `not_found` without touching the store; zero rows gives `not_found`; exceptions, unknown errors (incl. `42501`/403) and `data: null` with no `error` give `unavailable`, logging only the error code (as in save); an empty list (`kind: "ok"`, `drills: []`) is returned only for `error === null` and an array `data`. `OPEN_DRILL_MESSAGES` (unavailable, empty, not found) sits next to `SAVE_DRILL_MESSAGES`. Existing store fakes in tests gain the new methods; save behavior is unchanged.
 
 #### 2. Display formatting
 
@@ -78,13 +78,13 @@ Pure, tested logic with no UI: how timers are read, how ids are validated and wh
 
 **Intent**: Prove the data boundary the pages rely on, as the `authenticated` role, with the query shapes the store uses.
 
-**Contract**: Add assertions (and bump `plan(70)`): user A selecting all rows sees only A's; A selecting B's row by id gets zero rows (same result as a random id); `anon` select by id is denied; the selected column list works for `authenticated`. No migration file is added.
+**Contract**: Add assertions and set `plan(N)` to the exact new total (currently 70): user A selecting all rows sees only A's (ordered `created_at desc, id desc`, limited to 50 like the store query); A selecting B's row by id gets zero rows (same result as a random id); `anon` select by id is denied; the selected column list works for `authenticated`. No migration file is added.
 
 ### Success Criteria:
 
 #### Automated Verification:
 
-- Unit tests pass: `npm test` (new: `isDrillId` accept/reject incl. braces, uppercase, 35/37 chars, non-hex, whitespace; list mapping; `getSavedDrill` ok / zero rows not_found / non-UUID never calls the store / `PGRST205` unavailable / `PGRST301` unauthorized / exception logged by code only; summary incl. `1 rep` and random start on/off; protected-routes UUID cases incl. non-UUID unprotected)
+- Unit tests pass: `npm test` (new: `isDrillId` accept/reject incl. braces, uppercase (accepted and normalized), `{uuid}%2F`, 35/37 chars, non-hex, whitespace; read errors `42501`, `data: null` without error and thrown exceptions from `list` and `findById` all give `unavailable`, never an empty list; the page decision function (no user, non-UUID, not_found, unavailable, unauthorized, ok); list mapping; `getSavedDrill` ok / zero rows not_found / non-UUID never calls the store / `PGRST205` unavailable / `PGRST301` unauthorized / exception logged by code only; summary incl. `1 rep` and random start on/off; protected-routes UUID cases incl. upper-case, `/{uuid}%2F` and non-UUID unprotected; `//{uuid}` falls back to `next=/dashboard` by design)
 - Database tests pass: `npx supabase test db`
 - No migration added: `git diff --name-only main -- supabase/migrations` is empty
 - Lint and types pass: `npm run lint`, `npx astro sync && npx astro check`
@@ -107,11 +107,11 @@ User-visible routes: dashboard list, `/{id}` detail and run, 404/503 handling, c
 
 #### 1. 404 page and `[id]` route
 
-**File**: `src/pages/404.astro` (new), `src/pages/[id].astro` (new)
+**File**: `src/pages/404.astro` (new), `src/components/timer/NotFoundView.astro` (new, shared), `src/pages/[id].astro` (new)
 
 **Intent**: One neutral not-found experience; `/{id}` never reveals whether an id exists.
 
-**Contract**: `[id].astro` (`prerender = false`): non-UUID or `not_found` gives `Astro.rewrite("/404")` (status 404, same markup both cases); `unavailable` gives status 503 with `OPEN_DRILL_MESSAGES.unavailable` and a link back; `unauthorized` (session expired mid-request) redirects to sign-in with `next`; `ok` renders `DrillApp` in saved mode (`client:load`). `Cache-Control: private, no-store` on every branch. `404.astro` uses `Layout enableTimerTheme showConfigWarnings={false}`, semantic tokens and a link to `/`. The implementer checks and records that `Astro.rewrite` yields status 404 and that `/dashboard`, `/create`, `/auth/signin`, `/api/drills` still resolve to their own routes.
+**Contract**: both pages export `prerender = false`. A shared `NotFoundView.astro` (`Layout enableTimerTheme showConfigWarnings={false}`, semantic tokens, link to `/`) is the only 404 content; it never prints `Astro.url` or `params.id`, so the body for a foreign and a random UUID is byte-identical by construction. `[id].astro` decides through a pure function in `src/lib` (tested): no `locals.user` redirects to sign-in with `next` before the store is touched (defense in depth behind the middleware); non-UUID or `not_found` sets `Astro.response.status = 404` and renders `NotFoundView` directly (no `Astro.rewrite`, so no second middleware run or second Supabase client); `unavailable` sets 503 with `OPEN_DRILL_MESSAGES.unavailable` and a link back; `unauthorized` redirects to sign-in with `next`; `ok` renders `DrillApp` in saved mode (`client:load`). Every branch sets `Cache-Control: private, no-store` on `Astro.response.headers`, and `/{id}` adds a `noindex` robots meta. `404.astro` renders the same `NotFoundView` and sets the same headers itself (it serves unmatched paths such as `/abc/def`). The implementer records on `npm run preview` (workerd) that `/abc` and `/abc/def` return the same 404 with `no-store`, and that `/dashboard`, `/create`, `/auth/signin`, `/api/drills` still resolve to their own routes.
 
 #### 2. Saved mode in the existing timer app
 
@@ -119,7 +119,7 @@ User-visible routes: dashboard list, `/{id}` detail and run, 404/503 handling, c
 
 **Intent**: Run a stored timer with the same lifecycle, without forking it.
 
-**Contract**: `DrillApp` gets an optional `savedDrill?: SavedDrill` prop. Without it, behavior and markup are unchanged (`/` is regression-checked by existing fixtures). With it, the `configuration` view is `SavedDrillDetails`: `h1` = timer name, parameter list from `describeDrillConfiguration`, `Start` calling `start(savedDrill.configuration)` inside the click gesture (audio/Wake Lock unlock as today), `Back to dashboard` link, and a reserved empty actions row in the layout for S-12/S-13 (no controls). `completed` and cancel return to these details. No editable inputs and no persisted run state, so a refresh always shows the details.
+**Contract**: `DrillApp` gets an optional `savedDrill?: SavedDrill` prop. Without it, behavior and markup are unchanged (`/` is regression-checked by existing fixtures). With it, the `configuration` view is `SavedDrillDetails`: `h1` = timer name, parameter list from `describeDrillConfiguration`, `Start` calling `start(savedDrill.configuration)` inside the click gesture (audio/Wake Lock unlock as today), `Back to dashboard` link, and a reserved empty actions row in the layout for S-12/S-13 (no controls). `completed` and cancel return to these details. No editable inputs and no persisted run state, so a refresh always shows the details (bfcache restore is out of scope, same as `/`).
 
 #### 3. Dashboard
 
@@ -127,7 +127,7 @@ User-visible routes: dashboard list, `/{id}` detail and run, 404/503 handling, c
 
 **Intent**: Replace the starter stub with the signed-in home using tokens and `src/components/ui`.
 
-**Contract**: `dashboard.astro` loads `listSavedDrills(createSupabaseDrillStore(locals.supabase))` (no client means unavailable) and renders a shell (`Layout enableTimerTheme showConfigWarnings={false}`) with the user email, `SavedDrillList` (list / empty / unavailable), the `Create a timer` link (keeps `<a href="/create" ...>Create a timer</a>` for the smoke regex) and the sign-out form as a `Button`. Each timer is one link to `/{id}` with a `break-words` name and the parameter line; empty text `You have no saved timers yet.`; unavailable shows a destructive `Alert` with `OPEN_DRILL_MESSAGES.unavailable` and never the empty text. User names are rendered as text only. `Cache-Control: private, no-store`.
+**Contract**: `dashboard.astro` loads `listSavedDrills(createSupabaseDrillStore(locals.supabase))` (no client means unavailable; no `locals.user` or `unauthorized` redirects to `/auth/signin?next=%2Fdashboard`) and renders a shell (`Layout enableTimerTheme showConfigWarnings={false}`) with the user email, `SavedDrillList` (list / empty / unavailable), the `Create a timer` link (keeps `<a href="/create" ...>Create a timer</a>` for the smoke regex) and the sign-out form as a `Button`. Each timer is one link to `/{id}` with a `break-words` name and the parameter line; empty text `You have no saved timers yet.`; unavailable shows a destructive `Alert` with `OPEN_DRILL_MESSAGES.unavailable` and never the empty text. User names are rendered as text only. `Cache-Control: private, no-store`.
 
 #### 4. Lint scope
 
@@ -146,7 +146,7 @@ User-visible routes: dashboard list, `/{id}` detail and run, 404/503 handling, c
 
 #### Manual Verification:
 
-- Signed in: `/dashboard` lists own timers; open one, `Start` runs it with correct phases and signals; Cancel and completion return to the details; refresh during a run shows the details, not a running timer
+- Signed in: `/dashboard` lists own timers (a `<ul>` of link cards); open one, `Start` runs it with correct phases and signals; Cancel and completion return to the details; refresh during a run shows the details, not a running timer
 - Another user's id, a random UUID and `/abc` look identical (404); `/{uuid}` as a guest redirects to sign-in and returns to the timer after sign-in
 - `/`, `/create`, `/auth/signin`, `/api/drills` unchanged; focus-visible and accessible names OK on list links and Start
 
@@ -168,7 +168,7 @@ End-to-end evidence with real cookies, plus the screenshot gate and a rule for t
 
 **Intent**: Prove ownership and routing through the real stack.
 
-**Contract**: Local mode, first user: save a named timer; `GET /dashboard` contains its name, parameter line and a link to `/{id}`; `GET /{id}` is 200 with name and `Start`; `Cache-Control` includes `no-store`. Second user (second email-link session): `GET /{first user's id}` and `GET /{random-uuid}` both give 404 with identical status and body, `GET /not-a-uuid` gives 404; second user's dashboard lacks the first user's name and shows the empty text. Guest `GET /{uuid}` redirects to `/auth/signin?next=%2F{uuid}`; guest `GET /not-a-uuid` is 404 with no redirect. Remote mode: anonymous checks only. The existing `Create a timer` regex stays valid.
+**Contract**: Local mode, first user: save a named timer; `GET /dashboard` contains its name, parameter line and a link to `/{id}`; `GET /{id}` is 200 with name and `Start` in the server-rendered HTML (not a running-timer view) and a `noindex` robots meta; `Cache-Control` includes `no-store`. The id is taken from the 201 response of `POST /api/drills` and stored before the first user signs out. A genuinely separate second account (a new, distinct e-mail address, not the existing-account session of the first user) then requests `GET /{first user's id}` and `GET /{random-uuid}` both give 404 with identical status, raw body and headers (`cache-control`, `content-type`, `referrer-policy`), the body does not contain the requested id, and `GET /not-a-uuid` and `GET /abc/def` give the same 404; second user's dashboard lacks the first user's name and shows the empty text. Guest `GET /{uuid}` redirects to `/auth/signin?next=%2F{uuid}`; guest `GET /not-a-uuid` is 404 with no redirect. Remote mode: anonymous checks only. The existing `Create a timer` regex stays valid.
 
 #### 2. `/dev/timer-ui` fixtures
 
