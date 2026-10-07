@@ -69,3 +69,18 @@ test("actual ESLint configuration enforces React/Astro timer scope and leaves ac
         );
     }
 });
+
+// In minimatch "[id]" is a character class, so a glob written as src/pages/[id].astro silently matches nothing.
+test("dynamic route files [id].astro and [id]/edit.astro are really under the timer UI contract", async () => {
+    const eslint = new ESLint();
+    for (const filePath of ["src/pages/[id].astro", "src/pages/[id]/edit.astro"]) {
+        const config = await eslint.calculateConfigForFile(filePath);
+        assert.equal(config.rules["timer-ui/contract"]?.[0], 2, `${filePath} must have timer-ui/contract enabled`);
+
+        const results = await eslint.lintText('<div class="accent-blue-600" style="color: red" />', { filePath });
+        assert.ok(
+            results[0].messages.some((message) => message.ruleId === "timer-ui/contract"),
+            filePath,
+        );
+    }
+});

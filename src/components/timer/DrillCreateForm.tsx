@@ -23,6 +23,10 @@ interface DrillCreateFormProps {
     onSubmitAttempt: () => void;
     onSave: () => void;
     createAudio?: () => Promise<DrillAudioPort | null>;
+    /** Submit button text; the pending label stays `Saving…`. */
+    submitLabel?: string;
+    /** Where the `unauthorized` alert sends the user to sign in again. */
+    signInHref?: string;
 }
 
 /** Purely presentational: every state comes from props so `/dev/timer-ui` can render it deterministically. */
@@ -38,6 +42,8 @@ export default function DrillCreateForm({
     onSubmitAttempt,
     onSave,
     createAudio,
+    submitLabel = "Save timer",
+    signInHref = SIGN_IN_FOR_CREATE_HREF,
 }: DrillCreateFormProps) {
     const id = useId();
     const nameId = `${id}-name`;
@@ -84,8 +90,13 @@ export default function DrillCreateForm({
             <AlertDescription>
                 <p>{failure.message}</p>
                 {failure.code === "unauthorized" && (
-                    <a href={SIGN_IN_FOR_CREATE_HREF} className={cn(buttonVariants({ variant: "outline", size: "sm" }))}>
+                    <a href={signInHref} className={cn(buttonVariants({ variant: "outline", size: "sm" }))}>
                         Sign in
+                    </a>
+                )}
+                {failure.code === "not_found" && (
+                    <a href="/dashboard" className={cn(buttonVariants({ variant: "outline", size: "sm" }))}>
+                        Back to dashboard
                     </a>
                 )}
             </AlertDescription>
@@ -104,7 +115,7 @@ export default function DrillCreateForm({
                 onValuesChange={onValuesChange}
                 onStart={onSave}
                 createAudio={createAudio}
-                submitLabel={pending ? "Saving…" : "Save timer"}
+                submitLabel={pending ? "Saving…" : submitLabel}
                 pending={pending}
                 onSubmitAttempt={onSubmitAttempt}
                 leading={nameField}

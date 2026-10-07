@@ -6,7 +6,7 @@ begin;
 
 create extension if not exists pgtap with schema extensions;
 
-select plan(80);
+select plan(90);
 
 -- Fixtures: five users (A and B for ownership, L for the limit, M for the multi-row boundary,
 -- C for cascade and updated_at). Created as postgres, which bypasses RLS.
@@ -513,6 +513,89 @@ select is(
     (select proconfig from pg_proc where oid = 'public.set_updated_at()'::regprocedure),
     array['search_path=""'],
     'the updated_at function pins search_path to empty'
+);
+
+-- ---------------------------------------------------------------------------
+-- S-12 edit: update isolation, name collisions, siblings, the 50-row limit
+-- Fixed ids and an old updated_at (now() is constant inside one transaction).
+-- ---------------------------------------------------------------------------
+
+insert into public.drill_configurations (id, user_id, name, preparation_seconds, exercise_seconds, rest_seconds, repetitions, updated_at)
+values
+    ('00000000-0000-4000-8000-0000000012a1', '00000000-0000-4000-8000-00000000000a', 'S12 alpha', 0, 10, 0, 1, '2000-01-01 00:00:00+00'),
+    ('00000000-0000-4000-8000-0000000012a2', '00000000-0000-4000-8000-00000000000a', 'S12 beta', 0, 10, 0, 1, '2000-01-01 00:00:00+00'),
+    ('00000000-0000-4000-8000-0000000012b1', '00000000-0000-4000-8000-00000000000b', 'S12 gamma', 0, 10, 0, 1, '2000-01-01 00:00:00+00');
+
+select set_config('request.jwt.claims', '{"sub":"00000000-0000-4000-8000-00000000000b","role":"authenticated"}', true);
+set local role authenticated;
+
+select is_empty(
+    $$update public.drill_configurations set name = 'Hijacked', repetitions = 99 where id = '00000000-0000-4000-8000-0000000012a1' returning id$$,
+    'user B updating user A row by id matches zero rows'
+);
+
+reset role;
+
+select is(
+    (select count(*) from public.drill_configurations
+        where id = '00000000-0000-4000-8000-0000000012a1' and name = 'S12 alpha' and repetitions = 1 and updated_at = '2000-01-01 00:00:00+00'),
+    1::bigint,
+    'user A row is unchanged after the attempt by user B'
+);
+
+select set_config('request.jwt.claims', '{"sub":"00000000-0000-4000-8000-00000000000a","role":"authenticated"}', true);
+set local role authenticated;
+
+select throws_ok(
+    $$update public.drill_configurations set name = 's12 ALPHA' where id = '00000000-0000-4000-8000-0000000012a2'$$,
+    '23505',
+    'duplicate key value violates unique constraint "drill_configurations_user_name_key"',
+    'renaming to another own row name (any case) hits the unique index'
+);
+select lives_ok(
+    $$update public.drill_configurations set name = 'S12 gamma' where id = '00000000-0000-4000-8000-0000000012a2'$$,
+    'a name owned by another user is allowed on update'
+);
+select lives_ok(
+    $$update public.drill_configurations set repetitions = 9 where id = '00000000-0000-4000-8000-0000000012a1'$$,
+    'the owner updates one row by id'
+);
+
+reset role;
+
+select is(
+    (select count(*) from public.drill_configurations
+        where id = '00000000-0000-4000-8000-0000000012a1' and repetitions = 9 and updated_at > '2000-01-01 00:00:00+00'),
+    1::bigint,
+    'the updated row has the new value and a fresh updated_at'
+);
+select is(
+    (select count(*) from public.drill_configurations
+        where user_id = '00000000-0000-4000-8000-00000000000a' and name like 'S12 %' and updated_at > '2000-01-01 00:00:00+00'),
+    2::bigint,
+    'only the two rows A updated moved updated_at'
+);
+select is(
+    (select count(*) from public.drill_configurations
+        where id = '00000000-0000-4000-8000-0000000012b1' and name = 'S12 gamma' and repetitions = 1 and updated_at = '2000-01-01 00:00:00+00'),
+    1::bigint,
+    'user B row is untouched by user A updates'
+);
+
+select set_config('request.jwt.claims', '{"sub":"00000000-0000-4000-8000-00000000000d","role":"authenticated"}', true);
+set local role authenticated;
+
+select lives_ok(
+    $$update public.drill_configurations set repetitions = 2 where name = 'limit 1'$$,
+    'a user at the 50-row limit can still update a row'
+);
+
+reset role;
+
+select is(
+    (select count(*) from public.drill_configurations where user_id = '00000000-0000-4000-8000-00000000000d'),
+    50::bigint,
+    'the update neither added nor removed rows for the user at the limit'
 );
 
 -- ---------------------------------------------------------------------------

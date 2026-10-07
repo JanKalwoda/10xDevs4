@@ -81,7 +81,9 @@ export default function SavedDrillFixtures() {
                 <Card className="min-w-0" data-fixture="saved-details" data-testid="saved-details" data-visual-state="default">
                     <CardHeader>
                         <CardTitle>Morning drill</CardTitle>
-                        <CardDescription>Saved timer details (the name is the page heading in production).</CardDescription>
+                        <CardDescription>
+                            Saved timer details with the Edit action (the name is the page heading in production). Hover and focus-visible are scripted on Edit timer.
+                        </CardDescription>
                     </CardHeader>
                     <CardContent>
                         <SavedDrillDetails drill={SHORT_LIST[0]} onStart={() => undefined} />

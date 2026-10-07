@@ -1,0 +1,707 @@
+{
+ "failed": 0,
+ "total": 161,
+ "results": [
+  {
+   "n": "light-1280 theme class",
+   "ok": true
+  },
+  {
+   "n": "light-1280 section no horizontal overflow",
+   "ok": true
+  },
+  {
+   "n": "light-1280 page width is not widened by the edit section (pre-existing preview width: 1280px)",
+   "ok": true,
+   "x": [
+    1280,
+    1280
+   ]
+  },
+  {
+   "n": "light-1280 default: card has Save changes button and both back links",
+   "ok": true
+  },
+  {
+   "n": "light-1280 default: card does not overflow",
+   "ok": true
+  },
+  {
+   "n": "light-1280 saved: card has Save changes button and both back links",
+   "ok": true
+  },
+  {
+   "n": "light-1280 saved: card does not overflow",
+   "ok": true
+  },
+  {
+   "n": "light-1280 saving: card has Save changes button and both back links",
+   "ok": true
+  },
+  {
+   "n": "light-1280 saving: card does not overflow",
+   "ok": true
+  },
+  {
+   "n": "light-1280 name-required: card has Save changes button and both back links",
+   "ok": true
+  },
+  {
+   "n": "light-1280 name-required: card does not overflow",
+   "ok": true
+  },
+  {
+   "n": "light-1280 duplicate-name: card has Save changes button and both back links",
+   "ok": true
+  },
+  {
+   "n": "light-1280 duplicate-name: card does not overflow",
+   "ok": true
+  },
+  {
+   "n": "light-1280 invalid-parameters: card has Save changes button and both back links",
+   "ok": true
+  },
+  {
+   "n": "light-1280 invalid-parameters: card does not overflow",
+   "ok": true
+  },
+  {
+   "n": "light-1280 server-validation: card has Save changes button and both back links",
+   "ok": true
+  },
+  {
+   "n": "light-1280 server-validation: card does not overflow",
+   "ok": true
+  },
+  {
+   "n": "light-1280 not-found: card has Save changes button and both back links",
+   "ok": true
+  },
+  {
+   "n": "light-1280 not-found: card does not overflow",
+   "ok": true
+  },
+  {
+   "n": "light-1280 session-expired: card has Save changes button and both back links",
+   "ok": true
+  },
+  {
+   "n": "light-1280 session-expired: card does not overflow",
+   "ok": true
+  },
+  {
+   "n": "light-1280 unavailable: card has Save changes button and both back links",
+   "ok": true
+  },
+  {
+   "n": "light-1280 unavailable: card does not overflow",
+   "ok": true
+  },
+  {
+   "n": "light-1280 default prefilled name and parameters",
+   "ok": true
+  },
+  {
+   "n": "light-1280 hover changes Save changes background",
+   "ok": true,
+   "x": [
+    "oklch(0.7227 0.192 149.579)",
+    "oklab(0.7227 -0.165568 0.0972183 / 0.9)"
+   ]
+  },
+  {
+   "n": "light-1280 keyboard Tab from Name reaches Save changes",
+   "ok": true,
+   "x": 8
+  },
+  {
+   "n": "light-1280 Save changes focus-visible ring",
+   "ok": true
+  },
+  {
+   "n": "light-1280 saved: status text, name kept",
+   "ok": true
+  },
+  {
+   "n": "light-1280 saving: submit disabled, name read-only",
+   "ok": true
+  },
+  {
+   "n": "light-1280 name-required: field error + aria-invalid",
+   "ok": true
+  },
+  {
+   "n": "light-1280 duplicate-name: field error, typed name kept",
+   "ok": true
+  },
+  {
+   "n": "light-1280 invalid-parameters: inline rest error after pressing Save",
+   "ok": true
+  },
+  {
+   "n": "light-1280 server-validation: destructive alert",
+   "ok": true
+  },
+  {
+   "n": "light-1280 not-found: alert text + dashboard link",
+   "ok": true
+  },
+  {
+   "n": "light-1280 session-expired: sign-in link returns to the edit page",
+   "ok": true
+  },
+  {
+   "n": "light-1280 unavailable: alert",
+   "ok": true
+  },
+  {
+   "n": "light-1280 details: Edit link in the actions slot, Start still primary",
+   "ok": true
+  },
+  {
+   "n": "light-1280 Edit link hover changes background",
+   "ok": true,
+   "x": [
+    "oklch(0.9751 0.0127 244.251)",
+    "oklch(0.9505 0.0507 163.051)"
+   ]
+  },
+  {
+   "n": "light-1280 Tab from Start reaches Edit link",
+   "ok": true
+  },
+  {
+   "n": "light-1280 Edit link focus-visible ring",
+   "ok": true,
+   "x": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, oklab(0.27 -0.0646748 0.0379759 / 0.0875752) 0px 0px 0px 0.525451px, rgba(0, 0, 0, 0.05) 0px 4px 8px -1px"
+  },
+  {
+   "n": "light-390 theme class",
+   "ok": true
+  },
+  {
+   "n": "light-390 section no horizontal overflow",
+   "ok": true
+  },
+  {
+   "n": "light-390 page width is not widened by the edit section (pre-existing preview width: 414px)",
+   "ok": true,
+   "x": [
+    414,
+    414
+   ]
+  },
+  {
+   "n": "light-390 default: card has Save changes button and both back links",
+   "ok": true
+  },
+  {
+   "n": "light-390 default: card does not overflow",
+   "ok": true
+  },
+  {
+   "n": "light-390 saved: card has Save changes button and both back links",
+   "ok": true
+  },
+  {
+   "n": "light-390 saved: card does not overflow",
+   "ok": true
+  },
+  {
+   "n": "light-390 saving: card has Save changes button and both back links",
+   "ok": true
+  },
+  {
+   "n": "light-390 saving: card does not overflow",
+   "ok": true
+  },
+  {
+   "n": "light-390 name-required: card has Save changes button and both back links",
+   "ok": true
+  },
+  {
+   "n": "light-390 name-required: card does not overflow",
+   "ok": true
+  },
+  {
+   "n": "light-390 duplicate-name: card has Save changes button and both back links",
+   "ok": true
+  },
+  {
+   "n": "light-390 duplicate-name: card does not overflow",
+   "ok": true
+  },
+  {
+   "n": "light-390 invalid-parameters: card has Save changes button and both back links",
+   "ok": true
+  },
+  {
+   "n": "light-390 invalid-parameters: card does not overflow",
+   "ok": true
+  },
+  {
+   "n": "light-390 server-validation: card has Save changes button and both back links",
+   "ok": true
+  },
+  {
+   "n": "light-390 server-validation: card does not overflow",
+   "ok": true
+  },
+  {
+   "n": "light-390 not-found: card has Save changes button and both back links",
+   "ok": true
+  },
+  {
+   "n": "light-390 not-found: card does not overflow",
+   "ok": true
+  },
+  {
+   "n": "light-390 session-expired: card has Save changes button and both back links",
+   "ok": true
+  },
+  {
+   "n": "light-390 session-expired: card does not overflow",
+   "ok": true
+  },
+  {
+   "n": "light-390 unavailable: card has Save changes button and both back links",
+   "ok": true
+  },
+  {
+   "n": "light-390 unavailable: card does not overflow",
+   "ok": true
+  },
+  {
+   "n": "light-390 default prefilled name and parameters",
+   "ok": true
+  },
+  {
+   "n": "light-390 hover changes Save changes background",
+   "ok": true,
+   "x": [
+    "oklch(0.7227 0.192 149.579)",
+    "oklab(0.7227 -0.165568 0.0972183 / 0.9)"
+   ]
+  },
+  {
+   "n": "light-390 keyboard Tab from Name reaches Save changes",
+   "ok": true,
+   "x": 8
+  },
+  {
+   "n": "light-390 Save changes focus-visible ring",
+   "ok": true
+  },
+  {
+   "n": "light-390 saved: status text, name kept",
+   "ok": true
+  },
+  {
+   "n": "light-390 saving: submit disabled, name read-only",
+   "ok": true
+  },
+  {
+   "n": "light-390 name-required: field error + aria-invalid",
+   "ok": true
+  },
+  {
+   "n": "light-390 duplicate-name: field error, typed name kept",
+   "ok": true
+  },
+  {
+   "n": "light-390 invalid-parameters: inline rest error after pressing Save",
+   "ok": true
+  },
+  {
+   "n": "light-390 server-validation: destructive alert",
+   "ok": true
+  },
+  {
+   "n": "light-390 not-found: alert text + dashboard link",
+   "ok": true
+  },
+  {
+   "n": "light-390 session-expired: sign-in link returns to the edit page",
+   "ok": true
+  },
+  {
+   "n": "light-390 unavailable: alert",
+   "ok": true
+  },
+  {
+   "n": "light-390 details: Edit link in the actions slot, Start still primary",
+   "ok": true
+  },
+  {
+   "n": "light-390 Edit link hover changes background",
+   "ok": true,
+   "x": [
+    "oklch(0.9751 0.0127 244.251)",
+    "oklch(0.9505 0.0507 163.051)"
+   ]
+  },
+  {
+   "n": "light-390 Tab from Start reaches Edit link",
+   "ok": true
+  },
+  {
+   "n": "light-390 Edit link focus-visible ring",
+   "ok": true,
+   "x": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, oklab(0.27 -0.0646748 0.0379759 / 0.0163989) 0px 0px 0px 0.0983932px, rgba(0, 0, 0, 0.05) 0px 4px 8px -1px"
+  },
+  {
+   "n": "dark-1280 theme class",
+   "ok": true
+  },
+  {
+   "n": "dark-1280 section no horizontal overflow",
+   "ok": true
+  },
+  {
+   "n": "dark-1280 page width is not widened by the edit section (pre-existing preview width: 1280px)",
+   "ok": true,
+   "x": [
+    1280,
+    1280
+   ]
+  },
+  {
+   "n": "dark-1280 default: card has Save changes button and both back links",
+   "ok": true
+  },
+  {
+   "n": "dark-1280 default: card does not overflow",
+   "ok": true
+  },
+  {
+   "n": "dark-1280 saved: card has Save changes button and both back links",
+   "ok": true
+  },
+  {
+   "n": "dark-1280 saved: card does not overflow",
+   "ok": true
+  },
+  {
+   "n": "dark-1280 saving: card has Save changes button and both back links",
+   "ok": true
+  },
+  {
+   "n": "dark-1280 saving: card does not overflow",
+   "ok": true
+  },
+  {
+   "n": "dark-1280 name-required: card has Save changes button and both back links",
+   "ok": true
+  },
+  {
+   "n": "dark-1280 name-required: card does not overflow",
+   "ok": true
+  },
+  {
+   "n": "dark-1280 duplicate-name: card has Save changes button and both back links",
+   "ok": true
+  },
+  {
+   "n": "dark-1280 duplicate-name: card does not overflow",
+   "ok": true
+  },
+  {
+   "n": "dark-1280 invalid-parameters: card has Save changes button and both back links",
+   "ok": true
+  },
+  {
+   "n": "dark-1280 invalid-parameters: card does not overflow",
+   "ok": true
+  },
+  {
+   "n": "dark-1280 server-validation: card has Save changes button and both back links",
+   "ok": true
+  },
+  {
+   "n": "dark-1280 server-validation: card does not overflow",
+   "ok": true
+  },
+  {
+   "n": "dark-1280 not-found: card has Save changes button and both back links",
+   "ok": true
+  },
+  {
+   "n": "dark-1280 not-found: card does not overflow",
+   "ok": true
+  },
+  {
+   "n": "dark-1280 session-expired: card has Save changes button and both back links",
+   "ok": true
+  },
+  {
+   "n": "dark-1280 session-expired: card does not overflow",
+   "ok": true
+  },
+  {
+   "n": "dark-1280 unavailable: card has Save changes button and both back links",
+   "ok": true
+  },
+  {
+   "n": "dark-1280 unavailable: card does not overflow",
+   "ok": true
+  },
+  {
+   "n": "dark-1280 default prefilled name and parameters",
+   "ok": true
+  },
+  {
+   "n": "dark-1280 hover changes Save changes background",
+   "ok": true,
+   "x": [
+    "oklch(0.7729 0.1535 163.223)",
+    "oklab(0.7729 -0.146966 0.0443071 / 0.9)"
+   ]
+  },
+  {
+   "n": "dark-1280 keyboard Tab from Name reaches Save changes",
+   "ok": true,
+   "x": 8
+  },
+  {
+   "n": "dark-1280 Save changes focus-visible ring",
+   "ok": true
+  },
+  {
+   "n": "dark-1280 saved: status text, name kept",
+   "ok": true
+  },
+  {
+   "n": "dark-1280 saving: submit disabled, name read-only",
+   "ok": true
+  },
+  {
+   "n": "dark-1280 name-required: field error + aria-invalid",
+   "ok": true
+  },
+  {
+   "n": "dark-1280 duplicate-name: field error, typed name kept",
+   "ok": true
+  },
+  {
+   "n": "dark-1280 invalid-parameters: inline rest error after pressing Save",
+   "ok": true
+  },
+  {
+   "n": "dark-1280 server-validation: destructive alert",
+   "ok": true
+  },
+  {
+   "n": "dark-1280 not-found: alert text + dashboard link",
+   "ok": true
+  },
+  {
+   "n": "dark-1280 session-expired: sign-in link returns to the edit page",
+   "ok": true
+  },
+  {
+   "n": "dark-1280 unavailable: alert",
+   "ok": true
+  },
+  {
+   "n": "dark-1280 details: Edit link in the actions slot, Start still primary",
+   "ok": true
+  },
+  {
+   "n": "dark-1280 Edit link hover changes background",
+   "ok": true,
+   "x": [
+    "oklab(0.4461 -0.00600482 -0.0256053 / 0.3)",
+    "oklab(0.4461 -0.00600482 -0.0256053 / 0.5)"
+   ]
+  },
+  {
+   "n": "dark-1280 Tab from Start reaches Edit link",
+   "ok": true
+  },
+  {
+   "n": "dark-1280 Edit link focus-visible ring",
+   "ok": true,
+   "x": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, oklab(0.7729 -0.146966 0.0443071 / 0.0163989) 0px 0px 0px 0.0983932px, rgba(0, 0, 0, 0.05) 0px 4px 8px -1px"
+  },
+  {
+   "n": "dark-390 theme class",
+   "ok": true
+  },
+  {
+   "n": "dark-390 section no horizontal overflow",
+   "ok": true
+  },
+  {
+   "n": "dark-390 page width is not widened by the edit section (pre-existing preview width: 414px)",
+   "ok": true,
+   "x": [
+    414,
+    414
+   ]
+  },
+  {
+   "n": "dark-390 default: card has Save changes button and both back links",
+   "ok": true
+  },
+  {
+   "n": "dark-390 default: card does not overflow",
+   "ok": true
+  },
+  {
+   "n": "dark-390 saved: card has Save changes button and both back links",
+   "ok": true
+  },
+  {
+   "n": "dark-390 saved: card does not overflow",
+   "ok": true
+  },
+  {
+   "n": "dark-390 saving: card has Save changes button and both back links",
+   "ok": true
+  },
+  {
+   "n": "dark-390 saving: card does not overflow",
+   "ok": true
+  },
+  {
+   "n": "dark-390 name-required: card has Save changes button and both back links",
+   "ok": true
+  },
+  {
+   "n": "dark-390 name-required: card does not overflow",
+   "ok": true
+  },
+  {
+   "n": "dark-390 duplicate-name: card has Save changes button and both back links",
+   "ok": true
+  },
+  {
+   "n": "dark-390 duplicate-name: card does not overflow",
+   "ok": true
+  },
+  {
+   "n": "dark-390 invalid-parameters: card has Save changes button and both back links",
+   "ok": true
+  },
+  {
+   "n": "dark-390 invalid-parameters: card does not overflow",
+   "ok": true
+  },
+  {
+   "n": "dark-390 server-validation: card has Save changes button and both back links",
+   "ok": true
+  },
+  {
+   "n": "dark-390 server-validation: card does not overflow",
+   "ok": true
+  },
+  {
+   "n": "dark-390 not-found: card has Save changes button and both back links",
+   "ok": true
+  },
+  {
+   "n": "dark-390 not-found: card does not overflow",
+   "ok": true
+  },
+  {
+   "n": "dark-390 session-expired: card has Save changes button and both back links",
+   "ok": true
+  },
+  {
+   "n": "dark-390 session-expired: card does not overflow",
+   "ok": true
+  },
+  {
+   "n": "dark-390 unavailable: card has Save changes button and both back links",
+   "ok": true
+  },
+  {
+   "n": "dark-390 unavailable: card does not overflow",
+   "ok": true
+  },
+  {
+   "n": "dark-390 default prefilled name and parameters",
+   "ok": true
+  },
+  {
+   "n": "dark-390 hover changes Save changes background",
+   "ok": true,
+   "x": [
+    "oklch(0.7729 0.1535 163.223)",
+    "oklab(0.7729 -0.146966 0.0443071 / 0.9)"
+   ]
+  },
+  {
+   "n": "dark-390 keyboard Tab from Name reaches Save changes",
+   "ok": true,
+   "x": 8
+  },
+  {
+   "n": "dark-390 Save changes focus-visible ring",
+   "ok": true
+  },
+  {
+   "n": "dark-390 saved: status text, name kept",
+   "ok": true
+  },
+  {
+   "n": "dark-390 saving: submit disabled, name read-only",
+   "ok": true
+  },
+  {
+   "n": "dark-390 name-required: field error + aria-invalid",
+   "ok": true
+  },
+  {
+   "n": "dark-390 duplicate-name: field error, typed name kept",
+   "ok": true
+  },
+  {
+   "n": "dark-390 invalid-parameters: inline rest error after pressing Save",
+   "ok": true
+  },
+  {
+   "n": "dark-390 server-validation: destructive alert",
+   "ok": true
+  },
+  {
+   "n": "dark-390 not-found: alert text + dashboard link",
+   "ok": true
+  },
+  {
+   "n": "dark-390 session-expired: sign-in link returns to the edit page",
+   "ok": true
+  },
+  {
+   "n": "dark-390 unavailable: alert",
+   "ok": true
+  },
+  {
+   "n": "dark-390 details: Edit link in the actions slot, Start still primary",
+   "ok": true
+  },
+  {
+   "n": "dark-390 Edit link hover changes background",
+   "ok": true,
+   "x": [
+    "oklab(0.4461 -0.00600482 -0.0256053 / 0.3)",
+    "oklab(0.4461 -0.00600482 -0.0256053 / 0.5)"
+   ]
+  },
+  {
+   "n": "dark-390 Tab from Start reaches Edit link",
+   "ok": true
+  },
+  {
+   "n": "dark-390 Edit link focus-visible ring",
+   "ok": true,
+   "x": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, oklab(0.7729 -0.146966 0.0443071 / 0.0163989) 0px 0px 0px 0.0983932px, rgba(0, 0, 0, 0.05) 0px 4px 8px -1px"
+  },
+  {
+   "n": "no page errors",
+   "ok": true,
+   "x": []
+  }
+ ]
+}

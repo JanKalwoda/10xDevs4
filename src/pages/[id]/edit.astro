@@ -1,0 +1,55 @@
+---
+import DrillEditApp from "@/components/timer/DrillEditApp";
+import NotFoundView from "@/components/timer/NotFoundView.astro";
+import { buttonVariants } from "@/components/ui/button";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import Layout from "@/layouts/Layout.astro";
+import { signInUrlForProtectedPath } from "@/lib/email-auth";
+import { OPEN_DRILL_MESSAGES, createSupabaseDrillStore, resolveSavedDrillPage } from "@/lib/services/drill-configurations";
+import { cn } from "@/lib/utils";
+
+export const prerender = false;
+
+Astro.response.headers.set("Cache-Control", "private, no-store");
+
+const { id = "" } = Astro.params;
+const { user, supabase } = Astro.locals;
+const page = await resolveSavedDrillPage(user?.id ?? null, id, supabase ? createSupabaseDrillStore(supabase) : null);
+
+// A top-level return crashes typescript-eslint on .astro files, so the redirect is set on the response.
+if (page.kind === "sign_in") {
+    Astro.response.status = 302;
+    Astro.response.headers.set("Location", signInUrlForProtectedPath("/" + id + "/edit"));
+}
+if (page.kind === "not_found") Astro.response.status = 404;
+if (page.kind === "unavailable") Astro.response.status = 503;
+---
+
+{page.kind === "not_found" && <NotFoundView />}
+{page.kind === "unavailable" && (
+    <Layout title="Timer unavailable" enableTimerTheme showConfigWarnings={false}>
+        <meta name="robots" content="noindex" slot="head" />
+        <main class="bg-background text-foreground flex min-h-screen items-center justify-center px-4 py-8">
+            <Card className="w-full max-w-md">
+                <CardHeader>
+                    <h1 class="text-center text-3xl font-bold">Timer unavailable</h1>
+                </CardHeader>
+                <CardContent className="space-y-5">
+                    <Alert variant="destructive">
+                        <AlertDescription>{OPEN_DRILL_MESSAGES.unavailable}</AlertDescription>
+                    </Alert>
+                    <a href="/dashboard" class:list={[cn(buttonVariants({ variant: "link" }), "w-full")]}>
+                        Back to dashboard
+                    </a>
+                </CardContent>
+            </Card>
+        </main>
+    </Layout>
+)}
+{page.kind === "ok" && (
+    <Layout title={`Edit ${page.drill.name}`} enableTimerTheme showConfigWarnings={false}>
+        <meta name="robots" content="noindex" slot="head" />
+        <DrillEditApp drill={page.drill} client:load />
+    </Layout>
+)}

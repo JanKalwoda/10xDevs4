@@ -1,0 +1,184 @@
+{
+  "failed": 0,
+  "total": 33,
+  "results": [
+    {
+      "name": "two throw-away users signed in",
+      "ok": true
+    },
+    {
+      "name": "two timers saved via API",
+      "ok": true
+    },
+    {
+      "name": "2.7 details has the Edit timer link to /{id}/edit",
+      "ok": true
+    },
+    {
+      "name": "2.7 edit page is prefilled (name and parameters)",
+      "ok": true
+    },
+    {
+      "name": "2.7 h1 is Edit timer, button Save changes",
+      "ok": true
+    },
+    {
+      "name": "2.7 Saved \"E2E edited drill\". shown, form stays with the saved values",
+      "ok": true
+    },
+    {
+      "name": "2.7 focus lands on the name after saving",
+      "ok": true
+    },
+    {
+      "name": "2.8 changing a parameter after Saved removes the message (no stale success)",
+      "ok": true
+    },
+    {
+      "name": "2.7 Back to timer shows the new name and parameters",
+      "ok": true
+    },
+    {
+      "name": "2.7 persisted after reload",
+      "ok": true
+    },
+    {
+      "name": "2.7 Start runs the new parameters (exercise counts down from 0:02, one repetition, completes)",
+      "ok": true,
+      "extra": {
+        "elapsed": 34414,
+        "samples": [
+          "Screen may lock. 0:01 Preparation · 0:01 Preparing Next: Exercise — 0:02",
+          "Screen may lock. 0:02 Exercise · 0:02 Repetition 1 of 1 Next: Rest — 0:01",
+          "Screen may lock. 0:01 Exercise · 0:02 Repetition 1 of 1 Next: Rest — 0:01",
+          "Screen may lock. 0:01 Rest · 0:01 Repetition 1 of 1 Next: Drill complete",
+          "?"
+        ]
+      }
+    },
+    {
+      "name": "2.7 dashboard lists the edited timer and the other one untouched",
+      "ok": true
+    },
+    {
+      "name": "2.8 duplicate name: field error on the name, typed name and parameters stay",
+      "ok": true
+    },
+    {
+      "name": "2.8 case-only rename of the own name saves (no self-collision)",
+      "ok": true
+    },
+    {
+      "name": "2.8 200 characters save",
+      "ok": true
+    },
+    {
+      "name": "2.8 201st character refused with the name error, value kept",
+      "ok": true
+    },
+    {
+      "name": "2.8 restored a normal name",
+      "ok": true
+    },
+    {
+      "name": "2.9 foreign, random and non-UUID /{x}/edit all 404 with the same visible text",
+      "ok": true,
+      "extra": [
+        [
+          404,
+          "Page not found This page does not exist or is not yours. Back to the timer"
+        ],
+        [
+          404,
+          "Page not found This page does not exist or is not yours. Back to the timer"
+        ],
+        [
+          404,
+          "Page not found This page does not exist or is not yours. Back to the timer"
+        ]
+      ]
+    },
+    {
+      "name": "2.9 404 page does not echo the id or the timer name and stays at the requested URL",
+      "ok": true
+    },
+    {
+      "name": "2.9 guest /{uuid}/edit → 302 sign-in with next=/{uuid}/edit",
+      "ok": true,
+      "extra": "/auth/signin?next=%2Ffb31ad3e-537f-418f-891b-cdac6eadb6e6%2Fedit"
+    },
+    {
+      "name": "2.9 guest /not-a-uuid/edit → 404, no redirect",
+      "ok": true
+    },
+    {
+      "name": "2.9 second user's PUT on the foreign id → 404",
+      "ok": true
+    },
+    {
+      "name": "2.9 the owner's timer is unchanged after the foreign attempts",
+      "ok": true
+    },
+    {
+      "name": "2.10 Tab order: Name → Preparation → Exercise → Rest → Repetitions → Save changes",
+      "ok": true,
+      "extra": [
+        "Name",
+        "Preparation",
+        "Exercise",
+        "Play exercise signal",
+        "Rest",
+        "Play rest signal",
+        "Repetitions",
+        "Random start",
+        "Play Standby signal",
+        "Save changes"
+      ]
+    },
+    {
+      "name": "2.10 Save changes has a visible focus ring",
+      "ok": true
+    },
+    {
+      "name": "2.10 saving with the keyboard returns focus to the name",
+      "ok": true
+    },
+    {
+      "name": "2.10 Tab from Start reaches Edit timer with a visible focus ring",
+      "ok": true
+    },
+    {
+      "name": "2.10 Enter on the focused Edit link opens the edit page",
+      "ok": true
+    },
+    {
+      "name": "extra: row deleted elsewhere → not-found alert with Back to dashboard link, typed name kept",
+      "ok": true
+    },
+    {
+      "name": "extra: session gone → unauthorized alert, sign-in link returns to /{id}/edit",
+      "ok": true
+    },
+    {
+      "name": "page/console errors (expected 404/401/409/400 resource logs ignored)",
+      "ok": true,
+      "extra": [
+        "Failed to load resource: the server responded with a status of 409 (Conflict)",
+        "Failed to load resource: the server responded with a status of 404 (Not Found)",
+        "Failed to load resource: the server responded with a status of 404 (Not Found)",
+        "Failed to load resource: the server responded with a status of 404 (Not Found)",
+        "Failed to load resource: the server responded with a status of 404 (Not Found)",
+        "Failed to load resource: the server responded with a status of 404 (Not Found)",
+        "Failed to load resource: the server responded with a status of 401 (Unauthorized)"
+      ]
+    },
+    {
+      "name": "e2e user deleted (cascade)",
+      "ok": true
+    },
+    {
+      "name": "e2e user deleted (cascade)",
+      "ok": true
+    }
+  ]
+}

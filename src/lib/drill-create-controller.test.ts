@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
-import { createDrillCreateController, postSaveDrill, type SaveDrillPort } from "./drill-create-controller.ts";
+import { createDrillCreateController, postSaveDrill, putSaveDrill, type SaveDrillPort } from "./drill-create-controller.ts";
 import { SAVE_DRILL_MESSAGES } from "./services/drill-configurations.ts";
 import type { DrillConfigInput } from "./drill-timer.ts";
 import type { SaveDrillRequest, SaveDrillResponse, SavedDrill } from "../types";
@@ -210,4 +210,199 @@ void test("postSaveDrill keeps the server error body and falls back to the statu
         assert.ok(!response.ok, String(status));
         assert.equal(response.code, code, String(status));
     }
+});
+
+const EDIT = { initialName: "Run", keepAfterSave: true } as const;
+
+void test("edit mode starts with the stored name and keeps the saved name after a successful save", async () => {
+    const requests: SaveDrillRequest[] = [];
+    const controller = createDrillCreateController(okPort(requests), EDIT);
+    assert.deepEqual(controller.getSnapshot(), { name: "Run", nameError: null, status: "idle", failure: null, savedName: null });
+
+    controller.setName("  Run 2  ");
+    await controller.save(VALUES);
+    assert.deepEqual(requests, [{ ...VALUES, name: "Run 2" }]);
+    assert.deepEqual(controller.getSnapshot(), { name: "Run 2", nameError: null, status: "saved", failure: null, savedName: "Run 2" });
+
+    controller.setName("Run 3");
+    assert.equal(controller.getSnapshot().status, "idle");
+    assert.equal(controller.getSnapshot().savedName, null);
+});
+
+void test("edit mode: a case-only rename of the own name is sent and saved", async () => {
+    const requests: SaveDrillRequest[] = [];
+    const controller = createDrillCreateController(okPort(requests), EDIT);
+    controller.setName("RUN");
+    await controller.save(VALUES);
+    assert.deepEqual(requests, [{ ...VALUES, name: "RUN" }]);
+    assert.equal(controller.getSnapshot().status, "saved");
+    assert.equal(controller.getSnapshot().name, "RUN");
+});
+
+void test("edit mode keeps the typed name after duplicate_name, validation, not_found and unauthorized", async () => {
+    const duplicate: SaveDrillResponse = {
+        ok: false,
+        code: "duplicate_name",
+        message: SAVE_DRILL_MESSAGES.duplicate_name,
+        fieldErrors: { name: SAVE_DRILL_MESSAGES.duplicate_name },
+    };
+    const controller = createDrillCreateController(() => Promise.resolve(duplicate), EDIT);
+    controller.setName("Other");
+    await controller.save(VALUES);
+    assert.deepEqual(controller.getSnapshot(), { name: "Other", nameError: SAVE_DRILL_MESSAGES.duplicate_name, status: "error", failure: null, savedName: null });
+
+    for (const code of ["not_found", "unauthorized", "validation"] as const) {
+        const failing = createDrillCreateController(() => Promise.resolve({ ok: false, code, message: SAVE_DRILL_MESSAGES[code] }), EDIT);
+        failing.setName("Other");
+        await failing.save(VALUES);
+        assert.deepEqual(failing.getSnapshot(), { name: "Other", nameError: null, status: "error", failure: { code, message: SAVE_DRILL_MESSAGES[code] }, savedName: null }, code);
+    }
+});
+
+void test("create mode is unchanged by the options: the name is cleared after a save", async () => {
+    const controller = createDrillCreateController(okPort());
+    controller.setName("Run");
+    await controller.save(VALUES);
+    assert.equal(controller.getSnapshot().name, "");
+});
+
+void test("markEdited drops a stale confirmation or alert but keeps the typed name", async () => {
+    const controller = createDrillCreateController(okPort(), EDIT);
+    controller.setName("Run 2");
+    await controller.save(VALUES);
+    controller.markEdited();
+    assert.deepEqual(controller.getSnapshot(), { name: "Run 2", nameError: null, status: "idle", failure: null, savedName: null });
+
+    const failing = createDrillCreateController(() => Promise.resolve({ ok: false, code: "unavailable", message: SAVE_DRILL_MESSAGES.unavailable }), EDIT);
+    await failing.save(VALUES);
+    assert.equal(failing.getSnapshot().status, "error");
+    failing.markEdited();
+    assert.deepEqual(failing.getSnapshot(), { name: "Run", nameError: null, status: "idle", failure: null, savedName: null });
+});
+
+void test("markEdited while saving does not change the snapshot or notify subscribers and while idle is a no-op", async () => {
+    const port = deferredPort();
+    const controller = createDrillCreateController(port.port, EDIT);
+    let notifications = 0;
+    controller.subscribe(() => {
+        notifications += 1;
+    });
+    controller.markEdited();
+    assert.equal(notifications, 0);
+
+    const pending = controller.save(VALUES);
+    const seen = notifications;
+    controller.markEdited();
+    assert.equal(controller.getSnapshot().status, "saving");
+    assert.equal(notifications, seen);
+    port.resolve({ ok: true, drill: drill("Run") });
+    await pending;
+});
+
+void test("a parameter change during a successful save leaves no Saved confirmation behind", async () => {
+    const port = deferredPort();
+    const controller = createDrillCreateController(port.port, EDIT);
+    const pending = controller.save(VALUES);
+    controller.markEdited();
+    assert.equal(controller.getSnapshot().status, "saving");
+    port.resolve({ ok: true, drill: drill("Run") });
+    await pending;
+    assert.deepEqual(controller.getSnapshot(), { name: "Run", nameError: null, status: "idle", failure: null, savedName: null });
+});
+
+void test("the edited-during-save flag does not leak into the next save", async () => {
+    const port = deferredPort();
+    const controller = createDrillCreateController(port.port, EDIT);
+    const first = controller.save(VALUES);
+    controller.markEdited();
+    port.resolve({ ok: true, drill: drill("Run") });
+    await first;
+    assert.equal(controller.getSnapshot().status, "idle");
+
+    const second = controller.save(VALUES);
+    port.resolve({ ok: true, drill: drill("Run") });
+    await second;
+    assert.deepEqual(controller.getSnapshot(), { name: "Run", nameError: null, status: "saved", failure: null, savedName: "Run" });
+});
+
+void test("a parameter change during a failed save drops the alert but keeps a name error", async () => {
+    const unavailable: SaveDrillResponse = { ok: false, code: "unavailable", message: SAVE_DRILL_MESSAGES.unavailable };
+    const alert = deferredPort();
+    const controller = createDrillCreateController(alert.port, EDIT);
+    const pending = controller.save(VALUES);
+    controller.markEdited();
+    alert.resolve(unavailable);
+    await pending;
+    assert.deepEqual(controller.getSnapshot(), { name: "Run", nameError: null, status: "idle", failure: null, savedName: null });
+
+    const duplicate: SaveDrillResponse = {
+        ok: false,
+        code: "duplicate_name",
+        message: SAVE_DRILL_MESSAGES.duplicate_name,
+        fieldErrors: { name: SAVE_DRILL_MESSAGES.duplicate_name },
+    };
+    const named = deferredPort();
+    const other = createDrillCreateController(named.port, EDIT);
+    const second = other.save(VALUES);
+    other.markEdited();
+    named.resolve(duplicate);
+    await second;
+    assert.deepEqual(other.getSnapshot(), { name: "Run", nameError: SAVE_DRILL_MESSAGES.duplicate_name, status: "idle", failure: null, savedName: null });
+});
+
+void test("markEdited keeps a name error so the field stays flagged until the name changes", async () => {
+    const duplicate: SaveDrillResponse = {
+        ok: false,
+        code: "duplicate_name",
+        message: SAVE_DRILL_MESSAGES.duplicate_name,
+        fieldErrors: { name: SAVE_DRILL_MESSAGES.duplicate_name },
+    };
+    const controller = createDrillCreateController(() => Promise.resolve(duplicate), EDIT);
+    await controller.save(VALUES);
+    controller.markEdited();
+    assert.deepEqual(controller.getSnapshot(), { name: "Run", nameError: SAVE_DRILL_MESSAGES.duplicate_name, status: "idle", failure: null, savedName: null });
+});
+
+void test("putSaveDrill puts the full JSON body to /api/drills/{id}", async () => {
+    const calls: { url: string; init: RequestInit }[] = [];
+    const fetchImpl = ((url: string, init: RequestInit) => {
+        calls.push({ url, init });
+        return Promise.resolve(jsonResponse(200, { ok: true, drill: drill("Run") }));
+    }) as unknown as typeof fetch;
+
+    const response = await putSaveDrill("3f2b8c1e-5d4a-4e6f-9a7b-1c2d3e4f5a6b", fetchImpl)(request);
+    assert.equal(response.ok, true);
+    assert.equal(calls[0]?.url, "/api/drills/3f2b8c1e-5d4a-4e6f-9a7b-1c2d3e4f5a6b");
+    assert.equal(calls[0]?.init.method, "PUT");
+    assert.deepEqual(calls[0]?.init.headers, { "Content-Type": "application/json" });
+    assert.deepEqual(JSON.parse(calls[0]?.init.body as string), request);
+});
+
+void test("putSaveDrill falls back by status: 409 is a duplicate name, 404 is not_found (POST keeps 409 as the limit)", async () => {
+    const cases: [number, string][] = [
+        [409, "duplicate_name"],
+        [404, "not_found"],
+        [401, "unauthorized"],
+        [400, "validation"],
+        [503, "unavailable"],
+        [500, "unexpected"],
+    ];
+    for (const [status, code] of cases) {
+        const response = await putSaveDrill("id-1", () => Promise.resolve(new Response("<html>", { status })))(request);
+        assert.ok(!response.ok, String(status));
+        assert.equal(response.code, code, String(status));
+    }
+    const post = await postSaveDrill(request, () => Promise.resolve(new Response("<html>", { status: 409 })));
+    assert.ok(!post.ok);
+    assert.equal(post.code, "limit_reached");
+});
+
+void test("putSaveDrill keeps the server body and maps a network failure to unavailable without throwing", async () => {
+    const notFound = { ok: false, code: "not_found", message: SAVE_DRILL_MESSAGES.not_found };
+    assert.deepEqual(await putSaveDrill("id-1", () => Promise.resolve(jsonResponse(404, notFound)))(request), notFound);
+    assert.deepEqual(await putSaveDrill("id-1", () => Promise.reject(new TypeError("Failed to fetch")))(request), {
+        ok: false,
+        code: "unavailable",
+        message: SAVE_DRILL_MESSAGES.unavailable,
+    });
 });

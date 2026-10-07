@@ -311,11 +311,11 @@ async function verifySavedDrillApi() {
     ensure(wrongType.status === 415 && wrongType.body.code === "unsupported_media_type");
 }
 
-// One drill is already saved; fill up to 48 so exactly two of five concurrent distinct names fit under the limit of 50.
+// Two drills are already saved; fill up to 48 so exactly two of five concurrent distinct names fit under the limit of 50.
 // The outcome is a regression signal only (it also holds if the requests happen to serialise);
 // the advisory lock itself is proven by the pgTAP boundary tests.
 async function verifyDrillLimit() {
-    for (let index = 2; index <= 48; index += 1) {
+    for (let index = 3; index <= 48; index += 1) {
         const filler = await saveDrill("Smoke filler " + index);
         ensure(filler.status === 201);
     }
@@ -370,6 +370,135 @@ async function verifyOwnSavedDrillPages() {
     ensure(!markup.includes("Cancel drill") && !markup.includes("Pause"));
 }
 
+const EDITED_LINE = "Prep 0:05 · Exercise 0:04 · Rest 0:03 · 4 reps · Random start";
+const OTHER_LINE = "Prep 0:05 · Exercise 0:06 · Rest 0:02 · 3 reps";
+// The second timer of the first user: edits of savedDrill must never touch it.
+let otherDrill = null;
+
+async function updateDrill(id, name, overrides = {}, options = {}) {
+    const response = await appRequest("/api/drills/" + id, { method: "PUT", json: { name, ...DRILL_DEFAULTS, ...overrides }, ...options });
+    ensure(response.headers.get("cache-control")?.includes("no-store"));
+    const body = await response.json().catch(() => null);
+    ensure(body !== null && typeof body === "object");
+    return { status: response.status, body };
+}
+
+async function snapshotUpdate(id) {
+    const response = await appRequest("/api/drills/" + id, { method: "PUT", json: { name: "Foreign edit", ...DRILL_DEFAULTS } });
+    return { status: response.status, raw: await response.text(), headers: ["cache-control", "content-type", "referrer-policy"].map((name) => response.headers.get(name)) };
+}
+
+async function dashboardText() {
+    const dashboard = await appRequest("/dashboard");
+    ensure(dashboard.status === 200);
+    return visibleText(await dashboard.text());
+}
+
+async function verifyOwnerEdit() {
+    ensure(savedDrill !== null);
+    const other = await saveDrill("Smoke other drill", { exercise: "0:06" });
+    ensure(other.status === 201 && UUID_PATTERN.test(other.body.drill.id));
+    otherDrill = { id: other.body.drill.id, name: other.body.drill.name };
+
+    const edited = await updateDrill(savedDrill.id, "Smoke drill edited", { rest: "0:03", repetitions: "4", randomStartEnabled: true });
+    ensure(edited.status === 200 && edited.body.ok === true);
+    ensure(edited.body.drill.id === savedDrill.id && edited.body.drill.name === "Smoke drill edited");
+    const { configuration } = edited.body.drill;
+    ensure(configuration.preparationSeconds === 5 && configuration.exerciseSeconds === 4 && configuration.restSeconds === 3);
+    ensure(configuration.repetitions === 4 && configuration.randomStartEnabled === true);
+    savedDrill.name = "Smoke drill edited";
+
+    const text = await dashboardText();
+    ensure(text.includes("Smoke drill edited") && text.includes(EDITED_LINE));
+    ensure(text.includes("Smoke other drill") && text.includes(OTHER_LINE));
+
+    const details = await appRequest("/" + savedDrill.id);
+    ensure(details.status === 200);
+    ensure((await details.text()).includes('href="/' + savedDrill.id + '/edit"'));
+
+    const page = await appRequest("/" + savedDrill.id + "/edit");
+    ensure(page.status === 200);
+    ensure(page.headers.get("cache-control")?.includes("no-store"));
+    const markup = await page.text();
+    ensure(/<meta name="robots" content="noindex"/.test(markup));
+    ensure(markup.includes('value="Smoke drill edited"') && markup.includes('value="0:03"') && markup.includes('value="4"'));
+    const pageText = visibleText(markup);
+    ensure(pageText.includes("Edit timer") && pageText.includes("Save changes") && pageText.includes("Back to timer"));
+}
+
+async function verifyEditRules() {
+    ensure(savedDrill !== null && otherDrill !== null);
+    const duplicate = await updateDrill(savedDrill.id, "SMOKE OTHER DRILL");
+    ensure(duplicate.status === 409 && duplicate.body.code === "duplicate_name");
+    ensure(typeof duplicate.body.fieldErrors?.name === "string");
+
+    const caseOnly = await updateDrill(savedDrill.id, "SMOKE DRILL EDITED", { rest: "0:03", repetitions: "4", randomStartEnabled: true });
+    ensure(caseOnly.status === 200 && caseOnly.body.drill.name === "SMOKE DRILL EDITED");
+
+    const longest = await updateDrill(savedDrill.id, "x".repeat(200));
+    ensure(longest.status === 200 && longest.body.drill.name.length === 200);
+    const tooLong = await updateDrill(savedDrill.id, "x".repeat(201));
+    ensure(tooLong.status === 400 && tooLong.body.code === "validation" && typeof tooLong.body.fieldErrors?.name === "string");
+
+    const invalid = await updateDrill(savedDrill.id, "Smoke drill edited", { rest: "99:99" });
+    ensure(invalid.status === 400 && invalid.body.code === "validation" && typeof invalid.body.fieldErrors?.rest === "string");
+    const wrongType = await updateDrill(savedDrill.id, "Smoke drill edited", {}, { contentType: "text/plain" });
+    ensure(wrongType.status === 415 && wrongType.body.code === "unsupported_media_type");
+
+    // Refused edits changed nothing; the final name is restored with the edited parameters.
+    const restored = await updateDrill(savedDrill.id, "Smoke drill edited", { rest: "0:03", repetitions: "4", randomStartEnabled: true });
+    ensure(restored.status === 200);
+    savedDrill.name = "Smoke drill edited";
+    const text = await dashboardText();
+    ensure(text.includes("Smoke drill edited") && text.includes(EDITED_LINE) && !text.includes("x".repeat(200)));
+    ensure(text.includes("Smoke other drill") && text.includes(OTHER_LINE));
+}
+
+async function verifyEditAtLimit() {
+    ensure(savedDrill !== null);
+    const atLimit = await updateDrill(savedDrill.id, "Smoke drill at the limit", { rest: "0:03", repetitions: "4", randomStartEnabled: true });
+    ensure(atLimit.status === 200 && atLimit.body.drill.name === "Smoke drill at the limit");
+    savedDrill.name = "Smoke drill at the limit";
+}
+
+async function verifyGuestEdit(id) {
+    const put = await appRequest("/api/drills/" + id, { method: "PUT", json: { name: "Guest edit", ...DRILL_DEFAULTS } });
+    ensure(put.status === 401 && put.headers.get("cache-control")?.includes("no-store"));
+    const body = await put.json().catch(() => null);
+    ensure(body?.ok === false && body.code === "unauthorized");
+
+    const page = await appRequest("/" + id + "/edit");
+    const location = responseLocation(page);
+    ensure(page.status === 302);
+    ensure(location?.pathname === "/auth/signin");
+    ensure(location.searchParams.get("next") === "/" + id + "/edit");
+
+    const unknown = await snapshot("/not-a-uuid/edit");
+    const plain = await snapshot("/not-a-uuid");
+    ensure(unknown.status === 404 && unknown.location === null);
+    ensure(unknown.raw === plain.raw && JSON.stringify(unknown.headers) === JSON.stringify(plain.headers));
+}
+
+async function verifyForeignEdit() {
+    ensure(savedDrill !== null);
+    const foreign = await snapshotUpdate(savedDrill.id);
+    const random = await snapshotUpdate(randomUUID());
+    const malformed = await snapshotUpdate("not-a-uuid");
+    ensure(foreign.status === 404 && random.status === 404 && malformed.status === 404);
+    ensure(foreign.raw === random.raw && foreign.raw === malformed.raw);
+    ensure(JSON.stringify(foreign.headers) === JSON.stringify(random.headers) && JSON.stringify(foreign.headers) === JSON.stringify(malformed.headers));
+    ensure(foreign.headers[0]?.includes("no-store"));
+    ensure(!foreign.raw.includes(savedDrill.id));
+
+    const foreignPage = await snapshot("/" + savedDrill.id + "/edit");
+    const randomPage = await snapshot("/" + randomUUID() + "/edit");
+    const malformedPage = await snapshot("/not-a-uuid/edit");
+    ensure(foreignPage.status === 404 && randomPage.status === 404 && malformedPage.status === 404);
+    ensure(foreignPage.raw === randomPage.raw && foreignPage.raw === malformedPage.raw);
+    ensure(JSON.stringify(foreignPage.headers) === JSON.stringify(randomPage.headers));
+    ensure(!foreignPage.raw.includes(savedDrill.id) && !foreignPage.raw.includes(savedDrill.name));
+}
+
 async function verifyForeignSavedDrillPages() {
     ensure(savedDrill !== null);
     const foreign = await snapshot("/" + savedDrill.id);
@@ -405,6 +534,13 @@ async function verifyGuestSavedDrillRouting() {
 
     const unknown = await appRequest("/not-a-uuid");
     ensure(unknown.status === 404 && !unknown.headers.get("location"));
+}
+
+async function verifyFirstUserTimersUnchanged() {
+    ensure(savedDrill !== null && otherDrill !== null);
+    const text = await dashboardText();
+    ensure(text.includes(savedDrill.name) && text.includes(EDITED_LINE));
+    ensure(text.includes(otherDrill.name) && text.includes(OTHER_LINE));
 }
 
 async function signInNewAccount(email) {
@@ -465,6 +601,8 @@ async function runRemoteSmoke() {
         const unknown = await appRequest("/not-a-uuid");
         ensure(unknown.status === 404 && !unknown.headers.get("location"));
     });
+
+    await runStep("anonymous PUT /api/drills/{id} answers 401 and /{uuid}/edit redirects to sign-in", () => verifyGuestEdit(randomUUID()));
 }
 
 async function runLocalSmoke() {
@@ -519,13 +657,18 @@ async function runLocalSmoke() {
     await runStep("signed-in user reaches /create and the dashboard links to it", verifyCreatePage);
     await runStep("signed-in user saves, duplicates, invalid and wrong-type requests get stable API answers", verifySavedDrillApi);
     await runStep("dashboard lists the saved timer and /{id} shows its details (noindex, no-store, no running view)", verifyOwnSavedDrillPages);
+    await runStep("owner edits a timer: PUT 200, dashboard and /{id}/edit show the new values, the other timer is untouched", verifyOwnerEdit);
+    await runStep("edit rules: duplicate 409, case-only rename 200, 200/201 characters, invalid 400, wrong type 415", verifyEditRules);
     await runStep("the 50-timer limit refuses the 51st save, also for concurrent requests", verifyDrillLimit);
+    await runStep("a timer can still be edited at the 50-timer limit", verifyEditAtLimit);
     await runStep("sign-out clears the new-account session", verifyDashboardAndSignOut);
     await runStep("anonymous /{id} redirects to sign-in with next and a non-UUID path is a plain 404", verifyGuestSavedDrillRouting);
+    await runStep("anonymous PUT is 401, /{id}/edit redirects with next, /not-a-uuid/edit is the plain 404", () => verifyGuestEdit(savedDrill.id));
 
     const otherEmail = "smoke-other-" + Date.now() + "-" + randomUUID() + "@example.com";
     await runStep("a second, distinct account signs in", () => signInNewAccount(otherEmail));
     await runStep("second account gets identical 404s for a foreign and a random id and sees none of the first user's timers", verifyForeignSavedDrillPages);
+    await runStep("second account's PUT and /edit page give identical 404s for a foreign, a random and a malformed id", verifyForeignEdit);
     await runStep("sign-out clears the second account session", verifyDashboardAndSignOut);
 
     await runStep("signed-out SSR home shell links Sign in to the sign-in page", async () => {
@@ -562,6 +705,7 @@ async function runLocalSmoke() {
         const markup = await dashboard.text();
         ensure(markup.includes("Dashboard"));
     });
+    await runStep("the first account's timers are unchanged after the second account's attempts", verifyFirstUserTimersUnchanged);
     await runStep("sign-out clears the existing-account session", verifyDashboardAndSignOut);
     await runStep("signed-out SSR home shell links Sign in to the sign-in page again", async () => {
         const home = await appRequest("/");

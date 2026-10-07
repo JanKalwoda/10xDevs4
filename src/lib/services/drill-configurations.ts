@@ -20,6 +20,7 @@ export const SAVE_DRILL_MESSAGES = {
     notObject: "Send the timer details as a JSON object.",
     unknownFields: "Remove unknown fields from the request.",
     duplicate_name: "You already have a timer with this name.",
+    not_found: "This timer does not exist or is not yours.",
     limit_reached: `You can save up to ${String(MAX_SAVED_DRILLS)} timers. Delete one to save another.`,
     unauthorized: "Sign in to save a timer.",
     unsupported_media_type: "Send the request as JSON.",
@@ -33,6 +34,7 @@ const STATUS_BY_CODE: Record<SaveDrillErrorCode, number> = {
     unauthorized: 401,
     duplicate_name: 409,
     limit_reached: 409,
+    not_found: 404,
     payload_too_large: 413,
     unsupported_media_type: 415,
     unexpected: 500,
@@ -124,6 +126,8 @@ export interface DrillConfigurationInsert {
     random_start_enabled: boolean;
 }
 
+export type DrillConfigurationUpdate = Omit<DrillConfigurationInsert, "user_id">;
+
 export interface DrillConfigurationRow extends DrillConfigurationInsert {
     id: string;
     created_at: string;
@@ -165,6 +169,8 @@ export interface DrillConfigurationStore {
     insert(row: DrillConfigurationInsert): PromiseLike<StoreResult>;
     list(): PromiseLike<ListResult>;
     findById(id: string): PromiseLike<FindResult>;
+    /** Zero matching rows (foreign, missing) is `data: null` without an error. */
+    update(id: string, userId: string, fields: DrillConfigurationUpdate): PromiseLike<FindResult>;
 }
 
 export function createSupabaseDrillStore(client: SupabaseClient): DrillConfigurationStore {
@@ -180,6 +186,10 @@ export function createSupabaseDrillStore(client: SupabaseClient): DrillConfigura
                 .limit(MAX_SAVED_DRILLS)
                 .overrideTypes<SavedDrillRow[], { merge: false }>(),
         findById: (id) => client.from("drill_configurations").select(SAVED_DRILL_COLUMNS).eq("id", id).maybeSingle<SavedDrillRow>(),
+        // RLS already limits the update to the caller's rows; the user_id filter is defense in depth.
+        // Only the six user-owned columns are sent (the column grant refuses the rest).
+        update: (id, userId, fields) =>
+            client.from("drill_configurations").update(fields).eq("id", id).eq("user_id", userId).select(SAVED_DRILL_COLUMNS).maybeSingle<SavedDrillRow>(),
     };
 }
 
@@ -314,35 +324,118 @@ function toResponse(result: HandlerResult): Response {
     return Response.json(result.body, { status: result.status, headers: { "Cache-Control": "no-store" } });
 }
 
-// The whole POST /api/drills pipeline, kept free of Astro and Supabase so it can be tested with plain Requests.
-export async function handleSaveDrillRequest(request: Request, context: SaveDrillRequestContext): Promise<Response> {
-    if (context.userId === null) return toResponse(failure("unauthorized", SAVE_DRILL_MESSAGES.unauthorized));
-    if (context.store === null) return toResponse(failure("unavailable", SAVE_DRILL_MESSAGES.unavailable));
+type JsonRequest = { ok: true; input: unknown } | { ok: false; response: Response };
+
+// Shared by POST and PUT: JSON content type only (anything else, including the CORS-simple types, is 415 before
+// the body is read or the store is touched; with the preflight a JSON PUT forces, this is the CSRF protection),
+// then the size limit, then the JSON parse.
+async function readJsonRequest(request: Request): Promise<JsonRequest> {
     if (!isJsonMediaType(request.headers.get("content-type"))) {
-        return toResponse(failure("unsupported_media_type", SAVE_DRILL_MESSAGES.unsupported_media_type));
+        return { ok: false, response: toResponse(failure("unsupported_media_type", SAVE_DRILL_MESSAGES.unsupported_media_type)) };
     }
 
     const body = await readLimitedText(request);
     if (!body.ok) {
-        return body.reason === "too_large"
-            ? toResponse(failure("payload_too_large", SAVE_DRILL_MESSAGES.payload_too_large))
-            : toResponse(failure("validation", SAVE_DRILL_MESSAGES.notJson));
+        return {
+            ok: false,
+            response:
+                body.reason === "too_large"
+                    ? toResponse(failure("payload_too_large", SAVE_DRILL_MESSAGES.payload_too_large))
+                    : toResponse(failure("validation", SAVE_DRILL_MESSAGES.notJson)),
+        };
     }
 
-    let input: unknown;
     try {
-        input = JSON.parse(body.text);
+        return { ok: true, input: JSON.parse(body.text) as unknown };
     } catch {
-        return toResponse(failure("validation", SAVE_DRILL_MESSAGES.notJson));
+        return { ok: false, response: toResponse(failure("validation", SAVE_DRILL_MESSAGES.notJson)) };
+    }
+}
+
+// The whole POST /api/drills pipeline, kept free of Astro and Supabase so it can be tested with plain Requests.
+export async function handleSaveDrillRequest(request: Request, context: SaveDrillRequestContext): Promise<Response> {
+    if (context.userId === null) return toResponse(failure("unauthorized", SAVE_DRILL_MESSAGES.unauthorized));
+    if (context.store === null) return toResponse(failure("unavailable", SAVE_DRILL_MESSAGES.unavailable));
+
+    const json = await readJsonRequest(request);
+    if (!json.ok) return json.response;
+
+    return toResponse(await saveDrillConfiguration(context.store, context.userId, json.input, context.log));
+}
+
+export async function updateDrillConfiguration(
+    store: DrillConfigurationStore,
+    userId: string,
+    id: string,
+    input: unknown,
+    log: DrillSaveLogger = defaultLogger,
+): Promise<HandlerResult> {
+    // A non-UUID id never reaches the database and cannot be told apart from a missing or foreign one.
+    if (!isDrillId(id)) return failure("not_found", SAVE_DRILL_MESSAGES.not_found);
+
+    const validated = validateSaveDrillRequest(input);
+    if (!validated.valid) return failure("validation", validated.message, validated.fieldErrors);
+
+    let result: FindResult;
+    try {
+        result = await store.update(normalizeDrillId(id), userId, {
+            name: validated.name,
+            preparation_seconds: validated.configuration.preparationSeconds,
+            exercise_seconds: validated.configuration.exerciseSeconds,
+            rest_seconds: validated.configuration.restSeconds,
+            repetitions: validated.configuration.repetitions,
+            random_start_enabled: validated.configuration.randomStartEnabled,
+        });
+    } catch {
+        log("store_exception");
+        return failure("unexpected", SAVE_DRILL_MESSAGES.unexpected);
     }
 
-    return toResponse(await saveDrillConfiguration(context.store, context.userId, input, context.log));
+    if (result.error) {
+        const code = classifyStoreError(result.error, result.status);
+        // The limit trigger is INSERT-only; a limit error here would be a database change nobody planned.
+        const mapped = code === "limit_reached" ? "unexpected" : code;
+        if (mapped === "unexpected" || mapped === "unavailable") log(result.error.code ?? "unknown");
+        const fieldErrors = mapped === "duplicate_name" ? { name: SAVE_DRILL_MESSAGES.duplicate_name } : undefined;
+        return failure(mapped, SAVE_DRILL_MESSAGES[mapped], fieldErrors);
+    }
+
+    // maybeSingle answers null for zero rows (RLS hides foreign rows, so foreign and missing look the same).
+    if (result.data === null) return failure("not_found", SAVE_DRILL_MESSAGES.not_found);
+    if (typeof result.data !== "object") {
+        log("empty_result");
+        return failure("unexpected", SAVE_DRILL_MESSAGES.unexpected);
+    }
+
+    return { status: 200, body: { ok: true, drill: savedDrillFromRow(result.data) } };
+}
+
+export interface UpdateDrillRequestContext extends SaveDrillRequestContext {
+    id: string;
+}
+
+// The whole PUT /api/drills/{id} pipeline. Same order as POST, with the id guard before the body is read.
+export async function handleUpdateDrillRequest(request: Request, context: UpdateDrillRequestContext): Promise<Response> {
+    if (context.userId === null) return toResponse(failure("unauthorized", SAVE_DRILL_MESSAGES.unauthorized));
+    if (context.store === null) return toResponse(failure("unavailable", SAVE_DRILL_MESSAGES.unavailable));
+    if (!isDrillId(context.id)) return toResponse(failure("not_found", SAVE_DRILL_MESSAGES.not_found));
+
+    const json = await readJsonRequest(request);
+    if (!json.ok) return json.response;
+
+    return toResponse(await updateDrillConfiguration(context.store, context.userId, context.id, json.input, context.log));
+}
+
+// Any method but PUT on /api/drills/{id}: no session, id or store is read, so the answer reveals nothing about ownership.
+// DELETE is reserved for S-13 and is 405 until then.
+export function methodNotAllowedResponse(): Response {
+    return new Response(null, { status: 405, headers: { Allow: "PUT", "Cache-Control": "no-store" } });
 }
 
 export const OPEN_DRILL_MESSAGES = {
     unavailable: "Your saved timers are temporarily unavailable. Please try again later.",
     empty: "You have no saved timers yet.",
-    notFound: "This timer does not exist or is not yours.",
+    notFound: SAVE_DRILL_MESSAGES.not_found,
 } as const;
 
 const DRILL_ID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;

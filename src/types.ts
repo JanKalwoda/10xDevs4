@@ -23,7 +23,8 @@ export interface SavedDrill {
 
 export type SaveDrillRequest = DrillConfigInput & { name: string };
 
-export type SaveDrillErrorCode = "validation" | "duplicate_name" | "limit_reached" | "unauthorized" | "unsupported_media_type" | "payload_too_large" | "unavailable" | "unexpected";
+export type SaveDrillErrorCode =
+    "validation" | "duplicate_name" | "limit_reached" | "not_found" | "unauthorized" | "unsupported_media_type" | "payload_too_large" | "unavailable" | "unexpected";
 
 export type SaveDrillFieldErrors = Partial<Record<keyof SaveDrillRequest, string>>;
 

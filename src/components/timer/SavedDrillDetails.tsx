@@ -26,8 +26,12 @@ export default function SavedDrillDetails({ drill, onStart }: SavedDrillDetailsP
             >
                 Start
             </Button>
-            {/* Reserved for the owner's actions (S-12, S-13); intentionally empty. */}
-            <div data-slot="saved-drill-actions" className="flex flex-wrap gap-2 empty:hidden" />
+            {/* The owner's actions. S-13 adds Delete here; this container is the room reserved for it. */}
+            <div data-slot="saved-drill-actions" className="flex flex-wrap gap-2 empty:hidden">
+                <a href={`/${drill.id}/edit`} className={cn(buttonVariants({ variant: "outline" }), "w-full")}>
+                    Edit timer
+                </a>
+            </div>
             <a href="/dashboard" className={cn(buttonVariants({ variant: "link" }), "w-full")}>
                 Back to dashboard
             </a>

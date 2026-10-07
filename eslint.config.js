@@ -105,7 +105,9 @@ export default defineConfig(
             "src/pages/index.astro",
             "src/pages/create.astro",
             "src/pages/dashboard.astro",
-            "src/pages/[id].astro",
+            // In minimatch "[id]" is a character class, so the literal brackets of the dynamic routes are escaped as "[[]id[]]".
+            "src/pages/[[]id[]].astro",
+            "src/pages/[[]id[]]/edit.astro",
             "src/pages/404.astro",
             "src/pages/dev/timer-ui.astro",
             "src/components/ui/{input,label,checkbox,card,alert}.tsx",
