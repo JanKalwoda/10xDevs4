@@ -54,7 +54,7 @@ Obecny timer HIIT pozwala ustawić fazy i powtórzenia, lecz jego przewidywalny 
 | S-09 | enter-account-by-email-link | Użytkownik tworzy konto lub loguje się przez link email | — | FR-009 | done |
 | S-10 | save-named-drill | Użytkownik zapisuje nazwaną konfigurację (bez kolorów faz) | S-09 | FR-010 | in-progress |
 | S-11 | open-saved-drill | Użytkownik widzi własne konfiguracje i uruchamia wybraną | S-10 | FR-011 | in-progress |
-| S-12 | edit-saved-drill | Użytkownik zmienia własną zapisaną konfigurację | S-10 | FR-012 | proposed |
+| S-12 | edit-saved-drill | Użytkownik zmienia własną zapisaną konfigurację | S-10 | FR-012 | planning |
 | S-13 | delete-saved-drill | Użytkownik usuwa własną konfigurację po potwierdzeniu | S-10 | FR-012 | proposed |
 | S-14 | align-bluetooth-audio | Użytkownik ze słuchawkami Bluetooth wyrównuje widok faz ze słyszanymi sygnałami | S-02 | FR-002, FR-004, FR-005 | blocked |
 
@@ -244,7 +244,7 @@ Brak osobnych Foundations. Konfigurację danych, ochronę własności i weryfika
 - **Blockers:** —
 - **Unknowns:** —
 - **Risk:** Zmiana jednej konfiguracji nie może przeniknąć do pozostałych ani do cudzych danych.
-- **Status:** proposed
+- **Status:** planning
 
 ### S-13: Usunięcie własnej konfiguracji
 
