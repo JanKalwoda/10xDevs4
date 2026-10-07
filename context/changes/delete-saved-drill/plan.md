@@ -255,12 +255,12 @@ One delete by primary key; nothing to optimize.
 
 #### Automated
 
-- [ ] 2.1 Unit tests pass (controller): `npm test`
-- [ ] 2.2 Lint (timer UI contract incl. `SavedDrillDetails` and the dialog): `npm run lint`
-- [ ] 2.3 Contract rule tests pass and assert that `alert-dialog.tsx` is linted
-- [ ] 2.4 Types and build pass: `npx astro check` and `npm run build`
-- [ ] 2.5 Break-check: making `confirm()` re-entrant turns the double-confirm test red (revert afterwards)
-- [ ] 2.9 Playwright script on the production preview (focus on Cancel, Esc/Cancel without request and focus back, overlay inert, dialog open after 500 and retry works, one request on double click, no horizontal scroll with a 200-character name at 390 px, aria name/description)
+- [x] 2.1 Unit tests pass (controller): `npm test` — 6a98799
+- [x] 2.2 Lint (timer UI contract incl. `SavedDrillDetails` and the dialog): `npm run lint` — 6a98799
+- [x] 2.3 Contract rule tests pass and assert that `alert-dialog.tsx` is linted — 6a98799
+- [x] 2.4 Types and build pass: `npx astro check` and `npm run build` — 6a98799
+- [x] 2.5 Break-check: making `confirm()` re-entrant turns the double-confirm test red (revert afterwards) — 6a98799
+- [x] 2.9 Playwright script on the production preview (focus on Cancel, Esc/Cancel without request and focus back, overlay inert, dialog open after 500 and retry works, one request on double click, no horizontal scroll with a 200-character name at 390 px, aria name/description) — 6a98799 (scripted, not human)
 
 #### Manual
 
