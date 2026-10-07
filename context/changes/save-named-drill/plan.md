@@ -345,7 +345,7 @@ At most 50 rows per user; the unique index leads with `user_id`. The advisory lo
 
 #### Manual
 
-- [x] 2.7 Without the table, `POST /api/drills` returns 503 while `/`, `/auth/signin` and `/dashboard` return 200 — mapowanie błędu brakującej tabeli (`PGRST205`/`42P01` → 503) pokryte testami jednostkowymi; e2e na realnym braku tabeli niewykonane (nie niszczymy wspólnego lokalnego Supabase)
+- [x] 2.7 Without the table, `POST /api/drills` returns 503 while `/`, `/auth/signin` and `/dashboard` return 200 — mapowanie błędu brakującej tabeli (`PGRST205`/`42P01` → 503) pokryte testami jednostkowymi; e2e przez proxy zwracające 404 `PGRST205` wykonane w Phase 4 (`screenshots/e2e-results-missing-table.json`: `/`, `/auth/signin`, `/dashboard`, `/create` 200; API 503); realny brak tabeli niewykonany (nie niszczymy wspólnego lokalnego Supabase; pierwsza okazja: produkcja przed `db push`)
 - [x] 2.8 With the migration, the same request returns 201 and the row belongs only to that user — potwierdzone: wiersz tylko właściciela w DB (smoke przez realne cookies → RLS → trigger)
 
 ### Phase 3: `/create` page and form

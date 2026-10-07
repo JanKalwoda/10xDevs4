@@ -101,3 +101,11 @@ Gates (all green): `npm test` 138/138; `npm run lint` clean; rule tests 4/4; `as
 Browser steps from Phase 3, run by script (not human), marked in Progress: 3.4 guest → sign-in → `/create`; 3.5 save, duplicate in other case, limit (49 via API + 51st in UI), expired session (cookies cleared), missing table; 3.6 keyboard order and `role=alert`/`aria-invalid`/`aria-describedby`; 3.7 `/` starts, advances to Rest, Cancel returns. Caveats: sign-in link taken from GoTrue admin `generate_link` (no Mailpit on the shared stack); missing table is **simulated** by a forwarding proxy returning 404 `PGRST205` for `/rest/v1/drill_configurations` (`.dev.vars` temporarily pointed at it and restored; verify `SUPABASE_URL=http://127.0.0.1:55321`); no screen reader, no sound, no real e-mail. The e2e user is deleted by the script (rows cascade); dev servers and proxy are stopped.
 
 Still open for a human: 4.4 (review of the screenshots in light/dark, 1280/390), 4.5 (optional phone check). Not done: `db push` (coordinator, before merge).
+
+## Review fixes (2026-10-07)
+
+Opus impl-review: APPROVED (0 critical / 1 warning / 5 observations); decisions are recorded in `reviews/impl-review.md`. Fixed in one commit: F1 (failure `Alert` above Save through the new `beforeSubmit` slot in `DrillConfigForm`), F2 (`54000` -> `limit_reached` only with the trigger's message/hint, unit tested, drift test reads the message from the migration), F3 (pgTAP asserts `prosecdef = false` and pinned `search_path` for both functions, `plan(70)`), F5 (note 2.7 cites the proxy evidence). F4 accepted as is; F6 left for a human. The migration is unchanged; no `db reset` / `db push` was run.
+
+Gates after the fixes: `npm test` 139/139; `npm run lint` clean; rule tests 4/4; `astro sync && astro check` 0 errors (the one pre-existing hint); `npm run build` ok; `prettier --check` on the touched dirs ok; `npx supabase test db` 70/70 on the shared local stack.
+
+Not done: screenshots of the error states (`limit-reached-*`, `unavailable-*`, `session-expired-*`) were not recaptured after the F1 layout change; 4.4/4.5 (human screenshot review) remain open. Before merge: `db push` of migration `20261007120000` to production (the API returns 503 until the table exists).

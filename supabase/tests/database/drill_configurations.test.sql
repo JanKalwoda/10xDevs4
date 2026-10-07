@@ -6,7 +6,7 @@ begin;
 
 create extension if not exists pgtap with schema extensions;
 
-select plan(66);
+select plan(70);
 
 -- Fixtures: five users (A and B for ownership, L for the limit, M for the multi-row boundary,
 -- C for cascade and updated_at). Created as postgres, which bypasses RLS.
@@ -413,6 +413,26 @@ select is(
     (select provolatile from pg_proc where oid = 'public.enforce_drill_configuration_limit()'::regprocedure),
     'v'::"char",
     'the limit function is VOLATILE'
+);
+select is(
+    (select prosecdef from pg_proc where oid = 'public.enforce_drill_configuration_limit()'::regprocedure),
+    false,
+    'the limit function is security invoker'
+);
+select is(
+    (select proconfig from pg_proc where oid = 'public.enforce_drill_configuration_limit()'::regprocedure),
+    array['search_path=""'],
+    'the limit function pins search_path to empty'
+);
+select is(
+    (select prosecdef from pg_proc where oid = 'public.set_updated_at()'::regprocedure),
+    false,
+    'the updated_at function is security invoker'
+);
+select is(
+    (select proconfig from pg_proc where oid = 'public.set_updated_at()'::regprocedure),
+    array['search_path=""'],
+    'the updated_at function pins search_path to empty'
 );
 
 -- ---------------------------------------------------------------------------

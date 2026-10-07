@@ -10,6 +10,7 @@ export const MAX_SAVED_DRILLS = 50;
 export const MAX_DRILL_NAME_LENGTH = 200;
 export const MAX_REQUEST_BODY_BYTES = 4096;
 export const DUPLICATE_NAME_INDEX = "drill_configurations_user_name_key";
+export const LIMIT_REACHED_MESSAGE = "drill_configuration_limit_reached";
 
 export const SAVE_DRILL_MESSAGES = {
     name: "Enter a name of 1 to 200 characters.",
@@ -133,6 +134,7 @@ export interface StoreError {
     code?: string;
     message?: string;
     details?: string;
+    hint?: string;
 }
 
 // The supabase-js response shape, so the adapter below can hand the result through untouched.
@@ -188,7 +190,8 @@ export interface HandlerResult {
 export function classifyStoreError(error: StoreError, status?: number): SaveDrillErrorCode {
     const code = error.code ?? "";
     if (code === "23505" && `${error.message ?? ""} ${error.details ?? ""}`.includes(DUPLICATE_NAME_INDEX)) return "duplicate_name";
-    if (code === "54000") return "limit_reached";
+    // 54000 is the generic program_limit_exceeded class; only the limit trigger's own message counts as "limit reached".
+    if (code === "54000" && `${error.message ?? ""} ${error.hint ?? ""}`.includes(LIMIT_REACHED_MESSAGE)) return "limit_reached";
     if (code === "PGRST301" || code === "PGRST303" || status === 401) return "unauthorized";
     if (code === "PGRST205" || code === "42P01") return "unavailable";
     return "unexpected";

@@ -79,6 +79,19 @@ export default function DrillCreateForm({
         </div>
     );
 
+    const failureAlert = failure && (
+        <Alert variant="destructive">
+            <AlertDescription>
+                <p>{failure.message}</p>
+                {failure.code === "unauthorized" && (
+                    <a href={SIGN_IN_FOR_CREATE_HREF} className={cn(buttonVariants({ variant: "outline", size: "sm" }))}>
+                        Sign in
+                    </a>
+                )}
+            </AlertDescription>
+        </Alert>
+    );
+
     return (
         <div className="space-y-5">
             {status === "saved" && savedName !== null && (
@@ -95,19 +108,8 @@ export default function DrillCreateForm({
                 pending={pending}
                 onSubmitAttempt={onSubmitAttempt}
                 leading={nameField}
+                beforeSubmit={failureAlert}
             />
-            {failure && (
-                <Alert variant="destructive">
-                    <AlertDescription>
-                        <p>{failure.message}</p>
-                        {failure.code === "unauthorized" && (
-                            <a href={SIGN_IN_FOR_CREATE_HREF} className={cn(buttonVariants({ variant: "outline", size: "sm" }))}>
-                                Sign in
-                            </a>
-                        )}
-                    </AlertDescription>
-                </Alert>
-            )}
         </div>
     );
 }

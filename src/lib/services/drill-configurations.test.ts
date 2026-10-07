@@ -4,6 +4,7 @@ import test from "node:test";
 
 import {
     DUPLICATE_NAME_INDEX,
+    LIMIT_REACHED_MESSAGE,
     MAX_DRILL_NAME_LENGTH,
     MAX_REQUEST_BODY_BYTES,
     MAX_SAVED_DRILLS,
@@ -250,6 +251,20 @@ void test("duplicate_name puts the error on the name field", async () => {
     assert.deepEqual(!result.body.ok && result.body.fieldErrors, { name: "You already have a timer with this name." });
 });
 
+void test("54000 is the limit only when it carries the limit trigger's message", async () => {
+    assert.equal(classifyStoreError({ code: "54000", message: LIMIT_REACHED_MESSAGE }), "limit_reached");
+    assert.equal(classifyStoreError({ code: "54000", message: "", hint: LIMIT_REACHED_MESSAGE }), "limit_reached");
+    assert.equal(classifyStoreError({ code: "54000", message: "index row size exceeds maximum" }), "unexpected");
+    assert.equal(classifyStoreError({ code: "54000" }), "unexpected");
+    assert.equal(classifyStoreError({ code: "23505", message: LIMIT_REACHED_MESSAGE }), "unexpected");
+
+    const logged: string[] = [];
+    const result = await saveDrillConfiguration(failingStore({ code: "54000", message: "some other limit" }), USER_ID, validRequest, (code) => logged.push(code));
+    assert.equal(result.status, 500);
+    assert.equal(!result.body.ok && result.body.code, "unexpected");
+    assert.deepEqual(logged, ["54000"]);
+});
+
 void test("classifyStoreError reads the 401 status without a code", () => {
     assert.equal(classifyStoreError({}, 401), "unauthorized");
     assert.equal(classifyStoreError({}, 500), "unexpected");
@@ -274,7 +289,7 @@ void test("an empty result and a throwing store are unexpected, and logs carry t
 
 void test("expected business errors are not logged", async () => {
     const logged: string[] = [];
-    await saveDrillConfiguration(failingStore({ code: "54000" }), USER_ID, validRequest, (code) => logged.push(code));
+    await saveDrillConfiguration(failingStore({ code: "54000", message: LIMIT_REACHED_MESSAGE }), USER_ID, validRequest, (code) => logged.push(code));
     await saveDrillConfiguration(failingStore({ code: "PGRST301" }), USER_ID, validRequest, (code) => logged.push(code));
     assert.deepEqual(logged, []);
 });
@@ -383,4 +398,5 @@ void test("service constants match the CHECKs and the limit in the migration", a
     assert.match(sql, new RegExp(`\\) >= ${String(MAX_SAVED_DRILLS)} then`));
     assert.match(sql, new RegExp(`create unique index ${DUPLICATE_NAME_INDEX} on`));
     assert.match(sql, /errcode = '54000'/);
+    assert.ok(sql.includes(`raise exception '${LIMIT_REACHED_MESSAGE}'`));
 });

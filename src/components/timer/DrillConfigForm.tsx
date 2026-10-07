@@ -19,6 +19,8 @@ interface DrillConfigFormProps {
     submitLabel?: string;
     /** Rendered above the parameter fields. */
     leading?: ReactNode;
+    /** Rendered directly above the submit button. */
+    beforeSubmit?: ReactNode;
     /** Disables submit and marks it busy. */
     pending?: boolean;
     /** Called at the start of every submit, before the parameters are validated. */
@@ -68,7 +70,17 @@ function ConfigField({ id, field, label, hint, value, error, onChange, children 
     );
 }
 
-export default function DrillConfigForm({ values, onValuesChange, onStart, createAudio, submitLabel = "Start", leading, pending = false, onSubmitAttempt }: DrillConfigFormProps) {
+export default function DrillConfigForm({
+    values,
+    onValuesChange,
+    onStart,
+    createAudio,
+    submitLabel = "Start",
+    leading,
+    beforeSubmit,
+    pending = false,
+    onSubmitAttempt,
+}: DrillConfigFormProps) {
     const id = useId();
     const [errors, setErrors] = useState<DrillConfigErrors>({});
     const preview = useSignalPreview(createAudio);
@@ -152,6 +164,7 @@ export default function DrillConfigForm({ values, onValuesChange, onStart, creat
                 </p>
                 {previewControl("standby")}
             </div>
+            {beforeSubmit}
             <Button type="submit" className="w-full" disabled={pending} aria-busy={pending || undefined}>
                 {submitLabel}
             </Button>
