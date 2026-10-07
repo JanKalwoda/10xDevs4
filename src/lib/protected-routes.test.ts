@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
-import { PROTECTED_ROUTES, isProtectedPath } from "./protected-routes.ts";
+import { PROTECTED_ROUTES, guestRedirectResponse, isProtectedPath } from "./protected-routes.ts";
 
 void test("dashboard and create are protected, including their sub-paths", () => {
     assert.deepEqual([...PROTECTED_ROUTES], ["/dashboard", "/create"]);
@@ -44,4 +44,11 @@ void test("an encoded separator after the uuid is not a saved timer path", () =>
 void test("a malformed escape does not throw and is judged on the raw path", () => {
     assert.equal(isProtectedPath("/create%"), false);
     assert.equal(isProtectedPath("/create/%E0%A4%A"), true);
+});
+
+void test("guest redirect goes to sign-in with next and is never cacheable", () => {
+    const response = guestRedirectResponse("/3f2b8c1e-5d4a-4e6f-9a7b-1c2d3e4f5a6b");
+    assert.equal(response.status, 302);
+    assert.equal(response.headers.get("Location"), "/auth/signin?next=%2F3f2b8c1e-5d4a-4e6f-9a7b-1c2d3e4f5a6b");
+    assert.equal(response.headers.get("Cache-Control"), "private, no-store");
 });

@@ -73,3 +73,11 @@ Items 2.3 and 2.5 were executed **by a Playwright script, not a human** (product
 Phase 2 deviations (recorded here as requested): `h1` is the timer name in the `DrillApp` header in saved mode (so `SavedDrillDetails` has no h1); `DrillCompleted` got an optional `returnLabel` ("Return to timer" in saved mode); `Layout.astro` got an empty `<slot name="head" />` used for the `noindex` meta; redirects in `dashboard.astro` / `[id].astro` are set on the response instead of `return Astro.redirect(...)` (lint crash on top-level return).
 
 Open for a human: 3.3 (accept screenshots), 3.4 (existing seven-state gate and Restart scenarios unaffected: only two lines added to `TimerUiPreview`, not re-screenshotted), bfcache check.
+
+## Impl-review fixes (verdict APPROVED, 0 critical / 1 warning / 4 obs)
+
+- F1, F2 ACCEPTED-AS-IS: 2.3/2.5 were run by a script (annotated in the plan); the final manual confirmation, 3.3, 3.4 and the bfcache check are done by the user at the end of the queue.
+- F3: pgTAP read tests now check list order (`created_at desc`, `id desc` tie-break) and exact row content for A and B; B sees none of A's names (plan 80, 80/80 PASS locally).
+- F4: guest redirect for `/{uuid}` (and other protected paths) is built by `guestRedirectResponse` with `Cache-Control: private, no-store`; unit test added.
+- F5: after Cancel / "Return to timer" focus moves to the `h1` of `DrillApp` (`tabIndex=-1`, `outline-none`), on `/` as well. Not covered by an automated test (no DOM env); **needs a human check in a browser** (Cancel and Return, then Tab → Start should be the next stop).
+- Gates: `npm test` 157/157, `npm run lint` clean, rule tests 4/4, `astro check` 0 errors, `npm run build` OK, `npx supabase test db` 80/80; no migration, no `db push`/`reset`.

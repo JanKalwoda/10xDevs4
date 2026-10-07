@@ -1,3 +1,5 @@
+import { signInUrlForProtectedPath } from "./email-auth.ts";
+
 export const PROTECTED_ROUTES = ["/dashboard", "/create"] as const;
 
 // The router matches the decoded path and ignores repeated or trailing slashes, so match on that form:
@@ -23,4 +25,12 @@ export function isSavedDrillPath(pathname: string): boolean {
 export function isProtectedPath(pathname: string): boolean {
     const path = routerPath(pathname);
     return PROTECTED_ROUTES.some((route) => path === route || path.startsWith(route + "/")) || isSavedDrillPath(pathname);
+}
+
+// Guest redirect for a protected path; never cacheable, like every response of a protected page.
+export function guestRedirectResponse(requestedPath: string): Response {
+    return new Response(null, {
+        status: 302,
+        headers: { Location: signInUrlForProtectedPath(requestedPath), "Cache-Control": "private, no-store" },
+    });
 }

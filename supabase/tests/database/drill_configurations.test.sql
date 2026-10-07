@@ -6,7 +6,7 @@ begin;
 
 create extension if not exists pgtap with schema extensions;
 
-select plan(76);
+select plan(80);
 
 -- Fixtures: five users (A and B for ownership, L for the limit, M for the multi-row boundary,
 -- C for cascade and updated_at). Created as postgres, which bypasses RLS.
@@ -176,6 +176,17 @@ select is(
     1::bigint,
     'user B list query returns only user B rows'
 );
+select is(
+    (select array_agg(name) from public.drill_configurations),
+    array['Run'],
+    'user B sees only own names, none of user A names'
+);
+select is(
+    (select jsonb_agg(jsonb_build_array(name, preparation_seconds, exercise_seconds, rest_seconds, repetitions, random_start_enabled))
+       from public.drill_configurations),
+    '[["Run", 0, 10, 0, 1, false]]'::jsonb,
+    'user B list row content is exactly the stored parameters'
+);
 
 select set_config('request.jwt.claims', '{"sub":"00000000-0000-4000-8000-00000000000a","role":"authenticated"}', true);
 
@@ -191,6 +202,18 @@ select is(
     ) listed),
     2::bigint,
     'user A list query returns exactly the two own rows'
+);
+select is(
+    (select array_agg(id) from (select id, name, preparation_seconds, exercise_seconds, rest_seconds, repetitions, random_start_enabled, created_at, updated_at
+        from public.drill_configurations order by created_at desc, id desc limit 50) listed),
+    (select array_agg(id order by id desc) from public.drill_configurations),
+    'user A list is ordered by created_at desc with id desc as tie-break (both rows share a created_at here)'
+);
+select is(
+    (select jsonb_agg(jsonb_build_array(name, preparation_seconds, exercise_seconds, rest_seconds, repetitions, random_start_enabled) order by name)
+       from public.drill_configurations),
+    '[["Default owner", 0, 10, 0, 1, false], ["Run", 5, 4, 2, 3, true]]'::jsonb,
+    'user A list row content is exactly the stored parameters'
 );
 
 reset role;

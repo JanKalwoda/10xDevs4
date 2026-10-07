@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import DrillConfigForm from "@/components/timer/DrillConfigForm";
@@ -58,6 +58,16 @@ export default function DrillApp({ savedDrill }: { savedDrill?: SavedDrill }) {
     const [activeRun, setActiveRun] = useState<ActiveRun | null>(null);
     const [view, setView] = useState<"configuration" | "running" | "completed">("configuration");
     const [identityState] = useState(createDrillRunIdentityState);
+    const headingRef = useRef<HTMLHeadingElement>(null);
+    const restoreFocus = useRef(false);
+
+    // Start unmounts while a run is on screen, so after Cancel or Return focus would fall to <body>; park it on the heading.
+    useEffect(() => {
+        if (view === "configuration" && restoreFocus.current) {
+            restoreFocus.current = false;
+            headingRef.current?.focus();
+        }
+    }, [view]);
 
     const createActiveRun = useCallback(
         (configuration: Readonly<DrillConfiguration>): ActiveRun => {
@@ -88,6 +98,7 @@ export default function DrillApp({ savedDrill }: { savedDrill?: SavedDrill }) {
     const cancel = useCallback(() => {
         if (!activeRun || !identityState.retire(activeRun.identity)) return;
         setActiveRun(null);
+        restoreFocus.current = true;
         setView("configuration");
     }, [activeRun, identityState]);
 
@@ -107,7 +118,13 @@ export default function DrillApp({ savedDrill }: { savedDrill?: SavedDrill }) {
             <Card className="w-full max-w-md">
                 <CardHeader className="flex flex-row items-center justify-between">
                     <span aria-hidden="true" className="size-9" />
-                    <h1 className={savedDrill ? "text-center text-3xl font-bold break-words" : "text-center text-3xl font-bold"}>{savedDrill ? savedDrill.name : "Drill timer"}</h1>
+                    <h1
+                        ref={headingRef}
+                        tabIndex={-1}
+                        className={savedDrill ? "text-center text-3xl font-bold break-words outline-none" : "text-center text-3xl font-bold outline-none"}
+                    >
+                        {savedDrill ? savedDrill.name : "Drill timer"}
+                    </h1>
                     <ThemeToggle />
                 </CardHeader>
                 <CardContent>
@@ -128,6 +145,7 @@ export default function DrillApp({ savedDrill }: { savedDrill?: SavedDrill }) {
                         <DrillCompleted
                             returnLabel={savedDrill ? "Return to timer" : undefined}
                             onReturn={() => {
+                                restoreFocus.current = true;
                                 setView("configuration");
                             }}
                         />
