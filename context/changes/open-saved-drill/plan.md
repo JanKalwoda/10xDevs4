@@ -252,13 +252,13 @@ None: no schema change, so no `db push` and nothing to coordinate before merge. 
 
 #### Automated
 
-- [ ] 2.1 `npm run lint` and the lint rule tests pass
-- [ ] 2.2 `npm test`, `astro check` and `npm run build` pass
+- [x] 2.1 `npm run lint` and the lint rule tests pass — 17eb73c
+- [x] 2.2 `npm test`, `astro check` and `npm run build` pass — 17eb73c
 
 #### Manual
 
 - [ ] 2.3 Dashboard list, open, run, cancel/complete and refresh behavior verified signed in
-- [ ] 2.4 Foreign, random and non-UUID ids look identical (404); guest `/{uuid}` redirects and returns after sign-in
+- [x] 2.4 Foreign, random and non-UUID ids look identical (404); guest `/{uuid}` redirects and returns after sign-in — 17eb73c (HTTP-level, see handoff; return-after-sign-in covered by unit tests)
 - [ ] 2.5 `/`, `/create`, `/auth/signin`, `/api/drills` unchanged; keyboard and accessible names checked
 
 ### Phase 3: Smoke, visual gate and docs
