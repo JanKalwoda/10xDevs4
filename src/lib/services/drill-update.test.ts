@@ -46,6 +46,7 @@ function storeReturning(result: FindResult, calls: Call[] = []): DrillConfigurat
         insert: () => Promise.reject(new Error("insert is not used when updating")),
         list: () => Promise.reject(new Error("list is not used when updating")),
         findById: () => Promise.reject(new Error("findById is not used when updating")),
+        delete: () => Promise.reject(new Error("delete is not used when updating")),
         update: (id, userId, fields) => {
             calls.push({ id, userId, fields });
             return Promise.resolve(result);
@@ -248,10 +249,10 @@ void test("the success body is the saved drill and is never cached", async () =>
     assert.equal(body.ok && body.drill.name, "Evening draw");
 });
 
-void test("the answer for methods other than PUT is a bodiless 405 with Allow: PUT and no-store", async () => {
+void test("the answer for methods other than PUT is a bodiless 405 with Allow: PUT, DELETE and no-store", async () => {
     const response = methodNotAllowedResponse();
     assert.equal(response.status, 405);
-    assert.equal(response.headers.get("allow"), "PUT");
+    assert.equal(response.headers.get("allow"), "PUT, DELETE");
     assert.equal(response.headers.get("cache-control"), "no-store");
     assert.equal(await response.text(), "");
 });
