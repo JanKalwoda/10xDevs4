@@ -248,6 +248,11 @@ async function verifyDashboardAndSignOut() {
     ensure(location?.pathname === "/auth/signin");
 }
 
+const UUID_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/;
+const PARAMETER_LINE = "Prep 0:05 · Exercise 0:04 · Rest 0:02 · 3 reps";
+// Set from the 201 response of POST /api/drills before the first user signs out.
+let savedDrill = null;
+
 const DRILL_DEFAULTS = { preparation: "0:05", exercise: "0:04", rest: "0:02", repetitions: "3", randomStartEnabled: false };
 
 async function saveDrill(name, overrides = {}, options = {}) {
@@ -288,7 +293,8 @@ async function verifySavedDrillApi() {
     const first = await saveDrill("Smoke drill");
     ensure(first.status === 201 && first.body.ok === true);
     ensure(first.body.drill.name === "Smoke drill");
-    ensure(/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/.test(first.body.drill.id));
+    ensure(UUID_PATTERN.test(first.body.drill.id));
+    savedDrill = { id: first.body.drill.id, name: first.body.drill.name };
     const { configuration } = first.body.drill;
     ensure(configuration.preparationSeconds === 5 && configuration.exerciseSeconds === 4 && configuration.restSeconds === 2);
     ensure(configuration.repetitions === 3 && configuration.randomStartEnabled === false);
@@ -322,6 +328,90 @@ async function verifyDrillLimit() {
 
     const overLimit = await saveDrill("Smoke over the limit");
     ensure(overLimit.status === 409 && overLimit.body.code === "limit_reached");
+}
+
+function visibleText(markup) {
+    return decodeHtmlAttribute(markup.replace(/<!--[\s\S]*?-->/g, "").replace(/<[^>]*>/g, " ")).replace(/\s+/g, " ");
+}
+
+async function snapshot(path) {
+    const response = await appRequest(path);
+    const raw = await response.text();
+    return {
+        status: response.status,
+        raw,
+        location: response.headers.get("location"),
+        headers: ["cache-control", "content-type", "referrer-policy"].map((name) => response.headers.get(name)),
+    };
+}
+
+async function verifyOwnSavedDrillPages() {
+    ensure(savedDrill !== null);
+    const dashboard = await appRequest("/dashboard");
+    ensure(dashboard.status === 200);
+    ensure(dashboard.headers.get("cache-control")?.includes("no-store"));
+    const dashboardMarkup = await dashboard.text();
+    ensure(dashboardMarkup.includes('href="/' + savedDrill.id + '"'));
+    const dashboardText = visibleText(dashboardMarkup);
+    ensure(dashboardText.includes(savedDrill.name));
+    ensure(dashboardText.includes(PARAMETER_LINE));
+
+    const page = await appRequest("/" + savedDrill.id);
+    ensure(page.status === 200);
+    ensure(page.headers.get("cache-control")?.includes("no-store"));
+    const markup = await page.text();
+    ensure(/<meta name="robots" content="noindex"/.test(markup));
+    const text = visibleText(markup);
+    // The details list each parameter in its own <li>, the dashboard card joins them with a middle dot.
+    ensure(text.includes(savedDrill.name));
+    ensure(PARAMETER_LINE.split(" · ").every((part) => text.includes(part)));
+    ensure(/>\s*Start\s*</.test(markup));
+    // Server-rendered details, never a running timer view.
+    ensure(!markup.includes("Cancel drill") && !markup.includes("Pause"));
+}
+
+async function verifyForeignSavedDrillPages() {
+    ensure(savedDrill !== null);
+    const foreign = await snapshot("/" + savedDrill.id);
+    const random = await snapshot("/" + randomUUID());
+    ensure(foreign.status === 404 && random.status === 404);
+    ensure(foreign.raw === random.raw);
+    ensure(JSON.stringify(foreign.headers) === JSON.stringify(random.headers));
+    ensure(foreign.headers[0]?.includes("no-store"));
+    ensure(!foreign.raw.includes(savedDrill.id));
+    for (const path of ["/not-a-uuid", "/abc/def"]) {
+        const other = await snapshot(path);
+        ensure(other.status === 404 && other.location === null);
+        ensure(other.raw === foreign.raw);
+        ensure(JSON.stringify(other.headers) === JSON.stringify(foreign.headers));
+    }
+
+    const dashboard = await appRequest("/dashboard");
+    ensure(dashboard.status === 200);
+    const dashboardMarkup = await dashboard.text();
+    ensure(!dashboardMarkup.includes(savedDrill.id));
+    const dashboardText = visibleText(dashboardMarkup);
+    ensure(!dashboardText.includes(savedDrill.name));
+    ensure(dashboardText.includes("You have no saved timers yet."));
+}
+
+async function verifyGuestSavedDrillRouting() {
+    ensure(savedDrill !== null);
+    const guest = await appRequest("/" + savedDrill.id);
+    const location = responseLocation(guest);
+    ensure(guest.status === 302);
+    ensure(location?.pathname === "/auth/signin");
+    ensure(location.searchParams.get("next") === "/" + savedDrill.id);
+
+    const unknown = await appRequest("/not-a-uuid");
+    ensure(unknown.status === 404 && !unknown.headers.get("location"));
+}
+
+async function signInNewAccount(email) {
+    await requestEmailLink(email, "/dashboard");
+    const link = callbackFromMessage(await waitForEmail(email));
+    await confirmLink(link);
+    return link;
 }
 
 async function neutralRetryForCallback(location) {
@@ -366,6 +456,15 @@ async function runRemoteSmoke() {
     });
 
     await runStep("anonymous drill API answers 401 and /create redirects to sign-in", verifyAnonymousDrillApi);
+
+    await runStep("anonymous /{uuid} redirects to sign-in and a non-UUID path is a plain 404", async () => {
+        const guest = await appRequest("/" + randomUUID());
+        const location = responseLocation(guest);
+        ensure(guest.status === 302);
+        ensure(location?.pathname === "/auth/signin");
+        const unknown = await appRequest("/not-a-uuid");
+        ensure(unknown.status === 404 && !unknown.headers.get("location"));
+    });
 }
 
 async function runLocalSmoke() {
@@ -419,8 +518,16 @@ async function runLocalSmoke() {
     });
     await runStep("signed-in user reaches /create and the dashboard links to it", verifyCreatePage);
     await runStep("signed-in user saves, duplicates, invalid and wrong-type requests get stable API answers", verifySavedDrillApi);
+    await runStep("dashboard lists the saved timer and /{id} shows its details (noindex, no-store, no running view)", verifyOwnSavedDrillPages);
     await runStep("the 50-timer limit refuses the 51st save, also for concurrent requests", verifyDrillLimit);
     await runStep("sign-out clears the new-account session", verifyDashboardAndSignOut);
+    await runStep("anonymous /{id} redirects to sign-in with next and a non-UUID path is a plain 404", verifyGuestSavedDrillRouting);
+
+    const otherEmail = "smoke-other-" + Date.now() + "-" + randomUUID() + "@example.com";
+    await runStep("a second, distinct account signs in", () => signInNewAccount(otherEmail));
+    await runStep("second account gets identical 404s for a foreign and a random id and sees none of the first user's timers", verifyForeignSavedDrillPages);
+    await runStep("sign-out clears the second account session", verifyDashboardAndSignOut);
+
     await runStep("signed-out SSR home shell links Sign in to the sign-in page", async () => {
         const home = await appRequest("/");
         const markup = await home.text();

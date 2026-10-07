@@ -130,6 +130,11 @@ export interface DrillConfigurationRow extends DrillConfigurationInsert {
     updated_at: string;
 }
 
+// What the read queries select: every column except user_id (the pages never need it).
+export type SavedDrillRow = Omit<DrillConfigurationRow, "user_id">;
+
+export const SAVED_DRILL_COLUMNS = "id, name, preparation_seconds, exercise_seconds, rest_seconds, repetitions, random_start_enabled, created_at, updated_at";
+
 export interface StoreError {
     code?: string;
     message?: string;
@@ -144,17 +149,41 @@ export interface StoreResult {
     status?: number;
 }
 
+export interface ListResult {
+    data: SavedDrillRow[] | null;
+    error: StoreError | null;
+    status?: number;
+}
+
+export interface FindResult {
+    data: SavedDrillRow | null;
+    error: StoreError | null;
+    status?: number;
+}
+
 export interface DrillConfigurationStore {
     insert(row: DrillConfigurationInsert): PromiseLike<StoreResult>;
+    list(): PromiseLike<ListResult>;
+    findById(id: string): PromiseLike<FindResult>;
 }
 
 export function createSupabaseDrillStore(client: SupabaseClient): DrillConfigurationStore {
     return {
         insert: (row) => client.from("drill_configurations").insert(row).select().single<DrillConfigurationRow>(),
+        // RLS limits both reads to the caller's own rows; a foreign id is simply zero rows.
+        list: () =>
+            client
+                .from("drill_configurations")
+                .select(SAVED_DRILL_COLUMNS)
+                .order("created_at", { ascending: false })
+                .order("id", { ascending: false })
+                .limit(MAX_SAVED_DRILLS)
+                .overrideTypes<SavedDrillRow[], { merge: false }>(),
+        findById: (id) => client.from("drill_configurations").select(SAVED_DRILL_COLUMNS).eq("id", id).maybeSingle<SavedDrillRow>(),
     };
 }
 
-export function savedDrillFromRow(row: DrillConfigurationRow): SavedDrill {
+export function savedDrillFromRow(row: SavedDrillRow): SavedDrill {
     return {
         id: row.id,
         name: row.name,
@@ -308,4 +337,94 @@ export async function handleSaveDrillRequest(request: Request, context: SaveDril
     }
 
     return toResponse(await saveDrillConfiguration(context.store, context.userId, input, context.log));
+}
+
+export const OPEN_DRILL_MESSAGES = {
+    unavailable: "Your saved timers are temporarily unavailable. Please try again later.",
+    empty: "You have no saved timers yet.",
+    notFound: "This timer does not exist or is not yours.",
+} as const;
+
+const DRILL_ID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
+// Strict 8-4-4-4-12 hex only: no braces, no whitespace, no trailing slash or encoded separators.
+export function isDrillId(value: unknown): value is string {
+    return typeof value === "string" && DRILL_ID.test(value);
+}
+
+export function normalizeDrillId(value: string): string {
+    return value.toLowerCase();
+}
+
+export type ListSavedDrillsResult = { kind: "ok"; drills: SavedDrill[] } | { kind: "unavailable" } | { kind: "unauthorized" };
+export type GetSavedDrillResult = { kind: "ok"; drill: SavedDrill } | { kind: "not_found" } | { kind: "unavailable" } | { kind: "unauthorized" };
+
+function readFailure(error: StoreError, status: number | undefined, log: DrillSaveLogger): "unavailable" | "unauthorized" {
+    if (classifyStoreError(error, status) === "unauthorized") return "unauthorized";
+    log(error.code ?? "unknown");
+    return "unavailable";
+}
+
+// An empty list is only ever returned for a clean response with an array; every other shape is an outage,
+// so a failure can never be shown as "you have no saved timers".
+export async function listSavedDrills(store: DrillConfigurationStore, log: DrillSaveLogger = defaultLogger): Promise<ListSavedDrillsResult> {
+    let result: ListResult;
+    try {
+        result = await store.list();
+    } catch {
+        log("store_exception");
+        return { kind: "unavailable" };
+    }
+
+    if (result.error) return { kind: readFailure(result.error, result.status, log) };
+    if (!Array.isArray(result.data)) {
+        log("empty_result");
+        return { kind: "unavailable" };
+    }
+    return { kind: "ok", drills: result.data.map(savedDrillFromRow) };
+}
+
+export async function getSavedDrill(store: DrillConfigurationStore, id: string, log: DrillSaveLogger = defaultLogger): Promise<GetSavedDrillResult> {
+    // A non-UUID id never reaches the database (and cannot be told apart from a missing one).
+    if (!isDrillId(id)) return { kind: "not_found" };
+
+    let result: FindResult;
+    try {
+        result = await store.findById(normalizeDrillId(id));
+    } catch {
+        log("store_exception");
+        return { kind: "unavailable" };
+    }
+
+    if (result.error) return { kind: readFailure(result.error, result.status, log) };
+    // maybeSingle answers null for zero rows; anything that is not a row object is a malformed reply.
+    if (result.data === null) return { kind: "not_found" };
+    if (typeof result.data !== "object") {
+        log("empty_result");
+        return { kind: "unavailable" };
+    }
+    return { kind: "ok", drill: savedDrillFromRow(result.data) };
+}
+
+export type SavedDrillPage = { kind: "ok"; drill: SavedDrill } | { kind: "not_found" } | { kind: "unavailable" } | { kind: "sign_in" };
+
+// The decision behind /{id}. A non-UUID comes first so a guest on a random path gets the same 404 as everyone
+// (no redirect oracle); a missing user redirects before the store is touched, even if the middleware let it through.
+export async function resolveSavedDrillPage(userId: string | null, id: string, store: DrillConfigurationStore | null, log?: DrillSaveLogger): Promise<SavedDrillPage> {
+    if (!isDrillId(id)) return { kind: "not_found" };
+    if (userId === null) return { kind: "sign_in" };
+    if (store === null) return { kind: "unavailable" };
+
+    const result = await getSavedDrill(store, id, log);
+    return result.kind === "unauthorized" ? { kind: "sign_in" } : result;
+}
+
+export type DashboardPage = { kind: "ok"; drills: SavedDrill[] } | { kind: "unavailable" } | { kind: "sign_in" };
+
+export async function resolveDashboardPage(userId: string | null, store: DrillConfigurationStore | null, log?: DrillSaveLogger): Promise<DashboardPage> {
+    if (userId === null) return { kind: "sign_in" };
+    if (store === null) return { kind: "unavailable" };
+
+    const result = await listSavedDrills(store, log);
+    return result.kind === "unauthorized" ? { kind: "sign_in" } : result;
 }

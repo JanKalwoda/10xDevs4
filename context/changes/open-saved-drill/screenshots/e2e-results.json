@@ -1,0 +1,144 @@
+{
+  "failed": 0,
+  "results": [
+    {
+      "name": "signed in, dashboard reached",
+      "ok": true
+    },
+    {
+      "name": "two timers saved via API",
+      "ok": true,
+      "extra": [
+        {
+          "ok": true,
+          "drill": {
+            "id": "84d69a96-6462-4731-b8c5-12a85a7e21a7",
+            "name": "E2E quick drill",
+            "configuration": {
+              "preparationSeconds": 1,
+              "exerciseSeconds": 1,
+              "restSeconds": 1,
+              "repetitions": 2,
+              "randomStartEnabled": false
+            },
+            "createdAt": "2026-10-07T00:42:16.591772+00:00",
+            "updatedAt": "2026-10-07T00:42:16.591772+00:00"
+          }
+        },
+        {
+          "ok": true,
+          "drill": {
+            "id": "7d25846a-fe62-4edc-9b32-df8681c8695b",
+            "name": "E2E cancel drill",
+            "configuration": {
+              "preparationSeconds": 1,
+              "exerciseSeconds": 5,
+              "restSeconds": 1,
+              "repetitions": 2,
+              "randomStartEnabled": false
+            },
+            "createdAt": "2026-10-07T00:42:16.664744+00:00",
+            "updatedAt": "2026-10-07T00:42:16.664744+00:00"
+          }
+        }
+      ]
+    },
+    {
+      "name": "dashboard lists both as link cards in a <ul>",
+      "ok": true,
+      "extra": [
+        "E2E cancel drill\nPrep 0:01 · Exercise 0:05 · Rest 0:01 · 2 reps",
+        "E2E quick drill\nPrep 0:01 · Exercise 0:01 · Rest 0:01 · 2 reps"
+      ]
+    },
+    {
+      "name": "2.5 keyboard Tab reaches first card, focus-visible ring present",
+      "ok": true,
+      "extra": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, oklab(0.27 -0.0646746 0.0379762 / 0.5) 0px 0px 0px 2px, rgba(0, 0, 0, 0.05) 0px 4px 8px -1px"
+    },
+    {
+      "name": "2.5 card accessible name has timer name",
+      "ok": true
+    },
+    {
+      "name": "2.3 opening a card goes to /{id}",
+      "ok": true,
+      "extra": "http://localhost:4321/7d25846a-fe62-4edc-9b32-df8681c8695b"
+    },
+    {
+      "name": "details: h1 is the timer name",
+      "ok": true
+    },
+    {
+      "name": "2.5 Start has accessible name and is keyboard-focusable",
+      "ok": true
+    },
+    {
+      "name": "2.5 Start focus-visible ring",
+      "ok": true
+    },
+    {
+      "name": "2.3 Start runs the real timer (Cancel/Restart present)",
+      "ok": true
+    },
+    {
+      "name": "2.3 timer phases advance (samples)",
+      "ok": true,
+      "extra": [
+        "Screen may lock. 0:01 Preparation · 0:01 Preparing Next: Exercise — 0:05",
+        "Screen may lock. 0:05 Exercise · 0:05 Repetition 1 of 2 Next: Rest — 0:01",
+        "Screen may lock. 0:04 Exercise · 0:05 Repetition 1 of 2 Next: Rest — 0:01"
+      ]
+    },
+    {
+      "name": "2.3 Cancel returns to the details",
+      "ok": true
+    },
+    {
+      "name": "2.3 refresh during a run shows the details, not a running timer",
+      "ok": true
+    },
+    {
+      "name": "2.3 completion shows 'Return to timer'",
+      "ok": true
+    },
+    {
+      "name": "2.3 completion return goes back to the details",
+      "ok": true
+    },
+    {
+      "name": "2.5 focus after return (recorded)",
+      "ok": true,
+      "extra": "BODY:astro-island,astro-s"
+    },
+    {
+      "name": "details has Back to dashboard link",
+      "ok": true
+    },
+    {
+      "name": "2.5 `/` still starts a drill (default timer, Drill timer h1)",
+      "ok": true
+    },
+    {
+      "name": "2.5 `/create` renders the name field",
+      "ok": true
+    },
+    {
+      "name": "2.5 /auth/signin 200 (guest ctx)",
+      "ok": true
+    },
+    {
+      "name": "2.5 GET /api/drills 404 (no GET handler, as before)",
+      "ok": true
+    },
+    {
+      "name": "page/console errors",
+      "ok": true,
+      "extra": []
+    },
+    {
+      "name": "e2e user deleted (cascade)",
+      "ok": true
+    }
+  ]
+}
