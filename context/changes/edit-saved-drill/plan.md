@@ -313,13 +313,13 @@ None. Production already has the table, policy, grant and trigger from S-10; not
 
 #### Automated
 
-- [ ] 2.1 Unit tests (controller options, port, protection): `npm test`
-- [ ] 2.2 Lint incl. contract rule on the new files: `npm run lint`
-- [ ] 2.3 Rule tests: `node --test scripts/eslint-rules/timer-ui-contract.test.mjs scripts/eslint-rules/account-entry-ui-contract.test.mjs`
-- [ ] 2.4 Types: `npx astro sync && npx astro check`
-- [ ] 2.5 Build: `npm run build`
-- [ ] 2.6 Create flow unchanged: existing `drill-create-controller` tests green without edits to their expectations
-- [ ] 2.11 Both `[id].astro` and `[id]/edit.astro` are covered by the timer UI contract (persistent test or CI step)
+- [x] 2.1 Unit tests (controller options, port, protection): `npm test` — cdb5c70
+- [x] 2.2 Lint incl. contract rule on the new files: `npm run lint` — cdb5c70
+- [x] 2.3 Rule tests: `node --test scripts/eslint-rules/timer-ui-contract.test.mjs scripts/eslint-rules/account-entry-ui-contract.test.mjs` — cdb5c70
+- [x] 2.4 Types: `npx astro sync && npx astro check` — cdb5c70
+- [x] 2.5 Build: `npm run build` — cdb5c70
+- [x] 2.6 Create flow unchanged: existing `drill-create-controller` tests green without edits to their expectations — cdb5c70
+- [x] 2.11 Both `[id].astro` and `[id]/edit.astro` are covered by the timer UI contract (persistent test or CI step) — cdb5c70
 
 #### Manual
 
