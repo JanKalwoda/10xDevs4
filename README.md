@@ -161,7 +161,7 @@ Users can then sign in immediately after sign-up without clicking a confirmation
 | `/{id}`               | Protected: one saved timer (UUID only, read-only details + Start, `Edit timer` and `Delete timer` with a confirmation dialog); foreign, unknown or non-UUID paths give the same 404 |
 | `/{id}/edit`          | Protected: edit one saved timer (name and parameters, the `/create` form prefilled, `Save changes`); foreign, unknown or non-UUID paths give the same 404 |
 
-API: `POST /api/drills` saves a timer, `PUT /api/drills/{id}` replaces the name and parameters of one of your timers (the full body, validated exactly like save; a duplicate name answers 409, foreign, missing and non-UUID ids the same 404; last write wins). `DELETE /api/drills/{id}` deletes one of your timers (204, empty body; foreign, missing, already deleted and non-UUID ids the same 404; the browser must send the app `Origin`, otherwise Astro answers 403). Both require `Content-Type: application/json`.
+API: `POST /api/drills` saves a timer, `PUT /api/drills/{id}` replaces the name and parameters of one of your timers (the full body, validated exactly like save; a duplicate name answers 409, foreign, missing and non-UUID ids the same 404; last write wins). `DELETE /api/drills/{id}` deletes one of your timers (204, empty body; foreign, missing, already deleted and non-UUID ids the same 404; the browser must send the app `Origin`, otherwise Astro answers 403). `POST` and `PUT` require `Content-Type: application/json`; `DELETE` has no body, ignores the content type and never answers 415.
 
 Route protection is handled in `src/middleware.ts`. Add paths to the `PROTECTED_ROUTES` array there to require authentication.
 

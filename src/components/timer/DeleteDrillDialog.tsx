@@ -83,7 +83,7 @@ export default function DeleteDrillDialog({ drill, deleteDrill, navigate = repla
                     </Alert>
                 ) : null}
                 <AlertDialogFooter>
-                    <AlertDialogCancel ref={cancelRef} aria-disabled={deleting || undefined}>
+                    <AlertDialogCancel ref={cancelRef} aria-disabled={deleting || undefined} className="aria-disabled:pointer-events-none aria-disabled:opacity-50">
                         Cancel
                     </AlertDialogCancel>
                     <AlertDialogAction

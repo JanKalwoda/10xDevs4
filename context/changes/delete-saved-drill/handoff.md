@@ -67,3 +67,7 @@ Notes for the coordinator:
 - The smoke cleanup removed every `smoke-*@example.com` GoTrue user on the shared stack (38, mostly leftovers of earlier runs).
 - Full smoke with Mailpit runs in CI; this phase only proved the delete steps against the preview.
 - Rows 1.8, 2.6–2.8, 3.6 and 3.7 stay unchecked for a human.
+
+## Impl-review fixes (APPROVED, 0 critical)
+
+Decisions in `reviews/impl-review.md`: F1 fixed (README ~164: POST/PUT need `application/json`; DELETE has no body and never answers 415), F2 fixed (`aria-disabled:pointer-events-none aria-disabled:opacity-50` on Cancel), F3 accepted as is (per plan). One commit; no migration, no `db push`/`db reset`. Next: PR to `main` (not merged by the agent).
