@@ -12,7 +12,15 @@ function routerPath(pathname: string): string {
     return decoded.replace(/\/{2,}/g, "/");
 }
 
+const SAVED_DRILL_PATH = /^\/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\/?$/i;
+
+// S-11: a saved timer lives at /{uuid}. Only that exact shape needs a session; any other single segment
+// stays public and renders the same 404 for everyone, so the guard is not an oracle for which paths exist.
+export function isSavedDrillPath(pathname: string): boolean {
+    return SAVED_DRILL_PATH.test(routerPath(pathname));
+}
+
 export function isProtectedPath(pathname: string): boolean {
     const path = routerPath(pathname);
-    return PROTECTED_ROUTES.some((route) => path === route || path.startsWith(route + "/"));
+    return PROTECTED_ROUTES.some((route) => path === route || path.startsWith(route + "/")) || isSavedDrillPath(pathname);
 }

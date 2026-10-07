@@ -6,7 +6,7 @@ begin;
 
 create extension if not exists pgtap with schema extensions;
 
-select plan(70);
+select plan(76);
 
 -- Fixtures: five users (A and B for ownership, L for the limit, M for the multi-row boundary,
 -- C for cascade and updated_at). Created as postgres, which bypasses RLS.
@@ -144,6 +144,63 @@ select lives_ok(
 select lives_ok(
     $$delete from public.drill_configurations where user_id = '00000000-0000-4000-8000-00000000000a'$$,
     'user B deleting user A rows is a silent no-op'
+);
+
+reset role;
+
+-- ---------------------------------------------------------------------------
+-- S-11 reads: list and open-by-id with the exact column list and ordering the app uses.
+-- A foreign id and a random id must be indistinguishable (zero rows), anon must be refused.
+-- ---------------------------------------------------------------------------
+
+select set_config('test.a_row_id', (select id::text from public.drill_configurations where name = 'Run' and user_id = '00000000-0000-4000-8000-00000000000a'), true);
+
+select set_config('request.jwt.claims', '{"sub":"00000000-0000-4000-8000-00000000000b","role":"authenticated"}', true);
+set local role authenticated;
+
+select is(
+    (select count(*) from public.drill_configurations where id = current_setting('test.a_row_id')::uuid),
+    0::bigint,
+    'user B opening user A row by id gets zero rows'
+);
+select is(
+    (select count(*) from public.drill_configurations where id = '99999999-9999-4999-8999-999999999999'),
+    0::bigint,
+    'a random id also gets zero rows (same result as a foreign id)'
+);
+select is(
+    (select count(*) from (
+        select id, name, preparation_seconds, exercise_seconds, rest_seconds, repetitions, random_start_enabled, created_at, updated_at
+        from public.drill_configurations order by created_at desc, id desc limit 50
+    ) listed),
+    1::bigint,
+    'user B list query returns only user B rows'
+);
+
+select set_config('request.jwt.claims', '{"sub":"00000000-0000-4000-8000-00000000000a","role":"authenticated"}', true);
+
+select is(
+    (select count(*) from public.drill_configurations where id = current_setting('test.a_row_id')::uuid),
+    1::bigint,
+    'user A opens own row by id'
+);
+select is(
+    (select count(*) from (
+        select id, name, preparation_seconds, exercise_seconds, rest_seconds, repetitions, random_start_enabled, created_at, updated_at
+        from public.drill_configurations order by created_at desc, id desc limit 50
+    ) listed),
+    2::bigint,
+    'user A list query returns exactly the two own rows'
+);
+
+reset role;
+set local role anon;
+
+select throws_ok(
+    $$select id, name from public.drill_configurations where id = '99999999-9999-4999-8999-999999999999'$$,
+    '42501',
+    null,
+    'anon cannot open a row by id'
 );
 
 reset role;

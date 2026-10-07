@@ -57,6 +57,8 @@ function storeReturning(result: StoreResult, inserted: DrillConfigurationInsert[
             inserted.push(row);
             return Promise.resolve(result);
         },
+        list: () => Promise.resolve({ data: [], error: null }),
+        findById: () => Promise.resolve({ data: null, error: null }),
     };
 }
 
@@ -276,7 +278,8 @@ void test("an empty result and a throwing store are unexpected, and logs carry t
     const request = { ...validRequest, name: secretName };
 
     const empty = await saveDrillConfiguration(storeReturning({ data: null, error: null }), USER_ID, request, (code) => logged.push(code));
-    const thrown = await saveDrillConfiguration({ insert: () => Promise.reject(new Error(`network down for ${secretName}`)) }, USER_ID, request, (code) => logged.push(code));
+    const throwing = { ...storeReturning({ data: null, error: null }), insert: () => Promise.reject(new Error(`network down for ${secretName}`)) };
+    const thrown = await saveDrillConfiguration(throwing, USER_ID, request, (code) => logged.push(code));
     const db = await saveDrillConfiguration(failingStore({ code: "XX000", message: `failed on ${secretName}` }), USER_ID, request, (code) => logged.push(code));
 
     assert.equal(empty.status, 500);
