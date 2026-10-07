@@ -6,7 +6,7 @@ begin;
 
 create extension if not exists pgtap with schema extensions;
 
-select plan(90);
+select plan(105);
 
 -- Fixtures: five users (A and B for ownership, L for the limit, M for the multi-row boundary,
 -- C for cascade and updated_at). Created as postgres, which bypasses RLS.
@@ -596,6 +596,118 @@ select is(
     (select count(*) from public.drill_configurations where user_id = '00000000-0000-4000-8000-00000000000d'),
     50::bigint,
     'the update neither added nor removed rows for the user at the limit'
+);
+
+-- ---------------------------------------------------------------------------
+-- S-13 delete: ownership of DELETE ... RETURNING id (the statement the app sends), siblings,
+-- name reuse and the freed slot at the 50-row limit.
+-- ---------------------------------------------------------------------------
+
+insert into public.drill_configurations (id, user_id, name, preparation_seconds, exercise_seconds, rest_seconds, repetitions)
+values
+    ('00000000-0000-4000-8000-0000000013a1', '00000000-0000-4000-8000-00000000000a', 'S13 alpha', 0, 10, 0, 1),
+    ('00000000-0000-4000-8000-0000000013a2', '00000000-0000-4000-8000-00000000000a', 'S13 beta', 0, 10, 0, 1),
+    ('00000000-0000-4000-8000-0000000013b1', '00000000-0000-4000-8000-00000000000b', 'S13 gamma', 0, 10, 0, 1);
+
+select set_config('request.jwt.claims', '{"sub":"00000000-0000-4000-8000-00000000000b","role":"authenticated"}', true);
+set local role authenticated;
+
+select is_empty(
+    $$delete from public.drill_configurations where id = '00000000-0000-4000-8000-0000000013a1' returning id$$,
+    'user B deleting user A row by id returns zero rows'
+);
+
+reset role;
+
+select is(
+    (select count(*) from public.drill_configurations where id = '00000000-0000-4000-8000-0000000013a1' and name = 'S13 alpha'),
+    1::bigint,
+    'user A row still exists after user B tried to delete it'
+);
+
+select set_config('request.jwt.claims', '{"sub":"00000000-0000-4000-8000-00000000000a","role":"authenticated"}', true);
+set local role authenticated;
+
+select isnt_empty(
+    $$delete from public.drill_configurations where id = '00000000-0000-4000-8000-0000000013a1' returning id$$,
+    'user A deleting an own row by id returns the row'
+);
+select is_empty(
+    $$delete from public.drill_configurations where id = '00000000-0000-4000-8000-0000000013a1' returning id$$,
+    'a second delete of the same id returns zero rows'
+);
+
+reset role;
+
+select is(
+    (select count(*) from public.drill_configurations where id = '00000000-0000-4000-8000-0000000013a1'),
+    0::bigint,
+    'the deleted row is gone'
+);
+select is(
+    (select count(*) from public.drill_configurations where id = '00000000-0000-4000-8000-0000000013a2' and name = 'S13 beta'),
+    1::bigint,
+    'a sibling of the same user is untouched'
+);
+select is(
+    (select count(*) from public.drill_configurations where id = '00000000-0000-4000-8000-0000000013b1' and name = 'S13 gamma'),
+    1::bigint,
+    'another user row is untouched'
+);
+
+select set_config('request.jwt.claims', '{"sub":"00000000-0000-4000-8000-00000000000a","role":"authenticated"}', true);
+set local role authenticated;
+
+select lives_ok(
+    $$insert into public.drill_configurations (name, preparation_seconds, exercise_seconds, rest_seconds, repetitions) values ('S13 alpha', 0, 10, 0, 1)$$,
+    'the name of a deleted timer can be used again'
+);
+select isnt_empty(
+    $$delete from public.drill_configurations where name = 'S13 alpha' returning id$$,
+    'the re-created timer can be deleted again'
+);
+select lives_ok(
+    $$insert into public.drill_configurations (name, preparation_seconds, exercise_seconds, rest_seconds, repetitions) values ('S13 ALPHA', 0, 10, 0, 1)$$,
+    'the same name in another case can be used after a delete'
+);
+
+reset role;
+set local role anon;
+
+select throws_ok(
+    $$delete from public.drill_configurations where id = '00000000-0000-4000-8000-0000000013a2' returning id$$,
+    '42501',
+    null,
+    'anon cannot delete'
+);
+
+reset role;
+
+select set_config('request.jwt.claims', '{"sub":"00000000-0000-4000-8000-00000000000d","role":"authenticated"}', true);
+set local role authenticated;
+
+select isnt_empty(
+    $$delete from public.drill_configurations where name = 'limit 2' returning id$$,
+    'a user at the 50-row limit can delete one row'
+);
+select throws_ok(
+    $$insert into public.drill_configurations (name, preparation_seconds, exercise_seconds, rest_seconds, repetitions)
+      values ('S13 over a', 0, 10, 0, 1), ('S13 over b', 0, 10, 0, 1)$$,
+    '54000',
+    'drill_configuration_limit_reached',
+    'one freed slot is one slot: two inserts are still over the limit'
+);
+select lives_ok(
+    $$insert into public.drill_configurations (name, preparation_seconds, exercise_seconds, rest_seconds, repetitions) values ('S13 refill', 0, 10, 0, 1)$$,
+    'the freed slot can be used by one insert'
+);
+
+reset role;
+
+select is(
+    (select count(*) from public.drill_configurations where user_id = '00000000-0000-4000-8000-00000000000d'),
+    50::bigint,
+    'the user at the limit is back at exactly 50 rows'
 );
 
 -- ---------------------------------------------------------------------------

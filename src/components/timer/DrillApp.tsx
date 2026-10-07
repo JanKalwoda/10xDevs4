@@ -52,6 +52,9 @@ export function DrillCompleted({ onReturn, returnLabel = "Return to configuratio
     );
 }
 
+// Shared with the /dev/timer-ui fixture: a long name without spaces must wrap inside the header instead of widening the page.
+export const SAVED_DRILL_HEADING_CLASS = "min-w-0 text-center text-3xl font-bold wrap-anywhere outline-none";
+
 // With savedDrill the app runs that stored timer: read-only details instead of the configuration form.
 export default function DrillApp({ savedDrill }: { savedDrill?: SavedDrill }) {
     const [values, setValues] = useState<DrillConfigInput>(DEFAULT_VALUES);
@@ -118,11 +121,7 @@ export default function DrillApp({ savedDrill }: { savedDrill?: SavedDrill }) {
             <Card className="w-full max-w-md">
                 <CardHeader className="flex flex-row items-center justify-between">
                     <span aria-hidden="true" className="size-9" />
-                    <h1
-                        ref={headingRef}
-                        tabIndex={-1}
-                        className={savedDrill ? "text-center text-3xl font-bold break-words outline-none" : "text-center text-3xl font-bold outline-none"}
-                    >
+                    <h1 ref={headingRef} tabIndex={-1} className={savedDrill ? SAVED_DRILL_HEADING_CLASS : "text-center text-3xl font-bold outline-none"}>
                         {savedDrill ? savedDrill.name : "Drill timer"}
                     </h1>
                     <ThemeToggle />

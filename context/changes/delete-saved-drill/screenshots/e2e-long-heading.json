@@ -1,0 +1,57 @@
+{
+  "scripted": true,
+  "failed": 0,
+  "total": 10,
+  "results": [
+    {
+      "name": "created zzzzzzzz",
+      "ok": true,
+      "extra": "201"
+    },
+    {
+      "name": "created Sibling ",
+      "ok": true,
+      "extra": "201"
+    },
+    {
+      "name": "390px: page has no horizontal scroll",
+      "ok": true,
+      "extra": "{\"docScroll\":390,\"vw\":390,\"right\":305,\"left\":52.03125,\"text\":200}"
+    },
+    {
+      "name": "390px: the full 200-character name is rendered inside the viewport",
+      "ok": true,
+      "extra": "{\"docScroll\":390,\"vw\":390,\"right\":305,\"left\":52.03125,\"text\":200}"
+    },
+    {
+      "name": "1280px: page has no horizontal scroll",
+      "ok": true,
+      "extra": "{\"docScroll\":1280,\"vw\":1280,\"right\":795,\"left\":453.109375,\"text\":200}"
+    },
+    {
+      "name": "1280px: the full 200-character name is rendered inside the viewport",
+      "ok": true,
+      "extra": "{\"docScroll\":1280,\"vw\":1280,\"right\":795,\"left\":453.109375,\"text\":200}"
+    },
+    {
+      "name": "delete through the dialog sends one DELETE and lands on /dashboard",
+      "ok": true,
+      "extra": "1"
+    },
+    {
+      "name": "dashboard no longer lists the deleted timer and keeps the sibling",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "the sibling timer page still opens",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "no page errors",
+      "ok": true,
+      "extra": ""
+    }
+  ]
+}

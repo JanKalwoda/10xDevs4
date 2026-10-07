@@ -1,7 +1,16 @@
+import { SAVED_DRILL_HEADING_CLASS } from "@/components/timer/DrillApp";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import SavedDrillDetails from "@/components/timer/SavedDrillDetails";
 import SavedDrillList, { type SavedDrillListState } from "@/components/timer/SavedDrillList";
+import type { DeleteDrillPort } from "@/lib/drill-delete-controller";
 import type { SavedDrill } from "@/types";
+
+// The preview must never delete anything: the Delete in these cards is wired to inert ports.
+const INERT_DELETE: { deleteDrill: DeleteDrillPort; navigate: () => void } = {
+    deleteDrill: () => Promise.resolve({ ok: false, code: "unavailable" }),
+    navigate: () => undefined,
+};
+const LONG_HEADING_DRILL: SavedDrill = makeDrill(4, "y".repeat(200));
 
 function makeDrill(index: number, name: string, overrides: Partial<SavedDrill["configuration"]> = {}): SavedDrill {
     return {
@@ -82,11 +91,25 @@ export default function SavedDrillFixtures() {
                     <CardHeader>
                         <CardTitle>Morning drill</CardTitle>
                         <CardDescription>
-                            Saved timer details with the Edit action (the name is the page heading in production). Hover and focus-visible are scripted on Edit timer.
+                            Saved timer details with the Edit and Delete timer actions (the name is the page heading in production). Hover and focus-visible are scripted on Edit
+                            timer and Delete timer.
                         </CardDescription>
                     </CardHeader>
                     <CardContent>
-                        <SavedDrillDetails drill={SHORT_LIST[0]} onStart={() => undefined} />
+                        <SavedDrillDetails drill={SHORT_LIST[0]} onStart={() => undefined} deletePorts={INERT_DELETE} />
+                    </CardContent>
+                </Card>
+                <Card className="min-w-0" data-fixture="saved-page-long-name" data-testid="saved-page-long-name" data-visual-state="default">
+                    <CardHeader className="flex flex-row items-center justify-between">
+                        <span aria-hidden="true" className="size-9" />
+                        <h1 className={SAVED_DRILL_HEADING_CLASS}>{LONG_HEADING_DRILL.name}</h1>
+                        <span aria-hidden="true" className="size-9" />
+                    </CardHeader>
+                    <CardContent className="space-y-4">
+                        <p className="text-muted-foreground text-sm">
+                            The `DrillApp` header (same classes) with a 200-character name without spaces: it wraps instead of widening the page (regression of S-11, fixed in
+                            S-13). The full page is verified over HTTP on the preview.
+                        </p>
                     </CardContent>
                 </Card>
             </div>

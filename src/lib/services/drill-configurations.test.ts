@@ -60,6 +60,7 @@ function storeReturning(result: StoreResult, inserted: DrillConfigurationInsert[
         list: () => Promise.resolve({ data: [], error: null }),
         findById: () => Promise.resolve({ data: null, error: null }),
         update: () => Promise.reject(new Error("update is not used when saving")),
+        delete: () => Promise.reject(new Error("delete is not used when saving")),
     };
 }
 

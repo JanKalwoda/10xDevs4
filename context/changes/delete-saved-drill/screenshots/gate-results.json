@@ -1,0 +1,1207 @@
+{
+  "scripted": true,
+  "failed": 0,
+  "total": 240,
+  "results": [
+    {
+      "name": "light-1280 theme class",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "light-1280 details: Delete timer trigger and Edit timer both in the actions slot",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "light-1280 details: Start stays the primary action",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "light-1280 trigger text contrast >= 4.5",
+      "ok": true,
+      "extra": "5.49"
+    },
+    {
+      "name": "light-1280 trigger hover changes the background",
+      "ok": true,
+      "extra": "oklch(0.9751 0.0127 244.251) -> oklch(0.9505 0.0507 163.051)"
+    },
+    {
+      "name": "light-1280 trigger hover text contrast >= 4.5",
+      "ok": true,
+      "extra": "5.19"
+    },
+    {
+      "name": "light-1280 trigger keyboard focus",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "light-1280 trigger focus-visible ring",
+      "ok": true,
+      "extra": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, oklab(0.27 -0.0646748 0.0379759 / 0.0163989) 0px 0px 0px 0.0983932px, rgba(0, 0, 0, 0.05) 0px 4px 8px -1px"
+    },
+    {
+      "name": "light-1280 long heading wraps inside the page card",
+      "ok": true,
+      "extra": "{\"right\":1161.90625,\"cardRight\":1200,\"sw\":546,\"cw\":546,\"h\":288}"
+    },
+    {
+      "name": "light-1280 inert Delete in the previews sends no API request",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "light-1280 default: named \"Delete timer?\" and described",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "light-1280 default: initial focus is Cancel",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "light-1280 default: dialog fully visible",
+      "ok": true,
+      "extra": "{\"l\":385.61834716796875,\"r\":894.3816528320312,\"t\":322.49310302734375,\"b\":477.50689697265625,\"vw\":1280,\"vh\":800}"
+    },
+    {
+      "name": "light-1280 default: overlay uses the token (not transparent)",
+      "ok": true,
+      "extra": "oklch(0 0 0 / 0.5)"
+    },
+    {
+      "name": "light-1280 Delete button text contrast >= 4.5",
+      "ok": true,
+      "extra": "5.89"
+    },
+    {
+      "name": "light-1280 measured Delete button contrast",
+      "ok": true,
+      "extra": "5.89"
+    },
+    {
+      "name": "light-1280 Delete hover changes the background",
+      "ok": true,
+      "extra": "oklch(0.53 0.2078 25.3313) -> oklab(0.53 0.18782 0.0889076 / 0.9)"
+    },
+    {
+      "name": "light-1280 Delete hover contrast >= 4.5",
+      "ok": true,
+      "extra": "5.32"
+    },
+    {
+      "name": "light-1280 Cancel hover changes the background",
+      "ok": true,
+      "extra": "oklch(0.9751 0.0127 244.251) -> oklch(0.9505 0.0507 163.051)"
+    },
+    {
+      "name": "light-1280 Cancel focus-visible ring (initial focus)",
+      "ok": true,
+      "extra": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, oklab(0.27 -0.0646748 0.0379759 / 0.5) 0px 0px 0px 3px, rgba(0, 0, 0, 0.05) 0px 4px 8px -1px"
+    },
+    {
+      "name": "light-1280 Tab reaches Delete",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "light-1280 Delete focus-visible ring",
+      "ok": true,
+      "extra": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, oklab(0.27 -0.0646748 0.0379759 / 0.0163989) 0px 0px 0px 0.0983932px, rgba(0, 0, 0, 0.05) 0px 4px 8px -1px"
+    },
+    {
+      "name": "light-1280 Esc returns focus to the trigger",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "light-1280 default: no API request from the preview",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "light-1280 long-name: named \"Delete timer?\" and described",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "light-1280 long-name: initial focus is Cancel",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "light-1280 long-name: dialog inside the viewport without overflow",
+      "ok": true,
+      "extra": "{\"l\":384.2110595703125,\"r\":895.7889404296875,\"vw\":1280,\"sw\":510,\"cw\":510,\"doc\":1280}"
+    },
+    {
+      "name": "light-1280 long-name: dialog fully visible",
+      "ok": true,
+      "extra": "{\"l\":384.04974365234375,\"r\":895.9502563476562,\"t\":292.02099609375,\"b\":507.97900390625,\"vw\":1280,\"vh\":800}"
+    },
+    {
+      "name": "light-1280 long-name: overlay uses the token (not transparent)",
+      "ok": true,
+      "extra": "oklch(0 0 0 / 0.5)"
+    },
+    {
+      "name": "light-1280 long-name: no API request from the preview",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "light-1280 emoji-name: named \"Delete timer?\" and described",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "light-1280 emoji-name: initial focus is Cancel",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "light-1280 emoji-name: dialog inside the viewport without overflow",
+      "ok": true,
+      "extra": "{\"l\":384.21160888671875,\"r\":895.7883911132812,\"vw\":1280,\"sw\":510,\"cw\":510,\"doc\":1280}"
+    },
+    {
+      "name": "light-1280 emoji-name: dialog fully visible",
+      "ok": true,
+      "extra": "{\"l\":384.0500183105469,\"r\":895.949951171875,\"t\":322.0152282714844,\"b\":477.9847717285156,\"vw\":1280,\"vh\":800}"
+    },
+    {
+      "name": "light-1280 emoji-name: overlay uses the token (not transparent)",
+      "ok": true,
+      "extra": "oklch(0 0 0 / 0.5)"
+    },
+    {
+      "name": "light-1280 emoji-name: no API request from the preview",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "light-1280 deleting: named \"Delete timer?\" and described",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "light-1280 deleting: initial focus is Cancel",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "light-1280 deleting: aria-disabled, no disabled attribute, dimmed, not clickable",
+      "ok": true,
+      "extra": "opacity 0.5 pe none"
+    },
+    {
+      "name": "light-1280 deleting: Esc does not dismiss",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "light-1280 deleting: dialog fully visible",
+      "ok": true,
+      "extra": "{\"l\":384,\"r\":896,\"t\":322,\"b\":478,\"vw\":1280,\"vh\":800}"
+    },
+    {
+      "name": "light-1280 deleting: overlay uses the token (not transparent)",
+      "ok": true,
+      "extra": "oklch(0 0 0 / 0.5)"
+    },
+    {
+      "name": "light-1280 deleting: no API request from the preview",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "light-1280 error: named \"Delete timer?\" and described",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "light-1280 error: initial focus is Cancel",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "light-1280 error: alert text",
+      "ok": true,
+      "extra": "Deleting timers is temporarily unavailable. Please try again later."
+    },
+    {
+      "name": "light-1280 error: focus moved to Cancel and dialog still open",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "light-1280 error: no sign-in link",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "light-1280 error: dialog fully visible",
+      "ok": true,
+      "extra": "{\"l\":384,\"r\":896,\"t\":289.625,\"b\":510.375,\"vw\":1280,\"vh\":800}"
+    },
+    {
+      "name": "light-1280 error: overlay uses the token (not transparent)",
+      "ok": true,
+      "extra": "oklch(0 0 0 / 0.5)"
+    },
+    {
+      "name": "light-1280 error: no API request from the preview",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "light-1280 unauthorized: named \"Delete timer?\" and described",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "light-1280 unauthorized: initial focus is Cancel",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "light-1280 unauthorized: alert text",
+      "ok": true,
+      "extra": "Sign in to delete this timer. |  | Sign in"
+    },
+    {
+      "name": "light-1280 unauthorized: focus moved to Cancel and dialog still open",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "light-1280 unauthorized: sign-in link returns to the timer",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "light-1280 unauthorized: dialog fully visible",
+      "ok": true,
+      "extra": "{\"l\":384,\"r\":896,\"t\":271.625,\"b\":528.375,\"vw\":1280,\"vh\":800}"
+    },
+    {
+      "name": "light-1280 unauthorized: overlay uses the token (not transparent)",
+      "ok": true,
+      "extra": "oklch(0 0 0 / 0.5)"
+    },
+    {
+      "name": "light-1280 unauthorized: no API request from the preview",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "light-1280 no page errors",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "light-390 theme class",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "light-390 details: Delete timer trigger and Edit timer both in the actions slot",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "light-390 details: Start stays the primary action",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "light-390 trigger text contrast >= 4.5",
+      "ok": true,
+      "extra": "5.49"
+    },
+    {
+      "name": "light-390 trigger hover changes the background",
+      "ok": true,
+      "extra": "oklch(0.9751 0.0127 244.251) -> oklch(0.9505 0.0507 163.051)"
+    },
+    {
+      "name": "light-390 trigger hover text contrast >= 4.5",
+      "ok": true,
+      "extra": "5.19"
+    },
+    {
+      "name": "light-390 trigger keyboard focus",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "light-390 trigger focus-visible ring",
+      "ok": true,
+      "extra": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, oklab(0.27 -0.0646748 0.0379759 / 0.016475) 0px 0px 0px 0.09885px, rgba(0, 0, 0, 0.05) 0px 4px 8px -1px"
+    },
+    {
+      "name": "light-390 long heading wraps inside the page card",
+      "ok": true,
+      "extra": "{\"right\":337.921875,\"cardRight\":374,\"sw\":356,\"cw\":356,\"h\":432}"
+    },
+    {
+      "name": "light-390 inert Delete in the previews sends no API request",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "light-390 default: named \"Delete timer?\" and described",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "light-390 default: initial focus is Cancel",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "light-390 default: dialog fully visible",
+      "ok": true,
+      "extra": "{\"l\":17.13055419921875,\"r\":372.86944580078125,\"t\":312.69476318359375,\"b\":531.3052368164062,\"vw\":390,\"vh\":844}"
+    },
+    {
+      "name": "light-390 default: overlay uses the token (not transparent)",
+      "ok": true,
+      "extra": "oklch(0 0 0 / 0.5)"
+    },
+    {
+      "name": "light-390 Delete button text contrast >= 4.5",
+      "ok": true,
+      "extra": "5.89"
+    },
+    {
+      "name": "light-390 measured Delete button contrast",
+      "ok": true,
+      "extra": "5.89"
+    },
+    {
+      "name": "light-390 Delete hover changes the background",
+      "ok": true,
+      "extra": "oklch(0.53 0.2078 25.3313) -> oklab(0.53 0.18782 0.0889076 / 0.9)"
+    },
+    {
+      "name": "light-390 Delete hover contrast >= 4.5",
+      "ok": true,
+      "extra": "5.32"
+    },
+    {
+      "name": "light-390 Cancel hover changes the background",
+      "ok": true,
+      "extra": "oklch(0.9751 0.0127 244.251) -> oklch(0.9505 0.0507 163.051)"
+    },
+    {
+      "name": "light-390 Cancel focus-visible ring (initial focus)",
+      "ok": true,
+      "extra": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, oklab(0.27 -0.0646748 0.0379759 / 0.5) 0px 0px 0px 3px, rgba(0, 0, 0, 0.05) 0px 4px 8px -1px"
+    },
+    {
+      "name": "light-390 Tab reaches Delete",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "light-390 Delete focus-visible ring",
+      "ok": true,
+      "extra": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, oklab(0.27 -0.0646748 0.0379759 / 0.0875752) 0px 0px 0px 0.525451px, rgba(0, 0, 0, 0.05) 0px 4px 8px -1px"
+    },
+    {
+      "name": "light-390 Esc returns focus to the trigger",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "light-390 default: no API request from the preview",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "light-390 long-name: named \"Delete timer?\" and described",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "light-390 long-name: initial focus is Cancel",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "light-390 long-name: dialog inside the viewport without overflow",
+      "ok": true,
+      "extra": "{\"l\":16,\"r\":374,\"vw\":390,\"sw\":356,\"cw\":356,\"doc\":414}"
+    },
+    {
+      "name": "light-390 long-name: dialog fully visible",
+      "ok": true,
+      "extra": "{\"l\":16,\"r\":374,\"t\":272,\"b\":572,\"vw\":390,\"vh\":844}"
+    },
+    {
+      "name": "light-390 long-name: overlay uses the token (not transparent)",
+      "ok": true,
+      "extra": "oklch(0 0 0 / 0.5)"
+    },
+    {
+      "name": "light-390 long-name: no API request from the preview",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "light-390 emoji-name: named \"Delete timer?\" and described",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "light-390 emoji-name: initial focus is Cancel",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "light-390 emoji-name: dialog inside the viewport without overflow",
+      "ok": true,
+      "extra": "{\"l\":16,\"r\":374,\"vw\":390,\"sw\":356,\"cw\":356,\"doc\":414}"
+    },
+    {
+      "name": "light-390 emoji-name: dialog fully visible",
+      "ok": true,
+      "extra": "{\"l\":16,\"r\":374,\"t\":312,\"b\":532,\"vw\":390,\"vh\":844}"
+    },
+    {
+      "name": "light-390 emoji-name: overlay uses the token (not transparent)",
+      "ok": true,
+      "extra": "oklch(0 0 0 / 0.5)"
+    },
+    {
+      "name": "light-390 emoji-name: no API request from the preview",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "light-390 deleting: named \"Delete timer?\" and described",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "light-390 deleting: initial focus is Cancel",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "light-390 deleting: aria-disabled, no disabled attribute, dimmed, not clickable",
+      "ok": true,
+      "extra": "opacity 0.5 pe none"
+    },
+    {
+      "name": "light-390 deleting: Esc does not dismiss",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "light-390 deleting: dialog fully visible",
+      "ok": true,
+      "extra": "{\"l\":16,\"r\":374,\"t\":312,\"b\":532,\"vw\":390,\"vh\":844}"
+    },
+    {
+      "name": "light-390 deleting: overlay uses the token (not transparent)",
+      "ok": true,
+      "extra": "oklch(0 0 0 / 0.5)"
+    },
+    {
+      "name": "light-390 deleting: no API request from the preview",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "light-390 error: named \"Delete timer?\" and described",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "light-390 error: initial focus is Cancel",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "light-390 error: alert text",
+      "ok": true,
+      "extra": "Deleting timers is temporarily unavailable. Please try again later."
+    },
+    {
+      "name": "light-390 error: focus moved to Cancel and dialog still open",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "light-390 error: no sign-in link",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "light-390 error: dialog fully visible",
+      "ok": true,
+      "extra": "{\"l\":16,\"r\":374,\"t\":268.25,\"b\":575.75,\"vw\":390,\"vh\":844}"
+    },
+    {
+      "name": "light-390 error: overlay uses the token (not transparent)",
+      "ok": true,
+      "extra": "oklch(0 0 0 / 0.5)"
+    },
+    {
+      "name": "light-390 error: no API request from the preview",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "light-390 unauthorized: named \"Delete timer?\" and described",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "light-390 unauthorized: initial focus is Cancel",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "light-390 unauthorized: alert text",
+      "ok": true,
+      "extra": "Sign in to delete this timer. |  | Sign in"
+    },
+    {
+      "name": "light-390 unauthorized: focus moved to Cancel and dialog still open",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "light-390 unauthorized: sign-in link returns to the timer",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "light-390 unauthorized: dialog fully visible",
+      "ok": true,
+      "extra": "{\"l\":16,\"r\":374,\"t\":261.625,\"b\":582.375,\"vw\":390,\"vh\":844}"
+    },
+    {
+      "name": "light-390 unauthorized: overlay uses the token (not transparent)",
+      "ok": true,
+      "extra": "oklch(0 0 0 / 0.5)"
+    },
+    {
+      "name": "light-390 unauthorized: no API request from the preview",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "light-390 no page errors",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "dark-1280 theme class",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "dark-1280 details: Delete timer trigger and Edit timer both in the actions slot",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "dark-1280 details: Start stays the primary action",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "dark-1280 trigger text contrast >= 4.5",
+      "ok": true,
+      "extra": "5.67"
+    },
+    {
+      "name": "dark-1280 trigger hover changes the background",
+      "ok": true,
+      "extra": "oklab(0.4461 -0.00600482 -0.0256053 / 0.3) -> oklab(0.4461 -0.00600482 -0.0256053 / 0.5)"
+    },
+    {
+      "name": "dark-1280 trigger hover text contrast >= 4.5",
+      "ok": true,
+      "extra": "4.78"
+    },
+    {
+      "name": "dark-1280 trigger keyboard focus",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "dark-1280 trigger focus-visible ring",
+      "ok": true,
+      "extra": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, oklab(0.7729 -0.146966 0.0443071 / 0.228608) 0px 0px 0px 1.37165px, rgba(0, 0, 0, 0.05) 0px 4px 8px -1px"
+    },
+    {
+      "name": "dark-1280 long heading wraps inside the page card",
+      "ok": true,
+      "extra": "{\"right\":1161.90625,\"cardRight\":1200,\"sw\":546,\"cw\":546,\"h\":288}"
+    },
+    {
+      "name": "dark-1280 inert Delete in the previews sends no API request",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "dark-1280 default: named \"Delete timer?\" and described",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "dark-1280 default: initial focus is Cancel",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "dark-1280 default: dialog fully visible",
+      "ok": true,
+      "extra": "{\"l\":385.61834716796875,\"r\":894.3816528320312,\"t\":322.49310302734375,\"b\":477.50689697265625,\"vw\":1280,\"vh\":800}"
+    },
+    {
+      "name": "dark-1280 default: overlay uses the token (not transparent)",
+      "ok": true,
+      "extra": "oklch(0 0 0 / 0.7)"
+    },
+    {
+      "name": "dark-1280 Delete button text contrast >= 4.5",
+      "ok": true,
+      "extra": "7.04"
+    },
+    {
+      "name": "dark-1280 measured Delete button contrast",
+      "ok": true,
+      "extra": "7.04"
+    },
+    {
+      "name": "dark-1280 Delete hover changes the background",
+      "ok": true,
+      "extra": "oklch(0.74 0.17 25.3313) -> oklab(0.74 0.153654 0.0727348 / 0.9)"
+    },
+    {
+      "name": "dark-1280 Delete hover contrast >= 4.5",
+      "ok": true,
+      "extra": "6.03"
+    },
+    {
+      "name": "dark-1280 Cancel hover changes the background",
+      "ok": true,
+      "extra": "oklab(0.4461 -0.00600482 -0.0256053 / 0.3) -> oklab(0.4461 -0.00600482 -0.0256053 / 0.5)"
+    },
+    {
+      "name": "dark-1280 Cancel focus-visible ring (initial focus)",
+      "ok": true,
+      "extra": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, oklab(0.7729 -0.146966 0.0443071 / 0.5) 0px 0px 0px 3px, rgba(0, 0, 0, 0.05) 0px 4px 8px -1px"
+    },
+    {
+      "name": "dark-1280 Tab reaches Delete",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "dark-1280 Delete focus-visible ring",
+      "ok": true,
+      "extra": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, oklab(0.74 0.153654 0.0727348 / 0.182887) 0px 0px 0px 1.37165px, rgba(0, 0, 0, 0.05) 0px 4px 8px -1px"
+    },
+    {
+      "name": "dark-1280 Esc returns focus to the trigger",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "dark-1280 default: no API request from the preview",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "dark-1280 long-name: named \"Delete timer?\" and described",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "dark-1280 long-name: initial focus is Cancel",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "dark-1280 long-name: dialog inside the viewport without overflow",
+      "ok": true,
+      "extra": "{\"l\":384.95880126953125,\"r\":895.0411987304688,\"vw\":1280,\"sw\":510,\"cw\":510,\"doc\":1280}"
+    },
+    {
+      "name": "dark-1280 long-name: dialog fully visible",
+      "ok": true,
+      "extra": "{\"l\":384.21014404296875,\"r\":895.7898559570312,\"t\":292.0886535644531,\"b\":507.9113464355469,\"vw\":1280,\"vh\":800}"
+    },
+    {
+      "name": "dark-1280 long-name: overlay uses the token (not transparent)",
+      "ok": true,
+      "extra": "oklch(0 0 0 / 0.7)"
+    },
+    {
+      "name": "dark-1280 long-name: no API request from the preview",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "dark-1280 emoji-name: named \"Delete timer?\" and described",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "dark-1280 emoji-name: initial focus is Cancel",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "dark-1280 emoji-name: dialog inside the viewport without overflow",
+      "ok": true,
+      "extra": "{\"l\":384.2105712890625,\"r\":895.7894287109375,\"vw\":1280,\"sw\":510,\"cw\":510,\"doc\":1280}"
+    },
+    {
+      "name": "dark-1280 emoji-name: dialog fully visible",
+      "ok": true,
+      "extra": "{\"l\":384.0495300292969,\"r\":895.950439453125,\"t\":322.0151062011719,\"b\":477.9848937988281,\"vw\":1280,\"vh\":800}"
+    },
+    {
+      "name": "dark-1280 emoji-name: overlay uses the token (not transparent)",
+      "ok": true,
+      "extra": "oklch(0 0 0 / 0.7)"
+    },
+    {
+      "name": "dark-1280 emoji-name: no API request from the preview",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "dark-1280 deleting: named \"Delete timer?\" and described",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "dark-1280 deleting: initial focus is Cancel",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "dark-1280 deleting: aria-disabled, no disabled attribute, dimmed, not clickable",
+      "ok": true,
+      "extra": "opacity 0.5 pe none"
+    },
+    {
+      "name": "dark-1280 deleting: Esc does not dismiss",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "dark-1280 deleting: dialog fully visible",
+      "ok": true,
+      "extra": "{\"l\":384,\"r\":896,\"t\":322,\"b\":478,\"vw\":1280,\"vh\":800}"
+    },
+    {
+      "name": "dark-1280 deleting: overlay uses the token (not transparent)",
+      "ok": true,
+      "extra": "oklch(0 0 0 / 0.7)"
+    },
+    {
+      "name": "dark-1280 deleting: no API request from the preview",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "dark-1280 error: named \"Delete timer?\" and described",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "dark-1280 error: initial focus is Cancel",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "dark-1280 error: alert text",
+      "ok": true,
+      "extra": "Deleting timers is temporarily unavailable. Please try again later."
+    },
+    {
+      "name": "dark-1280 error: focus moved to Cancel and dialog still open",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "dark-1280 error: no sign-in link",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "dark-1280 error: dialog fully visible",
+      "ok": true,
+      "extra": "{\"l\":384,\"r\":896,\"t\":289.625,\"b\":510.375,\"vw\":1280,\"vh\":800}"
+    },
+    {
+      "name": "dark-1280 error: overlay uses the token (not transparent)",
+      "ok": true,
+      "extra": "oklch(0 0 0 / 0.7)"
+    },
+    {
+      "name": "dark-1280 error: no API request from the preview",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "dark-1280 unauthorized: named \"Delete timer?\" and described",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "dark-1280 unauthorized: initial focus is Cancel",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "dark-1280 unauthorized: alert text",
+      "ok": true,
+      "extra": "Sign in to delete this timer. |  | Sign in"
+    },
+    {
+      "name": "dark-1280 unauthorized: focus moved to Cancel and dialog still open",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "dark-1280 unauthorized: sign-in link returns to the timer",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "dark-1280 unauthorized: dialog fully visible",
+      "ok": true,
+      "extra": "{\"l\":384,\"r\":896,\"t\":271.625,\"b\":528.375,\"vw\":1280,\"vh\":800}"
+    },
+    {
+      "name": "dark-1280 unauthorized: overlay uses the token (not transparent)",
+      "ok": true,
+      "extra": "oklch(0 0 0 / 0.7)"
+    },
+    {
+      "name": "dark-1280 unauthorized: no API request from the preview",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "dark-1280 no page errors",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "dark-390 theme class",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "dark-390 details: Delete timer trigger and Edit timer both in the actions slot",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "dark-390 details: Start stays the primary action",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "dark-390 trigger text contrast >= 4.5",
+      "ok": true,
+      "extra": "5.67"
+    },
+    {
+      "name": "dark-390 trigger hover changes the background",
+      "ok": true,
+      "extra": "oklab(0.4461 -0.00600482 -0.0256053 / 0.3) -> oklab(0.4461 -0.00600482 -0.0256053 / 0.5)"
+    },
+    {
+      "name": "dark-390 trigger hover text contrast >= 4.5",
+      "ok": true,
+      "extra": "4.78"
+    },
+    {
+      "name": "dark-390 trigger keyboard focus",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "dark-390 trigger focus-visible ring",
+      "ok": true,
+      "extra": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, oklab(0 0 0 / 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.05) 0px 4px 8px -1px"
+    },
+    {
+      "name": "dark-390 long heading wraps inside the page card",
+      "ok": true,
+      "extra": "{\"right\":337.921875,\"cardRight\":374,\"sw\":356,\"cw\":356,\"h\":432}"
+    },
+    {
+      "name": "dark-390 inert Delete in the previews sends no API request",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "dark-390 default: named \"Delete timer?\" and described",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "dark-390 default: initial focus is Cancel",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "dark-390 default: dialog fully visible",
+      "ok": true,
+      "extra": "{\"l\":17.13055419921875,\"r\":372.86944580078125,\"t\":312.69476318359375,\"b\":531.3052368164062,\"vw\":390,\"vh\":844}"
+    },
+    {
+      "name": "dark-390 default: overlay uses the token (not transparent)",
+      "ok": true,
+      "extra": "oklch(0 0 0 / 0.7)"
+    },
+    {
+      "name": "dark-390 Delete button text contrast >= 4.5",
+      "ok": true,
+      "extra": "7.04"
+    },
+    {
+      "name": "dark-390 measured Delete button contrast",
+      "ok": true,
+      "extra": "7.04"
+    },
+    {
+      "name": "dark-390 Delete hover changes the background",
+      "ok": true,
+      "extra": "oklch(0.74 0.17 25.3313) -> oklab(0.74 0.153654 0.0727348 / 0.9)"
+    },
+    {
+      "name": "dark-390 Delete hover contrast >= 4.5",
+      "ok": true,
+      "extra": "6.03"
+    },
+    {
+      "name": "dark-390 Cancel hover changes the background",
+      "ok": true,
+      "extra": "oklab(0.4461 -0.00600482 -0.0256053 / 0.3) -> oklab(0.4461 -0.00600482 -0.0256053 / 0.5)"
+    },
+    {
+      "name": "dark-390 Cancel focus-visible ring (initial focus)",
+      "ok": true,
+      "extra": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, oklab(0.7729 -0.146966 0.0443071 / 0.5) 0px 0px 0px 3px, rgba(0, 0, 0, 0.05) 0px 4px 8px -1px"
+    },
+    {
+      "name": "dark-390 Tab reaches Delete",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "dark-390 Delete focus-visible ring",
+      "ok": true,
+      "extra": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, oklab(0.74 0.153654 0.0727348 / 0.0131191) 0px 0px 0px 0.0983932px, rgba(0, 0, 0, 0.05) 0px 4px 8px -1px"
+    },
+    {
+      "name": "dark-390 Esc returns focus to the trigger",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "dark-390 default: no API request from the preview",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "dark-390 long-name: named \"Delete timer?\" and described",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "dark-390 long-name: initial focus is Cancel",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "dark-390 long-name: dialog inside the viewport without overflow",
+      "ok": true,
+      "extra": "{\"l\":16.353300094604492,\"r\":373.64669609069824,\"vw\":390,\"sw\":356,\"cw\":356,\"doc\":414}"
+    },
+    {
+      "name": "dark-390 long-name: dialog fully visible",
+      "ok": true,
+      "extra": "{\"l\":16.353300094604492,\"r\":373.64669609069824,\"t\":272.2960510253906,\"b\":571.7039184570312,\"vw\":390,\"vh\":844}"
+    },
+    {
+      "name": "dark-390 long-name: overlay uses the token (not transparent)",
+      "ok": true,
+      "extra": "oklch(0 0 0 / 0.7)"
+    },
+    {
+      "name": "dark-390 long-name: no API request from the preview",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "dark-390 emoji-name: named \"Delete timer?\" and described",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "dark-390 emoji-name: initial focus is Cancel",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "dark-390 emoji-name: dialog inside the viewport without overflow",
+      "ok": true,
+      "extra": "{\"l\":16.034503936767578,\"r\":373.9654731750488,\"vw\":390,\"sw\":356,\"cw\":356,\"doc\":414}"
+    },
+    {
+      "name": "dark-390 emoji-name: dialog fully visible",
+      "ok": true,
+      "extra": "{\"l\":16,\"r\":374,\"t\":312,\"b\":532,\"vw\":390,\"vh\":844}"
+    },
+    {
+      "name": "dark-390 emoji-name: overlay uses the token (not transparent)",
+      "ok": true,
+      "extra": "oklch(0 0 0 / 0.7)"
+    },
+    {
+      "name": "dark-390 emoji-name: no API request from the preview",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "dark-390 deleting: named \"Delete timer?\" and described",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "dark-390 deleting: initial focus is Cancel",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "dark-390 deleting: aria-disabled, no disabled attribute, dimmed, not clickable",
+      "ok": true,
+      "extra": "opacity 0.5 pe none"
+    },
+    {
+      "name": "dark-390 deleting: Esc does not dismiss",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "dark-390 deleting: dialog fully visible",
+      "ok": true,
+      "extra": "{\"l\":16,\"r\":374,\"t\":312,\"b\":532,\"vw\":390,\"vh\":844}"
+    },
+    {
+      "name": "dark-390 deleting: overlay uses the token (not transparent)",
+      "ok": true,
+      "extra": "oklch(0 0 0 / 0.7)"
+    },
+    {
+      "name": "dark-390 deleting: no API request from the preview",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "dark-390 error: named \"Delete timer?\" and described",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "dark-390 error: initial focus is Cancel",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "dark-390 error: alert text",
+      "ok": true,
+      "extra": "Deleting timers is temporarily unavailable. Please try again later."
+    },
+    {
+      "name": "dark-390 error: focus moved to Cancel and dialog still open",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "dark-390 error: no sign-in link",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "dark-390 error: dialog fully visible",
+      "ok": true,
+      "extra": "{\"l\":16,\"r\":374,\"t\":268.25,\"b\":575.75,\"vw\":390,\"vh\":844}"
+    },
+    {
+      "name": "dark-390 error: overlay uses the token (not transparent)",
+      "ok": true,
+      "extra": "oklch(0 0 0 / 0.7)"
+    },
+    {
+      "name": "dark-390 error: no API request from the preview",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "dark-390 unauthorized: named \"Delete timer?\" and described",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "dark-390 unauthorized: initial focus is Cancel",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "dark-390 unauthorized: alert text",
+      "ok": true,
+      "extra": "Sign in to delete this timer. |  | Sign in"
+    },
+    {
+      "name": "dark-390 unauthorized: focus moved to Cancel and dialog still open",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "dark-390 unauthorized: sign-in link returns to the timer",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "dark-390 unauthorized: dialog fully visible",
+      "ok": true,
+      "extra": "{\"l\":16,\"r\":374,\"t\":261.625,\"b\":582.375,\"vw\":390,\"vh\":844}"
+    },
+    {
+      "name": "dark-390 unauthorized: overlay uses the token (not transparent)",
+      "ok": true,
+      "extra": "oklch(0 0 0 / 0.7)"
+    },
+    {
+      "name": "dark-390 unauthorized: no API request from the preview",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "dark-390 no page errors",
+      "ok": true,
+      "extra": ""
+    }
+  ]
+}

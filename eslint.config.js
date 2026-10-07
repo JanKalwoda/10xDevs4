@@ -110,7 +110,7 @@ export default defineConfig(
             "src/pages/[[]id[]]/edit.astro",
             "src/pages/404.astro",
             "src/pages/dev/timer-ui.astro",
-            "src/components/ui/{input,label,checkbox,card,alert}.tsx",
+            "src/components/ui/{input,label,checkbox,card,alert,alert-dialog}.tsx",
         ],
         plugins: { "timer-ui": { rules: { contract: timerUiContract } } },
         rules: { "timer-ui/contract": "error" },

@@ -24,6 +24,8 @@
   --accent-foreground: oklch(0.3729 0.0306 259.7328);
   /* Darker red keeps small validation text readable on light surfaces. */
   --destructive: oklch(0.53 0.2078 25.3313);
+  /* Scrim behind modal dialogs. */
+  --overlay: oklch(0 0 0 / 0.5);
   --border: oklch(0.9276 0.0058 264.5313);
   --input: oklch(0.9276 0.0058 264.5313);
   /* Dark green keeps keyboard focus visible on light surfaces. */
@@ -81,6 +83,7 @@
   --accent: oklch(0.3729 0.0306 259.7328);
   --accent-foreground: oklch(0.7118 0.0129 286.0665);
   --destructive: oklch(0.74 0.17 25.3313);
+  --overlay: oklch(0 0 0 / 0.7);
   --border: oklch(0.4461 0.0263 256.8018);
   --input: oklch(0.4461 0.0263 256.8018);
   --ring: oklch(0.7729 0.1535 163.2231);
@@ -182,6 +185,7 @@
   --shadow-opacity: var(--shadow-opacity);
   --color-shadow-color: var(--shadow-color);
   --color-destructive-foreground: var(--destructive-foreground);
+  --color-overlay: var(--overlay);
   --radius-2xl: calc(var(--radius) * 1.8);
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);

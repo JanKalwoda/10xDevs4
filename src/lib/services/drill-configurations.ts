@@ -165,12 +165,21 @@ export interface FindResult {
     status?: number;
 }
 
+// RETURNING id: zero deleted rows (foreign, missing, already deleted) is `data: null` without an error.
+export interface DeleteResult {
+    data: { id: string } | null;
+    error: StoreError | null;
+    status?: number;
+}
+
 export interface DrillConfigurationStore {
     insert(row: DrillConfigurationInsert): PromiseLike<StoreResult>;
     list(): PromiseLike<ListResult>;
     findById(id: string): PromiseLike<FindResult>;
     /** Zero matching rows (foreign, missing) is `data: null` without an error. */
     update(id: string, userId: string, fields: DrillConfigurationUpdate): PromiseLike<FindResult>;
+    /** Zero matching rows (foreign, missing, already deleted) is `data: null` without an error. */
+    delete(id: string, userId: string): PromiseLike<DeleteResult>;
 }
 
 export function createSupabaseDrillStore(client: SupabaseClient): DrillConfigurationStore {
@@ -190,6 +199,8 @@ export function createSupabaseDrillStore(client: SupabaseClient): DrillConfigura
         // Only the six user-owned columns are sent (the column grant refuses the rest).
         update: (id, userId, fields) =>
             client.from("drill_configurations").update(fields).eq("id", id).eq("user_id", userId).select(SAVED_DRILL_COLUMNS).maybeSingle<SavedDrillRow>(),
+        // Same double filter as update; RETURNING id (select policy) is how a missing or foreign row shows up as null.
+        delete: (id, userId) => client.from("drill_configurations").delete().eq("id", id).eq("user_id", userId).select("id").maybeSingle<{ id: string }>(),
     };
 }
 
@@ -426,10 +437,55 @@ export async function handleUpdateDrillRequest(request: Request, context: Update
     return toResponse(await updateDrillConfiguration(context.store, context.userId, context.id, json.input, context.log));
 }
 
-// Any method but PUT on /api/drills/{id}: no session, id or store is read, so the answer reveals nothing about ownership.
-// DELETE is reserved for S-13 and is 405 until then.
+export type DeleteDrillOutcome = { kind: "deleted" } | { kind: "failed"; result: HandlerResult };
+
+export async function deleteDrillConfiguration(store: DrillConfigurationStore, userId: string, id: string, log: DrillSaveLogger = defaultLogger): Promise<DeleteDrillOutcome> {
+    // A non-UUID id never reaches the database and cannot be told apart from a missing or foreign one.
+    if (!isDrillId(id)) return { kind: "failed", result: failure("not_found", SAVE_DRILL_MESSAGES.not_found) };
+
+    let result: DeleteResult;
+    try {
+        result = await store.delete(normalizeDrillId(id), userId);
+    } catch {
+        log("store_exception");
+        return { kind: "failed", result: failure("unexpected", SAVE_DRILL_MESSAGES.unexpected) };
+    }
+
+    if (result.error) {
+        const code = classifyStoreError(result.error, result.status);
+        // A duplicate-name or limit error cannot come from a DELETE; anything that is not unauthorized/unavailable is unexpected.
+        const mapped = code === "unauthorized" || code === "unavailable" ? code : "unexpected";
+        if (mapped !== "unauthorized") log(result.error.code ?? "unknown");
+        return { kind: "failed", result: failure(mapped, SAVE_DRILL_MESSAGES[mapped]) };
+    }
+
+    // Zero rows: foreign, missing and already deleted look the same (RLS hides foreign rows), which also covers a double delete.
+    if (result.data === null) return { kind: "failed", result: failure("not_found", SAVE_DRILL_MESSAGES.not_found) };
+    return { kind: "deleted" };
+}
+
+export interface DeleteDrillRequestContext {
+    id: string;
+    userId: string | null;
+    store: DrillConfigurationStore | null;
+    log?: DrillSaveLogger;
+}
+
+// The whole DELETE /api/drills/{id} pipeline: same order as PUT (401, 503, 404 for a bad id). There is no body to read or type.
+// Success is a bodiless 204 built here: toResponse is Response.json, which throws for a null-body status.
+export async function handleDeleteDrillRequest(_request: Request, context: DeleteDrillRequestContext): Promise<Response> {
+    if (context.userId === null) return toResponse(failure("unauthorized", SAVE_DRILL_MESSAGES.unauthorized));
+    if (context.store === null) return toResponse(failure("unavailable", SAVE_DRILL_MESSAGES.unavailable));
+    if (!isDrillId(context.id)) return toResponse(failure("not_found", SAVE_DRILL_MESSAGES.not_found));
+
+    const outcome = await deleteDrillConfiguration(context.store, context.userId, context.id, context.log);
+    if (outcome.kind === "failed") return toResponse(outcome.result);
+    return new Response(null, { status: 204, headers: { "Cache-Control": "no-store" } });
+}
+
+// Any method but PUT and DELETE on /api/drills/{id}: no session, id or store is read, so the answer reveals nothing about ownership.
 export function methodNotAllowedResponse(): Response {
-    return new Response(null, { status: 405, headers: { Allow: "PUT", "Cache-Control": "no-store" } });
+    return new Response(null, { status: 405, headers: { Allow: "PUT, DELETE", "Cache-Control": "no-store" } });
 }
 
 export const OPEN_DRILL_MESSAGES = {
