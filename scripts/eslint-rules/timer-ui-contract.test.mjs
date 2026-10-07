@@ -49,7 +49,13 @@ test("contract rejects palettes, dimensions and inline colors while accepting to
 
 test("actual ESLint configuration enforces React/Astro timer scope and leaves account scope alone", async () => {
     const eslint = new ESLint();
-    for (const filePath of ["src/components/timer/DrillApp.tsx", "src/pages/index.astro", "src/pages/dev/timer-ui.astro", "src/components/ui/input.tsx"]) {
+    for (const filePath of [
+        "src/components/timer/DrillApp.tsx",
+        "src/pages/index.astro",
+        "src/pages/dev/timer-ui.astro",
+        "src/components/ui/input.tsx",
+        "src/components/ui/alert-dialog.tsx",
+    ]) {
         const source = filePath.endsWith(".astro")
             ? '<div class="accent-blue-600" style="color: red" />'
             : 'export default function Example() { return <div className="accent-blue-600" />; }';

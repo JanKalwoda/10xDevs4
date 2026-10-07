@@ -1,0 +1,131 @@
+{
+  "scripted": true,
+  "failed": 0,
+  "results": [
+    {
+      "name": "dialog opens as role=alertdialog",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "initial focus is Cancel",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "dialog named 'Delete timer?'",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "dialog described with the exact name",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "Esc closes with no request",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "focus returns to the trigger after Esc",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "Cancel closes with no request, focus returns to trigger",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "click on the overlay does nothing",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "after a 500 the dialog stays open with an alert",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "after the error focus is on Cancel",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "retry succeeds and lands on /dashboard",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "dashboard has no deleted timer but lists siblings",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "Back after delete does not show the deleted timer page or a stuck dialog",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "pending shows Deleting… with aria-disabled",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "a double click sends exactly one request",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "timer deleted elsewhere first: Delete still ends on /dashboard",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "401 shows a sign-in link back to the timer",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "390px 200-char: dialog inside the viewport without inner overflow",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "390px emoji/NFD: dialog inside the viewport without inner overflow",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "light: Delete (confirm) button contrast >= 4.5",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "light: contrast values",
+      "ok": true,
+      "extra": "confirm 5.89, trigger-text/dialog-bg 5.49"
+    },
+    {
+      "name": "light: Delete timer trigger text contrast >= 4.5",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "dark: Delete (confirm) button contrast >= 4.5",
+      "ok": true,
+      "extra": ""
+    },
+    {
+      "name": "dark: contrast values",
+      "ok": true,
+      "extra": "confirm 7.04, trigger-text/dialog-bg 3.56"
+    },
+    {
+      "name": "dark: Delete timer trigger text contrast >= 4.5",
+      "ok": true,
+      "extra": ""
+    }
+  ]
+}
