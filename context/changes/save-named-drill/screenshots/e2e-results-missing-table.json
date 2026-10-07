@@ -1,0 +1,63 @@
+{
+  "capturedAt": "2026-10-06T23:55:45.550Z",
+  "mode": "missing-table",
+  "total": 11,
+  "failed": 0,
+  "results": [
+    {
+      "name": "3.4 guest GET /create redirects to sign-in with next=/create",
+      "ok": true,
+      "detail": "http://localhost:4331/auth/signin?next=%2Fcreate"
+    },
+    {
+      "name": "3.4 sign-in form sends the link and keeps next=/create",
+      "ok": true,
+      "detail": "http://localhost:4331/auth/confirm-email?next=%2Fcreate"
+    },
+    {
+      "name": "3.4 after the email link the user lands on /create",
+      "ok": true,
+      "detail": "http://localhost:4331/create"
+    },
+    {
+      "name": "2.7 with PGRST205 for the table, / still answers 200",
+      "ok": true,
+      "detail": "200"
+    },
+    {
+      "name": "2.7 with PGRST205 for the table, /auth/signin still answers 200",
+      "ok": true,
+      "detail": "200"
+    },
+    {
+      "name": "2.7 with PGRST205 for the table, /dashboard still answers 200",
+      "ok": true,
+      "detail": "200"
+    },
+    {
+      "name": "2.7 with PGRST205 for the table, /create still answers 200",
+      "ok": true,
+      "detail": "200"
+    },
+    {
+      "name": "3.5 missing table: UI shows the 'temporarily unavailable' alert",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "2.7 POST /api/drills answers 503 unavailable",
+      "ok": true,
+      "detail": "{\"status\":503,\"body\":{\"ok\":false,\"code\":\"unavailable\",\"message\":\"Saving timers is temporarily unavailable. Please try again later.\"}}"
+    },
+    {
+      "name": "3.5 missing table: / still renders the timer configuration",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "no page errors",
+      "ok": true,
+      "detail": ""
+    }
+  ]
+}

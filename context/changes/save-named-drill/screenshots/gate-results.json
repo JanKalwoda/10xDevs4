@@ -1,0 +1,507 @@
+{
+  "capturedAt": "2026-10-06T23:59:27.098Z",
+  "total": 100,
+  "failed": 0,
+  "results": [
+    {
+      "name": "light-1280 theme class",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "light-1280 all 9 fixtures rendered",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "light-1280 create section has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "light-1280 default: empty name, label, hint, enabled Save timer",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "light-1280 default: no error, no alert",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "light-1280 default: name has no maxlength",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "light-1280 default: hint linked by aria-describedby",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "light-1280 filled: value",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "light-1280 hover changes Save background",
+      "ok": true,
+      "detail": "oklch(0.7227 0.192 149.579) -> oklab(0.7227 -0.165568 0.0972183 / 0.9)"
+    },
+    {
+      "name": "light-1280 keyboard Tab reaches Save",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "light-1280 Save has focus-visible ring",
+      "ok": true,
+      "detail": "{\"matches\":true,\"shadow\":\"rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, oklab(0 0 0 / 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.05) 0px 4px 8px -1px\",\"outline\":\"none 3px\"}"
+    },
+    {
+      "name": "light-1280 name field shows focus ring",
+      "ok": true,
+      "detail": "{\"focused\":true,\"shadow\":\"rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, oklab(0 0 0 / 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.05) 0px 4px 8px -1px\"}"
+    },
+    {
+      "name": "light-1280 name-required: aria-invalid + role=alert + describedby",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "light-1280 duplicate-name: aria-invalid + role=alert + describedby",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "light-1280 name-required text",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "light-1280 duplicate-name text on the name field",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "light-1280 error text colour differs from muted hint",
+      "ok": true,
+      "detail": "oklch(0.53 0.2078 25.3313) vs oklch(0.551 0.0234 264.364)"
+    },
+    {
+      "name": "light-1280 limit: destructive alert text",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "light-1280 unavailable: alert text",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "light-1280 session expired: alert + sign-in link",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "light-1280 saving: disabled, aria-busy, label, read-only name",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "light-1280 saving: disabled style applied",
+      "ok": true,
+      "detail": "0.5"
+    },
+    {
+      "name": "light-1280 saved: status alert text",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "light-1280 saved: name cleared and focused, parameters kept",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "light-1280 no page/console errors",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "light-390 theme class",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "light-390 all 9 fixtures rendered",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "light-390 create section has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "light-390 default: empty name, label, hint, enabled Save timer",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "light-390 default: no error, no alert",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "light-390 default: name has no maxlength",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "light-390 default: hint linked by aria-describedby",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "light-390 filled: value",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "light-390 hover changes Save background",
+      "ok": true,
+      "detail": "oklch(0.7227 0.192 149.579) -> oklab(0.7227 -0.165568 0.0972183 / 0.9)"
+    },
+    {
+      "name": "light-390 keyboard Tab reaches Save",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "light-390 Save has focus-visible ring",
+      "ok": true,
+      "detail": "{\"matches\":true,\"shadow\":\"rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, oklab(0 0 0 / 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.05) 0px 4px 8px -1px\",\"outline\":\"none 3px\"}"
+    },
+    {
+      "name": "light-390 name field shows focus ring",
+      "ok": true,
+      "detail": "{\"focused\":true,\"shadow\":\"rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, oklab(0 0 0 / 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.05) 0px 4px 8px -1px\"}"
+    },
+    {
+      "name": "light-390 name-required: aria-invalid + role=alert + describedby",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "light-390 duplicate-name: aria-invalid + role=alert + describedby",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "light-390 name-required text",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "light-390 duplicate-name text on the name field",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "light-390 error text colour differs from muted hint",
+      "ok": true,
+      "detail": "oklch(0.53 0.2078 25.3313) vs oklch(0.551 0.0234 264.364)"
+    },
+    {
+      "name": "light-390 limit: destructive alert text",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "light-390 unavailable: alert text",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "light-390 session expired: alert + sign-in link",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "light-390 saving: disabled, aria-busy, label, read-only name",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "light-390 saving: disabled style applied",
+      "ok": true,
+      "detail": "0.5"
+    },
+    {
+      "name": "light-390 saved: status alert text",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "light-390 saved: name cleared and focused, parameters kept",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "light-390 no page/console errors",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "dark-1280 theme class",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "dark-1280 all 9 fixtures rendered",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "dark-1280 create section has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "dark-1280 default: empty name, label, hint, enabled Save timer",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "dark-1280 default: no error, no alert",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "dark-1280 default: name has no maxlength",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "dark-1280 default: hint linked by aria-describedby",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "dark-1280 filled: value",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "dark-1280 hover changes Save background",
+      "ok": true,
+      "detail": "oklch(0.7729 0.1535 163.223) -> oklab(0.7729 -0.146966 0.0443071 / 0.9)"
+    },
+    {
+      "name": "dark-1280 keyboard Tab reaches Save",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "dark-1280 Save has focus-visible ring",
+      "ok": true,
+      "detail": "{\"matches\":true,\"shadow\":\"rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, oklab(0 0 0 / 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.05) 0px 4px 8px -1px\",\"outline\":\"none 3px\"}"
+    },
+    {
+      "name": "dark-1280 name field shows focus ring",
+      "ok": true,
+      "detail": "{\"focused\":true,\"shadow\":\"rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, oklab(0 0 0 / 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.05) 0px 4px 8px -1px\"}"
+    },
+    {
+      "name": "dark-1280 name-required: aria-invalid + role=alert + describedby",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "dark-1280 duplicate-name: aria-invalid + role=alert + describedby",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "dark-1280 name-required text",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "dark-1280 duplicate-name text on the name field",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "dark-1280 error text colour differs from muted hint",
+      "ok": true,
+      "detail": "oklch(0.74 0.17 25.3313) vs oklch(0.7118 0.0129 286.066)"
+    },
+    {
+      "name": "dark-1280 limit: destructive alert text",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "dark-1280 unavailable: alert text",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "dark-1280 session expired: alert + sign-in link",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "dark-1280 saving: disabled, aria-busy, label, read-only name",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "dark-1280 saving: disabled style applied",
+      "ok": true,
+      "detail": "0.5"
+    },
+    {
+      "name": "dark-1280 saved: status alert text",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "dark-1280 saved: name cleared and focused, parameters kept",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "dark-1280 no page/console errors",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "dark-390 theme class",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "dark-390 all 9 fixtures rendered",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "dark-390 create section has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "dark-390 default: empty name, label, hint, enabled Save timer",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "dark-390 default: no error, no alert",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "dark-390 default: name has no maxlength",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "dark-390 default: hint linked by aria-describedby",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "dark-390 filled: value",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "dark-390 hover changes Save background",
+      "ok": true,
+      "detail": "oklch(0.7729 0.1535 163.223) -> oklab(0.7729 -0.146966 0.0443071 / 0.9)"
+    },
+    {
+      "name": "dark-390 keyboard Tab reaches Save",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "dark-390 Save has focus-visible ring",
+      "ok": true,
+      "detail": "{\"matches\":true,\"shadow\":\"rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, oklab(0 0 0 / 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.05) 0px 4px 8px -1px\",\"outline\":\"none 3px\"}"
+    },
+    {
+      "name": "dark-390 name field shows focus ring",
+      "ok": true,
+      "detail": "{\"focused\":true,\"shadow\":\"rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, oklab(0 0 0 / 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.05) 0px 4px 8px -1px\"}"
+    },
+    {
+      "name": "dark-390 name-required: aria-invalid + role=alert + describedby",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "dark-390 duplicate-name: aria-invalid + role=alert + describedby",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "dark-390 name-required text",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "dark-390 duplicate-name text on the name field",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "dark-390 error text colour differs from muted hint",
+      "ok": true,
+      "detail": "oklch(0.74 0.17 25.3313) vs oklch(0.7118 0.0129 286.066)"
+    },
+    {
+      "name": "dark-390 limit: destructive alert text",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "dark-390 unavailable: alert text",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "dark-390 session expired: alert + sign-in link",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "dark-390 saving: disabled, aria-busy, label, read-only name",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "dark-390 saving: disabled style applied",
+      "ok": true,
+      "detail": "0.5"
+    },
+    {
+      "name": "dark-390 saved: status alert text",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "dark-390 saved: name cleared and focused, parameters kept",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "dark-390 no page/console errors",
+      "ok": true,
+      "detail": ""
+    }
+  ]
+}
