@@ -36,6 +36,36 @@ void test("other single segments stay public (they render the same 404 for every
     }
 });
 
+void test("the edit path /{uuid}/edit is protected like /{uuid}: any case, trailing or doubled slash, encoded forms", () => {
+    for (const path of [
+        `/${SAVED_ID}/edit`,
+        `/${SAVED_ID.toUpperCase()}/edit/`,
+        `//${SAVED_ID}/edit`,
+        `/${SAVED_ID}//edit`,
+        `/${SAVED_ID}%2Fedit`,
+        `/${SAVED_ID}/%65dit`,
+        `/${SAVED_ID}/EDIT`,
+        `/%32${SAVED_ID.slice(1)}/edit`,
+    ]) {
+        assert.equal(isProtectedPath(path), true, path);
+    }
+});
+
+void test("near misses of the edit path stay public (the shared 404, no oracle for guests)", () => {
+    for (const path of [
+        `/${SAVED_ID}/edits`,
+        `/${SAVED_ID}/edit/x`,
+        `/${SAVED_ID}/edit/edit`,
+        `/${SAVED_ID}/editx`,
+        "/not-a-uuid/edit",
+        "/edit",
+        `/x/${SAVED_ID}/edit`,
+        `/${SAVED_ID.slice(1)}/edit`,
+    ]) {
+        assert.equal(isProtectedPath(path), false, path);
+    }
+});
+
 void test("an encoded separator after the uuid is not a saved timer path", () => {
     // The router decodes %2F into a second segment, which no page serves, so it is a plain 404.
     assert.equal(isProtectedPath(`/${SAVED_ID}%2Fx`), false);
