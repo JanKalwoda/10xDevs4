@@ -358,18 +358,18 @@ At most 50 rows per user; the unique index leads with `user_id`. The advisory lo
 
 #### Manual
 
-- [x] 3.4 Guest `/create` → sign-in → back to `/create` — skryptem Playwright, nie człowiek (UI formularz logowania + link z GoTrue admin `generate_link`, bo lokalny stack nie ma Mailpit); wyniki w `screenshots/e2e-results-main.json`
-- [x] 3.5 Save, duplicate name, limit, missing-table and session-expired flows behave as specified — skryptem Playwright, nie człowiek; zapis/duplikat (inna wielkość liter)/limit 51./wygasła sesja na realnym stacku; brak tabeli ZASYMULOWANY proxy zwracającym 404 PGRST205 (nie usuwano prawdziwej tabeli)
-- [x] 3.6 Keyboard-only flow and error announcements verified — skryptem Playwright, nie człowiek; kolejność Tab, Enter, `role=alert` + `aria-invalid` + `aria-describedby`; faktyczne odczytanie przez czytnik ekranu NIE sprawdzone
-- [x] 3.7 `/` still starts and runs a drill as before — skryptem Playwright, nie człowiek; start, odliczanie, przejście do Rest, Cancel; dźwięk niesprawdzony
+- [x] 3.4 Guest `/create` → sign-in → back to `/create` — skryptem Playwright, nie człowiek (UI formularz logowania + link z GoTrue admin `generate_link`, bo lokalny stack nie ma Mailpit); wyniki w `screenshots/e2e-results-main.json` — a91e810
+- [x] 3.5 Save, duplicate name, limit, missing-table and session-expired flows behave as specified — skryptem Playwright, nie człowiek; zapis/duplikat (inna wielkość liter)/limit 51./wygasła sesja na realnym stacku; brak tabeli ZASYMULOWANY proxy zwracającym 404 PGRST205 (nie usuwano prawdziwej tabeli) — a91e810
+- [x] 3.6 Keyboard-only flow and error announcements verified — skryptem Playwright, nie człowiek; kolejność Tab, Enter, `role=alert` + `aria-invalid` + `aria-describedby`; faktyczne odczytanie przez czytnik ekranu NIE sprawdzone — a91e810
+- [x] 3.7 `/` still starts and runs a drill as before — skryptem Playwright, nie człowiek; start, odliczanie, przejście do Rest, Cancel; dźwięk niesprawdzony — a91e810
 
 ### Phase 4: Visual gate and docs
 
 #### Automated
 
-- [x] 4.1 `npm test`, `npm run lint`, contract rule tests, `npx astro check` and `npm run build` pass
-- [x] 4.2 Playwright pass over the `/create` fixtures reports 0 failed checks
-- [x] 4.3 `/dev/timer-ui` returns 404 in the production preview
+- [x] 4.1 `npm test`, `npm run lint`, contract rule tests, `npx astro check` and `npm run build` pass — a91e810
+- [x] 4.2 Playwright pass over the `/create` fixtures reports 0 failed checks — a91e810
+- [x] 4.3 `/dev/timer-ui` returns 404 in the production preview — a91e810
 
 #### Manual
 

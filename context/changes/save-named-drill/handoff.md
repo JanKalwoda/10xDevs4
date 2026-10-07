@@ -87,3 +87,17 @@ Gates (all green): `npm run lint`, `npm test`, rule tests 4/4, `astro sync && as
 Evidence that `/` is unchanged: SSR HTML of `/` from a build with the Phase 3 `DrillConfigForm.tsx` and from a build with the previous file was byte-identical after normalising `/_astro/` asset names (20118 bytes each). It is a one-off diff, not a repo test.
 
 Progress 3.4–3.7 (manual, in a browser) are left unchecked: guest → sign-in → back to `/create`, save/duplicate/limit/missing-table/session-expired flows in the real UI, keyboard-only flow with announcements, and running a drill at `/`. Not run: `db push`, `db reset`, any change to the shared stack. The preview server on 4321 is stopped. For Phase 4: fixtures should render `DrillCreateForm` with the props `status`, `failure`, `nameError`, `savedName`; note the `saved` state focuses the name input on mount (visible focus ring in the screenshot).
+
+## Phase 4 — DONE (commit a91e810): visual gate and docs
+
+Delivered:
+
+- `src/components/timer/CreateDrillFixtures.tsx` (mounted in `TimerUiPreview.tsx` after `PhaseSectionsFixtures`; 2 added lines there): production `DrillCreateForm` in nine cards — default (= empty), filled, name-required, duplicate-name, limit-reached, saving (disabled + loading), unavailable, session-expired, saved. Hover and focus-visible on Save are scripted on the Filled card. Existing seven-state matrix and held-mounted lifecycle fixtures untouched.
+- `context/changes/save-named-drill/screenshots/`: 36 PNGs (9 states × light/dark × 1280/390 incl. hover and focus-visible), `gate-results.json` (100 checks, 0 failed), `e2e-*.png` + `e2e-results-main.json` (19 checks) + `e2e-results-missing-table.json` (11 checks), README. All captured by Playwright scripts, **not a human**.
+- `AGENTS.md`: one line that `/create` follows the timer UI contract and has fixtures; one line that `supabase test db` covers table RLS.
+
+Gates (all green): `npm test` 138/138; `npm run lint` clean; rule tests 4/4; `astro sync && astro check` 0 errors (the one pre-existing hint); `npm run build`; production preview: `/dev/timer-ui` 404, `/` 200, guest `/create` 302 to `/auth/signin?next=%2Fcreate`. Gate-script break-check: `aria-invalid` forced to `false` in `DrillCreateForm` → 8 failed checks, reverted with `git checkout --`, gate rerun green (0 failed). Phase 4 adds no `npm test` tests (the gate is a script outside the repo dependencies, like earlier changes). No `db push`, no `db reset`, no schema change.
+
+Browser steps from Phase 3, run by script (not human), marked in Progress: 3.4 guest → sign-in → `/create`; 3.5 save, duplicate in other case, limit (49 via API + 51st in UI), expired session (cookies cleared), missing table; 3.6 keyboard order and `role=alert`/`aria-invalid`/`aria-describedby`; 3.7 `/` starts, advances to Rest, Cancel returns. Caveats: sign-in link taken from GoTrue admin `generate_link` (no Mailpit on the shared stack); missing table is **simulated** by a forwarding proxy returning 404 `PGRST205` for `/rest/v1/drill_configurations` (`.dev.vars` temporarily pointed at it and restored; verify `SUPABASE_URL=http://127.0.0.1:55321`); no screen reader, no sound, no real e-mail. The e2e user is deleted by the script (rows cascade); dev servers and proxy are stopped.
+
+Still open for a human: 4.4 (review of the screenshots in light/dark, 1280/390), 4.5 (optional phone check). Not done: `db push` (coordinator, before merge).
