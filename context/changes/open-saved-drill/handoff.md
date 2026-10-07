@@ -55,7 +55,7 @@ Verification on `npm run preview` (workerd), local Supabase, two users created v
 
 Not done in this phase (needs a real browser; planned for Phase 3 fixtures/screenshots): running a timer from `/{id}`, Cancel/Completed returning to details, refresh during a run, bfcache check, focus-visible and keyboard check, unavailable branch visually (unit-tested only). Plan items 2.3 and 2.5 are therefore left unchecked.
 
-## Phase 3 — implemented (commit: see Progress): smoke, fixtures, screenshots, docs
+## Phase 3 — implemented (commit a6a59c6): smoke, fixtures, screenshots, docs
 
 Delivered:
 
