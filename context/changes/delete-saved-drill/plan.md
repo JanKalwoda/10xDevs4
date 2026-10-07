@@ -239,13 +239,13 @@ One delete by primary key; nothing to optimize.
 
 #### Automated
 
-- [x] 1.1 Unit tests pass: `npm test`
-- [x] 1.2 Lint passes: `npm run lint`
-- [x] 1.3 Types pass: `npx astro sync && npx astro check`
-- [x] 1.4 Build passes: `npm run build`
-- [x] 1.5 pgTAP passes on the shared stack without reset: `npx supabase test db`
-- [x] 1.6 No migration added: `git diff --name-only main -- supabase/migrations` is empty
-- [x] 1.7 Break-check: removing the `isDrillId` guard in `deleteDrillConfiguration` turns the non-UUID test red (revert afterwards)
+- [x] 1.1 Unit tests pass: `npm test` — 2a546c5
+- [x] 1.2 Lint passes: `npm run lint` — 2a546c5
+- [x] 1.3 Types pass: `npx astro sync && npx astro check` — 2a546c5
+- [x] 1.4 Build passes: `npm run build` — 2a546c5
+- [x] 1.5 pgTAP passes on the shared stack without reset: `npx supabase test db` — 2a546c5
+- [x] 1.6 No migration added: `git diff --name-only main -- supabase/migrations` is empty — 2a546c5
+- [x] 1.7 Break-check: removing the `isDrillId` guard in `deleteDrillConfiguration` turns the non-UUID test red (revert afterwards) — 2a546c5
 
 #### Manual
 
