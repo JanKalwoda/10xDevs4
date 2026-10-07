@@ -8,7 +8,7 @@
     "preview": "astro preview",
     "astro": "astro",
     "lint": "eslint .",
-    "test": "node --test src/lib/*.test.ts",
+    "test": "node --test src/lib/*.test.ts src/lib/services/*.test.ts",
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
     "smoke": "node scripts/smoke.mjs"

@@ -16,6 +16,15 @@ interface DrillConfigFormProps {
     onValuesChange: (values: DrillConfigInput) => void;
     onStart: (configuration: Readonly<DrillConfiguration>) => void;
     createAudio?: () => Promise<DrillAudioPort | null>;
+    submitLabel?: string;
+    /** Rendered above the parameter fields. */
+    leading?: ReactNode;
+    /** Rendered directly above the submit button. */
+    beforeSubmit?: ReactNode;
+    /** Disables submit and marks it busy. */
+    pending?: boolean;
+    /** Called at the start of every submit, before the parameters are validated. */
+    onSubmitAttempt?: () => void;
 }
 
 interface ConfigFieldProps {
@@ -61,7 +70,17 @@ function ConfigField({ id, field, label, hint, value, error, onChange, children 
     );
 }
 
-export default function DrillConfigForm({ values, onValuesChange, onStart, createAudio }: DrillConfigFormProps) {
+export default function DrillConfigForm({
+    values,
+    onValuesChange,
+    onStart,
+    createAudio,
+    submitLabel = "Start",
+    leading,
+    beforeSubmit,
+    pending = false,
+    onSubmitAttempt,
+}: DrillConfigFormProps) {
     const id = useId();
     const [errors, setErrors] = useState<DrillConfigErrors>({});
     const preview = useSignalPreview(createAudio);
@@ -92,12 +111,14 @@ export default function DrillConfigForm({ values, onValuesChange, onStart, creat
 
     function handleSubmit(event: SubmitEvent<HTMLFormElement>) {
         event.preventDefault();
+        onSubmitAttempt?.();
         const result = submitDrillConfig(values, { releasePreview: preview.release, onStart });
         setErrors(result.valid ? {} : result.errors);
     }
 
     return (
         <form onSubmit={handleSubmit} noValidate className="space-y-5">
+            {leading}
             <p className="text-muted-foreground text-sm">Enter times in m:ss format (for example, 0:05).</p>
             <ConfigField
                 id={`${id}-preparation`}
@@ -143,8 +164,9 @@ export default function DrillConfigForm({ values, onValuesChange, onStart, creat
                 </p>
                 {previewControl("standby")}
             </div>
-            <Button type="submit" className="w-full">
-                Start
+            {beforeSubmit}
+            <Button type="submit" className="w-full" disabled={pending} aria-busy={pending || undefined}>
+                {submitLabel}
             </Button>
         </form>
     );

@@ -118,7 +118,13 @@ npx supabase stop
 
 The local Studio UI is available at `http://localhost:55323`.
 
-No database tables or migrations are required — this project uses Supabase Auth's built-in `auth.users` table only.
+### Database
+
+Application tables are defined by timestamped migrations in `supabase/migrations/` (the first one creates `public.drill_configurations`: private, named timer configurations with RLS per operation, a unique name per user and a limit of 50 per user). Authentication itself uses Supabase Auth's built-in `auth.users` table.
+
+- Apply new migrations to the running local stack with `npx supabase migration up`. Avoid `npx supabase db reset` and `supabase stop --no-backup` on a stack shared by several worktrees, because they delete the data and tables of the others.
+- Database tests (pgTAP) live in `supabase/tests/database/` and run with `npx supabase test db` against the local stack. CI runs them in the `smoke` job right after the local Supabase starts.
+- Production: run `npx supabase db push` (linked project) **before** merging a PR that needs a new table. Merging to `main` deploys the Worker automatically, and code that depends on a missing table only degrades the feature that uses it (saving timers answers 503).
 
 ### Using a cloud Supabase project instead
 

@@ -8,6 +8,7 @@ import { Label } from "@/components/ui/label";
 import DrillConfigForm from "@/components/timer/DrillConfigForm";
 import SignalPreviewFixtures from "@/components/timer/SignalPreviewFixtures";
 import PhaseSectionsFixtures from "@/components/timer/PhaseSectionsFixtures";
+import CreateDrillFixtures from "@/components/timer/CreateDrillFixtures";
 import { DrillCompleted } from "@/components/timer/DrillApp";
 import DrillTimer from "@/components/timer/DrillTimer";
 import DrillTimerView from "@/components/timer/DrillTimerView";
@@ -1191,6 +1192,7 @@ export default function TimerUiPreview() {
             </section>
             <SignalPreviewFixtures />
             <PhaseSectionsFixtures />
+            <CreateDrillFixtures />
             <section aria-label="Timer phase state examples" className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
                 {fixtures.map(({ title, display, initializing, resumePending, wakeLockUnavailable }) => (
                     <Card

@@ -12,6 +12,9 @@ export type DrillConfigErrors = Partial<Record<keyof DrillConfigInput, string>>;
 
 export type DrillConfigResult = { valid: true; configuration: DrillConfiguration } | { valid: false; errors: DrillConfigErrors };
 
+export const MAX_DRILL_SECONDS = 600;
+export const MAX_REPETITIONS = 100;
+
 const TIME_PATTERN = /^(0|[1-9]\d*):([0-5]\d)$/;
 const REPETITIONS_PATTERN = /^[1-9]\d*$/;
 
@@ -20,7 +23,7 @@ export function parseDrillTime(value: string, allowZero: boolean): number | unde
     if (!match) return undefined;
 
     const seconds = Number(match[1]) * 60 + Number(match[2]);
-    if (seconds > 600 || (!allowZero && seconds === 0)) return undefined;
+    if (seconds > MAX_DRILL_SECONDS || (!allowZero && seconds === 0)) return undefined;
 
     return seconds;
 }
@@ -41,11 +44,18 @@ export function parseDrillConfig(input: DrillConfigInput): DrillConfigResult {
     if (restSeconds === undefined) {
         errors.rest = "Enter a time from 0:00 to 10:00 in m:ss format.";
     }
-    if (repetitions === undefined || repetitions < 1 || repetitions > 100) {
+    if (repetitions === undefined || repetitions < 1 || repetitions > MAX_REPETITIONS) {
         errors.repetitions = "Enter a whole number from 1 to 100.";
     }
 
-    if (preparationSeconds === undefined || exerciseSeconds === undefined || restSeconds === undefined || repetitions === undefined || repetitions < 1 || repetitions > 100) {
+    if (
+        preparationSeconds === undefined ||
+        exerciseSeconds === undefined ||
+        restSeconds === undefined ||
+        repetitions === undefined ||
+        repetitions < 1 ||
+        repetitions > MAX_REPETITIONS
+    ) {
         return { valid: false, errors };
     }
 

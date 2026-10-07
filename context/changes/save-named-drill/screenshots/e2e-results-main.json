@@ -1,0 +1,103 @@
+{
+  "capturedAt": "2026-10-06T23:53:16.109Z",
+  "mode": "main",
+  "total": 19,
+  "failed": 0,
+  "results": [
+    {
+      "name": "3.4 guest GET /create redirects to sign-in with next=/create",
+      "ok": true,
+      "detail": "http://localhost:4330/auth/signin?next=%2Fcreate"
+    },
+    {
+      "name": "3.4 sign-in form sends the link and keeps next=/create",
+      "ok": true,
+      "detail": "http://localhost:4330/auth/confirm-email?next=%2Fcreate"
+    },
+    {
+      "name": "3.4 after the email link the user lands on /create",
+      "ok": true,
+      "detail": "http://localhost:4330/create"
+    },
+    {
+      "name": "3.6 keyboard: Tab order name -> preparation -> exercise -> rest -> repetitions -> random start -> Save",
+      "ok": true,
+      "detail": "[\"_r1R_6_-name\",\"_r1R_2m_-preparation\",\"_r1R_2m_-exercise\",\"_r1R_2m_-exercise-preview\",\"_r1R_2m_-rest\",\"_r1R_2m_-rest-preview\",\"_r1R_2m_-repetitions\",\"_r1R_2m_-random-start\",\"_r1R_2m_-standby-preview\",\"Save timer\"]"
+    },
+    {
+      "name": "3.6 keyboard: preview buttons are in the Tab sequence before Save",
+      "ok": true,
+      "detail": "[\"_r1R_6_-name\",\"_r1R_2m_-preparation\",\"_r1R_2m_-exercise\",\"_r1R_2m_-exercise-preview\",\"_r1R_2m_-rest\",\"_r1R_2m_-rest-preview\",\"_r1R_2m_-repetitions\",\"_r1R_2m_-random-start\",\"_r1R_2m_-standby-preview\",\"Save timer\"]"
+    },
+    {
+      "name": "3.6 empty name + Enter shows a role=alert name error and aria-invalid",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "3.6 name error is referenced by aria-describedby",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "3.5 save: confirmation shows Saved \"Morning drill\".",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "3.5 save: name cleared and focused, parameters kept",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "3.5 duplicate (other case): error on the name field",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "3.5 API still answers validation for a bad body in the same session",
+      "ok": true,
+      "detail": "validation"
+    },
+    {
+      "name": "3.5 limit setup: 49 more timers saved through the API",
+      "ok": true,
+      "detail": "49"
+    },
+    {
+      "name": "3.5 limit: the 51st shows the destructive limit alert",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "3.5 expired session: alert with a sign-in link back to /create",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "3.7 / starts a drill: timer view with Cancel, Restart and a countdown",
+      "ok": true,
+      "detail": "0:02"
+    },
+    {
+      "name": "3.7 / advances to the Rest phase",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "3.7 / Cancel returns to the configuration (Start visible)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "3.7 / has no Save timer button and no name field",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "no page errors",
+      "ok": true,
+      "detail": ""
+    }
+  ]
+}

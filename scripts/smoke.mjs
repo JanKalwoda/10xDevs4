@@ -63,7 +63,7 @@ function storeCookies(response) {
     }
 }
 
-async function appRequest(path, { method = "GET", form } = {}) {
+async function appRequest(path, { method = "GET", form, json, contentType } = {}) {
     const target = new URL(path, appOrigin);
     if (target.origin !== appOrigin) throw new Error("app origin mismatch");
 
@@ -76,8 +76,9 @@ async function appRequest(path, { method = "GET", form } = {}) {
                 Cookie: cookieHeader(),
                 Origin: appOrigin,
                 ...(form ? { "Content-Type": "application/x-www-form-urlencoded" } : {}),
+                ...(json !== undefined ? { "Content-Type": contentType ?? "application/json" } : {}),
             },
-            body: form ? new URLSearchParams(form).toString() : undefined,
+            body: form ? new URLSearchParams(form).toString() : json !== undefined ? JSON.stringify(json) : undefined,
         });
     } catch {
         throw new Error("app request failed");
@@ -247,6 +248,82 @@ async function verifyDashboardAndSignOut() {
     ensure(location?.pathname === "/auth/signin");
 }
 
+const DRILL_DEFAULTS = { preparation: "0:05", exercise: "0:04", rest: "0:02", repetitions: "3", randomStartEnabled: false };
+
+async function saveDrill(name, overrides = {}, options = {}) {
+    const response = await appRequest("/api/drills", { method: "POST", json: { name, ...DRILL_DEFAULTS, ...overrides }, ...options });
+    ensure(response.headers.get("cache-control")?.includes("no-store"));
+    const body = await response.json().catch(() => null);
+    ensure(body !== null && typeof body === "object");
+    return { status: response.status, body };
+}
+
+async function verifyAnonymousDrillApi() {
+    const save = await saveDrill("Anonymous drill");
+    ensure(save.status === 401);
+    ensure(save.body.ok === false && save.body.code === "unauthorized");
+
+    const page = await appRequest("/create");
+    const location = responseLocation(page);
+    ensure(page.status === 302);
+    ensure(location?.pathname === "/auth/signin");
+    ensure(location.searchParams.get("next") === "/create");
+}
+
+async function verifyCreatePage() {
+    const dashboard = await appRequest("/dashboard");
+    ensure(dashboard.status === 200);
+    const dashboardMarkup = await dashboard.text();
+    // Tailwind classes such as has-[>svg] contain ">", so the link is matched lazily up to its label instead of by attribute.
+    ensure(/<a href="\/create"[\s\S]*?>\s*Create a timer\s*<\/a>/.test(dashboardMarkup));
+
+    const page = await appRequest("/create");
+    ensure(page.status === 200);
+    const markup = await page.text();
+    ensure(markup.includes("Create a timer"));
+    ensure(markup.includes("Save timer"));
+}
+
+async function verifySavedDrillApi() {
+    const first = await saveDrill("Smoke drill");
+    ensure(first.status === 201 && first.body.ok === true);
+    ensure(first.body.drill.name === "Smoke drill");
+    ensure(/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/.test(first.body.drill.id));
+    const { configuration } = first.body.drill;
+    ensure(configuration.preparationSeconds === 5 && configuration.exerciseSeconds === 4 && configuration.restSeconds === 2);
+    ensure(configuration.repetitions === 3 && configuration.randomStartEnabled === false);
+
+    const duplicate = await saveDrill("SMOKE DRILL");
+    ensure(duplicate.status === 409 && duplicate.body.code === "duplicate_name");
+    ensure(typeof duplicate.body.fieldErrors?.name === "string");
+
+    const invalid = await saveDrill("Invalid drill", { rest: "99:99" });
+    ensure(invalid.status === 400 && invalid.body.code === "validation");
+    ensure(typeof invalid.body.fieldErrors?.rest === "string");
+
+    const wrongType = await saveDrill("Wrong type drill", {}, { contentType: "text/plain" });
+    ensure(wrongType.status === 415 && wrongType.body.code === "unsupported_media_type");
+}
+
+// One drill is already saved; fill up to 48 so exactly two of five concurrent distinct names fit under the limit of 50.
+// The outcome is a regression signal only (it also holds if the requests happen to serialise);
+// the advisory lock itself is proven by the pgTAP boundary tests.
+async function verifyDrillLimit() {
+    for (let index = 2; index <= 48; index += 1) {
+        const filler = await saveDrill("Smoke filler " + index);
+        ensure(filler.status === 201);
+    }
+
+    const results = await Promise.all(["A", "B", "C", "D", "E"].map((suffix) => saveDrill("Smoke concurrent " + suffix)));
+    ensure(results.filter((result) => result.status === 201).length === 2);
+    const refused = results.filter((result) => result.status === 409);
+    ensure(refused.length === 3);
+    ensure(refused.every((result) => result.body.code === "limit_reached"));
+
+    const overLimit = await saveDrill("Smoke over the limit");
+    ensure(overLimit.status === 409 && overLimit.body.code === "limit_reached");
+}
+
 async function neutralRetryForCallback(location) {
     ensure(location?.pathname === "/auth/callback");
     ensure(location.searchParams.get("error") === "invalid");
@@ -287,6 +364,8 @@ async function runRemoteSmoke() {
         ensure(location?.pathname === "/auth/signin");
         ensure(location.searchParams.get("next") === "/dashboard");
     });
+
+    await runStep("anonymous drill API answers 401 and /create redirects to sign-in", verifyAnonymousDrillApi);
 }
 
 async function runLocalSmoke() {
@@ -304,6 +383,8 @@ async function runLocalSmoke() {
         ensure(location?.pathname === "/auth/signin");
         ensure(location.searchParams.get("next") === "/dashboard");
     });
+
+    await runStep("anonymous drill API answers 401 and /create redirects to sign-in", verifyAnonymousDrillApi);
 
     await runStep("new-account email request returns a neutral result", () => requestEmailLink(email, "/dashboard"));
 
@@ -336,6 +417,9 @@ async function runLocalSmoke() {
         ensure(markup.includes("Dashboard"));
         ensure(markup.includes("Sign out"));
     });
+    await runStep("signed-in user reaches /create and the dashboard links to it", verifyCreatePage);
+    await runStep("signed-in user saves, duplicates, invalid and wrong-type requests get stable API answers", verifySavedDrillApi);
+    await runStep("the 50-timer limit refuses the 51st save, also for concurrent requests", verifyDrillLimit);
     await runStep("sign-out clears the new-account session", verifyDashboardAndSignOut);
     await runStep("signed-out SSR home shell links Sign in to the sign-in page", async () => {
         const home = await appRequest("/");
