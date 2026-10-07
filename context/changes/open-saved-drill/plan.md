@@ -257,16 +257,16 @@ None: no schema change, so no `db push` and nothing to coordinate before merge. 
 
 #### Manual
 
-- [ ] 2.3 Dashboard list, open, run, cancel/complete and refresh behavior verified signed in
+- [x] 2.3 Dashboard list, open, run, cancel/complete and refresh behavior verified signed in (by Playwright script, not a human; bfcache Back/Forward not covered)
 - [x] 2.4 Foreign, random and non-UUID ids look identical (404); guest `/{uuid}` redirects and returns after sign-in — 17eb73c (HTTP-level, see handoff; return-after-sign-in covered by unit tests)
-- [ ] 2.5 `/`, `/create`, `/auth/signin`, `/api/drills` unchanged; keyboard and accessible names checked
+- [x] 2.5 `/`, `/create`, `/auth/signin`, `/api/drills` unchanged; keyboard and accessible names checked (by Playwright script, not a human; no screen reader/real device)
 
 ### Phase 3: Smoke, visual gate and docs
 
 #### Automated
 
-- [ ] 3.1 Local smoke passes against the production preview (two users, guests, non-UUID)
-- [ ] 3.2 Lint, tests, `astro check`, build pass and `/dev/timer-ui` is 404 in the production preview
+- [x] 3.1 Local smoke passes against the production preview (two users, guests, non-UUID)
+- [x] 3.2 Lint, tests, `astro check`, build pass and `/dev/timer-ui` is 404 in the production preview
 
 #### Manual
 

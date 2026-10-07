@@ -54,3 +54,22 @@ Verification on `npm run preview` (workerd), local Supabase, two users created v
 - Test users `p2-a-*@example.test`, `p2-b-*@example.test` and A's two timers remain in the local shared DB (no reset performed).
 
 Not done in this phase (needs a real browser; planned for Phase 3 fixtures/screenshots): running a timer from `/{id}`, Cancel/Completed returning to details, refresh during a run, bfcache check, focus-visible and keyboard check, unavailable branch visually (unit-tested only). Plan items 2.3 and 2.5 are therefore left unchecked.
+
+## Phase 3 — implemented (commit: see Progress): smoke, fixtures, screenshots, docs
+
+Delivered:
+
+- `scripts/smoke.mjs`: id taken from the 201 of `POST /api/drills` (`savedDrill`); first user: dashboard has the link `/{id}`, name and `Prep 0:05 · Exercise 0:04 · Rest 0:02 · 3 reps`, `/{id}` is 200 with name, parameters, `Start`, `noindex`, `no-store` and no running view; guest `/{id}` → 302 `/auth/signin?next=%2F{id}`, guest `/not-a-uuid` 404 without redirect; a distinct second account (new e-mail) gets 404s with identical status, raw body and headers (`cache-control`, `content-type`, `referrer-policy`) for the first user's id, a random UUID, `/not-a-uuid`, `/abc/def`, the id absent from the body, and its own dashboard shows the empty text and none of the first user's data. Remote mode: guest `/{uuid}` redirect + `/not-a-uuid` 404.
+- `SavedDrillFixtures.tsx` (list, empty, unavailable, 50 long names, details) added to `TimerUiPreview`; disabled and loading are justified N/A (stated in the fixture section). The shared 404 is an Astro view: its evidence is the real `/abc` page (`not-found-*` screenshots) plus smoke.
+- `AGENTS.md` (UI rule + fixtures) and `README.md` routes table. No `db push`, no migration.
+- Screenshots + `gate-results.json` (49 checks, 0 failed) + `e2e-results.json` (23 checks, 0 failed) + README in `screenshots/`.
+
+Two UI defects found by the gate and fixed: fixture grid items needed `min-w-0` (unbroken long names widened a card at 390 px; production dashboard is not a grid item, no issue there); the card's `hover:text-accent-foreground` dimmed the name in dark mode, removed (`SavedDrillList.tsx`).
+
+How smoke was run: the shared local stack has no Mailpit and older GoTrue templates (same caveat as S-10), so I ran a scratchpad copy of `scripts/smoke.mjs` where only e-mail retrieval is replaced by GoTrue admin `generate_link`; everything else is repo code. All steps passed against `npm run preview` on port 4321; remote mode passed; `/dev/timer-ui` 404 in the production preview. CI uses the real Mailpit.
+
+Items 2.3 and 2.5 were executed **by a Playwright script, not a human** (production preview, throw-away user deleted afterwards): open from dashboard by keyboard, Start runs the real timer (phases advance), Cancel and completion return to the details, refresh during a run shows the details, `/`, `/create`, `/auth/signin`, `GET /api/drills` unchanged. Not covered: bfcache Back/Forward, real devices, sound, screen reader. Focus after "Return to timer" lands on `body`.
+
+Phase 2 deviations (recorded here as requested): `h1` is the timer name in the `DrillApp` header in saved mode (so `SavedDrillDetails` has no h1); `DrillCompleted` got an optional `returnLabel` ("Return to timer" in saved mode); `Layout.astro` got an empty `<slot name="head" />` used for the `noindex` meta; redirects in `dashboard.astro` / `[id].astro` are set on the response instead of `return Astro.redirect(...)` (lint crash on top-level return).
+
+Open for a human: 3.3 (accept screenshots), 3.4 (existing seven-state gate and Restart scenarios unaffected: only two lines added to `TimerUiPreview`, not re-screenshotted), bfcache check.

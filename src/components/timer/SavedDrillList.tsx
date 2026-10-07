@@ -25,7 +25,7 @@ export default function SavedDrillList({ state }: { state: SavedDrillListState }
                 <li key={drill.id}>
                     <a
                         href={`/${drill.id}`}
-                        className="bg-card text-card-foreground hover:bg-accent hover:text-accent-foreground focus-visible:ring-ring/50 focus-visible:border-ring block rounded-lg border p-4 shadow-xs transition-colors outline-none focus-visible:ring-2"
+                        className="bg-card text-card-foreground hover:bg-accent focus-visible:ring-ring/50 focus-visible:border-ring block rounded-lg border p-4 shadow-xs transition-colors outline-none focus-visible:ring-2"
                     >
                         <span className="block font-medium break-words">{drill.name}</span>
                         <span className="text-muted-foreground mt-1 block text-sm">{describeDrillConfiguration(drill.configuration).join(" · ")}</span>
