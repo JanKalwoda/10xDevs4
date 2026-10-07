@@ -10,6 +10,20 @@ import { configInputFromSavedDrill } from "@/lib/saved-drill-summary";
 import { cn } from "@/lib/utils";
 import type { SavedDrill } from "@/types";
 
+/** Always visible: leaving the edit page never depends on the save state. Shared with the `/dev/timer-ui` fixtures. */
+export function DrillEditLinks({ id }: { id: string }) {
+    return (
+        <div className="flex flex-col">
+            <a href={`/${id}`} className={cn(buttonVariants({ variant: "link" }), "w-full")}>
+                Back to timer
+            </a>
+            <a href="/dashboard" className={cn(buttonVariants({ variant: "link" }), "w-full")}>
+                Back to dashboard
+            </a>
+        </div>
+    );
+}
+
 // /{id}/edit: the /create form prefilled with the stored timer; saving puts the full body to that one timer.
 export default function DrillEditApp({ drill }: { drill: SavedDrill }) {
     const [values, setValues] = useState<DrillConfigInput>(() => configInputFromSavedDrill(drill.configuration));
@@ -43,14 +57,7 @@ export default function DrillEditApp({ drill }: { drill: SavedDrill }) {
                         submitLabel="Save changes"
                         signInHref={`/auth/signin?next=${encodeURIComponent(`/${drill.id}/edit`)}`}
                     />
-                    <div className="flex flex-col">
-                        <a href={`/${drill.id}`} className={cn(buttonVariants({ variant: "link" }), "w-full")}>
-                            Back to timer
-                        </a>
-                        <a href="/dashboard" className={cn(buttonVariants({ variant: "link" }), "w-full")}>
-                            Back to dashboard
-                        </a>
-                    </div>
+                    <DrillEditLinks id={drill.id} />
                 </CardContent>
             </Card>
         </main>

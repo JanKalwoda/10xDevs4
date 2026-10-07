@@ -323,18 +323,18 @@ None. Production already has the table, policy, grant and trigger from S-10; not
 
 #### Manual
 
-- [ ] 2.7 Owner edit flow end to end (prefilled form, Saved message, Back to timer shows new data, Start runs new parameters)
-- [ ] 2.8 Duplicate name, case-only rename and 200/201 code point boundary in the form
-- [ ] 2.9 Foreign/random/non-UUID `/{x}/edit` identical 404; guest redirects as specified
-- [ ] 2.10 Keyboard order, focus after saving and visible focus on the Edit link
+- [x] 2.7 Owner edit flow end to end (prefilled form, Saved message, Back to timer shows new data, Start runs new parameters) (by Playwright script, not a human; production preview, real browser)
+- [x] 2.8 Duplicate name, case-only rename and 200/201 code point boundary in the form (by Playwright script, not a human; emoji/NFD input not covered)
+- [x] 2.9 Foreign/random/non-UUID `/{x}/edit` identical 404; guest redirects as specified (by Playwright script, not a human)
+- [x] 2.10 Keyboard order, focus after saving and visible focus on the Edit link (by Playwright script, not a human; no screen reader)
 
 ### Phase 3: Fixtures, smoke, screenshots and docs
 
 #### Automated
 
-- [ ] 3.1 All Phase 1–2 gates still green: `npm test`, `npm run lint`, `npx astro check`, `npm run build`, `npx supabase test db`
-- [ ] 3.2 Smoke (local mode) passes including the new edit steps: `SMOKE_MODE=local BASE_URL=http://localhost:4321 npm run smoke`
-- [ ] 3.3 `/dev/timer-ui` is 404 in the production preview
+- [x] 3.1 All Phase 1–2 gates still green: `npm test`, `npm run lint`, `npx astro check`, `npm run build`, `npx supabase test db`
+- [x] 3.2 Smoke (local mode) passes including the new edit steps: `SMOKE_MODE=local BASE_URL=http://localhost:4321 npm run smoke` (scratchpad copy with GoTrue `generate_link` instead of Mailpit; CI runs the repo script with Mailpit)
+- [x] 3.3 `/dev/timer-ui` is 404 in the production preview
 
 #### Manual
 
