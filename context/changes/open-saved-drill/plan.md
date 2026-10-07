@@ -239,14 +239,14 @@ None: no schema change, so no `db push` and nothing to coordinate before merge. 
 
 #### Automated
 
-- [ ] 1.1 Unit tests pass (`npm test`) for ids, read service, summary and protected routes
-- [ ] 1.2 Database tests pass (`npx supabase test db`)
-- [ ] 1.3 No migration file added under `supabase/migrations`
-- [ ] 1.4 Lint and `astro check` pass
+- [x] 1.1 Unit tests pass (`npm test`) for ids, read service, summary and protected routes — 4cb812f
+- [x] 1.2 Database tests pass (`npx supabase test db`) — 4cb812f
+- [x] 1.3 No migration file added under `supabase/migrations` — 4cb812f
+- [x] 1.4 Lint and `astro check` pass — 4cb812f
 
 #### Manual
 
-- [ ] 1.5 Break-check of id guard, zero-row case and protection rule recorded
+- [x] 1.5 Break-check of id guard, zero-row case and protection rule recorded — 4cb812f
 
 ### Phase 2: Pages, saved-drill view and 404
 
