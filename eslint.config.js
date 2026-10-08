@@ -81,7 +81,7 @@ const scriptsConfig = defineConfig({
 
 export default defineConfig(
     includeIgnoreFile(gitignorePath),
-    globalIgnores([".agents/**"]),
+    globalIgnores([".agents/**", "context/**/screenshots/**"]),
     baseConfig,
     reactConfig,
     eslintPluginAstro.configs["flat/recommended"],
