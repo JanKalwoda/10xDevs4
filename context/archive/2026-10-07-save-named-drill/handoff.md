@@ -109,3 +109,7 @@ Opus impl-review: APPROVED (0 critical / 1 warning / 5 observations); decisions 
 Gates after the fixes: `npm test` 139/139; `npm run lint` clean; rule tests 4/4; `astro sync && astro check` 0 errors (the one pre-existing hint); `npm run build` ok; `prettier --check` on the touched dirs ok; `npx supabase test db` 70/70 on the shared local stack.
 
 Not done: screenshots of the error states (`limit-reached-*`, `unavailable-*`, `session-expired-*`) were not recaptured after the F1 layout change; 4.4/4.5 (human screenshot review) remain open. Before merge: `db push` of migration `20261007120000` to production (the API returns 503 until the table exists).
+
+## Weryfikacja ręczna przez użytkownika (2026-10-08)
+
+Użytkownik ręcznie sprawdził wszystkie kroki z listy testów ręcznych dla tej zmiany (na produkcji i na urządzeniach, w tym dźwięk tam, gdzie dotyczy) i potwierdził, że wszystko działa poprawnie. To zastępuje wcześniejsze zastrzeżenia, że kroki manualne zweryfikował wyłącznie skrypt Playwright lub agent.

@@ -220,7 +220,7 @@ None (no data or env changes).
 
 #### Manual
 
-- [ ] 2.3 Buttons play audible cues in a real browser and the meaning text is clear
+- [x] 2.3 Buttons play audible cues in a real browser and the meaning text is clear — confirmed manually by the user (2026-10-08)
 
 ### Phase 3: Visual gate on /dev/timer-ui
 
@@ -230,4 +230,4 @@ None (no data or env changes).
 
 #### Manual
 
-- [ ] 3.2 A human reviews screenshots and listens on real devices
+- [x] 3.2 A human reviews screenshots and listens on real devices — confirmed manually by the user (2026-10-08)

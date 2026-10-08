@@ -1,10 +1,10 @@
 ---
 change_id: open-saved-drill
 title: Open and run saved timers from the dashboard
-status: impl_reviewed
+status: archived
 created: 2026-10-07
-updated: 2026-10-07
-archived_at: null
+updated: 2026-10-08
+archived_at: 2026-10-08T20:12:20Z
 ---
 
 ## Notes

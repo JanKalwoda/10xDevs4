@@ -71,3 +71,7 @@ Notes for the coordinator:
 ## Impl-review fixes (APPROVED, 0 critical)
 
 Decisions in `reviews/impl-review.md`: F1 fixed (README ~164: POST/PUT need `application/json`; DELETE has no body and never answers 415), F2 fixed (`aria-disabled:pointer-events-none aria-disabled:opacity-50` on Cancel), F3 accepted as is (per plan). One commit; no migration, no `db push`/`db reset`. Next: PR to `main` (not merged by the agent).
+
+## Weryfikacja ręczna przez użytkownika (2026-10-08)
+
+Użytkownik ręcznie sprawdził wszystkie kroki z listy testów ręcznych dla tej zmiany (na produkcji i na urządzeniach, w tym dźwięk tam, gdzie dotyczy) i potwierdził, że wszystko działa poprawnie. To zastępuje wcześniejsze zastrzeżenia, że kroki manualne zweryfikował wyłącznie skrypt Playwright lub agent.

@@ -270,5 +270,5 @@ None: no schema change, so no `db push` and nothing to coordinate before merge. 
 
 #### Manual
 
-- [ ] 3.3 Screenshots of all states (light/dark, 1280/390) reviewed and accepted
-- [ ] 3.4 Existing seven-state timer gate and Restart lifecycle scenarios unaffected
+- [x] 3.3 Screenshots of all states (light/dark, 1280/390) reviewed and accepted — confirmed manually by the user (2026-10-08)
+- [x] 3.4 Existing seven-state timer gate and Restart lifecycle scenarios unaffected — confirmed manually by the user (2026-10-08)
