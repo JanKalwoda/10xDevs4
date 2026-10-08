@@ -2,7 +2,6 @@ import { useState } from "react";
 import { buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import DrillCreateForm from "@/components/timer/DrillCreateForm";
-import ThemeToggle from "@/components/timer/ThemeToggle";
 import { useDrillCreate } from "@/components/hooks/useDrillCreate";
 import type { DrillConfigInput } from "@/lib/drill-timer";
 import { cn } from "@/lib/utils";
@@ -20,12 +19,10 @@ export default function DrillCreateApp() {
     const create = useDrillCreate();
 
     return (
-        <main className="bg-background text-foreground flex min-h-screen items-center justify-center px-4 py-8">
+        <main className="bg-background text-foreground flex flex-1 items-center justify-center px-4 py-8">
             <Card className="w-full max-w-md">
-                <CardHeader className="flex flex-row items-center justify-between">
-                    <span aria-hidden="true" className="size-9" />
+                <CardHeader>
                     <h1 className="text-center text-3xl font-bold">Create a timer</h1>
-                    <ThemeToggle />
                 </CardHeader>
                 <CardContent className="space-y-5">
                     <DrillCreateForm

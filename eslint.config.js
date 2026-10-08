@@ -101,7 +101,9 @@ export default defineConfig(
     },
     {
         files: [
-            "src/components/timer/**/*.{ts,tsx}",
+            "src/components/timer/**/*.{ts,tsx,astro}",
+            "src/components/AppTopBar.astro",
+            "src/layouts/Layout.astro",
             "src/pages/index.astro",
             "src/pages/create.astro",
             "src/pages/dashboard.astro",

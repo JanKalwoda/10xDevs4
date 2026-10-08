@@ -1,0 +1,57 @@
+---
+import { Moon, Sun } from "lucide-react";
+import ThemeToggle from "@/components/timer/ThemeToggle";
+import { Button, buttonVariants } from "@/components/ui/button";
+import { TIMERS_HREF } from "@/lib/app-top-bar";
+import { cn } from "@/lib/utils";
+
+interface Props {
+    user?: { email?: string | null } | null;
+    // /dev/timer-ui renders the bar with a static toggle so the preview theme stays deterministic.
+    fixture?: boolean;
+}
+
+const { user = null, fixture = false } = Astro.props;
+const email = user?.email ?? "Account";
+const linkClass = cn(buttonVariants({ variant: "ghost", size: "sm" }));
+// buttonVariants sets shrink-0; the email link must be allowed to shrink so a long address truncates instead of overlapping the right group.
+const emailLinkClass = cn(buttonVariants({ variant: "ghost", size: "sm" }), "min-w-0 shrink justify-start");
+---
+
+<header class="border-border bg-background sticky top-0 z-50 border-b">
+    <nav aria-label="Account" class="flex items-center justify-between gap-2 px-4 py-2">
+        {user ? (
+            <div class="flex min-w-0 flex-1 items-center gap-1">
+                <a href="/dashboard" title={email} class:list={[emailLinkClass]}>
+                    <span class="truncate">{email}</span>
+                </a>
+                <a href={TIMERS_HREF} class:list={[linkClass, "shrink-0"]}>
+                    Timers
+                </a>
+            </div>
+        ) : (
+            <span aria-hidden="true"></span>
+        )}
+        <div class="flex shrink-0 items-center gap-2">
+            {fixture ? (
+                <Button type="button" variant="outline" size="icon" aria-label="Change color theme">
+                    <Moon aria-hidden="true" className="dark:hidden" />
+                    <Sun aria-hidden="true" className="hidden dark:block" />
+                </Button>
+            ) : (
+                <ThemeToggle client:load />
+            )}
+            {user ? (
+                <form method="POST" action="/api/auth/signout">
+                    <Button type="submit" variant="outline" size="sm">
+                        Sign out
+                    </Button>
+                </form>
+            ) : (
+                <a href="/auth/signin" class:list={[cn(buttonVariants({ variant: "outline", size: "sm" }))]}>
+                    Sign in
+                </a>
+            )}
+        </div>
+    </nav>
+</header>

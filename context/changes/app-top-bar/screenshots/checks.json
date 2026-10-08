@@ -1,0 +1,32 @@
+[
+  {
+    "id": "1.8",
+    "ok": true,
+    "msg": "390x1300 (card ~1014px does not fit 844) {\"barBottom\":53,\"mainTop\":53,\"scrollH\":1300,\"innerH\":1300,\"navs\":1}"
+  },
+  {
+    "id": "1.9",
+    "ok": true,
+    "msg": "390x400 {\"y\":885,\"top\":0}"
+  },
+  {
+    "id": "1.10",
+    "ok": true,
+    "msg": "{\"guest\":{\"signIn\":1,\"text\":\"Sign in\",\"buttons\":1,\"signOut\":0},\"noBarSignin\":0,\"noBarConfirm\":0,\"signed\":{\"email\":\"topbar-shots@example.com\",\"timers\":\"/dashboard\",\"form\":1,\"signOut\":1}}"
+  },
+  {
+    "id": "1.11",
+    "ok": true,
+    "msg": "{\"was\":false,\"now\":true,\"pages\":[true,true,true],\"first\":{\"dark\":true,\"icons\":[{\"cls\":\"lucide lucide-moon dark:hidden\",\"display\":\"none\"},{\"cls\":\"lucide lucide-sun hidden dark:block\",\"display\":\"block\"}]}}"
+  },
+  {
+    "id": "overlap390",
+    "ok": true,
+    "msg": "[{\"leftEnd\":33,\"rightStart\":244,\"navOverflow\":false,\"docOverflow\":false},{\"leftEnd\":228,\"rightStart\":236,\"navOverflow\":false,\"docOverflow\":false},{\"leftEnd\":228,\"rightStart\":236,\"navOverflow\":false,\"docOverflow\":false}]"
+  },
+  {
+    "id": "2.2",
+    "ok": true,
+    "msg": "{\"href\":\"/\",\"cls\":\"inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-9 px-4 py-2 has-[>svg]:px-3 w-full\",\"border\":\"1px\",\"bars\":0}"
+  }
+]

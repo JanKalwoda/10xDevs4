@@ -1,5 +1,6 @@
 ---
 import "@/styles/global.css";
+import AppTopBar from "@/components/AppTopBar.astro";
 import TimerUiPreview from "@/components/timer/TimerUiPreview";
 
 const isDevelopment = import.meta.env.DEV;
@@ -8,6 +9,15 @@ if (!isDevelopment) {
 }
 
 const dark = Astro.url.searchParams.get("theme") === "dark";
+
+const topBarFixtures = [
+    { title: "Top bar: guest", user: null },
+    { title: "Top bar: signed in", user: { email: "shooter@example.com" } },
+    {
+        title: "Top bar: long email (truncation)",
+        user: { email: "a.very.long.email.address.for.truncation.checks@example-company-domain.example.com" },
+    },
+];
 ---
 
 <!doctype html>
@@ -20,7 +30,24 @@ const dark = Astro.url.searchParams.get("theme") === "dark";
             <title>Timer UI preview</title>
         </head>
         <body>
+            <section aria-label="Top bar fixtures" class="top-bar-fixtures flex flex-col gap-4 p-4">
+                {topBarFixtures.map(({ title, user }) => (
+                    <div class="flex flex-col gap-2">
+                        <h2 class="text-muted-foreground text-sm font-medium">{title}</h2>
+                        <div class="border-border overflow-hidden rounded-lg border">
+                            <AppTopBar user={user} fixture />
+                        </div>
+                    </div>
+                ))}
+            </section>
             <TimerUiPreview client:load />
         </body>
     </html>
 )}
+
+<style>
+    /* The production bar is sticky; in the preview each fixture sits in normal flow. */
+    .top-bar-fixtures :global(header) {
+        position: static;
+    }
+</style>

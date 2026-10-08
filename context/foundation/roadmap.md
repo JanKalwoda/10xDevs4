@@ -62,7 +62,7 @@ Obecny timer HIIT pozwala ustawić fazy i powtórzenia, lecz jego przewidywalny 
 | S-18 | run-view-layout | Układ widoku biegu | yes | Po S-04; zob. `ux-fixes-plan.md`. |
 | S-19 | signal-preview-icon | Ikona odsłuchu z tooltipem | yes | Po S-03; zob. `ux-fixes-plan.md`. |
 | S-20 | account-deletion | Usuwanie konta (RODO) | no | Wymaga decyzji o przetrzymaniu i kluczu service role. |
-| S-16 | app-top-bar | Użytkownik widzi przyklejony top bar z emailem, Sign in/Sign out i przełącznikiem motywu | S-09 | FR-015 | ready |
+| S-16 | app-top-bar | Użytkownik widzi przyklejony top bar z emailem, Sign in/Sign out i przełącznikiem motywu | S-09 | FR-015 | in-progress |
 | S-17 | timers-list-and-account | Użytkownik ma osobny ekran listy timerów, stronę danych konta i po zapisie trafia do zapisanego timera | S-16, S-11, S-12, S-13 | FR-011, FR-016, FR-017 | ready |
 | S-18 | run-view-layout | Użytkownik widzi w biegu czas wyżej, powtórzenie pod czasem oraz czytelniejsze okienka Current i Next | S-04 | FR-013, FR-018 | ready |
 | S-19 | signal-preview-icon | Użytkownik odsłuchuje sygnał ikoną głośnika w wierszu pola, a opis widzi w tooltipie | S-03 | FR-004, FR-019 | ready |
@@ -294,7 +294,7 @@ Brak osobnych Foundations. Konfigurację danych, ochronę własności i weryfika
 - **Blockers:** —
 - **Unknowns:** —
 - **Risk:** Email trafia do HTML każdej strony z paskiem, więc strony z paskiem (w tym `/` i 404) muszą mieć `Cache-Control: private, no-store`; sticky pasek nie może dawać dodatkowego przewijania ani przesuwać układu karty.
-- **Status:** ready
+- **Status:** in-progress
 
 ### S-17: Lista timerów i dane konta
 

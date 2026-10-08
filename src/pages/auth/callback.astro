@@ -1,7 +1,8 @@
 ---
 import Layout from "@/layouts/Layout.astro";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader } from "@/components/ui/card";
+import { cn } from "@/lib/utils";
 import { EMAIL_LINK_RETRY_MESSAGE, emailLinkCallbackPageState, setEmailLinkPageSecurityHeaders } from "@/lib/email-auth";
 
 setEmailLinkPageSecurityHeaders(Astro.response.headers);
@@ -9,7 +10,7 @@ const state = emailLinkCallbackPageState(Astro.url.href);
 const title = state.kind === "confirm" ? "Confirm your sign-in" : "Sign-in link unavailable";
 ---
 
-<Layout title={title} enableTimerTheme showConfigWarnings={false}>
+<Layout title={title} enableTimerTheme showConfigWarnings={false} showTopBar={false}>
     <main class="flex min-h-screen items-center justify-center bg-background p-4 text-foreground">
         <Card className="w-full max-w-md gap-0 overflow-hidden py-0">
             <CardHeader className="gap-3 px-6 pt-8 sm:px-8">
@@ -42,7 +43,7 @@ const title = state.kind === "confirm" ? "Confirm your sign-in" : "Sign-in link 
                         Request a new sign-in link
                     </a>
                 )}
-                <a class="text-muted-foreground text-sm underline-offset-4 hover:text-foreground hover:underline" href="/">
+                <a href="/" class:list={[cn(buttonVariants({ variant: "outline" }), "w-full")]}>
                     Back to the timer
                 </a>
             </CardContent>
