@@ -1,53 +1,25 @@
 ---
-import SavedDrillList from "@/components/timer/SavedDrillList";
-import { Button, buttonVariants } from "@/components/ui/button";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import AccountDetails from "@/components/AccountDetails.astro";
 import Layout from "@/layouts/Layout.astro";
 import { signInUrlForProtectedPath } from "@/lib/email-auth";
-import { createSupabaseDrillStore, resolveDashboardPage } from "@/lib/services/drill-configurations";
-import { cn } from "@/lib/utils";
 
 export const prerender = false;
 
 Astro.response.headers.set("Cache-Control", "private, no-store");
 
-const { user, supabase } = Astro.locals;
-const page = await resolveDashboardPage(user?.id ?? null, supabase ? createSupabaseDrillStore(supabase) : null);
+const { user } = Astro.locals;
 
 // A top-level return crashes typescript-eslint on .astro files, so the redirect is set on the response.
-if (page.kind === "sign_in") {
+if (!user) {
     Astro.response.status = 302;
     Astro.response.headers.set("Location", signInUrlForProtectedPath("/dashboard"));
 }
 ---
 
-{page.kind !== "sign_in" && (
-    <Layout title="Dashboard" enableTimerTheme showConfigWarnings={false}>
+{user && (
+    <Layout title="Account" enableTimerTheme showConfigWarnings={false}>
         <main class="bg-background text-foreground flex flex-1 items-center justify-center px-4 py-8">
-            <Card className="w-full max-w-md">
-                <CardHeader>
-                    <h1 class="text-center text-3xl font-bold">Dashboard</h1>
-                </CardHeader>
-                <CardContent className="space-y-6">
-                    <p class="text-muted-foreground text-center text-sm">
-                        Signed in as <span class="text-foreground font-medium break-all">{user?.email}</span>
-                    </p>
-                    <section aria-labelledby="saved-timers-heading" class="space-y-3">
-                        <h2 id="saved-timers-heading" class="text-xl font-semibold">
-                            Saved timers
-                        </h2>
-                        <SavedDrillList state={page.kind === "ok" ? { kind: "ok", drills: page.drills } : { kind: "unavailable" }} />
-                    </section>
-                    <a href="/create" class:list={[cn(buttonVariants({ size: "default" }), "w-full")]}>
-                        Create a timer
-                    </a>
-                    <form method="POST" action="/api/auth/signout">
-                        <Button type="submit" variant="outline" className="w-full">
-                            Sign out
-                        </Button>
-                    </form>
-                </CardContent>
-            </Card>
+            <AccountDetails email={user.email ?? ""} />
         </main>
     </Layout>
 )}

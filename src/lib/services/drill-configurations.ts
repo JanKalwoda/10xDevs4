@@ -568,9 +568,9 @@ export async function resolveSavedDrillPage(userId: string | null, id: string, s
     return result.kind === "unauthorized" ? { kind: "sign_in" } : result;
 }
 
-export type DashboardPage = { kind: "ok"; drills: SavedDrill[] } | { kind: "unavailable" } | { kind: "sign_in" };
+export type TimersPage = { kind: "ok"; drills: SavedDrill[] } | { kind: "unavailable" } | { kind: "sign_in" };
 
-export async function resolveDashboardPage(userId: string | null, store: DrillConfigurationStore | null, log?: DrillSaveLogger): Promise<DashboardPage> {
+export async function resolveTimersPage(userId: string | null, store: DrillConfigurationStore | null, log?: DrillSaveLogger): Promise<TimersPage> {
     if (userId === null) return { kind: "sign_in" };
     if (store === null) return { kind: "unavailable" };
 

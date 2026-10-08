@@ -1,23 +1,23 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
-import { PROTECTED_ROUTES, guestRedirectResponse, isProtectedPath } from "./protected-routes.ts";
+import { PROTECTED_ROUTES, guestRedirectResponse, isProtectedPath, isSavedDrillPath } from "./protected-routes.ts";
 
-void test("dashboard and create are protected, including their sub-paths", () => {
-    assert.deepEqual([...PROTECTED_ROUTES], ["/dashboard", "/create"]);
-    for (const path of ["/dashboard", "/dashboard/", "/dashboard/settings", "/create", "/create/", "/create/draft"]) {
+void test("dashboard, create and timers are protected, including their sub-paths", () => {
+    assert.deepEqual([...PROTECTED_ROUTES], ["/dashboard", "/create", "/timers"]);
+    for (const path of ["/dashboard", "/dashboard/", "/dashboard/settings", "/create", "/create/", "/create/draft", "/timers", "/timers/", "/timers/x"]) {
         assert.equal(isProtectedPath(path), true, path);
     }
 });
 
 void test("protection matches at a segment boundary only", () => {
-    for (const path of ["/", "/created", "/creative", "/dashboards", "/api/drills", "/auth/signin", "/dev/timer-ui", "/x/create"]) {
+    for (const path of ["/", "/created", "/creative", "/dashboards", "/timersx", "/x/timers", "/api/drills", "/auth/signin", "/dev/timer-ui", "/x/create"]) {
         assert.equal(isProtectedPath(path), false, path);
     }
 });
 
 void test("encoded and repeated slashes cannot bypass the guard", () => {
-    for (const path of ["/%63reate", "/%63reate/", "//create", "///dashboard", "/create%2Fx", "/%64ashboard"]) {
+    for (const path of ["/%63reate", "/%63reate/", "//create", "///dashboard", "/create%2Fx", "/%64ashboard", "/%74imers", "//timers", "/timers%2Fx"]) {
         assert.equal(isProtectedPath(path), true, path);
     }
 });
@@ -81,4 +81,9 @@ void test("guest redirect goes to sign-in with next and is never cacheable", () 
     assert.equal(response.status, 302);
     assert.equal(response.headers.get("Location"), "/auth/signin?next=%2F3f2b8c1e-5d4a-4e6f-9a7b-1c2d3e4f5a6b");
     assert.equal(response.headers.get("Cache-Control"), "private, no-store");
+});
+
+void test("/timers is a page route, never a saved timer path", () => {
+    assert.equal(isSavedDrillPath("/timers"), false);
+    assert.equal(isProtectedPath("/timers"), true);
 });

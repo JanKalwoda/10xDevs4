@@ -1,0 +1,45 @@
+---
+import SavedDrillList from "@/components/timer/SavedDrillList";
+import { buttonVariants } from "@/components/ui/button";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import Layout from "@/layouts/Layout.astro";
+import { signInUrlForProtectedPath } from "@/lib/email-auth";
+import { createSupabaseDrillStore, resolveTimersPage } from "@/lib/services/drill-configurations";
+import { cn } from "@/lib/utils";
+
+export const prerender = false;
+
+Astro.response.headers.set("Cache-Control", "private, no-store");
+
+const { user, supabase } = Astro.locals;
+const page = await resolveTimersPage(user?.id ?? null, supabase ? createSupabaseDrillStore(supabase) : null);
+
+// A top-level return crashes typescript-eslint on .astro files, so the redirect is set on the response.
+if (page.kind === "sign_in") {
+    Astro.response.status = 302;
+    Astro.response.headers.set("Location", signInUrlForProtectedPath("/timers"));
+}
+---
+
+{page.kind !== "sign_in" && (
+    <Layout title="Timers" enableTimerTheme showConfigWarnings={false}>
+        <main class="bg-background text-foreground flex flex-1 items-center justify-center px-4 py-8">
+            <Card className="w-full max-w-md">
+                <CardHeader>
+                    <h1 class="text-center text-3xl font-bold">Timers</h1>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                    <section aria-labelledby="saved-timers-heading" class="space-y-3">
+                        <h2 id="saved-timers-heading" class="text-xl font-semibold">
+                            Saved timers
+                        </h2>
+                        <SavedDrillList state={page.kind === "ok" ? { kind: "ok", drills: page.drills } : { kind: "unavailable" }} />
+                    </section>
+                    <a href="/create" class:list={[cn(buttonVariants({ size: "default" }), "w-full")]}>
+                        Create a timer
+                    </a>
+                </CardContent>
+            </Card>
+        </main>
+    </Layout>
+)}

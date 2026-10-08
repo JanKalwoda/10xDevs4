@@ -41,7 +41,7 @@ interface Scenario {
     state: SavedDrillListState;
 }
 
-/** Each scenario feeds the production `SavedDrillList` the exact state `resolveDashboardPage` produces. */
+/** Each scenario feeds the production `SavedDrillList` the exact state `resolveTimersPage` produces. */
 const SCENARIOS: Scenario[] = [
     {
         fixture: "list",
@@ -66,8 +66,8 @@ export default function SavedDrillFixtures() {
         <section aria-label="Saved timers examples" className="space-y-4">
             <h2 className="text-xl font-semibold">Saved timers</h2>
             <p className="text-muted-foreground text-sm">
-                Production dashboard list and saved-timer details with deterministic data. Disabled is N/A (no disabled control); loading is N/A (pages are server-rendered); the
-                404 page is an Astro view checked over HTTP.
+                Production timers list and saved-timer details with deterministic data. Disabled is N/A (no disabled control); loading is N/A (pages are server-rendered); the 404
+                page is an Astro view checked over HTTP.
             </p>
             <div className="grid gap-6 md:grid-cols-2">
                 {SCENARIOS.map((scenario) => (

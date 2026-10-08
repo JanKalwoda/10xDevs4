@@ -324,12 +324,12 @@ No data changes. Old bookmarks of `/dashboard` now open the account page; the ba
 
 #### Automated
 
-- [ ] 1.1 Types and routes sync: `npx astro sync`
-- [ ] 1.2 Lint passes: `npm run lint`
-- [ ] 1.3 Unit tests pass: `npm test`
-- [ ] 1.4 Contract tests pass: `node --test scripts/eslint-rules/*.test.mjs`
-- [ ] 1.5 Type check passes: `npx astro check`
-- [ ] 1.7 Smoke is valid and has no dead list assertions: `node --check scripts/smoke.mjs`, grep of `/dashboard` requests
+- [x] 1.1 Types and routes sync: `npx astro sync`
+- [x] 1.2 Lint passes: `npm run lint`
+- [x] 1.3 Unit tests pass: `npm test`
+- [x] 1.4 Contract tests pass: `node --test scripts/eslint-rules/*.test.mjs`
+- [x] 1.5 Type check passes: `npx astro check`
+- [x] 1.7 Smoke is valid and has no dead list assertions: `node --check scripts/smoke.mjs`, grep of `/dashboard` requests
 
 #### Manual
 
