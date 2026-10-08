@@ -3,7 +3,7 @@ project: "DryFire Drill Timer"
 version: 1
 status: draft
 created: 2026-09-23
-updated: 2026-10-07
+updated: 2026-10-08
 prd_version: 1
 main_goal: speed
 top_blocker: capacity
@@ -23,7 +23,7 @@ milestone_status: open
 
 - **Intent:** Użytkownik przeprowadza pełne ćwiczenie z nieprzewidywalnym startem, a po zalogowaniu zachowuje i ponownie wykorzystuje własne ustawienia. Pierwszy działający rezultat to timer bez zapisu konfiguracji, zgodnie z `shape-notes.md` §Forward: technical-roadmap.
 - **Source materials:** `context/foundation/prd.md` (v1); `context/foundation/shape-notes.md` §Forward: technical-roadmap; opis użytkownika dotyczący dopracowania UI głównego timera.
-- **Done when:** każdy F-NN i S-NN poniżej poza odroczonym S-05 (kolory faz) i zablokowanym S-14 ma status `done`, a pełny przebieg został sprawdzony w przeglądarce na komputerze i telefonie.
+- **Done when:** każdy F-NN i S-NN poniżej poza odroczonym S-05 (kolory faz), zablokowanym S-14 i proponowanym S-20 ma status `done`, a pełny przebieg został sprawdzony w przeglądarce na komputerze i telefonie.
 - **Scope anchors:** FR-001–FR-014; US-01–US-03; MS-01: dopracowanie istniejącego widoku głównego timera pod `/` na telefonie i komputerze.
 
 ## Vision recap
@@ -57,6 +57,16 @@ Obecny timer HIIT pozwala ustawić fazy i powtórzenia, lecz jego przewidywalny 
 | S-12 | edit-saved-drill | Użytkownik zmienia własną zapisaną konfigurację | S-10 | FR-012 | in-progress |
 | S-13 | delete-saved-drill | Użytkownik usuwa własną konfigurację po potwierdzeniu | S-10 | FR-012 | in-progress |
 | S-14 | align-bluetooth-audio | Użytkownik ze słuchawkami Bluetooth wyrównuje widok faz ze słyszanymi sygnałami | S-02 | FR-002, FR-004, FR-005 | blocked |
+| S-16 | app-top-bar | Top bar z kontem i motywem | yes | Zob. `context/foundation/ux-fixes-plan.md`. |
+| S-17 | timers-list-and-account | Lista timerów, dane konta i przejście po zapisie | yes | Po S-16; zob. `ux-fixes-plan.md`. |
+| S-18 | run-view-layout | Układ widoku biegu | yes | Po S-04; zob. `ux-fixes-plan.md`. |
+| S-19 | signal-preview-icon | Ikona odsłuchu z tooltipem | yes | Po S-03; zob. `ux-fixes-plan.md`. |
+| S-20 | account-deletion | Usuwanie konta (RODO) | no | Wymaga decyzji o przetrzymaniu i kluczu service role. |
+| S-16 | app-top-bar | Użytkownik widzi przyklejony top bar z emailem, Sign in/Sign out i przełącznikiem motywu | S-09 | FR-015 | ready |
+| S-17 | timers-list-and-account | Użytkownik ma osobny ekran listy timerów, stronę danych konta i po zapisie trafia do zapisanego timera | S-16, S-11, S-12, S-13 | FR-011, FR-016, FR-017 | ready |
+| S-18 | run-view-layout | Użytkownik widzi w biegu czas wyżej, powtórzenie pod czasem oraz czytelniejsze okienka Current i Next | S-04 | FR-013, FR-018 | ready |
+| S-19 | signal-preview-icon | Użytkownik odsłuchuje sygnał ikoną głośnika w wierszu pola, a opis widzi w tooltipie | S-03 | FR-004, FR-019 | ready |
+| S-20 | account-deletion | Użytkownik usuwa swoje konto z okresem przetrzymania zgodnym z RODO | S-09, S-17 | — | proposed |
 
 ## Streams
 
@@ -69,6 +79,8 @@ Strumienie ułatwiają czytanie równoległych ścieżek. Strzałka oznacza zale
 | C | Sterowanie przebiegiem | `S-06`, `S-07`, `S-08` | S-07 wymaga S-01; S-06 i S-08 wymagają S-02. |
 | D | Dostęp do konta i zapis | `S-09` → `S-10` | Zapis S-10 nie wymaga już S-05; kolory faz są odroczone razem z S-05. |
 | E | Korzystanie z zapisów | `S-11`, `S-12`, `S-13` | Trzy niezależne działania po zapisie S-10. |
+| F | Powłoka, konto i nawigacja | `S-16` → `S-17` → `S-20` | S-17 wymaga paska z S-16; S-20 jest tylko zaproponowany (RODO, wymaga decyzji). |
+| G | Dopracowanie widoku biegu i formularza | `S-18`, `S-19` | Niezależne od siebie; S-18 po S-04, S-19 po S-03. |
 
 ## Baseline
 
@@ -272,6 +284,67 @@ Brak osobnych Foundations. Konfigurację danych, ochronę własności i weryfika
 - **Risk:** Opóźnienie Bluetooth zależy od urządzenia i toru odtwarzania; korekta nie może skrócić losowego odstępu słyszanego między końcem drugiego sygnału Standby a startem ćwiczenia ani obiecywać dokładności bez pomiaru.
 - **Status:** blocked
 
+### S-16: Przyklejony top bar z informacją o koncie
+
+- **Outcome:** Na każdej stronie poza stronami logowania użytkownik widzi przyklejony do góry, zawsze widoczny pasek: dla zalogowanego email (link do `/dashboard`), link „Timers", przełącznik motywu jasny/ciemny i „Sign out"; dla gościa „Sign in" i przełącznik motywu. Pasek zastępuje pływający link konta i przełączniki motywu w kartach, więc „Sign in" nie nachodzi na kartę timera na telefonie. „Back to the timer" na stronie callback jest przyciskiem.
+- **Change ID:** app-top-bar
+- **PRD refs:** FR-015
+- **Prerequisites:** S-09
+- **Parallel with:** S-18, S-19
+- **Blockers:** —
+- **Unknowns:** —
+- **Risk:** Email trafia do HTML każdej strony z paskiem, więc strony z paskiem (w tym `/` i 404) muszą mieć `Cache-Control: private, no-store`; sticky pasek nie może dawać dodatkowego przewijania ani przesuwać układu karty.
+- **Status:** ready
+
+### S-17: Lista timerów i dane konta
+
+- **Outcome:** Zalogowany użytkownik widzi listę zapisanych timerów na osobnym ekranie `/timers` (strona startowa po wejściu i odświeżeniu), a `/dashboard` pokazuje dane konta (na razie email). Po zalogowaniu link prowadzi do listy („Continue to your timers"), a po zapisie nowego timera użytkownik trafia na widok zapisanego timera `/{id}`. Linki powrotu i przekierowanie po usunięciu kierują do `/timers`.
+- **Change ID:** timers-list-and-account
+- **PRD refs:** FR-011, FR-016, FR-017
+- **Prerequisites:** S-16, S-11, S-12, S-13
+- **Parallel with:** S-18, S-19
+- **Blockers:** —
+- **Unknowns:** —
+- **Risk:** Zmiana domyślnego celu logowania, tras i linków dotyka middleware, `next`, smoke i wielu testów; nowa trasa `/timers` musi być chroniona i nie może kolidować z `/{id}`.
+- **Status:** ready
+
+### S-18: Układ widoku biegu
+
+- **Outcome:** W widoku biegu odliczany czas jest wyżej, tuż pod nim widać „Repetition X of N" (także w Preparation i Standby), okienko bieżącej fazy ma nazwę w pierwszej linii i czas w osobnej linii bez numeru powtórzenia, a okienko następnej fazy ma większy napis „Next" oraz nazwę i czas w osobnej linii.
+- **Change ID:** run-view-layout
+- **PRD refs:** FR-013, FR-018
+- **Prerequisites:** S-04
+- **Parallel with:** S-16, S-17, S-19
+- **Blockers:** —
+- **Unknowns:** —
+- **Risk:** Przemodelowanie `buildPhaseSections` nie może ujawnić długości losowego Standby ani przesuwać przycisków paska; numer powtórzenia w Preparation wymaga danych z `DrillDisplay`.
+- **Status:** ready
+
+### S-19: Ikona odsłuchu sygnału z tooltipem
+
+- **Outcome:** Odsłuch sygnału to sama ikona głośnika na końcu wiersza z polem czasu (Standby przy opcji Random start); opis znaczenia i powód wyłączenia są w tooltipie, a na telefonie dotknięcie ikony odtwarza dźwięk i pokazuje ten sam opis na kilka sekund.
+- **Change ID:** signal-preview-icon
+- **PRD refs:** FR-004, FR-019
+- **Prerequisites:** S-03
+- **Parallel with:** S-16, S-17, S-18
+- **Blockers:** —
+- **Unknowns:** —
+- **Risk:** Tooltip nie działa na dotyk, a wyłączony przycisk nie pokazuje powodu; nowy prymityw `tooltip` musi mieścić się w kontrakcie UI (tokeny, lint).
+- **Status:** ready
+
+### S-20: Usuwanie konta
+
+- **Outcome:** Zalogowany użytkownik usuwa swoje konto z miesięcznym okresem przetrzymania danych zgodnie z RODO.
+- **Change ID:** account-deletion
+- **PRD refs:** —
+- **Prerequisites:** S-09, S-17
+- **Parallel with:** —
+- **Blockers:** Decyzje prawne i techniczne (patrz Open Roadmap Questions): okres i sposób przetrzymania, klucz service role po stronie serwera, mechanizm czyszczący.
+- **Unknowns:**
+  - Czy usunięcie jest miękkie (30 dni z możliwością przywrócenia) czy natychmiastowe? — Owner: user. Block: yes.
+- **Risk:** Wymaga uprawnień administracyjnych Supabase (dziś aplikacja używa tylko klucza publikowalnego) oraz zadania czyszczącego po okresie przetrzymania.
+- **Status:** proposed
+
 ## Backlog Handoff
 
 | Roadmap ID | Change ID | Suggested issue title | Ready for `/10x-plan` | Notes |
@@ -296,6 +369,7 @@ Brak osobnych Foundations. Konfigurację danych, ochronę własności i weryfika
 
 1. **Jakie dokładne odcienie zastosować dla dziewięciu wybranych kolorów?** — Do dobrania podczas projektowania interfejsu, przed implementacją FR-014, z zachowaniem łagodności, wyraźnego rozróżnienia barw i kontrastu z czarną czcionką. Zestaw kolorów i ich domyślne przypisanie do faz są ustalone. — Owner: user. Block: S-05 (odroczone).
 2. **Jak wyrównać i zmierzyć słyszalny sygnał Bluetooth względem widoku fazy?** — Porównać oszacowanie przeglądarki z kalibracją i sprawdzić wynik na docelowych słuchawkach; programowe znaczniki Web Audio nie wystarczą. — Owner: team. Block: S-14.
+3. **Jak realizować usuwanie konta z miesięcznym przetrzymaniem (RODO)?** — Do rozstrzygnięcia: miękkie usunięcie na 30 dni czy natychmiastowe, serwerowy klucz service role (dziś brak), zadanie czyszczące, eksport danych i treść informacyjna. — Owner: user. Block: S-20.
 
 ## Parked
 

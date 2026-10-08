@@ -103,7 +103,7 @@ Pierwszym użytkownikiem jest autor projektu, ćwiczący strzelanie na sucho. Si
 
 ## Functional Requirements
 
-Pierwotne wymagania FR-001–FR-012 zostały potwierdzone jako must-have i przeszły rundę wyzwania Sokratesowego. Na prośbę użytkownika dodano FR-013–FR-014 do zakresu MVP; szczegóły wymagające rozstrzygnięcia zapisano w Open Questions.
+Pierwotne wymagania FR-001–FR-012 zostały potwierdzone jako must-have i przeszły rundę wyzwania Sokratesowego. Na prośbę użytkownika dodano FR-013–FR-014 do zakresu MVP, a po pierwszej kolejce implementacji (2026-10-08) FR-015–FR-019 z poprawek UX (zob. `context/foundation/ux-fixes-plan.md`); szczegóły wymagające rozstrzygnięcia zapisano w Open Questions.
 
 ### Konfiguracja i przebieg timera
 
@@ -132,16 +132,24 @@ Pierwotne wymagania FR-001–FR-012 zostały potwierdzone jako must-have i przes
 - FR-009: Użytkownik może uzyskać dostęp do konta przez magic link; pierwsze poprawne użycie linku tworzy konto dla nowego adresu, a kolejne loguje. Priority: must-have
   > Socrates: Kontrargument: otwieranie poczty może utrudnić dostęp do konfiguracji przed ćwiczeniem. Decyzja użytkownika: bez zmian.
 - FR-010: Zalogowany użytkownik może zapisać własną konfigurację timera wraz z kolorami wszystkich faz, nadając jej nazwę. Priority: must-have
+  > Aktualizacja 2026-10-07: kolory faz są odroczone razem z FR-014 (S-05); zapis obejmuje nazwę i parametry timera.
   > Socrates: Kontrargument: bez rozróżnialnych nazw trudno rozpoznać zapisaną konfigurację. Decyzja użytkownika: nadawanie nazwy przy zapisie.
-- FR-011: Zalogowany użytkownik może przeglądać listę własnych konfiguracji z nazwami i parametrami oraz ich szczegóły i uruchomić wybraną konfigurację; lista jest stroną startową, na którą trafia po odświeżeniu strony. Priority: must-have
+- FR-011: Zalogowany użytkownik może przeglądać listę własnych konfiguracji z nazwami i parametrami oraz ich szczegóły i uruchomić wybraną konfigurację; lista jest dostępna na osobnym ekranie `/timers` i jest stroną startową, na którą zalogowany użytkownik trafia po zalogowaniu, wejściu i odświeżeniu strony; `/dashboard` pokazuje dane konta (zob. FR-016). Priority: must-have
   > Socrates: Kontrargument: wybór bez widocznych parametrów może prowadzić do uruchomienia niewłaściwego ćwiczenia. Decyzja użytkownika: nazwa i parametry widoczne na liście przed uruchomieniem.
 - FR-012: Zalogowany użytkownik może edytować i usuwać własne konfiguracje, przy czym usunięcie wymaga potwierdzenia z nazwą konfiguracji. Priority: must-have
   > Socrates: Kontrargument: przypadkowo usuniętą konfigurację trzeba odtworzyć z pamięci. Decyzja użytkownika: potwierdzenie usunięcia z nazwą konfiguracji.
+
+- FR-015: Na każdej stronie poza stronami logowania użytkownik widzi przyklejony do góry, zawsze widoczny pasek: zalogowany — email (link do danych konta), link do listy timerów, przełącznik motywu jasny/ciemny i przycisk „Sign out"; niezalogowany — przycisk „Sign in" i przełącznik motywu. Pasek nie zasłania treści na telefonie. Priority: must-have
+- FR-016: Zalogowany użytkownik ma stronę danych konta pod `/dashboard`, która pokazuje informacje o użytkowniku (na razie adres email) i link do listy timerów. Usuwanie konta jest poza zakresem tego wymagania (zob. Open Questions). Priority: must-have
+- FR-017: Po zapisaniu nowego timera użytkownik trafia na widok zapisanego timera, a nie pozostaje w formularzu tworzenia; po zalogowaniu link logujący prowadzi domyślnie do listy timerów. Priority: must-have
 
 ### Podgląd i kolory faz
 
 - FR-013: Użytkownik może obserwować przebieg timera w trzech sekcjach: głównej z odliczaniem pozostałego czasu aktualnej fazy, aktualnej fazy z jej nazwą i stałym pełnym skonfigurowanym czasem (bez odliczania) oraz następnej fazy z jej nazwą i pełnym skonfigurowanym czasem; dla Standby zamiast czasu widoczny jest napis „Standby”. Główna sekcja i sekcja aktualnej fazy mają kolor aktualnej fazy, a sekcja następnej fazy jej własny kolor. Czcionka w głównej sekcji jest wyraźnie większa niż w pozostałych dwóch. Widok uwzględnia pomijane fazy i koniec przebiegu. Priority: must-have
 - FR-014: Użytkownik może bez logowania wybrać osobno kolor tła przygotowania, Standby, ćwiczenia i odpoczynku z predefiniowanej listy prezentowanej jako kolorowe kafelki; podczas przebiegu tło odpowiada wyborowi dla aktywnej fazy, a kolory są zapisywane i odtwarzane osobno dla każdej nazwanej konfiguracji timera. Priority: must-have
+
+- FR-018: W widoku przebiegu odliczany czas jest wyeksponowany u góry, bezpośrednio pod nim widać numer bieżącego i maksymalnego powtórzenia („Repetition X of N", także w przygotowaniu i Standby), sekcja aktualnej fazy pokazuje nazwę w pierwszej linii i czas w osobnej linii (bez numeru powtórzenia), a sekcja następnej fazy ma wyraźniejszy napis „Next" oraz nazwę i czas fazy w osobnej linii. Priority: must-have
+- FR-019: Odsłuch sygnału w formularzu konfiguracji jest przyciskiem z samą ikoną głośnika, umieszczonym na końcu wiersza pola czasu (dla Standby przy opcji losowego startu); opis znaczenia sygnału i powód wyłączenia są dostępne w tooltipie, a na urządzeniach dotykowych pojawiają się po dotknięciu ikony. Priority: must-have
 
 ## Non-Functional Requirements
 
@@ -177,7 +185,7 @@ Logowanie odbywa się przez magic link — jednorazowy link wysyłany na adres e
 
 Jeden rodzaj konta. Każdy zalogowany użytkownik zarządza wyłącznie własnymi konfiguracjami.
 
-Po odświeżeniu strony dane niezalogowanego użytkownika nie są zachowywane. Zalogowany użytkownik trafia na stronę startową — listę zapisanych konfiguracji. Odświeżenie nie wznawia aktywnego przebiegu.
+Po odświeżeniu strony dane niezalogowanego użytkownika nie są zachowywane. Zalogowany użytkownik trafia na stronę startową — listę zapisanych konfiguracji pod `/timers`; dane konta są pod `/dashboard`. Odświeżenie nie wznawia aktywnego przebiegu.
 
 ## Non-Goals
 
@@ -200,3 +208,4 @@ Wyłączenia dotyczące pierwszej wersji; nie stanowią zobowiązania do impleme
 ## Open Questions
 
 1. **Jakie dokładne odcienie zastosować dla dziewięciu wybranych kolorów?** — Do dobrania podczas projektowania interfejsu, przed implementacją FR-014, z zachowaniem łagodności, wyraźnego rozróżnienia barw i kontrastu z czarną czcionką. Zestaw kolorów i ich domyślne przypisanie do faz są ustalone.
+2. **Jak zrealizować usuwanie konta z miesięcznym przetrzymaniem (RODO)?** — Do rozstrzygnięcia przed planowaniem S-20: miękkie usunięcie na 30 dni czy natychmiastowe, serwerowy klucz service role (dziś aplikacja używa tylko klucza publikowalnego), zadanie czyszczące po okresie przetrzymania, eksport danych i treść informacyjna dla użytkownika. — Owner: user.
