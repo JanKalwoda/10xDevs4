@@ -333,7 +333,7 @@ No data changes. Old bookmarks of `/dashboard` now open the account page; the ba
 
 #### Manual
 
-- [ ] 1.6 Signed in, `/timers` lists timers and `/dashboard` shows only account info
+- [x] 1.6 Signed in, `/timers` lists timers and `/dashboard` shows only account info — checked by Playwright script on local dev + local Supabase, not by a human (checks.json)
 
 ### Phase 2: Default login target and `Back to timers` links
 
@@ -360,21 +360,21 @@ No data changes. Old bookmarks of `/dashboard` now open the account page; the ba
 
 #### Manual
 
-- [ ] 3.4 Creating a timer lands on `/{id}` and Back does not show a stuck `Saving…` form
+- [x] 3.4 Creating a timer lands on `/{id}` and Back does not show a stuck `Saving…` form — checked by Playwright script (1280 and 390), not by a human
 
 ### Phase 4: Smoke, docs, visual gate
 
 #### Automated
 
-- [ ] 4.1 `npx astro sync`
-- [ ] 4.2 `npm run lint`
-- [ ] 4.3 `npm test`
-- [ ] 4.4 `node --test scripts/eslint-rules/*.test.mjs`
-- [ ] 4.5 `npx astro check`
-- [ ] 4.6 `npm run build`
+- [x] 4.1 `npx astro sync` — 4f29e7c
+- [x] 4.2 `npm run lint` — 4f29e7c
+- [x] 4.3 `npm test` — 4f29e7c
+- [x] 4.4 `node --test scripts/eslint-rules/*.test.mjs` — 4f29e7c
+- [x] 4.5 `npx astro check` — 4f29e7c
+- [x] 4.6 `npm run build` — 4f29e7c
 - [ ] 4.7 CI `ci` and `smoke` jobs green on the PR
 
 #### Manual
 
-- [ ] 4.8 Screenshots reviewed for both themes and widths
+- [x] 4.8 Screenshots reviewed for both themes and widths — captured by script and viewed by the dev agent (Read), not by a human; `context/changes/timers-list-and-account/screenshots/`
 - [ ] 4.9 After deploy: `/` 200, `/dev/timer-ui` 404, `/timers` and `/dashboard` 302 for a guest
