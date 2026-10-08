@@ -14,13 +14,15 @@ interface Props {
 const { user = null, fixture = false } = Astro.props;
 const email = user?.email ?? "Account";
 const linkClass = cn(buttonVariants({ variant: "ghost", size: "sm" }));
+// buttonVariants sets shrink-0; the email link must be allowed to shrink so a long address truncates instead of overlapping the right group.
+const emailLinkClass = cn(buttonVariants({ variant: "ghost", size: "sm" }), "min-w-0 shrink justify-start");
 ---
 
 <header class="border-border bg-background sticky top-0 z-50 border-b">
     <nav aria-label="Account" class="flex items-center justify-between gap-2 px-4 py-2">
         {user ? (
-            <div class="flex min-w-0 items-center gap-1">
-                <a href="/dashboard" title={email} class:list={[linkClass, "min-w-0 justify-start"]}>
+            <div class="flex min-w-0 flex-1 items-center gap-1">
+                <a href="/dashboard" title={email} class:list={[emailLinkClass]}>
                     <span class="truncate">{email}</span>
                 </a>
                 <a href={TIMERS_HREF} class:list={[linkClass, "shrink-0"]}>
