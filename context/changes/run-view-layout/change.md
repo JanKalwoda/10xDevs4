@@ -1,7 +1,7 @@
 ---
 change_id: run-view-layout
 title: Run view layout (time higher, repetition under time, Current and Next boxes)
-status: planned
+status: plan_reviewed
 created: 2026-10-09
 updated: 2026-10-09
 archived_at: null

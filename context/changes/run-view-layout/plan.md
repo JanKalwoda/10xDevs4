@@ -57,7 +57,7 @@ Nowy kształt danych i nowa kolejność sekcji, z zachowaniem tajności Standby.
 
 **Intent**: Nowa kolejność: czas → powtórzenie → Current → Next, z nazwą/czasem w osobnych liniach i większym „Next".
 
-**Contract**: `role="timer"` zostaje na liczbie; powtórzenie to osobny `<p>` poza nim; Current: nazwa w `h2`, czas w osobnej linii; Next: `role="group" aria-label="Next phase"`, etykieta „Next" (`text-xl font-semibold`), treść poniżej. Tylko tokeny semantyczne i skala Tailwind.
+**Contract**: `role="timer"` zostaje na liczbie; powtórzenie to osobny `<p>` poza nim; Current: nazwa w `h2`, czas w osobnej linii; Next: `role="group" aria-label="Next phase"`, etykieta „Next" (`text-xl font-semibold`), treść poniżej. Linia czasu Current jest zawsze renderowana (dla `time === null` pusty placeholder `aria-hidden` o tej samej wysokości, np. `min-h-6`), a `<p>` powtórzenia ma stałą wysokość, żeby Next i pasek nie skakały przy Standby. Tylko tokeny semantyczne i skala Tailwind.
 
 #### 3. Testy modelu
 
@@ -91,19 +91,15 @@ Czas jest u góry karty; ostrzeżenia nie spychają go w dół, a przyciski pask
 
 **File**: `src/components/timer/DrillTimerView.tsx`
 
-**Intent**: Usunąć slot `min-h-20` sprzed `PhaseSections` i umieścić ostrzeżenia pod wierszem statusu, w slocie o stałej wysokości (rezerwacja miejsca, więc pojawienie się ostrzeżenia nie przesuwa nic powyżej).
+**Intent**: Usunąć slot `min-h-20` sprzed `PhaseSections` i umieścić ostrzeżenia pod wierszem statusu, w slocie o stałej wysokości (nic powyżej się nie przesuwa). Jeśli zrzut z dwoma ostrzeżeniami przy 390 px pokaże zbędną pustkę, zmniejszyć slot do `min-h-16` pod warunkiem braku skoków.
 
-**Contract**: kolejność w `<section aria-label="Current drill phase">`: `PhaseSections` → pasek (grid 3 kolumn, bez zmian) → wiersz statusu (`min-h-10`) → slot ostrzeżeń (`min-h-20`, `Alert` gdy są ostrzeżenia). Teksty ostrzeżeń bez zmian.
+**Contract**: kolejność w `<section aria-label="Current drill phase">`: `PhaseSections` → pasek (grid 3 kolumn, bez zmian) → wiersz statusu (`min-h-10`) → slot ostrzeżeń (`min-h-20`, `Alert` gdy są ostrzeżenia). Teksty ostrzeżeń bez zmian. Zaktualizować opis scenariusza `audio-unavailable` w `PhaseSectionsFixtures.tsx` („Warning shown above the sections” → pod paskiem).
 
 ### Success Criteria:
 
 #### Automated Verification:
 
 - Lint, typy i build przechodzą: `npm run lint`, `npx astro check`, `npm run build`
-
-#### Manual Verification:
-
-- Pozycja przycisków paska jest identyczna z ostrzeżeniami i bez nich (potwierdzone skryptem Playwright w fazie 3).
 
 ---
 
@@ -119,21 +115,21 @@ Production-backed fixtures obejmują nowy układ; zrzuty w folderze zmiany; regu
 
 **File**: `src/components/timer/PhaseSectionsFixtures.tsx`, `src/components/timer/TimerUiPreview.tsx`
 
-**Intent**: Zachować 12 scenariuszy; dodać scenariusz z ostrzeżeniem Wake Lock/audio pokazujący brak przesunięcia oraz długą nazwę/czas (np. `10:00`) i rep. `10 of 10`. Zaktualizować opisy.
+**Intent**: Zachować 12 scenariuszy; dodać fixture z oboma ostrzeżeniami naraz (390 px) pokazujący brak przesunięcia oraz długą nazwę/czas (np. `10:00`) i rep. `10 of 10`. Zaktualizować opisy.
 
 **Contract**: bez nowych komponentów produkcyjnych; fixtures nadal renderują `DrillTimerView`.
 
 #### 2. Skrypt wizualny i zrzuty
 
-**File**: `context/changes/run-view-layout/screenshots/` (+ skrypt Playwright w scratchpadzie, nie w repo)
+**File**: `context/changes/run-view-layout/screenshots/` (+ skrypt Playwright obok zrzutów, w tym folderze)
 
-**Intent**: Zrzuty `/dev/timer-ui` (sekcje fixtures) w light/dark × 1280/390; skrypt sprawdza: brak poziomego overflow w sekcji biegu, równe `top` przycisków paska z ostrzeżeniami i bez nich, kolejność DOM (czas → powtórzenie → Current → Next).
+**Intent**: Zrzuty `/dev/timer-ui` (sekcje fixtures) w light/dark × 1280/390; skrypt sprawdza: brak poziomego overflow tylko w `section[aria-label="Current drill phase"]` (nie na stronie), identyczny `top` przycisków paska względem góry sekcji we wszystkich fixtures (Standby, Preparation, Rest, complete, paused, loading, z ostrzeżeniami), kolejność DOM (czas → powtórzenie → Current → Next), `[role=timer]` zawiera wyłącznie liczbę, a „Repetition X of N” jest poza nim (także w Preparation i Standby). Stany wg AGENTS.md: default, hover, focus-visible (Cancel/Restart/Pause), disabled, error (ostrzeżenia), loading; empty = N/A (widok biegu zawsze ma fazę); light/dark × 1280/390.
 
 #### 3. Dokumentacja reguły
 
-**File**: `AGENTS.md`, `src/AGENTS.md`
+**File**: `AGENTS.md`
 
-**Intent**: Jedno zdanie o układzie widoku biegu (kolejność sekcji, ostrzeżenia pod paskiem, `role="timer"` tylko na liczbie, tajność Standby) i ścieżka zrzutów.
+**Intent**: Jedno zdanie w sekcji UI (`src/AGENTS.md` pominięty: generyczny przewodnik) o układzie widoku biegu (kolejność sekcji, ostrzeżenia pod paskiem, `role="timer"` tylko na liczbie, stała wysokość linii czasu Current i powtórzenia, tajność Standby) i ścieżka zrzutów.
 
 ### Success Criteria:
 
@@ -144,7 +140,8 @@ Production-backed fixtures obejmują nowy układ; zrzuty w folderze zmiany; regu
 
 #### Manual Verification:
 
-- Przegląd zrzutów w folderze zmiany (jasny/ciemny, 1280/390; default, loading, paused, disabled, error-warning).
+- Przegląd zrzutów w folderze zmiany (jasny/ciemny, 1280/390; default, hover, focus-visible, disabled, error, loading; empty N/A, bo widok biegu zawsze ma fazę).
+- Pozycja przycisków paska identyczna z ostrzeżeniami i bez nich, także przy Standby.
 
 ---
 
@@ -194,17 +191,14 @@ Brak migracji ani zmian API.
 
 - [ ] 2.1 Lint, typy i build przechodzą: `npm run lint`, `npx astro check`, `npm run build`
 
-#### Manual
-
-- [ ] 2.2 Pozycja przycisków paska jest identyczna z ostrzeżeniami i bez nich
-
 ### Phase 3: Fixtures, bramka wizualna i dokumentacja
 
 #### Automated
 
 - [ ] 3.1 Pełna weryfikacja: `npx astro sync`, `npm run lint`, `npm test`, `node --test scripts/eslint-rules/*.test.mjs`, `npx astro check`, `npm run build`
-- [ ] 3.2 Skrypt Playwright przechodzi (kolejność, brak overflow, stałe położenie przycisków)
+- [ ] 3.2 Skrypt Playwright przechodzi (kolejność, powtórzenie poza role=timer, brak overflow w sekcji biegu, identyczny top przycisków we wszystkich fixtures)
 
 #### Manual
 
-- [ ] 3.3 Przegląd zrzutów w folderze zmiany (jasny/ciemny, 1280/390; default, loading, paused, disabled, error-warning)
+- [ ] 3.3 Przegląd zrzutów w folderze zmiany (jasny/ciemny, 1280/390; default, hover, focus-visible, disabled, error, loading; empty N/A)
+- [ ] 3.4 Pozycja przycisków paska identyczna z ostrzeżeniami i bez nich, także przy Standby
