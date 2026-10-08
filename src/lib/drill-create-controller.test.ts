@@ -28,6 +28,16 @@ function deferredPort() {
     return { port, requests, resolve: (response: SaveDrillResponse) => resolvers.shift()?.(response) };
 }
 
+function requestWithBody(request: SaveDrillRequest, body: unknown): Promise<SaveDrillResponse> {
+    return postSaveDrill(request, () => Promise.resolve(new Response(JSON.stringify(body), { status: 201 })));
+}
+
+function createWithNavigation(port: SaveDrillPort) {
+    const navigations: string[] = [];
+    const controller = createDrillCreateController(port, { navigate: (href) => navigations.push(href) });
+    return { controller, navigations };
+}
+
 function okPort(requests: SaveDrillRequest[] = []): SaveDrillPort {
     return (request) => {
         requests.push(request);
@@ -35,14 +45,78 @@ function okPort(requests: SaveDrillRequest[] = []): SaveDrillPort {
     };
 }
 
-void test("a valid save sends the trimmed NFC name with the form values, then clears the name and keeps the confirmation", async () => {
+void test("a valid create sends the trimmed NFC name with the form values, navigates once to /{id} and stays locked", async () => {
     const requests: SaveDrillRequest[] = [];
-    const controller = createDrillCreateController(okPort(requests));
+    const { controller, navigations } = createWithNavigation(okPort(requests));
     controller.setName("  Café drill  ");
     await controller.save(VALUES);
 
     assert.deepEqual(requests, [{ ...VALUES, name: "Café drill" }]);
-    assert.deepEqual(controller.getSnapshot(), { name: "", nameError: null, status: "saved", failure: null, savedName: "Café drill" });
+    assert.deepEqual(navigations, ["/id-1"]);
+    assert.deepEqual(controller.getSnapshot(), { name: "  Café drill  ", nameError: null, status: "saving", failure: null, savedName: null });
+});
+
+void test("the redirect target encodes the id so it can never leave the origin", async () => {
+    const { controller, navigations } = createWithNavigation(() => Promise.resolve({ ok: true, drill: { ...drill("Run"), id: "//evil.example/?x#y" } }));
+    controller.setName("Run");
+    await controller.save(VALUES);
+    assert.deepEqual(navigations, ["/%2F%2Fevil.example%2F%3Fx%23y"]);
+});
+
+void test("create without a navigate option never publishes saved", async () => {
+    const controller = createDrillCreateController(okPort());
+    controller.setName("Run");
+    await controller.save(VALUES);
+    assert.equal(controller.getSnapshot().status, "saving");
+    assert.equal(controller.getSnapshot().savedName, null);
+});
+
+void test("create: a reply without a usable drill.id is unexpected and never navigates", async () => {
+    for (const id of [undefined, "", 7, null]) {
+        const body = { ok: true, drill: { ...drill("Run"), id } };
+        const navigations: string[] = [];
+        const controller = createDrillCreateController((req) => requestWithBody(req, body), { navigate: (href) => navigations.push(href) });
+        controller.setName("Run");
+        await controller.save(VALUES);
+        assert.equal(controller.getSnapshot().failure?.code, "unexpected", String(id));
+        assert.equal(controller.getSnapshot().status, "error", String(id));
+        assert.deepEqual(navigations, [], String(id));
+    }
+});
+
+void test("create: an edit of the parameters during the request still navigates to the saved timer", async () => {
+    const port = deferredPort();
+    const { controller, navigations } = createWithNavigation(port.port);
+    controller.setName("Run");
+    const pending = controller.save(VALUES);
+    controller.markEdited();
+    port.resolve({ ok: true, drill: drill("Run") });
+    await pending;
+    assert.deepEqual(navigations, ["/id-1"]);
+    assert.equal(controller.getSnapshot().status, "saving");
+});
+
+void test("create: a failed save never navigates and the form is usable again", async () => {
+    const navigations: string[] = [];
+    const controller = createDrillCreateController(() => Promise.resolve({ ok: false, code: "unavailable", message: SAVE_DRILL_MESSAGES.unavailable }), {
+        navigate: (href) => navigations.push(href),
+    });
+    controller.setName("Run");
+    await controller.save(VALUES);
+    assert.equal(controller.getSnapshot().status, "error");
+    assert.deepEqual(navigations, []);
+    assert.equal(controller.reset(), false);
+    assert.equal(controller.getSnapshot().status, "error");
+});
+
+void test("create: reset after the redirect (bfcache restore) returns to idle once and keeps the typed name", async () => {
+    const { controller, navigations } = createWithNavigation(okPort());
+    controller.setName("Run");
+    await controller.save(VALUES);
+    assert.equal(controller.reset(), true);
+    assert.deepEqual(controller.getSnapshot(), { name: "Run", nameError: null, status: "idle", failure: null, savedName: null });
+    assert.equal(controller.reset(), false);
+    assert.equal(navigations.length, 1);
 });
 
 void test("an invalid name never reaches the port and shows the name error", async () => {
@@ -63,12 +137,14 @@ void test("the name limit counts code points: 200 astral characters pass, 201 fa
 
     controller.setName("\u{1f3af}".repeat(200));
     await controller.save(VALUES);
-    assert.equal(controller.getSnapshot().status, "saved");
+    assert.equal(controller.getSnapshot().status, "saving");
     assert.equal(requests.length, 1);
 
-    controller.setName("\u{1f3af}".repeat(201));
-    await controller.save(VALUES);
-    assert.equal(controller.getSnapshot().nameError, SAVE_DRILL_MESSAGES.name);
+    // The create form stays locked after a redirect, so the 201 case uses a fresh form.
+    const second = createDrillCreateController(okPort(requests));
+    second.setName("\u{1f3af}".repeat(201));
+    await second.save(VALUES);
+    assert.equal(second.getSnapshot().nameError, SAVE_DRILL_MESSAGES.name);
     assert.equal(requests.length, 1);
 });
 
@@ -84,7 +160,7 @@ void test("submitAttempt shows the name error before the parameters are validate
 
 void test("double submit before the first response sends one request and ignores name edits while saving", async () => {
     const { port, requests, resolve } = deferredPort();
-    const controller = createDrillCreateController(port);
+    const { controller, navigations } = createWithNavigation(port);
     controller.setName("Run");
 
     const first = controller.save(VALUES);
@@ -96,8 +172,9 @@ void test("double submit before the first response sends one request and ignores
 
     resolve({ ok: true, drill: drill("Run") });
     await Promise.all([first, second]);
-    assert.equal(controller.getSnapshot().name, "");
-    assert.equal(controller.getSnapshot().status, "saved");
+    assert.deepEqual(navigations, ["/id-1"]);
+    assert.equal(controller.getSnapshot().name, "Run");
+    assert.equal(controller.getSnapshot().status, "saving");
 });
 
 void test("duplicate_name sits on the name field and keeps the typed name", async () => {
@@ -139,22 +216,22 @@ void test("a rejecting port is reported as unexpected and the latch is released 
     assert.equal(controller.getSnapshot().failure?.code, "unexpected");
 
     await controller.save(VALUES);
-    assert.equal(controller.getSnapshot().status, "saved");
+    assert.equal(controller.getSnapshot().status, "saving");
     assert.equal(calls, 2);
 });
 
-void test("editing the name after a save or an error returns to idle and drops the old messages", async () => {
-    const controller = createDrillCreateController(okPort());
+void test("editing the name after an error returns to idle and drops the old messages", async () => {
+    const controller = createDrillCreateController(() => Promise.resolve({ ok: false, code: "unavailable", message: SAVE_DRILL_MESSAGES.unavailable }));
     controller.setName("Run");
     await controller.save(VALUES);
-    assert.equal(controller.getSnapshot().savedName, "Run");
+    assert.equal(controller.getSnapshot().status, "error");
 
     controller.setName("Run 2");
     assert.deepEqual(controller.getSnapshot(), { name: "Run 2", nameError: null, status: "idle", failure: null, savedName: null });
 });
 
 void test("subscribers are notified on every change and can unsubscribe", async () => {
-    const controller = createDrillCreateController(okPort());
+    const controller = createDrillCreateController(okPort(), { keepAfterSave: true });
     let notifications = 0;
     const unsubscribe = controller.subscribe(() => {
         notifications += 1;
@@ -259,11 +336,19 @@ void test("edit mode keeps the typed name after duplicate_name, validation, not_
     }
 });
 
-void test("create mode is unchanged by the options: the name is cleared after a save", async () => {
-    const controller = createDrillCreateController(okPort());
-    controller.setName("Run");
+void test("edit mode never navigates and reset is a no-op there", async () => {
+    const navigations: string[] = [];
+    const controller = createDrillCreateController(okPort(), { ...EDIT, navigate: (href) => navigations.push(href) });
     await controller.save(VALUES);
-    assert.equal(controller.getSnapshot().name, "");
+    assert.deepEqual(navigations, []);
+    const before = controller.getSnapshot();
+    let notifications = 0;
+    controller.subscribe(() => {
+        notifications += 1;
+    });
+    assert.equal(controller.reset(), false);
+    assert.equal(controller.getSnapshot(), before);
+    assert.equal(notifications, 0);
 });
 
 void test("markEdited drops a stale confirmation or alert but keeps the typed name", async () => {

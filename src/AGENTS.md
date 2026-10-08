@@ -13,7 +13,7 @@ This repository is an Astro 7 SSR application using React 19 islands, Tailwind C
 - `src/pages/` contains Astro pages and API endpoints; auth endpoints live in `src/pages/api/auth/`.
 - `src/components/ui/` contains shadcn/ui components; interactive React components belong under `src/components/`, with hooks in `src/components/hooks/`.
 - `src/lib/` contains helpers and services. Put shared entities and DTOs in `src/types.ts`.
-- `src/middleware.ts` resolves Supabase sessions and protects configured routes. Use `src/pages/dashboard.astro` as the protected-page example.
+- `src/middleware.ts` resolves Supabase sessions and protects configured routes. Use `src/pages/timers.astro` as the protected-page example.
 - `supabase/migrations/` contains database migrations. CI configuration lives in `.github/workflows/`.
 
 ## Development and Verification

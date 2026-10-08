@@ -1,0 +1,380 @@
+# Timers list screen and account page (S-17) Implementation Plan
+
+## Overview
+
+The saved timers list moves from `/dashboard` to a new protected screen `/timers`, which becomes the signed-in landing page (default `next`, the top bar `Timers` link, `Back to timers` links, redirect after delete). `/dashboard` becomes an account page (email, link to `/timers`) with no database query. After a new timer is saved on `/create` the browser goes to `/{id}` instead of staying on the form with a `Saved` alert. No migrations. Decisions are fixed in `context/foundation/ux-fixes-plan.md` (S-17 and the decision table) and `context/foundation/roadmap.md` (S-17, FR-011, FR-016, FR-017).
+
+## Current State Analysis
+
+- `src/pages/dashboard.astro` renders the account email, `SavedDrillList` (fed by `resolveDashboardPage`), the `Create a timer` link and a second `Sign out` form (the bar already has one). It redirects guests with `signInUrlForProtectedPath("/dashboard")` and sets `private, no-store`.
+- `src/lib/protected-routes.ts:3` lists `["/dashboard", "/create"]`; `/{uuid}` and `/{uuid}/edit` are protected through `isSavedDrillPath`. `/timers` is not a UUID, so `[id].astro` never matches it and Astro serves the static page first.
+- `src/lib/app-top-bar.ts:2` `TIMERS_HREF = "/dashboard"` (comment already says S-17 changes it). `AppTopBar.astro:25` links the email to `/dashboard` (stays; that is the account page).
+- Default login target is `/`: `safeNextPathSchema` `.default("/")` (`src/lib/email-auth.ts:51`), `emailLinkCallbackPageState` fallback (`:81`, `:98`), `signInUrlForProtectedPath` fallback `/dashboard` (`:137`), `signin.astro:8`, `confirm-email.astro:11-12`. The callback button says `Continue to account` (`callback.astro:37`); `Back to the timer` there and on `confirm-email.astro` points to `/`.
+- `drill-create-controller.ts`: on `response.ok` it publishes `status: "saved"` + `savedName` (create clears the name, edit keeps it via `keepAfterSave`); `DrillCreateForm.tsx:108` renders the `Saved "…"` alert and focuses the name field; `isSaveDrillResponse` (`:158`) does not check `drill.id`.
+- `drill-delete-controller.ts:36` `DASHBOARD_HREF = "/dashboard"` with an injected `navigate` and a `useDrillDelete` hook that resets on bfcache `pageshow` — the model for the create redirect.
+- `Back to dashboard` text/links: `SavedDrillDetails.tsx:39`, `DrillEditApp.tsx:19` (`DrillEditLinks`), `DrillCreateForm.tsx:98` (`not_found` alert), `[id].astro:42`, `[id]/edit.astro:42`.
+- Lint scope lists `src/pages/dashboard.astro` (`eslint.config.js:109`); there is no `timers.astro` yet. `scripts/eslint-rules/timer-ui-contract.test.mjs` pins that the `[id]` pages are linted.
+- Smoke (`scripts/smoke.mjs`) uses `/dashboard` as the list (L318, 391-398, 432, 559-565, 596, 715, 747), as the sign-in `next` (L171, 675, 756) and for `Dashboard` / `Sign out` markers (L276, 785, 846); the bar helper expects `Timers` → `/dashboard` (L210-211).
+- `resolveDashboardPage` / `DashboardPage` (`src/lib/services/drill-configurations.ts:571`) and their test (`saved-drills-read.test.ts`) only serve the list.
+
+### Key Discoveries:
+
+- Static `src/pages/timers.astro` wins over `[id].astro`, and the middleware guard is a plain prefix check, so adding `/timers` to `PROTECTED_ROUTES` is enough (`protected-routes.ts:3`).
+- The delete flow already is the pattern for "navigate after success with an injected port, stay locked, reset on bfcache" — reuse it for create instead of inventing a new one.
+- `middleware.ts` + `html-cache-control.ts` already set `private, no-store` on HTML without its own `Cache-Control`; pages still set it explicitly when they read user data (follow `dashboard.astro`).
+- Local Mailpit is missing: the full smoke is confirmed by CI only; visual checks run as a Playwright script and are reported as "script, not human".
+
+## Desired End State
+
+- Signed in, `/timers` shows `SavedDrillList` and `Create a timer`; a guest is redirected to `/auth/signin?next=%2Ftimers`. `/dashboard` shows the account email, a link to `/timers`, with no database access; a guest is redirected as before.
+- Signing in without an explicit `next` lands on `/timers`; the callback button reads `Continue to your timers`; the `Timers` link in the bar goes to `/timers`.
+- Saving a new timer on `/create` ends on `/{id}` (details + Start); editing still stays on `/{id}/edit` with `Saved`. `Back to timers` links and the post-delete redirect go to `/timers`.
+- Verify: `npx astro sync`, `npm run lint`, `npm test`, `node --test scripts/eslint-rules/*.test.mjs`, `npx astro check`, `npm run build`, screenshots in `context/changes/timers-list-and-account/screenshots/`, smoke green in CI.
+
+## What We're NOT Doing
+
+- No redirect from `/dashboard` to `/timers`, no change to `/`, `/create` or `/api/drills` behavior, no migrations, no new API.
+- No account editing, password/email change or account deletion (S-20).
+- No change to the run view (S-18) or signal preview (S-19).
+- No archiving and no manual test list (done after the whole queue).
+- `Back to the timer` (→ `/`) on `/create`, `callback.astro` and `confirm-email.astro` keeps pointing to the drill runner.
+
+## Implementation Approach
+
+Four small phases, each leaving `main`-quality state, which includes `scripts/smoke.mjs`: the smoke edits live in the phase that breaks the assertion (the smoke cannot run locally, so each phase checks it with `node --check` and a grep for dead assertions; CI is the only execution). (1) the new screen and the account page with routing, lint and the matching smoke steps; (2) the default login target and every `Back to timers` link, with their smoke steps; (3) the create-to-`/{id}` redirect in the controller, hook, form, fixtures and smoke; (4) docs, fixtures for the account view, screenshots and CI. Names that mention "dashboard" for the list (`resolveDashboardPage`, `DASHBOARD_HREF`) are renamed to the timers meaning in the phase that touches them.
+
+## Phase 1: `/timers` list page, `/dashboard` as account page
+
+### Overview
+
+Introduce the protected list route and turn `/dashboard` into an account page; wire the bar link and lint scope.
+
+### Changes Required:
+
+#### 1. Timers page
+
+**File**: `src/pages/timers.astro` (new)
+
+**Intent**: Move the list, `Create a timer` link, `no-store` header and guest redirect out of `dashboard.astro`. The redirect uses `signInUrlForProtectedPath("/timers")`. Title and `h1` `Timers`; list heading `Saved timers`; no `Sign out` (the bar has it).
+
+**Contract**: Route `/timers`, `prerender = false`, `Cache-Control: private, no-store`, guest → 302 to `/auth/signin?next=%2Ftimers`, same `SavedDrillList` states as today.
+
+#### 2. Service rename
+
+**File**: `src/lib/services/drill-configurations.ts`, `src/lib/services/saved-drills-read.test.ts`
+
+**Intent**: Rename `resolveDashboardPage` / `DashboardPage` to `resolveTimersPage` / `TimersPage` (behavior unchanged) so the name matches the page; update the test title and comment in `SavedDrillFixtures.tsx:44`.
+
+**Contract**: Same union `ok | unavailable | sign_in`.
+
+#### 3. Account page
+
+**File**: `src/pages/dashboard.astro`, `src/components/AccountDetails.astro` (new)
+
+**Intent**: `dashboard.astro` reads `Astro.locals.user` only: a signed-out request redirects to sign-in with `next=/dashboard`; otherwise it renders `Layout` + `AccountDetails` (`h1` `Account`, `Signed in as <email>` with `break-all`, a `Timers` link as `buttonVariants`, and the existing `Sign out` form, kept per the ux-fixes-plan decision "email, link to `/timers`, Sign out"). `AccountDetails` takes `email` so `/dev/timer-ui` can render it with fixtures.
+
+**Contract**: `AccountDetails` props `{ email: string }`; no database access; `private, no-store`.
+
+#### 4. Routing, bar link, lint
+
+**File**: `src/lib/protected-routes.ts`, `src/lib/protected-routes.test.ts`, `src/lib/app-top-bar.ts`, `eslint.config.js`
+
+**Intent**: Add `/timers` to `PROTECTED_ROUTES`; `TIMERS_HREF = "/timers"` (drop the S-17 comment). Add `src/pages/timers.astro` and `src/components/AccountDetails.astro` to the timer-ui lint block. Tests: `/timers`, `/timers/`, `/%74imers`, `//timers` protected; `/timersx`, `/x/timers` not; `/timers` is not a saved-drill path. If the contract test enumerates linted files, extend it.
+
+**Contract**: `PROTECTED_ROUTES = ["/dashboard", "/create", "/timers"]`.
+
+#### 5. Smoke for the new routes
+
+**File**: `scripts/smoke.mjs`
+
+**Intent**: Keep the smoke green after this phase. List reads (`/dashboard` at L318, 391-398, 432-435, 559-565, 596-599) move to `/timers`; the bar helper expects email → `/dashboard` and `Timers` → `/timers` (L210-211); `/timers` joins the no-store set (L218); guest `/timers` → 302 to `/auth/signin?next=%2Ftimers` in local and remote modes (next to L715/L747). The account step (`verifyDashboardAndSignOut`, L272-) asserts on `/dashboard`: 200, `no-store`, `Account` heading, the email, `href="/timers"`, `Sign out`, and — after timers exist — the absence of `savedDrill.id`, `savedDrill.name`, `Saved timers` and `You have no saved timers yet.` (proof that the account page reads no list). The `Dashboard` markers at L276, 785 and 846 become `Account`.
+
+**Contract**: No new dependencies; step names stay recognizable.
+
+### Success Criteria:
+
+#### Automated Verification:
+
+- Types and routes sync: `npx astro sync`
+- Lint passes: `npm run lint`
+- Unit tests pass: `npm test`
+- Contract tests pass: `node --test scripts/eslint-rules/*.test.mjs`
+- Type check passes: `npx astro check`
+- Smoke is syntactically valid and has no dead list assertions: `node --check scripts/smoke.mjs` and `grep -n 'appRequest("/dashboard")' scripts/smoke.mjs` returns only the account step and the guest/protection checks
+
+#### Manual Verification:
+
+- Local server: signed in, `/timers` lists timers and `/dashboard` shows only account info (script, not human, if no browser session is available).
+
+**Implementation Note**: pause after the automated checks; the coordinator sends `[FAZA-1-OK]` handling.
+
+---
+
+## Phase 2: Default login target and `Back to timers` links
+
+### Overview
+
+Make `/timers` the default destination after sign-in and repoint every list link.
+
+### Changes Required:
+
+#### 1. Default `next`
+
+**File**: `src/lib/email-auth.ts`, `src/pages/auth/signin.astro`, `src/pages/auth/confirm-email.astro`, `src/lib/email-auth.test.ts`
+
+**Intent**: One exported constant `DEFAULT_NEXT_PATH = "/timers"` used by `safeNextPathSchema` (`:51`), the callback-state fallbacks (`:81`, `:98`), the `verifyEmailLink` invalid-payload fallback (`:193`), `signInUrlForProtectedPath` (`:137`, replacing `/dashboard`) and both pages (`confirm-email` builds the sign-in link without `next` when it equals the default). An explicit `next=/` is still honored. Update tests that assert the old default.
+
+**Contract**: Missing or unsafe `next` → `/timers`; an explicit safe `next` is unchanged.
+
+#### 2. Callback label
+
+**File**: `src/pages/auth/callback.astro`
+
+**Intent**: Button text `Continue to your timers`; the script that swaps the label on submit is unchanged. `Back to the timer` stays.
+
+**Contract**: Visible text only; the smoke markers are updated in phase 4.
+
+#### 3. Links back to the list
+
+**File**: `src/components/timer/SavedDrillDetails.tsx`, `DrillEditApp.tsx`, `DrillCreateForm.tsx`, `src/pages/[id].astro`, `src/pages/[id]/edit.astro`, `src/components/timer/EditDrillFixtures.tsx`
+
+**Intent**: Text `Back to timers`, `href="/timers"`; fixture descriptions that say "dashboard" follow.
+
+**Contract**: Same markup and variants, only text and href change.
+
+#### 4. Smoke for the default target and the label
+
+**File**: `scripts/smoke.mjs`
+
+**Intent**: `callbackFromMessage` (L171) accepts `/timers` (and still `/`, `/dashboard` where a step passes them explicitly); `Continue to account` (L260, L770) becomes `Continue to your timers`; the sign-in `next` used by `signInNewAccount` (L675, L756) becomes `/timers`; one extra email-link request is sent without `next` and its callback must carry `next=/timers` (end-to-end proof of the default).
+
+**Contract**: The default-target request is made by a step that already has a mailbox (new-account flow); no extra accounts.
+
+#### 5. Delete redirect
+
+**File**: `src/lib/drill-delete-controller.ts`, `src/lib/drill-delete-controller.test.ts`
+
+**Intent**: `DASHBOARD_HREF` → `TIMERS_HREF` (`/timers`); tests assert `["/timers"]`. Avoid a name clash with `src/lib/app-top-bar.ts` by importing that constant instead of redefining it if the module has no browser-only code.
+
+**Contract**: Successful and 404 delete navigate to `/timers`.
+
+### Success Criteria:
+
+#### Automated Verification:
+
+- Lint passes: `npm run lint`
+- Unit tests pass: `npm test`
+- Type check passes: `npx astro check`
+- No stale list links: `grep -rn "Back to dashboard\|href=\"/dashboard\"" src --include=*.tsx --include=*.astro` returns only `AppTopBar.astro` (the email link)
+- No old default target in the auth module: `grep -n '"/"' src/lib/email-auth.ts` returns no `next` fallback
+- Smoke has no dead assertions: `node --check scripts/smoke.mjs` passes and `grep -n 'Continue to account' scripts/smoke.mjs` returns nothing
+
+#### Manual Verification:
+
+- Sign-in page with no `next` produces a callback link whose `next` is `/timers` (checked in CI smoke, locally by script).
+
+---
+
+## Phase 3: Create redirects to `/{id}`
+
+### Overview
+
+After `response.ok` in create mode the controller asks an injected `navigate` to go to the new timer; the `saved` state and alert exist only for edit.
+
+### Changes Required:
+
+#### 1. Controller
+
+**File**: `src/lib/drill-create-controller.ts`, `src/lib/drill-create-controller.test.ts`
+
+**Intent**: New option `navigate?: (href: string) => void`. In create mode (no `keepAfterSave`) a successful save keeps `status: "saving"` (form stays locked, like delete) and calls `navigate("/" + encodeURIComponent(drill.id))` once, even if the parameters were edited during the request (what was saved is what `/{id}` shows). Edit mode behavior is untouched. `isSaveDrillResponse` additionally requires a non-empty string `drill.id`. Add a `reset()` for bfcache.
+
+**Contract**: `DrillCreateOptions { initialName?; keepAfterSave?; navigate? }`; create mode never publishes `saved`.
+
+#### 2. Hook, form, apps
+
+**File**: `src/components/hooks/useDrillCreate.ts`, `src/components/timer/DrillCreateApp.tsx`, `DrillCreateForm.tsx`
+
+**Intent**: The hook passes `navigate` (default `window.location.assign`). In create mode only (no `keepAfterSave`), and only after a navigation was requested, a persisted `pageshow` resets the controller and reloads, like `useDrillDelete`; the edit page registers nothing and keeps unsaved changes after a bfcache restore. The controller's `reset()` returns whether it was leaving (`saving` after a successful create) and is a no-op in edit mode. The form keeps the `Saved` alert and focus effect for edit; create no longer reaches it.
+
+**Contract**: No new props on `DrillCreateForm`.
+
+#### 3. Fixtures
+
+**File**: `src/components/timer/CreateDrillFixtures.tsx`
+
+**Intent**: Remove the create `saved` scenario without adding a duplicate: the existing `saving` scenario is also the redirect state (say so in its description). The preview must never navigate (inert `navigate`).
+
+**Contract**: Scenarios still cover default, hover, focus-visible, disabled/saving, error, empty and loading as before.
+
+#### 4. Smoke
+
+**File**: `scripts/smoke.mjs`
+
+**Intent**: After the create step the API `drill.id` is opened at `/{id}` (200, details, no-store) — the server-side half of the redirect; the browser half is the scripted check.
+
+**Contract**: Reuses the existing `saveDrill` helper.
+
+### Success Criteria:
+
+#### Automated Verification:
+
+- Smoke is syntactically valid: `node --check scripts/smoke.mjs`
+- Controller tests pass: `npm test` (create: navigates once to `/{id}`, double submit sends one request and one navigation, edited-during-save still navigates, failure never navigates, edit never navigates and `reset()` is a no-op there, create `reset()` after a redirect returns to `idle`, response without `drill.id` is `unexpected`)
+- Lint passes: `npm run lint`
+- Type check passes: `npx astro check`
+
+#### Manual Verification:
+
+- Creating a timer in a real browser lands on `/{id}` and Back does not show a stuck `Saving…` form (script, not human).
+
+---
+
+## Phase 4: Smoke, docs, visual gate
+
+### Overview
+
+Bring the CI smoke, documentation and `/dev/timer-ui` evidence in line, then run every gate.
+
+### Changes Required:
+
+#### 1. Smoke review
+
+**File**: `scripts/smoke.mjs`
+
+**Intent**: The smoke edits already landed in phases 1-3; this phase re-reads the whole script for leftover `/dashboard` list assumptions and confirms the CI `smoke` job is green. Local Mailpit is missing, so CI is the confirmation.
+
+**Contract**: No new steps.
+
+#### 2. Fixtures and screenshots
+
+**File**: `src/pages/dev/timer-ui.astro`, `src/components/timer/SavedDrillFixtures.tsx`, `context/changes/timers-list-and-account/screenshots/`
+
+**Intent**: Render `AccountDetails` with a normal and a long email in `/dev/timer-ui` (like the top bar fixtures); the list fixtures keep their states under the `Timers` wording. Capture default/hover/focus-visible/error/empty (or justified N/A) in light and dark at 1280 and 390 px for the list, account and create redirect state; report as "script, not human".
+
+**Contract**: Preview stays development-only (production `/dev/timer-ui` is 404).
+
+#### 3. Docs
+
+**File**: `README.md` (route table: `/timers`, `/dashboard`, default sign-in landing), `AGENTS.md` (UI section lines naming `/dashboard` and the protected-page example), `src/AGENTS.md`, `CODEX.md`
+
+**Intent**: Describe `/timers` as the list and `/dashboard` as the account page; protected-page example stays valid (`timers.astro`).
+
+**Contract**: Text only.
+
+### Success Criteria:
+
+#### Automated Verification:
+
+- `npx astro sync`
+- `npm run lint`
+- `npm test`
+- `node --test scripts/eslint-rules/*.test.mjs`
+- `npx astro check`
+- `npm run build`
+- CI `ci` and `smoke` jobs green on the PR
+
+#### Manual Verification:
+
+- Screenshots reviewed in `context/changes/timers-list-and-account/screenshots/` for both themes and widths (script, not human).
+- After deploy: `/` 200, `/dev/timer-ui` 404, `/timers` and `/dashboard` 302 for a guest.
+
+---
+
+## Testing Strategy
+
+### Unit Tests:
+
+- `protected-routes.test.ts`: `/timers` variants protected, lookalikes public.
+- `email-auth.test.ts`: default `next` is `/timers`, explicit `/` and `/dashboard?tab=drill` unchanged, unsafe values fall back to `/timers`, `signInUrlForProtectedPath` fallback.
+- `drill-create-controller.test.ts`: redirect cases listed in phase 3, `drill.id` validation.
+- `drill-delete-controller.test.ts`: navigates to `/timers`.
+- `saved-drills-read.test.ts`: `resolveTimersPage` decisions.
+
+### Integration Tests:
+
+- Smoke (CI): guest and signed-in `/timers`, account page, bar links, create → `/{id}`, delete → list empty state.
+
+### Manual Testing Steps:
+
+1. Sign in without `next` and land on `/timers`.
+2. Create a timer and land on `/{id}`; press Back and see a usable form.
+3. Edit keeps `Saved`; delete returns to `/timers`.
+4. `/dashboard` shows the email, the `Timers` link and `Sign out`, with no list.
+
+## Performance Considerations
+
+None: `/dashboard` loses its database read; `/timers` has the same single query as before.
+
+## Migration Notes
+
+No data changes. Old bookmarks of `/dashboard` now open the account page; the bar `Timers` link and the sign-in default lead to the list.
+
+## References
+
+- Decisions: `context/foundation/ux-fixes-plan.md` (S-17), `context/foundation/roadmap.md` (S-17)
+- Redirect pattern: `src/lib/drill-delete-controller.ts`, `src/components/hooks/useDrillDelete.ts`
+- Previous change: `context/changes/app-top-bar/plan.md`
+
+## Progress
+
+> Convention: `- [ ]` pending, `- [x]` done. Append ` — <commit sha>` when a step lands. Do not rename step titles. See `references/progress-format.md`.
+
+### Phase 1: `/timers` list page, `/dashboard` as account page
+
+#### Automated
+
+- [x] 1.1 Types and routes sync: `npx astro sync` — 410551d
+- [x] 1.2 Lint passes: `npm run lint` — 410551d
+- [x] 1.3 Unit tests pass: `npm test` — 410551d
+- [x] 1.4 Contract tests pass: `node --test scripts/eslint-rules/*.test.mjs` — 410551d
+- [x] 1.5 Type check passes: `npx astro check` — 410551d
+- [x] 1.7 Smoke is valid and has no dead list assertions: `node --check scripts/smoke.mjs`, grep of `/dashboard` requests — 410551d
+
+#### Manual
+
+- [x] 1.6 Signed in, `/timers` lists timers and `/dashboard` shows only account info — checked by Playwright script on local dev + local Supabase, not by a human (checks.json)
+
+### Phase 2: Default login target and `Back to timers` links
+
+#### Automated
+
+- [x] 2.1 Lint passes: `npm run lint` — ef56f24
+- [x] 2.2 Unit tests pass: `npm test` — ef56f24
+- [x] 2.3 Type check passes: `npx astro check` — ef56f24
+- [x] 2.4 No stale list links remain in `src` (grep limited to `*.tsx`/`*.astro`, only `AppTopBar.astro` left) — ef56f24
+- [x] 2.6 No `"/"` `next` fallback left in `src/lib/email-auth.ts`; smoke has no `Continue to account` — ef56f24
+
+#### Manual
+
+- [x] 2.5 Sign-in without `next` produces a callback link whose `next` is `/timers` (smoke step with a link request without `next`; CI is the execution) - CI smoke (run 37854194146), not local
+
+### Phase 3: Create redirects to `/{id}`
+
+#### Automated
+
+- [x] 3.1 Controller tests pass: `npm test` — e58cbe3
+- [x] 3.2 Lint passes: `npm run lint` — e58cbe3
+- [x] 3.3 Type check passes: `npx astro check` — e58cbe3
+- [x] 3.5 Smoke is syntactically valid: `node --check scripts/smoke.mjs` — e58cbe3
+
+#### Manual
+
+- [x] 3.4 Creating a timer lands on `/{id}` and Back does not show a stuck `Saving…` form — checked by Playwright script (1280 and 390), not by a human
+
+### Phase 4: Smoke, docs, visual gate
+
+#### Automated
+
+- [x] 4.1 `npx astro sync` — 4f29e7c
+- [x] 4.2 `npm run lint` — 4f29e7c
+- [x] 4.3 `npm test` — 4f29e7c
+- [x] 4.4 `node --test scripts/eslint-rules/*.test.mjs` — 4f29e7c
+- [x] 4.5 `npx astro check` — 4f29e7c
+- [x] 4.6 `npm run build` — 4f29e7c
+- [x] 4.7 CI `ci` and `smoke` jobs green on the PR - CI smoke (run 37854194146), not local
+
+#### Manual
+
+- [x] 4.8 Screenshots reviewed for both themes and widths — captured by script and viewed by the dev agent (Read), not by a human; `context/changes/timers-list-and-account/screenshots/`
+- [ ] 4.9 After deploy: `/` 200, `/dev/timer-ui` 404, `/timers` and `/dashboard` 302 for a guest

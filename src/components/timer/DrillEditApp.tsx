@@ -16,8 +16,8 @@ export function DrillEditLinks({ id }: { id: string }) {
             <a href={`/${id}`} className={cn(buttonVariants({ variant: "link" }), "w-full")}>
                 Back to timer
             </a>
-            <a href="/dashboard" className={cn(buttonVariants({ variant: "link" }), "w-full")}>
-                Back to dashboard
+            <a href="/timers" className={cn(buttonVariants({ variant: "link" }), "w-full")}>
+                Back to timers
             </a>
         </div>
     );

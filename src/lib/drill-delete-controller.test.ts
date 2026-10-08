@@ -25,7 +25,7 @@ void test("confirm while deleting is a no-op: a double click sends one request",
 
     deferred.resolve({ ok: true });
     await first;
-    assert.deepEqual(navigated, ["/dashboard"]);
+    assert.deepEqual(navigated, ["/timers"]);
     assert.equal(deferred.calls(), 1);
 });
 
@@ -36,7 +36,7 @@ void test("success navigates to the dashboard and stays deleting", async () => {
         (href) => navigated.push(href),
     );
     await controller.confirm();
-    assert.deepEqual(navigated, ["/dashboard"]);
+    assert.deepEqual(navigated, ["/timers"]);
     assert.equal(controller.getSnapshot().status, "deleting");
 });
 
@@ -45,7 +45,7 @@ void test("a 404 from the production port counts as done", async () => {
     const port = deleteDrillRequest("3f2b8c1e-5d4a-4e6f-9a7b-1c2d3e4f5a6b", () => Promise.resolve(new Response("{}", { status: 404 })));
     const controller = createDrillDeleteController(port, (href) => navigated.push(href));
     await controller.confirm();
-    assert.deepEqual(navigated, ["/dashboard"]);
+    assert.deepEqual(navigated, ["/timers"]);
 });
 
 void test("production port sends DELETE to the encoded id and maps statuses", async () => {
@@ -90,7 +90,7 @@ void test("a failure or a throwing port keeps the error and allows a retry", asy
     await controller.confirm();
     assert.equal(controller.getSnapshot().failure?.code, "unavailable");
     await controller.confirm();
-    assert.deepEqual(navigated, ["/dashboard"]);
+    assert.deepEqual(navigated, ["/timers"]);
     assert.equal(attempt, 3);
 });
 

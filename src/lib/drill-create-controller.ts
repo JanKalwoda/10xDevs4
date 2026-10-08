@@ -28,6 +28,11 @@ export interface DrillCreateController {
      * While saving it only remembers the change, so the reply of that save does not report the edited values as saved.
      */
     markEdited(): void;
+    /**
+     * A page restored from the back/forward cache after a create redirect: the stuck `saving` state returns to `idle`.
+     * Returns whether the page was leaving; edit mode never leaves, so there it is a no-op returning `false`.
+     */
+    reset(): boolean;
     subscribe(listener: () => void): () => void;
     getSnapshot(): DrillCreateSnapshot;
 }
@@ -39,6 +44,8 @@ export interface DrillCreateOptions {
     initialName?: string;
     /** Edit: the saved name stays in the field after a successful save instead of being cleared for the next timer. */
     keepAfterSave?: boolean;
+    /** Create: where to go after a successful save (`/{id}`). The form stays locked in `saving` while the page leaves. */
+    navigate?: (href: string) => void;
 }
 
 function failureFrom(response: Extract<SaveDrillResponse, { ok: false }>): Pick<DrillCreateSnapshot, "nameError" | "failure"> {
@@ -55,6 +62,8 @@ export function createDrillCreateController(saveDrill: SaveDrillPort, options: D
     let snapshot: DrillCreateSnapshot = { name: options.initialName ?? "", nameError: null, status: "idle", failure: null, savedName: null };
     // The parameters changed after the request left: its reply describes values the form no longer shows.
     let editedDuringSave = false;
+    // A create redirect was requested: the page is leaving and the snapshot stays `saving`.
+    let leaving = false;
 
     // A function so the flag read after the `await` is not narrowed to the `false` assigned before it.
     function takeEditedDuringSave(): boolean {
@@ -104,6 +113,12 @@ export function createDrillCreateController(saveDrill: SaveDrillPort, options: D
             // Edited during the request: drop the outcome the way `markEdited` does after a reply, so neither `Saved "…"` nor an alert refers to the old values.
             const stale = takeEditedDuringSave();
 
+            if (response.ok && !options.keepAfterSave) {
+                // What was saved is what `/{id}` shows, so an edit during the request does not cancel the redirect.
+                leaving = true;
+                options.navigate?.(`/${encodeURIComponent(response.drill.id)}`);
+                return;
+            }
             if (response.ok) {
                 const name = options.keepAfterSave ? response.drill.name : "";
                 publish(
@@ -124,6 +139,13 @@ export function createDrillCreateController(saveDrill: SaveDrillPort, options: D
             }
             if (snapshot.status !== "saved" && snapshot.status !== "error") return;
             publish({ ...snapshot, status: "idle", failure: null, savedName: null });
+        },
+
+        reset() {
+            if (!leaving) return false;
+            leaving = false;
+            publish({ ...snapshot, status: "idle" });
+            return true;
         },
 
         subscribe(listener) {
@@ -160,7 +182,17 @@ const PUT_STATUS_CODES: StatusCodes = {
 
 function isSaveDrillResponse(value: unknown): value is SaveDrillResponse {
     if (typeof value !== "object" || value === null || !("ok" in value)) return false;
-    if (value.ok === true) return "drill" in value && typeof value.drill === "object" && value.drill !== null && "name" in value.drill && typeof value.drill.name === "string";
+    if (value.ok === true)
+        return (
+            "drill" in value &&
+            typeof value.drill === "object" &&
+            value.drill !== null &&
+            "name" in value.drill &&
+            typeof value.drill.name === "string" &&
+            "id" in value.drill &&
+            typeof value.drill.id === "string" &&
+            value.drill.id !== ""
+        );
     return value.ok === false && "code" in value && typeof value.code === "string" && "message" in value && typeof value.message === "string";
 }
 

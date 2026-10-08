@@ -168,7 +168,7 @@ function callbackFromMessage(message) {
     const tokenHash = callback.searchParams.get("token_hash");
     const next = callback.searchParams.get("next") ?? "/";
     ensure(tokenHash && !/\s/.test(tokenHash));
-    ensure(next === "/" || next === "/dashboard");
+    ensure(next === "/" || next === "/dashboard" || next === "/timers");
 
     return { path: callback.pathname + callback.search, tokenHash, next };
 }
@@ -203,19 +203,19 @@ function hasHomeAccountLink(markup, label, href) {
     return accountNavLinks(markup).some((link) => link.href === href && link.text === label);
 }
 
-// The top bar: a signed-in session shows the email (link to /dashboard), Timers (TIMERS_HREF = /dashboard) and a sign-out form.
+// The top bar: a signed-in session shows the email (link to the /dashboard account page), Timers (TIMERS_HREF = /timers) and a sign-out form.
 function hasSignedInTopBar(markup, accountEmail) {
     const links = accountNavLinks(markup);
     return (
         links.some((link) => link.href === "/dashboard" && link.text.toLowerCase() === accountEmail.toLowerCase()) &&
-        links.some((link) => link.href === "/dashboard" && link.text === "Timers") &&
+        links.some((link) => link.href === "/timers" && link.text === "Timers") &&
         /<form\b[^>]*action\s*=\s*["']\/api\/auth\/signout["']/i.test(accountNavMarkup(markup) ?? "")
     );
 }
 
 // Every HTML page with the bar carries the account email, so none of them may be cacheable.
 async function verifyBarredPagesNoStore() {
-    for (const path of ["/", "/create", "/dashboard", "/abc/def"]) {
+    for (const path of ["/", "/create", "/dashboard", "/timers", "/abc/def"]) {
         const response = await appRequest(path);
         ensure(response.headers.get("cache-control")?.includes("no-store"));
         await response.arrayBuffer();
@@ -243,7 +243,7 @@ async function runStep(name, action) {
 async function requestEmailLink(email, next) {
     const response = await appRequest("/api/auth/signin", {
         method: "POST",
-        form: { email, next },
+        form: next === undefined ? { email } : { email, next },
     });
     ensure(response.status === 200);
     const body = await response.json().catch(() => null);
@@ -257,7 +257,7 @@ async function confirmLink(link) {
     ensure(page.headers.get("referrer-policy") === "no-referrer");
     const markup = await page.text();
     ensure(markup.includes('id="email-link-confirmation"'));
-    ensure(markup.includes("Continue to account"));
+    ensure(markup.includes("Continue to your timers"));
 
     const response = await appRequest("/api/auth/callback", {
         method: "POST",
@@ -269,12 +269,17 @@ async function confirmLink(link) {
     ensure(cookieJar.size > 0);
 }
 
+// The h1 of AccountDetails: the top bar has <nav aria-label="Account"> and the <title>, so a bare "Account" proves nothing.
+const ACCOUNT_HEADING = /<h1[^>]*>\s*Account\s*<\/h1>/;
+
 async function verifyDashboardAndSignOut() {
     const dashboard = await appRequest("/dashboard");
     ensure(dashboard.status === 200);
     const markup = await dashboard.text();
-    ensure(markup.includes("Dashboard"));
+    ensure(ACCOUNT_HEADING.test(markup));
+    ensure(markup.includes("Signed in as"));
     ensure(markup.includes("Sign out"));
+    ensure(!markup.includes("Saved timers"));
 
     const signout = await appRequest("/api/auth/signout", { method: "POST", form: {} });
     ensure(signout.status === 302);
@@ -284,6 +289,31 @@ async function verifyDashboardAndSignOut() {
     const location = responseLocation(protectedAfterSignOut);
     ensure(protectedAfterSignOut.status === 302);
     ensure(location?.pathname === "/auth/signin");
+
+    const timersAfterSignOut = await appRequest("/timers");
+    const timersLocation = responseLocation(timersAfterSignOut);
+    ensure(timersAfterSignOut.status === 302);
+    ensure(timersLocation?.pathname === "/auth/signin");
+    ensure(timersLocation.searchParams.get("next") === "/timers");
+}
+
+// The account page reads no timers: with saved timers in the database it shows the account data only.
+async function verifyAccountPageHasNoList(accountEmail) {
+    ensure(savedDrill !== null);
+    const account = await appRequest("/dashboard");
+    ensure(account.status === 200);
+    ensure(account.headers.get("cache-control")?.includes("no-store"));
+    const markup = await account.text();
+    const text = visibleText(markup);
+    ensure(ACCOUNT_HEADING.test(markup));
+    ensure(text.includes("Signed in as"));
+    ensure(text.toLowerCase().includes(accountEmail.toLowerCase()));
+    ensure(/href="\/timers"/.test(markup));
+    ensure(text.includes("Sign out"));
+    ensure(!markup.includes(savedDrill.id));
+    ensure(!text.includes(savedDrill.name));
+    ensure(!text.includes("Saved timers"));
+    ensure(!text.includes("You have no saved timers yet."));
 }
 
 const UUID_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/;
@@ -314,11 +344,11 @@ async function verifyAnonymousDrillApi() {
 }
 
 async function verifyCreatePage() {
-    const dashboard = await appRequest("/dashboard");
-    ensure(dashboard.status === 200);
-    const dashboardMarkup = await dashboard.text();
+    const timers = await appRequest("/timers");
+    ensure(timers.status === 200);
+    const timersMarkup = await timers.text();
     // Tailwind classes such as has-[>svg] contain ">", so the link is matched lazily up to its label instead of by attribute.
-    ensure(/<a href="\/create"[\s\S]*?>\s*Create a timer\s*<\/a>/.test(dashboardMarkup));
+    ensure(/<a href="\/create"[\s\S]*?>\s*Create a timer\s*<\/a>/.test(timersMarkup));
 
     const page = await appRequest("/create");
     ensure(page.status === 200);
@@ -333,6 +363,11 @@ async function verifySavedDrillApi() {
     ensure(first.body.drill.name === "Smoke drill");
     ensure(UUID_PATTERN.test(first.body.drill.id));
     savedDrill = { id: first.body.drill.id, name: first.body.drill.name };
+    // Server half of the create redirect: the form sends the browser to /{id} of the id in this reply.
+    const created = await appRequest("/" + encodeURIComponent(first.body.drill.id));
+    ensure(created.status === 200);
+    ensure(created.headers.get("cache-control")?.includes("no-store"));
+    ensure(visibleText(await created.text()).includes(first.body.drill.name));
     const { configuration } = first.body.drill;
     ensure(configuration.preparationSeconds === 5 && configuration.exerciseSeconds === 4 && configuration.restSeconds === 2);
     ensure(configuration.repetitions === 3 && configuration.randomStartEnabled === false);
@@ -388,14 +423,14 @@ async function snapshot(path) {
 
 async function verifyOwnSavedDrillPages() {
     ensure(savedDrill !== null);
-    const dashboard = await appRequest("/dashboard");
-    ensure(dashboard.status === 200);
-    ensure(dashboard.headers.get("cache-control")?.includes("no-store"));
-    const dashboardMarkup = await dashboard.text();
-    ensure(dashboardMarkup.includes('href="/' + savedDrill.id + '"'));
-    const dashboardText = visibleText(dashboardMarkup);
-    ensure(dashboardText.includes(savedDrill.name));
-    ensure(dashboardText.includes(PARAMETER_LINE));
+    const timers = await appRequest("/timers");
+    ensure(timers.status === 200);
+    ensure(timers.headers.get("cache-control")?.includes("no-store"));
+    const timersMarkup = await timers.text();
+    ensure(timersMarkup.includes('href="/' + savedDrill.id + '"'));
+    const timersText = visibleText(timersMarkup);
+    ensure(timersText.includes(savedDrill.name));
+    ensure(timersText.includes(PARAMETER_LINE));
 
     const page = await appRequest("/" + savedDrill.id);
     ensure(page.status === 200);
@@ -429,10 +464,10 @@ async function snapshotUpdate(id) {
     return { status: response.status, raw: await response.text(), headers: ["cache-control", "content-type", "referrer-policy"].map((name) => response.headers.get(name)) };
 }
 
-async function dashboardText() {
-    const dashboard = await appRequest("/dashboard");
-    ensure(dashboard.status === 200);
-    return visibleText(await dashboard.text());
+async function timersText() {
+    const timers = await appRequest("/timers");
+    ensure(timers.status === 200);
+    return visibleText(await timers.text());
 }
 
 async function verifyOwnerEdit() {
@@ -449,7 +484,7 @@ async function verifyOwnerEdit() {
     ensure(configuration.repetitions === 4 && configuration.randomStartEnabled === true);
     savedDrill.name = "Smoke drill edited";
 
-    const text = await dashboardText();
+    const text = await timersText();
     ensure(text.includes("Smoke drill edited") && text.includes(EDITED_LINE));
     ensure(text.includes("Smoke other drill") && text.includes(OTHER_LINE));
 
@@ -490,7 +525,7 @@ async function verifyEditRules() {
     const restored = await updateDrill(savedDrill.id, "Smoke drill edited", { rest: "0:03", repetitions: "4", randomStartEnabled: true });
     ensure(restored.status === 200);
     savedDrill.name = "Smoke drill edited";
-    const text = await dashboardText();
+    const text = await timersText();
     ensure(text.includes("Smoke drill edited") && text.includes(EDITED_LINE) && !text.includes("x".repeat(200)));
     ensure(text.includes("Smoke other drill") && text.includes(OTHER_LINE));
 }
@@ -556,13 +591,13 @@ async function verifyForeignSavedDrillPages() {
         ensure(JSON.stringify(other.headers) === JSON.stringify(foreign.headers));
     }
 
-    const dashboard = await appRequest("/dashboard");
-    ensure(dashboard.status === 200);
-    const dashboardMarkup = await dashboard.text();
-    ensure(!dashboardMarkup.includes(savedDrill.id));
-    const dashboardText = visibleText(dashboardMarkup);
-    ensure(!dashboardText.includes(savedDrill.name));
-    ensure(dashboardText.includes("You have no saved timers yet."));
+    const timers = await appRequest("/timers");
+    ensure(timers.status === 200);
+    const timersMarkup = await timers.text();
+    ensure(!timersMarkup.includes(savedDrill.id));
+    const timersText = visibleText(timersMarkup);
+    ensure(!timersText.includes(savedDrill.name));
+    ensure(timersText.includes("You have no saved timers yet."));
 }
 
 async function verifyGuestSavedDrillRouting() {
@@ -579,7 +614,7 @@ async function verifyGuestSavedDrillRouting() {
 
 async function verifyFirstUserTimersUnchanged() {
     ensure(savedDrill !== null && otherDrill !== null);
-    const text = await dashboardText();
+    const text = await timersText();
     ensure(text.includes(savedDrill.name) && text.includes(EDITED_LINE));
     ensure(text.includes(otherDrill.name) && text.includes(OTHER_LINE));
 }
@@ -593,10 +628,10 @@ async function snapshotDelete(id) {
     return { status: response.status, raw: await response.text(), headers: ["cache-control", "content-type", "referrer-policy"].map((name) => response.headers.get(name)) };
 }
 
-async function dashboardMarkup() {
-    const dashboard = await appRequest("/dashboard");
-    ensure(dashboard.status === 200);
-    return dashboard.text();
+async function timersMarkup() {
+    const timers = await appRequest("/timers");
+    ensure(timers.status === 200);
+    return timers.text();
 }
 
 // Runs at the 50-timer limit, signed in as the first user.
@@ -622,7 +657,7 @@ async function verifyOwnerDelete() {
     ensure((await removed.text()) === "");
     ensure(removed.headers.get("cache-control")?.includes("no-store"));
     ensure((await appRequest("/" + first)).status === 404);
-    ensure(!(await dashboardMarkup()).includes(first));
+    ensure(!(await timersMarkup()).includes(first));
 
     // Double delete is the same 404 as a foreign, random or malformed id.
     const repeated = await snapshotDelete(first);
@@ -642,7 +677,7 @@ async function verifyOwnerDelete() {
     // Deleting one timer leaves the others alone.
     const gone = await deleteDrillRequest(second);
     ensure(gone.status === 204);
-    const markup = await dashboardMarkup();
+    const markup = await timersMarkup();
     ensure(!markup.includes(second) && markup.includes(refill.body.drill.id) && markup.includes(savedDrill.id) && markup.includes(otherDrill.id));
     const after = await saveDrill("Smoke filler 4");
     ensure(after.status === 201);
@@ -672,7 +707,7 @@ async function verifyForeignDelete() {
 }
 
 async function signInNewAccount(email) {
-    await requestEmailLink(email, "/dashboard");
+    await requestEmailLink(email, "/timers");
     const link = callbackFromMessage(await waitForEmail(email));
     await confirmLink(link);
     return link;
@@ -720,6 +755,14 @@ async function runRemoteSmoke() {
         ensure(location.searchParams.get("next") === "/dashboard");
     });
 
+    await runStep("anonymous timers list redirects to sign-in", async () => {
+        const response = await appRequest("/timers");
+        const location = responseLocation(response);
+        ensure(response.status === 302);
+        ensure(location?.pathname === "/auth/signin");
+        ensure(location.searchParams.get("next") === "/timers");
+    });
+
     await runStep("anonymous drill API answers 401 and /create redirects to sign-in", verifyAnonymousDrillApi);
 
     await runStep("anonymous /{uuid} redirects to sign-in and a non-UUID path is a plain 404", async () => {
@@ -751,13 +794,24 @@ async function runLocalSmoke() {
         ensure(location.searchParams.get("next") === "/dashboard");
     });
 
+    await runStep("anonymous timers list redirects to sign-in", async () => {
+        const response = await appRequest("/timers");
+        const location = responseLocation(response);
+        ensure(response.status === 302);
+        ensure(location?.pathname === "/auth/signin");
+        ensure(location.searchParams.get("next") === "/timers");
+    });
+
     await runStep("anonymous drill API answers 401 and /create redirects to sign-in", verifyAnonymousDrillApi);
 
-    await runStep("new-account email request returns a neutral result", () => requestEmailLink(email, "/dashboard"));
+    // No `next` on purpose: the default target must be /timers (asserted on the callback below).
+    await runStep("new-account email request without next returns a neutral result", () => requestEmailLink(email));
 
     const newAccountLink = await runStep("Mailpit receives the new-account confirmation email", async () => {
         const message = await waitForEmail(email);
-        return callbackFromMessage(message);
+        const link = callbackFromMessage(message);
+        ensure(link.next === "/timers");
+        return link;
     });
 
     await runStep("confirmation GET prepares the explicit POST without consuming the link", async () => {
@@ -767,7 +821,7 @@ async function runLocalSmoke() {
         ensure(page.headers.get("referrer-policy") === "no-referrer");
         const markup = await page.text();
         ensure(markup.includes('id="email-link-confirmation"'));
-        ensure(markup.includes("Continue to account"));
+        ensure(markup.includes("Continue to your timers"));
     });
 
     await runStep("explicit POST establishes the SSR session from the new-account link", () => confirmLink(newAccountLink));
@@ -782,13 +836,15 @@ async function runLocalSmoke() {
         const dashboard = await appRequest("/dashboard");
         ensure(dashboard.status === 200);
         const markup = await dashboard.text();
-        ensure(markup.includes("Dashboard"));
+        ensure(ACCOUNT_HEADING.test(markup));
+        ensure(markup.includes("Signed in as"));
         ensure(markup.includes("Sign out"));
     });
-    await runStep("signed-in user reaches /create and the dashboard links to it", verifyCreatePage);
+    await runStep("signed-in user reaches /create and the timers list links to it", verifyCreatePage);
     await runStep("signed-in user saves, duplicates, invalid and wrong-type requests get stable API answers", verifySavedDrillApi);
-    await runStep("dashboard lists the saved timer and /{id} shows its details (noindex, no-store, no running view)", verifyOwnSavedDrillPages);
-    await runStep("owner edits a timer: PUT 200, dashboard and /{id}/edit show the new values, the other timer is untouched", verifyOwnerEdit);
+    await runStep("timers list shows the saved timer and /{id} shows its details (noindex, no-store, no running view)", verifyOwnSavedDrillPages);
+    await runStep("account page shows the account only: no timer ids, names or list text", () => verifyAccountPageHasNoList(email));
+    await runStep("owner edits a timer: PUT 200, the timers list and /{id}/edit show the new values, the other timer is untouched", verifyOwnerEdit);
     await runStep("edit rules: duplicate 409, case-only rename 200, 200/201 characters, invalid 400, wrong type 415", verifyEditRules);
     await runStep("the 50-timer limit refuses the 51st save, also for concurrent requests", verifyDrillLimit);
     await runStep("a timer can still be edited at the 50-timer limit", verifyEditAtLimit);
@@ -843,7 +899,8 @@ async function runLocalSmoke() {
         const dashboard = await appRequest("/dashboard");
         ensure(dashboard.status === 200);
         const markup = await dashboard.text();
-        ensure(markup.includes("Dashboard"));
+        ensure(ACCOUNT_HEADING.test(markup));
+        ensure(markup.includes("Signed in as"));
     });
     await runStep("the first account's timers are unchanged after the second account's attempts", verifyFirstUserTimersUnchanged);
     await runStep("sign-out clears the existing-account session", verifyDashboardAndSignOut);

@@ -24,7 +24,6 @@ interface Scenario {
     nameError?: string;
     status?: DrillCreateStatus;
     failure?: DrillCreateFailure;
-    savedName?: string;
 }
 
 /** Each scenario feeds the production `DrillCreateForm` the exact props the `useDrillCreate` hook would produce for that state. */
@@ -59,7 +58,7 @@ const SCENARIOS: Scenario[] = [
     {
         fixture: "saving",
         title: "Loading: saving",
-        description: "Submit disabled and busy, name read-only.",
+        description: "Submit disabled and busy, name read-only. Also the redirect state: after a save the form stays locked while the page goes to the new timer.",
         visualState: "loading",
         name: "Morning drill",
         status: "saving",
@@ -81,15 +80,6 @@ const SCENARIOS: Scenario[] = [
         name: "Morning drill",
         status: "error",
         failure: { code: "unauthorized", message: SAVE_DRILL_MESSAGES.unauthorized },
-    },
-    {
-        fixture: "saved",
-        title: "Saved",
-        description: "Confirmation, name cleared and focused, parameters kept.",
-        visualState: "default",
-        name: "",
-        status: "saved",
-        savedName: "Morning drill",
     },
 ];
 
@@ -113,7 +103,7 @@ function CreateDrillFixture({ scenario }: { scenario: Scenario }) {
                     nameError={scenario.nameError ?? null}
                     status={status}
                     failure={scenario.failure ?? null}
-                    savedName={scenario.savedName ?? null}
+                    savedName={null}
                     onSubmitAttempt={() => undefined}
                     onSave={() => undefined}
                     createAudio={() => Promise.resolve(null)}

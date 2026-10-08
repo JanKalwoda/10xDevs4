@@ -94,7 +94,14 @@ test("dynamic route files [id].astro and [id]/edit.astro are really under the ti
 // S-16: the top bar, its layout and the .astro files under components/timer are linted too.
 test("top bar, layout and timer .astro components are under the timer UI contract", async () => {
     const eslint = new ESLint();
-    for (const filePath of ["src/components/AppTopBar.astro", "src/layouts/Layout.astro", "src/components/timer/NotFoundView.astro"]) {
+    for (const filePath of [
+        "src/components/AppTopBar.astro",
+        "src/layouts/Layout.astro",
+        "src/components/timer/NotFoundView.astro",
+        "src/components/AccountDetails.astro",
+        "src/pages/timers.astro",
+        "src/pages/dashboard.astro",
+    ]) {
         const config = await eslint.calculateConfigForFile(filePath);
         assert.equal(config.rules["timer-ui/contract"]?.[0], 2, `${filePath} must have timer-ui/contract enabled`);
 

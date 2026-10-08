@@ -95,8 +95,8 @@ export default function DrillCreateForm({
                     </a>
                 )}
                 {failure.code === "not_found" && (
-                    <a href="/dashboard" className={cn(buttonVariants({ variant: "outline", size: "sm" }))}>
-                        Back to dashboard
+                    <a href="/timers" className={cn(buttonVariants({ variant: "outline", size: "sm" }))}>
+                        Back to timers
                     </a>
                 )}
             </AlertDescription>

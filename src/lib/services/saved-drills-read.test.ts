@@ -7,7 +7,7 @@ import {
     isDrillId,
     listSavedDrills,
     normalizeDrillId,
-    resolveDashboardPage,
+    resolveTimersPage,
     resolveSavedDrillPage,
     type DrillConfigurationStore,
     type FindResult,
@@ -212,22 +212,22 @@ void test("the /{id} decision: non-UUID first, then session, then store, then re
     assert.equal(ok.kind, "ok");
 });
 
-void test("the dashboard decision: sign in, unavailable, ok, never an empty list on failure", async () => {
+void test("the timers page decision: sign in, unavailable, ok, never an empty list on failure", async () => {
     const calls: Calls = { list: 0, find: [] };
 
-    assert.deepEqual(await resolveDashboardPage(null, store(emptyList, noRows, calls)), { kind: "sign_in" });
+    assert.deepEqual(await resolveTimersPage(null, store(emptyList, noRows, calls)), { kind: "sign_in" });
     assert.equal(calls.list, 0);
-    assert.deepEqual(await resolveDashboardPage(USER_ID, null), { kind: "unavailable" });
-    assert.deepEqual(await resolveDashboardPage(USER_ID, store(emptyList, noRows)), { kind: "ok", drills: [] });
+    assert.deepEqual(await resolveTimersPage(USER_ID, null), { kind: "unavailable" });
+    assert.deepEqual(await resolveTimersPage(USER_ID, store(emptyList, noRows)), { kind: "ok", drills: [] });
     assert.deepEqual(
-        await resolveDashboardPage(
+        await resolveTimersPage(
             USER_ID,
             store(() => Promise.resolve({ data: null, error: { code: "PGRST301" }, status: 401 }), noRows),
         ),
         { kind: "sign_in" },
     );
     assert.deepEqual(
-        await resolveDashboardPage(
+        await resolveTimersPage(
             USER_ID,
             store(() => Promise.resolve({ data: null, error: null }), noRows),
             () => undefined,
@@ -243,7 +243,7 @@ void test("the empty and unavailable messages are different texts", () => {
 
 void test("a saved timer path is a safe sign-in next value", () => {
     assert.equal(signInUrlForProtectedPath(`/${ID}`), `/auth/signin?next=${encodeURIComponent(`/${ID}`)}`);
-    assert.equal(signInUrlForProtectedPath(`//${ID}`), "/auth/signin?next=%2Fdashboard");
+    assert.equal(signInUrlForProtectedPath(`//${ID}`), "/auth/signin?next=%2Ftimers");
 });
 
 void test("describeDrillConfiguration lists the parameters, with 1 rep and optional random start", () => {

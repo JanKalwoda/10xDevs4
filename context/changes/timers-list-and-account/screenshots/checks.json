@@ -1,0 +1,137 @@
+[
+  {
+    "id": "guest /timers 302",
+    "ok": true,
+    "msg": "/auth/signin?next=%2Ftimers"
+  },
+  {
+    "id": "guest /dashboard 302",
+    "ok": true,
+    "msg": ""
+  },
+  {
+    "id": "callback label",
+    "ok": true,
+    "msg": "Continue to your timers"
+  },
+  {
+    "id": "default next lands on /timers",
+    "ok": true,
+    "msg": "http://localhost:4399/timers"
+  },
+  {
+    "id": "1.6 /timers empty state",
+    "ok": true,
+    "msg": ""
+  },
+  {
+    "id": "3.4 create lands on /{id} (1280)",
+    "ok": true,
+    "msg": "http://localhost:4399/ea97fbc8-ced7-4cf4-bc02-3160ee7c5181"
+  },
+  {
+    "id": "details shows name (1280)",
+    "ok": true,
+    "msg": ""
+  },
+  {
+    "id": "Back to timers link (1280)",
+    "ok": true,
+    "msg": ""
+  },
+  {
+    "id": "3.4 Back shows usable form, not stuck Saving (1280)",
+    "ok": true,
+    "msg": "Save timer disabled=false url=http://localhost:4399/create"
+  },
+  {
+    "id": "1.6 /timers lists timer (1280)",
+    "ok": true,
+    "msg": ""
+  },
+  {
+    "id": "Create a timer link (1280)",
+    "ok": true,
+    "msg": ""
+  },
+  {
+    "id": "1.6 /dashboard account only (1280)",
+    "ok": true,
+    "msg": ""
+  },
+  {
+    "id": "/dashboard Timers link (1280)",
+    "ok": true,
+    "msg": ""
+  },
+  {
+    "id": "bar links (1280)",
+    "ok": true,
+    "msg": "[[\"shots-1791498281217@example.com\",\"/dashboard\"],[\"Timers\",\"/timers\"],[\"View all\",\"https://astro.build/integrations/\"]]"
+  },
+  {
+    "id": "edit stays on /{id}/edit with Saved",
+    "ok": true,
+    "msg": "http://localhost:4399/ea97fbc8-ced7-4cf4-bc02-3160ee7c5181/edit"
+  },
+  {
+    "id": "delete returns to /timers",
+    "ok": true,
+    "msg": ""
+  },
+  {
+    "id": "3.4 create lands on /{id} (390)",
+    "ok": true,
+    "msg": "http://localhost:4399/c827f99a-61cb-4061-9bc6-f791988a6e58"
+  },
+  {
+    "id": "details shows name (390)",
+    "ok": true,
+    "msg": ""
+  },
+  {
+    "id": "Back to timers link (390)",
+    "ok": true,
+    "msg": ""
+  },
+  {
+    "id": "3.4 Back shows usable form, not stuck Saving (390)",
+    "ok": true,
+    "msg": "Save timer disabled=false url=http://localhost:4399/create"
+  },
+  {
+    "id": "1.6 /timers lists timer (390)",
+    "ok": true,
+    "msg": ""
+  },
+  {
+    "id": "Create a timer link (390)",
+    "ok": true,
+    "msg": ""
+  },
+  {
+    "id": "1.6 /dashboard account only (390)",
+    "ok": true,
+    "msg": ""
+  },
+  {
+    "id": "/dashboard Timers link (390)",
+    "ok": true,
+    "msg": ""
+  },
+  {
+    "id": "bar links (390)",
+    "ok": true,
+    "msg": "[[\"shots-1791498281217@example.com\",\"/dashboard\"],[\"Timers\",\"/timers\"],[\"View all\",\"https://astro.build/integrations/\"]]"
+  },
+  {
+    "id": "no horizontal scroll fixtures light",
+    "ok": false,
+    "msg": "pre-existing overflow (414px) from TimerUiPreview buttons, not from the AccountDetails fixtures (0 overflowing elements inside them); out of scope"
+  },
+  {
+    "id": "no horizontal scroll fixtures dark",
+    "ok": false,
+    "msg": "pre-existing overflow (414px) from TimerUiPreview buttons, not from the AccountDetails fixtures (0 overflowing elements inside them); out of scope"
+  }
+]

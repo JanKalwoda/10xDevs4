@@ -1,6 +1,6 @@
 import { signInUrlForProtectedPath } from "./email-auth.ts";
 
-export const PROTECTED_ROUTES = ["/dashboard", "/create"] as const;
+export const PROTECTED_ROUTES = ["/dashboard", "/create", "/timers"] as const;
 
 // The router matches the decoded path and ignores repeated or trailing slashes, so match on that form:
 // "/%63reate", "//create" and "/create/" must not slip past the guard, while "/created" is not protected.
