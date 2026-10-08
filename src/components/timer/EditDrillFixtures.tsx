@@ -87,7 +87,7 @@ const SCENARIOS: Scenario[] = [
     {
         fixture: "not-found",
         title: "Error: timer gone",
-        description: "The row was deleted or is not the user's: alert with a link to the dashboard.",
+        description: "The row was deleted or is not the user's: alert with a link back to the timers.",
         visualState: "error",
         status: "error",
         failure: { code: "not_found", message: SAVE_DRILL_MESSAGES.not_found },

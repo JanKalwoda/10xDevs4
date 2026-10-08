@@ -1,3 +1,5 @@
+import { TIMERS_HREF } from "./app-top-bar.ts";
+
 export type DrillDeleteStatus = "idle" | "deleting" | "error";
 
 export type DrillDeleteErrorCode = "unauthorized" | "unavailable" | "unexpected";
@@ -33,8 +35,6 @@ export interface DrillDeleteController {
     getSnapshot(): DrillDeleteSnapshot;
 }
 
-export const DASHBOARD_HREF = "/dashboard";
-
 const IDLE: DrillDeleteSnapshot = { status: "idle", failure: null };
 
 export function createDrillDeleteController(deleteDrill: DeleteDrillPort, navigate: (href: string) => void): DrillDeleteController {
@@ -61,7 +61,7 @@ export function createDrillDeleteController(deleteDrill: DeleteDrillPort, naviga
 
             if (outcome.ok) {
                 // Stays `deleting`: the page is leaving, so the dialog must not flicker back to a usable state.
-                navigate(DASHBOARD_HREF);
+                navigate(TIMERS_HREF);
                 return;
             }
             publish({ status: "error", failure: { code: outcome.code, message: DELETE_DRILL_MESSAGES[outcome.code] } });

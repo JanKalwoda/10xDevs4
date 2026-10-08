@@ -38,12 +38,12 @@ function createFormRequest(url: string, values: Record<string, string>): Request
 void test("email and callback schemas validate required fields and default next", () => {
     assert.deepEqual(emailLinkRequestSchema.parse({ email: " user@example.com " }), {
         email: "user@example.com",
-        next: "/",
+        next: "/timers",
     });
     assert.equal(emailLinkRequestSchema.safeParse({ email: "not-an-email" }).success, false);
     assert.equal(emailLinkCallbackSchema.safeParse({ token_hash: "token", type: "magiclink" }).success, false);
     assert.equal(emailLinkCallbackSchema.safeParse({ token_hash: "", type: "email" }).success, false);
-    assert.deepEqual(emailLinkCallbackSchema.parse({ ...callbackInput, next: undefined }).next, "/");
+    assert.deepEqual(emailLinkCallbackSchema.parse({ ...callbackInput, next: undefined }).next, "/timers");
 });
 
 void test("safe next accepts local paths and rejects absolute, scheme-relative, backslash, and malformed paths", () => {
@@ -80,7 +80,8 @@ void test("email redirect carries only a validated next on the request origin", 
 
 void test("protected route sign-in URL preserves its safe local path", () => {
     assert.equal(signInUrlForProtectedPath("/dashboard?tab=drill"), "/auth/signin?next=%2Fdashboard%3Ftab%3Ddrill");
-    assert.equal(signInUrlForProtectedPath("//evil.example"), "/auth/signin?next=%2Fdashboard");
+    assert.equal(signInUrlForProtectedPath("/"), "/auth/signin?next=%2F");
+    assert.equal(signInUrlForProtectedPath("//evil.example"), "/auth/signin?next=%2Ftimers");
 });
 
 void test("new and existing account requests have the same neutral response and provider contract", async () => {
@@ -209,7 +210,7 @@ void test("invalid, expired, and reused callback tokens share a neutral retry re
         },
     );
     assert.deepEqual(invalidTypeCalls, []);
-    assert.equal(invalidType.headers.get("location"), "/auth/callback?error=invalid&next=%2F");
+    assert.equal(invalidType.headers.get("location"), "/auth/callback?error=invalid&next=%2Ftimers");
     assert.equal(EMAIL_LINK_RETRY_MESSAGE, "This sign-in link is invalid or expired. Request a new link.");
 });
 
@@ -233,7 +234,7 @@ void test("callback verifier normalizes thrown and malformed-token failures", as
     });
     assert.deepEqual(malformed, {
         ok: false,
-        next: "/",
+        next: "/timers",
         message: EMAIL_LINK_RETRY_MESSAGE,
     });
 });
@@ -293,7 +294,7 @@ void test("invalid and unsafe callback values produce the same neutral retry sta
     const callbackError = retryStates[3];
     assert.ok(unsafeNext);
     assert.ok(callbackError);
-    assert.equal(unsafeNext.next, "/");
+    assert.equal(unsafeNext.next, "/timers");
     assert.equal(callbackError.next, "/dashboard");
 });
 

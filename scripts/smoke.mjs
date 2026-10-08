@@ -168,7 +168,7 @@ function callbackFromMessage(message) {
     const tokenHash = callback.searchParams.get("token_hash");
     const next = callback.searchParams.get("next") ?? "/";
     ensure(tokenHash && !/\s/.test(tokenHash));
-    ensure(next === "/" || next === "/dashboard");
+    ensure(next === "/" || next === "/dashboard" || next === "/timers");
 
     return { path: callback.pathname + callback.search, tokenHash, next };
 }
@@ -243,7 +243,7 @@ async function runStep(name, action) {
 async function requestEmailLink(email, next) {
     const response = await appRequest("/api/auth/signin", {
         method: "POST",
-        form: { email, next },
+        form: next === undefined ? { email } : { email, next },
     });
     ensure(response.status === 200);
     const body = await response.json().catch(() => null);
@@ -257,7 +257,7 @@ async function confirmLink(link) {
     ensure(page.headers.get("referrer-policy") === "no-referrer");
     const markup = await page.text();
     ensure(markup.includes('id="email-link-confirmation"'));
-    ensure(markup.includes("Continue to account"));
+    ensure(markup.includes("Continue to your timers"));
 
     const response = await appRequest("/api/auth/callback", {
         method: "POST",
@@ -697,7 +697,7 @@ async function verifyForeignDelete() {
 }
 
 async function signInNewAccount(email) {
-    await requestEmailLink(email, "/dashboard");
+    await requestEmailLink(email, "/timers");
     const link = callbackFromMessage(await waitForEmail(email));
     await confirmLink(link);
     return link;
@@ -794,11 +794,14 @@ async function runLocalSmoke() {
 
     await runStep("anonymous drill API answers 401 and /create redirects to sign-in", verifyAnonymousDrillApi);
 
-    await runStep("new-account email request returns a neutral result", () => requestEmailLink(email, "/dashboard"));
+    // No `next` on purpose: the default target must be /timers (asserted on the callback below).
+    await runStep("new-account email request without next returns a neutral result", () => requestEmailLink(email));
 
     const newAccountLink = await runStep("Mailpit receives the new-account confirmation email", async () => {
         const message = await waitForEmail(email);
-        return callbackFromMessage(message);
+        const link = callbackFromMessage(message);
+        ensure(link.next === "/timers");
+        return link;
     });
 
     await runStep("confirmation GET prepares the explicit POST without consuming the link", async () => {
@@ -808,7 +811,7 @@ async function runLocalSmoke() {
         ensure(page.headers.get("referrer-policy") === "no-referrer");
         const markup = await page.text();
         ensure(markup.includes('id="email-link-confirmation"'));
-        ensure(markup.includes("Continue to account"));
+        ensure(markup.includes("Continue to your timers"));
     });
 
     await runStep("explicit POST establishes the SSR session from the new-account link", () => confirmLink(newAccountLink));

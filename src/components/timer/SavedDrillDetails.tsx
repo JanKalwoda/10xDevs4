@@ -36,8 +36,8 @@ export default function SavedDrillDetails({ drill, onStart, deletePorts }: Saved
                 </a>
                 <DeleteDrillDialog drill={{ id: drill.id, name: drill.name }} {...deletePorts} />
             </div>
-            <a href="/dashboard" className={cn(buttonVariants({ variant: "link" }), "w-full")}>
-                Back to dashboard
+            <a href="/timers" className={cn(buttonVariants({ variant: "link" }), "w-full")}>
+                Back to timers
             </a>
         </section>
     );

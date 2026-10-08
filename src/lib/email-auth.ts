@@ -7,6 +7,8 @@ export const EMAIL_LINK_PAGE_HEADERS = {
     "Referrer-Policy": "no-referrer",
 } as const;
 
+export const DEFAULT_NEXT_PATH = "/timers";
+
 const LOCAL_PATH_ORIGIN = "https://local.invalid";
 const SAFE_RESPONSE_HEADERS = {
     "Cache-Control": "no-store",
@@ -48,7 +50,7 @@ export function isSafeNextPath(value: unknown): value is string {
     }
 }
 
-const safeNextPathSchema = z.string().refine(isSafeNextPath, "Enter a local path").default("/");
+const safeNextPathSchema = z.string().refine(isSafeNextPath, "Enter a local path").default(DEFAULT_NEXT_PATH);
 
 export const emailLinkRequestSchema = z.object({
     email: z.string().trim().max(320).pipe(z.email()),
@@ -78,7 +80,7 @@ export function emailLinkCallbackPageState(url: string): EmailLinkCallbackPageSt
     try {
         const callbackUrl = new URL(url);
         const requestedNext = callbackUrl.searchParams.get("next");
-        const next = isSafeNextPath(requestedNext) ? requestedNext : "/";
+        const next = isSafeNextPath(requestedNext) ? requestedNext : DEFAULT_NEXT_PATH;
 
         if (callbackUrl.searchParams.has("error") || (callbackUrl.searchParams.has("next") && !isSafeNextPath(requestedNext))) {
             return { kind: "retry", message: EMAIL_LINK_RETRY_MESSAGE, next };
@@ -95,7 +97,7 @@ export function emailLinkCallbackPageState(url: string): EmailLinkCallbackPageSt
 
         return { kind: "confirm", tokenHash: parsed.data.token_hash, next: parsed.data.next };
     } catch {
-        return { kind: "retry", message: EMAIL_LINK_RETRY_MESSAGE, next: "/" };
+        return { kind: "retry", message: EMAIL_LINK_RETRY_MESSAGE, next: DEFAULT_NEXT_PATH };
     }
 }
 
@@ -134,7 +136,7 @@ export function forwardAuthCookies<Options>(cookiesToSet: readonly EmailCookieTo
 }
 
 export function signInUrlForProtectedPath(path: string): string {
-    const next = isSafeNextPath(path) ? path : "/dashboard";
+    const next = isSafeNextPath(path) ? path : DEFAULT_NEXT_PATH;
     return "/auth/signin?next=" + encodeURIComponent(next);
 }
 
@@ -190,7 +192,7 @@ export type EmailLinkVerificationResult = { ok: true; next: string } | { ok: fal
 export async function verifyEmailLink(input: unknown, auth: Pick<EmailLinkAuthPort, "verifyOtp"> | null): Promise<EmailLinkVerificationResult> {
     const parsed = emailLinkCallbackSchema.safeParse(input);
     if (!parsed.success) {
-        return { ok: false, next: "/", message: EMAIL_LINK_RETRY_MESSAGE };
+        return { ok: false, next: DEFAULT_NEXT_PATH, message: EMAIL_LINK_RETRY_MESSAGE };
     }
     if (!auth) {
         return { ok: false, next: parsed.data.next, message: EMAIL_LINK_RETRY_MESSAGE };
@@ -253,7 +255,7 @@ export async function handleEmailLinkCallback(request: Request, auth: Pick<Email
     try {
         form = await request.formData();
     } catch {
-        return callbackRedirect("/auth/callback?error=invalid&next=%2F");
+        return callbackRedirect("/auth/callback?error=invalid&next=" + encodeURIComponent(DEFAULT_NEXT_PATH));
     }
 
     const input = {

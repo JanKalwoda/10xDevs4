@@ -243,7 +243,7 @@ void test("the empty and unavailable messages are different texts", () => {
 
 void test("a saved timer path is a safe sign-in next value", () => {
     assert.equal(signInUrlForProtectedPath(`/${ID}`), `/auth/signin?next=${encodeURIComponent(`/${ID}`)}`);
-    assert.equal(signInUrlForProtectedPath(`//${ID}`), "/auth/signin?next=%2Fdashboard");
+    assert.equal(signInUrlForProtectedPath(`//${ID}`), "/auth/signin?next=%2Ftimers");
 });
 
 void test("describeDrillConfiguration lists the parameters, with 1 rep and optional random start", () => {

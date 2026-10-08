@@ -2,10 +2,10 @@
 import Layout from "@/layouts/Layout.astro";
 import SignInForm from "@/components/auth/SignInForm";
 import { Card, CardContent, CardDescription, CardHeader } from "@/components/ui/card";
-import { isSafeNextPath } from "@/lib/email-auth";
+import { DEFAULT_NEXT_PATH, isSafeNextPath } from "@/lib/email-auth";
 
 const requestedNext = Astro.url.searchParams.get("next");
-const next = isSafeNextPath(requestedNext) ? requestedNext : "/";
+const next = isSafeNextPath(requestedNext) ? requestedNext : DEFAULT_NEXT_PATH;
 ---
 
 <Layout title="Enter your account" enableTimerTheme showConfigWarnings={false} showTopBar={false}>
