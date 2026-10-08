@@ -12,14 +12,14 @@ Odsłuch sygnału w formularzu ma być samą ikoną głośnika na końcu wiersza
 
 ## Desired End State
 
-Wiersz `Input` + ikona `Volume2` (hitbox 44 px) z `aria-label`, `aria-disabled` i `aria-describedby`. Hover/fokus pokazują tooltip, dotyk odtwarza i pokazuje opis na ok. 4 s, wyłączona ikona pokazuje powód, błąd audio to widoczny `Alert` pod wierszem. Bez overflow przy 390 px.
+Wiersz `Input` + ikona `Volume2` (hitbox 44 px) z `aria-label`, `aria-disabled` i `aria-describedby`. Hover/fokus pokazują tooltip, dotyk odtwarza i pokazuje opis na 8 s, wyłączona ikona pokazuje powód, błąd audio to widoczny `Alert` pod wierszem. Bez overflow przy 390 px.
 
 ## Key Decisions Made
 
 | Decision | Choice | Why (1 sentence) | Source |
 | --- | --- | --- | --- |
 | Opis dla czytników | Stały element `sr-only` + ten sam tekst w tooltipie | Treść tooltipu nie istnieje w DOM, gdy zamknięty. | Plan |
-| Dotyk | Sterowany `open` z timerem 4 s | Radix Tooltip nie otwiera się na dotyk. | Plan |
+| Dotyk | Sterowany `open` z timerem 8 s (stałe) | Radix Tooltip nie otwiera się na dotyk. | Plan |
 | Logika podpowiedzi | Czysty moduł `src/lib/signal-preview-hint.ts` z testami | `npm test` obejmuje tylko `src/lib`. | Plan |
 | Wyłączenie | `aria-disabled` + zablokowany onClick | Wyłączona ikona musi przyjmować fokus i dotyk. | Plan |
 | Hitbox | `size-11` (44 px) | Wygodny cel dotyku obok `Input`. | Plan |
@@ -48,7 +48,7 @@ Prezentacja zostaje w komponentach, decyzje o podpowiedzi (kiedy otwarta, co rob
 
 ## Open Risks & Assumptions
 
-- Założenia do potwierdzenia: hitbox 44 px, czas podpowiedzi 4 s, powód wyłączenia tylko w tooltipie (bez stałego tekstu pod polem).
+- Zatwierdzone w review: hitbox 44 px, podpowiedź 8 s, powód wyłączenia tylko w tooltipie; `open = radixOpen || hint.open` (F1).
 - Tooltip w ciemnym motywie (`bg-foreground`) wymaga sprawdzenia kontrastu na zrzutach.
 
 ## Success Criteria (Summary)
