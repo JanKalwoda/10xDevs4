@@ -195,8 +195,8 @@ Brak migracji ani zmian API.
 
 #### Automated
 
-- [ ] 3.1 Pełna weryfikacja: `npx astro sync`, `npm run lint`, `npm test`, `node --test scripts/eslint-rules/*.test.mjs`, `npx astro check`, `npm run build`
-- [ ] 3.2 Skrypt Playwright przechodzi (kolejność, powtórzenie poza role=timer, brak overflow w sekcji biegu, identyczny top przycisków we wszystkich fixtures)
+- [x] 3.1 Pełna weryfikacja: `npx astro sync`, `npm run lint`, `npm test`, `node --test scripts/eslint-rules/*.test.mjs`, `npx astro check`, `npm run build` — 8f056d8
+- [x] 3.2 Skrypt Playwright przechodzi (kolejność, powtórzenie poza role=timer, brak overflow w sekcji biegu, identyczny top przycisków we wszystkich fixtures) — 8f056d8
 
 #### Manual
 
