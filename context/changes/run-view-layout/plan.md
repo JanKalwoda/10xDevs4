@@ -181,9 +181,9 @@ Brak migracji ani zmian API.
 
 #### Automated
 
-- [ ] 1.1 Testy jednostkowe przechodzą: `npm test`
-- [ ] 1.2 Lint przechodzi: `npm run lint`
-- [ ] 1.3 Typy przechodzą: `npx astro check`
+- [x] 1.1 Testy jednostkowe przechodzą: `npm test` — 48b0ee5
+- [x] 1.2 Lint przechodzi: `npm run lint` — 48b0ee5
+- [x] 1.3 Typy przechodzą: `npx astro check` — 48b0ee5
 
 ### Phase 2: Slot ostrzeżeń bez przesuwania czasu i przycisków
 
