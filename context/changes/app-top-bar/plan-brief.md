@@ -22,8 +22,12 @@ The bar is stuck to the top on `/`, `/create`, `/dashboard`, `/{id}`, `/{id}/edi
 | Toggle | Reuse `ThemeToggle` island (`client:load`); `ThemeInit` always with the bar | Existing hook and storage key | Plan |
 | Extra scroll | `body` flex column, page mains `flex-1` instead of `min-h-screen` | No arbitrary `calc` heights | Plan |
 | Email leakage | `private, no-store` on `/`, `/create`, 404 and the other barred pages | Email lands in HTML | ux-fixes-plan |
-| `Timers` link | Points to `/timers` now (route comes in S-17) | Fixed decision | ux-fixes-plan |
-| Old `Topbar.astro` | Left alone (unused starter leftover) | Out of scope | Plan |
+| `Timers` link | `TIMERS_HREF = /dashboard` in S-16, S-17 switches it to `/timers` | No dead link in production | Plan review |
+| Cache guard | Middleware sets `private, no-store` on every HTML response without `Cache-Control` | One guard for all present and future barred pages | Plan review |
+| Sticky bar | Drop `height: 100%` from `body`, `min-h-dvh`, mains `flex-1` | Otherwise the bar unsticks after one viewport | Plan review |
+| Toggle icons | Both icons, switched by `.dark` | Correct first paint without JS | Plan review |
+| Preview | Production `AppTopBar` rendered in `dev/timer-ui.astro` with a static toggle | No drift, deterministic `?theme=` | Plan review |
+| Old `Topbar.astro` | Deleted with `Welcome.astro` and `.bg-cosmic` in a final `chore` commit | Avoids two top-bar components | Plan review |
 
 ## Scope
 
@@ -39,15 +43,15 @@ Static Astro bar with one React island (toggle), driven by `Astro.locals.user`; 
 
 | Phase | What it delivers | Key risk |
 | --- | --- | --- |
-| 1. Bar + layout + headers | Bar on all barred pages, old nav/toggles gone, `flex-1` mains | Double scroll, toggle hydration (`theme` null at first render) |
+| 1. Bar + layout + guard + smoke | Bar on all barred pages, old nav/toggles gone, `flex-1` mains, middleware `no-store`, smoke adapted | Sticky/scroll behaviour, toggle first paint |
 | 2. Callback button | `Back to the timer` as button, contract test pin | Low |
-| 3. Smoke, fixtures, docs | Smoke for new bar, preview fixtures, screenshots, AGENTS.md | Fixtures must match production classes |
+| 3. Fixtures, docs, cleanup | Preview fixtures, screenshots, AGENTS.md, removal of the unused starter bar | Deterministic preview |
 
 **Prerequisites:** S-09 done. **Estimated effort:** ~3 sessions, 3 phases.
 
 ## Open Risks & Assumptions
 
-- The `Timers` link leads to the 404 until S-17 merges (proposal: merge S-16 and S-17 back to back, or accept the interim 404).
+- Until S-17 both the email and `Timers` lead to `/dashboard`.
 - Long emails: handled with `truncate` and `title`; verified at 390 px.
 - Assumes `index.astro` is SSR (it already reads `Astro.locals`).
 

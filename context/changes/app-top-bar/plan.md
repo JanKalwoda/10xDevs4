@@ -31,87 +31,107 @@ On `/`, `/create`, `/dashboard`, `/{id}`, `/{id}/edit` and the 404 a bar is stuc
 
 ## What We're NOT Doing
 
-- No new routes: `/timers` and the default `next=/timers` belong to S-17. The `Timers` link points to `/timers` as decided, so until S-17 merges it leads to the shared 404 (open question for the coordinator in the brief).
+- No new routes: `/timers` and the default `next=/timers` belong to S-17. In S-16 the `Timers` link uses a constant `TIMERS_HREF = "/dashboard"` (today `/dashboard` is the saved-timers list); S-17 changes the constant to `/timers`.
 - No change to `/dashboard` content other than removing its `ThemeToggle` (S-17 turns it into the account page). Its "Dashboard" heading and `Sign out` button stay for the smoke steps.
-- No change to the run view, signal preview, auth flow, API, database, `Topbar.astro`/`Welcome.astro`.
-- No account-deletion, no email truncation tooltip beyond `truncate` plus `title`.
+- No change to the run view, signal preview, auth flow, API or database.
+- No account-deletion, no email tooltip beyond `truncate` plus `title`.
 
 ## Implementation Approach
 
-Build one `AppTopBar.astro` and mount it from `Layout.astro` behind a `showTopBar` prop (default `true`; the three auth pages pass `false`). Fix the layout contract (body flex column, mains `flex-1`) in the same phase as the bar so no intermediate state has double scroll. Then remove the old nav and card toggles and make the callback button. Last, bring the verification harness (smoke, lint scope, `/dev/timer-ui` fixtures, screenshots, docs) in line. Three small phases, each green on its own.
+Build one `AppTopBar.astro` (takes `user` as a prop) and mount it from `Layout.astro` behind `showTopBar` (default `true`; the three auth pages pass `false`). In the same phase fix the layout contract (`body` grows with `min-h-dvh`, `height: 100%` removed from `body`, page mains `flex-1`), remove the floating nav and the card toggles, add the middleware `no-store` guard and adapt the smoke, so every phase is green on its own. Phase 2 is the callback button. Phase 3 adds preview fixtures, screenshots, docs and the cleanup of the unused starter bar.
 
-## Phase 1: AppTopBar in Layout, layout contract and cache headers
+## Phase 1: AppTopBar in Layout, layout contract, no-store guard, smoke
 
 ### Overview
 
-The bar exists on all barred pages with the toggle. The old floating nav and the card toggles are removed in the same phase, so no intermediate state shows two toggles or two navs.
+The bar exists on all barred pages with the toggle. The old floating nav and the card toggles are removed in the same phase, so no intermediate state shows two toggles or two navs, and the smoke is adapted here so it stays green.
 
 ### Changes Required:
 
 #### 1. Top bar component
 
-**File**: `src/components/AppTopBar.astro` (new)
+**File**: `src/components/AppTopBar.astro` (new), `src/lib/app-top-bar.ts` (new, exports `TIMERS_HREF = "/dashboard"`)
 
-**Intent**: Render the sticky bar from `Astro.locals.user`. Signed in: `<nav aria-label="Account">` with the email as a link to `/dashboard` (`truncate`, `min-w-0`, `title`), a `Timers` link to `/timers`, `ThemeToggle client:load`, and a `POST /api/auth/signout` form with an outline `Sign out` button. Guest: a `Sign in` link (`/auth/signin`, outline `buttonVariants`) and `ThemeToggle`. Semantic tokens only (`bg-background`, `border-b border-border`, `text-foreground`, `text-muted-foreground`), `sticky top-0 z-50`, Tailwind scale spacing, no arbitrary values or palette classes; `buttonVariants` + `cn` for links.
+**Intent**: Render the sticky bar from a `user?: { email?: string | null } | null` prop. Signed in: `<nav aria-label="Account">` with the email as a link to `/dashboard` (`truncate`, `min-w-0`, `title`), a `Timers` link to `TIMERS_HREF`, `ThemeToggle client:load`, and a `POST /api/auth/signout` form with an outline `Sign out` button. Guest: a `Sign in` link (`/auth/signin`) and `ThemeToggle`. Optional `fixture` boolean prop: renders a static outline icon `Button` instead of the live island (used by `/dev/timer-ui` in Phase 3). Semantic tokens only, `sticky top-0 z-50`, `border-b border-border bg-background`, Tailwind scale spacing, no arbitrary values or palette classes.
 
-**Contract**: One `<nav aria-label="Account">` wrapper (smoke and a11y rely on the name); link texts exactly `Timers`, `Sign in`; email text is the link text; the form is `method="POST" action="/api/auth/signout"`. Left group shrinks (`min-w-0`), right group `shrink-0`, so 390 px never overflows.
+**Contract**: One `<nav aria-label="Account">` (smoke and a11y rely on the name); link texts exactly `Timers`, `Sign in`; the form is `method="POST" action="/api/auth/signout"`. Left group `min-w-0`, right group `shrink-0`, so 390 px never overflows.
 
-#### 2. Layout
+#### 2. ThemeToggle first paint
+
+**File**: `src/components/timer/ThemeToggle.tsx`
+
+**Intent**: Render both icons and choose with the `.dark` class (`Moon` with `dark:hidden`, `Sun` with `hidden dark:block`) so the server HTML matches `ThemeInit` without JS; keep the state-based `aria-label` after hydration.
+
+**Contract**: Server and client markup identical (no hydration mismatch); token-only classes.
+
+#### 3. Layout
 
 **File**: `src/layouts/Layout.astro`
 
-**Intent**: Add `showTopBar?: boolean` (default `true`). When true render `AppTopBar` before the slot and always include `ThemeInit` (the bar's toggle needs the `.dark` class applied before paint), regardless of `enableTimerTheme`. Make `body` a `flex min-h-screen flex-col` (class on the element, in the page's own CSS-free way: Tailwind classes) while keeping the `html, body` height rule compatible.
+**Intent**: Add `showTopBar?: boolean` (default `true`); when true render `AppTopBar user={Astro.locals.user}` before the slot and always include `ThemeInit`. `body` gets `flex min-h-dvh flex-col`. In the scoped CSS remove `height: 100%` from `body` (keep `margin: 0; width: 100%`; `html` may keep `height: 100%`), otherwise `height: 100%` wins over `min-height` and the sticky bar leaves after one viewport.
 
-**Contract**: `showTopBar` false ⇒ markup byte-identical to today except the body classes. The default `title` remains.
+**Contract**: `showTopBar` false gives markup equal to today's except the body classes.
 
-#### 3. Page mains
+#### 4. Page mains
 
 **Files**: `src/components/timer/DrillApp.tsx`, `DrillCreateApp.tsx`, `DrillEditApp.tsx`, `NotFoundView.astro`, `src/pages/dashboard.astro`, `src/pages/[id].astro`, `src/pages/[id]/edit.astro`
 
-**Intent**: Replace `min-h-screen` with `flex-1` on the page `main` (keep `flex items-center justify-center px-4 py-8`), and remove the `ThemeToggle` import, the element and its balancing spacer from the card headers (`DrillApp`, `DrillCreateApp`, `DrillEditApp`, `dashboard.astro`), centering the headings.
+**Intent**: Replace `min-h-screen` with `flex-1` on the page `main`, and remove the `ThemeToggle` import, element and balancing spacer from the card headers (`DrillApp`, `DrillCreateApp`, `DrillEditApp`, `dashboard.astro`), centering the headings. Auth pages and `TimerUiPreview` keep `min-h-screen`.
 
-**Contract**: Auth pages (`min-h-screen`, no bar) and `TimerUiPreview` keep `min-h-screen`.
+#### 5. Entry routes
 
-#### 4. Entry routes
+**Files**: `src/pages/index.astro`, `signin.astro`, `confirm-email.astro`, `callback.astro`
 
-**Files**: `src/pages/index.astro`, `src/pages/create.astro`, `src/pages/404.astro` (already no-store), `signin.astro`, `confirm-email.astro`, `callback.astro`
+**Intent**: `index.astro`: delete the `fixed` nav, `accountLink` and now-unused imports. Auth pages pass `showTopBar={false}`.
 
-**Intent**: `index.astro`: delete the `fixed` nav and the `accountLink`; set `Cache-Control: private, no-store`. `create.astro`: set the same header. Auth pages pass `showTopBar={false}`.
+#### 6. Cache guard
 
-**Contract**: `Astro.response.headers.set("Cache-Control", "private, no-store")` as in `dashboard.astro`; `index.astro` stays `prerender = false` (check its current mode; SSR is the default).
+**Files**: `src/middleware.ts`, `src/lib/html-cache-control.ts` (new) + `src/lib/html-cache-control.test.ts` (new)
 
-#### 5. Lint scope
+**Intent**: The email is in the HTML of every barred page, so the middleware sets `Cache-Control: private, no-store` on every `text/html` response that has no `Cache-Control` yet. The logic lives in a helper `withPrivateNoStoreForHtml(response)` that tolerates immutable headers (try/catch, returns the response unchanged). Page-level headers stay as documentation.
 
-**File**: `eslint.config.js`
+**Contract**: `middleware.ts` does `const response = await next(); return withPrivateNoStoreForHtml(response)`; the guest redirect response is untouched. Tests: html without header gets it; html with `Cache-Control` keeps its own; JSON/other types untouched; immutable headers do not throw.
 
-**Intent**: Add `src/components/AppTopBar.astro` to the timer-ui contract file list (it is the only new file with classes) and remove nothing; `index.astro` stays in both blocks.
+#### 7. Lint scope
+
+**File**: `eslint.config.js`, `scripts/eslint-rules/timer-ui-contract.test.mjs`
+
+**Intent**: Add `src/layouts/Layout.astro` and `src/components/AppTopBar.astro` to the timer-ui list, widen `src/components/timer/**/*.{ts,tsx}` to `{ts,tsx,astro}` (so `NotFoundView.astro` is linted) and pin all three with `calculateConfigForFile`, next to the existing `[id]` pin. `Layout.astro` and `AppTopBar.astro` must pass (fix any literal class found).
+
+#### 8. Smoke
+
+**File**: `scripts/smoke.mjs`
+
+**Intent**: Adapt `accountNavLinks`/`hasHomeAccountLink` and the four steps (~L753, 789, 811, 825): signed in means the `Account` nav has the email link to `/dashboard`, `Timers` → `/dashboard`, and a `Sign out` form posting to `/api/auth/signout`; guest means `Sign in` → `/auth/signin`. Add: `/`, `/create`, the 404 and `/dashboard` answer `Cache-Control` with `no-store`; a guest `/` has no email; `/auth/signin` has no `nav[aria-label="Account"]`.
 
 ### Success Criteria:
 
 #### Automated Verification:
 
 - Sync passes: `npx astro sync`
-- Lint passes (contract covers `AppTopBar.astro`): `npm run lint`
-- Unit tests pass: `npm test`
+- Lint passes: `npm run lint`
+- Unit tests pass (incl. the cache helper): `npm test`
 - Contract tests pass: `node --test scripts/eslint-rules/*.test.mjs`
 - Type check passes: `npx astro check`
 - Build passes: `npm run build`
+- Smoke passes against local Supabase preview: `SMOKE_MODE=local BASE_URL=http://localhost:4321 npm run smoke`
 
 #### Manual Verification:
 
 - On `/` at 390 px the bar does not overlap the card and the page does not scroll when the card fits.
-- Guest bar shows `Sign in` + toggle; signed-in bar shows email, `Timers`, toggle, `Sign out`; the sign-in pages show no bar.
-- The toggle switches light/dark everywhere and persists across pages.
+- Scroll `/create` at 390 px to the bottom: the bar stays at the top.
+- Guest and signed-in bars show the right items; sign-in pages show no bar.
+- The toggle switches light/dark everywhere and persists across pages; in dark mode after a hard reload with CPU throttling the icon is correct on first paint.
 
-**Implementation Note**: After this phase and all automated verification pass, report `[FAZA-1-OK]` to the coordinator and stop.
+**Implementation Note**: Report `[FAZA-1-OK]` to the coordinator and stop.
 
 ---
 
-## Phase 2: Callback button and header tests
+## Phase 2: Callback button
 
 ### Overview
 
-`Back to the timer` becomes a button, and the cache/headers promises of Phase 1 get automated coverage where unit-testable.
+`Back to the timer` becomes a button.
 
 ### Changes Required:
 
@@ -119,76 +139,60 @@ The bar exists on all barred pages with the toggle. The old floating nav and the
 
 **File**: `src/pages/auth/callback.astro`
 
-**Intent**: Render `Back to the timer` as `<a href="/" class:list={[cn(buttonVariants({ variant: "outline" }), "w-full")]}>`, the same pattern as `confirm-email.astro`; import `buttonVariants` and `cn`. The label and `href` do not change.
+**Intent**: Render `Back to the timer` as `<a href="/" class:list={[cn(buttonVariants({ variant: "outline" }), "w-full")]}>`, the pattern of `confirm-email.astro`; import `buttonVariants` and `cn`. Label and `href` do not change.
 
 **Contract**: Stays inside the account-entry contract (tokens only).
-
-#### 2. Contract tests
-
-**File**: `scripts/eslint-rules/timer-ui-contract.test.mjs`
-
-**Intent**: Pin that `src/components/AppTopBar.astro` is linted by the timer-ui contract (like the existing `[id]` pin) and that a palette class in it fails.
-
-**Contract**: Reuses the file's existing helper for "is file under the contract".
 
 ### Success Criteria:
 
 #### Automated Verification:
 
-- Lint passes: `npm run lint`
-- Contract tests pass: `node --test scripts/eslint-rules/*.test.mjs`
-- Unit tests pass: `npm test`
-- Type check passes: `npx astro check`
-- Build passes: `npm run build`
+- Lint, unit tests, contract tests, `npx astro check` and `npm run build` pass (commands as in Phase 1).
 
 #### Manual Verification:
 
-- `/auth/callback` (confirm state and unavailable state) shows `Back to the timer` as an outline button, no top bar.
+- `/auth/callback` (confirm and unavailable state) shows `Back to the timer` as an outline button, no top bar.
 
 **Implementation Note**: Report `[FAZA-2-OK]` and stop.
 
 ---
 
-## Phase 3: Smoke, `/dev/timer-ui` fixtures, screenshots, docs
+## Phase 3: Preview fixtures, screenshots, docs, cleanup
 
 ### Overview
 
-Bring the verification harness and the documentation in line with the bar.
+Bring the visual gate and the documentation in line with the bar and remove the unused starter bar.
 
 ### Changes Required:
 
-#### 1. Smoke
+#### 1. Preview fixtures
 
-**File**: `scripts/smoke.mjs`
+**File**: `src/pages/dev/timer-ui.astro`
 
-**Intent**: Adapt `accountNavLinks`/`hasHomeAccountLink` and the four steps to the new bar: signed in ⇒ the `Account` nav has a link to `/dashboard` (text = the account email), a `Timers` link to `/timers`, and a `Sign out` form posting to `/api/auth/signout`; guest ⇒ `Sign in` → `/auth/signin`. Add checks that `/`, `/create`, the 404 and `/dashboard` answer `Cache-Control` containing `no-store`, that a guest `/` HTML contains no email, and that `/auth/signin` has no `nav[aria-label="Account"]`.
+**Intent**: In the dev branch, above `<TimerUiPreview client:load />`, render the production `AppTopBar` with fixture users: guest, signed in, long email (truncation at 390 px), with `fixture` set (static toggle, so `?theme=dark` stays deterministic). A wrapper makes the sticky bars non-sticky in the preview. The `!isDevelopment` 404 branch keeps rendering nothing.
 
-**Contract**: Helper stays dependency-free; the email comparison uses the smoke account's email already in scope.
-
-#### 2. Preview fixtures
-
-**File**: `src/components/timer/AppTopBarFixtures.tsx` (new), `src/components/timer/TimerUiPreview.tsx`
-
-**Intent**: A preview section in `/dev/timer-ui` that renders the bar states: guest, signed in, long email (truncation at 390 px). `AppTopBar` is Astro and cannot be rendered by the React preview, so the fixture rebuilds the same markup from class constants exported by `src/components/timer/app-top-bar-classes.ts`, which `AppTopBar.astro` imports too; the preview cannot drift from production classes. Keep the seven-state gate and the held-mounted lifecycle scenarios untouched.
-
-**Contract**: Class constants file exports `APP_TOP_BAR_CLASS`, `APP_TOP_BAR_LINK_CLASS`; both consumers import them, so the preview cannot drift from production.
-
-#### 3. Screenshots and docs
+#### 2. Screenshots and docs
 
 **Files**: `context/changes/app-top-bar/screenshots/`, `AGENTS.md`, `README.md`
 
-**Intent**: Save and review screenshots of the bar (guest, signed in, long email) in light/dark at 1280/390 plus `/`, `/dashboard` and 404 with the bar. Update `AGENTS.md` (UI section: the bar is the only theme toggle; Account-entry UI paragraph: root account link is now the bar, evidence path) and the README route notes if they mention the floating link.
+**Intent**: Save and review screenshots (guest, signed in, long email; `/`, `/dashboard`, 404) light/dark at 1280/390. `AGENTS.md`: the bar is the only theme toggle, Account-entry UI paragraph updated, `Layout.astro`/`AppTopBar.astro`/middleware cache guard noted; README only if it mentions the floating link.
+
+#### 3. Cleanup commit
+
+**Files**: `src/components/Topbar.astro`, `src/components/Welcome.astro`, `.bg-cosmic` in `src/styles/global.css`
+
+**Intent**: A separate `chore` commit deletes the unused starter bar, its only consumer `Welcome.astro` and the `.bg-cosmic` utility, after a grep proves nothing imports them.
 
 ### Success Criteria:
 
 #### Automated Verification:
 
-- Sync, lint, tests, contract tests, `npx astro check`, `npm run build` all pass (commands as in Phase 1).
-- Smoke passes against local Supabase preview when available: `SMOKE_MODE=local BASE_URL=http://localhost:4321 npm run smoke`
+- Sync, lint, tests, contract tests, `npx astro check` and `npm run build` pass; grep finds no import of `Topbar`/`Welcome`/`bg-cosmic`.
+- Smoke passes against local Supabase preview.
 
 #### Manual Verification:
 
-- Screenshots reviewed: bar contrast, focus-visible ring on links/buttons, no overflow at 390 px in both themes.
+- Screenshots reviewed: contrast, focus-visible, no overflow at 390 px in both themes.
 - `/dev/timer-ui` shows the bar fixtures; production `/dev/timer-ui` stays 404.
 
 **Implementation Note**: Report `[FAZA-3-OK]` and stop.
@@ -199,8 +203,8 @@ Bring the verification harness and the documentation in line with the bar.
 
 ### Unit Tests:
 
-- Contract test: `AppTopBar.astro` is linted and a literal color there is rejected.
-- Existing suites unchanged (`npm test`).
+- `html-cache-control.test.ts` (helper cases listed in Phase 1).
+- Contract test pins: `Layout.astro`, `AppTopBar.astro`, `NotFoundView.astro` are under the timer-ui contract.
 
 ### Integration Tests:
 
@@ -210,7 +214,7 @@ Bring the verification harness and the documentation in line with the bar.
 
 1. Guest at 390 px on `/`: no overlap, toggle works.
 2. Signed in: email link, `Timers`, `Sign out` (ends the session), long email truncates.
-3. Scroll a tall page (`/create` at 390 px): bar stays on top.
+3. Scroll `/create` at 390 px to the bottom: bar stays on top.
 
 ## Performance Considerations
 
@@ -231,43 +235,41 @@ None (no database or API change). Rollback is a revert of the three commits.
 
 > Convention: `- [ ]` pending, `- [x]` done. Append ` — <commit sha>` when a step lands. Do not rename step titles. See `references/progress-format.md`.
 
-### Phase 1: AppTopBar in Layout, layout contract and cache headers
+### Phase 1: AppTopBar in Layout, layout contract, no-store guard, smoke
 
 #### Automated
 
 - [ ] 1.1 Sync passes: `npx astro sync`
-- [ ] 1.2 Lint passes (contract covers `AppTopBar.astro`): `npm run lint`
-- [ ] 1.3 Unit tests pass: `npm test`
+- [ ] 1.2 Lint passes: `npm run lint`
+- [ ] 1.3 Unit tests pass (incl. the cache helper): `npm test`
 - [ ] 1.4 Contract tests pass: `node --test scripts/eslint-rules/*.test.mjs`
 - [ ] 1.5 Type check passes: `npx astro check`
 - [ ] 1.6 Build passes: `npm run build`
+- [ ] 1.7 Smoke passes against local Supabase preview: `SMOKE_MODE=local BASE_URL=http://localhost:4321 npm run smoke`
 
 #### Manual
 
-- [ ] 1.7 On `/` at 390 px the bar does not overlap the card and the page does not scroll when the card fits
-- [ ] 1.8 Guest and signed-in bars show the right items; sign-in pages show no bar
-- [ ] 1.9 The toggle switches light/dark everywhere and persists across pages
+- [ ] 1.8 On `/` at 390 px the bar does not overlap the card and the page does not scroll when the card fits
+- [ ] 1.9 Scroll `/create` at 390 px to the bottom: the bar stays at the top
+- [ ] 1.10 Guest and signed-in bars show the right items; sign-in pages show no bar
+- [ ] 1.11 The toggle switches light/dark everywhere and persists; the icon is correct on first paint in dark mode
 
-### Phase 2: Callback button and header tests
+### Phase 2: Callback button
 
 #### Automated
 
-- [ ] 2.1 Lint passes: `npm run lint`
-- [ ] 2.2 Contract tests pass: `node --test scripts/eslint-rules/*.test.mjs`
-- [ ] 2.3 Unit tests pass: `npm test`
-- [ ] 2.4 Type check passes: `npx astro check`
-- [ ] 2.5 Build passes: `npm run build`
+- [ ] 2.1 Lint, unit tests, contract tests, `npx astro check` and `npm run build` pass
 
 #### Manual
 
-- [ ] 2.6 `/auth/callback` shows `Back to the timer` as an outline button, no top bar
+- [ ] 2.2 `/auth/callback` shows `Back to the timer` as an outline button, no top bar
 
-### Phase 3: Smoke, `/dev/timer-ui` fixtures, screenshots, docs
+### Phase 3: Preview fixtures, screenshots, docs, cleanup
 
 #### Automated
 
-- [ ] 3.1 Sync, lint, tests, contract tests, `npx astro check` and `npm run build` pass
-- [ ] 3.2 Smoke passes against local Supabase preview: `SMOKE_MODE=local BASE_URL=http://localhost:4321 npm run smoke`
+- [ ] 3.1 Sync, lint, tests, contract tests, `npx astro check` and `npm run build` pass; no import of `Topbar`/`Welcome`/`bg-cosmic`
+- [ ] 3.2 Smoke passes against local Supabase preview
 
 #### Manual
 

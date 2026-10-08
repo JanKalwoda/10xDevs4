@@ -1,7 +1,7 @@
 ---
 change_id: app-top-bar
 title: Sticky top bar with account and theme toggle
-status: planned
+status: plan_reviewed
 created: 2026-10-08
 updated: 2026-10-08
 archived_at: null
