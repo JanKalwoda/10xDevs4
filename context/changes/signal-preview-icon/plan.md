@@ -212,10 +212,10 @@ Brak migracji bazy danych i zmian API.
 
 #### Automated
 
-- [x] 1.1 `tooltip.tsx` istnieje i eksportuje cztery części
-- [x] 1.2 Lint przechodzi z `tooltip.tsx` w zakresie kontraktu
-- [x] 1.3 Testy kontraktu przechodzą
-- [x] 1.4 `astro sync`, `astro check` i build przechodzą
+- [x] 1.1 `tooltip.tsx` istnieje i eksportuje cztery części — 05c6474
+- [x] 1.2 Lint przechodzi z `tooltip.tsx` w zakresie kontraktu — 05c6474
+- [x] 1.3 Testy kontraktu przechodzą — 05c6474
+- [x] 1.4 `astro sync`, `astro check` i build przechodzą — 05c6474
 
 #### Manual
 
