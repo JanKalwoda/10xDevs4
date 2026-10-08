@@ -3,7 +3,7 @@ project: "DryFire Drill Timer"
 version: 1
 status: draft
 created: 2026-09-23
-updated: 2026-10-08
+updated: 2026-10-09
 prd_version: 1
 main_goal: speed
 top_blocker: capacity
@@ -64,7 +64,7 @@ Obecny timer HIIT pozwala ustawić fazy i powtórzenia, lecz jego przewidywalny 
 | S-20 | account-deletion | Usuwanie konta (RODO) | no | Wymaga decyzji o przetrzymaniu i kluczu service role. |
 | S-16 | app-top-bar | Użytkownik widzi przyklejony top bar z emailem, Sign in/Sign out i przełącznikiem motywu | S-09 | FR-015 | in-progress |
 | S-17 | timers-list-and-account | Użytkownik ma osobny ekran listy timerów, stronę danych konta i po zapisie trafia do zapisanego timera | S-16, S-11, S-12, S-13 | FR-011, FR-016, FR-017 | in-progress |
-| S-18 | run-view-layout | Użytkownik widzi w biegu czas wyżej, powtórzenie pod czasem oraz czytelniejsze okienka Current i Next | S-04 | FR-013, FR-018 | ready |
+| S-18 | run-view-layout | Użytkownik widzi w biegu czas wyżej, powtórzenie pod czasem oraz czytelniejsze okienka Current i Next | S-04 | FR-013, FR-018 | planning |
 | S-19 | signal-preview-icon | Użytkownik odsłuchuje sygnał ikoną głośnika w wierszu pola, a opis widzi w tooltipie | S-03 | FR-004, FR-019 | ready |
 | S-20 | account-deletion | Użytkownik usuwa swoje konto z okresem przetrzymania zgodnym z RODO | S-09, S-17 | — | proposed |
 
@@ -318,7 +318,7 @@ Brak osobnych Foundations. Konfigurację danych, ochronę własności i weryfika
 - **Blockers:** —
 - **Unknowns:** —
 - **Risk:** Przemodelowanie `buildPhaseSections` nie może ujawnić długości losowego Standby ani przesuwać przycisków paska; numer powtórzenia w Preparation wymaga danych z `DrillDisplay`.
-- **Status:** ready
+- **Status:** planning
 
 ### S-19: Ikona odsłuchu sygnału z tooltipem
 
