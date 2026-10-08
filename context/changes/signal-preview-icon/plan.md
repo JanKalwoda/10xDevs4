@@ -219,15 +219,15 @@ Brak migracji bazy danych i zmian API.
 
 #### Manual
 
-- [ ] 1.5 Klasy `tooltip.tsx` używają tylko tokenów semantycznych
+- [x] 1.5 Klasy `tooltip.tsx` używają tylko tokenów semantycznych — verified by coordinator (code read)
 
 ### Phase 2: Wiersz z ikoną odsłuchu, tooltip i dotyk
 
 #### Automated
 
-- [ ] 2.1 Testy logiki podpowiedzi i istniejące testy przechodzą
-- [ ] 2.2 Lint, typy i build przechodzą
-- [ ] 2.3 Testy kontraktu przechodzą
+- [x] 2.1 Testy logiki podpowiedzi i istniejące testy przechodzą — b17a43f
+- [x] 2.2 Lint, typy i build przechodzą — b17a43f
+- [x] 2.3 Testy kontraktu przechodzą — b17a43f
 
 #### Manual
 
