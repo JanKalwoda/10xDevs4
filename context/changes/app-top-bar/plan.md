@@ -258,7 +258,7 @@ None (no database or API change). Rollback is a revert of the three commits.
 
 #### Automated
 
-- [ ] 2.1 Lint, unit tests, contract tests, `npx astro check` and `npm run build` pass
+- [x] 2.1 Lint, unit tests, contract tests, `npx astro check` and `npm run build` pass — edcedae
 
 #### Manual
 
