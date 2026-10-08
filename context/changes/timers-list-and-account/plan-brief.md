@@ -4,11 +4,11 @@
 
 ## What & Why
 
-The saved timers list gets its own protected screen `/timers`, which becomes where a signed-in user lands. `/dashboard` turns into a small account page (email, link to the list). After saving a new timer the user goes straight to that timer's page `/{id}` instead of staying on the form. This follows the UX fixes queue (FR-011, FR-016, FR-017).
+The saved timers list gets its own protected screen `/timers`, which becomes where a signed-in user lands. `/dashboard` turns into a small account page (email, link to the list, `Sign out`). After saving a new timer the user goes straight to that timer's page `/{id}` instead of staying on the form. This follows the UX fixes queue (FR-011, FR-016, FR-017).
 
 ## Starting Point
 
-`/dashboard` is both the list and the account card (with a second `Sign out` next to the bar's). The default sign-in target is `/`, list links say `Back to dashboard`, `/create` shows a `Saved "…"` alert after save, and delete redirects to `/dashboard`.
+`/dashboard` is both the list and the account card (with its own `Sign out` next to the bar's). The default sign-in target is `/`, list links say `Back to dashboard`, `/create` shows a `Saved "…"` alert after save, and delete redirects to `/dashboard`.
 
 ## Desired End State
 
@@ -19,7 +19,7 @@ Sign-in without `next` lands on `/timers`; the bar `Timers` link, `Back to timer
 | Decision | Choice | Why (1 sentence) | Source |
 | --- | --- | --- | --- |
 | List route | New `src/pages/timers.astro`, protected, `no-store` | Static page wins over `[id].astro`; guard is a prefix check | Plan |
-| `/dashboard` | Account page, no DB, page `Sign out` removed | The bar already has `Sign out`; two identical buttons confuse users and smoke (open question 1) | Plan |
+| `/dashboard` | Account page (`Account` h1, email, `Timers` link, `Sign out`), no DB | User decision in ux-fixes-plan; smoke scopes the bar to its `nav` | ux-fixes-plan |
 | Default `next` | One `DEFAULT_NEXT_PATH = "/timers"`; explicit `next=/` still honored | Single source for schema, fallbacks and pages | ux-fixes-plan |
 | Create redirect | Injected `navigate`, form stays locked (`saving`), bfcache reset | Same pattern as delete; no flash of an empty form | Plan |
 | Edited during save | Still navigates to `/{id}` | `/{id}` shows what was saved, so nothing misleading | Plan |
@@ -50,10 +50,10 @@ Mostly moving existing pieces: the list code lifts out of `dashboard.astro` into
 ## Open Risks & Assumptions
 
 - Local smoke is impossible (no Mailpit); CI is the confirmation, visual checks are scripted.
-- Assumes `Account` as the `h1` of `/dashboard`.
+- `/dashboard` `h1` is `Account` (smoke updated).
 
 ## Success Criteria (Summary)
 
 - A guest hitting `/timers` is sent to sign-in and returns to `/timers`.
-- Create ends on `/{id}`; delete ends on `/timers`; one `Sign out` per page.
+- Create ends on `/{id}`; delete ends on `/timers`; `Sign out` kept on the account page.
 - All gates and CI smoke are green.

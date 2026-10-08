@@ -71,7 +71,7 @@ Introduce the protected list route and turn `/dashboard` into an account page; w
 
 **File**: `src/pages/dashboard.astro`, `src/components/AccountDetails.astro` (new)
 
-**Intent**: `dashboard.astro` reads `Astro.locals.user` only: a signed-out request redirects to sign-in with `next=/dashboard`; otherwise it renders `Layout` + `AccountDetails` (`h1` `Account`, `Signed in as <email>` with `break-all`, a `Timers` link as `buttonVariants`). The page `Sign out` is removed because the bar already provides it (see open question 1). `AccountDetails` takes `email` so `/dev/timer-ui` can render it with fixtures.
+**Intent**: `dashboard.astro` reads `Astro.locals.user` only: a signed-out request redirects to sign-in with `next=/dashboard`; otherwise it renders `Layout` + `AccountDetails` (`h1` `Account`, `Signed in as <email>` with `break-all`, a `Timers` link as `buttonVariants`, and the existing `Sign out` form, kept per the ux-fixes-plan decision "email, link to `/timers`, Sign out"). `AccountDetails` takes `email` so `/dev/timer-ui` can render it with fixtures.
 
 **Contract**: `AccountDetails` props `{ email: string }`; no database access; `private, no-store`.
 
@@ -214,7 +214,7 @@ Bring the CI smoke, documentation and `/dev/timer-ui` evidence in line, then run
 
 **File**: `scripts/smoke.mjs`
 
-**Intent**: List checks move to `/timers`; sign-in `next` defaults to `/timers`; the account step asserts `/dashboard` (email, `Timers` link, no list); bar helper expects email → `/dashboard` and `Timers` → `/timers`; `Continue to your timers`; guest `/timers` → 302 to `/auth/signin?next=%2Ftimers` in local and remote modes; `/timers` added to the no-store set; after create the API `drill.id` is opened at `/{id}` (200, details). Local Mailpit is missing, so CI is the confirmation.
+**Intent**: List checks move to `/timers`; sign-in `next` defaults to `/timers`; the account step asserts `/dashboard` (`Account` heading, email, `Timers` link, `Sign out`, no list); bar helper expects email → `/dashboard` and `Timers` → `/timers`; `Continue to your timers`; guest `/timers` → 302 to `/auth/signin?next=%2Ftimers` in local and remote modes; `/timers` added to the no-store set; after create the API `drill.id` is opened at `/{id}` (200, details). Local Mailpit is missing, so CI is the confirmation.
 
 **Contract**: Step names stay recognizable; no new dependencies.
 
@@ -272,7 +272,7 @@ Bring the CI smoke, documentation and `/dev/timer-ui` evidence in line, then run
 1. Sign in without `next` and land on `/timers`.
 2. Create a timer and land on `/{id}`; press Back and see a usable form.
 3. Edit keeps `Saved`; delete returns to `/timers`.
-4. `/dashboard` shows the email and the link only; one `Sign out`, in the bar.
+4. `/dashboard` shows the email, the `Timers` link and `Sign out`, with no list.
 
 ## Performance Considerations
 
