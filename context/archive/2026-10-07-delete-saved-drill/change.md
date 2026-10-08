@@ -1,10 +1,10 @@
 ---
 change_id: delete-saved-drill
 title: Delete a saved timer after confirmation
-status: impl_reviewed
+status: archived
 created: 2026-10-07
-updated: 2026-10-07
-archived_at: null
+updated: 2026-10-08
+archived_at: 2026-10-08T20:12:21Z
 ---
 
 ## Notes
