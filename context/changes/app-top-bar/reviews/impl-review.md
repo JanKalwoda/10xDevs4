@@ -45,7 +45,7 @@
 - **Location**: scripts/smoke.mjs:201-218, plan Progress 1.7 / 3.2
 - **Detail**: `hasSignedInTopBar`, `verifyBarredPagesNoStore`, the guest "no email" + `no-store` checks and the remote "no Account nav on /auth/signin" check were never executed (1.7 and 3.2 are `[ ]`, no Mailpit locally). The first run will be the CI `smoke` job; the remote check also runs in the production deploy job. Reviewer verified the headers and nav markup by hand against the preview (guest only).
 - **Fix**: Treat the green CI `smoke` job on the PR as the gate for 1.7/3.2 (do not merge before it passes) and tick both with the CI run link; if it fails, fix the helper rather than the assertion.
-- **Decision**: ACCEPTED (coordinator): gate - do not merge before a green `smoke` job in CI; after green CI the coordinator ticks 1.7/3.2.
+- **Decision**: ACCEPTED, verified by CI: the `smoke` job on PR #48 passed (run 37849270673), so 1.7/3.2 are ticked as CI smoke, not local.
 
 ### F2 — Fixture toggle always shows Moon, production shows Sun in dark
 
