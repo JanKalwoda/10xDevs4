@@ -46,7 +46,7 @@ Obecny timer HIIT pozwala ustawić fazy i powtórzenia, lecz jego przewidywalny 
 | S-02 | run-random-start | Użytkownik wykonuje pełny przebieg z osobnym losowym startem i sygnałami | S-01 | US-01, FR-002, FR-003, FR-004, FR-005 | done |
 | S-15 | polish-timer-view | Użytkownik korzysta ze spójnego i czytelnego widoku timera podczas konfiguracji, przebiegu i po zakończeniu | S-02 | MS-01, US-01, FR-005 | done |
 | S-03 | preview-phase-signals | Użytkownik odsłuchuje sygnały i rozumie ich znaczenie przed uruchomieniem | S-02 | US-01, FR-004 | done |
-| S-04 | view-three-phase-sections | Użytkownik widzi odliczanie, aktualną i następną fazę w trzech sekcjach | S-02 | US-02, FR-005, FR-013 | in-progress |
+| S-04 | view-three-phase-sections | Użytkownik widzi odliczanie, aktualną i następną fazę w trzech sekcjach | S-02 | US-02, FR-005, FR-013 | done |
 | S-05 | choose-phase-colors | Użytkownik wybiera i widzi osobne kolory czterech faz | S-04 | US-03, FR-013, FR-014 | deferred |
 | S-06 | pause-and-resume-drill | Użytkownik wstrzymuje przebieg i wznawia właściwe powtórzenie | S-02 | US-01, FR-006 | done |
 | S-07 | cancel-current-drill | Użytkownik anuluje przebieg i wraca do ustawień | S-01 | US-01, FR-007 | done |
@@ -158,7 +158,7 @@ Brak osobnych Foundations. Konfigurację danych, ochronę własności i weryfika
 - **Blockers:** —
 - **Unknowns:** —
 - **Risk:** Podgląd nie może ujawnić długości oczekiwania Standby ani sugerować pominiętego odpoczynku 0 s lub fazy po zakończeniu przebiegu.
-- **Status:** in-progress
+- **Status:** done
 
 ### S-05: Niezależne kolory faz
 
@@ -395,3 +395,4 @@ Brak zamkniętych kamieni milowych.
 - **S-08: Użytkownik uruchamia cały przebieg ponownie od przygotowania, z pierwszym powtórzeniem i nowymi losowaniami, gdy losowy start jest włączony.** — Archived 2026-10-06 → `context/archive/2026-10-05-restart-whole-drill/`. Lesson: —.
 - **S-09: Użytkownik podaje adres email i przez otrzymany link tworzy konto lub wraca do istniejącego konta.** — Archived 2026-10-06 → `context/archive/2026-10-03-enter-account-by-email-link/`. Lesson: —.
 - **S-03: Użytkownik odsłuchuje sygnały ćwiczenia, odpoczynku i Standby przy ich ustawieniach oraz widzi opis znaczenia każdego dźwięku.** — Archived 2026-10-08 → `context/archive/2026-10-06-preview-phase-signals/`. Lesson: —.
+- **S-04: Użytkownik widzi trzy sekcje: główne odliczanie lub Standby, stały pełny czas bieżącej fazy oraz nazwę i pełny czas następnej rzeczywistej fazy, z pominięciem przygotowania lub odpoczynku 0 s i z informacją o końcu przebiegu.** — Archived 2026-10-08 → `context/archive/2026-10-06-view-three-phase-sections/`. Lesson: —.
