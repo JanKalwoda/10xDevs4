@@ -3,7 +3,8 @@ import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import SignalPreviewControl from "@/components/timer/SignalPreviewControl";
+import { TooltipProvider } from "@/components/ui/tooltip";
+import SignalPreviewControl, { type SignalPreviewSlots } from "@/components/timer/SignalPreviewControl";
 import { useSignalPreview } from "@/components/hooks/useSignalPreview";
 import type { DrillAudioPort } from "@/lib/drill-audio";
 import { PREPARATION_NO_SOUND, signalAvailability, type PreviewSignal } from "@/lib/drill-signal-preview";
@@ -36,27 +37,35 @@ interface ConfigFieldProps {
     error?: string;
     onChange: (field: Exclude<keyof DrillConfigInput, "randomStartEnabled">, value: string) => void;
     children?: ReactNode;
+    /** End of the input row. */
+    action?: ReactNode;
+    /** Under the hint and the error. */
+    feedback?: ReactNode;
 }
 
-function ConfigField({ id, field, label, hint, value, error, onChange, children }: ConfigFieldProps) {
+function ConfigField({ id, field, label, hint, value, error, onChange, children, action, feedback }: ConfigFieldProps) {
     const hintId = `${id}-hint`;
     const errorId = `${id}-error`;
 
     return (
         <div className="space-y-1">
             <Label htmlFor={id}>{label}</Label>
-            <Input
-                id={id}
-                name={field}
-                type="text"
-                inputMode={field === "repetitions" ? "numeric" : "text"}
-                value={value}
-                onChange={(event) => {
-                    onChange(field, event.target.value);
-                }}
-                aria-invalid={Boolean(error)}
-                aria-describedby={`${hintId}${error ? ` ${errorId}` : ""}`}
-            />
+            <div className="flex items-center gap-2">
+                <Input
+                    id={id}
+                    name={field}
+                    type="text"
+                    inputMode={field === "repetitions" ? "numeric" : "text"}
+                    value={value}
+                    onChange={(event) => {
+                        onChange(field, event.target.value);
+                    }}
+                    aria-invalid={Boolean(error)}
+                    aria-describedby={`${hintId}${error ? ` ${errorId}` : ""}`}
+                    className="min-w-0 flex-1"
+                />
+                {action}
+            </div>
             <p id={hintId} className="text-muted-foreground text-sm">
                 {hint}
             </p>
@@ -65,6 +74,7 @@ function ConfigField({ id, field, label, hint, value, error, onChange, children 
                     {error}
                 </p>
             )}
+            {feedback}
             {children}
         </div>
     );
@@ -91,7 +101,7 @@ export default function DrillConfigForm({
         preview.play(signal);
     }
 
-    function previewControl(signal: PreviewSignal) {
+    function previewControl(signal: PreviewSignal, children: (slots: SignalPreviewSlots) => ReactNode) {
         return (
             <SignalPreviewControl
                 id={`${id}-${signal}-preview`}
@@ -100,7 +110,9 @@ export default function DrillConfigForm({
                 status={preview.status}
                 activeSignal={preview.signal ?? lastSignal}
                 onPlay={playPreview}
-            />
+            >
+                {children}
+            </SignalPreviewControl>
         );
     }
 
@@ -118,56 +130,83 @@ export default function DrillConfigForm({
 
     return (
         <form onSubmit={handleSubmit} noValidate className="space-y-5">
-            {leading}
-            <p className="text-muted-foreground text-sm">Enter times in m:ss format (for example, 0:05).</p>
-            <ConfigField
-                id={`${id}-preparation`}
-                field="preparation"
-                label="Preparation"
-                hint="0:00 to 10:00"
-                value={values.preparation}
-                error={errors.preparation}
-                onChange={handleChange}
-            >
-                <p className="text-muted-foreground text-sm">{PREPARATION_NO_SOUND}</p>
-            </ConfigField>
-            <ConfigField id={`${id}-exercise`} field="exercise" label="Exercise" hint="0:01 to 10:00" value={values.exercise} error={errors.exercise} onChange={handleChange}>
-                {previewControl("exercise")}
-            </ConfigField>
-            <ConfigField id={`${id}-rest`} field="rest" label="Rest" hint="0:00 to 10:00" value={values.rest} error={errors.rest} onChange={handleChange}>
-                {previewControl("rest")}
-            </ConfigField>
-            <ConfigField
-                id={`${id}-repetitions`}
-                field="repetitions"
-                label="Repetitions"
-                hint="Whole number from 1 to 100"
-                value={values.repetitions}
-                error={errors.repetitions}
-                onChange={handleChange}
-            />
-            <div className="space-y-1">
-                <div className="flex items-center gap-2">
-                    <Checkbox
-                        id={`${id}-random-start`}
-                        name="randomStartEnabled"
-                        checked={values.randomStartEnabled}
-                        onCheckedChange={(checked) => {
-                            onValuesChange({ ...values, randomStartEnabled: checked === true });
-                        }}
-                        aria-describedby={`${id}-random-start-hint`}
+            <TooltipProvider>
+                {leading}
+                <p className="text-muted-foreground text-sm">Enter times in m:ss format (for example, 0:05).</p>
+                <ConfigField
+                    id={`${id}-preparation`}
+                    field="preparation"
+                    label="Preparation"
+                    hint="0:00 to 10:00"
+                    value={values.preparation}
+                    error={errors.preparation}
+                    onChange={handleChange}
+                >
+                    <p className="text-muted-foreground text-sm">{PREPARATION_NO_SOUND}</p>
+                </ConfigField>
+                {previewControl("exercise", ({ action, feedback }) => (
+                    <ConfigField
+                        id={`${id}-exercise`}
+                        field="exercise"
+                        label="Exercise"
+                        hint="0:01 to 10:00"
+                        value={values.exercise}
+                        error={errors.exercise}
+                        onChange={handleChange}
+                        action={action}
+                        feedback={feedback}
                     />
-                    <Label htmlFor={`${id}-random-start`}>Random start</Label>
-                </div>
-                <p id={`${id}-random-start-hint`} className="text-muted-foreground text-sm">
-                    Wait a random 1–5 seconds before exercise starts.
-                </p>
-                {previewControl("standby")}
-            </div>
-            {beforeSubmit}
-            <Button type="submit" className="w-full" disabled={pending} aria-busy={pending || undefined}>
-                {submitLabel}
-            </Button>
+                ))}
+                {previewControl("rest", ({ action, feedback }) => (
+                    <ConfigField
+                        id={`${id}-rest`}
+                        field="rest"
+                        label="Rest"
+                        hint="0:00 to 10:00"
+                        value={values.rest}
+                        error={errors.rest}
+                        onChange={handleChange}
+                        action={action}
+                        feedback={feedback}
+                    />
+                ))}
+                <ConfigField
+                    id={`${id}-repetitions`}
+                    field="repetitions"
+                    label="Repetitions"
+                    hint="Whole number from 1 to 100"
+                    value={values.repetitions}
+                    error={errors.repetitions}
+                    onChange={handleChange}
+                />
+                {previewControl("standby", ({ action, feedback }) => (
+                    <div className="space-y-1">
+                        <div className="flex items-center justify-between gap-2">
+                            <div className="flex items-center gap-2">
+                                <Checkbox
+                                    id={`${id}-random-start`}
+                                    name="randomStartEnabled"
+                                    checked={values.randomStartEnabled}
+                                    onCheckedChange={(checked) => {
+                                        onValuesChange({ ...values, randomStartEnabled: checked === true });
+                                    }}
+                                    aria-describedby={`${id}-random-start-hint`}
+                                />
+                                <Label htmlFor={`${id}-random-start`}>Random start</Label>
+                            </div>
+                            {action}
+                        </div>
+                        <p id={`${id}-random-start-hint`} className="text-muted-foreground text-sm">
+                            Wait a random 1–5 seconds before exercise starts.
+                        </p>
+                        {feedback}
+                    </div>
+                ))}
+                {beforeSubmit}
+                <Button type="submit" className="w-full" disabled={pending} aria-busy={pending || undefined}>
+                    {submitLabel}
+                </Button>
+            </TooltipProvider>
         </form>
     );
 }
