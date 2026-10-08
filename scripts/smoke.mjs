@@ -358,6 +358,11 @@ async function verifySavedDrillApi() {
     ensure(first.body.drill.name === "Smoke drill");
     ensure(UUID_PATTERN.test(first.body.drill.id));
     savedDrill = { id: first.body.drill.id, name: first.body.drill.name };
+    // Server half of the create redirect: the form sends the browser to /{id} of the id in this reply.
+    const created = await appRequest("/" + encodeURIComponent(first.body.drill.id));
+    ensure(created.status === 200);
+    ensure(created.headers.get("cache-control")?.includes("no-store"));
+    ensure(visibleText(await created.text()).includes(first.body.drill.name));
     const { configuration } = first.body.drill;
     ensure(configuration.preparationSeconds === 5 && configuration.exerciseSeconds === 4 && configuration.restSeconds === 2);
     ensure(configuration.repetitions === 3 && configuration.randomStartEnabled === false);
