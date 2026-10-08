@@ -45,7 +45,7 @@ Obecny timer HIIT pozwala ustawić fazy i powtórzenia, lecz jego przewidywalny 
 | S-01 | run-configured-phases | Użytkownik przechodzi z osobnego formularza do pełnego przebiegu faz bez losowego startu | — | US-01, FR-001, FR-003, FR-005 | done |
 | S-02 | run-random-start | Użytkownik wykonuje pełny przebieg z osobnym losowym startem i sygnałami | S-01 | US-01, FR-002, FR-003, FR-004, FR-005 | done |
 | S-15 | polish-timer-view | Użytkownik korzysta ze spójnego i czytelnego widoku timera podczas konfiguracji, przebiegu i po zakończeniu | S-02 | MS-01, US-01, FR-005 | done |
-| S-03 | preview-phase-signals | Użytkownik odsłuchuje sygnały i rozumie ich znaczenie przed uruchomieniem | S-02 | US-01, FR-004 | in-progress |
+| S-03 | preview-phase-signals | Użytkownik odsłuchuje sygnały i rozumie ich znaczenie przed uruchomieniem | S-02 | US-01, FR-004 | done |
 | S-04 | view-three-phase-sections | Użytkownik widzi odliczanie, aktualną i następną fazę w trzech sekcjach | S-02 | US-02, FR-005, FR-013 | in-progress |
 | S-05 | choose-phase-colors | Użytkownik wybiera i widzi osobne kolory czterech faz | S-04 | US-03, FR-013, FR-014 | deferred |
 | S-06 | pause-and-resume-drill | Użytkownik wstrzymuje przebieg i wznawia właściwe powtórzenie | S-02 | US-01, FR-006 | done |
@@ -146,7 +146,7 @@ Brak osobnych Foundations. Konfigurację danych, ochronę własności i weryfika
 - **Blockers:** —
 - **Unknowns:** —
 - **Risk:** Odsłuch powinien używać tych samych sygnałów co przebieg, aby objaśnienie nie wprowadzało w błąd.
-- **Status:** in-progress
+- **Status:** done
 
 ### S-04: Czytelny widok bieżącej i następnej fazy
 
@@ -394,3 +394,4 @@ Brak zamkniętych kamieni milowych.
 - **S-07: Użytkownik anuluje bieżący przebieg i wraca do konfiguracji z zachowanymi ustawieniami.** — Archived 2026-10-06 → `context/archive/2026-10-04-cancel-current-drill/`. Lesson: —.
 - **S-08: Użytkownik uruchamia cały przebieg ponownie od przygotowania, z pierwszym powtórzeniem i nowymi losowaniami, gdy losowy start jest włączony.** — Archived 2026-10-06 → `context/archive/2026-10-05-restart-whole-drill/`. Lesson: —.
 - **S-09: Użytkownik podaje adres email i przez otrzymany link tworzy konto lub wraca do istniejącego konta.** — Archived 2026-10-06 → `context/archive/2026-10-03-enter-account-by-email-link/`. Lesson: —.
+- **S-03: Użytkownik odsłuchuje sygnały ćwiczenia, odpoczynku i Standby przy ich ustawieniach oraz widzi opis znaczenia każdego dźwięku.** — Archived 2026-10-08 → `context/archive/2026-10-06-preview-phase-signals/`. Lesson: —.
