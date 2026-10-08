@@ -42,7 +42,7 @@
 - **Location**: scripts/smoke.mjs:276, scripts/smoke.mjs:834, scripts/smoke.mjs:896, scripts/smoke.mjs:304
 - **Detail**: The old marker `Dashboard` occurred only in the page itself. The new marker `markup.includes("Account")` also matches `<nav aria-label="Account">` in `AppTopBar.astro:22` (on every signed-in page), and `Sign out`, `href="/timers"` and the email are also in the bar. In `verifyAccountPageHasNoList` `visibleText` keeps `<title>Account</title>`, so `text.includes("Account")` is proven by the title, not by the `h1`. None of the steps proves that `AccountDetails` rendered (e.g. a `/dashboard` 200 with an empty `main` passes). The negative assertions (no list, no id/name) remain valid.
 - **Fix**: Assert on the page body: `/<h1[^>]*>\s*Account\s*<\/h1>/` and `Signed in as` (in `verifyAccountPageHasNoList` and the three `Account` markers).
-- **Decision**: PENDING
+- **Decision**: **FIX** (coordinator). Smoke asserts `<h1>Account</h1>` (`ACCOUNT_HEADING`) and `Signed in as`, the text of `AccountDetails`, not the top bar.
 
 ### F2 — Pending gates: CI smoke, default-next E2E, post-deploy
 
@@ -52,7 +52,7 @@
 - **Location**: context/changes/timers-list-and-account/plan.md (Progress 2.5, 4.7, 4.9)
 - **Detail**: Locally re-run: `npx astro sync`, `npm run lint`, `npm test` (215/215), contract tests, `astro check`, `node --check scripts/smoke.mjs`. The smoke can only run in CI (no local Mailpit); 2.5 (callback `next=/timers` without explicit `next`) is covered by the new smoke step `ensure(link.next === "/timers")` and by the Playwright check in `checks.json` (`default next lands on /timers`), but stays unchecked until CI. Manual items 1.6, 3.4, 4.8 are honestly labeled "script, not human".
 - **Fix**: Tick 2.5 and 4.7 after the PR's `ci` and `smoke` jobs are green; 4.9 after deploy.
-- **Decision**: PENDING
+- **Decision**: **ACCEPTED** (coordinator). 2.5 and 4.7 are ticked after green CI, 4.9 after deploy.
 
 ### F3 — Stale `dashboard` local names in the smoke
 
@@ -62,7 +62,7 @@
 - **Location**: scripts/smoke.mjs:342, scripts/smoke.mjs:421, scripts/smoke.mjs:589, scripts/smoke.mjs:463, scripts/smoke.mjs:627
 - **Detail**: Helpers were renamed (`timersText`, `timersMarkup`), but local variables `dashboard` / `dashboardMarkup` in `verifyCreatePage`, `verifyOwnSavedDrillPages`, `verifyForeignSavedDrillPages`, `timersText`, `timersMarkup` now hold the `/timers` response. Behaviour is correct; the names mislead the next reader of the smoke.
 - **Fix**: Rename to `timers` / `timersMarkup` (text only).
-- **Decision**: PENDING
+- **Decision**: **FIX** (coordinator). Locals renamed to `timers` / `timersMarkup` / `timersText` where they hold `/timers`.
 
 ### F4 — Create controller without `navigate` stays in `saving` forever
 
@@ -72,4 +72,4 @@
 - **Location**: src/lib/drill-create-controller.ts:110
 - **Detail**: In create mode `navigate` is optional; `options.navigate?.(...)` without a port leaves the form locked in `saving` with no exit (pinned by the test "create without a navigate option never publishes saved"). Production always passes one through `useDrillCreate` (default `window.location.assign`), so today it is unreachable; it is a trap for a future caller of `createDrillCreateController`.
 - **Fix**: Leave as is, or make `navigate` required when `keepAfterSave` is not set (type overload) — not needed for this PR.
-- **Decision**: PENDING
+- **Decision**: **ACCEPTED** (coordinator). Unreachable: production always passes `navigate` through `useDrillCreate`; no change in this PR.

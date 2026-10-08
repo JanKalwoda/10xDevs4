@@ -269,11 +269,15 @@ async function confirmLink(link) {
     ensure(cookieJar.size > 0);
 }
 
+// The h1 of AccountDetails: the top bar has <nav aria-label="Account"> and the <title>, so a bare "Account" proves nothing.
+const ACCOUNT_HEADING = /<h1[^>]*>\s*Account\s*<\/h1>/;
+
 async function verifyDashboardAndSignOut() {
     const dashboard = await appRequest("/dashboard");
     ensure(dashboard.status === 200);
     const markup = await dashboard.text();
-    ensure(markup.includes("Account"));
+    ensure(ACCOUNT_HEADING.test(markup));
+    ensure(markup.includes("Signed in as"));
     ensure(markup.includes("Sign out"));
     ensure(!markup.includes("Saved timers"));
 
@@ -301,7 +305,8 @@ async function verifyAccountPageHasNoList(accountEmail) {
     ensure(account.headers.get("cache-control")?.includes("no-store"));
     const markup = await account.text();
     const text = visibleText(markup);
-    ensure(text.includes("Account"));
+    ensure(ACCOUNT_HEADING.test(markup));
+    ensure(text.includes("Signed in as"));
     ensure(text.toLowerCase().includes(accountEmail.toLowerCase()));
     ensure(/href="\/timers"/.test(markup));
     ensure(text.includes("Sign out"));
@@ -339,11 +344,11 @@ async function verifyAnonymousDrillApi() {
 }
 
 async function verifyCreatePage() {
-    const dashboard = await appRequest("/timers");
-    ensure(dashboard.status === 200);
-    const dashboardMarkup = await dashboard.text();
+    const timers = await appRequest("/timers");
+    ensure(timers.status === 200);
+    const timersMarkup = await timers.text();
     // Tailwind classes such as has-[>svg] contain ">", so the link is matched lazily up to its label instead of by attribute.
-    ensure(/<a href="\/create"[\s\S]*?>\s*Create a timer\s*<\/a>/.test(dashboardMarkup));
+    ensure(/<a href="\/create"[\s\S]*?>\s*Create a timer\s*<\/a>/.test(timersMarkup));
 
     const page = await appRequest("/create");
     ensure(page.status === 200);
@@ -418,14 +423,14 @@ async function snapshot(path) {
 
 async function verifyOwnSavedDrillPages() {
     ensure(savedDrill !== null);
-    const dashboard = await appRequest("/timers");
-    ensure(dashboard.status === 200);
-    ensure(dashboard.headers.get("cache-control")?.includes("no-store"));
-    const dashboardMarkup = await dashboard.text();
-    ensure(dashboardMarkup.includes('href="/' + savedDrill.id + '"'));
-    const dashboardText = visibleText(dashboardMarkup);
-    ensure(dashboardText.includes(savedDrill.name));
-    ensure(dashboardText.includes(PARAMETER_LINE));
+    const timers = await appRequest("/timers");
+    ensure(timers.status === 200);
+    ensure(timers.headers.get("cache-control")?.includes("no-store"));
+    const timersMarkup = await timers.text();
+    ensure(timersMarkup.includes('href="/' + savedDrill.id + '"'));
+    const timersText = visibleText(timersMarkup);
+    ensure(timersText.includes(savedDrill.name));
+    ensure(timersText.includes(PARAMETER_LINE));
 
     const page = await appRequest("/" + savedDrill.id);
     ensure(page.status === 200);
@@ -460,9 +465,9 @@ async function snapshotUpdate(id) {
 }
 
 async function timersText() {
-    const dashboard = await appRequest("/timers");
-    ensure(dashboard.status === 200);
-    return visibleText(await dashboard.text());
+    const timers = await appRequest("/timers");
+    ensure(timers.status === 200);
+    return visibleText(await timers.text());
 }
 
 async function verifyOwnerEdit() {
@@ -586,13 +591,13 @@ async function verifyForeignSavedDrillPages() {
         ensure(JSON.stringify(other.headers) === JSON.stringify(foreign.headers));
     }
 
-    const dashboard = await appRequest("/timers");
-    ensure(dashboard.status === 200);
-    const dashboardMarkup = await dashboard.text();
-    ensure(!dashboardMarkup.includes(savedDrill.id));
-    const dashboardText = visibleText(dashboardMarkup);
-    ensure(!dashboardText.includes(savedDrill.name));
-    ensure(dashboardText.includes("You have no saved timers yet."));
+    const timers = await appRequest("/timers");
+    ensure(timers.status === 200);
+    const timersMarkup = await timers.text();
+    ensure(!timersMarkup.includes(savedDrill.id));
+    const timersText = visibleText(timersMarkup);
+    ensure(!timersText.includes(savedDrill.name));
+    ensure(timersText.includes("You have no saved timers yet."));
 }
 
 async function verifyGuestSavedDrillRouting() {
@@ -624,9 +629,9 @@ async function snapshotDelete(id) {
 }
 
 async function timersMarkup() {
-    const dashboard = await appRequest("/timers");
-    ensure(dashboard.status === 200);
-    return dashboard.text();
+    const timers = await appRequest("/timers");
+    ensure(timers.status === 200);
+    return timers.text();
 }
 
 // Runs at the 50-timer limit, signed in as the first user.
@@ -831,7 +836,8 @@ async function runLocalSmoke() {
         const dashboard = await appRequest("/dashboard");
         ensure(dashboard.status === 200);
         const markup = await dashboard.text();
-        ensure(markup.includes("Account"));
+        ensure(ACCOUNT_HEADING.test(markup));
+        ensure(markup.includes("Signed in as"));
         ensure(markup.includes("Sign out"));
     });
     await runStep("signed-in user reaches /create and the timers list links to it", verifyCreatePage);
@@ -893,7 +899,8 @@ async function runLocalSmoke() {
         const dashboard = await appRequest("/dashboard");
         ensure(dashboard.status === 200);
         const markup = await dashboard.text();
-        ensure(markup.includes("Account"));
+        ensure(ACCOUNT_HEADING.test(markup));
+        ensure(markup.includes("Signed in as"));
     });
     await runStep("the first account's timers are unchanged after the second account's attempts", verifyFirstUserTimersUnchanged);
     await runStep("sign-out clears the existing-account session", verifyDashboardAndSignOut);
