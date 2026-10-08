@@ -1,7 +1,8 @@
 ---
 import Layout from "@/layouts/Layout.astro";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader } from "@/components/ui/card";
+import { cn } from "@/lib/utils";
 import { EMAIL_LINK_RETRY_MESSAGE, emailLinkCallbackPageState, setEmailLinkPageSecurityHeaders } from "@/lib/email-auth";
 
 setEmailLinkPageSecurityHeaders(Astro.response.headers);
@@ -42,7 +43,7 @@ const title = state.kind === "confirm" ? "Confirm your sign-in" : "Sign-in link 
                         Request a new sign-in link
                     </a>
                 )}
-                <a class="text-muted-foreground text-sm underline-offset-4 hover:text-foreground hover:underline" href="/">
+                <a href="/" class:list={[cn(buttonVariants({ variant: "outline" }), "w-full")]}>
                     Back to the timer
                 </a>
             </CardContent>
