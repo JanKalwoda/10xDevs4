@@ -52,7 +52,7 @@
 - **Location**: context/changes/timers-list-and-account/plan.md (Progress 2.5, 4.7, 4.9)
 - **Detail**: Locally re-run: `npx astro sync`, `npm run lint`, `npm test` (215/215), contract tests, `astro check`, `node --check scripts/smoke.mjs`. The smoke can only run in CI (no local Mailpit); 2.5 (callback `next=/timers` without explicit `next`) is covered by the new smoke step `ensure(link.next === "/timers")` and by the Playwright check in `checks.json` (`default next lands on /timers`), but stays unchecked until CI. Manual items 1.6, 3.4, 4.8 are honestly labeled "script, not human".
 - **Fix**: Tick 2.5 and 4.7 after the PR's `ci` and `smoke` jobs are green; 4.9 after deploy.
-- **Decision**: **ACCEPTED** (coordinator). 2.5 and 4.7 are ticked after green CI, 4.9 after deploy.
+- **Decision**: **ACCEPTED** (coordinator). 2.5 and 4.7 verified by CI (smoke run 37854194146, not local); 4.9 stays open until the production check after deploy.
 
 ### F3 — Stale `dashboard` local names in the smoke
 

@@ -347,7 +347,7 @@ No data changes. Old bookmarks of `/dashboard` now open the account page; the ba
 
 #### Manual
 
-- [ ] 2.5 Sign-in without `next` produces a callback link whose `next` is `/timers` (smoke step with a link request without `next`; CI is the execution)
+- [x] 2.5 Sign-in without `next` produces a callback link whose `next` is `/timers` (smoke step with a link request without `next`; CI is the execution) - CI smoke (run 37854194146), not local
 
 ### Phase 3: Create redirects to `/{id}`
 
@@ -372,7 +372,7 @@ No data changes. Old bookmarks of `/dashboard` now open the account page; the ba
 - [x] 4.4 `node --test scripts/eslint-rules/*.test.mjs` — 4f29e7c
 - [x] 4.5 `npx astro check` — 4f29e7c
 - [x] 4.6 `npm run build` — 4f29e7c
-- [ ] 4.7 CI `ci` and `smoke` jobs green on the PR
+- [x] 4.7 CI `ci` and `smoke` jobs green on the PR - CI smoke (run 37854194146), not local
 
 #### Manual
 
