@@ -353,10 +353,10 @@ No data changes. Old bookmarks of `/dashboard` now open the account page; the ba
 
 #### Automated
 
-- [ ] 3.1 Controller tests pass: `npm test`
-- [ ] 3.2 Lint passes: `npm run lint`
-- [ ] 3.3 Type check passes: `npx astro check`
-- [ ] 3.5 Smoke is syntactically valid: `node --check scripts/smoke.mjs`
+- [x] 3.1 Controller tests pass: `npm test` — e58cbe3
+- [x] 3.2 Lint passes: `npm run lint` — e58cbe3
+- [x] 3.3 Type check passes: `npx astro check` — e58cbe3
+- [x] 3.5 Smoke is syntactically valid: `node --check scripts/smoke.mjs` — e58cbe3
 
 #### Manual
 
