@@ -1,5 +1,5 @@
 ---
-import { Moon } from "lucide-react";
+import { Moon, Sun } from "lucide-react";
 import ThemeToggle from "@/components/timer/ThemeToggle";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { TIMERS_HREF } from "@/lib/app-top-bar";
@@ -35,7 +35,8 @@ const emailLinkClass = cn(buttonVariants({ variant: "ghost", size: "sm" }), "min
         <div class="flex shrink-0 items-center gap-2">
             {fixture ? (
                 <Button type="button" variant="outline" size="icon" aria-label="Change color theme">
-                    <Moon aria-hidden="true" />
+                    <Moon aria-hidden="true" className="dark:hidden" />
+                    <Sun aria-hidden="true" className="hidden dark:block" />
                 </Button>
             ) : (
                 <ThemeToggle client:load />

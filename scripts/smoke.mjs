@@ -173,14 +173,19 @@ function callbackFromMessage(message) {
     return { path: callback.pathname + callback.search, tokenHash, next };
 }
 
-function accountNavLinks(markup) {
+function accountNavMarkup(markup) {
     const accountNav = [...markup.matchAll(/<nav\b((?:"[^"]*"|'[^']*'|[^'">])*)>([\s\S]*?)<\/nav>/gi)].find(([, attributes]) => {
         const ariaLabel = attributes.match(/\baria-label\s*=\s*["']([^"']+)["']/i)?.[1];
         return ariaLabel === "Account";
     });
-    if (!accountNav) return [];
+    return accountNav?.[2] ?? null;
+}
 
-    return [...accountNav[2].matchAll(/<a\b((?:"[^"]*"|'[^']*'|[^'">])*)>([\s\S]*?)<\/a>/gi)].map(([, attributes, content]) => {
+function accountNavLinks(markup) {
+    const navMarkup = accountNavMarkup(markup);
+    if (navMarkup === null) return [];
+
+    return [...navMarkup.matchAll(/<a\b((?:"[^"]*"|'[^']*'|[^'">])*)>([\s\S]*?)<\/a>/gi)].map(([, attributes, content]) => {
         const href = attributes.match(/\bhref\s*=\s*["']([^"']+)["']/i)?.[1] ?? "";
         const text = decodeHtmlAttribute(
             content
@@ -204,7 +209,7 @@ function hasSignedInTopBar(markup, accountEmail) {
     return (
         links.some((link) => link.href === "/dashboard" && link.text.toLowerCase() === accountEmail.toLowerCase()) &&
         links.some((link) => link.href === "/dashboard" && link.text === "Timers") &&
-        /<form\b[^>]*action\s*=\s*["']\/api\/auth\/signout["']/i.test(markup)
+        /<form\b[^>]*action\s*=\s*["']\/api\/auth\/signout["']/i.test(accountNavMarkup(markup) ?? "")
     );
 }
 
