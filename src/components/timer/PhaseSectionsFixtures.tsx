@@ -79,7 +79,7 @@ const SCENARIOS: Scenario[] = [
     },
     { fixture: "paused", title: "Paused", description: "Paused exercise keeps its next phase.", configuration: BASE, at: 13, action: "pause" },
     { fixture: "initializing", title: "Initializing", description: "Audio still starting: no main countdown, sections visible.", configuration: BASE, initializing: true },
-    { fixture: "audio-unavailable", title: "Audio unavailable", description: "Warning shown above the sections.", configuration: BASE, at: 6, audio: false },
+    { fixture: "audio-unavailable", title: "Audio unavailable", description: "Warning shown below the control bar.", configuration: BASE, at: 6, audio: false },
 ];
 
 function capture(scenario: Scenario): DrillDisplay {
