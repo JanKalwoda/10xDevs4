@@ -239,13 +239,13 @@ None (no database or API change). Rollback is a revert of the three commits.
 
 #### Automated
 
-- [ ] 1.1 Sync passes: `npx astro sync`
-- [ ] 1.2 Lint passes: `npm run lint`
-- [ ] 1.3 Unit tests pass (incl. the cache helper): `npm test`
-- [ ] 1.4 Contract tests pass: `node --test scripts/eslint-rules/*.test.mjs`
-- [ ] 1.5 Type check passes: `npx astro check`
-- [ ] 1.6 Build passes: `npm run build`
-- [ ] 1.7 Smoke passes against local Supabase preview: `SMOKE_MODE=local BASE_URL=http://localhost:4321 npm run smoke`
+- [x] 1.1 Sync passes: `npx astro sync` — da06029
+- [x] 1.2 Lint passes: `npm run lint` — da06029
+- [x] 1.3 Unit tests pass (incl. the cache helper): `npm test` — da06029
+- [x] 1.4 Contract tests pass: `node --test scripts/eslint-rules/*.test.mjs` — da06029
+- [x] 1.5 Type check passes: `npx astro check` — da06029
+- [x] 1.6 Build passes: `npm run build` — da06029
+- [ ] 1.7 Smoke passes against local Supabase preview: `SMOKE_MODE=local BASE_URL=http://localhost:4321 npm run smoke` (NOT RUN: no Mailpit locally; helpers and headers verified by hand against the preview with an admin-generated session)
 
 #### Manual
 
