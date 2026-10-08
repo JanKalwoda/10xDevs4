@@ -222,7 +222,7 @@ None (no data, no routes).
 
 #### Manual
 
-- [ ] 2.3 A real drill at `/` shows three sections at 390 px and 1280 px, light and dark, without horizontal scroll
+- [x] 2.3 A real drill at `/` shows three sections at 390 px and 1280 px, light and dark, without horizontal scroll — confirmed manually by the user (2026-10-08)
 
 ### Phase 3: Visual gate and fixtures
 
@@ -233,5 +233,5 @@ None (no data, no routes).
 
 #### Manual
 
-- [ ] 3.3 Human review of the screenshots in the change folder
-- [ ] 3.4 Optional manual: real-device drill with pause and resume shows the correct next phase (recorded only if performed)
+- [x] 3.3 Human review of the screenshots in the change folder — confirmed manually by the user (2026-10-08)
+- [x] 3.4 Optional manual: real-device drill with pause and resume shows the correct next phase (recorded only if performed) — confirmed manually by the user (2026-10-08)

@@ -81,3 +81,7 @@ Open for a human: 3.3 (accept screenshots), 3.4 (existing seven-state gate and R
 - F4: guest redirect for `/{uuid}` (and other protected paths) is built by `guestRedirectResponse` with `Cache-Control: private, no-store`; unit test added.
 - F5: after Cancel / "Return to timer" focus moves to the `h1` of `DrillApp` (`tabIndex=-1`, `outline-none`), on `/` as well. Not covered by an automated test (no DOM env); **needs a human check in a browser** (Cancel and Return, then Tab → Start should be the next stop).
 - Gates: `npm test` 157/157, `npm run lint` clean, rule tests 4/4, `astro check` 0 errors, `npm run build` OK, `npx supabase test db` 80/80; no migration, no `db push`/`reset`.
+
+## Weryfikacja ręczna przez użytkownika (2026-10-08)
+
+Użytkownik ręcznie sprawdził wszystkie kroki z listy testów ręcznych dla tej zmiany (na produkcji i na urządzeniach, w tym dźwięk tam, gdzie dotyczy) i potwierdził, że wszystko działa poprawnie. To zastępuje wcześniejsze zastrzeżenia, że kroki manualne zweryfikował wyłącznie skrypt Playwright lub agent.

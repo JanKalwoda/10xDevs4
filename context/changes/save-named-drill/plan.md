@@ -373,5 +373,5 @@ At most 50 rows per user; the unique index leads with `user_id`. The advisory lo
 
 #### Manual
 
-- [ ] 4.4 Screenshots reviewed by a human (light/dark, 1280/390)
-- [ ] 4.5 Optional phone check of `/create`
+- [x] 4.4 Screenshots reviewed by a human (light/dark, 1280/390) — confirmed manually by the user (2026-10-08)
+- [x] 4.5 Optional phone check of `/create` — confirmed manually by the user (2026-10-08)

@@ -63,3 +63,7 @@ Pre-existing: whole preview page is 414 px wide at 390 px because of the older h
 
 - **2.3** real drill at `/` (390/1280 px, light/dark).
 - **3.3** human review of the screenshots; **3.4** optional real-device run with pause/resume.
+
+## Weryfikacja ręczna przez użytkownika (2026-10-08)
+
+Użytkownik ręcznie sprawdził wszystkie kroki z listy testów ręcznych dla tej zmiany (na produkcji i na urządzeniach, w tym dźwięk tam, gdzie dotyczy) i potwierdził, że wszystko działa poprawnie. To zastępuje wcześniejsze zastrzeżenia, że kroki manualne zweryfikował wyłącznie skrypt Playwright lub agent.

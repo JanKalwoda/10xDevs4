@@ -249,7 +249,7 @@ One delete by primary key; nothing to optimize.
 
 #### Manual
 
-- [ ] 1.8 Scripted check on `npm run preview` with two throw-away users (own 204 with app `Origin`, repeat 404, foreign/random/non-UUID identical 404, guest 401, 405 `Allow: PUT, DELETE`, foreign and missing `Origin` → 403, siblings untouched)
+- [x] 1.8 Scripted check on `npm run preview` with two throw-away users (own 204 with app `Origin`, repeat 404, foreign/random/non-UUID identical 404, guest 401, 405 `Allow: PUT, DELETE`, foreign and missing `Origin` → 403, siblings untouched) — confirmed manually by the user (2026-10-08)
 
 ### Phase 2: Confirmation dialog and Delete action
 
@@ -264,9 +264,9 @@ One delete by primary key; nothing to optimize.
 
 #### Manual
 
-- [ ] 2.6 Real browser: dialog shows the exact name (long, emoji, NFD at 390 px), Cancel/Esc send no request and return focus, overlay click does nothing, Delete goes to `/dashboard`, Back does not resurrect the timer or show a stuck dialog
-- [ ] 2.7 Human confirmation of the keyboard run and screen reader naming of the alertdialog; Delete button contrast in light and dark
-- [ ] 2.8 Timer deleted in another tab first: Delete still ends on `/dashboard`
+- [x] 2.6 Real browser: dialog shows the exact name (long, emoji, NFD at 390 px), Cancel/Esc send no request and return focus, overlay click does nothing, Delete goes to `/dashboard`, Back does not resurrect the timer or show a stuck dialog — confirmed manually by the user (2026-10-08)
+- [x] 2.7 Human confirmation of the keyboard run and screen reader naming of the alertdialog; Delete button contrast in light and dark — confirmed manually by the user (2026-10-08)
+- [x] 2.8 Timer deleted in another tab first: Delete still ends on `/dashboard` — confirmed manually by the user (2026-10-08)
 
 ### Phase 3: Fixtures, smoke, screenshots and docs
 
@@ -280,5 +280,5 @@ One delete by primary key; nothing to optimize.
 
 #### Manual
 
-- [ ] 3.6 Human review of the screenshots
-- [ ] 3.7 Final click-through in a real browser (bfcache Back after delete, real devices, screen reader)
+- [x] 3.6 Human review of the screenshots — confirmed manually by the user (2026-10-08)
+- [x] 3.7 Final click-through in a real browser (bfcache Back after delete, real devices, screen reader) — confirmed manually by the user (2026-10-08)

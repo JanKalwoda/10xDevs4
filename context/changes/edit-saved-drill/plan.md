@@ -307,7 +307,7 @@ None. Production already has the table, policy, grant and trigger from S-10; not
 
 #### Manual
 
-- [ ] 1.7 PUT checks against `npm run preview` (own 200, foreign/random/non-UUID identical 404, duplicate 409, case-only 200, guest 401)
+- [x] 1.7 PUT checks against `npm run preview` (own 200, foreign/random/non-UUID identical 404, duplicate 409, case-only 200, guest 401) — confirmed manually by the user (2026-10-08)
 
 ### Phase 2: Edit page, protection and the Edit action
 
@@ -338,5 +338,5 @@ None. Production already has the table, policy, grant and trigger from S-10; not
 
 #### Manual
 
-- [ ] 3.4 Screenshots reviewed (all states, light/dark, 1280/390); existing seven-state gate unaffected
-- [ ] 3.5 Final human click-through of the edit flow in a real browser (including bfcache Back after saving)
+- [x] 3.4 Screenshots reviewed (all states, light/dark, 1280/390); existing seven-state gate unaffected — confirmed manually by the user (2026-10-08)
+- [x] 3.5 Final human click-through of the edit flow in a real browser (including bfcache Back after saving) — confirmed manually by the user (2026-10-08)

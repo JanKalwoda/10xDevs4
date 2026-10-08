@@ -81,3 +81,6 @@ One follow-up commit; decisions are in `reviews/impl-review.md`.
 
 Gates (local, worktree): `npm test` 187/187; `npm run lint` clean; rule tests 5/5; `npx astro check` 0 errors (1 pre-existing hint); `npm run build` OK; `npx supabase test db` 90/90 PASS (shared stack, no reset); no migration, no `db push`/`db reset`.
 
+## Weryfikacja ręczna przez użytkownika (2026-10-08)
+
+Użytkownik ręcznie sprawdził wszystkie kroki z listy testów ręcznych dla tej zmiany (na produkcji i na urządzeniach, w tym dźwięk tam, gdzie dotyczy) i potwierdził, że wszystko działa poprawnie. To zastępuje wcześniejsze zastrzeżenia, że kroki manualne zweryfikował wyłącznie skrypt Playwright lub agent.

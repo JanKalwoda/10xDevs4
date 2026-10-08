@@ -57,3 +57,7 @@ Delivered:
 - F4: accepted as planned.
 - Gates re-run: `npm test` 90/90, `npm run lint` clean, contract rule tests, `astro check` 0 errors, `npm run build` green.
 - Still needs a human: audio on real devices, review of the 36 screenshots. The screenshots were not regenerated; the only visible change is the "Starting sound…" text in the loading state.
+
+## Weryfikacja ręczna przez użytkownika (2026-10-08)
+
+Użytkownik ręcznie sprawdził wszystkie kroki z listy testów ręcznych dla tej zmiany (na produkcji i na urządzeniach, w tym dźwięk tam, gdzie dotyczy) i potwierdził, że wszystko działa poprawnie. To zastępuje wcześniejsze zastrzeżenia, że kroki manualne zweryfikował wyłącznie skrypt Playwright lub agent.
