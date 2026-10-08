@@ -53,7 +53,7 @@ Obecny timer HIIT pozwala ustawić fazy i powtórzenia, lecz jego przewidywalny 
 | S-08 | restart-whole-drill | Użytkownik uruchamia cały przebieg ponownie od początku | S-02 | US-01, FR-008 | done |
 | S-09 | enter-account-by-email-link | Użytkownik tworzy konto lub loguje się przez link email | — | FR-009 | done |
 | S-10 | save-named-drill | Użytkownik zapisuje nazwaną konfigurację (bez kolorów faz) | S-09 | FR-010 | done |
-| S-11 | open-saved-drill | Użytkownik widzi własne konfiguracje i uruchamia wybraną | S-10 | FR-011 | in-progress |
+| S-11 | open-saved-drill | Użytkownik widzi własne konfiguracje i uruchamia wybraną | S-10 | FR-011 | done |
 | S-12 | edit-saved-drill | Użytkownik zmienia własną zapisaną konfigurację | S-10 | FR-012 | in-progress |
 | S-13 | delete-saved-drill | Użytkownik usuwa własną konfigurację po potwierdzeniu | S-10 | FR-012 | in-progress |
 | S-14 | align-bluetooth-audio | Użytkownik ze słuchawkami Bluetooth wyrównuje widok faz ze słyszanymi sygnałami | S-02 | FR-002, FR-004, FR-005 | blocked |
@@ -244,7 +244,7 @@ Brak osobnych Foundations. Konfigurację danych, ochronę własności i weryfika
 - **Blockers:** —
 - **Unknowns:** —
 - **Risk:** Lista i szczegóły muszą respektować tę samą własność danych co zapis oraz nie wznawiać aktywnego przebiegu po odświeżeniu.
-- **Status:** in-progress
+- **Status:** done
 
 ### S-12: Edycja własnej konfiguracji
 
@@ -397,3 +397,4 @@ Brak zamkniętych kamieni milowych.
 - **S-03: Użytkownik odsłuchuje sygnały ćwiczenia, odpoczynku i Standby przy ich ustawieniach oraz widzi opis znaczenia każdego dźwięku.** — Archived 2026-10-08 → `context/archive/2026-10-06-preview-phase-signals/`. Lesson: —.
 - **S-04: Użytkownik widzi trzy sekcje: główne odliczanie lub Standby, stały pełny czas bieżącej fazy oraz nazwę i pełny czas następnej rzeczywistej fazy, z pominięciem przygotowania lub odpoczynku 0 s i z informacją o końcu przebiegu.** — Archived 2026-10-08 → `context/archive/2026-10-06-view-three-phase-sections/`. Lesson: —.
 - **S-10: Zalogowany użytkownik tworzy nowy timer pod `/create`, nadaje mu nazwę i zapisuje parametry timera (bez kolorów faz), dostępne tylko dla niego. Nazwa jest unikalna w obrębie użytkownika i ma najwyżej 200 znaków; użytkownik ma najwyżej 50 zapisanych konfiguracji. Gość i zalogowany użytkownik nadal widzą domyślny timer pod `/`.** — Archived 2026-10-08 → `context/archive/2026-10-07-save-named-drill/`. Lesson: —.
+- **S-11: Zalogowany użytkownik po wejściu lub odświeżeniu strony `/dashboard` (strona startowa zalogowanego) widzi listę własnych nazwanych konfiguracji z parametrami albo tekst informujący, że nie ma jeszcze zapisanych timerów; pod `/{id_timera}` otwiera szczegóły i uruchamia wybraną konfigurację.** — Archived 2026-10-08 → `context/archive/2026-10-07-open-saved-drill/`. Lesson: —.
