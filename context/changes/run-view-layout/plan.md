@@ -189,7 +189,7 @@ Brak migracji ani zmian API.
 
 #### Automated
 
-- [ ] 2.1 Lint, typy i build przechodzą: `npm run lint`, `npx astro check`, `npm run build`
+- [x] 2.1 Lint, typy i build przechodzą: `npm run lint`, `npx astro check`, `npm run build` — f3a201f
 
 ### Phase 3: Fixtures, bramka wizualna i dokumentacja
 
