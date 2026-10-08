@@ -157,7 +157,8 @@ Users can then sign in immediately after sign-up without clicking a confirmation
 | `/auth/signin`        | Email/password sign-in form                                             |
 | `/auth/signup`        | Email/password sign-up form                                             |
 | `/auth/confirm-email` | Post-signup "check your inbox" page                                     |
-| `/dashboard`          | Protected: your saved timers (newest first) and a link to create one (redirects to `/auth/signin` if unauthenticated) |
+| `/timers`             | Protected: your saved timers (newest first) and a link to create one; the default landing page after sign-in (redirects to `/auth/signin` if unauthenticated) |
+| `/dashboard`          | Protected: account page (signed-in email, link to `/timers`, `Sign out`; no timers list) |
 | `/{id}`               | Protected: one saved timer (UUID only, read-only details + Start, `Edit timer` and `Delete timer` with a confirmation dialog); foreign, unknown or non-UUID paths give the same 404 |
 | `/{id}/edit`          | Protected: edit one saved timer (name and parameters, the `/create` form prefilled, `Save changes`); foreign, unknown or non-UUID paths give the same 404 |
 

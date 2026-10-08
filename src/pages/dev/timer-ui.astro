@@ -1,5 +1,6 @@
 ---
 import "@/styles/global.css";
+import AccountDetails from "@/components/AccountDetails.astro";
 import AppTopBar from "@/components/AppTopBar.astro";
 import TimerUiPreview from "@/components/timer/TimerUiPreview";
 
@@ -16,6 +17,14 @@ const topBarFixtures = [
     {
         title: "Top bar: long email (truncation)",
         user: { email: "a.very.long.email.address.for.truncation.checks@example-company-domain.example.com" },
+    },
+];
+
+const accountFixtures = [
+    { title: "Account: normal email", email: "shooter@example.com" },
+    {
+        title: "Account: long email (wrapping)",
+        email: "a.very.long.email.address.for.truncation.checks@example-company-domain.example.com",
     },
 ];
 ---
@@ -37,6 +46,14 @@ const topBarFixtures = [
                         <div class="border-border overflow-hidden rounded-lg border">
                             <AppTopBar user={user} fixture />
                         </div>
+                    </div>
+                ))}
+            </section>
+            <section aria-label="Account fixtures" class="flex flex-col items-center gap-4 p-4">
+                {accountFixtures.map(({ title, email }) => (
+                    <div class="flex w-full max-w-md flex-col gap-2">
+                        <h2 class="text-muted-foreground text-sm font-medium">{title}</h2>
+                        <AccountDetails email={email} headingLevel="h2" />
                     </div>
                 ))}
             </section>
