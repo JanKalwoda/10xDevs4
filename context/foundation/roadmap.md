@@ -52,7 +52,7 @@ Obecny timer HIIT pozwala ustawić fazy i powtórzenia, lecz jego przewidywalny 
 | S-07 | cancel-current-drill | Użytkownik anuluje przebieg i wraca do ustawień | S-01 | US-01, FR-007 | done |
 | S-08 | restart-whole-drill | Użytkownik uruchamia cały przebieg ponownie od początku | S-02 | US-01, FR-008 | done |
 | S-09 | enter-account-by-email-link | Użytkownik tworzy konto lub loguje się przez link email | — | FR-009 | done |
-| S-10 | save-named-drill | Użytkownik zapisuje nazwaną konfigurację (bez kolorów faz) | S-09 | FR-010 | in-progress |
+| S-10 | save-named-drill | Użytkownik zapisuje nazwaną konfigurację (bez kolorów faz) | S-09 | FR-010 | done |
 | S-11 | open-saved-drill | Użytkownik widzi własne konfiguracje i uruchamia wybraną | S-10 | FR-011 | in-progress |
 | S-12 | edit-saved-drill | Użytkownik zmienia własną zapisaną konfigurację | S-10 | FR-012 | in-progress |
 | S-13 | delete-saved-drill | Użytkownik usuwa własną konfigurację po potwierdzeniu | S-10 | FR-012 | in-progress |
@@ -232,7 +232,7 @@ Brak osobnych Foundations. Konfigurację danych, ochronę własności i weryfika
 - **Blockers:** —
 - **Unknowns:** —
 - **Risk:** Pierwsze dane aplikacji wymagają ochrony własności (RLS, unikalność nazwy per użytkownik, limit 50) od chwili zapisu, zanim zostaną udostępnione na liście. Migracja musi trafić na hostowany Supabase przed wdrożeniem kodu, który z niej korzysta (merge do `main` wdraża automatycznie). Kolory faz odroczone: bez kolumny na kolory.
-- **Status:** in-progress
+- **Status:** done
 
 ### S-11: Powrót do zapisanej konfiguracji
 
@@ -396,3 +396,4 @@ Brak zamkniętych kamieni milowych.
 - **S-09: Użytkownik podaje adres email i przez otrzymany link tworzy konto lub wraca do istniejącego konta.** — Archived 2026-10-06 → `context/archive/2026-10-03-enter-account-by-email-link/`. Lesson: —.
 - **S-03: Użytkownik odsłuchuje sygnały ćwiczenia, odpoczynku i Standby przy ich ustawieniach oraz widzi opis znaczenia każdego dźwięku.** — Archived 2026-10-08 → `context/archive/2026-10-06-preview-phase-signals/`. Lesson: —.
 - **S-04: Użytkownik widzi trzy sekcje: główne odliczanie lub Standby, stały pełny czas bieżącej fazy oraz nazwę i pełny czas następnej rzeczywistej fazy, z pominięciem przygotowania lub odpoczynku 0 s i z informacją o końcu przebiegu.** — Archived 2026-10-08 → `context/archive/2026-10-06-view-three-phase-sections/`. Lesson: —.
+- **S-10: Zalogowany użytkownik tworzy nowy timer pod `/create`, nadaje mu nazwę i zapisuje parametry timera (bez kolorów faz), dostępne tylko dla niego. Nazwa jest unikalna w obrębie użytkownika i ma najwyżej 200 znaków; użytkownik ma najwyżej 50 zapisanych konfiguracji. Gość i zalogowany użytkownik nadal widzą domyślny timer pod `/`.** — Archived 2026-10-08 → `context/archive/2026-10-07-save-named-drill/`. Lesson: —.
