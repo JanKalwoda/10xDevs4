@@ -339,11 +339,11 @@ No data changes. Old bookmarks of `/dashboard` now open the account page; the ba
 
 #### Automated
 
-- [ ] 2.1 Lint passes: `npm run lint`
-- [ ] 2.2 Unit tests pass: `npm test`
-- [ ] 2.3 Type check passes: `npx astro check`
-- [ ] 2.4 No stale list links remain in `src` (grep limited to `*.tsx`/`*.astro`, only `AppTopBar.astro` left)
-- [ ] 2.6 No `"/"` `next` fallback left in `src/lib/email-auth.ts`; smoke has no `Continue to account`
+- [x] 2.1 Lint passes: `npm run lint` — ef56f24
+- [x] 2.2 Unit tests pass: `npm test` — ef56f24
+- [x] 2.3 Type check passes: `npx astro check` — ef56f24
+- [x] 2.4 No stale list links remain in `src` (grep limited to `*.tsx`/`*.astro`, only `AppTopBar.astro` left) — ef56f24
+- [x] 2.6 No `"/"` `next` fallback left in `src/lib/email-auth.ts`; smoke has no `Continue to account` — ef56f24
 
 #### Manual
 

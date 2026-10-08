@@ -1,7 +1,7 @@
 ---
 change_id: timers-list-and-account
 title: Timers list screen and account page
-status: plan_reviewed
+status: implementing
 created: 2026-10-08
 updated: 2026-10-09
 archived_at: null
