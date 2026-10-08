@@ -37,13 +37,6 @@ export default function DrillTimerView({
 
     return (
         <section aria-label="Current drill phase" className="space-y-4 text-center">
-            <div className="min-h-20">
-                {timerWarnings.length > 0 && (
-                    <Alert>
-                        <AlertDescription>{timerWarnings.join(" ")}</AlertDescription>
-                    </Alert>
-                )}
-            </div>
             <PhaseSections sections={sections} initializing={initializing} />
             <div className="grid grid-cols-3 items-center">
                 <div className="justify-self-start">
@@ -94,6 +87,13 @@ export default function DrillTimerView({
                 ) : display.paused ? (
                     <p role="status">Drill paused.</p>
                 ) : null}
+            </div>
+            <div className="min-h-20">
+                {timerWarnings.length > 0 && (
+                    <Alert>
+                        <AlertDescription>{timerWarnings.join(" ")}</AlertDescription>
+                    </Alert>
+                )}
             </div>
         </section>
     );

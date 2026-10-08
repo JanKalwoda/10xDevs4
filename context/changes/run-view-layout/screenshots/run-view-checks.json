@@ -1,0 +1,2466 @@
+{
+  "baseUrl": "http://localhost:4399",
+  "failed": 0,
+  "checks": [
+    {
+      "name": "1280-light: fixture cards found",
+      "ok": true,
+      "detail": "count=23"
+    },
+    {
+      "name": "1280-light sections-preparation-exercise: three bar buttons",
+      "ok": true,
+      "detail": "count=3"
+    },
+    {
+      "name": "1280-light sections-preparation-exercise: button top equals baseline",
+      "ok": true,
+      "detail": "tops=310,310,310 baseline=310"
+    },
+    {
+      "name": "1280-light sections-preparation-exercise: repetition present and outside role=timer",
+      "ok": true,
+      "detail": "rep=Repetition 1 of 3"
+    },
+    {
+      "name": "1280-light sections-preparation-exercise: DOM order time -> repetition -> Current -> Next",
+      "ok": true,
+      "detail": "hasMain=true"
+    },
+    {
+      "name": "1280-light sections-preparation-exercise: no horizontal overflow inside run section",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-light sections-preparation-standby: three bar buttons",
+      "ok": true,
+      "detail": "count=3"
+    },
+    {
+      "name": "1280-light sections-preparation-standby: button top equals baseline",
+      "ok": true,
+      "detail": "tops=310,310,310 baseline=310"
+    },
+    {
+      "name": "1280-light sections-preparation-standby: repetition present and outside role=timer",
+      "ok": true,
+      "detail": "rep=Repetition 1 of 3"
+    },
+    {
+      "name": "1280-light sections-preparation-standby: DOM order time -> repetition -> Current -> Next",
+      "ok": true,
+      "detail": "hasMain=true"
+    },
+    {
+      "name": "1280-light sections-preparation-standby: no horizontal overflow inside run section",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-light sections-exercise-rest: three bar buttons",
+      "ok": true,
+      "detail": "count=3"
+    },
+    {
+      "name": "1280-light sections-exercise-rest: button top equals baseline",
+      "ok": true,
+      "detail": "tops=310,310,310 baseline=310"
+    },
+    {
+      "name": "1280-light sections-exercise-rest: repetition present and outside role=timer",
+      "ok": true,
+      "detail": "rep=Repetition 1 of 3"
+    },
+    {
+      "name": "1280-light sections-exercise-rest: DOM order time -> repetition -> Current -> Next",
+      "ok": true,
+      "detail": "hasMain=true"
+    },
+    {
+      "name": "1280-light sections-exercise-rest: no horizontal overflow inside run section",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-light sections-exercise-complete: three bar buttons",
+      "ok": true,
+      "detail": "count=3"
+    },
+    {
+      "name": "1280-light sections-exercise-complete: button top equals baseline",
+      "ok": true,
+      "detail": "tops=310,310,310 baseline=310"
+    },
+    {
+      "name": "1280-light sections-exercise-complete: repetition present and outside role=timer",
+      "ok": true,
+      "detail": "rep=Repetition 1 of 1"
+    },
+    {
+      "name": "1280-light sections-exercise-complete: DOM order time -> repetition -> Current -> Next",
+      "ok": true,
+      "detail": "hasMain=true"
+    },
+    {
+      "name": "1280-light sections-exercise-complete: no horizontal overflow inside run section",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-light sections-standby-exercise: three bar buttons",
+      "ok": true,
+      "detail": "count=3"
+    },
+    {
+      "name": "1280-light sections-standby-exercise: button top equals baseline",
+      "ok": true,
+      "detail": "tops=310,310,310 baseline=310"
+    },
+    {
+      "name": "1280-light sections-standby-exercise: repetition present and outside role=timer",
+      "ok": true,
+      "detail": "rep=Repetition 1 of 3"
+    },
+    {
+      "name": "1280-light sections-standby-exercise: DOM order time -> repetition -> Current -> Next",
+      "ok": true,
+      "detail": "hasMain=true"
+    },
+    {
+      "name": "1280-light sections-standby-exercise: no horizontal overflow inside run section",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-light sections-rest-exercise: three bar buttons",
+      "ok": true,
+      "detail": "count=3"
+    },
+    {
+      "name": "1280-light sections-rest-exercise: button top equals baseline",
+      "ok": true,
+      "detail": "tops=310,310,310 baseline=310"
+    },
+    {
+      "name": "1280-light sections-rest-exercise: repetition present and outside role=timer",
+      "ok": true,
+      "detail": "rep=Repetition 1 of 3"
+    },
+    {
+      "name": "1280-light sections-rest-exercise: DOM order time -> repetition -> Current -> Next",
+      "ok": true,
+      "detail": "hasMain=true"
+    },
+    {
+      "name": "1280-light sections-rest-exercise: no horizontal overflow inside run section",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-light sections-rest-standby: three bar buttons",
+      "ok": true,
+      "detail": "count=3"
+    },
+    {
+      "name": "1280-light sections-rest-standby: button top equals baseline",
+      "ok": true,
+      "detail": "tops=310,310,310 baseline=310"
+    },
+    {
+      "name": "1280-light sections-rest-standby: repetition present and outside role=timer",
+      "ok": true,
+      "detail": "rep=Repetition 1 of 3"
+    },
+    {
+      "name": "1280-light sections-rest-standby: DOM order time -> repetition -> Current -> Next",
+      "ok": true,
+      "detail": "hasMain=true"
+    },
+    {
+      "name": "1280-light sections-rest-standby: no horizontal overflow inside run section",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-light sections-rest-complete: three bar buttons",
+      "ok": true,
+      "detail": "count=3"
+    },
+    {
+      "name": "1280-light sections-rest-complete: button top equals baseline",
+      "ok": true,
+      "detail": "tops=310,310,310 baseline=310"
+    },
+    {
+      "name": "1280-light sections-rest-complete: repetition present and outside role=timer",
+      "ok": true,
+      "detail": "rep=Repetition 1 of 1"
+    },
+    {
+      "name": "1280-light sections-rest-complete: DOM order time -> repetition -> Current -> Next",
+      "ok": true,
+      "detail": "hasMain=true"
+    },
+    {
+      "name": "1280-light sections-rest-complete: no horizontal overflow inside run section",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-light sections-resume-preparation: three bar buttons",
+      "ok": true,
+      "detail": "count=3"
+    },
+    {
+      "name": "1280-light sections-resume-preparation: button top equals baseline",
+      "ok": true,
+      "detail": "tops=310,310,310 baseline=310"
+    },
+    {
+      "name": "1280-light sections-resume-preparation: repetition present and outside role=timer",
+      "ok": true,
+      "detail": "rep=Repetition 2 of 3"
+    },
+    {
+      "name": "1280-light sections-resume-preparation: DOM order time -> repetition -> Current -> Next",
+      "ok": true,
+      "detail": "hasMain=true"
+    },
+    {
+      "name": "1280-light sections-resume-preparation: no horizontal overflow inside run section",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-light sections-paused: three bar buttons",
+      "ok": true,
+      "detail": "count=3"
+    },
+    {
+      "name": "1280-light sections-paused: button top equals baseline",
+      "ok": true,
+      "detail": "tops=310,310,310 baseline=310"
+    },
+    {
+      "name": "1280-light sections-paused: repetition present and outside role=timer",
+      "ok": true,
+      "detail": "rep=Repetition 2 of 3"
+    },
+    {
+      "name": "1280-light sections-paused: DOM order time -> repetition -> Current -> Next",
+      "ok": true,
+      "detail": "hasMain=true"
+    },
+    {
+      "name": "1280-light sections-paused: no horizontal overflow inside run section",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-light sections-initializing: three bar buttons",
+      "ok": true,
+      "detail": "count=3"
+    },
+    {
+      "name": "1280-light sections-initializing: button top equals baseline",
+      "ok": true,
+      "detail": "tops=310,310,310 baseline=310"
+    },
+    {
+      "name": "1280-light sections-initializing: repetition present and outside role=timer",
+      "ok": true,
+      "detail": "rep=Repetition 1 of 3"
+    },
+    {
+      "name": "1280-light sections-initializing: DOM order time -> repetition -> Current -> Next",
+      "ok": true,
+      "detail": "hasMain=false"
+    },
+    {
+      "name": "1280-light sections-initializing: no horizontal overflow inside run section",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-light sections-audio-unavailable: three bar buttons",
+      "ok": true,
+      "detail": "count=3"
+    },
+    {
+      "name": "1280-light sections-audio-unavailable: button top equals baseline",
+      "ok": true,
+      "detail": "tops=310,310,310 baseline=310"
+    },
+    {
+      "name": "1280-light sections-audio-unavailable: repetition present and outside role=timer",
+      "ok": true,
+      "detail": "rep=Repetition 1 of 3"
+    },
+    {
+      "name": "1280-light sections-audio-unavailable: DOM order time -> repetition -> Current -> Next",
+      "ok": true,
+      "detail": "hasMain=true"
+    },
+    {
+      "name": "1280-light sections-audio-unavailable: no horizontal overflow inside run section",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-light sections-two-warnings: three bar buttons",
+      "ok": true,
+      "detail": "count=3"
+    },
+    {
+      "name": "1280-light sections-two-warnings: button top equals baseline",
+      "ok": true,
+      "detail": "tops=310,310,310 baseline=310"
+    },
+    {
+      "name": "1280-light sections-two-warnings: repetition present and outside role=timer",
+      "ok": true,
+      "detail": "rep=Repetition 1 of 3"
+    },
+    {
+      "name": "1280-light sections-two-warnings: DOM order time -> repetition -> Current -> Next",
+      "ok": true,
+      "detail": "hasMain=true"
+    },
+    {
+      "name": "1280-light sections-two-warnings: no horizontal overflow inside run section",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-light sections-longest-values: three bar buttons",
+      "ok": true,
+      "detail": "count=3"
+    },
+    {
+      "name": "1280-light sections-longest-values: button top equals baseline",
+      "ok": true,
+      "detail": "tops=310,310,310 baseline=310"
+    },
+    {
+      "name": "1280-light sections-longest-values: repetition present and outside role=timer",
+      "ok": true,
+      "detail": "rep=Repetition 10 of 10"
+    },
+    {
+      "name": "1280-light sections-longest-values: DOM order time -> repetition -> Current -> Next",
+      "ok": true,
+      "detail": "hasMain=true"
+    },
+    {
+      "name": "1280-light sections-longest-values: no horizontal overflow inside run section",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-light timer-loading-fixture: three bar buttons",
+      "ok": true,
+      "detail": "count=3"
+    },
+    {
+      "name": "1280-light timer-loading-fixture: button top equals baseline",
+      "ok": true,
+      "detail": "tops=310,310,310 baseline=310"
+    },
+    {
+      "name": "1280-light timer-loading-fixture: repetition present and outside role=timer",
+      "ok": true,
+      "detail": "rep=Repetition 1 of 3"
+    },
+    {
+      "name": "1280-light timer-loading-fixture: DOM order time -> repetition -> Current -> Next",
+      "ok": true,
+      "detail": "hasMain=false"
+    },
+    {
+      "name": "1280-light timer-loading-fixture: no horizontal overflow inside run section",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-light timer-preparation-fixture: three bar buttons",
+      "ok": true,
+      "detail": "count=3"
+    },
+    {
+      "name": "1280-light timer-preparation-fixture: button top equals baseline",
+      "ok": true,
+      "detail": "tops=310,310,310 baseline=310"
+    },
+    {
+      "name": "1280-light timer-preparation-fixture: repetition present and outside role=timer",
+      "ok": true,
+      "detail": "rep=Repetition 1 of 3"
+    },
+    {
+      "name": "1280-light timer-preparation-fixture: DOM order time -> repetition -> Current -> Next",
+      "ok": true,
+      "detail": "hasMain=true"
+    },
+    {
+      "name": "1280-light timer-preparation-fixture: no horizontal overflow inside run section",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-light timer-exercise-fixture: three bar buttons",
+      "ok": true,
+      "detail": "count=3"
+    },
+    {
+      "name": "1280-light timer-exercise-fixture: button top equals baseline",
+      "ok": true,
+      "detail": "tops=310,310,310 baseline=310"
+    },
+    {
+      "name": "1280-light timer-exercise-fixture: repetition present and outside role=timer",
+      "ok": true,
+      "detail": "rep=Repetition 2 of 3"
+    },
+    {
+      "name": "1280-light timer-exercise-fixture: DOM order time -> repetition -> Current -> Next",
+      "ok": true,
+      "detail": "hasMain=true"
+    },
+    {
+      "name": "1280-light timer-exercise-fixture: no horizontal overflow inside run section",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-light timer-rest-fixture: three bar buttons",
+      "ok": true,
+      "detail": "count=3"
+    },
+    {
+      "name": "1280-light timer-rest-fixture: button top equals baseline",
+      "ok": true,
+      "detail": "tops=310,310,310 baseline=310"
+    },
+    {
+      "name": "1280-light timer-rest-fixture: repetition present and outside role=timer",
+      "ok": true,
+      "detail": "rep=Repetition 3 of 3"
+    },
+    {
+      "name": "1280-light timer-rest-fixture: DOM order time -> repetition -> Current -> Next",
+      "ok": true,
+      "detail": "hasMain=true"
+    },
+    {
+      "name": "1280-light timer-rest-fixture: no horizontal overflow inside run section",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-light timer-standby-fixture: three bar buttons",
+      "ok": true,
+      "detail": "count=3"
+    },
+    {
+      "name": "1280-light timer-standby-fixture: button top equals baseline",
+      "ok": true,
+      "detail": "tops=310,310,310 baseline=310"
+    },
+    {
+      "name": "1280-light timer-standby-fixture: repetition present and outside role=timer",
+      "ok": true,
+      "detail": "rep=Repetition 2 of 3"
+    },
+    {
+      "name": "1280-light timer-standby-fixture: DOM order time -> repetition -> Current -> Next",
+      "ok": true,
+      "detail": "hasMain=true"
+    },
+    {
+      "name": "1280-light timer-standby-fixture: no horizontal overflow inside run section",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-light timer-paused-fixture: three bar buttons",
+      "ok": true,
+      "detail": "count=3"
+    },
+    {
+      "name": "1280-light timer-paused-fixture: button top equals baseline",
+      "ok": true,
+      "detail": "tops=310,310,310 baseline=310"
+    },
+    {
+      "name": "1280-light timer-paused-fixture: repetition present and outside role=timer",
+      "ok": true,
+      "detail": "rep=Repetition 2 of 3"
+    },
+    {
+      "name": "1280-light timer-paused-fixture: DOM order time -> repetition -> Current -> Next",
+      "ok": true,
+      "detail": "hasMain=true"
+    },
+    {
+      "name": "1280-light timer-paused-fixture: no horizontal overflow inside run section",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-light timer-recovery-pending-fixture: three bar buttons",
+      "ok": true,
+      "detail": "count=3"
+    },
+    {
+      "name": "1280-light timer-recovery-pending-fixture: button top equals baseline",
+      "ok": true,
+      "detail": "tops=310,310,310 baseline=310"
+    },
+    {
+      "name": "1280-light timer-recovery-pending-fixture: repetition present and outside role=timer",
+      "ok": true,
+      "detail": "rep=Repetition 2 of 3"
+    },
+    {
+      "name": "1280-light timer-recovery-pending-fixture: DOM order time -> repetition -> Current -> Next",
+      "ok": true,
+      "detail": "hasMain=true"
+    },
+    {
+      "name": "1280-light timer-recovery-pending-fixture: no horizontal overflow inside run section",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-light timer-wake-lock-unavailable-fixture: three bar buttons",
+      "ok": true,
+      "detail": "count=3"
+    },
+    {
+      "name": "1280-light timer-wake-lock-unavailable-fixture: button top equals baseline",
+      "ok": true,
+      "detail": "tops=310,310,310 baseline=310"
+    },
+    {
+      "name": "1280-light timer-wake-lock-unavailable-fixture: repetition present and outside role=timer",
+      "ok": true,
+      "detail": "rep=Repetition 2 of 3"
+    },
+    {
+      "name": "1280-light timer-wake-lock-unavailable-fixture: DOM order time -> repetition -> Current -> Next",
+      "ok": true,
+      "detail": "hasMain=true"
+    },
+    {
+      "name": "1280-light timer-wake-lock-unavailable-fixture: no horizontal overflow inside run section",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-light timer-audio-unavailable-fixture: three bar buttons",
+      "ok": true,
+      "detail": "count=3"
+    },
+    {
+      "name": "1280-light timer-audio-unavailable-fixture: button top equals baseline",
+      "ok": true,
+      "detail": "tops=310,310,310 baseline=310"
+    },
+    {
+      "name": "1280-light timer-audio-unavailable-fixture: repetition present and outside role=timer",
+      "ok": true,
+      "detail": "rep=Repetition 2 of 3"
+    },
+    {
+      "name": "1280-light timer-audio-unavailable-fixture: DOM order time -> repetition -> Current -> Next",
+      "ok": true,
+      "detail": "hasMain=true"
+    },
+    {
+      "name": "1280-light timer-audio-unavailable-fixture: no horizontal overflow inside run section",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-light: longest values show Repetition 10 of 10",
+      "ok": true,
+      "detail": "Repetition 10 of 10"
+    },
+    {
+      "name": "1280-light: Preparation shows the upcoming repetition",
+      "ok": true,
+      "detail": "Repetition 1 of 3"
+    },
+    {
+      "name": "1280-light: Standby shows repetition outside the time",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-light: Cancel drill shows :focus-visible",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-light: Restart drill shows :focus-visible",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-light: Pause drill shows :focus-visible",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-light: initializing right slot is disabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-dark: fixture cards found",
+      "ok": true,
+      "detail": "count=23"
+    },
+    {
+      "name": "1280-dark sections-preparation-exercise: three bar buttons",
+      "ok": true,
+      "detail": "count=3"
+    },
+    {
+      "name": "1280-dark sections-preparation-exercise: button top equals baseline",
+      "ok": true,
+      "detail": "tops=310,310,310 baseline=310"
+    },
+    {
+      "name": "1280-dark sections-preparation-exercise: repetition present and outside role=timer",
+      "ok": true,
+      "detail": "rep=Repetition 1 of 3"
+    },
+    {
+      "name": "1280-dark sections-preparation-exercise: DOM order time -> repetition -> Current -> Next",
+      "ok": true,
+      "detail": "hasMain=true"
+    },
+    {
+      "name": "1280-dark sections-preparation-exercise: no horizontal overflow inside run section",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-dark sections-preparation-standby: three bar buttons",
+      "ok": true,
+      "detail": "count=3"
+    },
+    {
+      "name": "1280-dark sections-preparation-standby: button top equals baseline",
+      "ok": true,
+      "detail": "tops=310,310,310 baseline=310"
+    },
+    {
+      "name": "1280-dark sections-preparation-standby: repetition present and outside role=timer",
+      "ok": true,
+      "detail": "rep=Repetition 1 of 3"
+    },
+    {
+      "name": "1280-dark sections-preparation-standby: DOM order time -> repetition -> Current -> Next",
+      "ok": true,
+      "detail": "hasMain=true"
+    },
+    {
+      "name": "1280-dark sections-preparation-standby: no horizontal overflow inside run section",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-dark sections-exercise-rest: three bar buttons",
+      "ok": true,
+      "detail": "count=3"
+    },
+    {
+      "name": "1280-dark sections-exercise-rest: button top equals baseline",
+      "ok": true,
+      "detail": "tops=310,310,310 baseline=310"
+    },
+    {
+      "name": "1280-dark sections-exercise-rest: repetition present and outside role=timer",
+      "ok": true,
+      "detail": "rep=Repetition 1 of 3"
+    },
+    {
+      "name": "1280-dark sections-exercise-rest: DOM order time -> repetition -> Current -> Next",
+      "ok": true,
+      "detail": "hasMain=true"
+    },
+    {
+      "name": "1280-dark sections-exercise-rest: no horizontal overflow inside run section",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-dark sections-exercise-complete: three bar buttons",
+      "ok": true,
+      "detail": "count=3"
+    },
+    {
+      "name": "1280-dark sections-exercise-complete: button top equals baseline",
+      "ok": true,
+      "detail": "tops=310,310,310 baseline=310"
+    },
+    {
+      "name": "1280-dark sections-exercise-complete: repetition present and outside role=timer",
+      "ok": true,
+      "detail": "rep=Repetition 1 of 1"
+    },
+    {
+      "name": "1280-dark sections-exercise-complete: DOM order time -> repetition -> Current -> Next",
+      "ok": true,
+      "detail": "hasMain=true"
+    },
+    {
+      "name": "1280-dark sections-exercise-complete: no horizontal overflow inside run section",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-dark sections-standby-exercise: three bar buttons",
+      "ok": true,
+      "detail": "count=3"
+    },
+    {
+      "name": "1280-dark sections-standby-exercise: button top equals baseline",
+      "ok": true,
+      "detail": "tops=310,310,310 baseline=310"
+    },
+    {
+      "name": "1280-dark sections-standby-exercise: repetition present and outside role=timer",
+      "ok": true,
+      "detail": "rep=Repetition 1 of 3"
+    },
+    {
+      "name": "1280-dark sections-standby-exercise: DOM order time -> repetition -> Current -> Next",
+      "ok": true,
+      "detail": "hasMain=true"
+    },
+    {
+      "name": "1280-dark sections-standby-exercise: no horizontal overflow inside run section",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-dark sections-rest-exercise: three bar buttons",
+      "ok": true,
+      "detail": "count=3"
+    },
+    {
+      "name": "1280-dark sections-rest-exercise: button top equals baseline",
+      "ok": true,
+      "detail": "tops=310,310,310 baseline=310"
+    },
+    {
+      "name": "1280-dark sections-rest-exercise: repetition present and outside role=timer",
+      "ok": true,
+      "detail": "rep=Repetition 1 of 3"
+    },
+    {
+      "name": "1280-dark sections-rest-exercise: DOM order time -> repetition -> Current -> Next",
+      "ok": true,
+      "detail": "hasMain=true"
+    },
+    {
+      "name": "1280-dark sections-rest-exercise: no horizontal overflow inside run section",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-dark sections-rest-standby: three bar buttons",
+      "ok": true,
+      "detail": "count=3"
+    },
+    {
+      "name": "1280-dark sections-rest-standby: button top equals baseline",
+      "ok": true,
+      "detail": "tops=310,310,310 baseline=310"
+    },
+    {
+      "name": "1280-dark sections-rest-standby: repetition present and outside role=timer",
+      "ok": true,
+      "detail": "rep=Repetition 1 of 3"
+    },
+    {
+      "name": "1280-dark sections-rest-standby: DOM order time -> repetition -> Current -> Next",
+      "ok": true,
+      "detail": "hasMain=true"
+    },
+    {
+      "name": "1280-dark sections-rest-standby: no horizontal overflow inside run section",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-dark sections-rest-complete: three bar buttons",
+      "ok": true,
+      "detail": "count=3"
+    },
+    {
+      "name": "1280-dark sections-rest-complete: button top equals baseline",
+      "ok": true,
+      "detail": "tops=310,310,310 baseline=310"
+    },
+    {
+      "name": "1280-dark sections-rest-complete: repetition present and outside role=timer",
+      "ok": true,
+      "detail": "rep=Repetition 1 of 1"
+    },
+    {
+      "name": "1280-dark sections-rest-complete: DOM order time -> repetition -> Current -> Next",
+      "ok": true,
+      "detail": "hasMain=true"
+    },
+    {
+      "name": "1280-dark sections-rest-complete: no horizontal overflow inside run section",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-dark sections-resume-preparation: three bar buttons",
+      "ok": true,
+      "detail": "count=3"
+    },
+    {
+      "name": "1280-dark sections-resume-preparation: button top equals baseline",
+      "ok": true,
+      "detail": "tops=310,310,310 baseline=310"
+    },
+    {
+      "name": "1280-dark sections-resume-preparation: repetition present and outside role=timer",
+      "ok": true,
+      "detail": "rep=Repetition 2 of 3"
+    },
+    {
+      "name": "1280-dark sections-resume-preparation: DOM order time -> repetition -> Current -> Next",
+      "ok": true,
+      "detail": "hasMain=true"
+    },
+    {
+      "name": "1280-dark sections-resume-preparation: no horizontal overflow inside run section",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-dark sections-paused: three bar buttons",
+      "ok": true,
+      "detail": "count=3"
+    },
+    {
+      "name": "1280-dark sections-paused: button top equals baseline",
+      "ok": true,
+      "detail": "tops=310,310,310 baseline=310"
+    },
+    {
+      "name": "1280-dark sections-paused: repetition present and outside role=timer",
+      "ok": true,
+      "detail": "rep=Repetition 2 of 3"
+    },
+    {
+      "name": "1280-dark sections-paused: DOM order time -> repetition -> Current -> Next",
+      "ok": true,
+      "detail": "hasMain=true"
+    },
+    {
+      "name": "1280-dark sections-paused: no horizontal overflow inside run section",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-dark sections-initializing: three bar buttons",
+      "ok": true,
+      "detail": "count=3"
+    },
+    {
+      "name": "1280-dark sections-initializing: button top equals baseline",
+      "ok": true,
+      "detail": "tops=310,310,310 baseline=310"
+    },
+    {
+      "name": "1280-dark sections-initializing: repetition present and outside role=timer",
+      "ok": true,
+      "detail": "rep=Repetition 1 of 3"
+    },
+    {
+      "name": "1280-dark sections-initializing: DOM order time -> repetition -> Current -> Next",
+      "ok": true,
+      "detail": "hasMain=false"
+    },
+    {
+      "name": "1280-dark sections-initializing: no horizontal overflow inside run section",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-dark sections-audio-unavailable: three bar buttons",
+      "ok": true,
+      "detail": "count=3"
+    },
+    {
+      "name": "1280-dark sections-audio-unavailable: button top equals baseline",
+      "ok": true,
+      "detail": "tops=310,310,310 baseline=310"
+    },
+    {
+      "name": "1280-dark sections-audio-unavailable: repetition present and outside role=timer",
+      "ok": true,
+      "detail": "rep=Repetition 1 of 3"
+    },
+    {
+      "name": "1280-dark sections-audio-unavailable: DOM order time -> repetition -> Current -> Next",
+      "ok": true,
+      "detail": "hasMain=true"
+    },
+    {
+      "name": "1280-dark sections-audio-unavailable: no horizontal overflow inside run section",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-dark sections-two-warnings: three bar buttons",
+      "ok": true,
+      "detail": "count=3"
+    },
+    {
+      "name": "1280-dark sections-two-warnings: button top equals baseline",
+      "ok": true,
+      "detail": "tops=310,310,310 baseline=310"
+    },
+    {
+      "name": "1280-dark sections-two-warnings: repetition present and outside role=timer",
+      "ok": true,
+      "detail": "rep=Repetition 1 of 3"
+    },
+    {
+      "name": "1280-dark sections-two-warnings: DOM order time -> repetition -> Current -> Next",
+      "ok": true,
+      "detail": "hasMain=true"
+    },
+    {
+      "name": "1280-dark sections-two-warnings: no horizontal overflow inside run section",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-dark sections-longest-values: three bar buttons",
+      "ok": true,
+      "detail": "count=3"
+    },
+    {
+      "name": "1280-dark sections-longest-values: button top equals baseline",
+      "ok": true,
+      "detail": "tops=310,310,310 baseline=310"
+    },
+    {
+      "name": "1280-dark sections-longest-values: repetition present and outside role=timer",
+      "ok": true,
+      "detail": "rep=Repetition 10 of 10"
+    },
+    {
+      "name": "1280-dark sections-longest-values: DOM order time -> repetition -> Current -> Next",
+      "ok": true,
+      "detail": "hasMain=true"
+    },
+    {
+      "name": "1280-dark sections-longest-values: no horizontal overflow inside run section",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-dark timer-loading-fixture: three bar buttons",
+      "ok": true,
+      "detail": "count=3"
+    },
+    {
+      "name": "1280-dark timer-loading-fixture: button top equals baseline",
+      "ok": true,
+      "detail": "tops=310,310,310 baseline=310"
+    },
+    {
+      "name": "1280-dark timer-loading-fixture: repetition present and outside role=timer",
+      "ok": true,
+      "detail": "rep=Repetition 1 of 3"
+    },
+    {
+      "name": "1280-dark timer-loading-fixture: DOM order time -> repetition -> Current -> Next",
+      "ok": true,
+      "detail": "hasMain=false"
+    },
+    {
+      "name": "1280-dark timer-loading-fixture: no horizontal overflow inside run section",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-dark timer-preparation-fixture: three bar buttons",
+      "ok": true,
+      "detail": "count=3"
+    },
+    {
+      "name": "1280-dark timer-preparation-fixture: button top equals baseline",
+      "ok": true,
+      "detail": "tops=310,310,310 baseline=310"
+    },
+    {
+      "name": "1280-dark timer-preparation-fixture: repetition present and outside role=timer",
+      "ok": true,
+      "detail": "rep=Repetition 1 of 3"
+    },
+    {
+      "name": "1280-dark timer-preparation-fixture: DOM order time -> repetition -> Current -> Next",
+      "ok": true,
+      "detail": "hasMain=true"
+    },
+    {
+      "name": "1280-dark timer-preparation-fixture: no horizontal overflow inside run section",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-dark timer-exercise-fixture: three bar buttons",
+      "ok": true,
+      "detail": "count=3"
+    },
+    {
+      "name": "1280-dark timer-exercise-fixture: button top equals baseline",
+      "ok": true,
+      "detail": "tops=310,310,310 baseline=310"
+    },
+    {
+      "name": "1280-dark timer-exercise-fixture: repetition present and outside role=timer",
+      "ok": true,
+      "detail": "rep=Repetition 2 of 3"
+    },
+    {
+      "name": "1280-dark timer-exercise-fixture: DOM order time -> repetition -> Current -> Next",
+      "ok": true,
+      "detail": "hasMain=true"
+    },
+    {
+      "name": "1280-dark timer-exercise-fixture: no horizontal overflow inside run section",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-dark timer-rest-fixture: three bar buttons",
+      "ok": true,
+      "detail": "count=3"
+    },
+    {
+      "name": "1280-dark timer-rest-fixture: button top equals baseline",
+      "ok": true,
+      "detail": "tops=310,310,310 baseline=310"
+    },
+    {
+      "name": "1280-dark timer-rest-fixture: repetition present and outside role=timer",
+      "ok": true,
+      "detail": "rep=Repetition 3 of 3"
+    },
+    {
+      "name": "1280-dark timer-rest-fixture: DOM order time -> repetition -> Current -> Next",
+      "ok": true,
+      "detail": "hasMain=true"
+    },
+    {
+      "name": "1280-dark timer-rest-fixture: no horizontal overflow inside run section",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-dark timer-standby-fixture: three bar buttons",
+      "ok": true,
+      "detail": "count=3"
+    },
+    {
+      "name": "1280-dark timer-standby-fixture: button top equals baseline",
+      "ok": true,
+      "detail": "tops=310,310,310 baseline=310"
+    },
+    {
+      "name": "1280-dark timer-standby-fixture: repetition present and outside role=timer",
+      "ok": true,
+      "detail": "rep=Repetition 2 of 3"
+    },
+    {
+      "name": "1280-dark timer-standby-fixture: DOM order time -> repetition -> Current -> Next",
+      "ok": true,
+      "detail": "hasMain=true"
+    },
+    {
+      "name": "1280-dark timer-standby-fixture: no horizontal overflow inside run section",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-dark timer-paused-fixture: three bar buttons",
+      "ok": true,
+      "detail": "count=3"
+    },
+    {
+      "name": "1280-dark timer-paused-fixture: button top equals baseline",
+      "ok": true,
+      "detail": "tops=310,310,310 baseline=310"
+    },
+    {
+      "name": "1280-dark timer-paused-fixture: repetition present and outside role=timer",
+      "ok": true,
+      "detail": "rep=Repetition 2 of 3"
+    },
+    {
+      "name": "1280-dark timer-paused-fixture: DOM order time -> repetition -> Current -> Next",
+      "ok": true,
+      "detail": "hasMain=true"
+    },
+    {
+      "name": "1280-dark timer-paused-fixture: no horizontal overflow inside run section",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-dark timer-recovery-pending-fixture: three bar buttons",
+      "ok": true,
+      "detail": "count=3"
+    },
+    {
+      "name": "1280-dark timer-recovery-pending-fixture: button top equals baseline",
+      "ok": true,
+      "detail": "tops=310,310,310 baseline=310"
+    },
+    {
+      "name": "1280-dark timer-recovery-pending-fixture: repetition present and outside role=timer",
+      "ok": true,
+      "detail": "rep=Repetition 2 of 3"
+    },
+    {
+      "name": "1280-dark timer-recovery-pending-fixture: DOM order time -> repetition -> Current -> Next",
+      "ok": true,
+      "detail": "hasMain=true"
+    },
+    {
+      "name": "1280-dark timer-recovery-pending-fixture: no horizontal overflow inside run section",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-dark timer-wake-lock-unavailable-fixture: three bar buttons",
+      "ok": true,
+      "detail": "count=3"
+    },
+    {
+      "name": "1280-dark timer-wake-lock-unavailable-fixture: button top equals baseline",
+      "ok": true,
+      "detail": "tops=310,310,310 baseline=310"
+    },
+    {
+      "name": "1280-dark timer-wake-lock-unavailable-fixture: repetition present and outside role=timer",
+      "ok": true,
+      "detail": "rep=Repetition 2 of 3"
+    },
+    {
+      "name": "1280-dark timer-wake-lock-unavailable-fixture: DOM order time -> repetition -> Current -> Next",
+      "ok": true,
+      "detail": "hasMain=true"
+    },
+    {
+      "name": "1280-dark timer-wake-lock-unavailable-fixture: no horizontal overflow inside run section",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-dark timer-audio-unavailable-fixture: three bar buttons",
+      "ok": true,
+      "detail": "count=3"
+    },
+    {
+      "name": "1280-dark timer-audio-unavailable-fixture: button top equals baseline",
+      "ok": true,
+      "detail": "tops=310,310,310 baseline=310"
+    },
+    {
+      "name": "1280-dark timer-audio-unavailable-fixture: repetition present and outside role=timer",
+      "ok": true,
+      "detail": "rep=Repetition 2 of 3"
+    },
+    {
+      "name": "1280-dark timer-audio-unavailable-fixture: DOM order time -> repetition -> Current -> Next",
+      "ok": true,
+      "detail": "hasMain=true"
+    },
+    {
+      "name": "1280-dark timer-audio-unavailable-fixture: no horizontal overflow inside run section",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-dark: longest values show Repetition 10 of 10",
+      "ok": true,
+      "detail": "Repetition 10 of 10"
+    },
+    {
+      "name": "1280-dark: Preparation shows the upcoming repetition",
+      "ok": true,
+      "detail": "Repetition 1 of 3"
+    },
+    {
+      "name": "1280-dark: Standby shows repetition outside the time",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-dark: Cancel drill shows :focus-visible",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-dark: Restart drill shows :focus-visible",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-dark: Pause drill shows :focus-visible",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-dark: initializing right slot is disabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-light: fixture cards found",
+      "ok": true,
+      "detail": "count=23"
+    },
+    {
+      "name": "390-light sections-preparation-exercise: three bar buttons",
+      "ok": true,
+      "detail": "count=3"
+    },
+    {
+      "name": "390-light sections-preparation-exercise: button top equals baseline",
+      "ok": true,
+      "detail": "tops=294,294,294 baseline=294"
+    },
+    {
+      "name": "390-light sections-preparation-exercise: repetition present and outside role=timer",
+      "ok": true,
+      "detail": "rep=Repetition 1 of 3"
+    },
+    {
+      "name": "390-light sections-preparation-exercise: DOM order time -> repetition -> Current -> Next",
+      "ok": true,
+      "detail": "hasMain=true"
+    },
+    {
+      "name": "390-light sections-preparation-exercise: no horizontal overflow inside run section",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-light sections-preparation-standby: three bar buttons",
+      "ok": true,
+      "detail": "count=3"
+    },
+    {
+      "name": "390-light sections-preparation-standby: button top equals baseline",
+      "ok": true,
+      "detail": "tops=294,294,294 baseline=294"
+    },
+    {
+      "name": "390-light sections-preparation-standby: repetition present and outside role=timer",
+      "ok": true,
+      "detail": "rep=Repetition 1 of 3"
+    },
+    {
+      "name": "390-light sections-preparation-standby: DOM order time -> repetition -> Current -> Next",
+      "ok": true,
+      "detail": "hasMain=true"
+    },
+    {
+      "name": "390-light sections-preparation-standby: no horizontal overflow inside run section",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-light sections-exercise-rest: three bar buttons",
+      "ok": true,
+      "detail": "count=3"
+    },
+    {
+      "name": "390-light sections-exercise-rest: button top equals baseline",
+      "ok": true,
+      "detail": "tops=294,294,294 baseline=294"
+    },
+    {
+      "name": "390-light sections-exercise-rest: repetition present and outside role=timer",
+      "ok": true,
+      "detail": "rep=Repetition 1 of 3"
+    },
+    {
+      "name": "390-light sections-exercise-rest: DOM order time -> repetition -> Current -> Next",
+      "ok": true,
+      "detail": "hasMain=true"
+    },
+    {
+      "name": "390-light sections-exercise-rest: no horizontal overflow inside run section",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-light sections-exercise-complete: three bar buttons",
+      "ok": true,
+      "detail": "count=3"
+    },
+    {
+      "name": "390-light sections-exercise-complete: button top equals baseline",
+      "ok": true,
+      "detail": "tops=294,294,294 baseline=294"
+    },
+    {
+      "name": "390-light sections-exercise-complete: repetition present and outside role=timer",
+      "ok": true,
+      "detail": "rep=Repetition 1 of 1"
+    },
+    {
+      "name": "390-light sections-exercise-complete: DOM order time -> repetition -> Current -> Next",
+      "ok": true,
+      "detail": "hasMain=true"
+    },
+    {
+      "name": "390-light sections-exercise-complete: no horizontal overflow inside run section",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-light sections-standby-exercise: three bar buttons",
+      "ok": true,
+      "detail": "count=3"
+    },
+    {
+      "name": "390-light sections-standby-exercise: button top equals baseline",
+      "ok": true,
+      "detail": "tops=294,294,294 baseline=294"
+    },
+    {
+      "name": "390-light sections-standby-exercise: repetition present and outside role=timer",
+      "ok": true,
+      "detail": "rep=Repetition 1 of 3"
+    },
+    {
+      "name": "390-light sections-standby-exercise: DOM order time -> repetition -> Current -> Next",
+      "ok": true,
+      "detail": "hasMain=true"
+    },
+    {
+      "name": "390-light sections-standby-exercise: no horizontal overflow inside run section",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-light sections-rest-exercise: three bar buttons",
+      "ok": true,
+      "detail": "count=3"
+    },
+    {
+      "name": "390-light sections-rest-exercise: button top equals baseline",
+      "ok": true,
+      "detail": "tops=294,294,294 baseline=294"
+    },
+    {
+      "name": "390-light sections-rest-exercise: repetition present and outside role=timer",
+      "ok": true,
+      "detail": "rep=Repetition 1 of 3"
+    },
+    {
+      "name": "390-light sections-rest-exercise: DOM order time -> repetition -> Current -> Next",
+      "ok": true,
+      "detail": "hasMain=true"
+    },
+    {
+      "name": "390-light sections-rest-exercise: no horizontal overflow inside run section",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-light sections-rest-standby: three bar buttons",
+      "ok": true,
+      "detail": "count=3"
+    },
+    {
+      "name": "390-light sections-rest-standby: button top equals baseline",
+      "ok": true,
+      "detail": "tops=294,294,294 baseline=294"
+    },
+    {
+      "name": "390-light sections-rest-standby: repetition present and outside role=timer",
+      "ok": true,
+      "detail": "rep=Repetition 1 of 3"
+    },
+    {
+      "name": "390-light sections-rest-standby: DOM order time -> repetition -> Current -> Next",
+      "ok": true,
+      "detail": "hasMain=true"
+    },
+    {
+      "name": "390-light sections-rest-standby: no horizontal overflow inside run section",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-light sections-rest-complete: three bar buttons",
+      "ok": true,
+      "detail": "count=3"
+    },
+    {
+      "name": "390-light sections-rest-complete: button top equals baseline",
+      "ok": true,
+      "detail": "tops=294,294,294 baseline=294"
+    },
+    {
+      "name": "390-light sections-rest-complete: repetition present and outside role=timer",
+      "ok": true,
+      "detail": "rep=Repetition 1 of 1"
+    },
+    {
+      "name": "390-light sections-rest-complete: DOM order time -> repetition -> Current -> Next",
+      "ok": true,
+      "detail": "hasMain=true"
+    },
+    {
+      "name": "390-light sections-rest-complete: no horizontal overflow inside run section",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-light sections-resume-preparation: three bar buttons",
+      "ok": true,
+      "detail": "count=3"
+    },
+    {
+      "name": "390-light sections-resume-preparation: button top equals baseline",
+      "ok": true,
+      "detail": "tops=294,294,294 baseline=294"
+    },
+    {
+      "name": "390-light sections-resume-preparation: repetition present and outside role=timer",
+      "ok": true,
+      "detail": "rep=Repetition 2 of 3"
+    },
+    {
+      "name": "390-light sections-resume-preparation: DOM order time -> repetition -> Current -> Next",
+      "ok": true,
+      "detail": "hasMain=true"
+    },
+    {
+      "name": "390-light sections-resume-preparation: no horizontal overflow inside run section",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-light sections-paused: three bar buttons",
+      "ok": true,
+      "detail": "count=3"
+    },
+    {
+      "name": "390-light sections-paused: button top equals baseline",
+      "ok": true,
+      "detail": "tops=294,294,294 baseline=294"
+    },
+    {
+      "name": "390-light sections-paused: repetition present and outside role=timer",
+      "ok": true,
+      "detail": "rep=Repetition 2 of 3"
+    },
+    {
+      "name": "390-light sections-paused: DOM order time -> repetition -> Current -> Next",
+      "ok": true,
+      "detail": "hasMain=true"
+    },
+    {
+      "name": "390-light sections-paused: no horizontal overflow inside run section",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-light sections-initializing: three bar buttons",
+      "ok": true,
+      "detail": "count=3"
+    },
+    {
+      "name": "390-light sections-initializing: button top equals baseline",
+      "ok": true,
+      "detail": "tops=294,294,294 baseline=294"
+    },
+    {
+      "name": "390-light sections-initializing: repetition present and outside role=timer",
+      "ok": true,
+      "detail": "rep=Repetition 1 of 3"
+    },
+    {
+      "name": "390-light sections-initializing: DOM order time -> repetition -> Current -> Next",
+      "ok": true,
+      "detail": "hasMain=false"
+    },
+    {
+      "name": "390-light sections-initializing: no horizontal overflow inside run section",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-light sections-audio-unavailable: three bar buttons",
+      "ok": true,
+      "detail": "count=3"
+    },
+    {
+      "name": "390-light sections-audio-unavailable: button top equals baseline",
+      "ok": true,
+      "detail": "tops=294,294,294 baseline=294"
+    },
+    {
+      "name": "390-light sections-audio-unavailable: repetition present and outside role=timer",
+      "ok": true,
+      "detail": "rep=Repetition 1 of 3"
+    },
+    {
+      "name": "390-light sections-audio-unavailable: DOM order time -> repetition -> Current -> Next",
+      "ok": true,
+      "detail": "hasMain=true"
+    },
+    {
+      "name": "390-light sections-audio-unavailable: no horizontal overflow inside run section",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-light sections-two-warnings: three bar buttons",
+      "ok": true,
+      "detail": "count=3"
+    },
+    {
+      "name": "390-light sections-two-warnings: button top equals baseline",
+      "ok": true,
+      "detail": "tops=294,294,294 baseline=294"
+    },
+    {
+      "name": "390-light sections-two-warnings: repetition present and outside role=timer",
+      "ok": true,
+      "detail": "rep=Repetition 1 of 3"
+    },
+    {
+      "name": "390-light sections-two-warnings: DOM order time -> repetition -> Current -> Next",
+      "ok": true,
+      "detail": "hasMain=true"
+    },
+    {
+      "name": "390-light sections-two-warnings: no horizontal overflow inside run section",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-light sections-longest-values: three bar buttons",
+      "ok": true,
+      "detail": "count=3"
+    },
+    {
+      "name": "390-light sections-longest-values: button top equals baseline",
+      "ok": true,
+      "detail": "tops=294,294,294 baseline=294"
+    },
+    {
+      "name": "390-light sections-longest-values: repetition present and outside role=timer",
+      "ok": true,
+      "detail": "rep=Repetition 10 of 10"
+    },
+    {
+      "name": "390-light sections-longest-values: DOM order time -> repetition -> Current -> Next",
+      "ok": true,
+      "detail": "hasMain=true"
+    },
+    {
+      "name": "390-light sections-longest-values: no horizontal overflow inside run section",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-light timer-loading-fixture: three bar buttons",
+      "ok": true,
+      "detail": "count=3"
+    },
+    {
+      "name": "390-light timer-loading-fixture: button top equals baseline",
+      "ok": true,
+      "detail": "tops=294,294,294 baseline=294"
+    },
+    {
+      "name": "390-light timer-loading-fixture: repetition present and outside role=timer",
+      "ok": true,
+      "detail": "rep=Repetition 1 of 3"
+    },
+    {
+      "name": "390-light timer-loading-fixture: DOM order time -> repetition -> Current -> Next",
+      "ok": true,
+      "detail": "hasMain=false"
+    },
+    {
+      "name": "390-light timer-loading-fixture: no horizontal overflow inside run section",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-light timer-preparation-fixture: three bar buttons",
+      "ok": true,
+      "detail": "count=3"
+    },
+    {
+      "name": "390-light timer-preparation-fixture: button top equals baseline",
+      "ok": true,
+      "detail": "tops=294,294,294 baseline=294"
+    },
+    {
+      "name": "390-light timer-preparation-fixture: repetition present and outside role=timer",
+      "ok": true,
+      "detail": "rep=Repetition 1 of 3"
+    },
+    {
+      "name": "390-light timer-preparation-fixture: DOM order time -> repetition -> Current -> Next",
+      "ok": true,
+      "detail": "hasMain=true"
+    },
+    {
+      "name": "390-light timer-preparation-fixture: no horizontal overflow inside run section",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-light timer-exercise-fixture: three bar buttons",
+      "ok": true,
+      "detail": "count=3"
+    },
+    {
+      "name": "390-light timer-exercise-fixture: button top equals baseline",
+      "ok": true,
+      "detail": "tops=294,294,294 baseline=294"
+    },
+    {
+      "name": "390-light timer-exercise-fixture: repetition present and outside role=timer",
+      "ok": true,
+      "detail": "rep=Repetition 2 of 3"
+    },
+    {
+      "name": "390-light timer-exercise-fixture: DOM order time -> repetition -> Current -> Next",
+      "ok": true,
+      "detail": "hasMain=true"
+    },
+    {
+      "name": "390-light timer-exercise-fixture: no horizontal overflow inside run section",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-light timer-rest-fixture: three bar buttons",
+      "ok": true,
+      "detail": "count=3"
+    },
+    {
+      "name": "390-light timer-rest-fixture: button top equals baseline",
+      "ok": true,
+      "detail": "tops=294,294,294 baseline=294"
+    },
+    {
+      "name": "390-light timer-rest-fixture: repetition present and outside role=timer",
+      "ok": true,
+      "detail": "rep=Repetition 3 of 3"
+    },
+    {
+      "name": "390-light timer-rest-fixture: DOM order time -> repetition -> Current -> Next",
+      "ok": true,
+      "detail": "hasMain=true"
+    },
+    {
+      "name": "390-light timer-rest-fixture: no horizontal overflow inside run section",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-light timer-standby-fixture: three bar buttons",
+      "ok": true,
+      "detail": "count=3"
+    },
+    {
+      "name": "390-light timer-standby-fixture: button top equals baseline",
+      "ok": true,
+      "detail": "tops=294,294,294 baseline=294"
+    },
+    {
+      "name": "390-light timer-standby-fixture: repetition present and outside role=timer",
+      "ok": true,
+      "detail": "rep=Repetition 2 of 3"
+    },
+    {
+      "name": "390-light timer-standby-fixture: DOM order time -> repetition -> Current -> Next",
+      "ok": true,
+      "detail": "hasMain=true"
+    },
+    {
+      "name": "390-light timer-standby-fixture: no horizontal overflow inside run section",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-light timer-paused-fixture: three bar buttons",
+      "ok": true,
+      "detail": "count=3"
+    },
+    {
+      "name": "390-light timer-paused-fixture: button top equals baseline",
+      "ok": true,
+      "detail": "tops=294,294,294 baseline=294"
+    },
+    {
+      "name": "390-light timer-paused-fixture: repetition present and outside role=timer",
+      "ok": true,
+      "detail": "rep=Repetition 2 of 3"
+    },
+    {
+      "name": "390-light timer-paused-fixture: DOM order time -> repetition -> Current -> Next",
+      "ok": true,
+      "detail": "hasMain=true"
+    },
+    {
+      "name": "390-light timer-paused-fixture: no horizontal overflow inside run section",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-light timer-recovery-pending-fixture: three bar buttons",
+      "ok": true,
+      "detail": "count=3"
+    },
+    {
+      "name": "390-light timer-recovery-pending-fixture: button top equals baseline",
+      "ok": true,
+      "detail": "tops=294,294,294 baseline=294"
+    },
+    {
+      "name": "390-light timer-recovery-pending-fixture: repetition present and outside role=timer",
+      "ok": true,
+      "detail": "rep=Repetition 2 of 3"
+    },
+    {
+      "name": "390-light timer-recovery-pending-fixture: DOM order time -> repetition -> Current -> Next",
+      "ok": true,
+      "detail": "hasMain=true"
+    },
+    {
+      "name": "390-light timer-recovery-pending-fixture: no horizontal overflow inside run section",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-light timer-wake-lock-unavailable-fixture: three bar buttons",
+      "ok": true,
+      "detail": "count=3"
+    },
+    {
+      "name": "390-light timer-wake-lock-unavailable-fixture: button top equals baseline",
+      "ok": true,
+      "detail": "tops=294,294,294 baseline=294"
+    },
+    {
+      "name": "390-light timer-wake-lock-unavailable-fixture: repetition present and outside role=timer",
+      "ok": true,
+      "detail": "rep=Repetition 2 of 3"
+    },
+    {
+      "name": "390-light timer-wake-lock-unavailable-fixture: DOM order time -> repetition -> Current -> Next",
+      "ok": true,
+      "detail": "hasMain=true"
+    },
+    {
+      "name": "390-light timer-wake-lock-unavailable-fixture: no horizontal overflow inside run section",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-light timer-audio-unavailable-fixture: three bar buttons",
+      "ok": true,
+      "detail": "count=3"
+    },
+    {
+      "name": "390-light timer-audio-unavailable-fixture: button top equals baseline",
+      "ok": true,
+      "detail": "tops=294,294,294 baseline=294"
+    },
+    {
+      "name": "390-light timer-audio-unavailable-fixture: repetition present and outside role=timer",
+      "ok": true,
+      "detail": "rep=Repetition 2 of 3"
+    },
+    {
+      "name": "390-light timer-audio-unavailable-fixture: DOM order time -> repetition -> Current -> Next",
+      "ok": true,
+      "detail": "hasMain=true"
+    },
+    {
+      "name": "390-light timer-audio-unavailable-fixture: no horizontal overflow inside run section",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-light: longest values show Repetition 10 of 10",
+      "ok": true,
+      "detail": "Repetition 10 of 10"
+    },
+    {
+      "name": "390-light: Preparation shows the upcoming repetition",
+      "ok": true,
+      "detail": "Repetition 1 of 3"
+    },
+    {
+      "name": "390-light: Standby shows repetition outside the time",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-light: Cancel drill shows :focus-visible",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-light: Restart drill shows :focus-visible",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-light: Pause drill shows :focus-visible",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-light: initializing right slot is disabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-dark: fixture cards found",
+      "ok": true,
+      "detail": "count=23"
+    },
+    {
+      "name": "390-dark sections-preparation-exercise: three bar buttons",
+      "ok": true,
+      "detail": "count=3"
+    },
+    {
+      "name": "390-dark sections-preparation-exercise: button top equals baseline",
+      "ok": true,
+      "detail": "tops=294,294,294 baseline=294"
+    },
+    {
+      "name": "390-dark sections-preparation-exercise: repetition present and outside role=timer",
+      "ok": true,
+      "detail": "rep=Repetition 1 of 3"
+    },
+    {
+      "name": "390-dark sections-preparation-exercise: DOM order time -> repetition -> Current -> Next",
+      "ok": true,
+      "detail": "hasMain=true"
+    },
+    {
+      "name": "390-dark sections-preparation-exercise: no horizontal overflow inside run section",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-dark sections-preparation-standby: three bar buttons",
+      "ok": true,
+      "detail": "count=3"
+    },
+    {
+      "name": "390-dark sections-preparation-standby: button top equals baseline",
+      "ok": true,
+      "detail": "tops=294,294,294 baseline=294"
+    },
+    {
+      "name": "390-dark sections-preparation-standby: repetition present and outside role=timer",
+      "ok": true,
+      "detail": "rep=Repetition 1 of 3"
+    },
+    {
+      "name": "390-dark sections-preparation-standby: DOM order time -> repetition -> Current -> Next",
+      "ok": true,
+      "detail": "hasMain=true"
+    },
+    {
+      "name": "390-dark sections-preparation-standby: no horizontal overflow inside run section",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-dark sections-exercise-rest: three bar buttons",
+      "ok": true,
+      "detail": "count=3"
+    },
+    {
+      "name": "390-dark sections-exercise-rest: button top equals baseline",
+      "ok": true,
+      "detail": "tops=294,294,294 baseline=294"
+    },
+    {
+      "name": "390-dark sections-exercise-rest: repetition present and outside role=timer",
+      "ok": true,
+      "detail": "rep=Repetition 1 of 3"
+    },
+    {
+      "name": "390-dark sections-exercise-rest: DOM order time -> repetition -> Current -> Next",
+      "ok": true,
+      "detail": "hasMain=true"
+    },
+    {
+      "name": "390-dark sections-exercise-rest: no horizontal overflow inside run section",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-dark sections-exercise-complete: three bar buttons",
+      "ok": true,
+      "detail": "count=3"
+    },
+    {
+      "name": "390-dark sections-exercise-complete: button top equals baseline",
+      "ok": true,
+      "detail": "tops=294,294,294 baseline=294"
+    },
+    {
+      "name": "390-dark sections-exercise-complete: repetition present and outside role=timer",
+      "ok": true,
+      "detail": "rep=Repetition 1 of 1"
+    },
+    {
+      "name": "390-dark sections-exercise-complete: DOM order time -> repetition -> Current -> Next",
+      "ok": true,
+      "detail": "hasMain=true"
+    },
+    {
+      "name": "390-dark sections-exercise-complete: no horizontal overflow inside run section",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-dark sections-standby-exercise: three bar buttons",
+      "ok": true,
+      "detail": "count=3"
+    },
+    {
+      "name": "390-dark sections-standby-exercise: button top equals baseline",
+      "ok": true,
+      "detail": "tops=294,294,294 baseline=294"
+    },
+    {
+      "name": "390-dark sections-standby-exercise: repetition present and outside role=timer",
+      "ok": true,
+      "detail": "rep=Repetition 1 of 3"
+    },
+    {
+      "name": "390-dark sections-standby-exercise: DOM order time -> repetition -> Current -> Next",
+      "ok": true,
+      "detail": "hasMain=true"
+    },
+    {
+      "name": "390-dark sections-standby-exercise: no horizontal overflow inside run section",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-dark sections-rest-exercise: three bar buttons",
+      "ok": true,
+      "detail": "count=3"
+    },
+    {
+      "name": "390-dark sections-rest-exercise: button top equals baseline",
+      "ok": true,
+      "detail": "tops=294,294,294 baseline=294"
+    },
+    {
+      "name": "390-dark sections-rest-exercise: repetition present and outside role=timer",
+      "ok": true,
+      "detail": "rep=Repetition 1 of 3"
+    },
+    {
+      "name": "390-dark sections-rest-exercise: DOM order time -> repetition -> Current -> Next",
+      "ok": true,
+      "detail": "hasMain=true"
+    },
+    {
+      "name": "390-dark sections-rest-exercise: no horizontal overflow inside run section",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-dark sections-rest-standby: three bar buttons",
+      "ok": true,
+      "detail": "count=3"
+    },
+    {
+      "name": "390-dark sections-rest-standby: button top equals baseline",
+      "ok": true,
+      "detail": "tops=294,294,294 baseline=294"
+    },
+    {
+      "name": "390-dark sections-rest-standby: repetition present and outside role=timer",
+      "ok": true,
+      "detail": "rep=Repetition 1 of 3"
+    },
+    {
+      "name": "390-dark sections-rest-standby: DOM order time -> repetition -> Current -> Next",
+      "ok": true,
+      "detail": "hasMain=true"
+    },
+    {
+      "name": "390-dark sections-rest-standby: no horizontal overflow inside run section",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-dark sections-rest-complete: three bar buttons",
+      "ok": true,
+      "detail": "count=3"
+    },
+    {
+      "name": "390-dark sections-rest-complete: button top equals baseline",
+      "ok": true,
+      "detail": "tops=294,294,294 baseline=294"
+    },
+    {
+      "name": "390-dark sections-rest-complete: repetition present and outside role=timer",
+      "ok": true,
+      "detail": "rep=Repetition 1 of 1"
+    },
+    {
+      "name": "390-dark sections-rest-complete: DOM order time -> repetition -> Current -> Next",
+      "ok": true,
+      "detail": "hasMain=true"
+    },
+    {
+      "name": "390-dark sections-rest-complete: no horizontal overflow inside run section",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-dark sections-resume-preparation: three bar buttons",
+      "ok": true,
+      "detail": "count=3"
+    },
+    {
+      "name": "390-dark sections-resume-preparation: button top equals baseline",
+      "ok": true,
+      "detail": "tops=294,294,294 baseline=294"
+    },
+    {
+      "name": "390-dark sections-resume-preparation: repetition present and outside role=timer",
+      "ok": true,
+      "detail": "rep=Repetition 2 of 3"
+    },
+    {
+      "name": "390-dark sections-resume-preparation: DOM order time -> repetition -> Current -> Next",
+      "ok": true,
+      "detail": "hasMain=true"
+    },
+    {
+      "name": "390-dark sections-resume-preparation: no horizontal overflow inside run section",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-dark sections-paused: three bar buttons",
+      "ok": true,
+      "detail": "count=3"
+    },
+    {
+      "name": "390-dark sections-paused: button top equals baseline",
+      "ok": true,
+      "detail": "tops=294,294,294 baseline=294"
+    },
+    {
+      "name": "390-dark sections-paused: repetition present and outside role=timer",
+      "ok": true,
+      "detail": "rep=Repetition 2 of 3"
+    },
+    {
+      "name": "390-dark sections-paused: DOM order time -> repetition -> Current -> Next",
+      "ok": true,
+      "detail": "hasMain=true"
+    },
+    {
+      "name": "390-dark sections-paused: no horizontal overflow inside run section",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-dark sections-initializing: three bar buttons",
+      "ok": true,
+      "detail": "count=3"
+    },
+    {
+      "name": "390-dark sections-initializing: button top equals baseline",
+      "ok": true,
+      "detail": "tops=294,294,294 baseline=294"
+    },
+    {
+      "name": "390-dark sections-initializing: repetition present and outside role=timer",
+      "ok": true,
+      "detail": "rep=Repetition 1 of 3"
+    },
+    {
+      "name": "390-dark sections-initializing: DOM order time -> repetition -> Current -> Next",
+      "ok": true,
+      "detail": "hasMain=false"
+    },
+    {
+      "name": "390-dark sections-initializing: no horizontal overflow inside run section",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-dark sections-audio-unavailable: three bar buttons",
+      "ok": true,
+      "detail": "count=3"
+    },
+    {
+      "name": "390-dark sections-audio-unavailable: button top equals baseline",
+      "ok": true,
+      "detail": "tops=294,294,294 baseline=294"
+    },
+    {
+      "name": "390-dark sections-audio-unavailable: repetition present and outside role=timer",
+      "ok": true,
+      "detail": "rep=Repetition 1 of 3"
+    },
+    {
+      "name": "390-dark sections-audio-unavailable: DOM order time -> repetition -> Current -> Next",
+      "ok": true,
+      "detail": "hasMain=true"
+    },
+    {
+      "name": "390-dark sections-audio-unavailable: no horizontal overflow inside run section",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-dark sections-two-warnings: three bar buttons",
+      "ok": true,
+      "detail": "count=3"
+    },
+    {
+      "name": "390-dark sections-two-warnings: button top equals baseline",
+      "ok": true,
+      "detail": "tops=294,294,294 baseline=294"
+    },
+    {
+      "name": "390-dark sections-two-warnings: repetition present and outside role=timer",
+      "ok": true,
+      "detail": "rep=Repetition 1 of 3"
+    },
+    {
+      "name": "390-dark sections-two-warnings: DOM order time -> repetition -> Current -> Next",
+      "ok": true,
+      "detail": "hasMain=true"
+    },
+    {
+      "name": "390-dark sections-two-warnings: no horizontal overflow inside run section",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-dark sections-longest-values: three bar buttons",
+      "ok": true,
+      "detail": "count=3"
+    },
+    {
+      "name": "390-dark sections-longest-values: button top equals baseline",
+      "ok": true,
+      "detail": "tops=294,294,294 baseline=294"
+    },
+    {
+      "name": "390-dark sections-longest-values: repetition present and outside role=timer",
+      "ok": true,
+      "detail": "rep=Repetition 10 of 10"
+    },
+    {
+      "name": "390-dark sections-longest-values: DOM order time -> repetition -> Current -> Next",
+      "ok": true,
+      "detail": "hasMain=true"
+    },
+    {
+      "name": "390-dark sections-longest-values: no horizontal overflow inside run section",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-dark timer-loading-fixture: three bar buttons",
+      "ok": true,
+      "detail": "count=3"
+    },
+    {
+      "name": "390-dark timer-loading-fixture: button top equals baseline",
+      "ok": true,
+      "detail": "tops=294,294,294 baseline=294"
+    },
+    {
+      "name": "390-dark timer-loading-fixture: repetition present and outside role=timer",
+      "ok": true,
+      "detail": "rep=Repetition 1 of 3"
+    },
+    {
+      "name": "390-dark timer-loading-fixture: DOM order time -> repetition -> Current -> Next",
+      "ok": true,
+      "detail": "hasMain=false"
+    },
+    {
+      "name": "390-dark timer-loading-fixture: no horizontal overflow inside run section",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-dark timer-preparation-fixture: three bar buttons",
+      "ok": true,
+      "detail": "count=3"
+    },
+    {
+      "name": "390-dark timer-preparation-fixture: button top equals baseline",
+      "ok": true,
+      "detail": "tops=294,294,294 baseline=294"
+    },
+    {
+      "name": "390-dark timer-preparation-fixture: repetition present and outside role=timer",
+      "ok": true,
+      "detail": "rep=Repetition 1 of 3"
+    },
+    {
+      "name": "390-dark timer-preparation-fixture: DOM order time -> repetition -> Current -> Next",
+      "ok": true,
+      "detail": "hasMain=true"
+    },
+    {
+      "name": "390-dark timer-preparation-fixture: no horizontal overflow inside run section",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-dark timer-exercise-fixture: three bar buttons",
+      "ok": true,
+      "detail": "count=3"
+    },
+    {
+      "name": "390-dark timer-exercise-fixture: button top equals baseline",
+      "ok": true,
+      "detail": "tops=294,294,294 baseline=294"
+    },
+    {
+      "name": "390-dark timer-exercise-fixture: repetition present and outside role=timer",
+      "ok": true,
+      "detail": "rep=Repetition 2 of 3"
+    },
+    {
+      "name": "390-dark timer-exercise-fixture: DOM order time -> repetition -> Current -> Next",
+      "ok": true,
+      "detail": "hasMain=true"
+    },
+    {
+      "name": "390-dark timer-exercise-fixture: no horizontal overflow inside run section",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-dark timer-rest-fixture: three bar buttons",
+      "ok": true,
+      "detail": "count=3"
+    },
+    {
+      "name": "390-dark timer-rest-fixture: button top equals baseline",
+      "ok": true,
+      "detail": "tops=294,294,294 baseline=294"
+    },
+    {
+      "name": "390-dark timer-rest-fixture: repetition present and outside role=timer",
+      "ok": true,
+      "detail": "rep=Repetition 3 of 3"
+    },
+    {
+      "name": "390-dark timer-rest-fixture: DOM order time -> repetition -> Current -> Next",
+      "ok": true,
+      "detail": "hasMain=true"
+    },
+    {
+      "name": "390-dark timer-rest-fixture: no horizontal overflow inside run section",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-dark timer-standby-fixture: three bar buttons",
+      "ok": true,
+      "detail": "count=3"
+    },
+    {
+      "name": "390-dark timer-standby-fixture: button top equals baseline",
+      "ok": true,
+      "detail": "tops=294,294,294 baseline=294"
+    },
+    {
+      "name": "390-dark timer-standby-fixture: repetition present and outside role=timer",
+      "ok": true,
+      "detail": "rep=Repetition 2 of 3"
+    },
+    {
+      "name": "390-dark timer-standby-fixture: DOM order time -> repetition -> Current -> Next",
+      "ok": true,
+      "detail": "hasMain=true"
+    },
+    {
+      "name": "390-dark timer-standby-fixture: no horizontal overflow inside run section",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-dark timer-paused-fixture: three bar buttons",
+      "ok": true,
+      "detail": "count=3"
+    },
+    {
+      "name": "390-dark timer-paused-fixture: button top equals baseline",
+      "ok": true,
+      "detail": "tops=294,294,294 baseline=294"
+    },
+    {
+      "name": "390-dark timer-paused-fixture: repetition present and outside role=timer",
+      "ok": true,
+      "detail": "rep=Repetition 2 of 3"
+    },
+    {
+      "name": "390-dark timer-paused-fixture: DOM order time -> repetition -> Current -> Next",
+      "ok": true,
+      "detail": "hasMain=true"
+    },
+    {
+      "name": "390-dark timer-paused-fixture: no horizontal overflow inside run section",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-dark timer-recovery-pending-fixture: three bar buttons",
+      "ok": true,
+      "detail": "count=3"
+    },
+    {
+      "name": "390-dark timer-recovery-pending-fixture: button top equals baseline",
+      "ok": true,
+      "detail": "tops=294,294,294 baseline=294"
+    },
+    {
+      "name": "390-dark timer-recovery-pending-fixture: repetition present and outside role=timer",
+      "ok": true,
+      "detail": "rep=Repetition 2 of 3"
+    },
+    {
+      "name": "390-dark timer-recovery-pending-fixture: DOM order time -> repetition -> Current -> Next",
+      "ok": true,
+      "detail": "hasMain=true"
+    },
+    {
+      "name": "390-dark timer-recovery-pending-fixture: no horizontal overflow inside run section",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-dark timer-wake-lock-unavailable-fixture: three bar buttons",
+      "ok": true,
+      "detail": "count=3"
+    },
+    {
+      "name": "390-dark timer-wake-lock-unavailable-fixture: button top equals baseline",
+      "ok": true,
+      "detail": "tops=294,294,294 baseline=294"
+    },
+    {
+      "name": "390-dark timer-wake-lock-unavailable-fixture: repetition present and outside role=timer",
+      "ok": true,
+      "detail": "rep=Repetition 2 of 3"
+    },
+    {
+      "name": "390-dark timer-wake-lock-unavailable-fixture: DOM order time -> repetition -> Current -> Next",
+      "ok": true,
+      "detail": "hasMain=true"
+    },
+    {
+      "name": "390-dark timer-wake-lock-unavailable-fixture: no horizontal overflow inside run section",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-dark timer-audio-unavailable-fixture: three bar buttons",
+      "ok": true,
+      "detail": "count=3"
+    },
+    {
+      "name": "390-dark timer-audio-unavailable-fixture: button top equals baseline",
+      "ok": true,
+      "detail": "tops=294,294,294 baseline=294"
+    },
+    {
+      "name": "390-dark timer-audio-unavailable-fixture: repetition present and outside role=timer",
+      "ok": true,
+      "detail": "rep=Repetition 2 of 3"
+    },
+    {
+      "name": "390-dark timer-audio-unavailable-fixture: DOM order time -> repetition -> Current -> Next",
+      "ok": true,
+      "detail": "hasMain=true"
+    },
+    {
+      "name": "390-dark timer-audio-unavailable-fixture: no horizontal overflow inside run section",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-dark: longest values show Repetition 10 of 10",
+      "ok": true,
+      "detail": "Repetition 10 of 10"
+    },
+    {
+      "name": "390-dark: Preparation shows the upcoming repetition",
+      "ok": true,
+      "detail": "Repetition 1 of 3"
+    },
+    {
+      "name": "390-dark: Standby shows repetition outside the time",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-dark: Cancel drill shows :focus-visible",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-dark: Restart drill shows :focus-visible",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-dark: Pause drill shows :focus-visible",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-dark: initializing right slot is disabled",
+      "ok": true,
+      "detail": ""
+    }
+  ]
+}

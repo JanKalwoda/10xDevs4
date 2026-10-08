@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
-import { buildPhaseSections, formatPhaseTime, initialDrillDisplay, nextPhaseText } from "./drill-phase-sections.ts";
+import { buildPhaseSections, formatPhaseTime, initialDrillDisplay, nextPhaseBody } from "./drill-phase-sections.ts";
 import { DrillRun, type DrillClock, type DrillDisplay } from "./drill-run.ts";
 import type { DrillConfiguration, DrillPhase } from "../types.ts";
 
@@ -62,7 +62,8 @@ void test("sections follow the PRD example: exercise 4 s with rest 2 s next", ()
     const sections = buildPhaseSections(display, 3);
     assert.deepEqual(sections, {
         main: { kind: "time", text: "0:03" },
-        current: { name: "Exercise", time: "0:04", detail: "Repetition 1 of 3" },
+        repetition: "Repetition 1 of 3",
+        current: { name: "Exercise", time: "0:04" },
         next: { kind: "phase", name: "Rest", time: "0:02" },
     });
     assert.equal(buildPhaseSections({ ...display, remainingSeconds: 1 }, 3)?.current.time, "0:04", "current time is fixed while the main countdown moves");
@@ -73,12 +74,14 @@ void test("sections for every current → next pair", () => {
     const base = { remainingSeconds: 10, paused: false, audioAvailable: true };
     assert.deepEqual(buildPhaseSections({ ...base, phase: { kind: "preparation", durationSeconds: 5 }, next: { kind: "standby", repetition: 1 } }, 3), {
         main: { kind: "time", text: "0:10" },
-        current: { name: "Preparation", time: "0:05", detail: "Preparing" },
+        repetition: "Repetition 1 of 3",
+        current: { name: "Preparation", time: "0:05" },
         next: { kind: "phase", name: "Standby", time: null },
     });
     assert.deepEqual(buildPhaseSections({ ...base, phase: { kind: "standby", repetition: 2 }, remainingSeconds: null, next: exercise }, 3), {
         main: { kind: "standby" },
-        current: { name: "Standby", time: null, detail: "Repetition 2 of 3" },
+        repetition: "Repetition 2 of 3",
+        current: { name: "Standby", time: null },
         next: { kind: "phase", name: "Exercise", time: "1:30" },
     });
     assert.deepEqual(buildPhaseSections({ ...base, phase: { kind: "rest", durationSeconds: 2, repetition: 3 }, next: null }, 3)?.next, { kind: "end" });
@@ -215,8 +218,28 @@ void test("a 1 s and a 5 s Standby wait produce identical views until the wait e
     assert.equal(long.run.display.phase?.kind, "standby", "the longer wait is still running");
 });
 
-void test("next section text: timed phase, Standby without time, end of drill", () => {
-    assert.equal(nextPhaseText({ kind: "phase", name: "Rest", time: "0:02" }), "Next: Rest — 0:02");
-    assert.equal(nextPhaseText({ kind: "phase", name: "Standby", time: null }), "Next: Standby");
-    assert.equal(nextPhaseText({ kind: "end" }), "Next: Drill complete");
+void test("next section body: timed phase, Standby without time, end of drill", () => {
+    assert.equal(nextPhaseBody({ kind: "phase", name: "Rest", time: "0:02" }), "Rest · 0:02");
+    assert.equal(nextPhaseBody({ kind: "phase", name: "Standby", time: null }), "Standby");
+    assert.equal(nextPhaseBody({ kind: "end" }), "Drill complete");
+});
+
+void test("repetition sits outside current and names the upcoming repetition in Preparation", () => {
+    const base = { remainingSeconds: 3, paused: false, audioAvailable: true };
+    const prep = (next: DrillPhase | null) => buildPhaseSections({ ...base, phase: { kind: "preparation", durationSeconds: 5 }, next }, 10);
+    assert.equal(prep({ kind: "exercise", durationSeconds: 4, repetition: 7 })?.repetition, "Repetition 7 of 10");
+    assert.equal(prep({ kind: "standby", repetition: 2 })?.repetition, "Repetition 2 of 10");
+    assert.equal(prep(null)?.repetition, null);
+    const rest = buildPhaseSections({ ...base, phase: { kind: "rest", durationSeconds: 2, repetition: 10 }, next: null }, 10);
+    assert.equal(rest?.repetition, "Repetition 10 of 10");
+    assert.deepEqual(Object.keys(rest.current).sort(), ["name", "time"]);
+});
+
+void test("resume preparation shows the resumed repetition in the view model", () => {
+    const { clock, run } = makeRun(config({ preparationSeconds: 2, restSeconds: 1, repetitions: 3 }));
+    advance(clock, run, 2 + 4 + 1 + 1);
+    run.hide();
+    run.resume();
+    assert.equal(run.display.phase?.kind, "preparation");
+    assert.equal(buildPhaseSections(run.display, 3)?.repetition, "Repetition 2 of 3");
 });

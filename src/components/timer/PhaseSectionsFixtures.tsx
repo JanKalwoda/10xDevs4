@@ -48,11 +48,13 @@ interface Scenario {
     action?: Action;
     audio?: boolean;
     initializing?: boolean;
+    wakeLockUnavailable?: boolean;
 }
 
 const BASE: DrillConfiguration = { preparationSeconds: 5, exerciseSeconds: 4, restSeconds: 2, repetitions: 3, randomStartEnabled: false };
 const RANDOM: DrillConfiguration = { ...BASE, randomStartEnabled: true };
 const SINGLE_NO_REST: DrillConfiguration = { ...BASE, preparationSeconds: 0, restSeconds: 0, repetitions: 1 };
+const LONG: DrillConfiguration = { ...BASE, preparationSeconds: 0, exerciseSeconds: 600, restSeconds: 2, repetitions: 10 };
 const SINGLE: DrillConfiguration = { ...BASE, preparationSeconds: 0, repetitions: 1 };
 
 const SCENARIOS: Scenario[] = [
@@ -79,7 +81,23 @@ const SCENARIOS: Scenario[] = [
     },
     { fixture: "paused", title: "Paused", description: "Paused exercise keeps its next phase.", configuration: BASE, at: 13, action: "pause" },
     { fixture: "initializing", title: "Initializing", description: "Audio still starting: no main countdown, sections visible.", configuration: BASE, initializing: true },
-    { fixture: "audio-unavailable", title: "Audio unavailable", description: "Warning shown above the sections.", configuration: BASE, at: 6, audio: false },
+    { fixture: "audio-unavailable", title: "Audio unavailable", description: "Warning shown below the control bar.", configuration: BASE, at: 6, audio: false },
+    {
+        fixture: "two-warnings",
+        title: "Both warnings",
+        description: "Audio and Wake Lock warnings together: the time and the control bar stay where they are.",
+        configuration: BASE,
+        at: 6,
+        audio: false,
+        wakeLockUnavailable: true,
+    },
+    {
+        fixture: "longest-values",
+        title: "Longest time and repetition",
+        description: "Time 10:00 in repetition 10 of 10: nothing wraps or overflows at 390 px.",
+        configuration: LONG,
+        at: 5418,
+    },
 ];
 
 function capture(scenario: Scenario): DrillDisplay {
@@ -108,7 +126,7 @@ export default function PhaseSectionsFixtures() {
                         key={scenario.fixture}
                         data-fixture={`sections-${scenario.fixture}`}
                         data-testid={`sections-${scenario.fixture}`}
-                        data-visual-state={scenario.initializing ? "loading" : "default"}
+                        data-visual-state={scenario.initializing ? "loading" : scenario.audio === false ? "error" : "default"}
                     >
                         <CardHeader>
                             <CardTitle>{scenario.title}</CardTitle>
@@ -119,6 +137,7 @@ export default function PhaseSectionsFixtures() {
                                 display={display}
                                 repetitions={scenario.configuration.repetitions}
                                 initializing={scenario.initializing ?? false}
+                                wakeLockUnavailable={scenario.wakeLockUnavailable ?? false}
                                 onCancel={() => undefined}
                                 onRestart={() => undefined}
                                 onPause={() => undefined}
