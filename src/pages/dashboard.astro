@@ -1,6 +1,5 @@
 ---
 import SavedDrillList from "@/components/timer/SavedDrillList";
-import ThemeToggle from "@/components/timer/ThemeToggle";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import Layout from "@/layouts/Layout.astro";
@@ -24,12 +23,10 @@ if (page.kind === "sign_in") {
 
 {page.kind !== "sign_in" && (
     <Layout title="Dashboard" enableTimerTheme showConfigWarnings={false}>
-        <main class="bg-background text-foreground flex min-h-screen items-center justify-center px-4 py-8">
+        <main class="bg-background text-foreground flex flex-1 items-center justify-center px-4 py-8">
             <Card className="w-full max-w-md">
-                <CardHeader className="flex flex-row items-center justify-between">
-                    <span aria-hidden="true" class="size-9"></span>
+                <CardHeader>
                     <h1 class="text-center text-3xl font-bold">Dashboard</h1>
-                    <ThemeToggle client:load />
                 </CardHeader>
                 <CardContent className="space-y-6">
                     <p class="text-muted-foreground text-center text-sm">

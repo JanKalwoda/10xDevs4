@@ -1,5 +1,6 @@
 import { defineMiddleware } from "astro:middleware";
 
+import { withPrivateNoStoreForHtml } from "@/lib/html-cache-control";
 import { createClient } from "@/lib/supabase";
 import { guestRedirectResponse, isProtectedPath } from "@/lib/protected-routes";
 
@@ -24,5 +25,5 @@ export const onRequest = defineMiddleware(async (context, next) => {
         }
     }
 
-    return next();
+    return withPrivateNoStoreForHtml(await next());
 });

@@ -12,7 +12,7 @@ const next = isSafeNextPath(requestedNext) ? requestedNext : "/";
 const signInHref = next === "/" ? "/auth/signin" : "/auth/signin?next=" + encodeURIComponent(next);
 ---
 
-<Layout title="Check your email" enableTimerTheme showConfigWarnings={false}>
+<Layout title="Check your email" enableTimerTheme showConfigWarnings={false} showTopBar={false}>
     <main class="flex min-h-screen items-center justify-center bg-background p-4 text-foreground">
         <Card className="w-full max-w-md gap-0 overflow-hidden py-0">
             <CardHeader className="gap-3 px-6 pt-8 sm:px-8">

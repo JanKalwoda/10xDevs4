@@ -8,7 +8,9 @@ export default function ThemeToggle() {
 
     return (
         <Button type="button" variant="outline" size="icon" aria-label={theme ? `Switch to ${nextTheme} mode (currently ${theme})` : "Change color theme"} onClick={toggleTheme}>
-            {nextTheme === "dark" ? <Moon aria-hidden="true" /> : <Sun aria-hidden="true" />}
+            {/* Both icons, picked by the .dark class that ThemeInit sets before paint, so the first paint is right without JS. */}
+            <Moon aria-hidden="true" className="dark:hidden" />
+            <Sun aria-hidden="true" className="hidden dark:block" />
         </Button>
     );
 }

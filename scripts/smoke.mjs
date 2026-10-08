@@ -198,6 +198,25 @@ function hasHomeAccountLink(markup, label, href) {
     return accountNavLinks(markup).some((link) => link.href === href && link.text === label);
 }
 
+// The top bar: a signed-in session shows the email (link to /dashboard), Timers (TIMERS_HREF = /dashboard) and a sign-out form.
+function hasSignedInTopBar(markup, accountEmail) {
+    const links = accountNavLinks(markup);
+    return (
+        links.some((link) => link.href === "/dashboard" && link.text.toLowerCase() === accountEmail.toLowerCase()) &&
+        links.some((link) => link.href === "/dashboard" && link.text === "Timers") &&
+        /<form\b[^>]*action\s*=\s*["']\/api\/auth\/signout["']/i.test(markup)
+    );
+}
+
+// Every HTML page with the bar carries the account email, so none of them may be cacheable.
+async function verifyBarredPagesNoStore() {
+    for (const path of ["/", "/create", "/dashboard", "/abc/def"]) {
+        const response = await appRequest(path);
+        ensure(response.headers.get("cache-control")?.includes("no-store"));
+        await response.arrayBuffer();
+    }
+}
+
 function responseLocation(response) {
     const location = response.headers.get("location");
     if (!location) return null;
@@ -675,6 +694,7 @@ async function runRemoteSmoke() {
     await runStep("public sign-in route", async () => {
         const response = await appRequest("/auth/signin");
         ensure(response.status === 200);
+        ensure(accountNavLinks(await response.text()).length === 0);
     });
 
     await runStep("public callback retry route", async () => {
@@ -746,11 +766,12 @@ async function runLocalSmoke() {
     });
 
     await runStep("explicit POST establishes the SSR session from the new-account link", () => confirmLink(newAccountLink));
-    await runStep("authenticated SSR home shell links Account to the dashboard", async () => {
+    await runStep("authenticated SSR top bar shows the email, Timers and Sign out, and barred pages are no-store", async () => {
         const home = await appRequest("/");
         const markup = await home.text();
         ensure(home.status === 200);
-        ensure(hasHomeAccountLink(markup, "Account", "/dashboard"));
+        ensure(hasSignedInTopBar(markup, email));
+        await verifyBarredPagesNoStore();
     });
     await runStep("SSR cookies authorize the dashboard after new-account confirmation", async () => {
         const dashboard = await appRequest("/dashboard");
@@ -787,6 +808,8 @@ async function runLocalSmoke() {
         const markup = await home.text();
         ensure(home.status === 200);
         ensure(hasHomeAccountLink(markup, "Sign in", "/auth/signin"));
+        ensure(!markup.toLowerCase().includes(email.toLowerCase()));
+        ensure(home.headers.get("cache-control")?.includes("no-store"));
     });
 
     await runStep("existing-account email request returns the same neutral result", () => requestEmailLink(email, "/"));
@@ -804,11 +827,12 @@ async function runLocalSmoke() {
         ensure(markup.includes('id="email-link-confirmation"'));
     });
     await runStep("explicit POST establishes the SSR session from the existing-account link", () => confirmLink(existingAccountLink));
-    await runStep("existing-account SSR home shell links Account to the dashboard", async () => {
+    await runStep("existing-account SSR top bar shows the email, Timers and Sign out, and barred pages are no-store", async () => {
         const home = await appRequest("/");
         const markup = await home.text();
         ensure(home.status === 200);
-        ensure(hasHomeAccountLink(markup, "Account", "/dashboard"));
+        ensure(hasSignedInTopBar(markup, email));
+        await verifyBarredPagesNoStore();
     });
     await runStep("SSR cookies authorize the dashboard after existing-account sign-in", async () => {
         const dashboard = await appRequest("/dashboard");

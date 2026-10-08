@@ -4,7 +4,6 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import DrillConfigForm from "@/components/timer/DrillConfigForm";
 import DrillTimer from "@/components/timer/DrillTimer";
 import SavedDrillDetails from "@/components/timer/SavedDrillDetails";
-import ThemeToggle from "@/components/timer/ThemeToggle";
 import { createDrillAudio, type DrillAudioPort } from "@/lib/drill-audio";
 import { createDrillWakeLockController, type WakeLockProvider, type WakeLockSentinelPort } from "@/lib/drill-wake-lock";
 import { createDrillWakeLockSession, type DrillWakeLockSession } from "@/lib/drill-wake-lock-session";
@@ -117,14 +116,12 @@ export default function DrillApp({ savedDrill }: { savedDrill?: SavedDrill }) {
     }
 
     return (
-        <main className="bg-background text-foreground flex min-h-screen items-center justify-center px-4 py-8">
+        <main className="bg-background text-foreground flex flex-1 items-center justify-center px-4 py-8">
             <Card className="w-full max-w-md">
-                <CardHeader className="flex flex-row items-center justify-between">
-                    <span aria-hidden="true" className="size-9" />
+                <CardHeader>
                     <h1 ref={headingRef} tabIndex={-1} className={savedDrill ? SAVED_DRILL_HEADING_CLASS : "text-center text-3xl font-bold outline-none"}>
                         {savedDrill ? savedDrill.name : "Drill timer"}
                     </h1>
-                    <ThemeToggle />
                 </CardHeader>
                 <CardContent>
                     {view === "configuration" && !savedDrill && <DrillConfigForm values={values} onValuesChange={setValues} onStart={start} />}
