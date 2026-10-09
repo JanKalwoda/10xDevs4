@@ -1,0 +1,1176 @@
+{
+  "baseUrl": "http://localhost:4321",
+  "failed": 0,
+  "checks": [
+    {
+      "name": "1280-light: config forms found",
+      "ok": true,
+      "detail": "count=25"
+    },
+    {
+      "name": "1280-light: form 0 has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-light: form 1 has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-light: form 2 has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-light: form 3 has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-light: form 4 has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-light: form 5 has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-light: form 6 has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-light: form 7 has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-light: form 8 has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-light: form 9 has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-light: form 10 has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-light: form 11 has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-light: form 12 has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-light: form 13 has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-light: form 14 has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-light: form 15 has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-light: form 16 has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-light: form 17 has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-light: form 18 has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-light: form 19 has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-light: form 20 has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-light: form 21 has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-light: form 22 has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-light: form 23 has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-light: form 24 has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-light: exercise icon hitbox >= 44px",
+      "ok": true,
+      "detail": "{\"x\":368.328125,\"y\":-8705,\"width\":44,\"height\":44}"
+    },
+    {
+      "name": "1280-light: exercise has aria-describedby text and no disabled attribute",
+      "ok": true,
+      "detail": "One long high beep marks the start of ea"
+    },
+    {
+      "name": "1280-light: rest icon hitbox >= 44px",
+      "ok": true,
+      "detail": "{\"x\":368.328125,\"y\":-8599,\"width\":44,\"height\":44}"
+    },
+    {
+      "name": "1280-light: rest has aria-describedby text and no disabled attribute",
+      "ok": true,
+      "detail": "One short beep marks the start of each r"
+    },
+    {
+      "name": "1280-light: Standby icon hitbox >= 44px",
+      "ok": true,
+      "detail": "{\"x\":368.328125,\"y\":-8413,\"width\":44,\"height\":44}"
+    },
+    {
+      "name": "1280-light: Standby has aria-describedby text and no disabled attribute",
+      "ok": true,
+      "detail": "Two short beeps (lower, then higher) mea"
+    },
+    {
+      "name": "1280-light: exercise icon sits at the end of the input row",
+      "ok": true,
+      "detail": "{\"found\":true,\"sameRow\":true,\"atEnd\":true}"
+    },
+    {
+      "name": "1280-light: tooltip (hover exercise) inside viewport",
+      "ok": true,
+      "detail": "{\"x\":238,\"y\":386,\"width\":305.5,\"height\":28}"
+    },
+    {
+      "name": "1280-light: exercise icon shows :focus-visible",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-light: tooltip (focus exercise) inside viewport",
+      "ok": true,
+      "detail": "{\"x\":238,\"y\":386,\"width\":305.5,\"height\":28}"
+    },
+    {
+      "name": "1280-light: tooltip (hover Standby) inside viewport",
+      "ok": true,
+      "detail": "{\"x\":230,\"y\":459,\"width\":320,\"height\":92}"
+    },
+    {
+      "name": "1280-light: Standby icon shows :focus-visible",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-light: tooltip (focus Standby) inside viewport",
+      "ok": true,
+      "detail": "{\"x\":230,\"y\":459,\"width\":320,\"height\":92}"
+    },
+    {
+      "name": "1280-light: disabled rest icon is aria-disabled without disabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-light: click on disabled icon plays nothing",
+      "ok": true,
+      "detail": "none"
+    },
+    {
+      "name": "1280-light: live region announces the reason after click",
+      "ok": true,
+      "detail": "Rest is 0:00, so there is no rest signal."
+    },
+    {
+      "name": "1280-light: live region text is not visible (sr-only)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-light: Enter/Space on disabled icon play nothing",
+      "ok": true,
+      "detail": "none"
+    },
+    {
+      "name": "1280-light: tooltip (disabled reason) inside viewport",
+      "ok": true,
+      "detail": "{\"x\":1013,\"y\":341,\"width\":258.78125,\"height\":44}"
+    },
+    {
+      "name": "1280-light: disabled tooltip shows the reason",
+      "ok": true,
+      "detail": "One short beep marks the start of each rest.\n\nRest is 0:00, so there is no rest signal."
+    },
+    {
+      "name": "1280-light: reason is announced before Rest changes",
+      "ok": true,
+      "detail": "Rest is 0:00, so there is no rest signal."
+    },
+    {
+      "name": "1280-light: announcement disappears after Rest becomes valid",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-light: click on enabled icon schedules a cue",
+      "ok": true,
+      "detail": "exercise"
+    },
+    {
+      "name": "1280-light: Enter on enabled icon schedules another cue",
+      "ok": true,
+      "detail": "exercise, exercise"
+    },
+    {
+      "name": "1280-light: Space on enabled icon schedules another cue",
+      "ok": true,
+      "detail": "exercise, exercise, exercise"
+    },
+    {
+      "name": "1280-light: error shows a visible Alert",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-light: loading sets aria-busy",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-dark: config forms found",
+      "ok": true,
+      "detail": "count=25"
+    },
+    {
+      "name": "1280-dark: form 0 has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-dark: form 1 has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-dark: form 2 has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-dark: form 3 has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-dark: form 4 has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-dark: form 5 has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-dark: form 6 has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-dark: form 7 has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-dark: form 8 has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-dark: form 9 has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-dark: form 10 has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-dark: form 11 has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-dark: form 12 has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-dark: form 13 has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-dark: form 14 has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-dark: form 15 has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-dark: form 16 has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-dark: form 17 has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-dark: form 18 has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-dark: form 19 has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-dark: form 20 has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-dark: form 21 has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-dark: form 22 has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-dark: form 23 has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-dark: form 24 has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-dark: exercise icon hitbox >= 44px",
+      "ok": true,
+      "detail": "{\"x\":368.328125,\"y\":-8705,\"width\":44,\"height\":44}"
+    },
+    {
+      "name": "1280-dark: exercise has aria-describedby text and no disabled attribute",
+      "ok": true,
+      "detail": "One long high beep marks the start of ea"
+    },
+    {
+      "name": "1280-dark: rest icon hitbox >= 44px",
+      "ok": true,
+      "detail": "{\"x\":368.328125,\"y\":-8599,\"width\":44,\"height\":44}"
+    },
+    {
+      "name": "1280-dark: rest has aria-describedby text and no disabled attribute",
+      "ok": true,
+      "detail": "One short beep marks the start of each r"
+    },
+    {
+      "name": "1280-dark: Standby icon hitbox >= 44px",
+      "ok": true,
+      "detail": "{\"x\":368.328125,\"y\":-8413,\"width\":44,\"height\":44}"
+    },
+    {
+      "name": "1280-dark: Standby has aria-describedby text and no disabled attribute",
+      "ok": true,
+      "detail": "Two short beeps (lower, then higher) mea"
+    },
+    {
+      "name": "1280-dark: exercise icon sits at the end of the input row",
+      "ok": true,
+      "detail": "{\"found\":true,\"sameRow\":true,\"atEnd\":true}"
+    },
+    {
+      "name": "1280-dark: tooltip (hover exercise) inside viewport",
+      "ok": true,
+      "detail": "{\"x\":238,\"y\":386,\"width\":305.5,\"height\":28}"
+    },
+    {
+      "name": "1280-dark: exercise icon shows :focus-visible",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-dark: tooltip (focus exercise) inside viewport",
+      "ok": true,
+      "detail": "{\"x\":238,\"y\":386,\"width\":305.5,\"height\":28}"
+    },
+    {
+      "name": "1280-dark: tooltip (hover Standby) inside viewport",
+      "ok": true,
+      "detail": "{\"x\":230,\"y\":459,\"width\":320,\"height\":92}"
+    },
+    {
+      "name": "1280-dark: Standby icon shows :focus-visible",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-dark: tooltip (focus Standby) inside viewport",
+      "ok": true,
+      "detail": "{\"x\":230,\"y\":459,\"width\":320,\"height\":92}"
+    },
+    {
+      "name": "1280-dark: disabled rest icon is aria-disabled without disabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-dark: click on disabled icon plays nothing",
+      "ok": true,
+      "detail": "none"
+    },
+    {
+      "name": "1280-dark: live region announces the reason after click",
+      "ok": true,
+      "detail": "Rest is 0:00, so there is no rest signal."
+    },
+    {
+      "name": "1280-dark: live region text is not visible (sr-only)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-dark: Enter/Space on disabled icon play nothing",
+      "ok": true,
+      "detail": "none"
+    },
+    {
+      "name": "1280-dark: tooltip (disabled reason) inside viewport",
+      "ok": true,
+      "detail": "{\"x\":1013,\"y\":341,\"width\":258.78125,\"height\":44}"
+    },
+    {
+      "name": "1280-dark: disabled tooltip shows the reason",
+      "ok": true,
+      "detail": "One short beep marks the start of each rest.\n\nRest is 0:00, so there is no rest signal."
+    },
+    {
+      "name": "1280-dark: reason is announced before Rest changes",
+      "ok": true,
+      "detail": "Rest is 0:00, so there is no rest signal."
+    },
+    {
+      "name": "1280-dark: announcement disappears after Rest becomes valid",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-dark: click on enabled icon schedules a cue",
+      "ok": true,
+      "detail": "exercise"
+    },
+    {
+      "name": "1280-dark: Enter on enabled icon schedules another cue",
+      "ok": true,
+      "detail": "exercise, exercise"
+    },
+    {
+      "name": "1280-dark: Space on enabled icon schedules another cue",
+      "ok": true,
+      "detail": "exercise, exercise, exercise"
+    },
+    {
+      "name": "1280-dark: error shows a visible Alert",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-dark: loading sets aria-busy",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-light: config forms found",
+      "ok": true,
+      "detail": "count=25"
+    },
+    {
+      "name": "390-light: form 0 has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-light: form 1 has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-light: form 2 has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-light: form 3 has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-light: form 4 has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-light: form 5 has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-light: form 6 has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-light: form 7 has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-light: form 8 has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-light: form 9 has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-light: form 10 has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-light: form 11 has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-light: form 12 has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-light: form 13 has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-light: form 14 has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-light: form 15 has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-light: form 16 has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-light: form 17 has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-light: form 18 has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-light: form 19 has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-light: form 20 has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-light: form 21 has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-light: form 22 has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-light: form 23 has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-light: form 24 has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-light: exercise icon hitbox >= 44px",
+      "ok": true,
+      "detail": "{\"x\":305,\"y\":-23669,\"width\":44,\"height\":44}"
+    },
+    {
+      "name": "390-light: exercise has aria-describedby text and no disabled attribute",
+      "ok": true,
+      "detail": "One long high beep marks the start of ea"
+    },
+    {
+      "name": "390-light: rest icon hitbox >= 44px",
+      "ok": true,
+      "detail": "{\"x\":305,\"y\":-23563,\"width\":44,\"height\":44}"
+    },
+    {
+      "name": "390-light: rest has aria-describedby text and no disabled attribute",
+      "ok": true,
+      "detail": "One short beep marks the start of each r"
+    },
+    {
+      "name": "390-light: Standby icon hitbox >= 44px",
+      "ok": true,
+      "detail": "{\"x\":305,\"y\":-23377,\"width\":44,\"height\":44}"
+    },
+    {
+      "name": "390-light: Standby has aria-describedby text and no disabled attribute",
+      "ok": true,
+      "detail": "Two short beeps (lower, then higher) mea"
+    },
+    {
+      "name": "390-light: exercise icon sits at the end of the input row",
+      "ok": true,
+      "detail": "{\"found\":true,\"sameRow\":true,\"atEnd\":true}"
+    },
+    {
+      "name": "390-light: tooltip (hover exercise) inside viewport",
+      "ok": true,
+      "detail": "{\"x\":77,\"y\":358,\"width\":305.5,\"height\":28}"
+    },
+    {
+      "name": "390-light: exercise icon shows :focus-visible",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-light: tooltip (focus exercise) inside viewport",
+      "ok": true,
+      "detail": "{\"x\":77,\"y\":358,\"width\":305.5,\"height\":28}"
+    },
+    {
+      "name": "390-light: tooltip (hover Standby) inside viewport",
+      "ok": true,
+      "detail": "{\"x\":62,\"y\":459,\"width\":320,\"height\":92}"
+    },
+    {
+      "name": "390-light: Standby icon shows :focus-visible",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-light: tooltip (focus Standby) inside viewport",
+      "ok": true,
+      "detail": "{\"x\":62,\"y\":459,\"width\":320,\"height\":92}"
+    },
+    {
+      "name": "390-light: disabled rest icon is aria-disabled without disabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-light: click on disabled icon plays nothing",
+      "ok": true,
+      "detail": "none"
+    },
+    {
+      "name": "390-light: live region announces the reason after click",
+      "ok": true,
+      "detail": "Rest is 0:00, so there is no rest signal."
+    },
+    {
+      "name": "390-light: live region text is not visible (sr-only)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-light: Enter/Space on disabled icon play nothing",
+      "ok": true,
+      "detail": "none"
+    },
+    {
+      "name": "390-light: tooltip (disabled reason) inside viewport",
+      "ok": true,
+      "detail": "{\"x\":123,\"y\":342,\"width\":258.78125,\"height\":44}"
+    },
+    {
+      "name": "390-light: disabled tooltip shows the reason",
+      "ok": true,
+      "detail": "One short beep marks the start of each rest.\n\nRest is 0:00, so there is no rest signal."
+    },
+    {
+      "name": "390-light: reason is announced before Rest changes",
+      "ok": true,
+      "detail": "Rest is 0:00, so there is no rest signal."
+    },
+    {
+      "name": "390-light: announcement disappears after Rest becomes valid",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-light: click on enabled icon schedules a cue",
+      "ok": true,
+      "detail": "exercise"
+    },
+    {
+      "name": "390-light: Enter on enabled icon schedules another cue",
+      "ok": true,
+      "detail": "exercise, exercise"
+    },
+    {
+      "name": "390-light: Space on enabled icon schedules another cue",
+      "ok": true,
+      "detail": "exercise, exercise, exercise"
+    },
+    {
+      "name": "390-light: error shows a visible Alert",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-light: loading sets aria-busy",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-dark: config forms found",
+      "ok": true,
+      "detail": "count=25"
+    },
+    {
+      "name": "390-dark: form 0 has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-dark: form 1 has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-dark: form 2 has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-dark: form 3 has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-dark: form 4 has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-dark: form 5 has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-dark: form 6 has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-dark: form 7 has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-dark: form 8 has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-dark: form 9 has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-dark: form 10 has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-dark: form 11 has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-dark: form 12 has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-dark: form 13 has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-dark: form 14 has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-dark: form 15 has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-dark: form 16 has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-dark: form 17 has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-dark: form 18 has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-dark: form 19 has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-dark: form 20 has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-dark: form 21 has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-dark: form 22 has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-dark: form 23 has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-dark: form 24 has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-dark: exercise icon hitbox >= 44px",
+      "ok": true,
+      "detail": "{\"x\":305,\"y\":-23669,\"width\":44,\"height\":44}"
+    },
+    {
+      "name": "390-dark: exercise has aria-describedby text and no disabled attribute",
+      "ok": true,
+      "detail": "One long high beep marks the start of ea"
+    },
+    {
+      "name": "390-dark: rest icon hitbox >= 44px",
+      "ok": true,
+      "detail": "{\"x\":305,\"y\":-23563,\"width\":44,\"height\":44}"
+    },
+    {
+      "name": "390-dark: rest has aria-describedby text and no disabled attribute",
+      "ok": true,
+      "detail": "One short beep marks the start of each r"
+    },
+    {
+      "name": "390-dark: Standby icon hitbox >= 44px",
+      "ok": true,
+      "detail": "{\"x\":305,\"y\":-23377,\"width\":44,\"height\":44}"
+    },
+    {
+      "name": "390-dark: Standby has aria-describedby text and no disabled attribute",
+      "ok": true,
+      "detail": "Two short beeps (lower, then higher) mea"
+    },
+    {
+      "name": "390-dark: exercise icon sits at the end of the input row",
+      "ok": true,
+      "detail": "{\"found\":true,\"sameRow\":true,\"atEnd\":true}"
+    },
+    {
+      "name": "390-dark: tooltip (hover exercise) inside viewport",
+      "ok": true,
+      "detail": "{\"x\":77,\"y\":358,\"width\":305.5,\"height\":28}"
+    },
+    {
+      "name": "390-dark: exercise icon shows :focus-visible",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-dark: tooltip (focus exercise) inside viewport",
+      "ok": true,
+      "detail": "{\"x\":77,\"y\":358,\"width\":305.5,\"height\":28}"
+    },
+    {
+      "name": "390-dark: tooltip (hover Standby) inside viewport",
+      "ok": true,
+      "detail": "{\"x\":62,\"y\":459,\"width\":320,\"height\":92}"
+    },
+    {
+      "name": "390-dark: Standby icon shows :focus-visible",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-dark: tooltip (focus Standby) inside viewport",
+      "ok": true,
+      "detail": "{\"x\":62,\"y\":459,\"width\":320,\"height\":92}"
+    },
+    {
+      "name": "390-dark: disabled rest icon is aria-disabled without disabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-dark: click on disabled icon plays nothing",
+      "ok": true,
+      "detail": "none"
+    },
+    {
+      "name": "390-dark: live region announces the reason after click",
+      "ok": true,
+      "detail": "Rest is 0:00, so there is no rest signal."
+    },
+    {
+      "name": "390-dark: live region text is not visible (sr-only)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-dark: Enter/Space on disabled icon play nothing",
+      "ok": true,
+      "detail": "none"
+    },
+    {
+      "name": "390-dark: tooltip (disabled reason) inside viewport",
+      "ok": true,
+      "detail": "{\"x\":123,\"y\":342,\"width\":258.78125,\"height\":44}"
+    },
+    {
+      "name": "390-dark: disabled tooltip shows the reason",
+      "ok": true,
+      "detail": "One short beep marks the start of each rest.\n\nRest is 0:00, so there is no rest signal."
+    },
+    {
+      "name": "390-dark: reason is announced before Rest changes",
+      "ok": true,
+      "detail": "Rest is 0:00, so there is no rest signal."
+    },
+    {
+      "name": "390-dark: announcement disappears after Rest becomes valid",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-dark: click on enabled icon schedules a cue",
+      "ok": true,
+      "detail": "exercise"
+    },
+    {
+      "name": "390-dark: Enter on enabled icon schedules another cue",
+      "ok": true,
+      "detail": "exercise, exercise"
+    },
+    {
+      "name": "390-dark: Space on enabled icon schedules another cue",
+      "ok": true,
+      "detail": "exercise, exercise, exercise"
+    },
+    {
+      "name": "390-dark: error shows a visible Alert",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-dark: loading sets aria-busy",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-light-touch: tooltip (tap Standby) inside viewport",
+      "ok": true,
+      "detail": "{\"x\":86,\"y\":320,\"width\":320,\"height\":92}"
+    },
+    {
+      "name": "390-light-touch: tap on enabled icon plays",
+      "ok": true,
+      "detail": "standby-first, standby-second"
+    },
+    {
+      "name": "390-light-touch: Standby tooltip carries the off note",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-light-touch: hint closes after about 8 s",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-light-touch: tooltip (tap exercise) inside viewport",
+      "ok": true,
+      "detail": "{\"x\":101,\"y\":217,\"width\":305.5,\"height\":28}"
+    },
+    {
+      "name": "390-light-touch: Escape closes the touch hint",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-light-touch: hint visible before outside tap",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-light-touch: outside tap closes the touch hint",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-light-touch: tooltip (tap disabled rest) inside viewport",
+      "ok": true,
+      "detail": "{\"x\":147,\"y\":368.0000305175781,\"width\":258.78125,\"height\":43.999969482421875}"
+    },
+    {
+      "name": "390-light-touch: tap on disabled icon shows the reason and plays nothing",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-light-touch: no visible duplicate of the reason under the field",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-dark-touch: tooltip (tap Standby) inside viewport",
+      "ok": true,
+      "detail": "{\"x\":86,\"y\":320,\"width\":320,\"height\":92}"
+    },
+    {
+      "name": "390-dark-touch: tap on enabled icon plays",
+      "ok": true,
+      "detail": "standby-first, standby-second"
+    },
+    {
+      "name": "390-dark-touch: Standby tooltip carries the off note",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-dark-touch: hint closes after about 8 s",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-dark-touch: tooltip (tap exercise) inside viewport",
+      "ok": true,
+      "detail": "{\"x\":101,\"y\":217,\"width\":305.5,\"height\":28}"
+    },
+    {
+      "name": "390-dark-touch: Escape closes the touch hint",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-dark-touch: hint visible before outside tap",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-dark-touch: outside tap closes the touch hint",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-dark-touch: tooltip (tap disabled rest) inside viewport",
+      "ok": true,
+      "detail": "{\"x\":147,\"y\":368.0000305175781,\"width\":258.78125,\"height\":43.999969482421875}"
+    },
+    {
+      "name": "390-dark-touch: tap on disabled icon shows the reason and plays nothing",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-dark-touch: no visible duplicate of the reason under the field",
+      "ok": true,
+      "detail": ""
+    }
+  ]
+}

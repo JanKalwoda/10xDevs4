@@ -81,7 +81,7 @@ const scriptsConfig = defineConfig({
 
 export default defineConfig(
     includeIgnoreFile(gitignorePath),
-    globalIgnores([".agents/**", "context/changes/run-view-layout/screenshots/*.mjs"]),
+    globalIgnores([".agents/**", "context/changes/run-view-layout/screenshots/*.mjs", "context/changes/signal-preview-icon/screenshots/signal-preview-visual-gate.mjs"]),
     baseConfig,
     reactConfig,
     eslintPluginAstro.configs["flat/recommended"],
@@ -114,7 +114,7 @@ export default defineConfig(
             "src/pages/[[]id[]]/edit.astro",
             "src/pages/404.astro",
             "src/pages/dev/timer-ui.astro",
-            "src/components/ui/{input,label,checkbox,card,alert,alert-dialog}.tsx",
+            "src/components/ui/{input,label,checkbox,card,alert,alert-dialog,tooltip}.tsx",
         ],
         plugins: { "timer-ui": { rules: { contract: timerUiContract } } },
         rules: { "timer-ui/contract": "error" },

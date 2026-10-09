@@ -141,11 +141,13 @@ export default function SignalPreviewFixtures() {
     return (
         <section aria-label="Signal preview examples" className="space-y-4">
             <h2 className="text-xl font-semibold">Signal preview</h2>
-            <p className="text-muted-foreground text-sm">Production configuration form with injected audio; no sound is produced. Click a Play button to drive each state.</p>
+            <p className="text-muted-foreground text-sm">
+                Production configuration form with injected audio; no sound is produced. Click a speaker icon to drive each state; hover or focus it for the description.
+            </p>
             <div className="grid gap-6 lg:grid-cols-3">
                 <PreviewFixture
                     title="Default (Random start off)"
-                    description="Idle controls; Standby shows the off note."
+                    description="Idle icons; the Standby tooltip carries the off note."
                     fixture="signal-default"
                     visualState="default"
                     mode="ok"
@@ -153,7 +155,7 @@ export default function SignalPreviewFixtures() {
                 />
                 <PreviewFixture
                     title="Random start on"
-                    description="Standby note is absent; click plays two Standby cues."
+                    description="The Standby tooltip has no off note; click plays two Standby cues."
                     fixture="signal-random-on"
                     visualState="default"
                     mode="ok"
@@ -161,7 +163,7 @@ export default function SignalPreviewFixtures() {
                 />
                 <PreviewFixture
                     title="Disabled (Rest 0:00)"
-                    description="Rest preview is disabled with a visible reason."
+                    description="Rest icon is aria-disabled; its tooltip gives the reason and click does not play."
                     fixture="signal-disabled-zero"
                     visualState="disabled"
                     mode="ok"
@@ -169,7 +171,7 @@ export default function SignalPreviewFixtures() {
                 />
                 <PreviewFixture
                     title="Disabled (Rest invalid)"
-                    description="Rest preview is disabled until Rest is valid."
+                    description="Rest icon is aria-disabled until Rest is valid; its tooltip says so."
                     fixture="signal-disabled-invalid"
                     visualState="disabled"
                     mode="ok"

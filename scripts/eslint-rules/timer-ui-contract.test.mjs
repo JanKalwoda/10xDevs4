@@ -16,6 +16,7 @@ test("contract rejects palettes, dimensions and inline colors while accepting to
         '<div className="accent-blue-600" />',
         '<div className="border-t-blue-500 ring-offset-blue-500" />',
         '<div className="-mt-[13px] translate-x-[13px]" />',
+        '<div className="translate-y-[calc(-50%_-_2px)] rounded-[2px]" />',
         '<div className="text-white" />',
         '<div className="w-[123px] p-[1rem] text-[18px]" />',
         '<div className="bg-[#ff0000]" />',
@@ -55,6 +56,7 @@ test("actual ESLint configuration enforces React/Astro timer scope and leaves ac
         "src/pages/dev/timer-ui.astro",
         "src/components/ui/input.tsx",
         "src/components/ui/alert-dialog.tsx",
+        "src/components/ui/tooltip.tsx",
     ]) {
         const source = filePath.endsWith(".astro")
             ? '<div class="accent-blue-600" style="color: red" />'
