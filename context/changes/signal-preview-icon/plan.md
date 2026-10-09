@@ -231,16 +231,16 @@ Brak migracji bazy danych i zmian API.
 
 #### Manual
 
-- [ ] 2.4 Ikona jest na końcu wiersza Exercise/Rest/Random start, bez pełnych akapitów pod polami
-- [ ] 2.5 Hover i fokus pokazują opis; wyłączona ikona pokazuje powód i nie odtwarza
+- [x] 2.4 Ikona jest na końcu wiersza Exercise/Rest/Random start, bez pełnych akapitów pod polami — script, not human (gate: icon at end of input row; screenshots reviewed) 017b32f
+- [x] 2.5 Hover i fokus pokazują opis; wyłączona ikona pokazuje powód i nie odtwarza — script, not human (gate: hover, focus, disabled reason, no play) 017b32f
 
 ### Phase 3: Fixtures, bramka wizualna i dokumentacja
 
 #### Automated
 
-- [ ] 3.1 Pełna bramka (sync, lint, test, kontrakt, check, build) przechodzi
-- [ ] 3.2 Skrypt wizualny kończy się kodem 0
+- [x] 3.1 Pełna bramka (sync, lint, test, kontrakt, check, build) przechodzi — 017b32f
+- [x] 3.2 Skrypt wizualny kończy się kodem 0 — 220/220 checks — 017b32f
 
 #### Manual
 
-- [ ] 3.3 Zrzuty 7 stanów w obu motywach i szerokościach przejrzane
+- [x] 3.3 Zrzuty 7 stanów w obu motywach i szerokościach przejrzane — script, not human; screenshots reviewed 017b32f
