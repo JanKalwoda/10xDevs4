@@ -81,7 +81,7 @@ const scriptsConfig = defineConfig({
 
 export default defineConfig(
     includeIgnoreFile(gitignorePath),
-    globalIgnores([".agents/**", "context/changes/run-view-layout/screenshots/*.mjs"]),
+    globalIgnores([".agents/**", "context/changes/run-view-layout/screenshots/*.mjs", "context/changes/signal-preview-icon/screenshots/signal-preview-visual-gate.mjs"]),
     baseConfig,
     reactConfig,
     eslintPluginAstro.configs["flat/recommended"],
