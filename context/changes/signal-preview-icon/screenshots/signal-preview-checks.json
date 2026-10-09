@@ -213,6 +213,11 @@
       "detail": "Rest is 0:00, so there is no rest signal."
     },
     {
+      "name": "1280-light: live region text is not visible (sr-only)",
+      "ok": true,
+      "detail": ""
+    },
+    {
       "name": "1280-light: Enter/Space on disabled icon play nothing",
       "ok": true,
       "detail": "none"
@@ -226,6 +231,16 @@
       "name": "1280-light: disabled tooltip shows the reason",
       "ok": true,
       "detail": "One short beep marks the start of each rest.\n\nRest is 0:00, so there is no rest signal."
+    },
+    {
+      "name": "1280-light: reason is announced before Rest changes",
+      "ok": true,
+      "detail": "Rest is 0:00, so there is no rest signal."
+    },
+    {
+      "name": "1280-light: announcement disappears after Rest becomes valid",
+      "ok": true,
+      "detail": ""
     },
     {
       "name": "1280-light: click on enabled icon schedules a cue",
@@ -463,6 +478,11 @@
       "detail": "Rest is 0:00, so there is no rest signal."
     },
     {
+      "name": "1280-dark: live region text is not visible (sr-only)",
+      "ok": true,
+      "detail": ""
+    },
+    {
       "name": "1280-dark: Enter/Space on disabled icon play nothing",
       "ok": true,
       "detail": "none"
@@ -476,6 +496,16 @@
       "name": "1280-dark: disabled tooltip shows the reason",
       "ok": true,
       "detail": "One short beep marks the start of each rest.\n\nRest is 0:00, so there is no rest signal."
+    },
+    {
+      "name": "1280-dark: reason is announced before Rest changes",
+      "ok": true,
+      "detail": "Rest is 0:00, so there is no rest signal."
+    },
+    {
+      "name": "1280-dark: announcement disappears after Rest becomes valid",
+      "ok": true,
+      "detail": ""
     },
     {
       "name": "1280-dark: click on enabled icon schedules a cue",
@@ -713,6 +743,11 @@
       "detail": "Rest is 0:00, so there is no rest signal."
     },
     {
+      "name": "390-light: live region text is not visible (sr-only)",
+      "ok": true,
+      "detail": ""
+    },
+    {
       "name": "390-light: Enter/Space on disabled icon play nothing",
       "ok": true,
       "detail": "none"
@@ -726,6 +761,16 @@
       "name": "390-light: disabled tooltip shows the reason",
       "ok": true,
       "detail": "One short beep marks the start of each rest.\n\nRest is 0:00, so there is no rest signal."
+    },
+    {
+      "name": "390-light: reason is announced before Rest changes",
+      "ok": true,
+      "detail": "Rest is 0:00, so there is no rest signal."
+    },
+    {
+      "name": "390-light: announcement disappears after Rest becomes valid",
+      "ok": true,
+      "detail": ""
     },
     {
       "name": "390-light: click on enabled icon schedules a cue",
@@ -963,6 +1008,11 @@
       "detail": "Rest is 0:00, so there is no rest signal."
     },
     {
+      "name": "390-dark: live region text is not visible (sr-only)",
+      "ok": true,
+      "detail": ""
+    },
+    {
       "name": "390-dark: Enter/Space on disabled icon play nothing",
       "ok": true,
       "detail": "none"
@@ -976,6 +1026,16 @@
       "name": "390-dark: disabled tooltip shows the reason",
       "ok": true,
       "detail": "One short beep marks the start of each rest.\n\nRest is 0:00, so there is no rest signal."
+    },
+    {
+      "name": "390-dark: reason is announced before Rest changes",
+      "ok": true,
+      "detail": "Rest is 0:00, so there is no rest signal."
+    },
+    {
+      "name": "390-dark: announcement disappears after Rest becomes valid",
+      "ok": true,
+      "detail": ""
     },
     {
       "name": "390-dark: click on enabled icon schedules a cue",
@@ -1045,10 +1105,15 @@
     {
       "name": "390-light-touch: tooltip (tap disabled rest) inside viewport",
       "ok": true,
-      "detail": "{\"x\":147,\"y\":344,\"width\":258.78125,\"height\":44.000030517578125}"
+      "detail": "{\"x\":147,\"y\":368.0000305175781,\"width\":258.78125,\"height\":43.999969482421875}"
     },
     {
       "name": "390-light-touch: tap on disabled icon shows the reason and plays nothing",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-light-touch: no visible duplicate of the reason under the field",
       "ok": true,
       "detail": ""
     },
@@ -1095,10 +1160,15 @@
     {
       "name": "390-dark-touch: tooltip (tap disabled rest) inside viewport",
       "ok": true,
-      "detail": "{\"x\":147,\"y\":344,\"width\":258.78125,\"height\":44.000030517578125}"
+      "detail": "{\"x\":147,\"y\":368.0000305175781,\"width\":258.78125,\"height\":43.999969482421875}"
     },
     {
       "name": "390-dark-touch: tap on disabled icon shows the reason and plays nothing",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-dark-touch: no visible duplicate of the reason under the field",
       "ok": true,
       "detail": ""
     }

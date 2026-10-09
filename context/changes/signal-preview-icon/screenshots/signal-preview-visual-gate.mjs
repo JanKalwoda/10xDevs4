@@ -26,6 +26,10 @@ const check = (name, ok, detail = "") => {
 
 const card = (page, fixture) => page.locator(`[data-testid="signal-preview-signal-${fixture}"]`);
 const cues = (c) => c.locator('[data-evidence="cues"]').innerText();
+// sr-only text has a 1px box; anything larger is a visible duplicate of the tooltip.
+const statusVisible = (c) =>
+    c.locator('[role="status"]').evaluateAll((els) => els.some((el) => el.textContent.trim() !== "" && (el.getBoundingClientRect().width > 1 || el.getBoundingClientRect().height > 1)));
+const statusText = (c) => c.locator('[role="status"]').evaluateAll((els) => els.map((el) => el.textContent.trim()).join(""));
 const icon = (c, name) => c.getByRole("button", { name: `Play ${name} signal` });
 
 async function prepare(page, theme) {
@@ -153,6 +157,7 @@ for (const viewport of VIEWPORTS) {
         await page.waitForTimeout(300);
         const live = await zero.locator('[role="status"]:not(:empty)').first().innerText();
         check(`${tag}: live region announces the reason after click`, /Rest/i.test(live) && live.length > 5, live);
+        check(`${tag}: live region text is not visible (sr-only)`, !(await statusVisible(zero)));
         await rest.focus();
         await page.keyboard.press("Enter");
         await page.keyboard.press("Space");
@@ -162,6 +167,11 @@ for (const viewport of VIEWPORTS) {
         check(`${tag}: disabled tooltip shows the reason`, /Rest/i.test(reasonText) && reasonText.length > 30, reasonText);
         await shot(page, zero, join(here, `disabled-reason-${tag}.png`), reasonBox);
         await page.keyboard.press("Escape");
+        // The reason is cleared when availability changes (Rest 0:00 -> 0:30).
+        check(`${tag}: reason is announced before Rest changes`, /Rest/i.test(await statusText(zero)), await statusText(zero));
+        await zero.getByLabel("Rest", { exact: true }).fill("0:30");
+        await page.waitForTimeout(200);
+        check(`${tag}: announcement disappears after Rest becomes valid`, (await statusText(zero)) === "", await statusText(zero));
 
         // Enabled icon: click, Enter and Space play.
         const ex = icon(def, "exercise");
@@ -236,6 +246,7 @@ for (const theme of THEMES) {
     await page.waitForTimeout(500);
     const zBox = await tooltipInViewport(page, tag, "tap disabled rest");
     check(`${tag}: tap on disabled icon shows the reason and plays nothing`, (await cues(zero)) === "none" && /Rest/i.test(await page.locator(TOOLTIP).first().innerText()));
+    check(`${tag}: no visible duplicate of the reason under the field`, !(await statusVisible(zero)));
     await shot(page, zero, join(here, `tap-disabled-${tag}.png`), zBox);
     await context.close();
 }

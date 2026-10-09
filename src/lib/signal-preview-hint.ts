@@ -90,3 +90,67 @@ export function decidePress({ enabled, pointerType, note }: { enabled: boolean; 
     if (!enabled) return { play: false, showHint: true, announce: note ?? null };
     return { play: true, showHint: pointerType === "touch", announce: null };
 }
+
+/** Delay between clearing and setting a message, so a repeated message is read again. */
+export const ANNOUNCE_DELAY_MS = 50;
+
+export interface SignalAnnouncer {
+    subscribe: (listener: () => void) => () => void;
+    getSnapshot: () => string;
+    /** Sets the live-region text after a short delay and removes it after the hint duration. */
+    announce: (text: string) => void;
+    clear: () => void;
+    dispose: () => void;
+}
+
+export function createSignalAnnouncer({ setTimer, clearTimer, durationMs = HINT_DURATION_MS }: SignalHintOptions): SignalAnnouncer {
+    const listeners = new Set<() => void>();
+    let text = "";
+    let timer: unknown;
+    let hasTimer = false;
+
+    function stopTimer() {
+        if (!hasTimer) return;
+        clearTimer(timer);
+        hasTimer = false;
+    }
+
+    function publish(next: string) {
+        if (next === text) return;
+        text = next;
+        listeners.forEach((listener) => {
+            listener();
+        });
+    }
+
+    function clear() {
+        stopTimer();
+        publish("");
+    }
+
+    return {
+        subscribe(listener) {
+            listeners.add(listener);
+            return () => {
+                listeners.delete(listener);
+            };
+        },
+        getSnapshot: () => text,
+        announce(next) {
+            clear();
+            timer = setTimer(() => {
+                publish(next);
+                timer = setTimer(() => {
+                    hasTimer = false;
+                    publish("");
+                }, durationMs);
+            }, ANNOUNCE_DELAY_MS);
+            hasTimer = true;
+        },
+        clear,
+        dispose() {
+            clear();
+            listeners.clear();
+        },
+    };
+}

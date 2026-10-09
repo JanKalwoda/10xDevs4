@@ -3,6 +3,7 @@ import { Volume2 } from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { useSignalAnnouncer } from "@/components/hooks/useSignalAnnouncer";
 import { useSignalHint } from "@/components/hooks/useSignalHint";
 import { SIGNAL_MEANINGS, type PreviewSignal } from "@/lib/drill-signal-preview";
 import type { SignalPreviewStatus } from "@/lib/drill-signal-preview-controller";
@@ -40,32 +41,20 @@ export default function SignalPreviewControl({ id, signal, availability, status,
     const descriptionId = `${id}-description`;
     const { open: hintOpen, hint } = useSignalHint();
     const [radixOpen, setRadixOpen] = useState(false);
-    const [announcement, setAnnouncement] = useState("");
+    const { text: announcement, announcer } = useSignalAnnouncer();
     const pointerType = useRef("");
     const triggerRef = useRef<HTMLButtonElement>(null);
-    const announceTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
-    useEffect(
-        () => () => {
-            clearTimeout(announceTimer.current);
-        },
-        [],
-    );
-
-    function announce(text: string) {
-        // Clear first so a repeated reason is read again.
-        clearTimeout(announceTimer.current);
-        setAnnouncement("");
-        announceTimer.current = setTimeout(() => {
-            setAnnouncement(text);
-        }, 50);
-    }
+    // The reason belongs to the availability it explained; a changed Rest must not keep the old message.
+    useEffect(() => {
+        announcer.clear();
+    }, [announcer, availability.enabled, availability.note]);
 
     function handleClick() {
         const decision = decidePress({ enabled: availability.enabled, pointerType: pointerType.current, note: availability.note });
         pointerType.current = "";
         if (decision.showHint) hint.showFor();
-        if (decision.announce) announce(decision.announce);
+        if (decision.announce) announcer.announce(decision.announce);
         if (decision.play) onPlay(signal);
     }
 
@@ -118,7 +107,8 @@ export default function SignalPreviewControl({ id, signal, availability, status,
 
     const feedback = (
         <>
-            <p role="status" className="text-sm empty:sr-only">
+            {/* Screen readers only: the tooltip is the visible description. */}
+            <p role="status" className="sr-only">
                 {statusText}
             </p>
             {failed && (
