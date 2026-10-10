@@ -2221,6 +2221,1396 @@
       "name": "390-dark: time, Current and the button bar sit at fixed positions in every scenario",
       "ok": true,
       "detail": "[]"
+    },
+    {
+      "name": "fine-1280-light: any-pointer matches the setup",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "fine-1280-light: paragraph mentions arrows and Shift",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "fine-1280-light: form card has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "fine-1280-light preparation: buttons exist, tabIndex -1, aria-controls",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "fine-1280-light preparation: row is 44 px",
+      "ok": true,
+      "detail": "44"
+    },
+    {
+      "name": "fine-1280-light preparation: column is 44 px, buttons 22 px, up above down",
+      "ok": true,
+      "detail": "{\"column\":{\"x\":380.328125,\"y\":148,\"width\":32,\"height\":44},\"u\":{\"x\":380.328125,\"y\":148,\"width\":32,\"height\":22},\"d\":{\"x\":380.328125,\"y\":170,\"width\":32,\"height\":22}}"
+    },
+    {
+      "name": "fine-1280-light preparation: no double border between the buttons",
+      "ok": true,
+      "detail": "0px"
+    },
+    {
+      "name": "fine-1280-light exercise: buttons exist, tabIndex -1, aria-controls",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "fine-1280-light exercise: row is 44 px",
+      "ok": true,
+      "detail": "44"
+    },
+    {
+      "name": "fine-1280-light exercise: column is 44 px, buttons 22 px, up above down",
+      "ok": true,
+      "detail": "{\"column\":{\"x\":328.328125,\"y\":278,\"width\":32,\"height\":44},\"u\":{\"x\":328.328125,\"y\":278,\"width\":32,\"height\":22},\"d\":{\"x\":328.328125,\"y\":300,\"width\":32,\"height\":22}}"
+    },
+    {
+      "name": "fine-1280-light exercise: no double border between the buttons",
+      "ok": true,
+      "detail": "0px"
+    },
+    {
+      "name": "fine-1280-light rest: buttons exist, tabIndex -1, aria-controls",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "fine-1280-light rest: row is 44 px",
+      "ok": true,
+      "detail": "44"
+    },
+    {
+      "name": "fine-1280-light rest: column is 44 px, buttons 22 px, up above down",
+      "ok": true,
+      "detail": "{\"column\":{\"x\":328.328125,\"y\":384,\"width\":32,\"height\":44},\"u\":{\"x\":328.328125,\"y\":384,\"width\":32,\"height\":22},\"d\":{\"x\":328.328125,\"y\":406,\"width\":32,\"height\":22}}"
+    },
+    {
+      "name": "fine-1280-light rest: no double border between the buttons",
+      "ok": true,
+      "detail": "0px"
+    },
+    {
+      "name": "fine-1280-light repetitions: buttons exist, tabIndex -1, aria-controls",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "fine-1280-light repetitions: row is 44 px",
+      "ok": true,
+      "detail": "44"
+    },
+    {
+      "name": "fine-1280-light repetitions: column is 44 px, buttons 22 px, up above down",
+      "ok": true,
+      "detail": "{\"column\":{\"x\":380.328125,\"y\":490,\"width\":32,\"height\":44},\"u\":{\"x\":380.328125,\"y\":490,\"width\":32,\"height\":22},\"d\":{\"x\":380.328125,\"y\":512,\"width\":32,\"height\":22}}"
+    },
+    {
+      "name": "fine-1280-light repetitions: no double border between the buttons",
+      "ok": true,
+      "detail": "0px"
+    },
+    {
+      "name": "fine-1280-light: stepper sits before the speaker icon",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "fine-1280-light: speaker icon stays 44 px",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "fine-1280-light: one press steps exactly once",
+      "ok": true,
+      "detail": "0:05"
+    },
+    {
+      "name": "fine-1280-light: click without pointerdown steps once",
+      "ok": true,
+      "detail": "0:04"
+    },
+    {
+      "name": "fine-1280-light: sr-only status announces the last value",
+      "ok": true,
+      "detail": "[\"\",\"Exercise 0:04\",\"\",\"\",\"\",\"\",\"\"]"
+    },
+    {
+      "name": "fine-1280-light: hold makes one step before the delay",
+      "ok": true,
+      "detail": "0:02"
+    },
+    {
+      "name": "fine-1280-light: hold repeats about every 100 ms",
+      "ok": true,
+      "detail": "11"
+    },
+    {
+      "name": "fine-1280-light: hold stops on release",
+      "ok": true,
+      "detail": "0:11"
+    },
+    {
+      "name": "fine-1280-light: hold stops when the pointer leaves",
+      "ok": true,
+      "detail": "0:05"
+    },
+    {
+      "name": "fine-1280-light: hold stops on blur",
+      "ok": true,
+      "detail": "0:05"
+    },
+    {
+      "name": "fine-1280-light: ArrowUp +1",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "fine-1280-light: Shift+ArrowUp +10",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "fine-1280-light: Shift+ArrowDown clamps at the minimum 0:01",
+      "ok": true,
+      "detail": "0:01"
+    },
+    {
+      "name": "fine-1280-light: Decrease is aria-disabled, not disabled, at the minimum",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "fine-1280-light: Shift+ArrowUp clamps at 10:00 in m:ss",
+      "ok": true,
+      "detail": "10:00"
+    },
+    {
+      "name": "fine-1280-light: Increase is aria-disabled at the maximum",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "fine-1280-light: empty value steps to the field minimum",
+      "ok": true,
+      "detail": "0:01"
+    },
+    {
+      "name": "fine-1280-light: Repetitions at 100: Increase aria-disabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "fine-1280-light: Repetitions ArrowDown gives a whole number",
+      "ok": true,
+      "detail": "99"
+    },
+    {
+      "name": "fine-1280-dark: any-pointer matches the setup",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "fine-1280-dark: paragraph mentions arrows and Shift",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "fine-1280-dark: form card has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "fine-1280-dark preparation: buttons exist, tabIndex -1, aria-controls",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "fine-1280-dark preparation: row is 44 px",
+      "ok": true,
+      "detail": "44"
+    },
+    {
+      "name": "fine-1280-dark preparation: column is 44 px, buttons 22 px, up above down",
+      "ok": true,
+      "detail": "{\"column\":{\"x\":380.328125,\"y\":148,\"width\":32,\"height\":44},\"u\":{\"x\":380.328125,\"y\":148,\"width\":32,\"height\":22},\"d\":{\"x\":380.328125,\"y\":170,\"width\":32,\"height\":22}}"
+    },
+    {
+      "name": "fine-1280-dark preparation: no double border between the buttons",
+      "ok": true,
+      "detail": "0px"
+    },
+    {
+      "name": "fine-1280-dark exercise: buttons exist, tabIndex -1, aria-controls",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "fine-1280-dark exercise: row is 44 px",
+      "ok": true,
+      "detail": "44"
+    },
+    {
+      "name": "fine-1280-dark exercise: column is 44 px, buttons 22 px, up above down",
+      "ok": true,
+      "detail": "{\"column\":{\"x\":328.328125,\"y\":278,\"width\":32,\"height\":44},\"u\":{\"x\":328.328125,\"y\":278,\"width\":32,\"height\":22},\"d\":{\"x\":328.328125,\"y\":300,\"width\":32,\"height\":22}}"
+    },
+    {
+      "name": "fine-1280-dark exercise: no double border between the buttons",
+      "ok": true,
+      "detail": "0px"
+    },
+    {
+      "name": "fine-1280-dark rest: buttons exist, tabIndex -1, aria-controls",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "fine-1280-dark rest: row is 44 px",
+      "ok": true,
+      "detail": "44"
+    },
+    {
+      "name": "fine-1280-dark rest: column is 44 px, buttons 22 px, up above down",
+      "ok": true,
+      "detail": "{\"column\":{\"x\":328.328125,\"y\":384,\"width\":32,\"height\":44},\"u\":{\"x\":328.328125,\"y\":384,\"width\":32,\"height\":22},\"d\":{\"x\":328.328125,\"y\":406,\"width\":32,\"height\":22}}"
+    },
+    {
+      "name": "fine-1280-dark rest: no double border between the buttons",
+      "ok": true,
+      "detail": "0px"
+    },
+    {
+      "name": "fine-1280-dark repetitions: buttons exist, tabIndex -1, aria-controls",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "fine-1280-dark repetitions: row is 44 px",
+      "ok": true,
+      "detail": "44"
+    },
+    {
+      "name": "fine-1280-dark repetitions: column is 44 px, buttons 22 px, up above down",
+      "ok": true,
+      "detail": "{\"column\":{\"x\":380.328125,\"y\":490,\"width\":32,\"height\":44},\"u\":{\"x\":380.328125,\"y\":490,\"width\":32,\"height\":22},\"d\":{\"x\":380.328125,\"y\":512,\"width\":32,\"height\":22}}"
+    },
+    {
+      "name": "fine-1280-dark repetitions: no double border between the buttons",
+      "ok": true,
+      "detail": "0px"
+    },
+    {
+      "name": "fine-1280-dark: stepper sits before the speaker icon",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "fine-1280-dark: speaker icon stays 44 px",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "fine-1280-dark: one press steps exactly once",
+      "ok": true,
+      "detail": "0:05"
+    },
+    {
+      "name": "fine-1280-dark: click without pointerdown steps once",
+      "ok": true,
+      "detail": "0:04"
+    },
+    {
+      "name": "fine-1280-dark: sr-only status announces the last value",
+      "ok": true,
+      "detail": "[\"\",\"Exercise 0:04\",\"\",\"\",\"\",\"\",\"\"]"
+    },
+    {
+      "name": "fine-1280-dark: hold makes one step before the delay",
+      "ok": true,
+      "detail": "0:02"
+    },
+    {
+      "name": "fine-1280-dark: hold repeats about every 100 ms",
+      "ok": true,
+      "detail": "11"
+    },
+    {
+      "name": "fine-1280-dark: hold stops on release",
+      "ok": true,
+      "detail": "0:11"
+    },
+    {
+      "name": "fine-1280-dark: hold stops when the pointer leaves",
+      "ok": true,
+      "detail": "0:05"
+    },
+    {
+      "name": "fine-1280-dark: hold stops on blur",
+      "ok": true,
+      "detail": "0:05"
+    },
+    {
+      "name": "fine-1280-dark: ArrowUp +1",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "fine-1280-dark: Shift+ArrowUp +10",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "fine-1280-dark: Shift+ArrowDown clamps at the minimum 0:01",
+      "ok": true,
+      "detail": "0:01"
+    },
+    {
+      "name": "fine-1280-dark: Decrease is aria-disabled, not disabled, at the minimum",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "fine-1280-dark: Shift+ArrowUp clamps at 10:00 in m:ss",
+      "ok": true,
+      "detail": "10:00"
+    },
+    {
+      "name": "fine-1280-dark: Increase is aria-disabled at the maximum",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "fine-1280-dark: empty value steps to the field minimum",
+      "ok": true,
+      "detail": "0:01"
+    },
+    {
+      "name": "fine-1280-dark: Repetitions at 100: Increase aria-disabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "fine-1280-dark: Repetitions ArrowDown gives a whole number",
+      "ok": true,
+      "detail": "99"
+    },
+    {
+      "name": "fine-390-light: any-pointer matches the setup",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "fine-390-light: paragraph mentions arrows and Shift",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "fine-390-light: form card has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "fine-390-light preparation: buttons exist, tabIndex -1, aria-controls",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "fine-390-light preparation: row is 44 px",
+      "ok": true,
+      "detail": "44"
+    },
+    {
+      "name": "fine-390-light preparation: column is 44 px, buttons 22 px, up above down",
+      "ok": true,
+      "detail": "{\"column\":{\"x\":317,\"y\":130,\"width\":32,\"height\":44},\"u\":{\"x\":317,\"y\":130,\"width\":32,\"height\":22},\"d\":{\"x\":317,\"y\":152,\"width\":32,\"height\":22}}"
+    },
+    {
+      "name": "fine-390-light preparation: no double border between the buttons",
+      "ok": true,
+      "detail": "0px"
+    },
+    {
+      "name": "fine-390-light exercise: buttons exist, tabIndex -1, aria-controls",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "fine-390-light exercise: row is 44 px",
+      "ok": true,
+      "detail": "44"
+    },
+    {
+      "name": "fine-390-light exercise: column is 44 px, buttons 22 px, up above down",
+      "ok": true,
+      "detail": "{\"column\":{\"x\":265,\"y\":260,\"width\":32,\"height\":44},\"u\":{\"x\":265,\"y\":260,\"width\":32,\"height\":22},\"d\":{\"x\":265,\"y\":282,\"width\":32,\"height\":22}}"
+    },
+    {
+      "name": "fine-390-light exercise: no double border between the buttons",
+      "ok": true,
+      "detail": "0px"
+    },
+    {
+      "name": "fine-390-light rest: buttons exist, tabIndex -1, aria-controls",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "fine-390-light rest: row is 44 px",
+      "ok": true,
+      "detail": "44"
+    },
+    {
+      "name": "fine-390-light rest: column is 44 px, buttons 22 px, up above down",
+      "ok": true,
+      "detail": "{\"column\":{\"x\":265,\"y\":366,\"width\":32,\"height\":44},\"u\":{\"x\":265,\"y\":366,\"width\":32,\"height\":22},\"d\":{\"x\":265,\"y\":388,\"width\":32,\"height\":22}}"
+    },
+    {
+      "name": "fine-390-light rest: no double border between the buttons",
+      "ok": true,
+      "detail": "0px"
+    },
+    {
+      "name": "fine-390-light repetitions: buttons exist, tabIndex -1, aria-controls",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "fine-390-light repetitions: row is 44 px",
+      "ok": true,
+      "detail": "44"
+    },
+    {
+      "name": "fine-390-light repetitions: column is 44 px, buttons 22 px, up above down",
+      "ok": true,
+      "detail": "{\"column\":{\"x\":317,\"y\":472,\"width\":32,\"height\":44},\"u\":{\"x\":317,\"y\":472,\"width\":32,\"height\":22},\"d\":{\"x\":317,\"y\":494,\"width\":32,\"height\":22}}"
+    },
+    {
+      "name": "fine-390-light repetitions: no double border between the buttons",
+      "ok": true,
+      "detail": "0px"
+    },
+    {
+      "name": "fine-390-light: stepper sits before the speaker icon",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "fine-390-light: speaker icon stays 44 px",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "fine-390-light: one press steps exactly once",
+      "ok": true,
+      "detail": "0:05"
+    },
+    {
+      "name": "fine-390-light: click without pointerdown steps once",
+      "ok": true,
+      "detail": "0:04"
+    },
+    {
+      "name": "fine-390-light: sr-only status announces the last value",
+      "ok": true,
+      "detail": "[\"\",\"Exercise 0:04\",\"\",\"\",\"\",\"\",\"\"]"
+    },
+    {
+      "name": "fine-390-light: hold makes one step before the delay",
+      "ok": true,
+      "detail": "0:02"
+    },
+    {
+      "name": "fine-390-light: hold repeats about every 100 ms",
+      "ok": true,
+      "detail": "11"
+    },
+    {
+      "name": "fine-390-light: hold stops on release",
+      "ok": true,
+      "detail": "0:11"
+    },
+    {
+      "name": "fine-390-light: hold stops when the pointer leaves",
+      "ok": true,
+      "detail": "0:05"
+    },
+    {
+      "name": "fine-390-light: hold stops on blur",
+      "ok": true,
+      "detail": "0:05"
+    },
+    {
+      "name": "fine-390-light: ArrowUp +1",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "fine-390-light: Shift+ArrowUp +10",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "fine-390-light: Shift+ArrowDown clamps at the minimum 0:01",
+      "ok": true,
+      "detail": "0:01"
+    },
+    {
+      "name": "fine-390-light: Decrease is aria-disabled, not disabled, at the minimum",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "fine-390-light: Shift+ArrowUp clamps at 10:00 in m:ss",
+      "ok": true,
+      "detail": "10:00"
+    },
+    {
+      "name": "fine-390-light: Increase is aria-disabled at the maximum",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "fine-390-light: empty value steps to the field minimum",
+      "ok": true,
+      "detail": "0:01"
+    },
+    {
+      "name": "fine-390-light: Repetitions at 100: Increase aria-disabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "fine-390-light: Repetitions ArrowDown gives a whole number",
+      "ok": true,
+      "detail": "99"
+    },
+    {
+      "name": "fine-390-dark: any-pointer matches the setup",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "fine-390-dark: paragraph mentions arrows and Shift",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "fine-390-dark: form card has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "fine-390-dark preparation: buttons exist, tabIndex -1, aria-controls",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "fine-390-dark preparation: row is 44 px",
+      "ok": true,
+      "detail": "44"
+    },
+    {
+      "name": "fine-390-dark preparation: column is 44 px, buttons 22 px, up above down",
+      "ok": true,
+      "detail": "{\"column\":{\"x\":317,\"y\":130,\"width\":32,\"height\":44},\"u\":{\"x\":317,\"y\":130,\"width\":32,\"height\":22},\"d\":{\"x\":317,\"y\":152,\"width\":32,\"height\":22}}"
+    },
+    {
+      "name": "fine-390-dark preparation: no double border between the buttons",
+      "ok": true,
+      "detail": "0px"
+    },
+    {
+      "name": "fine-390-dark exercise: buttons exist, tabIndex -1, aria-controls",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "fine-390-dark exercise: row is 44 px",
+      "ok": true,
+      "detail": "44"
+    },
+    {
+      "name": "fine-390-dark exercise: column is 44 px, buttons 22 px, up above down",
+      "ok": true,
+      "detail": "{\"column\":{\"x\":265,\"y\":260,\"width\":32,\"height\":44},\"u\":{\"x\":265,\"y\":260,\"width\":32,\"height\":22},\"d\":{\"x\":265,\"y\":282,\"width\":32,\"height\":22}}"
+    },
+    {
+      "name": "fine-390-dark exercise: no double border between the buttons",
+      "ok": true,
+      "detail": "0px"
+    },
+    {
+      "name": "fine-390-dark rest: buttons exist, tabIndex -1, aria-controls",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "fine-390-dark rest: row is 44 px",
+      "ok": true,
+      "detail": "44"
+    },
+    {
+      "name": "fine-390-dark rest: column is 44 px, buttons 22 px, up above down",
+      "ok": true,
+      "detail": "{\"column\":{\"x\":265,\"y\":366,\"width\":32,\"height\":44},\"u\":{\"x\":265,\"y\":366,\"width\":32,\"height\":22},\"d\":{\"x\":265,\"y\":388,\"width\":32,\"height\":22}}"
+    },
+    {
+      "name": "fine-390-dark rest: no double border between the buttons",
+      "ok": true,
+      "detail": "0px"
+    },
+    {
+      "name": "fine-390-dark repetitions: buttons exist, tabIndex -1, aria-controls",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "fine-390-dark repetitions: row is 44 px",
+      "ok": true,
+      "detail": "44"
+    },
+    {
+      "name": "fine-390-dark repetitions: column is 44 px, buttons 22 px, up above down",
+      "ok": true,
+      "detail": "{\"column\":{\"x\":317,\"y\":472,\"width\":32,\"height\":44},\"u\":{\"x\":317,\"y\":472,\"width\":32,\"height\":22},\"d\":{\"x\":317,\"y\":494,\"width\":32,\"height\":22}}"
+    },
+    {
+      "name": "fine-390-dark repetitions: no double border between the buttons",
+      "ok": true,
+      "detail": "0px"
+    },
+    {
+      "name": "fine-390-dark: stepper sits before the speaker icon",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "fine-390-dark: speaker icon stays 44 px",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "fine-390-dark: one press steps exactly once",
+      "ok": true,
+      "detail": "0:05"
+    },
+    {
+      "name": "fine-390-dark: click without pointerdown steps once",
+      "ok": true,
+      "detail": "0:04"
+    },
+    {
+      "name": "fine-390-dark: sr-only status announces the last value",
+      "ok": true,
+      "detail": "[\"\",\"Exercise 0:04\",\"\",\"\",\"\",\"\",\"\"]"
+    },
+    {
+      "name": "fine-390-dark: hold makes one step before the delay",
+      "ok": true,
+      "detail": "0:02"
+    },
+    {
+      "name": "fine-390-dark: hold repeats about every 100 ms",
+      "ok": true,
+      "detail": "11"
+    },
+    {
+      "name": "fine-390-dark: hold stops on release",
+      "ok": true,
+      "detail": "0:11"
+    },
+    {
+      "name": "fine-390-dark: hold stops when the pointer leaves",
+      "ok": true,
+      "detail": "0:05"
+    },
+    {
+      "name": "fine-390-dark: hold stops on blur",
+      "ok": true,
+      "detail": "0:05"
+    },
+    {
+      "name": "fine-390-dark: ArrowUp +1",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "fine-390-dark: Shift+ArrowUp +10",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "fine-390-dark: Shift+ArrowDown clamps at the minimum 0:01",
+      "ok": true,
+      "detail": "0:01"
+    },
+    {
+      "name": "fine-390-dark: Decrease is aria-disabled, not disabled, at the minimum",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "fine-390-dark: Shift+ArrowUp clamps at 10:00 in m:ss",
+      "ok": true,
+      "detail": "10:00"
+    },
+    {
+      "name": "fine-390-dark: Increase is aria-disabled at the maximum",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "fine-390-dark: empty value steps to the field minimum",
+      "ok": true,
+      "detail": "0:01"
+    },
+    {
+      "name": "fine-390-dark: Repetitions at 100: Increase aria-disabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "fine-390-dark: Repetitions ArrowDown gives a whole number",
+      "ok": true,
+      "detail": "99"
+    },
+    {
+      "name": "coarse-390-light: any-pointer matches the setup",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "coarse-390-light: paragraph mentions arrows and Shift",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "coarse-390-light: form card has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "coarse-390-light preparation: buttons exist, tabIndex -1, aria-controls",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "coarse-390-light preparation: row is 44 px",
+      "ok": true,
+      "detail": "44"
+    },
+    {
+      "name": "coarse-390-light preparation: buttons 44 px side by side, down left of up",
+      "ok": true,
+      "detail": "{\"u\":{\"x\":305,\"y\":156,\"width\":44,\"height\":44},\"d\":{\"x\":253,\"y\":156,\"width\":44,\"height\":44}}"
+    },
+    {
+      "name": "coarse-390-light exercise: buttons exist, tabIndex -1, aria-controls",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "coarse-390-light exercise: row is 44 px",
+      "ok": true,
+      "detail": "44"
+    },
+    {
+      "name": "coarse-390-light exercise: buttons 44 px side by side, down left of up",
+      "ok": true,
+      "detail": "{\"u\":{\"x\":253,\"y\":286,\"width\":44,\"height\":44},\"d\":{\"x\":201,\"y\":286,\"width\":44,\"height\":44}}"
+    },
+    {
+      "name": "coarse-390-light rest: buttons exist, tabIndex -1, aria-controls",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "coarse-390-light rest: row is 44 px",
+      "ok": true,
+      "detail": "44"
+    },
+    {
+      "name": "coarse-390-light rest: buttons 44 px side by side, down left of up",
+      "ok": true,
+      "detail": "{\"u\":{\"x\":253,\"y\":392,\"width\":44,\"height\":44},\"d\":{\"x\":201,\"y\":392,\"width\":44,\"height\":44}}"
+    },
+    {
+      "name": "coarse-390-light repetitions: buttons exist, tabIndex -1, aria-controls",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "coarse-390-light repetitions: row is 44 px",
+      "ok": true,
+      "detail": "44"
+    },
+    {
+      "name": "coarse-390-light repetitions: buttons 44 px side by side, down left of up",
+      "ok": true,
+      "detail": "{\"u\":{\"x\":305,\"y\":498,\"width\":44,\"height\":44},\"d\":{\"x\":253,\"y\":498,\"width\":44,\"height\":44}}"
+    },
+    {
+      "name": "coarse-390-light: stepper sits before the speaker icon",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "coarse-390-light: speaker icon stays 44 px",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "coarse-390-light: one press steps exactly once",
+      "ok": true,
+      "detail": "0:05"
+    },
+    {
+      "name": "coarse-390-light: click without pointerdown steps once",
+      "ok": true,
+      "detail": "0:04"
+    },
+    {
+      "name": "coarse-390-light: sr-only status announces the last value",
+      "ok": true,
+      "detail": "[\"\",\"Exercise 0:04\",\"\",\"\",\"\",\"\",\"\"]"
+    },
+    {
+      "name": "coarse-390-light: ArrowUp +1",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "coarse-390-light: Shift+ArrowUp +10",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "coarse-390-light: Shift+ArrowDown clamps at the minimum 0:01",
+      "ok": true,
+      "detail": "0:01"
+    },
+    {
+      "name": "coarse-390-light: Decrease is aria-disabled, not disabled, at the minimum",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "coarse-390-light: Shift+ArrowUp clamps at 10:00 in m:ss",
+      "ok": true,
+      "detail": "10:00"
+    },
+    {
+      "name": "coarse-390-light: Increase is aria-disabled at the maximum",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "coarse-390-light: empty value steps to the field minimum",
+      "ok": true,
+      "detail": "0:01"
+    },
+    {
+      "name": "coarse-390-light: Repetitions at 100: Increase aria-disabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "coarse-390-light: Repetitions ArrowDown gives a whole number",
+      "ok": true,
+      "detail": "99"
+    },
+    {
+      "name": "coarse-390-dark: any-pointer matches the setup",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "coarse-390-dark: paragraph mentions arrows and Shift",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "coarse-390-dark: form card has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "coarse-390-dark preparation: buttons exist, tabIndex -1, aria-controls",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "coarse-390-dark preparation: row is 44 px",
+      "ok": true,
+      "detail": "44"
+    },
+    {
+      "name": "coarse-390-dark preparation: buttons 44 px side by side, down left of up",
+      "ok": true,
+      "detail": "{\"u\":{\"x\":305,\"y\":156,\"width\":44,\"height\":44},\"d\":{\"x\":253,\"y\":156,\"width\":44,\"height\":44}}"
+    },
+    {
+      "name": "coarse-390-dark exercise: buttons exist, tabIndex -1, aria-controls",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "coarse-390-dark exercise: row is 44 px",
+      "ok": true,
+      "detail": "44"
+    },
+    {
+      "name": "coarse-390-dark exercise: buttons 44 px side by side, down left of up",
+      "ok": true,
+      "detail": "{\"u\":{\"x\":253,\"y\":286,\"width\":44,\"height\":44},\"d\":{\"x\":201,\"y\":286,\"width\":44,\"height\":44}}"
+    },
+    {
+      "name": "coarse-390-dark rest: buttons exist, tabIndex -1, aria-controls",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "coarse-390-dark rest: row is 44 px",
+      "ok": true,
+      "detail": "44"
+    },
+    {
+      "name": "coarse-390-dark rest: buttons 44 px side by side, down left of up",
+      "ok": true,
+      "detail": "{\"u\":{\"x\":253,\"y\":392,\"width\":44,\"height\":44},\"d\":{\"x\":201,\"y\":392,\"width\":44,\"height\":44}}"
+    },
+    {
+      "name": "coarse-390-dark repetitions: buttons exist, tabIndex -1, aria-controls",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "coarse-390-dark repetitions: row is 44 px",
+      "ok": true,
+      "detail": "44"
+    },
+    {
+      "name": "coarse-390-dark repetitions: buttons 44 px side by side, down left of up",
+      "ok": true,
+      "detail": "{\"u\":{\"x\":305,\"y\":498,\"width\":44,\"height\":44},\"d\":{\"x\":253,\"y\":498,\"width\":44,\"height\":44}}"
+    },
+    {
+      "name": "coarse-390-dark: stepper sits before the speaker icon",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "coarse-390-dark: speaker icon stays 44 px",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "coarse-390-dark: one press steps exactly once",
+      "ok": true,
+      "detail": "0:05"
+    },
+    {
+      "name": "coarse-390-dark: click without pointerdown steps once",
+      "ok": true,
+      "detail": "0:04"
+    },
+    {
+      "name": "coarse-390-dark: sr-only status announces the last value",
+      "ok": true,
+      "detail": "[\"\",\"Exercise 0:04\",\"\",\"\",\"\",\"\",\"\"]"
+    },
+    {
+      "name": "coarse-390-dark: ArrowUp +1",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "coarse-390-dark: Shift+ArrowUp +10",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "coarse-390-dark: Shift+ArrowDown clamps at the minimum 0:01",
+      "ok": true,
+      "detail": "0:01"
+    },
+    {
+      "name": "coarse-390-dark: Decrease is aria-disabled, not disabled, at the minimum",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "coarse-390-dark: Shift+ArrowUp clamps at 10:00 in m:ss",
+      "ok": true,
+      "detail": "10:00"
+    },
+    {
+      "name": "coarse-390-dark: Increase is aria-disabled at the maximum",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "coarse-390-dark: empty value steps to the field minimum",
+      "ok": true,
+      "detail": "0:01"
+    },
+    {
+      "name": "coarse-390-dark: Repetitions at 100: Increase aria-disabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "coarse-390-dark: Repetitions ArrowDown gives a whole number",
+      "ok": true,
+      "detail": "99"
+    },
+    {
+      "name": "mouse-touch-1280-light: any-pointer matches the setup",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "mouse-touch-1280-light: paragraph mentions arrows and Shift",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "mouse-touch-1280-light: form card has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "mouse-touch-1280-light preparation: buttons exist, tabIndex -1, aria-controls",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "mouse-touch-1280-light preparation: row is 44 px",
+      "ok": true,
+      "detail": "44"
+    },
+    {
+      "name": "mouse-touch-1280-light preparation: buttons 44 px side by side, down left of up",
+      "ok": true,
+      "detail": "{\"u\":{\"x\":368.328125,\"y\":148,\"width\":44,\"height\":44},\"d\":{\"x\":316.328125,\"y\":148,\"width\":44,\"height\":44}}"
+    },
+    {
+      "name": "mouse-touch-1280-light exercise: buttons exist, tabIndex -1, aria-controls",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "mouse-touch-1280-light exercise: row is 44 px",
+      "ok": true,
+      "detail": "44"
+    },
+    {
+      "name": "mouse-touch-1280-light exercise: buttons 44 px side by side, down left of up",
+      "ok": true,
+      "detail": "{\"u\":{\"x\":316.328125,\"y\":278,\"width\":44,\"height\":44},\"d\":{\"x\":264.328125,\"y\":278,\"width\":44,\"height\":44}}"
+    },
+    {
+      "name": "mouse-touch-1280-light rest: buttons exist, tabIndex -1, aria-controls",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "mouse-touch-1280-light rest: row is 44 px",
+      "ok": true,
+      "detail": "44"
+    },
+    {
+      "name": "mouse-touch-1280-light rest: buttons 44 px side by side, down left of up",
+      "ok": true,
+      "detail": "{\"u\":{\"x\":316.328125,\"y\":384,\"width\":44,\"height\":44},\"d\":{\"x\":264.328125,\"y\":384,\"width\":44,\"height\":44}}"
+    },
+    {
+      "name": "mouse-touch-1280-light repetitions: buttons exist, tabIndex -1, aria-controls",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "mouse-touch-1280-light repetitions: row is 44 px",
+      "ok": true,
+      "detail": "44"
+    },
+    {
+      "name": "mouse-touch-1280-light repetitions: buttons 44 px side by side, down left of up",
+      "ok": true,
+      "detail": "{\"u\":{\"x\":368.328125,\"y\":490,\"width\":44,\"height\":44},\"d\":{\"x\":316.328125,\"y\":490,\"width\":44,\"height\":44}}"
+    },
+    {
+      "name": "mouse-touch-1280-light: stepper sits before the speaker icon",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "mouse-touch-1280-light: speaker icon stays 44 px",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "mouse-touch-1280-light: one press steps exactly once",
+      "ok": true,
+      "detail": "0:05"
+    },
+    {
+      "name": "mouse-touch-1280-light: click without pointerdown steps once",
+      "ok": true,
+      "detail": "0:04"
+    },
+    {
+      "name": "mouse-touch-1280-light: sr-only status announces the last value",
+      "ok": true,
+      "detail": "[\"\",\"Exercise 0:04\",\"\",\"\",\"\",\"\",\"\"]"
+    },
+    {
+      "name": "mouse-touch-1280-light: hold makes one step before the delay",
+      "ok": true,
+      "detail": "0:02"
+    },
+    {
+      "name": "mouse-touch-1280-light: hold repeats about every 100 ms",
+      "ok": true,
+      "detail": "11"
+    },
+    {
+      "name": "mouse-touch-1280-light: hold stops on release",
+      "ok": true,
+      "detail": "0:11"
+    },
+    {
+      "name": "mouse-touch-1280-light: hold stops when the pointer leaves",
+      "ok": true,
+      "detail": "0:05"
+    },
+    {
+      "name": "mouse-touch-1280-light: hold stops on blur",
+      "ok": true,
+      "detail": "0:05"
+    },
+    {
+      "name": "mouse-touch-1280-light: ArrowUp +1",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "mouse-touch-1280-light: Shift+ArrowUp +10",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "mouse-touch-1280-light: Shift+ArrowDown clamps at the minimum 0:01",
+      "ok": true,
+      "detail": "0:01"
+    },
+    {
+      "name": "mouse-touch-1280-light: Decrease is aria-disabled, not disabled, at the minimum",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "mouse-touch-1280-light: Shift+ArrowUp clamps at 10:00 in m:ss",
+      "ok": true,
+      "detail": "10:00"
+    },
+    {
+      "name": "mouse-touch-1280-light: Increase is aria-disabled at the maximum",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "mouse-touch-1280-light: empty value steps to the field minimum",
+      "ok": true,
+      "detail": "0:01"
+    },
+    {
+      "name": "mouse-touch-1280-light: Repetitions at 100: Increase aria-disabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "mouse-touch-1280-light: Repetitions ArrowDown gives a whole number",
+      "ok": true,
+      "detail": "99"
+    },
+    {
+      "name": "mouse-touch-1280-dark: any-pointer matches the setup",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "mouse-touch-1280-dark: paragraph mentions arrows and Shift",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "mouse-touch-1280-dark: form card has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "mouse-touch-1280-dark preparation: buttons exist, tabIndex -1, aria-controls",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "mouse-touch-1280-dark preparation: row is 44 px",
+      "ok": true,
+      "detail": "44"
+    },
+    {
+      "name": "mouse-touch-1280-dark preparation: buttons 44 px side by side, down left of up",
+      "ok": true,
+      "detail": "{\"u\":{\"x\":368.328125,\"y\":148,\"width\":44,\"height\":44},\"d\":{\"x\":316.328125,\"y\":148,\"width\":44,\"height\":44}}"
+    },
+    {
+      "name": "mouse-touch-1280-dark exercise: buttons exist, tabIndex -1, aria-controls",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "mouse-touch-1280-dark exercise: row is 44 px",
+      "ok": true,
+      "detail": "44"
+    },
+    {
+      "name": "mouse-touch-1280-dark exercise: buttons 44 px side by side, down left of up",
+      "ok": true,
+      "detail": "{\"u\":{\"x\":316.328125,\"y\":278,\"width\":44,\"height\":44},\"d\":{\"x\":264.328125,\"y\":278,\"width\":44,\"height\":44}}"
+    },
+    {
+      "name": "mouse-touch-1280-dark rest: buttons exist, tabIndex -1, aria-controls",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "mouse-touch-1280-dark rest: row is 44 px",
+      "ok": true,
+      "detail": "44"
+    },
+    {
+      "name": "mouse-touch-1280-dark rest: buttons 44 px side by side, down left of up",
+      "ok": true,
+      "detail": "{\"u\":{\"x\":316.328125,\"y\":384,\"width\":44,\"height\":44},\"d\":{\"x\":264.328125,\"y\":384,\"width\":44,\"height\":44}}"
+    },
+    {
+      "name": "mouse-touch-1280-dark repetitions: buttons exist, tabIndex -1, aria-controls",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "mouse-touch-1280-dark repetitions: row is 44 px",
+      "ok": true,
+      "detail": "44"
+    },
+    {
+      "name": "mouse-touch-1280-dark repetitions: buttons 44 px side by side, down left of up",
+      "ok": true,
+      "detail": "{\"u\":{\"x\":368.328125,\"y\":490,\"width\":44,\"height\":44},\"d\":{\"x\":316.328125,\"y\":490,\"width\":44,\"height\":44}}"
+    },
+    {
+      "name": "mouse-touch-1280-dark: stepper sits before the speaker icon",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "mouse-touch-1280-dark: speaker icon stays 44 px",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "mouse-touch-1280-dark: one press steps exactly once",
+      "ok": true,
+      "detail": "0:05"
+    },
+    {
+      "name": "mouse-touch-1280-dark: click without pointerdown steps once",
+      "ok": true,
+      "detail": "0:04"
+    },
+    {
+      "name": "mouse-touch-1280-dark: sr-only status announces the last value",
+      "ok": true,
+      "detail": "[\"\",\"Exercise 0:04\",\"\",\"\",\"\",\"\",\"\"]"
+    },
+    {
+      "name": "mouse-touch-1280-dark: hold makes one step before the delay",
+      "ok": true,
+      "detail": "0:02"
+    },
+    {
+      "name": "mouse-touch-1280-dark: hold repeats about every 100 ms",
+      "ok": true,
+      "detail": "11"
+    },
+    {
+      "name": "mouse-touch-1280-dark: hold stops on release",
+      "ok": true,
+      "detail": "0:11"
+    },
+    {
+      "name": "mouse-touch-1280-dark: hold stops when the pointer leaves",
+      "ok": true,
+      "detail": "0:05"
+    },
+    {
+      "name": "mouse-touch-1280-dark: hold stops on blur",
+      "ok": true,
+      "detail": "0:05"
+    },
+    {
+      "name": "mouse-touch-1280-dark: ArrowUp +1",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "mouse-touch-1280-dark: Shift+ArrowUp +10",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "mouse-touch-1280-dark: Shift+ArrowDown clamps at the minimum 0:01",
+      "ok": true,
+      "detail": "0:01"
+    },
+    {
+      "name": "mouse-touch-1280-dark: Decrease is aria-disabled, not disabled, at the minimum",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "mouse-touch-1280-dark: Shift+ArrowUp clamps at 10:00 in m:ss",
+      "ok": true,
+      "detail": "10:00"
+    },
+    {
+      "name": "mouse-touch-1280-dark: Increase is aria-disabled at the maximum",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "mouse-touch-1280-dark: empty value steps to the field minimum",
+      "ok": true,
+      "detail": "0:01"
+    },
+    {
+      "name": "mouse-touch-1280-dark: Repetitions at 100: Increase aria-disabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "mouse-touch-1280-dark: Repetitions ArrowDown gives a whole number",
+      "ok": true,
+      "detail": "99"
     }
   ]
 }

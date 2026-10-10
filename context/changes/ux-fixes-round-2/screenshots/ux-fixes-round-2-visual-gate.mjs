@@ -35,6 +35,7 @@ async function prepare(page, theme) {
         const button = document.querySelector('[data-testid="signal-preview-signal-default"] button[aria-label="Play exercise signal"]');
         return !!button && Object.keys(button).some((key) => key.startsWith("__reactProps"));
     });
+    await page.waitForTimeout(1500); // dev server: let late hydration and HMR settle before pointer input
     await page.addStyleTag({ content: "astro-dev-toolbar { display: none !important; }" });
     await page.evaluate((t) => {
         document.documentElement.classList.toggle("dark", t === "dark");
@@ -83,11 +84,16 @@ for (const viewport of VIEWPORTS) {
             ["default", "Standby"],
             ["disabled-zero", "rest"],
         ]) {
+            // A fresh page per tooltip: a hover right after another tooltip closed can miss in this Radix setup.
+            if (fixture !== "default" || name !== "exercise") await prepare(page, theme);
             const target = icon(card(page, fixture), name);
             await page.mouse.move(0, 0);
             await target.scrollIntoViewIfNeeded();
             await target.hover();
-            const fit = await tooltipFit(page);
+            const fit = await tooltipFit(page).catch((error) => {
+                console.error(`tooltip missing: ${tag} ${fixture} ${name}`);
+                throw error;
+            });
             // One word of slack: greedy wrapping may leave the last word of the widest line on the next one.
             check(`${tag}: A5.3 ${name} tooltip has no empty right half`, fit.gap <= 48 && fit.textBalance !== "balance", JSON.stringify(fit));
             await shot(page, card(page, fixture), join(here, `tooltip-${name.toLowerCase()}-${tag}.png`));
@@ -207,6 +213,163 @@ for (const viewport of VIEWPORTS) {
         await page.locator('section[aria-label="Phase sections examples"]').screenshot({ path: join(here, `current-like-next-${tag}.png`) });
         await page.locator('[data-testid="sections-standby-exercise"]').screenshot({ path: join(here, `standby-${tag}.png`) });
         await page.close();
+    }
+}
+
+// Phase 4: ConfigStepper in DrillConfigForm, in three pointer setups (fine, coarse, mouse + touch) and with the keyboard.
+const FIELDS = [
+    { name: "preparation", label: "preparation", step: " second" },
+    { name: "exercise", label: "exercise", step: " second" },
+    { name: "rest", label: "rest", step: " second" },
+    { name: "repetitions", label: "repetitions", step: "" },
+];
+const stepButton = (c, field, dir) => c.getByRole("button", { name: `${dir} ${field.label} by 1${field.step}` });
+const inputOf = (c, field) => c.locator(`input[name="${field.name}"]`);
+const rect = (locator) =>
+    locator.evaluate((el) => {
+        const r = el.getBoundingClientRect();
+        return { x: r.x, y: r.y, width: r.width, height: r.height };
+    });
+
+const SETUPS = [
+    { name: "fine", options: {}, coarse: false },
+    { name: "coarse", options: { hasTouch: true, isMobile: true }, coarse: true },
+    { name: "mouse-touch", options: { hasTouch: true }, coarse: true },
+];
+for (const setup of SETUPS) {
+    for (const viewport of VIEWPORTS) {
+        if (setup.name === "coarse" && viewport.name !== "390") continue;
+        if (setup.name === "mouse-touch" && viewport.name !== "1280") continue;
+        for (const theme of THEMES) {
+            const tag = `${setup.name}-${viewport.name}-${theme}`;
+            const context = await browser.newContext({ viewport: { width: viewport.width, height: viewport.height }, ...setup.options });
+            const page = await context.newPage();
+            await prepare(page, theme);
+            const c = card(page, "default");
+            await c.scrollIntoViewIfNeeded();
+
+            check(`${tag}: any-pointer matches the setup`, (await page.evaluate(() => matchMedia("(any-pointer: coarse)").matches)) === setup.coarse);
+            check(`${tag}: paragraph mentions arrows and Shift`, /Use the arrows, or ↑ and ↓ in a field \(Shift for 10\)\./.test(await c.innerText()));
+            // The page itself has a known 414 px overflow in TimerUiPreview (out of scope); the form card must fit the viewport and not overflow inside.
+            check(
+                `${tag}: form card has no horizontal overflow`,
+                await c.evaluate((el) => el.scrollWidth <= el.clientWidth && el.getBoundingClientRect().right <= document.documentElement.clientWidth),
+            );
+
+            for (const field of FIELDS) {
+                const up = stepButton(c, field, "Increase");
+                const down = stepButton(c, field, "Decrease");
+                const input = inputOf(c, field);
+                const inputId = await input.getAttribute("id");
+                check(
+                    `${tag} ${field.name}: buttons exist, tabIndex -1, aria-controls`,
+                    (await up.count()) === 1 && (await down.count()) === 1 && (await up.getAttribute("tabindex")) === "-1" && (await down.getAttribute("aria-controls")) === inputId,
+                );
+                const [u, d] = [await rect(up), await rect(down)];
+                const row = await rect(input.locator(".."));
+                const column = await rect(up.locator(".."));
+                check(`${tag} ${field.name}: row is 44 px`, Math.abs(row.height - 44) < 0.5, String(row.height));
+                if (setup.coarse) {
+                    check(
+                        `${tag} ${field.name}: buttons 44 px side by side, down left of up`,
+                        u.width === 44 && u.height === 44 && d.width === 44 && d.height === 44 && d.x < u.x && Math.abs(d.y - u.y) < 0.5,
+                        JSON.stringify({ u, d }),
+                    );
+                } else {
+                    check(
+                        `${tag} ${field.name}: column is 44 px, buttons 22 px, up above down`,
+                        column.height === 44 && u.height === 22 && d.height === 22 && u.y < d.y && Math.abs(d.y - (u.y + u.height)) < 0.5,
+                        JSON.stringify({ column, u, d }),
+                    );
+                    const border = await down.evaluate((el) => getComputedStyle(el).borderTopWidth);
+                    check(`${tag} ${field.name}: no double border between the buttons`, border === "0px", border);
+                }
+            }
+            const exercise = FIELDS[1];
+            const speaker = icon(c, "exercise");
+            check(`${tag}: stepper sits before the speaker icon`, (await rect(stepButton(c, exercise, "Increase"))).x < (await rect(speaker)).x);
+            check(`${tag}: speaker icon stays 44 px`, (await rect(speaker)).height === 44);
+
+            // One press steps exactly once (pointerdown, then the click that follows is ignored).
+            const exerciseInput = inputOf(c, exercise);
+            const up = stepButton(c, exercise, "Increase");
+            const down = stepButton(c, exercise, "Decrease");
+            await exerciseInput.fill("0:04");
+            if (setup.options.isMobile) await up.tap();
+            else await up.click();
+            check(`${tag}: one press steps exactly once`, (await exerciseInput.inputValue()) === "0:05", await exerciseInput.inputValue());
+            await page.waitForTimeout(250);
+            // A click without a pointer press (keyboard, screen reader, voice control) steps once.
+            await down.dispatchEvent("click");
+            check(`${tag}: click without pointerdown steps once`, (await exerciseInput.inputValue()) === "0:04", await exerciseInput.inputValue());
+            await page.waitForTimeout(500);
+            const statusTexts = await c.locator("p.sr-only[role='status']").allTextContents();
+            check(`${tag}: sr-only status announces the last value`, statusTexts.includes("Exercise 0:04"), JSON.stringify(statusTexts));
+
+            if (!setup.options.isMobile) {
+                const press = async () => {
+                    await exerciseInput.fill("0:01");
+                    await page.waitForTimeout(100);
+                    const box = await rect(up);
+                    await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2);
+                    await page.mouse.down();
+                    return box;
+                };
+                let box = await press();
+                await page.waitForTimeout(200);
+                const early = await exerciseInput.inputValue();
+                check(`${tag}: hold makes one step before the delay`, early === "0:02", early);
+                await page.waitForTimeout(1100);
+                const held = Number((await exerciseInput.inputValue()).split(":")[1]);
+                check(`${tag}: hold repeats about every 100 ms`, held >= 8 && held <= 13, String(held));
+                await page.mouse.up();
+                const afterUp = await exerciseInput.inputValue();
+                await page.waitForTimeout(400);
+                check(`${tag}: hold stops on release`, (await exerciseInput.inputValue()) === afterUp, afterUp);
+
+                box = await press();
+                await page.waitForTimeout(700);
+                await page.mouse.move(box.x + box.width / 2 + 200, box.y + box.height / 2 - 100);
+                const left = await exerciseInput.inputValue();
+                await page.waitForTimeout(500);
+                check(`${tag}: hold stops when the pointer leaves`, (await exerciseInput.inputValue()) === left, left);
+                await page.mouse.up();
+
+                await press();
+                await page.waitForTimeout(700);
+                await up.evaluate((el) => el.blur());
+                const blurred = await exerciseInput.inputValue();
+                await page.waitForTimeout(500);
+                check(`${tag}: hold stops on blur`, (await exerciseInput.inputValue()) === blurred, blurred);
+                await page.mouse.up();
+                await page.waitForTimeout(250);
+            }
+
+            await exerciseInput.fill("0:05");
+            await exerciseInput.press("ArrowUp");
+            check(`${tag}: ArrowUp +1`, (await exerciseInput.inputValue()) === "0:06");
+            await exerciseInput.press("Shift+ArrowUp");
+            check(`${tag}: Shift+ArrowUp +10`, (await exerciseInput.inputValue()) === "0:16");
+            await exerciseInput.press("Shift+ArrowDown");
+            await exerciseInput.press("Shift+ArrowDown");
+            check(`${tag}: Shift+ArrowDown clamps at the minimum 0:01`, (await exerciseInput.inputValue()) === "0:01", await exerciseInput.inputValue());
+            check(`${tag}: Decrease is aria-disabled, not disabled, at the minimum`, (await down.getAttribute("aria-disabled")) === "true" && (await down.getAttribute("disabled")) === null);
+            await exerciseInput.fill("9:59");
+            await exerciseInput.press("Shift+ArrowUp");
+            check(`${tag}: Shift+ArrowUp clamps at 10:00 in m:ss`, (await exerciseInput.inputValue()) === "10:00", await exerciseInput.inputValue());
+            check(`${tag}: Increase is aria-disabled at the maximum`, (await up.getAttribute("aria-disabled")) === "true");
+            await exerciseInput.fill("");
+            await up.dispatchEvent("click");
+            check(`${tag}: empty value steps to the field minimum`, (await exerciseInput.inputValue()) === "0:01", await exerciseInput.inputValue());
+            const repetitions = inputOf(c, FIELDS[3]);
+            await repetitions.fill("100");
+            check(`${tag}: Repetitions at 100: Increase aria-disabled`, (await stepButton(c, FIELDS[3], "Increase").getAttribute("aria-disabled")) === "true");
+            await repetitions.press("ArrowDown");
+            check(`${tag}: Repetitions ArrowDown gives a whole number`, (await repetitions.inputValue()) === "99", await repetitions.inputValue());
+
+            await shot(page, c, join(here, `stepper-${tag}.png`));
+            await context.close();
+        }
     }
 }
 

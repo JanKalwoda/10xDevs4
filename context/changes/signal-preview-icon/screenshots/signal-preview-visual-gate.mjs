@@ -40,6 +40,7 @@ async function prepare(page, theme) {
         const button = document.querySelector('[data-testid="signal-preview-signal-default"] button[aria-label="Play exercise signal"]');
         return !!button && Object.keys(button).some((key) => key.startsWith("__reactProps"));
     });
+    await page.waitForTimeout(1500); // dev server: let late hydration settle before pointer input
     await page.addStyleTag({ content: "astro-dev-toolbar { display: none !important; }" });
     await page.evaluate((t) => {
         document.documentElement.classList.toggle("dark", t === "dark");
