@@ -306,7 +306,7 @@ Brak zmian danych. Usunięcie `CLICK_AFTER_POINTER_MS` i `handledByPointer` nie 
 
 #### Manual
 
-- [ ] 3.3 Tooltip i Current wyglądają zgodnie z decyzją — script, not human
+- [x] 3.3 Tooltip i Current wyglądają zgodnie z decyzją — script, not human (zrzuty current-*, checks 188/188) — b3ebf57
 
 ### Phase 4: Fixtures, bramka wizualna i dokumentacja
 
