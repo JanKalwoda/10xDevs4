@@ -353,14 +353,14 @@ Brak migracji bazy danych i zmian API. Stepper działa na istniejących tekstowy
 
 #### Automated
 
-- [ ] 1.1 Link „Back to timers" → `/timers` w `DrillCreateApp.tsx` i asercja w smoke
-- [ ] 1.2 Pełna bramka (sync, lint, test, kontrakt, check, build) przechodzi
-- [ ] 1.3 Skrypt wizualny (A5.3, A5.9) kończy się kodem 0
+- [x] 1.1 Link „Back to timers" → `/timers` w `DrillCreateApp.tsx` i asercja w smoke — 18f49cd
+- [x] 1.2 Pełna bramka (sync, lint, test, kontrakt, check, build) przechodzi — 18f49cd
+- [x] 1.3 Skrypt wizualny (A5.3, A5.9) kończy się kodem 0 — 18f49cd
 
 #### Manual
 
-- [ ] 1.4 Link powrotu na `/create` prowadzi do `/timers`
-- [ ] 1.5 Tooltip bez pustej prawej połowy przy 1280 i 390 px
+- [x] 1.4 Link powrotu na `/create` prowadzi do `/timers` — script, not human (href asserted in smoke and markup; user confirms in the manual list) — 18f49cd
+- [x] 1.5 Tooltip bez pustej prawej połowy przy 1280 i 390 px — script, not human (tooltip gap <= 7 px, screenshots reviewed) — 18f49cd
 
 ### Phase 2: Okienko Current jak Next
 
