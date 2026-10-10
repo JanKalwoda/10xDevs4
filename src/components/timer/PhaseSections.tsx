@@ -1,4 +1,5 @@
 import { useId } from "react";
+import { cn } from "@/lib/utils";
 import { currentPhaseBody, nextPhaseBody, type PhaseSections as PhaseSectionsModel } from "@/lib/drill-phase-sections";
 
 interface PhaseSectionsProps {
@@ -6,10 +7,11 @@ interface PhaseSectionsProps {
     initializing: boolean;
 }
 
-function PhaseBox({ label, body }: { label: string; body: string }) {
+/** Next is a framed box; Current has a transparent border of the same width so both lines sit at identical positions. */
+function PhaseBox({ label, body, framed }: { label: string; body: string; framed: boolean }) {
     const id = useId();
     return (
-        <div role="group" aria-labelledby={id} className="bg-muted border-border rounded-lg border px-4 py-3">
+        <div role="group" aria-labelledby={id} className={cn("rounded-lg border px-4 py-3", framed ? "bg-muted border-border" : "border-transparent")}>
             <p id={id} className="text-foreground text-xl font-semibold">
                 {label}
             </p>
@@ -34,8 +36,8 @@ export default function PhaseSections({ sections, initializing }: PhaseSectionsP
                 </div>
                 <p className="text-muted-foreground min-h-7 text-lg">{repetition}</p>
             </div>
-            <PhaseBox label="Current" body={currentPhaseBody(current)} />
-            <PhaseBox label="Next" body={nextPhaseBody(next)} />
+            <PhaseBox label="Current" body={currentPhaseBody(current)} framed={false} />
+            <PhaseBox label="Next" body={nextPhaseBody(next)} framed />
         </div>
     );
 }

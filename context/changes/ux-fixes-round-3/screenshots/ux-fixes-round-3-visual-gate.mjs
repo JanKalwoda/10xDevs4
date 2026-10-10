@@ -40,6 +40,12 @@ async function prepare(page) {
     await page.addStyleTag({ content: "astro-dev-toolbar { display: none !important; }" });
 }
 
+const shot = async (page, locator, path) => {
+    await locator.scrollIntoViewIfNeeded();
+    await page.mouse.move(0, 0);
+    await locator.screenshot({ path });
+};
+
 const center = async (locator) => {
     await locator.scrollIntoViewIfNeeded();
     const box = await locator.boundingBox();
@@ -186,6 +192,88 @@ for (const setup of SETUPS) {
     const errorGroup = errorCard.locator('input[name="preparation"]').locator("xpath=ancestor::*[@data-slot='input-group'][1]");
     const colors = await Promise.all([errorGroup, exerciseGroup].map((g) => g.evaluate((el) => getComputedStyle(el).borderTopColor)));
     check(`${tag}: invalid field colors the frame`, colors[0] !== colors[1], JSON.stringify(colors));
+    // Phase 3: tooltip width follows the text on desktop, Current has no frame and no fill.
+    const TOOLTIP = '[data-slot="tooltip-content"]';
+    const tipCard = (fixture) => page.locator(`[data-testid="signal-preview-signal-${fixture}"]`);
+    const measure = (el) => {
+            const box = el.getBoundingClientRect();
+            const style = getComputedStyle(el);
+            let widest = 0;
+            let lines = 0;
+            for (const p of el.querySelectorAll("p")) {
+                const range = document.createRange();
+                range.selectNodeContents(p);
+                const rects = [...range.getClientRects()].filter((r) => r.width > 0);
+                const tops = new Set(rects.map((r) => Math.round(r.top)));
+                lines += tops.size;
+                for (const r of rects) widest = Math.max(widest, r.width);
+            }
+            const inner = box.width - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight);
+            return { width: box.width, inner, widest, gap: inner - widest, lines, right: box.right, left: box.left, vw: document.documentElement.clientWidth, iw: innerWidth, sw: document.documentElement.scrollWidth, vv: visualViewport.width };
+    };
+    const tipCases = [
+        { fixture: "signal-default", label: "exercise", state: "available" },
+        { fixture: "signal-default", label: "rest", state: "available" },
+        { fixture: "signal-default", label: "Standby", state: "with off note" },
+        { fixture: "signal-random-on", label: "Standby", state: "available" },
+        { fixture: "signal-disabled-zero", label: "rest", state: "disabled with reason" },
+        { fixture: "signal-disabled-invalid", label: "rest", state: "disabled until valid" },
+    ];
+    for (const c of tipCases) {
+        const trigger = tipCard(c.fixture.replace("signal-", "")).getByRole("button", { name: `Play ${c.label} signal` });
+        await page.mouse.move(0, 0);
+        await page.locator(TOOLTIP).first().waitFor({ state: "detached", timeout: 2000 }).catch(() => {});
+        await trigger.scrollIntoViewIfNeeded();
+        await page.waitForTimeout(300);
+        let m = null;
+        for (let attempt = 0; attempt < 4 && !m; attempt++) {
+            if (setup.touch === true) await trigger.tap({ force: true });
+            else await trigger.hover({ force: true });
+            await page.waitForTimeout(500);
+            m = await page.locator(TOOLTIP).first().evaluate(measure, null, { timeout: 1500 }).catch(() => null);
+            if (!m) await page.mouse.move(0, 0);
+        }
+        if (!m) check(`${tag} tooltip ${c.label} (${c.state}): opens`, false);
+        if (!m) continue;
+        const name = `${tag} tooltip ${c.label} (${c.state})`;
+        check(`${name}: no empty space on the right (gap <= ${coarsePrimary ? 8 : 12} px; one word cannot be split)`, m.gap <= (coarsePrimary ? 8 : 12), JSON.stringify(m));
+        check(`${name}: inside the viewport`, m.left >= 0 && m.right <= m.iw, JSON.stringify(m));
+        if (!coarsePrimary) check(`${name}: fits in 1-2 lines per paragraph block (<= 3 lines total)`, m.lines <= 3, JSON.stringify(m));
+        check(`${name}: max width ${coarsePrimary ? "320" : "448"} px`, m.width <= (coarsePrimary ? 320 : 448) + 0.5, JSON.stringify(m));
+    }
+    await page.mouse.move(0, 0);
+
+    for (const fixture of ["preparation-exercise", "preparation-standby", "standby-exercise", "exercise-rest", "longest-values"]) {
+        const view = page.locator(`[data-testid="sections-${fixture}"]`);
+        await view.scrollIntoViewIfNeeded();
+        const boxes = await view.evaluate((el) => {
+            const groups = [...el.querySelectorAll('[role="group"]')];
+            const info = (g) => {
+                const s = getComputedStyle(g);
+                const r = g.getBoundingClientRect();
+                return { height: r.height, borderColor: s.borderTopColor, borderWidth: s.borderTopWidth, bg: s.backgroundColor, lineTop: g.querySelector("p:last-child").getBoundingClientRect().top - r.top, labelTop: g.querySelector("p").getBoundingClientRect().top - r.top, left: g.querySelector("p").getBoundingClientRect().left - r.left };
+            };
+            return groups.map(info);
+        });
+        const [cur, nxt] = boxes;
+        check(`${tag} ${fixture}: Current is unframed and has a transparent background`, cur.bg === "rgba(0, 0, 0, 0)" && /rgba\(0, 0, 0, 0\)|transparent/.test(cur.borderColor), JSON.stringify(cur));
+        check(`${tag} ${fixture}: Next keeps its frame and fill`, nxt.bg !== "rgba(0, 0, 0, 0)" && nxt.borderColor !== "rgba(0, 0, 0, 0)", JSON.stringify(nxt));
+        check(`${tag} ${fixture}: Current and Next have the same height and text offsets`, cur.height === nxt.height && cur.lineTop === nxt.lineTop && cur.labelTop === nxt.labelTop && cur.left === nxt.left, JSON.stringify({ cur, nxt }));
+    }
+    // Control bar and time do not move between phases (Standby included).
+    const barTops = [];
+    for (const fixture of ["preparation-exercise", "standby-exercise", "exercise-rest", "rest-standby"]) {
+        const view = page.locator(`[data-testid="sections-${fixture}"]`);
+        barTops.push(await view.evaluate((el) => {
+            const base = el.getBoundingClientRect().top;
+            const bar = el.querySelector('button[aria-label*="Cancel" i], button[aria-label*="Restart" i]');
+            const timer = el.querySelector('[role="timer"], p.text-6xl');
+            return { bar: bar.getBoundingClientRect().top - base, time: timer.getBoundingClientRect().top - base };
+        }));
+    }
+    check(`${tag}: control bar and time sit at the same offset in every phase`, barTops.every((t) => t.bar === barTops[0].bar && t.time === barTops[0].time), JSON.stringify(barTops));
+    await shot(page, page.locator('[data-testid="sections-preparation-exercise"]'), join(here, `current-unframed-${tag}.png`));
+    await shot(page, page.locator('[data-testid="sections-standby-exercise"]'), join(here, `current-standby-${tag}.png`));
     await context.close();
 }
 
