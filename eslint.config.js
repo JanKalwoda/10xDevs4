@@ -86,6 +86,7 @@ export default defineConfig(
         "context/changes/run-view-layout/screenshots/*.mjs",
         "context/changes/signal-preview-icon/screenshots/signal-preview-visual-gate.mjs",
         "context/changes/ux-fixes-round-2/screenshots/ux-fixes-round-2-visual-gate.mjs",
+        "context/changes/ux-fixes-round-3/screenshots/ux-fixes-round-3-visual-gate.mjs",
     ]),
     baseConfig,
     reactConfig,

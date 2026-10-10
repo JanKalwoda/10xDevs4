@@ -156,6 +156,51 @@ void test("stop on cleanup keeps the repeater usable when the effect runs again 
     assert.equal(state.steps, before + 2);
 });
 
+void test("arm runs nothing before the delay, then fires once and steps", () => {
+    const { repeater, advance } = harness();
+    const { state, step } = counter();
+    let fired = 0;
+    repeater.arm(step, () => {
+        fired += 1;
+    });
+    advance(REPEAT_DELAY_MS - 1);
+    assert.equal(state.steps, 0);
+    assert.equal(fired, 0);
+    advance(1);
+    assert.equal(state.steps, 1);
+    assert.equal(fired, 1);
+    advance(REPEAT_INTERVAL_MS * 2);
+    assert.equal(state.steps, 3);
+    assert.equal(fired, 1);
+});
+
+void test("arm fires even when the first step reports a bound, and does not start the interval", () => {
+    const { repeater, advance, pending } = harness();
+    const { state, step } = counter(1);
+    let fired = 0;
+    repeater.arm(step, () => {
+        fired += 1;
+    });
+    advance(2000);
+    assert.equal(fired, 1);
+    assert.equal(state.steps, 1);
+    assert.equal(pending(), 0);
+});
+
+void test("stop and dispose cancel an armed delay", () => {
+    const { repeater, advance, pending } = harness();
+    const { state, step } = counter();
+    repeater.arm(step);
+    repeater.stop();
+    assert.equal(pending(), 0);
+    advance(2000);
+    assert.equal(state.steps, 0);
+    repeater.dispose();
+    repeater.arm(step);
+    advance(2000);
+    assert.equal(state.steps, 0);
+});
+
 void test("a step reading the latest value ends the repeat when the value changes outside", () => {
     const { repeater, advance, pending } = harness();
     const latest = { value: 3 };

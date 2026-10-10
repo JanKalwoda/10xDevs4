@@ -1,61 +1,52 @@
-import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import { createStepRepeater } from "@/lib/drill-step-repeat";
+import { createStepPress } from "@/lib/drill-step-press";
 import { canStep, stepFieldValue, type StepDirection, type StepperField } from "@/lib/drill-stepper";
 
-interface Latest {
-    value: string;
-    onStep: (next: string) => void;
-}
-
 /**
- * Press-and-hold stepping of one field. The repeat reads `value` and `onStep` from a ref refreshed after every
- * render, so a held button never steps from a stale copy; it stops at the bound and on unmount.
+ * Stepping of one field by a button: a click steps once, a long press repeats (see `createStepPress`). After every
+ * render the press is bound to the newest `value` and `onStep`, so a held button never steps from a stale copy; the
+ * repeat stops at the bound and on unmount.
  */
 export function useStepRepeat(field: StepperField, value: string, onStep: (next: string) => void) {
-    const latest = useRef<Latest>({ value, onStep });
-    useLayoutEffect(() => {
-        latest.current = { value, onStep };
-    });
-
-    const [repeater] = useState(() =>
-        createStepRepeater({
-            setTimer: (callback, milliseconds) => setTimeout(callback, milliseconds),
-            clearTimer: (handle) => {
-                clearTimeout(handle as ReturnType<typeof setTimeout>);
-            },
-            setIntervalTimer: (callback, milliseconds) => setInterval(callback, milliseconds),
-            clearIntervalTimer: (handle) => {
-                clearInterval(handle as ReturnType<typeof setInterval>);
-            },
+    const [press] = useState(() =>
+        createStepPress({
+            repeater: createStepRepeater({
+                setTimer: (callback, milliseconds) => setTimeout(callback, milliseconds),
+                clearTimer: (handle) => {
+                    clearTimeout(handle as ReturnType<typeof setTimeout>);
+                },
+                setIntervalTimer: (callback, milliseconds) => setInterval(callback, milliseconds),
+                clearIntervalTimer: (handle) => {
+                    clearInterval(handle as ReturnType<typeof setInterval>);
+                },
+            }),
+            step: () => false,
+            canStep: () => false,
         }),
     );
 
+    useLayoutEffect(() => {
+        // The value a repeat has reached before the next render commits it, so repeats keep moving on.
+        let current = value;
+        press.bind({
+            canStep: (direction: StepDirection) => canStep(field, current, direction),
+            step: (direction: StepDirection) => {
+                if (!canStep(field, current, direction)) return false;
+                current = stepFieldValue(field, current, direction === "up" ? 1 : -1);
+                onStep(current);
+                return canStep(field, current, direction);
+            },
+        });
+    });
+
     useEffect(
         () => () => {
-            // stop(), not dispose(): the effect runs again on the same instance after StrictMode / Fast Refresh.
-            repeater.stop();
+            // blur(), not a one-way dispose: the effect runs again on the same instance after StrictMode / Fast Refresh.
+            press.blur();
         },
-        [repeater],
+        [press],
     );
 
-    const start = useCallback(
-        (direction: StepDirection) => {
-            repeater.start(() => {
-                const current = latest.current;
-                if (!canStep(field, current.value, direction)) return false;
-                const next = stepFieldValue(field, current.value, direction === "up" ? 1 : -1);
-                // Keep the ref in step so the next repeat before a re-render still moves on.
-                latest.current = { ...current, value: next };
-                current.onStep(next);
-                return canStep(field, next, direction);
-            });
-        },
-        [field, repeater],
-    );
-
-    const stop = useCallback(() => {
-        repeater.stop();
-    }, [repeater]);
-
-    return { start, stop };
+    return press;
 }

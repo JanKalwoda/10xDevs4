@@ -1,0 +1,117 @@
+[
+  {
+    "name": "fine: primary pointer matches the setup",
+    "ok": true,
+    "detail": "{\"fine\":true,\"anyCoarse\":false}"
+  },
+  {
+    "name": "fine: any-pointer matches the setup",
+    "ok": true,
+    "detail": "{\"fine\":true,\"anyCoarse\":false}"
+  },
+  {
+    "name": "fine: one real click steps exactly once",
+    "ok": true,
+    "detail": "0:05"
+  },
+  {
+    "name": "fine: the click of a pointer press has detail > 0",
+    "ok": true,
+    "detail": "[1]"
+  },
+  {
+    "name": "fine: a click 300 ms after pointerup steps exactly once",
+    "ok": true,
+    "detail": "0:05"
+  },
+  {
+    "name": "fine: click with detail 0 steps exactly once",
+    "ok": true,
+    "detail": "0:05"
+  },
+  {
+    "name": "fine: nothing steps during the 400 ms pause",
+    "ok": true,
+    "detail": "0:04"
+  },
+  {
+    "name": "fine: hold repeats about every 100 ms after the pause",
+    "ok": true,
+    "detail": "10 steps"
+  },
+  {
+    "name": "fine: release adds no extra step",
+    "ok": true,
+    "detail": "14 -> 14"
+  },
+  {
+    "name": "fine: nothing steps after the release",
+    "ok": true,
+    "detail": "0:14"
+  },
+  {
+    "name": "fine: a key click after a hold steps once",
+    "ok": true,
+    "detail": "0:15"
+  },
+  {
+    "name": "coarse: primary pointer matches the setup",
+    "ok": true,
+    "detail": "{\"fine\":false,\"anyCoarse\":true}"
+  },
+  {
+    "name": "coarse: any-pointer matches the setup",
+    "ok": true,
+    "detail": "{\"fine\":false,\"anyCoarse\":true}"
+  },
+  {
+    "name": "coarse: one real tap steps exactly once",
+    "ok": true,
+    "detail": "0:05"
+  },
+  {
+    "name": "coarse: the click of a pointer press has detail > 0",
+    "ok": true,
+    "detail": "[1]"
+  },
+  {
+    "name": "coarse: a click 300 ms after pointerup steps exactly once",
+    "ok": true,
+    "detail": "0:05"
+  },
+  {
+    "name": "coarse: click with detail 0 steps exactly once",
+    "ok": true,
+    "detail": "0:05"
+  },
+  {
+    "name": "fine-touch: primary pointer matches the setup",
+    "ok": true,
+    "detail": "{\"fine\":true,\"anyCoarse\":false}"
+  },
+  {
+    "name": "fine-touch: any-pointer matches the setup",
+    "ok": true,
+    "detail": "{\"fine\":true,\"anyCoarse\":false}"
+  },
+  {
+    "name": "fine-touch: one real tap steps exactly once",
+    "ok": true,
+    "detail": "0:05"
+  },
+  {
+    "name": "fine-touch: the click of a pointer press has detail > 0",
+    "ok": true,
+    "detail": "[1]"
+  },
+  {
+    "name": "fine-touch: a click 300 ms after pointerup steps exactly once",
+    "ok": true,
+    "detail": "0:05"
+  },
+  {
+    "name": "fine-touch: click with detail 0 steps exactly once",
+    "ok": true,
+    "detail": "0:05"
+  }
+]
