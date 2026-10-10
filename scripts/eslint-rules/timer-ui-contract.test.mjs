@@ -55,6 +55,7 @@ test("actual ESLint configuration enforces React/Astro timer scope and leaves ac
         "src/pages/index.astro",
         "src/pages/dev/timer-ui.astro",
         "src/components/ui/input.tsx",
+        "src/components/ui/input-group.tsx",
         "src/components/ui/alert-dialog.tsx",
         "src/components/ui/tooltip.tsx",
     ]) {

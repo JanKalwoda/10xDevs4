@@ -135,6 +135,57 @@ for (const setup of SETUPS) {
         await page.waitForTimeout(200);
         check(`${tag}: a key click after a hold steps once`, Number((await value()).split(":")[1]) === Number(settled.split(":")[1]) + 1, await value());
     }
+
+    // Phase 2: arrows inside the frame of the field, layout from the primary pointer.
+    const rect = (locator) =>
+        locator.evaluate((el) => {
+            const r = el.getBoundingClientRect();
+            return { x: r.x, y: r.y, width: r.width, height: r.height, right: r.right, bottom: r.bottom };
+        });
+    const coarsePrimary = setup.pointer === "coarse";
+    const fields = [
+        { name: "preparation", label: "preparation", unit: " second" },
+        { name: "exercise", label: "exercise", unit: " second" },
+        { name: "rest", label: "rest", unit: " second" },
+        { name: "repetitions", label: "repetitions", unit: "" },
+    ];
+    const cardRect = await rect(card);
+    check(`${tag}: form card fits the viewport`, await card.evaluate((el) => el.scrollWidth <= el.clientWidth && el.getBoundingClientRect().right <= document.documentElement.clientWidth), JSON.stringify(cardRect));
+    for (const f of fields) {
+        const fieldInput = card.locator(`input[name="${f.name}"]`);
+        const group = fieldInput.locator("xpath=ancestor::*[@data-slot='input-group'][1]");
+        const upBtn = card.getByRole("button", { name: `Increase ${f.label} by 1${f.unit}` });
+        const downBtn = card.getByRole("button", { name: `Decrease ${f.label} by 1${f.unit}` });
+        const [g, u, d, i] = [await rect(group), await rect(upBtn), await rect(downBtn), await rect(fieldInput)];
+        check(`${tag} ${f.name}: frame is 44 px high and holds field and both arrows`, Math.abs(g.height - 44) < 0.5 && i.right <= g.right && u.right <= g.right + 0.5 && d.right <= g.right + 0.5 && u.x >= i.right - 0.5, JSON.stringify({ g, i, u, d }));
+        check(`${tag} ${f.name}: the field has no border of its own`, (await fieldInput.evaluate((el) => getComputedStyle(el).borderTopWidth)) === "0px");
+        if (coarsePrimary) {
+            check(`${tag} ${f.name}: 44 px buttons side by side, down left of up`, u.width === 44 && u.height === 44 && d.width === 44 && d.height === 44 && d.x < u.x && Math.abs(d.y - u.y) < 0.5, JSON.stringify({ u, d }));
+        } else {
+            check(`${tag} ${f.name}: column, up above down, each half of the frame`, Math.abs(u.x - d.x) < 0.5 && u.y < d.y && u.height >= 20 && d.height >= 20 && u.height + d.height <= 44.5, JSON.stringify({ u, d }));
+        }
+    }
+    const speaker = card.getByRole("button", { name: "Play exercise signal" });
+    const exerciseGroup = card.locator('input[name="exercise"]').locator("xpath=ancestor::*[@data-slot='input-group'][1]");
+    check(`${tag}: speaker icon is outside the frame, on its right`, (await rect(speaker)).x >= (await rect(exerciseGroup)).right - 0.5);
+    // Longest values still fit the field without clipping.
+    await card.locator('input[name="exercise"]').fill("10:00");
+    await card.locator('input[name="repetitions"]').fill("100");
+    check(
+        `${tag}: longest values are not clipped`,
+        await card.locator("input").evaluateAll((els) => els.every((el) => el.scrollWidth <= el.clientWidth)),
+    );
+    // One focus ring for the whole frame.
+    await card.locator('input[name="rest"]').focus();
+    const restGroup = card.locator('input[name="rest"]').locator("xpath=ancestor::*[@data-slot='input-group'][1]");
+    check(`${tag}: focus draws a ring on the frame`, (await restGroup.evaluate((el) => getComputedStyle(el).boxShadow)) !== "none");
+    // Error state colors the frame, not the field.
+    const errorCard = page.locator('[data-testid="stepper-error"]');
+    await errorCard.getByRole("button", { name: "Start" }).click();
+    await page.waitForTimeout(300);
+    const errorGroup = errorCard.locator('input[name="preparation"]').locator("xpath=ancestor::*[@data-slot='input-group'][1]");
+    const colors = await Promise.all([errorGroup, exerciseGroup].map((g) => g.evaluate((el) => getComputedStyle(el).borderTopColor)));
+    check(`${tag}: invalid field colors the frame`, colors[0] !== colors[1], JSON.stringify(colors));
     await context.close();
 }
 

@@ -1,7 +1,7 @@
 import { useEffect, useId, useRef, useState, type ReactNode, type SubmitEvent } from "react";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Input } from "@/components/ui/input";
+import { InputGroup, InputGroupInput } from "@/components/ui/input-group";
 import { Label } from "@/components/ui/label";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import ConfigStepper from "@/components/timer/ConfigStepper";
@@ -69,38 +69,39 @@ function ConfigField({ id, field, label, hint, value, error, onChange, children,
         <div className="space-y-1">
             <Label htmlFor={id}>{label}</Label>
             <div className="flex items-center gap-2">
-                <Input
-                    id={id}
-                    name={field}
-                    type="text"
-                    inputMode={field === "repetitions" ? "numeric" : "text"}
-                    value={value}
-                    onChange={(event) => {
-                        announceStep.current = false;
-                        setAnnouncement("");
-                        onChange(field, event.target.value);
-                    }}
-                    onKeyDown={(event) => {
-                        if (event.key !== "ArrowUp" && event.key !== "ArrowDown") return;
-                        event.preventDefault();
-                        const amount = event.shiftKey ? 10 : 1;
-                        announceStep.current = true;
-                        onChange(field, stepFieldValue(field, value, event.key === "ArrowUp" ? amount : -amount));
-                    }}
-                    aria-invalid={Boolean(error)}
-                    aria-describedby={`${hintId}${error ? ` ${errorId}` : ""}`}
-                    className="min-w-0 flex-1"
-                />
-                <ConfigStepper
-                    field={field}
-                    inputId={id}
-                    value={value}
-                    label={label.toLowerCase()}
-                    onStep={(next) => {
-                        announceStep.current = true;
-                        onChange(field, next);
-                    }}
-                />
+                <InputGroup className="h-11 flex-1">
+                    <InputGroupInput
+                        id={id}
+                        name={field}
+                        type="text"
+                        inputMode={field === "repetitions" ? "numeric" : "text"}
+                        value={value}
+                        onChange={(event) => {
+                            announceStep.current = false;
+                            setAnnouncement("");
+                            onChange(field, event.target.value);
+                        }}
+                        onKeyDown={(event) => {
+                            if (event.key !== "ArrowUp" && event.key !== "ArrowDown") return;
+                            event.preventDefault();
+                            const amount = event.shiftKey ? 10 : 1;
+                            announceStep.current = true;
+                            onChange(field, stepFieldValue(field, value, event.key === "ArrowUp" ? amount : -amount));
+                        }}
+                        aria-invalid={Boolean(error)}
+                        aria-describedby={`${hintId}${error ? ` ${errorId}` : ""}`}
+                    />
+                    <ConfigStepper
+                        field={field}
+                        inputId={id}
+                        value={value}
+                        label={label.toLowerCase()}
+                        onStep={(next) => {
+                            announceStep.current = true;
+                            onChange(field, next);
+                        }}
+                    />
+                </InputGroup>
                 {action ?? <span aria-hidden="true" className="size-11 shrink-0" />}
             </div>
             <p role="status" className="sr-only">

@@ -55,6 +55,91 @@
     "detail": "0:15"
   },
   {
+    "name": "fine: form card fits the viewport",
+    "ok": true,
+    "detail": "{\"x\":80,\"y\":-302,\"width\":357.328125,\"height\":826,\"right\":437.328125,\"bottom\":524}"
+  },
+  {
+    "name": "fine preparation: frame is 44 px high and holds field and both arrows",
+    "ok": true,
+    "detail": "{\"g\":{\"x\":105,\"y\":-131,\"width\":255.328125,\"height\":44,\"right\":360.328125,\"bottom\":-87},\"i\":{\"x\":106,\"y\":-130,\"width\":220.328125,\"height\":42,\"right\":326.328125,\"bottom\":-88},\"u\":{\"x\":327.328125,\"y\":-130,\"width\":32,\"height\":20.5,\"right\":359.328125,\"bottom\":-109.5},\"d\":{\"x\":327.328125,\"y\":-109.5,\"width\":32,\"height\":21.5,\"right\":359.328125,\"bottom\":-88}}"
+  },
+  {
+    "name": "fine preparation: the field has no border of its own",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "fine preparation: column, up above down, each half of the frame",
+    "ok": true,
+    "detail": "{\"u\":{\"x\":327.328125,\"y\":-130,\"width\":32,\"height\":20.5,\"right\":359.328125,\"bottom\":-109.5},\"d\":{\"x\":327.328125,\"y\":-109.5,\"width\":32,\"height\":21.5,\"right\":359.328125,\"bottom\":-88}}"
+  },
+  {
+    "name": "fine exercise: frame is 44 px high and holds field and both arrows",
+    "ok": true,
+    "detail": "{\"g\":{\"x\":105,\"y\":-1,\"width\":255.328125,\"height\":44,\"right\":360.328125,\"bottom\":43},\"i\":{\"x\":106,\"y\":0,\"width\":220.328125,\"height\":42,\"right\":326.328125,\"bottom\":42},\"u\":{\"x\":327.328125,\"y\":0,\"width\":32,\"height\":20.5,\"right\":359.328125,\"bottom\":20.5},\"d\":{\"x\":327.328125,\"y\":20.5,\"width\":32,\"height\":21.5,\"right\":359.328125,\"bottom\":42}}"
+  },
+  {
+    "name": "fine exercise: the field has no border of its own",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "fine exercise: column, up above down, each half of the frame",
+    "ok": true,
+    "detail": "{\"u\":{\"x\":327.328125,\"y\":0,\"width\":32,\"height\":20.5,\"right\":359.328125,\"bottom\":20.5},\"d\":{\"x\":327.328125,\"y\":20.5,\"width\":32,\"height\":21.5,\"right\":359.328125,\"bottom\":42}}"
+  },
+  {
+    "name": "fine rest: frame is 44 px high and holds field and both arrows",
+    "ok": true,
+    "detail": "{\"g\":{\"x\":105,\"y\":105,\"width\":255.328125,\"height\":44,\"right\":360.328125,\"bottom\":149},\"i\":{\"x\":106,\"y\":106,\"width\":220.328125,\"height\":42,\"right\":326.328125,\"bottom\":148},\"u\":{\"x\":327.328125,\"y\":106,\"width\":32,\"height\":20.5,\"right\":359.328125,\"bottom\":126.5},\"d\":{\"x\":327.328125,\"y\":126.5,\"width\":32,\"height\":21.5,\"right\":359.328125,\"bottom\":148}}"
+  },
+  {
+    "name": "fine rest: the field has no border of its own",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "fine rest: column, up above down, each half of the frame",
+    "ok": true,
+    "detail": "{\"u\":{\"x\":327.328125,\"y\":106,\"width\":32,\"height\":20.5,\"right\":359.328125,\"bottom\":126.5},\"d\":{\"x\":327.328125,\"y\":126.5,\"width\":32,\"height\":21.5,\"right\":359.328125,\"bottom\":148}}"
+  },
+  {
+    "name": "fine repetitions: frame is 44 px high and holds field and both arrows",
+    "ok": true,
+    "detail": "{\"g\":{\"x\":105,\"y\":211,\"width\":255.328125,\"height\":44,\"right\":360.328125,\"bottom\":255},\"i\":{\"x\":106,\"y\":212,\"width\":220.328125,\"height\":42,\"right\":326.328125,\"bottom\":254},\"u\":{\"x\":327.328125,\"y\":212,\"width\":32,\"height\":20.5,\"right\":359.328125,\"bottom\":232.5},\"d\":{\"x\":327.328125,\"y\":232.5,\"width\":32,\"height\":21.5,\"right\":359.328125,\"bottom\":254}}"
+  },
+  {
+    "name": "fine repetitions: the field has no border of its own",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "fine repetitions: column, up above down, each half of the frame",
+    "ok": true,
+    "detail": "{\"u\":{\"x\":327.328125,\"y\":212,\"width\":32,\"height\":20.5,\"right\":359.328125,\"bottom\":232.5},\"d\":{\"x\":327.328125,\"y\":232.5,\"width\":32,\"height\":21.5,\"right\":359.328125,\"bottom\":254}}"
+  },
+  {
+    "name": "fine: speaker icon is outside the frame, on its right",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "fine: longest values are not clipped",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "fine: focus draws a ring on the frame",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "fine: invalid field colors the frame",
+    "ok": true,
+    "detail": "[\"oklch(0.53 0.2078 25.3313)\",\"oklch(0.9276 0.0058 264.531)\"]"
+  },
+  {
     "name": "coarse: primary pointer matches the setup",
     "ok": true,
     "detail": "{\"fine\":false,\"anyCoarse\":true}"
@@ -85,6 +170,91 @@
     "detail": "0:05"
   },
   {
+    "name": "coarse: form card fits the viewport",
+    "ok": true,
+    "detail": "{\"x\":16,\"y\":-301,\"width\":358,\"height\":806,\"right\":374,\"bottom\":505}"
+  },
+  {
+    "name": "coarse preparation: frame is 44 px high and holds field and both arrows",
+    "ok": true,
+    "detail": "{\"g\":{\"x\":41,\"y\":-130,\"width\":256,\"height\":44,\"right\":297,\"bottom\":-86},\"i\":{\"x\":42,\"y\":-129,\"width\":165,\"height\":42,\"right\":207,\"bottom\":-87},\"u\":{\"x\":252,\"y\":-130,\"width\":44,\"height\":44,\"right\":296,\"bottom\":-86},\"d\":{\"x\":208,\"y\":-130,\"width\":44,\"height\":44,\"right\":252,\"bottom\":-86}}"
+  },
+  {
+    "name": "coarse preparation: the field has no border of its own",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "coarse preparation: 44 px buttons side by side, down left of up",
+    "ok": true,
+    "detail": "{\"u\":{\"x\":252,\"y\":-130,\"width\":44,\"height\":44,\"right\":296,\"bottom\":-86},\"d\":{\"x\":208,\"y\":-130,\"width\":44,\"height\":44,\"right\":252,\"bottom\":-86}}"
+  },
+  {
+    "name": "coarse exercise: frame is 44 px high and holds field and both arrows",
+    "ok": true,
+    "detail": "{\"g\":{\"x\":41,\"y\":0,\"width\":256,\"height\":44,\"right\":297,\"bottom\":44},\"i\":{\"x\":42,\"y\":1,\"width\":165,\"height\":42,\"right\":207,\"bottom\":43},\"u\":{\"x\":252,\"y\":0,\"width\":44,\"height\":44,\"right\":296,\"bottom\":44},\"d\":{\"x\":208,\"y\":0,\"width\":44,\"height\":44,\"right\":252,\"bottom\":44}}"
+  },
+  {
+    "name": "coarse exercise: the field has no border of its own",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "coarse exercise: 44 px buttons side by side, down left of up",
+    "ok": true,
+    "detail": "{\"u\":{\"x\":252,\"y\":0,\"width\":44,\"height\":44,\"right\":296,\"bottom\":44},\"d\":{\"x\":208,\"y\":0,\"width\":44,\"height\":44,\"right\":252,\"bottom\":44}}"
+  },
+  {
+    "name": "coarse rest: frame is 44 px high and holds field and both arrows",
+    "ok": true,
+    "detail": "{\"g\":{\"x\":41,\"y\":106,\"width\":256,\"height\":44,\"right\":297,\"bottom\":150},\"i\":{\"x\":42,\"y\":107,\"width\":165,\"height\":42,\"right\":207,\"bottom\":149},\"u\":{\"x\":252,\"y\":106,\"width\":44,\"height\":44,\"right\":296,\"bottom\":150},\"d\":{\"x\":208,\"y\":106,\"width\":44,\"height\":44,\"right\":252,\"bottom\":150}}"
+  },
+  {
+    "name": "coarse rest: the field has no border of its own",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "coarse rest: 44 px buttons side by side, down left of up",
+    "ok": true,
+    "detail": "{\"u\":{\"x\":252,\"y\":106,\"width\":44,\"height\":44,\"right\":296,\"bottom\":150},\"d\":{\"x\":208,\"y\":106,\"width\":44,\"height\":44,\"right\":252,\"bottom\":150}}"
+  },
+  {
+    "name": "coarse repetitions: frame is 44 px high and holds field and both arrows",
+    "ok": true,
+    "detail": "{\"g\":{\"x\":41,\"y\":212,\"width\":256,\"height\":44,\"right\":297,\"bottom\":256},\"i\":{\"x\":42,\"y\":213,\"width\":165,\"height\":42,\"right\":207,\"bottom\":255},\"u\":{\"x\":252,\"y\":212,\"width\":44,\"height\":44,\"right\":296,\"bottom\":256},\"d\":{\"x\":208,\"y\":212,\"width\":44,\"height\":44,\"right\":252,\"bottom\":256}}"
+  },
+  {
+    "name": "coarse repetitions: the field has no border of its own",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "coarse repetitions: 44 px buttons side by side, down left of up",
+    "ok": true,
+    "detail": "{\"u\":{\"x\":252,\"y\":212,\"width\":44,\"height\":44,\"right\":296,\"bottom\":256},\"d\":{\"x\":208,\"y\":212,\"width\":44,\"height\":44,\"right\":252,\"bottom\":256}}"
+  },
+  {
+    "name": "coarse: speaker icon is outside the frame, on its right",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "coarse: longest values are not clipped",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "coarse: focus draws a ring on the frame",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "coarse: invalid field colors the frame",
+    "ok": true,
+    "detail": "[\"oklch(0.53 0.2078 25.3313)\",\"oklch(0.9276 0.0058 264.531)\"]"
+  },
+  {
     "name": "fine-touch: primary pointer matches the setup",
     "ok": true,
     "detail": "{\"fine\":true,\"anyCoarse\":false}"
@@ -113,5 +283,90 @@
     "name": "fine-touch: click with detail 0 steps exactly once",
     "ok": true,
     "detail": "0:05"
+  },
+  {
+    "name": "fine-touch: form card fits the viewport",
+    "ok": true,
+    "detail": "{\"x\":80,\"y\":-302,\"width\":357.328125,\"height\":826,\"right\":437.328125,\"bottom\":524}"
+  },
+  {
+    "name": "fine-touch preparation: frame is 44 px high and holds field and both arrows",
+    "ok": true,
+    "detail": "{\"g\":{\"x\":105,\"y\":-131,\"width\":255.328125,\"height\":44,\"right\":360.328125,\"bottom\":-87},\"i\":{\"x\":106,\"y\":-130,\"width\":220.328125,\"height\":42,\"right\":326.328125,\"bottom\":-88},\"u\":{\"x\":327.328125,\"y\":-130,\"width\":32,\"height\":20.5,\"right\":359.328125,\"bottom\":-109.5},\"d\":{\"x\":327.328125,\"y\":-109.5,\"width\":32,\"height\":21.5,\"right\":359.328125,\"bottom\":-88}}"
+  },
+  {
+    "name": "fine-touch preparation: the field has no border of its own",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "fine-touch preparation: column, up above down, each half of the frame",
+    "ok": true,
+    "detail": "{\"u\":{\"x\":327.328125,\"y\":-130,\"width\":32,\"height\":20.5,\"right\":359.328125,\"bottom\":-109.5},\"d\":{\"x\":327.328125,\"y\":-109.5,\"width\":32,\"height\":21.5,\"right\":359.328125,\"bottom\":-88}}"
+  },
+  {
+    "name": "fine-touch exercise: frame is 44 px high and holds field and both arrows",
+    "ok": true,
+    "detail": "{\"g\":{\"x\":105,\"y\":-1,\"width\":255.328125,\"height\":44,\"right\":360.328125,\"bottom\":43},\"i\":{\"x\":106,\"y\":0,\"width\":220.328125,\"height\":42,\"right\":326.328125,\"bottom\":42},\"u\":{\"x\":327.328125,\"y\":0,\"width\":32,\"height\":20.5,\"right\":359.328125,\"bottom\":20.5},\"d\":{\"x\":327.328125,\"y\":20.5,\"width\":32,\"height\":21.5,\"right\":359.328125,\"bottom\":42}}"
+  },
+  {
+    "name": "fine-touch exercise: the field has no border of its own",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "fine-touch exercise: column, up above down, each half of the frame",
+    "ok": true,
+    "detail": "{\"u\":{\"x\":327.328125,\"y\":0,\"width\":32,\"height\":20.5,\"right\":359.328125,\"bottom\":20.5},\"d\":{\"x\":327.328125,\"y\":20.5,\"width\":32,\"height\":21.5,\"right\":359.328125,\"bottom\":42}}"
+  },
+  {
+    "name": "fine-touch rest: frame is 44 px high and holds field and both arrows",
+    "ok": true,
+    "detail": "{\"g\":{\"x\":105,\"y\":105,\"width\":255.328125,\"height\":44,\"right\":360.328125,\"bottom\":149},\"i\":{\"x\":106,\"y\":106,\"width\":220.328125,\"height\":42,\"right\":326.328125,\"bottom\":148},\"u\":{\"x\":327.328125,\"y\":106,\"width\":32,\"height\":20.5,\"right\":359.328125,\"bottom\":126.5},\"d\":{\"x\":327.328125,\"y\":126.5,\"width\":32,\"height\":21.5,\"right\":359.328125,\"bottom\":148}}"
+  },
+  {
+    "name": "fine-touch rest: the field has no border of its own",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "fine-touch rest: column, up above down, each half of the frame",
+    "ok": true,
+    "detail": "{\"u\":{\"x\":327.328125,\"y\":106,\"width\":32,\"height\":20.5,\"right\":359.328125,\"bottom\":126.5},\"d\":{\"x\":327.328125,\"y\":126.5,\"width\":32,\"height\":21.5,\"right\":359.328125,\"bottom\":148}}"
+  },
+  {
+    "name": "fine-touch repetitions: frame is 44 px high and holds field and both arrows",
+    "ok": true,
+    "detail": "{\"g\":{\"x\":105,\"y\":211,\"width\":255.328125,\"height\":44,\"right\":360.328125,\"bottom\":255},\"i\":{\"x\":106,\"y\":212,\"width\":220.328125,\"height\":42,\"right\":326.328125,\"bottom\":254},\"u\":{\"x\":327.328125,\"y\":212,\"width\":32,\"height\":20.5,\"right\":359.328125,\"bottom\":232.5},\"d\":{\"x\":327.328125,\"y\":232.5,\"width\":32,\"height\":21.5,\"right\":359.328125,\"bottom\":254}}"
+  },
+  {
+    "name": "fine-touch repetitions: the field has no border of its own",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "fine-touch repetitions: column, up above down, each half of the frame",
+    "ok": true,
+    "detail": "{\"u\":{\"x\":327.328125,\"y\":212,\"width\":32,\"height\":20.5,\"right\":359.328125,\"bottom\":232.5},\"d\":{\"x\":327.328125,\"y\":232.5,\"width\":32,\"height\":21.5,\"right\":359.328125,\"bottom\":254}}"
+  },
+  {
+    "name": "fine-touch: speaker icon is outside the frame, on its right",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "fine-touch: longest values are not clipped",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "fine-touch: focus draws a ring on the frame",
+    "ok": true,
+    "detail": ""
+  },
+  {
+    "name": "fine-touch: invalid field colors the frame",
+    "ok": true,
+    "detail": "[\"oklch(0.53 0.2078 25.3313)\",\"oklch(0.9276 0.0058 264.531)\"]"
   }
 ]

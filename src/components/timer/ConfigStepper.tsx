@@ -1,6 +1,7 @@
 import type { MouseEvent, PointerEvent } from "react";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { InputGroupAddon } from "@/components/ui/input-group";
 import { useStepRepeat } from "@/components/hooks/useStepRepeat";
 import { cn } from "@/lib/utils";
 import { canStep, type StepDirection, type StepperField } from "@/lib/drill-stepper";
@@ -14,12 +15,14 @@ interface ConfigStepperProps {
     onStep: (next: string) => void;
 }
 
+// Inside the field frame. Default (primary pointer is fine, also a touch laptop): a column of two halves of the row.
+// Primary pointer coarse: two 44 px buttons side by side, extended over the frame border (-my-px) to a full 44 px target.
 const BUTTON_CLASS =
-    "relative h-5.5 w-8 touch-none select-none rounded-none p-0 shadow-none focus-visible:z-10 any-pointer-coarse:size-11 any-pointer-coarse:rounded-md any-pointer-coarse:border-t any-pointer-coarse:shadow-xs aria-disabled:cursor-not-allowed aria-disabled:opacity-50 aria-disabled:hover:bg-background aria-disabled:hover:text-foreground dark:aria-disabled:hover:bg-input/30";
+    "relative w-8 flex-1 touch-none select-none rounded-none border-0 p-0 shadow-none focus-visible:z-10 pointer-coarse:-my-px pointer-coarse:size-11 pointer-coarse:flex-none aria-disabled:cursor-not-allowed aria-disabled:opacity-50 aria-disabled:hover:bg-transparent aria-disabled:hover:text-foreground dark:aria-disabled:hover:bg-transparent";
 
 /**
- * Up/down buttons for one field: a 2 x 22 px column for a mouse, two 44 px buttons side by side when any pointer is
- * coarse. A single step always comes from the click (mouse, touch, keyboard, screen reader, voice control); holding the
+ * Up/down buttons inside the frame of one field, at its right edge like a native spinner: a column (up above down)
+ * when the primary pointer is fine, two 44 px buttons side by side (down, up) when it is coarse. A single step always comes from the click (mouse, touch, keyboard, screen reader, voice control); holding the
  * button repeats after a pause. Keyboard users have ↑/↓ in the field, so the buttons skip Tab.
  */
 export default function ConfigStepper({ field, inputId, value, label, onStep }: ConfigStepperProps) {
@@ -56,17 +59,22 @@ export default function ConfigStepper({ field, inputId, value, label, onStep }: 
 
     const unit = field === "repetitions" ? "" : " second";
     const buttons: { direction: StepDirection; name: string; Icon: typeof ChevronUp; className: string }[] = [
-        { direction: "up", name: "Increase", Icon: ChevronUp, className: "rounded-t-md" },
-        { direction: "down", name: "Decrease", Icon: ChevronDown, className: "rounded-b-md border-t-0" },
+        { direction: "up", name: "Increase", Icon: ChevronUp, className: "rounded-tr-md pointer-coarse:rounded-r-md" },
+        {
+            direction: "down",
+            name: "Decrease",
+            Icon: ChevronDown,
+            className: "border-input rounded-br-md border-t pointer-coarse:rounded-none pointer-coarse:border-t-0 pointer-coarse:border-r",
+        },
     ];
 
     return (
-        <div className="flex shrink-0 flex-col any-pointer-coarse:flex-row-reverse any-pointer-coarse:gap-2">
+        <InputGroupAddon className="border-input flex-col border-l pointer-coarse:flex-row-reverse">
             {buttons.map(({ direction, name, Icon, className }) => (
                 <Button
                     key={direction}
                     type="button"
-                    variant="outline"
+                    variant="ghost"
                     size="icon"
                     tabIndex={-1}
                     className={cn(BUTTON_CLASS, className)}
@@ -94,6 +102,6 @@ export default function ConfigStepper({ field, inputId, value, label, onStep }: 
                     <Icon aria-hidden="true" />
                 </Button>
             ))}
-        </div>
+        </InputGroupAddon>
     );
 }
