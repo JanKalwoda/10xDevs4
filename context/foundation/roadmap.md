@@ -67,7 +67,8 @@ Obecny timer HIIT pozwala ustawić fazy i powtórzenia, lecz jego przewidywalny 
 | S-18 | run-view-layout | Użytkownik widzi w biegu czas wyżej, powtórzenie pod czasem oraz czytelniejsze okienka Current i Next | S-04 | FR-013, FR-018 | in-progress |
 | S-19 | signal-preview-icon | Użytkownik odsłuchuje sygnał ikoną głośnika w wierszu pola, a opis widzi w tooltipie | S-03 | FR-004, FR-019 | in-progress |
 | S-20 | account-deletion | Użytkownik usuwa swoje konto z okresem przetrzymania zgodnym z RODO | S-09, S-17 | — | proposed |
-| S-21 | ux-fixes-round-2 | Użytkownik ma poprawione drobne błędy S-16–S-19, okienko Current w widoku biegu jak Next oraz strzałki zmiany wartości w formularzu timera | S-17, S-18, S-19 | FR-018, FR-020 | in-progress |
+| S-21 | ux-fixes-round-2 | Użytkownik ma poprawione drobne błędy S-16–S-19, okienko Current w widoku biegu jak Next oraz strzałki zmiany wartości w formularzu timera | S-17, S-18, S-19 | FR-018, FR-020 | done |
+| S-22 | ux-fixes-round-3 | Użytkownik klika strzałki wartości dokładnie o 1 krok, ma je wbudowane w pole (układ wg głównego wskaźnika), czyta opisy w szerszym tooltipie na komputerze i widzi okienko Current bez ramki i tła | S-21 | FR-018, FR-019, FR-020 | in-progress |
 
 ## Streams
 
@@ -356,6 +357,18 @@ Brak osobnych Foundations. Konfigurację danych, ochronę własności i weryfika
 - **Blockers:** —
 - **Unknowns:** —
 - **Risk:** Czas w Current nie może ujawnić długości losowego Standby; stepper na komputerze musi zmieścić się w wysokości wiersza (44 px) bez wartości arbitralnych.
+- **Status:** done
+
+### S-22: Poprawki UX, runda 3
+
+- **Outcome:** Pojedynczy klik lub dotknięcie strzałki zmienia wartość dokładnie o 1 (bez wyścigu opartego o czas); strzałki ▲/▼ są wewnątrz ramki pola (komputer: kolumna; telefon: obok siebie po 44 px, wg głównego wskaźnika `pointer-coarse:`, także na laptopie dotykowym); tooltip odsłuchu na komputerze szerszy (do `max-w-md`) bez pustej części; okienko Current bez ramki i tła, Next bez zmian.
+- **Change ID:** ux-fixes-round-3
+- **PRD refs:** FR-018, FR-019, FR-020
+- **Prerequisites:** S-21
+- **Parallel with:** —
+- **Blockers:** —
+- **Unknowns:** —
+- **Risk:** Układ sterowany głównym wskaźnikiem musi zmieścić się w 390 px (najdłuższe wartości); zmiana logiki kroku nie może zepsuć powtarzania ani dostępności klawiatury/AT.
 - **Status:** in-progress
 
 ## Backlog Handoff
