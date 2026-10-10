@@ -130,6 +130,86 @@ for (const viewport of VIEWPORTS) {
     }
 }
 
+// Phase 2: Current looks like Next (same box, label, one body line), Standby shows no time, positions are stable.
+const SECTION = 'section[aria-label="Current drill phase"]';
+for (const viewport of VIEWPORTS) {
+    for (const theme of THEMES) {
+        const tag = `${viewport.name}-${theme}`;
+        const page = await browser.newPage({ viewport: { width: viewport.width, height: viewport.height } });
+        await page.goto(`${BASE_URL}/dev/timer-ui`, { waitUntil: "networkidle" });
+        await page.waitForSelector(`[data-testid="sections-two-warnings"] ${SECTION}`);
+        await page.addStyleTag({ content: "astro-dev-toolbar { display: none !important; }" });
+        await page.evaluate((t) => document.documentElement.classList.toggle("dark", t === "dark"), theme);
+        const cards = page.locator('[data-testid^="sections-"]').filter({ has: page.locator(SECTION) });
+        const count = await cards.count();
+        check(`${tag}: phase 2 fixture cards found`, count >= 14, `count=${count}`);
+        const rows = [];
+        for (let i = 0; i < count; i++) {
+            const el = cards.nth(i);
+            const id = await el.getAttribute("data-testid");
+            const data = await el.evaluate((root, sel) => {
+                const section = root.querySelector(sel);
+                const top = section.getBoundingClientRect().top;
+                const box = (label) => {
+                    const labelEl = [...section.querySelectorAll("p")].find((p) => p.textContent === label);
+                    const group = labelEl?.closest('[role="group"]');
+                    if (!group || group.getAttribute("aria-labelledby") !== labelEl.id) return null;
+                    const body = group.querySelectorAll("p")[1];
+                    const g = getComputedStyle(group);
+                    const l = getComputedStyle(labelEl);
+                    const b = getComputedStyle(body);
+                    const lineHeight = parseFloat(b.lineHeight);
+                    return {
+                        style: [g.backgroundColor, g.borderTopColor, g.borderTopWidth, g.borderRadius, g.paddingTop, g.paddingLeft].join("|"),
+                        labelSize: parseFloat(l.fontSize),
+                        bodySize: parseFloat(b.fontSize),
+                        oneLine: body.getBoundingClientRect().height <= lineHeight + 0.5,
+                        text: body.textContent,
+                        top: group.getBoundingClientRect().top - top,
+                        height: group.getBoundingClientRect().height,
+                    };
+                };
+                const timer = section.querySelector('[role="timer"]');
+                const standby = [...section.querySelectorAll("p")].find((p) => p.textContent === "Standby" && !p.closest('[role="group"]'));
+                const main = timer ?? standby;
+                const bar = [...section.querySelectorAll("button")].find((b) => /Cancel drill/.test(b.getAttribute("aria-label") ?? ""));
+                return {
+                    current: box("Current"),
+                    next: box("Next"),
+                    mainTop: main ? main.getBoundingClientRect().top - top : null,
+                    barTop: bar ? bar.getBoundingClientRect().top - top : null,
+                    timerCount: section.querySelectorAll('[role="timer"]').length,
+                    timerOnlyTime: timer ? /^\d+:\d\d$/.test(timer.textContent ?? "") : true,
+                    overflow: section.scrollWidth > section.clientWidth,
+                };
+            }, SECTION);
+            rows.push({ id, ...data });
+        }
+        for (const r of rows) {
+            check(`${tag} ${r.id}: Current and Next boxes exist`, !!r.current && !!r.next);
+            if (!r.current || !r.next) continue;
+            check(`${tag} ${r.id}: Current has the same box style as Next`, r.current.style === r.next.style, `${r.current.style} vs ${r.next.style}`);
+            check(`${tag} ${r.id}: label larger than body`, r.current.labelSize > r.current.bodySize && r.next.labelSize > r.next.bodySize);
+            check(`${tag} ${r.id}: Current and Next bodies are one line`, r.current.oneLine && r.next.oneLine, `${r.current.text} / ${r.next.text}`);
+            check(`${tag} ${r.id}: Current and Next boxes have equal height`, Math.abs(r.current.height - r.next.height) < 0.5, `${r.current.height} vs ${r.next.height}`);
+            check(`${tag} ${r.id}: role=timer only on the number`, r.timerCount <= 1 && r.timerOnlyTime);
+            check(`${tag} ${r.id}: no overflow`, !r.overflow);
+        }
+        const byId = (id) => rows.find((r) => r.id === id);
+        check(`${tag}: Standby Current text is exactly "Standby"`, byId("sections-standby-exercise")?.current?.text === "Standby", String(byId("sections-standby-exercise")?.current?.text));
+        check(`${tag}: Standby Next text has no time`, !/\d:\d\d/.test(byId("sections-preparation-standby")?.next?.text ?? "0:00"), String(byId("sections-preparation-standby")?.next?.text));
+        check(`${tag}: longest values fit on one line`, byId("sections-longest-values")?.current?.oneLine === true, String(byId("sections-longest-values")?.current?.text));
+        const timed = rows.filter((r) => r.current && r.mainTop !== null && r.id !== "sections-initializing");
+        const base = timed.find((r) => r.id === "sections-preparation-exercise");
+        check(`${tag}: time, Current and the button bar sit at fixed positions in every scenario`,
+            timed.every((r) => r.mainTop === base.mainTop && r.current.top === base.current.top && r.barTop === base.barTop),
+            JSON.stringify(timed.filter((r) => r.mainTop !== base.mainTop || r.current.top !== base.current.top || r.barTop !== base.barTop).map((r) => [r.id, r.mainTop, r.current.top, r.barTop])));
+        await page.locator('section[aria-label="Phase sections examples"]').screenshot({ path: join(here, `current-like-next-${tag}.png`) });
+        await page.locator('[data-testid="sections-standby-exercise"]').screenshot({ path: join(here, `standby-${tag}.png`) });
+        await page.close();
+    }
+}
+
 await browser.close();
 writeFileSync(join(here, "ux-fixes-round-2-checks.json"), JSON.stringify({ baseUrl: BASE_URL, failed: checks.filter((c) => !c.ok).length, checks }, null, 2));
 const failed = checks.filter((c) => !c.ok).length;

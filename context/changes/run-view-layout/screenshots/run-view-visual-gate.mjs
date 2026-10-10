@@ -55,8 +55,15 @@ for (const viewport of VIEWPORTS) {
                 const standby = paragraphs.find((p) => p.textContent === "Standby" && !p.closest('[role="group"]'));
                 const main = timer ?? standby ?? null;
                 const rep = paragraphs.find((p) => /^Repetition \d+ of \d+$/.test(p.textContent ?? ""));
-                const h2 = section.querySelector("h2");
-                const group = section.querySelector('[role="group"][aria-label="Next phase"]');
+                const groupOf = (label) => {
+                    const labelEl = [...section.querySelectorAll("p")].find((p) => p.textContent === label);
+                    const box = labelEl?.closest('[role="group"]') ?? null;
+                    return box && box.getAttribute("aria-labelledby") === labelEl.id ? box : null;
+                };
+                const currentBox = groupOf("Current");
+                const group = groupOf("Next");
+                const lines = (box) => (box ? box.querySelectorAll("p").length : 0);
+                const bodyHeight = (box) => (box ? Math.round(box.querySelectorAll("p")[1].getBoundingClientRect().height * 100) / 100 : null);
                 const follows = (a, b) => !!a && !!b && !!(a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING);
                 const sr = section.getBoundingClientRect();
                 let overflowChild = false;
@@ -67,7 +74,10 @@ for (const viewport of VIEWPORTS) {
                 return {
                     buttonTops: buttons.map((b) => Math.round((b.getBoundingClientRect().top - top) * 100) / 100),
                     buttonCount: buttons.length,
-                    order: (main ? follows(main, rep) : true) && follows(rep, h2) && follows(h2, group),
+                    order: (main ? follows(main, rep) : true) && follows(rep, currentBox) && follows(currentBox, group),
+                    boxes: !!currentBox && !!group && lines(currentBox) === 2 && lines(group) === 2 && !section.querySelector("h2"),
+                    currentBody: currentBox?.querySelectorAll("p")[1].textContent ?? null,
+                    bodyHeights: [bodyHeight(currentBox), bodyHeight(group)],
                     hasMain: !!main,
                     repOutsideTimer: !!rep && !timer?.contains(rep),
                     timerHasOnlyTime: timer ? !/Repetition/.test(timer.textContent ?? "") : true,
@@ -84,11 +94,14 @@ for (const viewport of VIEWPORTS) {
             check(`${tag} ${r.id}: button top equals baseline`, r.buttonTops.every((t) => t === r.buttonTops[0]) && r.buttonTops[0] === baseline, `tops=${r.buttonTops} baseline=${baseline}`);
             check(`${tag} ${r.id}: repetition present and outside role=timer`, r.repPresent && r.repOutsideTimer && r.timerHasOnlyTime, `rep=${r.repText}`);
             check(`${tag} ${r.id}: DOM order time -> repetition -> Current -> Next`, r.order, `hasMain=${r.hasMain}`);
+            check(`${tag} ${r.id}: Current is a labelled group like Next (label + one body line, no h2)`, r.boxes);
+            check(`${tag} ${r.id}: Current and Next body are one line of equal height`, r.bodyHeights[0] === r.bodyHeights[1], `heights=${r.bodyHeights}`);
             check(`${tag} ${r.id}: no horizontal overflow inside run section`, !r.sectionOverflow);
         }
         const byId = (id) => rows.find((r) => r.id === id);
         check(`${tag}: longest values show Repetition 10 of 10`, byId("sections-longest-values").repText === "Repetition 10 of 10", String(byId("sections-longest-values").repText));
         check(`${tag}: Preparation shows the upcoming repetition`, byId("sections-preparation-exercise").repText === "Repetition 1 of 3", String(byId("sections-preparation-exercise").repText));
+        check(`${tag}: Standby Current body is the bare name`, byId("sections-standby-exercise").currentBody === "Standby", String(byId("sections-standby-exercise").currentBody));
         check(`${tag}: Standby shows repetition outside the time`, byId("sections-standby-exercise").repPresent && byId("sections-standby-exercise").repOutsideTimer);
 
         // Screenshots: whole fixtures region, the stress cards, interaction states.

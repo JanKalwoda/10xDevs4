@@ -1,5 +1,5 @@
 {
-  "baseUrl": "http://localhost:4400",
+  "baseUrl": "http://localhost:4321",
   "failed": 0,
   "checks": [
     {
@@ -161,6 +161,2066 @@
       "name": "390-dark: enabled icon still highlights on hover",
       "ok": true,
       "detail": "oklab(0.4461 -0.00600482 -0.0256053 / 0.3) -> oklab(0.4461 -0.00600482 -0.0256053 / 0.5)"
+    },
+    {
+      "name": "1280-light: phase 2 fixture cards found",
+      "ok": true,
+      "detail": "count=14"
+    },
+    {
+      "name": "1280-light sections-preparation-exercise: Current and Next boxes exist",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-light sections-preparation-exercise: Current has the same box style as Next",
+      "ok": true,
+      "detail": "oklch(0.967 0.0029 264.542)|oklch(0.9276 0.0058 264.531)|1px|8px|12px|16px vs oklch(0.967 0.0029 264.542)|oklch(0.9276 0.0058 264.531)|1px|8px|12px|16px"
+    },
+    {
+      "name": "1280-light sections-preparation-exercise: label larger than body",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-light sections-preparation-exercise: Current and Next bodies are one line",
+      "ok": true,
+      "detail": "Preparation · 0:05 / Exercise · 0:04"
+    },
+    {
+      "name": "1280-light sections-preparation-exercise: Current and Next boxes have equal height",
+      "ok": true,
+      "detail": "82 vs 82"
+    },
+    {
+      "name": "1280-light sections-preparation-exercise: role=timer only on the number",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-light sections-preparation-exercise: no overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-light sections-preparation-standby: Current and Next boxes exist",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-light sections-preparation-standby: Current has the same box style as Next",
+      "ok": true,
+      "detail": "oklch(0.967 0.0029 264.542)|oklch(0.9276 0.0058 264.531)|1px|8px|12px|16px vs oklch(0.967 0.0029 264.542)|oklch(0.9276 0.0058 264.531)|1px|8px|12px|16px"
+    },
+    {
+      "name": "1280-light sections-preparation-standby: label larger than body",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-light sections-preparation-standby: Current and Next bodies are one line",
+      "ok": true,
+      "detail": "Preparation · 0:05 / Standby"
+    },
+    {
+      "name": "1280-light sections-preparation-standby: Current and Next boxes have equal height",
+      "ok": true,
+      "detail": "82 vs 82"
+    },
+    {
+      "name": "1280-light sections-preparation-standby: role=timer only on the number",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-light sections-preparation-standby: no overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-light sections-exercise-rest: Current and Next boxes exist",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-light sections-exercise-rest: Current has the same box style as Next",
+      "ok": true,
+      "detail": "oklch(0.967 0.0029 264.542)|oklch(0.9276 0.0058 264.531)|1px|8px|12px|16px vs oklch(0.967 0.0029 264.542)|oklch(0.9276 0.0058 264.531)|1px|8px|12px|16px"
+    },
+    {
+      "name": "1280-light sections-exercise-rest: label larger than body",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-light sections-exercise-rest: Current and Next bodies are one line",
+      "ok": true,
+      "detail": "Exercise · 0:04 / Rest · 0:02"
+    },
+    {
+      "name": "1280-light sections-exercise-rest: Current and Next boxes have equal height",
+      "ok": true,
+      "detail": "82 vs 82"
+    },
+    {
+      "name": "1280-light sections-exercise-rest: role=timer only on the number",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-light sections-exercise-rest: no overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-light sections-exercise-complete: Current and Next boxes exist",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-light sections-exercise-complete: Current has the same box style as Next",
+      "ok": true,
+      "detail": "oklch(0.967 0.0029 264.542)|oklch(0.9276 0.0058 264.531)|1px|8px|12px|16px vs oklch(0.967 0.0029 264.542)|oklch(0.9276 0.0058 264.531)|1px|8px|12px|16px"
+    },
+    {
+      "name": "1280-light sections-exercise-complete: label larger than body",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-light sections-exercise-complete: Current and Next bodies are one line",
+      "ok": true,
+      "detail": "Exercise · 0:04 / Drill complete"
+    },
+    {
+      "name": "1280-light sections-exercise-complete: Current and Next boxes have equal height",
+      "ok": true,
+      "detail": "82 vs 82"
+    },
+    {
+      "name": "1280-light sections-exercise-complete: role=timer only on the number",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-light sections-exercise-complete: no overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-light sections-standby-exercise: Current and Next boxes exist",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-light sections-standby-exercise: Current has the same box style as Next",
+      "ok": true,
+      "detail": "oklch(0.967 0.0029 264.542)|oklch(0.9276 0.0058 264.531)|1px|8px|12px|16px vs oklch(0.967 0.0029 264.542)|oklch(0.9276 0.0058 264.531)|1px|8px|12px|16px"
+    },
+    {
+      "name": "1280-light sections-standby-exercise: label larger than body",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-light sections-standby-exercise: Current and Next bodies are one line",
+      "ok": true,
+      "detail": "Standby / Exercise · 0:04"
+    },
+    {
+      "name": "1280-light sections-standby-exercise: Current and Next boxes have equal height",
+      "ok": true,
+      "detail": "82 vs 82"
+    },
+    {
+      "name": "1280-light sections-standby-exercise: role=timer only on the number",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-light sections-standby-exercise: no overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-light sections-rest-exercise: Current and Next boxes exist",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-light sections-rest-exercise: Current has the same box style as Next",
+      "ok": true,
+      "detail": "oklch(0.967 0.0029 264.542)|oklch(0.9276 0.0058 264.531)|1px|8px|12px|16px vs oklch(0.967 0.0029 264.542)|oklch(0.9276 0.0058 264.531)|1px|8px|12px|16px"
+    },
+    {
+      "name": "1280-light sections-rest-exercise: label larger than body",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-light sections-rest-exercise: Current and Next bodies are one line",
+      "ok": true,
+      "detail": "Rest · 0:02 / Exercise · 0:04"
+    },
+    {
+      "name": "1280-light sections-rest-exercise: Current and Next boxes have equal height",
+      "ok": true,
+      "detail": "82 vs 82"
+    },
+    {
+      "name": "1280-light sections-rest-exercise: role=timer only on the number",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-light sections-rest-exercise: no overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-light sections-rest-standby: Current and Next boxes exist",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-light sections-rest-standby: Current has the same box style as Next",
+      "ok": true,
+      "detail": "oklch(0.967 0.0029 264.542)|oklch(0.9276 0.0058 264.531)|1px|8px|12px|16px vs oklch(0.967 0.0029 264.542)|oklch(0.9276 0.0058 264.531)|1px|8px|12px|16px"
+    },
+    {
+      "name": "1280-light sections-rest-standby: label larger than body",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-light sections-rest-standby: Current and Next bodies are one line",
+      "ok": true,
+      "detail": "Rest · 0:02 / Standby"
+    },
+    {
+      "name": "1280-light sections-rest-standby: Current and Next boxes have equal height",
+      "ok": true,
+      "detail": "82 vs 82"
+    },
+    {
+      "name": "1280-light sections-rest-standby: role=timer only on the number",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-light sections-rest-standby: no overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-light sections-rest-complete: Current and Next boxes exist",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-light sections-rest-complete: Current has the same box style as Next",
+      "ok": true,
+      "detail": "oklch(0.967 0.0029 264.542)|oklch(0.9276 0.0058 264.531)|1px|8px|12px|16px vs oklch(0.967 0.0029 264.542)|oklch(0.9276 0.0058 264.531)|1px|8px|12px|16px"
+    },
+    {
+      "name": "1280-light sections-rest-complete: label larger than body",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-light sections-rest-complete: Current and Next bodies are one line",
+      "ok": true,
+      "detail": "Rest · 0:02 / Drill complete"
+    },
+    {
+      "name": "1280-light sections-rest-complete: Current and Next boxes have equal height",
+      "ok": true,
+      "detail": "82 vs 82"
+    },
+    {
+      "name": "1280-light sections-rest-complete: role=timer only on the number",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-light sections-rest-complete: no overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-light sections-resume-preparation: Current and Next boxes exist",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-light sections-resume-preparation: Current has the same box style as Next",
+      "ok": true,
+      "detail": "oklch(0.967 0.0029 264.542)|oklch(0.9276 0.0058 264.531)|1px|8px|12px|16px vs oklch(0.967 0.0029 264.542)|oklch(0.9276 0.0058 264.531)|1px|8px|12px|16px"
+    },
+    {
+      "name": "1280-light sections-resume-preparation: label larger than body",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-light sections-resume-preparation: Current and Next bodies are one line",
+      "ok": true,
+      "detail": "Preparation · 0:05 / Exercise · 0:04"
+    },
+    {
+      "name": "1280-light sections-resume-preparation: Current and Next boxes have equal height",
+      "ok": true,
+      "detail": "82 vs 82"
+    },
+    {
+      "name": "1280-light sections-resume-preparation: role=timer only on the number",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-light sections-resume-preparation: no overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-light sections-paused: Current and Next boxes exist",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-light sections-paused: Current has the same box style as Next",
+      "ok": true,
+      "detail": "oklch(0.967 0.0029 264.542)|oklch(0.9276 0.0058 264.531)|1px|8px|12px|16px vs oklch(0.967 0.0029 264.542)|oklch(0.9276 0.0058 264.531)|1px|8px|12px|16px"
+    },
+    {
+      "name": "1280-light sections-paused: label larger than body",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-light sections-paused: Current and Next bodies are one line",
+      "ok": true,
+      "detail": "Exercise · 0:04 / Rest · 0:02"
+    },
+    {
+      "name": "1280-light sections-paused: Current and Next boxes have equal height",
+      "ok": true,
+      "detail": "82 vs 82"
+    },
+    {
+      "name": "1280-light sections-paused: role=timer only on the number",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-light sections-paused: no overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-light sections-initializing: Current and Next boxes exist",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-light sections-initializing: Current has the same box style as Next",
+      "ok": true,
+      "detail": "oklch(0.967 0.0029 264.542)|oklch(0.9276 0.0058 264.531)|1px|8px|12px|16px vs oklch(0.967 0.0029 264.542)|oklch(0.9276 0.0058 264.531)|1px|8px|12px|16px"
+    },
+    {
+      "name": "1280-light sections-initializing: label larger than body",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-light sections-initializing: Current and Next bodies are one line",
+      "ok": true,
+      "detail": "Preparation · 0:05 / Exercise · 0:04"
+    },
+    {
+      "name": "1280-light sections-initializing: Current and Next boxes have equal height",
+      "ok": true,
+      "detail": "82 vs 82"
+    },
+    {
+      "name": "1280-light sections-initializing: role=timer only on the number",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-light sections-initializing: no overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-light sections-audio-unavailable: Current and Next boxes exist",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-light sections-audio-unavailable: Current has the same box style as Next",
+      "ok": true,
+      "detail": "oklch(0.967 0.0029 264.542)|oklch(0.9276 0.0058 264.531)|1px|8px|12px|16px vs oklch(0.967 0.0029 264.542)|oklch(0.9276 0.0058 264.531)|1px|8px|12px|16px"
+    },
+    {
+      "name": "1280-light sections-audio-unavailable: label larger than body",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-light sections-audio-unavailable: Current and Next bodies are one line",
+      "ok": true,
+      "detail": "Exercise · 0:04 / Rest · 0:02"
+    },
+    {
+      "name": "1280-light sections-audio-unavailable: Current and Next boxes have equal height",
+      "ok": true,
+      "detail": "82 vs 82"
+    },
+    {
+      "name": "1280-light sections-audio-unavailable: role=timer only on the number",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-light sections-audio-unavailable: no overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-light sections-two-warnings: Current and Next boxes exist",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-light sections-two-warnings: Current has the same box style as Next",
+      "ok": true,
+      "detail": "oklch(0.967 0.0029 264.542)|oklch(0.9276 0.0058 264.531)|1px|8px|12px|16px vs oklch(0.967 0.0029 264.542)|oklch(0.9276 0.0058 264.531)|1px|8px|12px|16px"
+    },
+    {
+      "name": "1280-light sections-two-warnings: label larger than body",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-light sections-two-warnings: Current and Next bodies are one line",
+      "ok": true,
+      "detail": "Exercise · 0:04 / Rest · 0:02"
+    },
+    {
+      "name": "1280-light sections-two-warnings: Current and Next boxes have equal height",
+      "ok": true,
+      "detail": "82 vs 82"
+    },
+    {
+      "name": "1280-light sections-two-warnings: role=timer only on the number",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-light sections-two-warnings: no overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-light sections-longest-values: Current and Next boxes exist",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-light sections-longest-values: Current has the same box style as Next",
+      "ok": true,
+      "detail": "oklch(0.967 0.0029 264.542)|oklch(0.9276 0.0058 264.531)|1px|8px|12px|16px vs oklch(0.967 0.0029 264.542)|oklch(0.9276 0.0058 264.531)|1px|8px|12px|16px"
+    },
+    {
+      "name": "1280-light sections-longest-values: label larger than body",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-light sections-longest-values: Current and Next bodies are one line",
+      "ok": true,
+      "detail": "Exercise · 10:00 / Rest · 0:02"
+    },
+    {
+      "name": "1280-light sections-longest-values: Current and Next boxes have equal height",
+      "ok": true,
+      "detail": "82 vs 82"
+    },
+    {
+      "name": "1280-light sections-longest-values: role=timer only on the number",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-light sections-longest-values: no overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-light: Standby Current text is exactly \"Standby\"",
+      "ok": true,
+      "detail": "Standby"
+    },
+    {
+      "name": "1280-light: Standby Next text has no time",
+      "ok": true,
+      "detail": "Standby"
+    },
+    {
+      "name": "1280-light: longest values fit on one line",
+      "ok": true,
+      "detail": "Exercise · 10:00"
+    },
+    {
+      "name": "1280-light: time, Current and the button bar sit at fixed positions in every scenario",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "name": "1280-dark: phase 2 fixture cards found",
+      "ok": true,
+      "detail": "count=14"
+    },
+    {
+      "name": "1280-dark sections-preparation-exercise: Current and Next boxes exist",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-dark sections-preparation-exercise: Current has the same box style as Next",
+      "ok": true,
+      "detail": "oklch(0.2463 0.0275 259.963)|oklch(0.4461 0.0263 256.802)|1px|8px|12px|16px vs oklch(0.2463 0.0275 259.963)|oklch(0.4461 0.0263 256.802)|1px|8px|12px|16px"
+    },
+    {
+      "name": "1280-dark sections-preparation-exercise: label larger than body",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-dark sections-preparation-exercise: Current and Next bodies are one line",
+      "ok": true,
+      "detail": "Preparation · 0:05 / Exercise · 0:04"
+    },
+    {
+      "name": "1280-dark sections-preparation-exercise: Current and Next boxes have equal height",
+      "ok": true,
+      "detail": "82 vs 82"
+    },
+    {
+      "name": "1280-dark sections-preparation-exercise: role=timer only on the number",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-dark sections-preparation-exercise: no overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-dark sections-preparation-standby: Current and Next boxes exist",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-dark sections-preparation-standby: Current has the same box style as Next",
+      "ok": true,
+      "detail": "oklch(0.2463 0.0275 259.963)|oklch(0.4461 0.0263 256.802)|1px|8px|12px|16px vs oklch(0.2463 0.0275 259.963)|oklch(0.4461 0.0263 256.802)|1px|8px|12px|16px"
+    },
+    {
+      "name": "1280-dark sections-preparation-standby: label larger than body",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-dark sections-preparation-standby: Current and Next bodies are one line",
+      "ok": true,
+      "detail": "Preparation · 0:05 / Standby"
+    },
+    {
+      "name": "1280-dark sections-preparation-standby: Current and Next boxes have equal height",
+      "ok": true,
+      "detail": "82 vs 82"
+    },
+    {
+      "name": "1280-dark sections-preparation-standby: role=timer only on the number",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-dark sections-preparation-standby: no overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-dark sections-exercise-rest: Current and Next boxes exist",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-dark sections-exercise-rest: Current has the same box style as Next",
+      "ok": true,
+      "detail": "oklch(0.2463 0.0275 259.963)|oklch(0.4461 0.0263 256.802)|1px|8px|12px|16px vs oklch(0.2463 0.0275 259.963)|oklch(0.4461 0.0263 256.802)|1px|8px|12px|16px"
+    },
+    {
+      "name": "1280-dark sections-exercise-rest: label larger than body",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-dark sections-exercise-rest: Current and Next bodies are one line",
+      "ok": true,
+      "detail": "Exercise · 0:04 / Rest · 0:02"
+    },
+    {
+      "name": "1280-dark sections-exercise-rest: Current and Next boxes have equal height",
+      "ok": true,
+      "detail": "82 vs 82"
+    },
+    {
+      "name": "1280-dark sections-exercise-rest: role=timer only on the number",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-dark sections-exercise-rest: no overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-dark sections-exercise-complete: Current and Next boxes exist",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-dark sections-exercise-complete: Current has the same box style as Next",
+      "ok": true,
+      "detail": "oklch(0.2463 0.0275 259.963)|oklch(0.4461 0.0263 256.802)|1px|8px|12px|16px vs oklch(0.2463 0.0275 259.963)|oklch(0.4461 0.0263 256.802)|1px|8px|12px|16px"
+    },
+    {
+      "name": "1280-dark sections-exercise-complete: label larger than body",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-dark sections-exercise-complete: Current and Next bodies are one line",
+      "ok": true,
+      "detail": "Exercise · 0:04 / Drill complete"
+    },
+    {
+      "name": "1280-dark sections-exercise-complete: Current and Next boxes have equal height",
+      "ok": true,
+      "detail": "82 vs 82"
+    },
+    {
+      "name": "1280-dark sections-exercise-complete: role=timer only on the number",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-dark sections-exercise-complete: no overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-dark sections-standby-exercise: Current and Next boxes exist",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-dark sections-standby-exercise: Current has the same box style as Next",
+      "ok": true,
+      "detail": "oklch(0.2463 0.0275 259.963)|oklch(0.4461 0.0263 256.802)|1px|8px|12px|16px vs oklch(0.2463 0.0275 259.963)|oklch(0.4461 0.0263 256.802)|1px|8px|12px|16px"
+    },
+    {
+      "name": "1280-dark sections-standby-exercise: label larger than body",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-dark sections-standby-exercise: Current and Next bodies are one line",
+      "ok": true,
+      "detail": "Standby / Exercise · 0:04"
+    },
+    {
+      "name": "1280-dark sections-standby-exercise: Current and Next boxes have equal height",
+      "ok": true,
+      "detail": "82 vs 82"
+    },
+    {
+      "name": "1280-dark sections-standby-exercise: role=timer only on the number",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-dark sections-standby-exercise: no overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-dark sections-rest-exercise: Current and Next boxes exist",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-dark sections-rest-exercise: Current has the same box style as Next",
+      "ok": true,
+      "detail": "oklch(0.2463 0.0275 259.963)|oklch(0.4461 0.0263 256.802)|1px|8px|12px|16px vs oklch(0.2463 0.0275 259.963)|oklch(0.4461 0.0263 256.802)|1px|8px|12px|16px"
+    },
+    {
+      "name": "1280-dark sections-rest-exercise: label larger than body",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-dark sections-rest-exercise: Current and Next bodies are one line",
+      "ok": true,
+      "detail": "Rest · 0:02 / Exercise · 0:04"
+    },
+    {
+      "name": "1280-dark sections-rest-exercise: Current and Next boxes have equal height",
+      "ok": true,
+      "detail": "82 vs 82"
+    },
+    {
+      "name": "1280-dark sections-rest-exercise: role=timer only on the number",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-dark sections-rest-exercise: no overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-dark sections-rest-standby: Current and Next boxes exist",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-dark sections-rest-standby: Current has the same box style as Next",
+      "ok": true,
+      "detail": "oklch(0.2463 0.0275 259.963)|oklch(0.4461 0.0263 256.802)|1px|8px|12px|16px vs oklch(0.2463 0.0275 259.963)|oklch(0.4461 0.0263 256.802)|1px|8px|12px|16px"
+    },
+    {
+      "name": "1280-dark sections-rest-standby: label larger than body",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-dark sections-rest-standby: Current and Next bodies are one line",
+      "ok": true,
+      "detail": "Rest · 0:02 / Standby"
+    },
+    {
+      "name": "1280-dark sections-rest-standby: Current and Next boxes have equal height",
+      "ok": true,
+      "detail": "82 vs 82"
+    },
+    {
+      "name": "1280-dark sections-rest-standby: role=timer only on the number",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-dark sections-rest-standby: no overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-dark sections-rest-complete: Current and Next boxes exist",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-dark sections-rest-complete: Current has the same box style as Next",
+      "ok": true,
+      "detail": "oklch(0.2463 0.0275 259.963)|oklch(0.4461 0.0263 256.802)|1px|8px|12px|16px vs oklch(0.2463 0.0275 259.963)|oklch(0.4461 0.0263 256.802)|1px|8px|12px|16px"
+    },
+    {
+      "name": "1280-dark sections-rest-complete: label larger than body",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-dark sections-rest-complete: Current and Next bodies are one line",
+      "ok": true,
+      "detail": "Rest · 0:02 / Drill complete"
+    },
+    {
+      "name": "1280-dark sections-rest-complete: Current and Next boxes have equal height",
+      "ok": true,
+      "detail": "82 vs 82"
+    },
+    {
+      "name": "1280-dark sections-rest-complete: role=timer only on the number",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-dark sections-rest-complete: no overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-dark sections-resume-preparation: Current and Next boxes exist",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-dark sections-resume-preparation: Current has the same box style as Next",
+      "ok": true,
+      "detail": "oklch(0.2463 0.0275 259.963)|oklch(0.4461 0.0263 256.802)|1px|8px|12px|16px vs oklch(0.2463 0.0275 259.963)|oklch(0.4461 0.0263 256.802)|1px|8px|12px|16px"
+    },
+    {
+      "name": "1280-dark sections-resume-preparation: label larger than body",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-dark sections-resume-preparation: Current and Next bodies are one line",
+      "ok": true,
+      "detail": "Preparation · 0:05 / Exercise · 0:04"
+    },
+    {
+      "name": "1280-dark sections-resume-preparation: Current and Next boxes have equal height",
+      "ok": true,
+      "detail": "82 vs 82"
+    },
+    {
+      "name": "1280-dark sections-resume-preparation: role=timer only on the number",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-dark sections-resume-preparation: no overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-dark sections-paused: Current and Next boxes exist",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-dark sections-paused: Current has the same box style as Next",
+      "ok": true,
+      "detail": "oklch(0.2463 0.0275 259.963)|oklch(0.4461 0.0263 256.802)|1px|8px|12px|16px vs oklch(0.2463 0.0275 259.963)|oklch(0.4461 0.0263 256.802)|1px|8px|12px|16px"
+    },
+    {
+      "name": "1280-dark sections-paused: label larger than body",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-dark sections-paused: Current and Next bodies are one line",
+      "ok": true,
+      "detail": "Exercise · 0:04 / Rest · 0:02"
+    },
+    {
+      "name": "1280-dark sections-paused: Current and Next boxes have equal height",
+      "ok": true,
+      "detail": "82 vs 82"
+    },
+    {
+      "name": "1280-dark sections-paused: role=timer only on the number",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-dark sections-paused: no overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-dark sections-initializing: Current and Next boxes exist",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-dark sections-initializing: Current has the same box style as Next",
+      "ok": true,
+      "detail": "oklch(0.2463 0.0275 259.963)|oklch(0.4461 0.0263 256.802)|1px|8px|12px|16px vs oklch(0.2463 0.0275 259.963)|oklch(0.4461 0.0263 256.802)|1px|8px|12px|16px"
+    },
+    {
+      "name": "1280-dark sections-initializing: label larger than body",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-dark sections-initializing: Current and Next bodies are one line",
+      "ok": true,
+      "detail": "Preparation · 0:05 / Exercise · 0:04"
+    },
+    {
+      "name": "1280-dark sections-initializing: Current and Next boxes have equal height",
+      "ok": true,
+      "detail": "82 vs 82"
+    },
+    {
+      "name": "1280-dark sections-initializing: role=timer only on the number",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-dark sections-initializing: no overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-dark sections-audio-unavailable: Current and Next boxes exist",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-dark sections-audio-unavailable: Current has the same box style as Next",
+      "ok": true,
+      "detail": "oklch(0.2463 0.0275 259.963)|oklch(0.4461 0.0263 256.802)|1px|8px|12px|16px vs oklch(0.2463 0.0275 259.963)|oklch(0.4461 0.0263 256.802)|1px|8px|12px|16px"
+    },
+    {
+      "name": "1280-dark sections-audio-unavailable: label larger than body",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-dark sections-audio-unavailable: Current and Next bodies are one line",
+      "ok": true,
+      "detail": "Exercise · 0:04 / Rest · 0:02"
+    },
+    {
+      "name": "1280-dark sections-audio-unavailable: Current and Next boxes have equal height",
+      "ok": true,
+      "detail": "82 vs 82"
+    },
+    {
+      "name": "1280-dark sections-audio-unavailable: role=timer only on the number",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-dark sections-audio-unavailable: no overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-dark sections-two-warnings: Current and Next boxes exist",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-dark sections-two-warnings: Current has the same box style as Next",
+      "ok": true,
+      "detail": "oklch(0.2463 0.0275 259.963)|oklch(0.4461 0.0263 256.802)|1px|8px|12px|16px vs oklch(0.2463 0.0275 259.963)|oklch(0.4461 0.0263 256.802)|1px|8px|12px|16px"
+    },
+    {
+      "name": "1280-dark sections-two-warnings: label larger than body",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-dark sections-two-warnings: Current and Next bodies are one line",
+      "ok": true,
+      "detail": "Exercise · 0:04 / Rest · 0:02"
+    },
+    {
+      "name": "1280-dark sections-two-warnings: Current and Next boxes have equal height",
+      "ok": true,
+      "detail": "82 vs 82"
+    },
+    {
+      "name": "1280-dark sections-two-warnings: role=timer only on the number",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-dark sections-two-warnings: no overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-dark sections-longest-values: Current and Next boxes exist",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-dark sections-longest-values: Current has the same box style as Next",
+      "ok": true,
+      "detail": "oklch(0.2463 0.0275 259.963)|oklch(0.4461 0.0263 256.802)|1px|8px|12px|16px vs oklch(0.2463 0.0275 259.963)|oklch(0.4461 0.0263 256.802)|1px|8px|12px|16px"
+    },
+    {
+      "name": "1280-dark sections-longest-values: label larger than body",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-dark sections-longest-values: Current and Next bodies are one line",
+      "ok": true,
+      "detail": "Exercise · 10:00 / Rest · 0:02"
+    },
+    {
+      "name": "1280-dark sections-longest-values: Current and Next boxes have equal height",
+      "ok": true,
+      "detail": "82 vs 82"
+    },
+    {
+      "name": "1280-dark sections-longest-values: role=timer only on the number",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-dark sections-longest-values: no overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-dark: Standby Current text is exactly \"Standby\"",
+      "ok": true,
+      "detail": "Standby"
+    },
+    {
+      "name": "1280-dark: Standby Next text has no time",
+      "ok": true,
+      "detail": "Standby"
+    },
+    {
+      "name": "1280-dark: longest values fit on one line",
+      "ok": true,
+      "detail": "Exercise · 10:00"
+    },
+    {
+      "name": "1280-dark: time, Current and the button bar sit at fixed positions in every scenario",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "name": "390-light: phase 2 fixture cards found",
+      "ok": true,
+      "detail": "count=14"
+    },
+    {
+      "name": "390-light sections-preparation-exercise: Current and Next boxes exist",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-light sections-preparation-exercise: Current has the same box style as Next",
+      "ok": true,
+      "detail": "oklch(0.967 0.0029 264.542)|oklch(0.9276 0.0058 264.531)|1px|8px|12px|16px vs oklch(0.967 0.0029 264.542)|oklch(0.9276 0.0058 264.531)|1px|8px|12px|16px"
+    },
+    {
+      "name": "390-light sections-preparation-exercise: label larger than body",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-light sections-preparation-exercise: Current and Next bodies are one line",
+      "ok": true,
+      "detail": "Preparation · 0:05 / Exercise · 0:04"
+    },
+    {
+      "name": "390-light sections-preparation-exercise: Current and Next boxes have equal height",
+      "ok": true,
+      "detail": "82 vs 82"
+    },
+    {
+      "name": "390-light sections-preparation-exercise: role=timer only on the number",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-light sections-preparation-exercise: no overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-light sections-preparation-standby: Current and Next boxes exist",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-light sections-preparation-standby: Current has the same box style as Next",
+      "ok": true,
+      "detail": "oklch(0.967 0.0029 264.542)|oklch(0.9276 0.0058 264.531)|1px|8px|12px|16px vs oklch(0.967 0.0029 264.542)|oklch(0.9276 0.0058 264.531)|1px|8px|12px|16px"
+    },
+    {
+      "name": "390-light sections-preparation-standby: label larger than body",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-light sections-preparation-standby: Current and Next bodies are one line",
+      "ok": true,
+      "detail": "Preparation · 0:05 / Standby"
+    },
+    {
+      "name": "390-light sections-preparation-standby: Current and Next boxes have equal height",
+      "ok": true,
+      "detail": "82 vs 82"
+    },
+    {
+      "name": "390-light sections-preparation-standby: role=timer only on the number",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-light sections-preparation-standby: no overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-light sections-exercise-rest: Current and Next boxes exist",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-light sections-exercise-rest: Current has the same box style as Next",
+      "ok": true,
+      "detail": "oklch(0.967 0.0029 264.542)|oklch(0.9276 0.0058 264.531)|1px|8px|12px|16px vs oklch(0.967 0.0029 264.542)|oklch(0.9276 0.0058 264.531)|1px|8px|12px|16px"
+    },
+    {
+      "name": "390-light sections-exercise-rest: label larger than body",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-light sections-exercise-rest: Current and Next bodies are one line",
+      "ok": true,
+      "detail": "Exercise · 0:04 / Rest · 0:02"
+    },
+    {
+      "name": "390-light sections-exercise-rest: Current and Next boxes have equal height",
+      "ok": true,
+      "detail": "82 vs 82"
+    },
+    {
+      "name": "390-light sections-exercise-rest: role=timer only on the number",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-light sections-exercise-rest: no overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-light sections-exercise-complete: Current and Next boxes exist",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-light sections-exercise-complete: Current has the same box style as Next",
+      "ok": true,
+      "detail": "oklch(0.967 0.0029 264.542)|oklch(0.9276 0.0058 264.531)|1px|8px|12px|16px vs oklch(0.967 0.0029 264.542)|oklch(0.9276 0.0058 264.531)|1px|8px|12px|16px"
+    },
+    {
+      "name": "390-light sections-exercise-complete: label larger than body",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-light sections-exercise-complete: Current and Next bodies are one line",
+      "ok": true,
+      "detail": "Exercise · 0:04 / Drill complete"
+    },
+    {
+      "name": "390-light sections-exercise-complete: Current and Next boxes have equal height",
+      "ok": true,
+      "detail": "82 vs 82"
+    },
+    {
+      "name": "390-light sections-exercise-complete: role=timer only on the number",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-light sections-exercise-complete: no overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-light sections-standby-exercise: Current and Next boxes exist",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-light sections-standby-exercise: Current has the same box style as Next",
+      "ok": true,
+      "detail": "oklch(0.967 0.0029 264.542)|oklch(0.9276 0.0058 264.531)|1px|8px|12px|16px vs oklch(0.967 0.0029 264.542)|oklch(0.9276 0.0058 264.531)|1px|8px|12px|16px"
+    },
+    {
+      "name": "390-light sections-standby-exercise: label larger than body",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-light sections-standby-exercise: Current and Next bodies are one line",
+      "ok": true,
+      "detail": "Standby / Exercise · 0:04"
+    },
+    {
+      "name": "390-light sections-standby-exercise: Current and Next boxes have equal height",
+      "ok": true,
+      "detail": "82 vs 82"
+    },
+    {
+      "name": "390-light sections-standby-exercise: role=timer only on the number",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-light sections-standby-exercise: no overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-light sections-rest-exercise: Current and Next boxes exist",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-light sections-rest-exercise: Current has the same box style as Next",
+      "ok": true,
+      "detail": "oklch(0.967 0.0029 264.542)|oklch(0.9276 0.0058 264.531)|1px|8px|12px|16px vs oklch(0.967 0.0029 264.542)|oklch(0.9276 0.0058 264.531)|1px|8px|12px|16px"
+    },
+    {
+      "name": "390-light sections-rest-exercise: label larger than body",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-light sections-rest-exercise: Current and Next bodies are one line",
+      "ok": true,
+      "detail": "Rest · 0:02 / Exercise · 0:04"
+    },
+    {
+      "name": "390-light sections-rest-exercise: Current and Next boxes have equal height",
+      "ok": true,
+      "detail": "82 vs 82"
+    },
+    {
+      "name": "390-light sections-rest-exercise: role=timer only on the number",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-light sections-rest-exercise: no overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-light sections-rest-standby: Current and Next boxes exist",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-light sections-rest-standby: Current has the same box style as Next",
+      "ok": true,
+      "detail": "oklch(0.967 0.0029 264.542)|oklch(0.9276 0.0058 264.531)|1px|8px|12px|16px vs oklch(0.967 0.0029 264.542)|oklch(0.9276 0.0058 264.531)|1px|8px|12px|16px"
+    },
+    {
+      "name": "390-light sections-rest-standby: label larger than body",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-light sections-rest-standby: Current and Next bodies are one line",
+      "ok": true,
+      "detail": "Rest · 0:02 / Standby"
+    },
+    {
+      "name": "390-light sections-rest-standby: Current and Next boxes have equal height",
+      "ok": true,
+      "detail": "82 vs 82"
+    },
+    {
+      "name": "390-light sections-rest-standby: role=timer only on the number",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-light sections-rest-standby: no overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-light sections-rest-complete: Current and Next boxes exist",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-light sections-rest-complete: Current has the same box style as Next",
+      "ok": true,
+      "detail": "oklch(0.967 0.0029 264.542)|oklch(0.9276 0.0058 264.531)|1px|8px|12px|16px vs oklch(0.967 0.0029 264.542)|oklch(0.9276 0.0058 264.531)|1px|8px|12px|16px"
+    },
+    {
+      "name": "390-light sections-rest-complete: label larger than body",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-light sections-rest-complete: Current and Next bodies are one line",
+      "ok": true,
+      "detail": "Rest · 0:02 / Drill complete"
+    },
+    {
+      "name": "390-light sections-rest-complete: Current and Next boxes have equal height",
+      "ok": true,
+      "detail": "82 vs 82"
+    },
+    {
+      "name": "390-light sections-rest-complete: role=timer only on the number",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-light sections-rest-complete: no overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-light sections-resume-preparation: Current and Next boxes exist",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-light sections-resume-preparation: Current has the same box style as Next",
+      "ok": true,
+      "detail": "oklch(0.967 0.0029 264.542)|oklch(0.9276 0.0058 264.531)|1px|8px|12px|16px vs oklch(0.967 0.0029 264.542)|oklch(0.9276 0.0058 264.531)|1px|8px|12px|16px"
+    },
+    {
+      "name": "390-light sections-resume-preparation: label larger than body",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-light sections-resume-preparation: Current and Next bodies are one line",
+      "ok": true,
+      "detail": "Preparation · 0:05 / Exercise · 0:04"
+    },
+    {
+      "name": "390-light sections-resume-preparation: Current and Next boxes have equal height",
+      "ok": true,
+      "detail": "82 vs 82"
+    },
+    {
+      "name": "390-light sections-resume-preparation: role=timer only on the number",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-light sections-resume-preparation: no overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-light sections-paused: Current and Next boxes exist",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-light sections-paused: Current has the same box style as Next",
+      "ok": true,
+      "detail": "oklch(0.967 0.0029 264.542)|oklch(0.9276 0.0058 264.531)|1px|8px|12px|16px vs oklch(0.967 0.0029 264.542)|oklch(0.9276 0.0058 264.531)|1px|8px|12px|16px"
+    },
+    {
+      "name": "390-light sections-paused: label larger than body",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-light sections-paused: Current and Next bodies are one line",
+      "ok": true,
+      "detail": "Exercise · 0:04 / Rest · 0:02"
+    },
+    {
+      "name": "390-light sections-paused: Current and Next boxes have equal height",
+      "ok": true,
+      "detail": "82 vs 82"
+    },
+    {
+      "name": "390-light sections-paused: role=timer only on the number",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-light sections-paused: no overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-light sections-initializing: Current and Next boxes exist",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-light sections-initializing: Current has the same box style as Next",
+      "ok": true,
+      "detail": "oklch(0.967 0.0029 264.542)|oklch(0.9276 0.0058 264.531)|1px|8px|12px|16px vs oklch(0.967 0.0029 264.542)|oklch(0.9276 0.0058 264.531)|1px|8px|12px|16px"
+    },
+    {
+      "name": "390-light sections-initializing: label larger than body",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-light sections-initializing: Current and Next bodies are one line",
+      "ok": true,
+      "detail": "Preparation · 0:05 / Exercise · 0:04"
+    },
+    {
+      "name": "390-light sections-initializing: Current and Next boxes have equal height",
+      "ok": true,
+      "detail": "82 vs 82"
+    },
+    {
+      "name": "390-light sections-initializing: role=timer only on the number",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-light sections-initializing: no overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-light sections-audio-unavailable: Current and Next boxes exist",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-light sections-audio-unavailable: Current has the same box style as Next",
+      "ok": true,
+      "detail": "oklch(0.967 0.0029 264.542)|oklch(0.9276 0.0058 264.531)|1px|8px|12px|16px vs oklch(0.967 0.0029 264.542)|oklch(0.9276 0.0058 264.531)|1px|8px|12px|16px"
+    },
+    {
+      "name": "390-light sections-audio-unavailable: label larger than body",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-light sections-audio-unavailable: Current and Next bodies are one line",
+      "ok": true,
+      "detail": "Exercise · 0:04 / Rest · 0:02"
+    },
+    {
+      "name": "390-light sections-audio-unavailable: Current and Next boxes have equal height",
+      "ok": true,
+      "detail": "82 vs 82"
+    },
+    {
+      "name": "390-light sections-audio-unavailable: role=timer only on the number",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-light sections-audio-unavailable: no overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-light sections-two-warnings: Current and Next boxes exist",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-light sections-two-warnings: Current has the same box style as Next",
+      "ok": true,
+      "detail": "oklch(0.967 0.0029 264.542)|oklch(0.9276 0.0058 264.531)|1px|8px|12px|16px vs oklch(0.967 0.0029 264.542)|oklch(0.9276 0.0058 264.531)|1px|8px|12px|16px"
+    },
+    {
+      "name": "390-light sections-two-warnings: label larger than body",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-light sections-two-warnings: Current and Next bodies are one line",
+      "ok": true,
+      "detail": "Exercise · 0:04 / Rest · 0:02"
+    },
+    {
+      "name": "390-light sections-two-warnings: Current and Next boxes have equal height",
+      "ok": true,
+      "detail": "82 vs 82"
+    },
+    {
+      "name": "390-light sections-two-warnings: role=timer only on the number",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-light sections-two-warnings: no overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-light sections-longest-values: Current and Next boxes exist",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-light sections-longest-values: Current has the same box style as Next",
+      "ok": true,
+      "detail": "oklch(0.967 0.0029 264.542)|oklch(0.9276 0.0058 264.531)|1px|8px|12px|16px vs oklch(0.967 0.0029 264.542)|oklch(0.9276 0.0058 264.531)|1px|8px|12px|16px"
+    },
+    {
+      "name": "390-light sections-longest-values: label larger than body",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-light sections-longest-values: Current and Next bodies are one line",
+      "ok": true,
+      "detail": "Exercise · 10:00 / Rest · 0:02"
+    },
+    {
+      "name": "390-light sections-longest-values: Current and Next boxes have equal height",
+      "ok": true,
+      "detail": "82 vs 82"
+    },
+    {
+      "name": "390-light sections-longest-values: role=timer only on the number",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-light sections-longest-values: no overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-light: Standby Current text is exactly \"Standby\"",
+      "ok": true,
+      "detail": "Standby"
+    },
+    {
+      "name": "390-light: Standby Next text has no time",
+      "ok": true,
+      "detail": "Standby"
+    },
+    {
+      "name": "390-light: longest values fit on one line",
+      "ok": true,
+      "detail": "Exercise · 10:00"
+    },
+    {
+      "name": "390-light: time, Current and the button bar sit at fixed positions in every scenario",
+      "ok": true,
+      "detail": "[]"
+    },
+    {
+      "name": "390-dark: phase 2 fixture cards found",
+      "ok": true,
+      "detail": "count=14"
+    },
+    {
+      "name": "390-dark sections-preparation-exercise: Current and Next boxes exist",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-dark sections-preparation-exercise: Current has the same box style as Next",
+      "ok": true,
+      "detail": "oklch(0.2463 0.0275 259.963)|oklch(0.4461 0.0263 256.802)|1px|8px|12px|16px vs oklch(0.2463 0.0275 259.963)|oklch(0.4461 0.0263 256.802)|1px|8px|12px|16px"
+    },
+    {
+      "name": "390-dark sections-preparation-exercise: label larger than body",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-dark sections-preparation-exercise: Current and Next bodies are one line",
+      "ok": true,
+      "detail": "Preparation · 0:05 / Exercise · 0:04"
+    },
+    {
+      "name": "390-dark sections-preparation-exercise: Current and Next boxes have equal height",
+      "ok": true,
+      "detail": "82 vs 82"
+    },
+    {
+      "name": "390-dark sections-preparation-exercise: role=timer only on the number",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-dark sections-preparation-exercise: no overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-dark sections-preparation-standby: Current and Next boxes exist",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-dark sections-preparation-standby: Current has the same box style as Next",
+      "ok": true,
+      "detail": "oklch(0.2463 0.0275 259.963)|oklch(0.4461 0.0263 256.802)|1px|8px|12px|16px vs oklch(0.2463 0.0275 259.963)|oklch(0.4461 0.0263 256.802)|1px|8px|12px|16px"
+    },
+    {
+      "name": "390-dark sections-preparation-standby: label larger than body",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-dark sections-preparation-standby: Current and Next bodies are one line",
+      "ok": true,
+      "detail": "Preparation · 0:05 / Standby"
+    },
+    {
+      "name": "390-dark sections-preparation-standby: Current and Next boxes have equal height",
+      "ok": true,
+      "detail": "82 vs 82"
+    },
+    {
+      "name": "390-dark sections-preparation-standby: role=timer only on the number",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-dark sections-preparation-standby: no overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-dark sections-exercise-rest: Current and Next boxes exist",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-dark sections-exercise-rest: Current has the same box style as Next",
+      "ok": true,
+      "detail": "oklch(0.2463 0.0275 259.963)|oklch(0.4461 0.0263 256.802)|1px|8px|12px|16px vs oklch(0.2463 0.0275 259.963)|oklch(0.4461 0.0263 256.802)|1px|8px|12px|16px"
+    },
+    {
+      "name": "390-dark sections-exercise-rest: label larger than body",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-dark sections-exercise-rest: Current and Next bodies are one line",
+      "ok": true,
+      "detail": "Exercise · 0:04 / Rest · 0:02"
+    },
+    {
+      "name": "390-dark sections-exercise-rest: Current and Next boxes have equal height",
+      "ok": true,
+      "detail": "82 vs 82"
+    },
+    {
+      "name": "390-dark sections-exercise-rest: role=timer only on the number",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-dark sections-exercise-rest: no overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-dark sections-exercise-complete: Current and Next boxes exist",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-dark sections-exercise-complete: Current has the same box style as Next",
+      "ok": true,
+      "detail": "oklch(0.2463 0.0275 259.963)|oklch(0.4461 0.0263 256.802)|1px|8px|12px|16px vs oklch(0.2463 0.0275 259.963)|oklch(0.4461 0.0263 256.802)|1px|8px|12px|16px"
+    },
+    {
+      "name": "390-dark sections-exercise-complete: label larger than body",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-dark sections-exercise-complete: Current and Next bodies are one line",
+      "ok": true,
+      "detail": "Exercise · 0:04 / Drill complete"
+    },
+    {
+      "name": "390-dark sections-exercise-complete: Current and Next boxes have equal height",
+      "ok": true,
+      "detail": "82 vs 82"
+    },
+    {
+      "name": "390-dark sections-exercise-complete: role=timer only on the number",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-dark sections-exercise-complete: no overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-dark sections-standby-exercise: Current and Next boxes exist",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-dark sections-standby-exercise: Current has the same box style as Next",
+      "ok": true,
+      "detail": "oklch(0.2463 0.0275 259.963)|oklch(0.4461 0.0263 256.802)|1px|8px|12px|16px vs oklch(0.2463 0.0275 259.963)|oklch(0.4461 0.0263 256.802)|1px|8px|12px|16px"
+    },
+    {
+      "name": "390-dark sections-standby-exercise: label larger than body",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-dark sections-standby-exercise: Current and Next bodies are one line",
+      "ok": true,
+      "detail": "Standby / Exercise · 0:04"
+    },
+    {
+      "name": "390-dark sections-standby-exercise: Current and Next boxes have equal height",
+      "ok": true,
+      "detail": "82 vs 82"
+    },
+    {
+      "name": "390-dark sections-standby-exercise: role=timer only on the number",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-dark sections-standby-exercise: no overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-dark sections-rest-exercise: Current and Next boxes exist",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-dark sections-rest-exercise: Current has the same box style as Next",
+      "ok": true,
+      "detail": "oklch(0.2463 0.0275 259.963)|oklch(0.4461 0.0263 256.802)|1px|8px|12px|16px vs oklch(0.2463 0.0275 259.963)|oklch(0.4461 0.0263 256.802)|1px|8px|12px|16px"
+    },
+    {
+      "name": "390-dark sections-rest-exercise: label larger than body",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-dark sections-rest-exercise: Current and Next bodies are one line",
+      "ok": true,
+      "detail": "Rest · 0:02 / Exercise · 0:04"
+    },
+    {
+      "name": "390-dark sections-rest-exercise: Current and Next boxes have equal height",
+      "ok": true,
+      "detail": "82 vs 82"
+    },
+    {
+      "name": "390-dark sections-rest-exercise: role=timer only on the number",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-dark sections-rest-exercise: no overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-dark sections-rest-standby: Current and Next boxes exist",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-dark sections-rest-standby: Current has the same box style as Next",
+      "ok": true,
+      "detail": "oklch(0.2463 0.0275 259.963)|oklch(0.4461 0.0263 256.802)|1px|8px|12px|16px vs oklch(0.2463 0.0275 259.963)|oklch(0.4461 0.0263 256.802)|1px|8px|12px|16px"
+    },
+    {
+      "name": "390-dark sections-rest-standby: label larger than body",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-dark sections-rest-standby: Current and Next bodies are one line",
+      "ok": true,
+      "detail": "Rest · 0:02 / Standby"
+    },
+    {
+      "name": "390-dark sections-rest-standby: Current and Next boxes have equal height",
+      "ok": true,
+      "detail": "82 vs 82"
+    },
+    {
+      "name": "390-dark sections-rest-standby: role=timer only on the number",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-dark sections-rest-standby: no overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-dark sections-rest-complete: Current and Next boxes exist",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-dark sections-rest-complete: Current has the same box style as Next",
+      "ok": true,
+      "detail": "oklch(0.2463 0.0275 259.963)|oklch(0.4461 0.0263 256.802)|1px|8px|12px|16px vs oklch(0.2463 0.0275 259.963)|oklch(0.4461 0.0263 256.802)|1px|8px|12px|16px"
+    },
+    {
+      "name": "390-dark sections-rest-complete: label larger than body",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-dark sections-rest-complete: Current and Next bodies are one line",
+      "ok": true,
+      "detail": "Rest · 0:02 / Drill complete"
+    },
+    {
+      "name": "390-dark sections-rest-complete: Current and Next boxes have equal height",
+      "ok": true,
+      "detail": "82 vs 82"
+    },
+    {
+      "name": "390-dark sections-rest-complete: role=timer only on the number",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-dark sections-rest-complete: no overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-dark sections-resume-preparation: Current and Next boxes exist",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-dark sections-resume-preparation: Current has the same box style as Next",
+      "ok": true,
+      "detail": "oklch(0.2463 0.0275 259.963)|oklch(0.4461 0.0263 256.802)|1px|8px|12px|16px vs oklch(0.2463 0.0275 259.963)|oklch(0.4461 0.0263 256.802)|1px|8px|12px|16px"
+    },
+    {
+      "name": "390-dark sections-resume-preparation: label larger than body",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-dark sections-resume-preparation: Current and Next bodies are one line",
+      "ok": true,
+      "detail": "Preparation · 0:05 / Exercise · 0:04"
+    },
+    {
+      "name": "390-dark sections-resume-preparation: Current and Next boxes have equal height",
+      "ok": true,
+      "detail": "82 vs 82"
+    },
+    {
+      "name": "390-dark sections-resume-preparation: role=timer only on the number",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-dark sections-resume-preparation: no overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-dark sections-paused: Current and Next boxes exist",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-dark sections-paused: Current has the same box style as Next",
+      "ok": true,
+      "detail": "oklch(0.2463 0.0275 259.963)|oklch(0.4461 0.0263 256.802)|1px|8px|12px|16px vs oklch(0.2463 0.0275 259.963)|oklch(0.4461 0.0263 256.802)|1px|8px|12px|16px"
+    },
+    {
+      "name": "390-dark sections-paused: label larger than body",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-dark sections-paused: Current and Next bodies are one line",
+      "ok": true,
+      "detail": "Exercise · 0:04 / Rest · 0:02"
+    },
+    {
+      "name": "390-dark sections-paused: Current and Next boxes have equal height",
+      "ok": true,
+      "detail": "82 vs 82"
+    },
+    {
+      "name": "390-dark sections-paused: role=timer only on the number",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-dark sections-paused: no overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-dark sections-initializing: Current and Next boxes exist",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-dark sections-initializing: Current has the same box style as Next",
+      "ok": true,
+      "detail": "oklch(0.2463 0.0275 259.963)|oklch(0.4461 0.0263 256.802)|1px|8px|12px|16px vs oklch(0.2463 0.0275 259.963)|oklch(0.4461 0.0263 256.802)|1px|8px|12px|16px"
+    },
+    {
+      "name": "390-dark sections-initializing: label larger than body",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-dark sections-initializing: Current and Next bodies are one line",
+      "ok": true,
+      "detail": "Preparation · 0:05 / Exercise · 0:04"
+    },
+    {
+      "name": "390-dark sections-initializing: Current and Next boxes have equal height",
+      "ok": true,
+      "detail": "82 vs 82"
+    },
+    {
+      "name": "390-dark sections-initializing: role=timer only on the number",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-dark sections-initializing: no overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-dark sections-audio-unavailable: Current and Next boxes exist",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-dark sections-audio-unavailable: Current has the same box style as Next",
+      "ok": true,
+      "detail": "oklch(0.2463 0.0275 259.963)|oklch(0.4461 0.0263 256.802)|1px|8px|12px|16px vs oklch(0.2463 0.0275 259.963)|oklch(0.4461 0.0263 256.802)|1px|8px|12px|16px"
+    },
+    {
+      "name": "390-dark sections-audio-unavailable: label larger than body",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-dark sections-audio-unavailable: Current and Next bodies are one line",
+      "ok": true,
+      "detail": "Exercise · 0:04 / Rest · 0:02"
+    },
+    {
+      "name": "390-dark sections-audio-unavailable: Current and Next boxes have equal height",
+      "ok": true,
+      "detail": "82 vs 82"
+    },
+    {
+      "name": "390-dark sections-audio-unavailable: role=timer only on the number",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-dark sections-audio-unavailable: no overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-dark sections-two-warnings: Current and Next boxes exist",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-dark sections-two-warnings: Current has the same box style as Next",
+      "ok": true,
+      "detail": "oklch(0.2463 0.0275 259.963)|oklch(0.4461 0.0263 256.802)|1px|8px|12px|16px vs oklch(0.2463 0.0275 259.963)|oklch(0.4461 0.0263 256.802)|1px|8px|12px|16px"
+    },
+    {
+      "name": "390-dark sections-two-warnings: label larger than body",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-dark sections-two-warnings: Current and Next bodies are one line",
+      "ok": true,
+      "detail": "Exercise · 0:04 / Rest · 0:02"
+    },
+    {
+      "name": "390-dark sections-two-warnings: Current and Next boxes have equal height",
+      "ok": true,
+      "detail": "82 vs 82"
+    },
+    {
+      "name": "390-dark sections-two-warnings: role=timer only on the number",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-dark sections-two-warnings: no overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-dark sections-longest-values: Current and Next boxes exist",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-dark sections-longest-values: Current has the same box style as Next",
+      "ok": true,
+      "detail": "oklch(0.2463 0.0275 259.963)|oklch(0.4461 0.0263 256.802)|1px|8px|12px|16px vs oklch(0.2463 0.0275 259.963)|oklch(0.4461 0.0263 256.802)|1px|8px|12px|16px"
+    },
+    {
+      "name": "390-dark sections-longest-values: label larger than body",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-dark sections-longest-values: Current and Next bodies are one line",
+      "ok": true,
+      "detail": "Exercise · 10:00 / Rest · 0:02"
+    },
+    {
+      "name": "390-dark sections-longest-values: Current and Next boxes have equal height",
+      "ok": true,
+      "detail": "82 vs 82"
+    },
+    {
+      "name": "390-dark sections-longest-values: role=timer only on the number",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-dark sections-longest-values: no overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-dark: Standby Current text is exactly \"Standby\"",
+      "ok": true,
+      "detail": "Standby"
+    },
+    {
+      "name": "390-dark: Standby Next text has no time",
+      "ok": true,
+      "detail": "Standby"
+    },
+    {
+      "name": "390-dark: longest values fit on one line",
+      "ok": true,
+      "detail": "Exercise · 10:00"
+    },
+    {
+      "name": "390-dark: time, Current and the button bar sit at fixed positions in every scenario",
+      "ok": true,
+      "detail": "[]"
     }
   ]
 }

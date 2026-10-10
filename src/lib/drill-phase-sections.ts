@@ -57,6 +57,11 @@ export function buildPhaseSections(display: DrillDisplay, repetitions: number): 
     };
 }
 
+/** Body of the Current section ("Name · time", Standby: the name only); the "Current" label is rendered separately. */
+export function currentPhaseBody(current: CurrentSection): string {
+    return current.time ? `${current.name} · ${current.time}` : current.name;
+}
+
 /** Body of the Next section; the "Next" label is rendered separately. */
 export function nextPhaseBody(next: NextSection): string {
     if (next.kind === "end") return "Drill complete";

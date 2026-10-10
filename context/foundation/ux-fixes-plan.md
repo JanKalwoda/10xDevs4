@@ -26,7 +26,7 @@ Po zamknięciu kolejki S-03…S-13 użytkownik zgłosił 14 poprawek UX. Dotycz�
 | `/timers` | Nowy ekran listy zapisanych timerów (przeniesiony z `/dashboard`), strona startowa zalogowanego po wejściu i odświeżeniu; chroniony, `private, no-store`. |
 | Po zapisie nowego timera | Przejście na `/{id}` zapisanego timera (zamiast pozostania na `/create` z komunikatem). Edycja zostaje na `/{id}/edit` z komunikatem „Saved". |
 | Linki „Back to dashboard" | Zmiana na „Back to timers" → `/timers`. Przekierowanie po usunięciu → `/timers`. |
-| Widok biegu | Czas odliczany wyżej; „Repetition X of N" bezpośrednio pod czasem; okienko Current: nazwa fazy w pierwszej linii, czas w osobnej, bez numeru powtórzenia; okienko Next: większy napis „Next", nazwa i czas następnej fazy w osobnej linii poniżej. |
+| Widok biegu | Czas odliczany wyżej; „Repetition X of N" bezpośrednio pod czasem; okienko Current (S-21, jak Next): większy napis „Current", pod nim „Nazwa · czas" w jednej linii (Standby: sama nazwa), bez numeru powtórzenia; okienko Next: większy napis „Next", pod nim „Nazwa · czas" następnej fazy. |
 | Preparation | Pod czasem „Repetition X of N", gdzie X to numer nadchodzącego powtórzenia (także po wznowieniu przygotowania). |
 | Odsłuch sygnałów | Sama ikona głośnika na końcu wiersza z inputem; opis jako tooltip. Mobile: dotknięcie ikony odtwarza dźwięk i pokazuje ten sam opis na kilka sekund (live region), powód wyłączenia (np. Rest 0:00) pokazuje dotknięcie wyłączonej ikony (`aria-disabled`). |
 | Usuwanie konta (RODO) | Osobny slice `proposed` (S-20), bez implementacji; otwarte pytania poniżej. |
