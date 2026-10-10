@@ -19,11 +19,12 @@ Jeden klik/tap = jeden krok (przytrzymanie powtarza po 400 ms); strzałki wewną
 | Decision | Choice | Why (1 sentence) | Source |
 | --- | --- | --- | --- |
 | Źródło kroku | Zawsze `click`; `pointerdown` tylko uzbraja powtarzanie po 400 ms | Jedno źródło kroku usuwa wyścig z timerem 100 ms | Użytkownik |
-| Pominięcie kliku | Flaga po starcie powtarzania, kasowana przez `click`/nowy `pointerdown`/abort, nie timerem | Poprawność niezależna od czasu | Użytkownik |
+| Pominięcie kliku | Flaga tylko gdy powtarzanie ruszyło i puszczenie nad przyciskiem; kasowana przez `click`/`pointerdown`/abort/`blur`; `click` z `detail` 0 zawsze stepuje | Poprawność niezależna od czasu, ścieżka AT nie jest połykana | Użytkownik + review |
 | Układ | `pointer-coarse:` / domyślnie fine, nie `any-pointer-*` | Laptop dotykowy z myszą ma układ komputerowy | Użytkownik |
 | Prymityw | shadcn `input-group` | Wspólna ramka i focus ring bez własnego CSS | Użytkownik |
 | Tooltip | `md:max-w-md`, telefon bez zmian | Ograniczeniem jest szerokość, nie wskaźnik | Plan (do potwierdzenia) |
 | Current | Bez ramki i tła, ta sama wysokość i padding co Next | Pasek przycisków nie skacze | Użytkownik |
+| Setup fine + touch | Zwykły kontekst Playwright + tapnięcia CDP (`hasTouch` daje primary coarse — zweryfikowane) | Test układu laptopa dotykowego jest wiarygodny | Review + weryfikacja |
 | WCAG 2.5.8 | Wyjątek „Equivalent” (pole i ↑/↓) dla 22 px na głównym fine | Cel 22 px < 24 px | Plan |
 
 ## Scope
@@ -51,7 +52,8 @@ Nowy czysty `drill-step-press.ts` (stan gestu: powtarzanie ruszyło → pomiń j
 ## Open Risks & Assumptions
 
 - Zgodność kolejności `pointerup` → `lostpointercapture` → `click` w Chromium/Safari (test w skrypcie i kontrolerze).
-- `input-group` może dodać `textarea.tsx` jako zależność rejestru.
+- `input-group` trzeba objąć lintem (lista + pin testu) i zaadaptować do tokenów; `textarea.tsx` usunąć.
+- Voice control w iOS może wysłać `click` z `detail` 1 (najwyżej jeden pominięty krok po długim przytrzymaniu).
 - Cel 22 px na głównym fine nadal opiera się na wyjątku WCAG „Equivalent”.
 
 ## Success Criteria (Summary)

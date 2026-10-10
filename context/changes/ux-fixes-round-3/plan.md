@@ -28,7 +28,7 @@ S-22 (poprawki po ponownym teście S-21, 2026-10-11; dotyka FR-018, FR-019, FR-0
 - Tailwind 4.3 ma wbudowane `pointer-coarse:`/`pointer-fine:`; domyślny układ (bez wariantu) zostaje kolumną, `pointer-coarse:` przełącza na wiersz, bez `@custom-variant`.
 - Kolumna 2 × `h-5.5` = 44 px = wysokość ikony głośnika; ramka `InputGroup` z `h-11` wyrównuje wiersze Preparation/Repetitions do pozostałych.
 - WCAG 2.5.8 (24 px): kolumna 22 px nadal korzysta z wyjątku „Equivalent” (pole tekstowe i ↑/↓); na `pointer-coarse` cele mają 44 px. Uzasadnienie w AGENTS.md zmienia się z `any-pointer-coarse` na główny wskaźnik.
-- Playwright (poza zależnościami; `PLAYWRIGHT_PATH`) emuluje `hasTouch` z głównym fine (kontekst `hasTouch` bez `isMobile`); asercje `matchMedia("(pointer: fine)")` i `(any-pointer: coarse)` pilnują setupu.
+- Playwright (poza zależnościami; `PLAYWRIGHT_PATH`): kontekst `hasTouch` zmienia też główny wskaźnik na coarse (zweryfikowane, faza 1), więc „fine primary + touch” = zwykły kontekst + tapnięcia przez CDP `Input.dispatchTouchEvent`; `click` po takim tapnięciu ma `detail` 1.
 
 ## What We're NOT Doing
 
@@ -56,7 +56,7 @@ Zastąpić „krok na `pointerdown` + flaga z timerem” modelem „krok zawsze 
 
 **Intent**: Dodać do repeatera operację, która NIE wykonuje kroku od razu, tylko po `REPEAT_DELAY_MS` wykonuje pierwszy krok powtarzania i uruchamia interwał; istniejące `start` zostaje.
 
-**Contract**: `StepRepeater.arm(step: () => boolean, onFire?: () => void): void` — `onFire` wołane raz, tuż przed pierwszym krokiem po pauzie (sygnał „powtarzanie ruszyło”); `step` zwracające `false` (granica) zatrzymuje powtarzanie; `stop()`/`dispose()` anulują pauzę i interwał.
+**Contract**: `StepRepeater.arm(step: () => boolean, onFire?: () => void): void` — `onFire` wołane raz, tuż przed pierwszym krokiem po pauzie (sygnał „powtarzanie ruszyło”), także gdy ten pierwszy krok zwraca `false` (użytkownik trzymał >400 ms, więc następny `click` ma być pominięty); `step` zwracające `false` (granica) zatrzymuje powtarzanie; `stop()`/`dispose()` anulują pauzę i interwał. Kontroler nie uzbraja, gdy wartość jest już na granicy w tym kierunku (`click` i tak nic nie robi). Zmiana UX względem rundy 2: pojedynczy krok następuje przy puszczeniu (`click`), nie przy wciśnięciu, a powtarzanie zaczyna się po 400 ms — do opisu PR. Testy `arm`: brak kroku przed pauzą, krok po 400 ms, interwał, `onFire` także przy granicy w pierwszym kroku, brak uzbrojenia na granicy, `stop`/`dispose`.
 
 #### 2. Kontroler gestu
 
@@ -64,7 +64,13 @@ Zastąpić „krok na `pointerdown` + flaga z timerem” modelem „krok zawsze 
 
 **Intent**: Czysty moduł bez DOM i bez czasu rzeczywistego (wstrzykiwany repeater) trzymający stan gestu: czy powtarzanie ruszyło i czy następny `click` ma być pominięty. Zastępuje `handledByPointer` + timer.
 
-**Contract**: `createStepPress(repeater, performStep): { pointerDown(direction), pointerUp(), pointerAbort(), blur(), click(direction) }`. `pointerDown` czyści flagę pominięcia i uzbraja powtarzanie (po „ruszyło” ustawia flagę); `pointerUp` zatrzymuje powtarzanie i zostawia flagę dla jednego następnego `click`; `pointerAbort` (leave, cancel, utrata capture bez wcześniejszego `pointerUp`) i `blur` zatrzymują powtarzanie i czyszczą flagę; `click` pomija krok, gdy flaga ustawiona (i ją kasuje), w przeciwnym razie wykonuje jeden krok. Wymagane testy: pojedynczy klik = 1 krok; „click po >100 ms (np. 1000 ms) od `pointerUp` daje dokładnie 1 krok”; przytrzymanie 400 ms+ powtarza, a po `pointerUp` + `click` nie dodaje kroku; abort poza przyciskiem czyści flagę, więc następny `click` z klawiatury stepuje; `lostpointercapture` po `pointerUp` nie kasuje flagi; `click` bez wskaźnika stepuje o 1; granica zatrzymuje powtarzanie; `blur` w trakcie przytrzymania zatrzymuje.
+**Contract**: `createStepPress(repeater, performStep): { pointerDown(direction), pointerUp(overButton: boolean), pointerAbort(), blur(), click(direction, fromPointer: boolean) }`. Kontroler trzyma dwa pola: `pressed` (gest trwa) i `skipClick` (jeden następny `click` pochodzi z tego gestu). Reguły:
+- `pointerDown` (także w trakcie gestu = restart): czyści `skipClick`, ustawia `pressed`, uzbraja powtarzanie; `onFire` ustawia `skipClick` (powtarzanie ruszyło).
+- `pointerUp(overButton)`: działa tylko gdy `pressed` (inaczej no-op); ustawia `pressed = false`, zatrzymuje powtarzanie; `skipClick` zostaje tylko gdy powtarzanie wystartowało ORAZ puszczenie nastąpiło nad przyciskiem (`overButton`, z `getBoundingClientRect` w komponencie); puszczenie poza przyciskiem = abort (click nie przyjdzie).
+- `pointerAbort()` (leave, cancel, utrata capture): działa tylko gdy `pressed`; po `pointerUp` jest no-op (kolejność `pointerup` → `lostpointercapture` → `click` i podwójny abort nie mają znaczenia); zatrzymuje powtarzanie i czyści `skipClick`.
+- `blur()` i odmontowanie (dispose w hooku): zatrzymują powtarzanie, czyszczą `pressed` i `skipClick`.
+- `click(direction, fromPointer)`: `fromPointer = event.detail > 0`. Gdy `fromPointer` jest `false` (klawiatura, `element.click()` z AT/głosu), zawsze wykonuje krok i czyści `skipClick`. Gdy `true` i `skipClick`, pomija krok i czyści flagę. W pozostałych przypadkach jeden krok (na granicy `canStep` blokuje).
+Wymagane testy: pojedynczy klik = 1 krok; „click po >100 ms (np. 1000 ms) od `pointerUp` daje dokładnie 1 krok”; przytrzymanie 400 ms+ powtarza, a po `pointerUp` + `click` nie dodaje kroku; przytrzymanie, puszczenie poza przyciskiem (abort) i następny `click` z `detail` 0 stepuje; flaga po `pointerUp` bez `click` (np. `contextmenu`), następny `click` z `detail` 0 stepuje, a nowy `pointerDown` czyści flagę; `pointerAbort` po `pointerUp` zostawia flagę; `lostpointercapture` po `pointerUp` nie kasuje flagi; `pointerUp` bez `pointerDown` = no-op; podwójny `pointerDown` i podwójny `pointerAbort`; `blur` w trakcie przytrzymania zatrzymuje i czyści flagę; granica zatrzymuje powtarzanie. Ryzyko F1: voice control w iOS może wysłać `click` z `detail` 1 — wtedy pominięty zostanie najwyżej jeden krok po długim przytrzymaniu, które i tak kończy się `pointerup` nad przyciskiem; akceptowane i zapisane w ryzykach.
 
 #### 3. Hook i komponent
 
@@ -72,13 +78,15 @@ Zastąpić „krok na `pointerdown` + flaga z timerem” modelem „krok zawsze 
 
 **Intent**: Hook udostępnia kontroler (krok czyta aktualną wartość z refa jak dziś, a krok z `click` też aktualizuje ref); `ConfigStepper` przestaje używać `handledByPointer`, `clearTimer` i `CLICK_AFTER_POINTER_MS`, a zdarzenia mapuje na `pointerDown`/`pointerUp`/`pointerAbort`/`blur`/`click`. `setPointerCapture`, wykrywanie wyjścia w `onPointerMove`, `touch-none`, `onContextMenu`, `aria-disabled` i `tabIndex={-1}` zostają.
 
-**Contract**: `useStepRepeat(field, value, onStep)` zwraca `{ pointerDown, pointerUp, pointerAbort, blur, click }`; na granicy `click` nic nie robi (`canStep`). Propsy `ConfigStepper` bez zmian.
+**Contract**: `useStepRepeat(field, value, onStep)` zwraca `{ pointerDown, pointerUp, pointerAbort, blur, click }`; komponent przekazuje `overButton` (współrzędne `pointerup` w prostokącie przycisku) i `event.detail > 0`; na granicy `click` nic nie robi (`canStep`); efekt sprzątający hooka woła `blur()`. Propsy `ConfigStepper` bez zmian.
 
 #### 4. Szkielet skryptu bramki
 
 **File**: `context/changes/ux-fixes-round-3/screenshots/ux-fixes-round-3-visual-gate.mjs` (nowy; wzór: skrypt z `ux-fixes-round-2`; dopisać ten plik do wyjątku lintu w `eslint.config.js` obok istniejących)
 
-**Intent**: Pierwsze asercje Playwright na fixture „default”: jeden klik myszą i jedno dotknięcie strzałki zmieniają wartość o dokładnie 1, także gdy `click` jest sztucznie opóźniony o >100 ms po `pointerup`; przytrzymanie ok. 1 s powtarza, a puszczenie nie dodaje kroku.
+**Intent**: Pierwsze asercje Playwright na fixture „default”: jeden klik myszą i jedno dotknięcie strzałki zmieniają wartość o dokładnie 1, także gdy `click` jest sztucznie opóźniony o >100 ms po `pointerup`; przytrzymanie ok. 1 s powtarza, a puszczenie nie dodaje kroku; tapnięcie potwierdza `event.detail > 0` na `click`. Na początku fazy 1 zweryfikować emulację setupu „fine primary + touch” (wynik niżej).
+
+**Wynik weryfikacji emulacji (Chromium, Playwright, 2026-10-11)**: kontekst `hasTouch` (także z `isMobile`) daje `pointer: coarse`, `any-pointer: coarse`, `hover: none` — NIE daje primary fine, więc nie nadaje się na laptop dotykowy. Plan B (zweryfikowany): zwykły kontekst bez `hasTouch` (`pointer: fine`, `any-pointer: fine`, `hover: hover`) i tapnięcia przez CDP `Input.dispatchTouchEvent` (`touchStart`/`touchEnd`) — dają `pointerType: touch`, `click` z `detail` 1; `any-pointer` pozostaje `fine`, ale układ zależy wyłącznie od głównego wskaźnika, więc to wystarcza. Asercje `matchMedia` (`pointer` i `any-pointer`) są twarde w każdym setupie: fine = zwykły kontekst, coarse = `hasTouch` + `isMobile`, fine + touch = zwykły kontekst + CDP dla tapnięć.
 
 ### Success Criteria:
 
@@ -106,11 +114,11 @@ Strzałki wewnątrz ramki pola (InputGroup), układ wybierany przez `pointer-coa
 
 #### 1. Prymityw InputGroup
 
-**File**: `src/components/ui/input-group.tsx` (nowy, z `npx shadcn@latest add input-group`; CLI może dodać też `textarea.tsx` jako zależność rejestru)
+**File**: `src/components/ui/input-group.tsx` (nowy, z `npx shadcn@latest add input-group`), `eslint.config.js` (lista zakresu timer-ui, linia ok. 122), `scripts/eslint-rules/timer-ui-contract.test.mjs` (pin)
 
-**Intent**: Użyć oficjalnego prymitywu (ramka, focus ring całości, stan `aria-invalid` na ramce); zmiany w wygenerowanym pliku minimalne i wyłącznie na tokenach.
+**Intent**: Użyć oficjalnego prymitywu (ramka, focus ring całości, stan `aria-invalid` na ramce) i objąć go kontraktem timer-ui jak pozostałe prymitywy: dodać `input-group.tsx` do listy lintu i do pinów testu kontraktu, po generacji zamienić wartości arbitralne (`ring-[3px]`, `rounded-[calc(...)]`, `[&>...]` itp.) i kolory na skalę/tokeny. Ring i błąd dopasować do `Input`: `ring-2 ring-ring/50`, `border-destructive`, `ring-destructive/20`, `dark:ring-destructive/40` (kontrast „validation red” z AGENTS.md). Usunąć niepotrzebny `textarea.tsx` i jego użycie z `input-group.tsx` (martwy plik; używamy tylko `InputGroupInput`), o ile CLI go doda.
 
-**Contract**: Używane: `InputGroup`, `InputGroupInput`, `InputGroupAddon` (`align="inline-end"`). Wysokość ramki `h-11` przekazana przez `className` w miejscu użycia.
+**Contract**: Używane: `InputGroup`, `InputGroupInput`, `InputGroupAddon` (`align="inline-end"`). Wysokość ramki `h-11` przez `className` w miejscu użycia. Addon dostaje `p-0 gap-0` i wyzerowany ujemny margines przy `button`; sprawdzić, że `onClick` addonu (fokus pola) nie zabiera focusu przyciskom strzałek (jest pomijany dla `closest("button")`, więc OK — potwierdzić w skrypcie).
 
 #### 2. Wiersz pola
 
@@ -133,7 +141,8 @@ Strzałki wewnątrz ramki pola (InputGroup), układ wybierany przez `pointer-coa
 #### Automated Verification:
 
 - Lint (w tym kontrakt timer-ui), `npm test`, `node --test scripts/eslint-rules/*.test.mjs`, `npx astro check`, `npm run build` przechodzą
-- Skrypt bramki: kolumna przy `fine` (także `hasTouch` z głównym fine), wiersz 44 px przy `coarse` (390 px, `isMobile`), brak overflow poziomego, wiersze 44 px, strzałki wewnątrz ramki (`getBoundingClientRect`), focus ring na grupie
+- Test kontraktu timer-ui pinuje `input-group.tsx` w zakresie lintu: `node --test scripts/eslint-rules/*.test.mjs`
+- Skrypt bramki: kolumna przy `fine` i przy „fine + touch” (zwykły kontekst + CDP, patrz faza 1), wiersz 44 px przy `coarse` (390 px, `hasTouch` + `isMobile`), brak overflow poziomego, wiersze 44 px, strzałki wewnątrz ramki (`getBoundingClientRect`), focus ring na grupie, kolor ramki błędu (token destructive) w jasnym i ciemnym motywie
 
 #### Manual Verification:
 
@@ -157,7 +166,7 @@ Szerszy tooltip od `md` oraz Current bez ramki i tła.
 
 **Intent**: Na szerokich ekranach zwiększyć maksymalną szerokość do `md:max-w-md`; poniżej `md` zostaje `max-w-xs`. Breakpoint zamiast `pointer-fine:`: ograniczeniem jest dostępna szerokość, nie rodzaj wskaźnika; telefon w pionie (390 px) pozostaje bez zmian.
 
-**Contract**: `w-fit max-w-xs md:max-w-md`; sprawdzić Exercise, Rest i Random start, każdy w stanie dostępnym i wyłączonym z notą: pudełko szerokością tekstu, brak luki po prawej (asercja skryptu: różnica między szerokością pudełka a najdłuższą linią ≤ 7 px, jak w S-21), przy 1280 i 390 px.
+**Contract**: `w-fit max-w-xs md:max-w-md text-pretty` (`text-pretty` ogranicza krótkie ostatnie linie; 7 px jest celem, nie gwarancją, bo `md` mierzy okno, a Radix może przyciąć pudełko przy kotwicy na prawej krawędzi); test na najdłuższym `SIGNAL_MEANINGS` z notą; sprawdzić Exercise, Rest i Random start, każdy w stanie dostępnym i wyłączonym z notą: pudełko szerokością tekstu, brak luki po prawej (asercja skryptu: różnica między szerokością pudełka a najdłuższą linią ≤ 7 px, jak w S-21), przy 1280 i 390 px.
 
 #### 2. Current bez ramki i tła
 
@@ -165,7 +174,7 @@ Szerszy tooltip od `md` oraz Current bez ramki i tła.
 
 **Intent**: `PhaseBox` dostaje wariant bez ramki i tła dla Current (te same paddingi, etykieta i linia „Nazwa · czas” jak dziś, Standby bez czasu), z przezroczystą ramką o tej samej grubości, aby wysokość i pozycja tekstu były identyczne jak w Next; Next bez zmian. `role="group"` i `aria-labelledby` zostają na obu; stałe wysokości nie zmieniają się, więc pasek przycisków nie skacze.
 
-**Contract**: wariant przez prop (np. `framed`) z `cn()`; wyłącznie tokeny semantyczne i skala Tailwinda; jeśli kontrakt lintu nie dopuści `border-transparent`, wyrównać wysokość paddingiem ze skali i potwierdzić równość skryptem.
+**Contract**: wariant przez prop (np. `framed`) z `cn()`: Current = `border border-transparent px-4 py-3` (te same `px-4 py-3` co Next), Next bez zmian. `border-transparent` przechodzi kontrakt (reguły w `timer-ui-contract.mjs:3-6` blokują tylko klasy palety i wartości arbitralne), więc bez planu zapasowego. Asercja skryptu: `getBoundingClientRect().height` Current = Next oraz identyczne pozycje czasu i paska przycisków (także Standby).
 
 ### Success Criteria:
 
@@ -204,7 +213,7 @@ Dopasować fixtures, uruchomić pełną bramkę i zaktualizować dokumentację.
 
 **File**: `context/changes/ux-fixes-round-3/screenshots/ux-fixes-round-3-visual-gate.mjs`, `context/changes/ux-fixes-round-3/screenshots/*.png`
 
-**Intent**: Rozszerzyć skrypt z fazy 1: 7 stanów steppera w jasnym i ciemnym motywie przy 1280 i 390 px dla setupów `fine`, `coarse` (isMobile) i „fine primary + touch” (`hasTouch` bez `isMobile`, oczekiwany układ pionowy), tooltipy (3 sygnały × 2 stany), Current/Next, brak overflow; zrzuty zapisane i przejrzane. Powtórzyć jako regresję skrypty S-18 (`run-view-visual-gate.mjs`), S-19 (`signal-preview-visual-gate.mjs`) i `ux-fixes-round-2-visual-gate.mjs`; asercje nieaktualne po tej zmianie (np. `any-pointer-coarse`, „identyczne pudełka”) zaktualizować i odnotować w raporcie.
+**Intent**: Rozszerzyć skrypt z fazy 1: 7 stanów steppera w jasnym i ciemnym motywie przy 1280 i 390 px dla setupów `fine`, `coarse` (isMobile) i „fine primary + touch” (zwykły kontekst + tapnięcia CDP, bo `hasTouch` daje primary coarse; oczekiwany układ pionowy), tooltipy (3 sygnały × 2 stany), Current/Next, brak overflow; zrzuty zapisane i przejrzane. Powtórzyć jako regresję skrypty S-18 (`run-view-visual-gate.mjs`), S-19 (`signal-preview-visual-gate.mjs`) i `ux-fixes-round-2-visual-gate.mjs`; asercje nieaktualne po tej zmianie (np. `any-pointer-coarse`, „identyczne pudełka”) zaktualizować i odnotować w raporcie.
 
 #### 3. Dokumentacja
 
