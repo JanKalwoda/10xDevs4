@@ -366,15 +366,15 @@ Brak migracji bazy danych i zmian API. Stepper działa na istniejących tekstowy
 
 #### Automated
 
-- [ ] 2.1 Testy modelu (w tym różnicowe Standby) przechodzą
-- [ ] 2.2 Lint, kontrakt, typy i build przechodzą
-- [ ] 2.3 Skrypt wizualny (Current jak Next, Standby bez czasu, stałe pozycje) kończy się kodem 0
-- [ ] 2.6 Skrypt S-18 `run-view-visual-gate.mjs` zaktualizowany (Current jako grupa) i kończy się kodem 0
+- [x] 2.1 Testy modelu (w tym różnicowe Standby) przechodzą — 867be5f
+- [x] 2.2 Lint, kontrakt, typy i build przechodzą — 867be5f
+- [x] 2.3 Skrypt wizualny (Current jak Next, Standby bez czasu, stałe pozycje) kończy się kodem 0 (444/444) — 867be5f
+- [x] 2.6 Skrypt S-18 `run-view-visual-gate.mjs` zaktualizowany (Current jako grupa) i kończy się kodem 0 (680/680) — 867be5f
 
 #### Manual
 
-- [ ] 2.4 Current wygląda jak Next we wszystkich scenariuszach i motywach
-- [ ] 2.5 Czas i pasek przycisków nie skaczą między fazami
+- [x] 2.4 Current wygląda jak Next we wszystkich scenariuszach i motywach — script, not human (style equality asserted, screenshots reviewed) — 867be5f
+- [x] 2.5 Czas i pasek przycisków nie skaczą między fazami — script, not human (positions compared across all scenarios) — 867be5f
 
 ### Phase 3: Czysta logika steppera i powtarzacza
 
