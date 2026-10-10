@@ -289,6 +289,9 @@ for (const setup of SETUPS) {
             const speaker = icon(c, "exercise");
             check(`${tag}: stepper sits before the speaker icon`, (await rect(stepButton(c, exercise, "Increase"))).x < (await rect(speaker)).x);
             check(`${tag}: speaker icon stays 44 px`, (await rect(speaker)).height === 44);
+            const stepperXs = [];
+            for (const f of FIELDS) stepperXs.push((await rect(stepButton(c, f, "Increase"))).x);
+            check(`${tag}: steppers of all four rows share one column`, stepperXs.every((x) => Math.abs(x - stepperXs[0]) < 0.5), JSON.stringify(stepperXs));
 
             // One press steps exactly once (pointerdown, then the click that follows is ignored).
             const exerciseInput = inputOf(c, exercise);
@@ -349,6 +352,9 @@ for (const setup of SETUPS) {
             await exerciseInput.fill("0:05");
             await exerciseInput.press("ArrowUp");
             check(`${tag}: ArrowUp +1`, (await exerciseInput.inputValue()) === "0:06");
+            await page.waitForTimeout(500);
+            const keyStatus = await c.locator("p.sr-only[role='status']").allTextContents();
+            check(`${tag}: ArrowUp is announced by the status region`, keyStatus.includes("Exercise 0:06"), JSON.stringify(keyStatus));
             await exerciseInput.press("Shift+ArrowUp");
             check(`${tag}: Shift+ArrowUp +10`, (await exerciseInput.inputValue()) === "0:16");
             await exerciseInput.press("Shift+ArrowDown");

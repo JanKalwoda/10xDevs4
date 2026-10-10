@@ -84,6 +84,7 @@ function ConfigField({ id, field, label, hint, value, error, onChange, children,
                         if (event.key !== "ArrowUp" && event.key !== "ArrowDown") return;
                         event.preventDefault();
                         const amount = event.shiftKey ? 10 : 1;
+                        announceStep.current = true;
                         onChange(field, stepFieldValue(field, value, event.key === "ArrowUp" ? amount : -amount));
                     }}
                     aria-invalid={Boolean(error)}
@@ -100,7 +101,7 @@ function ConfigField({ id, field, label, hint, value, error, onChange, children,
                         onChange(field, next);
                     }}
                 />
-                {action}
+                {action ?? <span aria-hidden="true" className="size-11 shrink-0" />}
             </div>
             <p role="status" className="sr-only">
                 {announcement}

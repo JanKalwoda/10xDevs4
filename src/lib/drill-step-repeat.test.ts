@@ -142,6 +142,20 @@ void test("dispose stops the repeat and blocks later starts", () => {
     assert.equal(pending(), 0);
 });
 
+void test("stop on cleanup keeps the repeater usable when the effect runs again on the same instance", () => {
+    const { repeater, advance, pending } = harness();
+    const { state, step } = counter();
+    repeater.start(step);
+    advance(REPEAT_DELAY_MS + REPEAT_INTERVAL_MS);
+    repeater.stop();
+    assert.equal(pending(), 0);
+    const before = state.steps;
+    repeater.start(step);
+    assert.equal(state.steps, before + 1);
+    advance(REPEAT_DELAY_MS + REPEAT_INTERVAL_MS);
+    assert.equal(state.steps, before + 2);
+});
+
 void test("a step reading the latest value ends the repeat when the value changes outside", () => {
     const { repeater, advance, pending } = harness();
     const latest = { value: 3 };

@@ -412,3 +412,8 @@ Brak migracji bazy danych i zmian API. Stepper działa na istniejących tekstowy
 
 - [x] 5.4 Zrzuty 7 stanów w obu motywach, szerokościach i układach przejrzane — script, not human (zrzuty przejrzane, asercje w skrypcie) — 9319af6
 - [x] 5.5 Dokumentacja (AGENTS.md, PRD, roadmapa, ux-fixes-plan) zgodna z implementacją — script, not human (przegląd diffu) — 9319af6
+
+### Impl-review fixes (F1–F5)
+
+- [x] 6.1 Poprawki F1, F2, F3, F4, F5 i bramki (lint, 250 testów, kontrakt 6/6, astro check, build) — script, not human
+- [x] 6.2 Skrypty S-21 1307/1307, S-19 236/236 x3, S-18 680/680 — script, not human

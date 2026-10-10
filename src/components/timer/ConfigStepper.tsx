@@ -49,7 +49,11 @@ export default function ConfigStepper({ field, inputId, value, label, onStep }: 
         if (event.pointerType === "mouse" && event.button !== 0) return;
         clearTimeout(clearTimer.current);
         handledByPointer.current = true;
-        event.currentTarget.setPointerCapture(event.pointerId);
+        try {
+            event.currentTarget.setPointerCapture(event.pointerId);
+        } catch {
+            // A synthesized or already ended pointer cannot be captured; stepping still works without it.
+        }
         start(direction);
     }
 

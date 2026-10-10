@@ -2250,7 +2250,7 @@
     {
       "name": "fine-1280-light preparation: column is 44 px, buttons 22 px, up above down",
       "ok": true,
-      "detail": "{\"column\":{\"x\":380.328125,\"y\":148,\"width\":32,\"height\":44},\"u\":{\"x\":380.328125,\"y\":148,\"width\":32,\"height\":22},\"d\":{\"x\":380.328125,\"y\":170,\"width\":32,\"height\":22}}"
+      "detail": "{\"column\":{\"x\":328.328125,\"y\":148,\"width\":32,\"height\":44},\"u\":{\"x\":328.328125,\"y\":148,\"width\":32,\"height\":22},\"d\":{\"x\":328.328125,\"y\":170,\"width\":32,\"height\":22}}"
     },
     {
       "name": "fine-1280-light preparation: no double border between the buttons",
@@ -2310,7 +2310,7 @@
     {
       "name": "fine-1280-light repetitions: column is 44 px, buttons 22 px, up above down",
       "ok": true,
-      "detail": "{\"column\":{\"x\":380.328125,\"y\":490,\"width\":32,\"height\":44},\"u\":{\"x\":380.328125,\"y\":490,\"width\":32,\"height\":22},\"d\":{\"x\":380.328125,\"y\":512,\"width\":32,\"height\":22}}"
+      "detail": "{\"column\":{\"x\":328.328125,\"y\":490,\"width\":32,\"height\":44},\"u\":{\"x\":328.328125,\"y\":490,\"width\":32,\"height\":22},\"d\":{\"x\":328.328125,\"y\":512,\"width\":32,\"height\":22}}"
     },
     {
       "name": "fine-1280-light repetitions: no double border between the buttons",
@@ -2326,6 +2326,11 @@
       "name": "fine-1280-light: speaker icon stays 44 px",
       "ok": true,
       "detail": ""
+    },
+    {
+      "name": "fine-1280-light: steppers of all four rows share one column",
+      "ok": true,
+      "detail": "[328.328125,328.328125,328.328125,328.328125]"
     },
     {
       "name": "fine-1280-light: one press steps exactly once",
@@ -2350,7 +2355,7 @@
     {
       "name": "fine-1280-light: hold repeats about every 100 ms",
       "ok": true,
-      "detail": "10"
+      "detail": "11"
     },
     {
       "name": "fine-1280-light: hold stops on release",
@@ -2371,6 +2376,11 @@
       "name": "fine-1280-light: ArrowUp +1",
       "ok": true,
       "detail": ""
+    },
+    {
+      "name": "fine-1280-light: ArrowUp is announced by the status region",
+      "ok": true,
+      "detail": "[\"\",\"Exercise 0:06\",\"\",\"\",\"\",\"\",\"\"]"
     },
     {
       "name": "fine-1280-light: Shift+ArrowUp +10",
@@ -2440,7 +2450,7 @@
     {
       "name": "fine-1280-dark preparation: column is 44 px, buttons 22 px, up above down",
       "ok": true,
-      "detail": "{\"column\":{\"x\":380.328125,\"y\":148,\"width\":32,\"height\":44},\"u\":{\"x\":380.328125,\"y\":148,\"width\":32,\"height\":22},\"d\":{\"x\":380.328125,\"y\":170,\"width\":32,\"height\":22}}"
+      "detail": "{\"column\":{\"x\":328.328125,\"y\":148,\"width\":32,\"height\":44},\"u\":{\"x\":328.328125,\"y\":148,\"width\":32,\"height\":22},\"d\":{\"x\":328.328125,\"y\":170,\"width\":32,\"height\":22}}"
     },
     {
       "name": "fine-1280-dark preparation: no double border between the buttons",
@@ -2500,7 +2510,7 @@
     {
       "name": "fine-1280-dark repetitions: column is 44 px, buttons 22 px, up above down",
       "ok": true,
-      "detail": "{\"column\":{\"x\":380.328125,\"y\":490,\"width\":32,\"height\":44},\"u\":{\"x\":380.328125,\"y\":490,\"width\":32,\"height\":22},\"d\":{\"x\":380.328125,\"y\":512,\"width\":32,\"height\":22}}"
+      "detail": "{\"column\":{\"x\":328.328125,\"y\":490,\"width\":32,\"height\":44},\"u\":{\"x\":328.328125,\"y\":490,\"width\":32,\"height\":22},\"d\":{\"x\":328.328125,\"y\":512,\"width\":32,\"height\":22}}"
     },
     {
       "name": "fine-1280-dark repetitions: no double border between the buttons",
@@ -2516,6 +2526,11 @@
       "name": "fine-1280-dark: speaker icon stays 44 px",
       "ok": true,
       "detail": ""
+    },
+    {
+      "name": "fine-1280-dark: steppers of all four rows share one column",
+      "ok": true,
+      "detail": "[328.328125,328.328125,328.328125,328.328125]"
     },
     {
       "name": "fine-1280-dark: one press steps exactly once",
@@ -2540,12 +2555,12 @@
     {
       "name": "fine-1280-dark: hold repeats about every 100 ms",
       "ok": true,
-      "detail": "10"
+      "detail": "11"
     },
     {
       "name": "fine-1280-dark: hold stops on release",
       "ok": true,
-      "detail": "0:10"
+      "detail": "0:11"
     },
     {
       "name": "fine-1280-dark: hold stops when the pointer leaves",
@@ -2555,12 +2570,17 @@
     {
       "name": "fine-1280-dark: hold stops on blur",
       "ok": true,
-      "detail": "0:05"
+      "detail": "0:04"
     },
     {
       "name": "fine-1280-dark: ArrowUp +1",
       "ok": true,
       "detail": ""
+    },
+    {
+      "name": "fine-1280-dark: ArrowUp is announced by the status region",
+      "ok": true,
+      "detail": "[\"\",\"Exercise 0:06\",\"\",\"\",\"\",\"\",\"\"]"
     },
     {
       "name": "fine-1280-dark: Shift+ArrowUp +10",
@@ -2630,7 +2650,7 @@
     {
       "name": "fine-390-light preparation: column is 44 px, buttons 22 px, up above down",
       "ok": true,
-      "detail": "{\"column\":{\"x\":317,\"y\":130,\"width\":32,\"height\":44},\"u\":{\"x\":317,\"y\":130,\"width\":32,\"height\":22},\"d\":{\"x\":317,\"y\":152,\"width\":32,\"height\":22}}"
+      "detail": "{\"column\":{\"x\":265,\"y\":130,\"width\":32,\"height\":44},\"u\":{\"x\":265,\"y\":130,\"width\":32,\"height\":22},\"d\":{\"x\":265,\"y\":152,\"width\":32,\"height\":22}}"
     },
     {
       "name": "fine-390-light preparation: no double border between the buttons",
@@ -2690,7 +2710,7 @@
     {
       "name": "fine-390-light repetitions: column is 44 px, buttons 22 px, up above down",
       "ok": true,
-      "detail": "{\"column\":{\"x\":317,\"y\":472,\"width\":32,\"height\":44},\"u\":{\"x\":317,\"y\":472,\"width\":32,\"height\":22},\"d\":{\"x\":317,\"y\":494,\"width\":32,\"height\":22}}"
+      "detail": "{\"column\":{\"x\":265,\"y\":472,\"width\":32,\"height\":44},\"u\":{\"x\":265,\"y\":472,\"width\":32,\"height\":22},\"d\":{\"x\":265,\"y\":494,\"width\":32,\"height\":22}}"
     },
     {
       "name": "fine-390-light repetitions: no double border between the buttons",
@@ -2706,6 +2726,11 @@
       "name": "fine-390-light: speaker icon stays 44 px",
       "ok": true,
       "detail": ""
+    },
+    {
+      "name": "fine-390-light: steppers of all four rows share one column",
+      "ok": true,
+      "detail": "[265,265,265,265]"
     },
     {
       "name": "fine-390-light: one press steps exactly once",
@@ -2751,6 +2776,11 @@
       "name": "fine-390-light: ArrowUp +1",
       "ok": true,
       "detail": ""
+    },
+    {
+      "name": "fine-390-light: ArrowUp is announced by the status region",
+      "ok": true,
+      "detail": "[\"\",\"Exercise 0:06\",\"\",\"\",\"\",\"\",\"\"]"
     },
     {
       "name": "fine-390-light: Shift+ArrowUp +10",
@@ -2820,7 +2850,7 @@
     {
       "name": "fine-390-dark preparation: column is 44 px, buttons 22 px, up above down",
       "ok": true,
-      "detail": "{\"column\":{\"x\":317,\"y\":130,\"width\":32,\"height\":44},\"u\":{\"x\":317,\"y\":130,\"width\":32,\"height\":22},\"d\":{\"x\":317,\"y\":152,\"width\":32,\"height\":22}}"
+      "detail": "{\"column\":{\"x\":265,\"y\":130,\"width\":32,\"height\":44},\"u\":{\"x\":265,\"y\":130,\"width\":32,\"height\":22},\"d\":{\"x\":265,\"y\":152,\"width\":32,\"height\":22}}"
     },
     {
       "name": "fine-390-dark preparation: no double border between the buttons",
@@ -2880,7 +2910,7 @@
     {
       "name": "fine-390-dark repetitions: column is 44 px, buttons 22 px, up above down",
       "ok": true,
-      "detail": "{\"column\":{\"x\":317,\"y\":472,\"width\":32,\"height\":44},\"u\":{\"x\":317,\"y\":472,\"width\":32,\"height\":22},\"d\":{\"x\":317,\"y\":494,\"width\":32,\"height\":22}}"
+      "detail": "{\"column\":{\"x\":265,\"y\":472,\"width\":32,\"height\":44},\"u\":{\"x\":265,\"y\":472,\"width\":32,\"height\":22},\"d\":{\"x\":265,\"y\":494,\"width\":32,\"height\":22}}"
     },
     {
       "name": "fine-390-dark repetitions: no double border between the buttons",
@@ -2896,6 +2926,11 @@
       "name": "fine-390-dark: speaker icon stays 44 px",
       "ok": true,
       "detail": ""
+    },
+    {
+      "name": "fine-390-dark: steppers of all four rows share one column",
+      "ok": true,
+      "detail": "[265,265,265,265]"
     },
     {
       "name": "fine-390-dark: one press steps exactly once",
@@ -2920,12 +2955,12 @@
     {
       "name": "fine-390-dark: hold repeats about every 100 ms",
       "ok": true,
-      "detail": "11"
+      "detail": "10"
     },
     {
       "name": "fine-390-dark: hold stops on release",
       "ok": true,
-      "detail": "0:11"
+      "detail": "0:10"
     },
     {
       "name": "fine-390-dark: hold stops when the pointer leaves",
@@ -2935,12 +2970,17 @@
     {
       "name": "fine-390-dark: hold stops on blur",
       "ok": true,
-      "detail": "0:05"
+      "detail": "0:04"
     },
     {
       "name": "fine-390-dark: ArrowUp +1",
       "ok": true,
       "detail": ""
+    },
+    {
+      "name": "fine-390-dark: ArrowUp is announced by the status region",
+      "ok": true,
+      "detail": "[\"\",\"Exercise 0:06\",\"\",\"\",\"\",\"\",\"\"]"
     },
     {
       "name": "fine-390-dark: Shift+ArrowUp +10",
@@ -3010,7 +3050,7 @@
     {
       "name": "coarse-390-light preparation: buttons 44 px side by side, down left of up",
       "ok": true,
-      "detail": "{\"u\":{\"x\":305,\"y\":156,\"width\":44,\"height\":44},\"d\":{\"x\":253,\"y\":156,\"width\":44,\"height\":44}}"
+      "detail": "{\"u\":{\"x\":253,\"y\":156,\"width\":44,\"height\":44},\"d\":{\"x\":201,\"y\":156,\"width\":44,\"height\":44}}"
     },
     {
       "name": "coarse-390-light exercise: buttons exist, tabIndex -1, aria-controls",
@@ -3055,7 +3095,7 @@
     {
       "name": "coarse-390-light repetitions: buttons 44 px side by side, down left of up",
       "ok": true,
-      "detail": "{\"u\":{\"x\":305,\"y\":498,\"width\":44,\"height\":44},\"d\":{\"x\":253,\"y\":498,\"width\":44,\"height\":44}}"
+      "detail": "{\"u\":{\"x\":253,\"y\":498,\"width\":44,\"height\":44},\"d\":{\"x\":201,\"y\":498,\"width\":44,\"height\":44}}"
     },
     {
       "name": "coarse-390-light: stepper sits before the speaker icon",
@@ -3066,6 +3106,11 @@
       "name": "coarse-390-light: speaker icon stays 44 px",
       "ok": true,
       "detail": ""
+    },
+    {
+      "name": "coarse-390-light: steppers of all four rows share one column",
+      "ok": true,
+      "detail": "[253,253,253,253]"
     },
     {
       "name": "coarse-390-light: one press steps exactly once",
@@ -3086,6 +3131,11 @@
       "name": "coarse-390-light: ArrowUp +1",
       "ok": true,
       "detail": ""
+    },
+    {
+      "name": "coarse-390-light: ArrowUp is announced by the status region",
+      "ok": true,
+      "detail": "[\"\",\"Exercise 0:06\",\"\",\"\",\"\",\"\",\"\"]"
     },
     {
       "name": "coarse-390-light: Shift+ArrowUp +10",
@@ -3155,7 +3205,7 @@
     {
       "name": "coarse-390-dark preparation: buttons 44 px side by side, down left of up",
       "ok": true,
-      "detail": "{\"u\":{\"x\":305,\"y\":156,\"width\":44,\"height\":44},\"d\":{\"x\":253,\"y\":156,\"width\":44,\"height\":44}}"
+      "detail": "{\"u\":{\"x\":253,\"y\":156,\"width\":44,\"height\":44},\"d\":{\"x\":201,\"y\":156,\"width\":44,\"height\":44}}"
     },
     {
       "name": "coarse-390-dark exercise: buttons exist, tabIndex -1, aria-controls",
@@ -3200,7 +3250,7 @@
     {
       "name": "coarse-390-dark repetitions: buttons 44 px side by side, down left of up",
       "ok": true,
-      "detail": "{\"u\":{\"x\":305,\"y\":498,\"width\":44,\"height\":44},\"d\":{\"x\":253,\"y\":498,\"width\":44,\"height\":44}}"
+      "detail": "{\"u\":{\"x\":253,\"y\":498,\"width\":44,\"height\":44},\"d\":{\"x\":201,\"y\":498,\"width\":44,\"height\":44}}"
     },
     {
       "name": "coarse-390-dark: stepper sits before the speaker icon",
@@ -3211,6 +3261,11 @@
       "name": "coarse-390-dark: speaker icon stays 44 px",
       "ok": true,
       "detail": ""
+    },
+    {
+      "name": "coarse-390-dark: steppers of all four rows share one column",
+      "ok": true,
+      "detail": "[253,253,253,253]"
     },
     {
       "name": "coarse-390-dark: one press steps exactly once",
@@ -3231,6 +3286,11 @@
       "name": "coarse-390-dark: ArrowUp +1",
       "ok": true,
       "detail": ""
+    },
+    {
+      "name": "coarse-390-dark: ArrowUp is announced by the status region",
+      "ok": true,
+      "detail": "[\"\",\"Exercise 0:06\",\"\",\"\",\"\",\"\",\"\"]"
     },
     {
       "name": "coarse-390-dark: Shift+ArrowUp +10",
@@ -3300,7 +3360,7 @@
     {
       "name": "mouse-touch-1280-light preparation: buttons 44 px side by side, down left of up",
       "ok": true,
-      "detail": "{\"u\":{\"x\":368.328125,\"y\":148,\"width\":44,\"height\":44},\"d\":{\"x\":316.328125,\"y\":148,\"width\":44,\"height\":44}}"
+      "detail": "{\"u\":{\"x\":316.328125,\"y\":148,\"width\":44,\"height\":44},\"d\":{\"x\":264.328125,\"y\":148,\"width\":44,\"height\":44}}"
     },
     {
       "name": "mouse-touch-1280-light exercise: buttons exist, tabIndex -1, aria-controls",
@@ -3345,7 +3405,7 @@
     {
       "name": "mouse-touch-1280-light repetitions: buttons 44 px side by side, down left of up",
       "ok": true,
-      "detail": "{\"u\":{\"x\":368.328125,\"y\":490,\"width\":44,\"height\":44},\"d\":{\"x\":316.328125,\"y\":490,\"width\":44,\"height\":44}}"
+      "detail": "{\"u\":{\"x\":316.328125,\"y\":490,\"width\":44,\"height\":44},\"d\":{\"x\":264.328125,\"y\":490,\"width\":44,\"height\":44}}"
     },
     {
       "name": "mouse-touch-1280-light: stepper sits before the speaker icon",
@@ -3356,6 +3416,11 @@
       "name": "mouse-touch-1280-light: speaker icon stays 44 px",
       "ok": true,
       "detail": ""
+    },
+    {
+      "name": "mouse-touch-1280-light: steppers of all four rows share one column",
+      "ok": true,
+      "detail": "[316.328125,316.328125,316.328125,316.328125]"
     },
     {
       "name": "mouse-touch-1280-light: one press steps exactly once",
@@ -3401,6 +3466,11 @@
       "name": "mouse-touch-1280-light: ArrowUp +1",
       "ok": true,
       "detail": ""
+    },
+    {
+      "name": "mouse-touch-1280-light: ArrowUp is announced by the status region",
+      "ok": true,
+      "detail": "[\"\",\"Exercise 0:06\",\"\",\"\",\"\",\"\",\"\"]"
     },
     {
       "name": "mouse-touch-1280-light: Shift+ArrowUp +10",
@@ -3470,7 +3540,7 @@
     {
       "name": "mouse-touch-1280-dark preparation: buttons 44 px side by side, down left of up",
       "ok": true,
-      "detail": "{\"u\":{\"x\":368.328125,\"y\":148,\"width\":44,\"height\":44},\"d\":{\"x\":316.328125,\"y\":148,\"width\":44,\"height\":44}}"
+      "detail": "{\"u\":{\"x\":316.328125,\"y\":148,\"width\":44,\"height\":44},\"d\":{\"x\":264.328125,\"y\":148,\"width\":44,\"height\":44}}"
     },
     {
       "name": "mouse-touch-1280-dark exercise: buttons exist, tabIndex -1, aria-controls",
@@ -3515,7 +3585,7 @@
     {
       "name": "mouse-touch-1280-dark repetitions: buttons 44 px side by side, down left of up",
       "ok": true,
-      "detail": "{\"u\":{\"x\":368.328125,\"y\":490,\"width\":44,\"height\":44},\"d\":{\"x\":316.328125,\"y\":490,\"width\":44,\"height\":44}}"
+      "detail": "{\"u\":{\"x\":316.328125,\"y\":490,\"width\":44,\"height\":44},\"d\":{\"x\":264.328125,\"y\":490,\"width\":44,\"height\":44}}"
     },
     {
       "name": "mouse-touch-1280-dark: stepper sits before the speaker icon",
@@ -3526,6 +3596,11 @@
       "name": "mouse-touch-1280-dark: speaker icon stays 44 px",
       "ok": true,
       "detail": ""
+    },
+    {
+      "name": "mouse-touch-1280-dark: steppers of all four rows share one column",
+      "ok": true,
+      "detail": "[316.328125,316.328125,316.328125,316.328125]"
     },
     {
       "name": "mouse-touch-1280-dark: one press steps exactly once",
@@ -3550,17 +3625,17 @@
     {
       "name": "mouse-touch-1280-dark: hold repeats about every 100 ms",
       "ok": true,
-      "detail": "11"
+      "detail": "10"
     },
     {
       "name": "mouse-touch-1280-dark: hold stops on release",
       "ok": true,
-      "detail": "0:11"
+      "detail": "0:10"
     },
     {
       "name": "mouse-touch-1280-dark: hold stops when the pointer leaves",
       "ok": true,
-      "detail": "0:05"
+      "detail": "0:04"
     },
     {
       "name": "mouse-touch-1280-dark: hold stops on blur",
@@ -3571,6 +3646,11 @@
       "name": "mouse-touch-1280-dark: ArrowUp +1",
       "ok": true,
       "detail": ""
+    },
+    {
+      "name": "mouse-touch-1280-dark: ArrowUp is announced by the status region",
+      "ok": true,
+      "detail": "[\"\",\"Exercise 0:06\",\"\",\"\",\"\",\"\",\"\"]"
     },
     {
       "name": "mouse-touch-1280-dark: Shift+ArrowUp +10",

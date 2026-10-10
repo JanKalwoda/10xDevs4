@@ -32,7 +32,8 @@ export function useStepRepeat(field: StepperField, value: string, onStep: (next:
 
     useEffect(
         () => () => {
-            repeater.dispose();
+            // stop(), not dispose(): the effect runs again on the same instance after StrictMode / Fast Refresh.
+            repeater.stop();
         },
         [repeater],
     );
