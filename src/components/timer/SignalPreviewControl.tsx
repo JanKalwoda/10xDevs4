@@ -76,7 +76,7 @@ export default function SignalPreviewControl({ id, signal, availability, status,
                         type="button"
                         variant="outline"
                         size="icon"
-                        className="aria-disabled:hover:bg-background dark:aria-disabled:hover:bg-input/30 size-11 aria-disabled:cursor-not-allowed aria-disabled:opacity-50"
+                        className="aria-disabled:hover:bg-background dark:aria-disabled:hover:bg-input/30 aria-disabled:hover:text-foreground size-11 aria-disabled:cursor-not-allowed aria-disabled:opacity-50"
                         aria-label={`Play ${label} signal`}
                         aria-disabled={!availability.enabled}
                         aria-busy={initializing}

@@ -1,0 +1,166 @@
+{
+  "baseUrl": "http://localhost:4400",
+  "failed": 0,
+  "checks": [
+    {
+      "name": "1280-light: A5.3 exercise tooltip has no empty right half",
+      "ok": true,
+      "detail": "{\"inner\":282,\"widest\":281.5,\"gap\":0.5,\"textBalance\":\"wrap\"}"
+    },
+    {
+      "name": "1280-light: A5.3 Standby tooltip has no empty right half",
+      "ok": true,
+      "detail": "{\"inner\":296,\"widest\":288.828125,\"gap\":7.171875,\"textBalance\":\"wrap\"}"
+    },
+    {
+      "name": "1280-light: A5.3 rest tooltip has no empty right half",
+      "ok": true,
+      "detail": "{\"inner\":235,\"widest\":234.78125,\"gap\":0.21875,\"textBalance\":\"wrap\"}"
+    },
+    {
+      "name": "1280-light: A5.9 disabled icon keeps its color on hover",
+      "ok": true,
+      "detail": "oklch(0.3729 0.0306 259.733) -> oklch(0.3729 0.0306 259.733)"
+    },
+    {
+      "name": "1280-light: A5.9 disabled icon keeps its background on hover",
+      "ok": true,
+      "detail": "oklch(0.9751 0.0127 244.251) -> oklch(0.9751 0.0127 244.251)"
+    },
+    {
+      "name": "1280-light: A5.9 disabled icon keeps cursor not-allowed",
+      "ok": true,
+      "detail": "not-allowed"
+    },
+    {
+      "name": "1280-light: A5.9 icon is aria-disabled, not disabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-light: enabled icon still highlights on hover",
+      "ok": true,
+      "detail": "oklch(0.9751 0.0127 244.251) -> oklch(0.9505 0.0507 163.051)"
+    },
+    {
+      "name": "1280-dark: A5.3 exercise tooltip has no empty right half",
+      "ok": true,
+      "detail": "{\"inner\":282,\"widest\":281.5,\"gap\":0.5,\"textBalance\":\"wrap\"}"
+    },
+    {
+      "name": "1280-dark: A5.3 Standby tooltip has no empty right half",
+      "ok": true,
+      "detail": "{\"inner\":296,\"widest\":288.828125,\"gap\":7.171875,\"textBalance\":\"wrap\"}"
+    },
+    {
+      "name": "1280-dark: A5.3 rest tooltip has no empty right half",
+      "ok": true,
+      "detail": "{\"inner\":235,\"widest\":234.78125,\"gap\":0.21875,\"textBalance\":\"wrap\"}"
+    },
+    {
+      "name": "1280-dark: A5.9 disabled icon keeps its color on hover",
+      "ok": true,
+      "detail": "oklch(0.8717 0.0093 258.338) -> oklch(0.8717 0.0093 258.338)"
+    },
+    {
+      "name": "1280-dark: A5.9 disabled icon keeps its background on hover",
+      "ok": true,
+      "detail": "oklab(0.4461 -0.00600482 -0.0256053 / 0.3) -> oklab(0.4461 -0.00600482 -0.0256053 / 0.3)"
+    },
+    {
+      "name": "1280-dark: A5.9 disabled icon keeps cursor not-allowed",
+      "ok": true,
+      "detail": "not-allowed"
+    },
+    {
+      "name": "1280-dark: A5.9 icon is aria-disabled, not disabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "1280-dark: enabled icon still highlights on hover",
+      "ok": true,
+      "detail": "oklab(0.4461 -0.00600482 -0.0256053 / 0.3) -> oklab(0.4461 -0.00600482 -0.0256053 / 0.5)"
+    },
+    {
+      "name": "390-light: A5.3 exercise tooltip has no empty right half",
+      "ok": true,
+      "detail": "{\"inner\":282,\"widest\":281.5,\"gap\":0.5,\"textBalance\":\"wrap\"}"
+    },
+    {
+      "name": "390-light: A5.3 Standby tooltip has no empty right half",
+      "ok": true,
+      "detail": "{\"inner\":296,\"widest\":288.828125,\"gap\":7.171875,\"textBalance\":\"wrap\"}"
+    },
+    {
+      "name": "390-light: A5.3 rest tooltip has no empty right half",
+      "ok": true,
+      "detail": "{\"inner\":235,\"widest\":234.78125,\"gap\":0.21875,\"textBalance\":\"wrap\"}"
+    },
+    {
+      "name": "390-light: A5.9 disabled icon keeps its color on hover",
+      "ok": true,
+      "detail": "oklch(0.3729 0.0306 259.733) -> oklch(0.3729 0.0306 259.733)"
+    },
+    {
+      "name": "390-light: A5.9 disabled icon keeps its background on hover",
+      "ok": true,
+      "detail": "oklch(0.9751 0.0127 244.251) -> oklch(0.9751 0.0127 244.251)"
+    },
+    {
+      "name": "390-light: A5.9 disabled icon keeps cursor not-allowed",
+      "ok": true,
+      "detail": "not-allowed"
+    },
+    {
+      "name": "390-light: A5.9 icon is aria-disabled, not disabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-light: enabled icon still highlights on hover",
+      "ok": true,
+      "detail": "oklch(0.9751 0.0127 244.251) -> oklch(0.9505 0.0507 163.051)"
+    },
+    {
+      "name": "390-dark: A5.3 exercise tooltip has no empty right half",
+      "ok": true,
+      "detail": "{\"inner\":282,\"widest\":281.5,\"gap\":0.5,\"textBalance\":\"wrap\"}"
+    },
+    {
+      "name": "390-dark: A5.3 Standby tooltip has no empty right half",
+      "ok": true,
+      "detail": "{\"inner\":296,\"widest\":288.828125,\"gap\":7.171875,\"textBalance\":\"wrap\"}"
+    },
+    {
+      "name": "390-dark: A5.3 rest tooltip has no empty right half",
+      "ok": true,
+      "detail": "{\"inner\":235,\"widest\":234.78125,\"gap\":0.21875,\"textBalance\":\"wrap\"}"
+    },
+    {
+      "name": "390-dark: A5.9 disabled icon keeps its color on hover",
+      "ok": true,
+      "detail": "oklch(0.8717 0.0093 258.338) -> oklch(0.8717 0.0093 258.338)"
+    },
+    {
+      "name": "390-dark: A5.9 disabled icon keeps its background on hover",
+      "ok": true,
+      "detail": "oklab(0.4461 -0.00600482 -0.0256053 / 0.3) -> oklab(0.4461 -0.00600482 -0.0256053 / 0.3)"
+    },
+    {
+      "name": "390-dark: A5.9 disabled icon keeps cursor not-allowed",
+      "ok": true,
+      "detail": "not-allowed"
+    },
+    {
+      "name": "390-dark: A5.9 icon is aria-disabled, not disabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "390-dark: enabled icon still highlights on hover",
+      "ok": true,
+      "detail": "oklab(0.4461 -0.00600482 -0.0256053 / 0.3) -> oklab(0.4461 -0.00600482 -0.0256053 / 0.5)"
+    }
+  ]
+}

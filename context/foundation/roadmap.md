@@ -67,7 +67,7 @@ Obecny timer HIIT pozwala ustawić fazy i powtórzenia, lecz jego przewidywalny 
 | S-18 | run-view-layout | Użytkownik widzi w biegu czas wyżej, powtórzenie pod czasem oraz czytelniejsze okienka Current i Next | S-04 | FR-013, FR-018 | in-progress |
 | S-19 | signal-preview-icon | Użytkownik odsłuchuje sygnał ikoną głośnika w wierszu pola, a opis widzi w tooltipie | S-03 | FR-004, FR-019 | in-progress |
 | S-20 | account-deletion | Użytkownik usuwa swoje konto z okresem przetrzymania zgodnym z RODO | S-09, S-17 | — | proposed |
-| S-21 | ux-fixes-round-2 | Użytkownik ma poprawione drobne błędy S-16–S-19, okienko Current w widoku biegu jak Next oraz strzałki zmiany wartości w formularzu timera | S-17, S-18, S-19 | FR-018, FR-004, FR-019 | planning |
+| S-21 | ux-fixes-round-2 | Użytkownik ma poprawione drobne błędy S-16–S-19, okienko Current w widoku biegu jak Next oraz strzałki zmiany wartości w formularzu timera | S-17, S-18, S-19 | FR-018, FR-004, FR-019 | in-progress |
 
 ## Streams
 
@@ -356,7 +356,7 @@ Brak osobnych Foundations. Konfigurację danych, ochronę własności i weryfika
 - **Blockers:** —
 - **Unknowns:** —
 - **Risk:** Czas w Current nie może ujawnić długości losowego Standby; stepper na komputerze musi zmieścić się w wysokości wiersza (44 px) bez wartości arbitralnych.
-- **Status:** planning
+- **Status:** in-progress
 
 ## Backlog Handoff
 
