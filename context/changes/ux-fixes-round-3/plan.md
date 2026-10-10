@@ -301,8 +301,8 @@ Brak zmian danych. Usunięcie `CLICK_AFTER_POINTER_MS` i `handledByPointer` nie 
 
 #### Automated
 
-- [x] 3.1 Testy modelu run view przechodzą bez zmian, lint, typy i build przechodzą
-- [x] 3.2 Skrypt: tooltip bez luki (3 sygnały × 2 stany, 1280/390), Current bez ramki i tła o wysokości Next, pozycje bez skoków
+- [x] 3.1 Testy modelu run view przechodzą bez zmian, lint, typy i build przechodzą — b3ebf57
+- [x] 3.2 Skrypt: tooltip bez luki (3 sygnały × 2 stany, 1280/390), Current bez ramki i tła o wysokości Next, pozycje bez skoków — b3ebf57
 
 #### Manual
 
