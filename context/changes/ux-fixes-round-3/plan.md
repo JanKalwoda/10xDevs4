@@ -290,12 +290,12 @@ Brak zmian danych. Usunięcie `CLICK_AFTER_POINTER_MS` i `handledByPointer` nie 
 
 #### Automated
 
-- [ ] 2.1 Lint, kontrakt, testy, typy i build przechodzą
-- [ ] 2.2 Skrypt bramki: kolumna przy fine (także fine + touch), wiersz 44 px przy coarse, strzałki w ramce, brak overflow 390 px, wiersze 44 px
+- [x] 2.1 Lint, kontrakt, testy, typy i build przechodzą — 6e3cf21
+- [x] 2.2 Skrypt bramki: kolumna przy fine (także fine + touch), wiersz 44 px przy coarse, strzałki w ramce, brak overflow 390 px, wiersze 44 px — 6e3cf21
 
 #### Manual
 
-- [ ] 2.3 Wygląd jak natywny spinner w jasnym i ciemnym motywie przy 1280 i 390 px — script, not human
+- [x] 2.3 Wygląd jak natywny spinner w jasnym i ciemnym motywie przy 1280 i 390 px — script, not human (74/74 checks, zrzuty fine i coarse przejrzane; pełne zrzuty light/dark w fazie 4) — 6e3cf21
 
 ### Phase 3: Tooltip na komputerze i okienko Current
 
