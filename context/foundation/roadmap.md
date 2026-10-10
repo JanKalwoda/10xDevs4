@@ -67,6 +67,7 @@ Obecny timer HIIT pozwala ustawić fazy i powtórzenia, lecz jego przewidywalny 
 | S-18 | run-view-layout | Użytkownik widzi w biegu czas wyżej, powtórzenie pod czasem oraz czytelniejsze okienka Current i Next | S-04 | FR-013, FR-018 | in-progress |
 | S-19 | signal-preview-icon | Użytkownik odsłuchuje sygnał ikoną głośnika w wierszu pola, a opis widzi w tooltipie | S-03 | FR-004, FR-019 | in-progress |
 | S-20 | account-deletion | Użytkownik usuwa swoje konto z okresem przetrzymania zgodnym z RODO | S-09, S-17 | — | proposed |
+| S-21 | ux-fixes-round-2 | Użytkownik ma poprawione drobne błędy S-16–S-19, okienko Current w widoku biegu jak Next oraz strzałki zmiany wartości w formularzu timera | S-17, S-18, S-19 | FR-018, FR-020 | in-progress |
 
 ## Streams
 
@@ -344,6 +345,18 @@ Brak osobnych Foundations. Konfigurację danych, ochronę własności i weryfika
   - Czy usunięcie jest miękkie (30 dni z możliwością przywrócenia) czy natychmiastowe? — Owner: user. Block: yes.
 - **Risk:** Wymaga uprawnień administracyjnych Supabase (dziś aplikacja używa tylko klucza publikowalnego) oraz zadania czyszczącego po okresie przetrzymania.
 - **Status:** proposed
+
+### S-21: Poprawki UX, runda 2
+
+- **Outcome:** Link „Back to timers” na `/create` prowadzi do `/timers`; tooltip bez pustej połowy; wyłączona ikona odsłuchu nie zmienia koloru przy hoverze; okienko Current w widoku biegu wygląda jak Next (etykieta „Current”, pod nią „Nazwa · czas”, w Standby z losową długością sama nazwa); pola Preparation, Exercise, Rest i Repetitions mają strzałki ▲/▼ (przytrzymanie powtarza, ↑/↓ i Shift+↑/↓ w polu).
+- **Change ID:** ux-fixes-round-2
+- **PRD refs:** FR-018, FR-020
+- **Prerequisites:** S-17, S-18, S-19
+- **Parallel with:** —
+- **Blockers:** —
+- **Unknowns:** —
+- **Risk:** Czas w Current nie może ujawnić długości losowego Standby; stepper na komputerze musi zmieścić się w wysokości wiersza (44 px) bez wartości arbitralnych.
+- **Status:** in-progress
 
 ## Backlog Handoff
 

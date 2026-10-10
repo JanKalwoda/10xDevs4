@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
-import { buildPhaseSections, formatPhaseTime, initialDrillDisplay, nextPhaseBody } from "./drill-phase-sections.ts";
+import { buildPhaseSections, currentPhaseBody, formatPhaseTime, initialDrillDisplay, nextPhaseBody } from "./drill-phase-sections.ts";
 import { DrillRun, type DrillClock, type DrillDisplay } from "./drill-run.ts";
 import type { DrillConfiguration, DrillPhase } from "../types.ts";
 
@@ -209,6 +209,12 @@ void test("a 1 s and a 5 s Standby wait produce identical views until the wait e
         assert.equal(a.phase?.kind, "standby");
         assert.equal(JSON.stringify(a), JSON.stringify(b));
         assert.equal(JSON.stringify(buildPhaseSections(a, 3)), JSON.stringify(buildPhaseSections(b, 3)));
+        const sa = buildPhaseSections(a, 3);
+        const sb = buildPhaseSections(b, 3);
+        assert.ok(sa && sb);
+        assert.equal(currentPhaseBody(sa.current), currentPhaseBody(sb.current));
+        assert.equal(currentPhaseBody(sa.current), "Standby", "the Current body is the bare name, no wait");
+        assert.ok(!MSS.test(currentPhaseBody(sa.current)), "no time in the Current body");
         advance(short.clock, short.run, 0.05);
         advance(long.clock, long.run, 0.05);
     }
@@ -222,6 +228,31 @@ void test("next section body: timed phase, Standby without time, end of drill", 
     assert.equal(nextPhaseBody({ kind: "phase", name: "Rest", time: "0:02" }), "Rest · 0:02");
     assert.equal(nextPhaseBody({ kind: "phase", name: "Standby", time: null }), "Standby");
     assert.equal(nextPhaseBody({ kind: "end" }), "Drill complete");
+});
+
+void test("current section body mirrors next: name and time, Standby the name only", () => {
+    assert.equal(currentPhaseBody({ name: "Exercise", time: "0:04" }), "Exercise · 0:04");
+    assert.equal(currentPhaseBody({ name: "Standby", time: null }), "Standby");
+    const base = { remainingSeconds: 10, paused: false, audioAvailable: true };
+    const body = (display: DrillDisplay) => {
+        const sections = buildPhaseSections(display, 3);
+        assert.ok(sections);
+        return [currentPhaseBody(sections.current), nextPhaseBody(sections.next)];
+    };
+    assert.deepEqual(body({ ...base, phase: { kind: "preparation", durationSeconds: 5 }, next: { kind: "standby", repetition: 1 } }), ["Preparation · 0:05", "Standby"]);
+    assert.deepEqual(body({ ...base, phase: { kind: "standby", repetition: 2 }, remainingSeconds: null, next: { kind: "exercise", durationSeconds: 90, repetition: 2 } }), [
+        "Standby",
+        "Exercise · 1:30",
+    ]);
+    assert.deepEqual(body({ ...base, phase: { kind: "exercise", durationSeconds: 4, repetition: 1 }, next: { kind: "rest", durationSeconds: 2, repetition: 1 } }), [
+        "Exercise · 0:04",
+        "Rest · 0:02",
+    ]);
+    assert.deepEqual(body({ ...base, phase: { kind: "rest", durationSeconds: 2, repetition: 1 }, next: { kind: "exercise", durationSeconds: 4, repetition: 2 } }), [
+        "Rest · 0:02",
+        "Exercise · 0:04",
+    ]);
+    assert.deepEqual(body({ ...base, phase: { kind: "rest", durationSeconds: 2, repetition: 3 }, next: null }), ["Rest · 0:02", "Drill complete"]);
 });
 
 void test("repetition sits outside current and names the upcoming repetition in Preparation", () => {

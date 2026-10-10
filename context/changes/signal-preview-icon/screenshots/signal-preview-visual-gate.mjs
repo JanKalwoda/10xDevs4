@@ -40,6 +40,7 @@ async function prepare(page, theme) {
         const button = document.querySelector('[data-testid="signal-preview-signal-default"] button[aria-label="Play exercise signal"]');
         return !!button && Object.keys(button).some((key) => key.startsWith("__reactProps"));
     });
+    await page.waitForTimeout(1500); // dev server: let late hydration settle before pointer input
     await page.addStyleTag({ content: "astro-dev-toolbar { display: none !important; }" });
     await page.evaluate((t) => {
         document.documentElement.classList.toggle("dark", t === "dark");
@@ -236,7 +237,13 @@ for (const theme of THEMES) {
     await tapIcon(def, "exercise");
     await page.waitForTimeout(500);
     check(`${tag}: hint visible before outside tap`, (await page.locator(TOOLTIP).count()) > 0);
-    const heading = await page.getByRole("heading", { name: "Signal preview" }).boundingBox();
+    // Tap a target that is guaranteed to be inside the viewport: scroll the heading in, then re-measure.
+    const headingLocator = page.getByRole("heading", { name: "Signal preview" });
+    await headingLocator.scrollIntoViewIfNeeded();
+    await page.waitForTimeout(300);
+    const heading = await headingLocator.boundingBox();
+    const viewport = page.viewportSize();
+    check(`${tag}: outside tap target is inside the viewport`, heading.y >= 0 && heading.y + 8 <= viewport.height && heading.x >= 0, JSON.stringify(heading));
     await page.touchscreen.tap(heading.x + 4, heading.y + 4);
     await page.waitForTimeout(300);
     check(`${tag}: outside tap closes the touch hint`, (await page.locator(TOOLTIP).count()) === 0);

@@ -355,6 +355,9 @@ async function verifyCreatePage() {
     const markup = await page.text();
     ensure(markup.includes("Create a timer"));
     ensure(markup.includes("Save timer"));
+    // The back link leads to the timers list, not to the default timer.
+    ensure(/<a href="\/timers"[\s\S]*?>\s*Back to timers\s*<\/a>/.test(markup));
+    ensure(!markup.includes("Back to the timer"));
 }
 
 async function verifySavedDrillApi() {

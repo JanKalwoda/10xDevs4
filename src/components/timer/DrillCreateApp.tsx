@@ -39,8 +39,8 @@ export default function DrillCreateApp() {
                             create.save(values);
                         }}
                     />
-                    <a href="/" className={cn(buttonVariants({ variant: "link" }), "w-full")}>
-                        Back to the timer
+                    <a href="/timers" className={cn(buttonVariants({ variant: "link" }), "w-full")}>
+                        Back to timers
                     </a>
                 </CardContent>
             </Card>

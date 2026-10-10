@@ -1,12 +1,14 @@
-import { useId, useState, type ReactNode, type SubmitEvent } from "react";
+import { useEffect, useId, useRef, useState, type ReactNode, type SubmitEvent } from "react";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import ConfigStepper from "@/components/timer/ConfigStepper";
 import SignalPreviewControl, { type SignalPreviewSlots } from "@/components/timer/SignalPreviewControl";
 import { useSignalPreview } from "@/components/hooks/useSignalPreview";
 import type { DrillAudioPort } from "@/lib/drill-audio";
+import { stepFieldValue } from "@/lib/drill-stepper";
 import { PREPARATION_NO_SOUND, signalAvailability, type PreviewSignal } from "@/lib/drill-signal-preview";
 import { submitDrillConfig } from "@/lib/drill-config-submit";
 import type { DrillConfigErrors, DrillConfigInput } from "@/lib/drill-timer";
@@ -43,9 +45,25 @@ interface ConfigFieldProps {
     feedback?: ReactNode;
 }
 
+/** Pause after the last button step before the new value is announced, so a held button announces only the end. */
+const ANNOUNCE_DELAY_MS = 300;
+
 function ConfigField({ id, field, label, hint, value, error, onChange, children, action, feedback }: ConfigFieldProps) {
     const hintId = `${id}-hint`;
     const errorId = `${id}-error`;
+    const [announcement, setAnnouncement] = useState("");
+    const announceStep = useRef(false);
+
+    useEffect(() => {
+        if (!announceStep.current) return;
+        const timer = setTimeout(() => {
+            announceStep.current = false;
+            setAnnouncement(`${label} ${value}`);
+        }, ANNOUNCE_DELAY_MS);
+        return () => {
+            clearTimeout(timer);
+        };
+    }, [label, value]);
 
     return (
         <div className="space-y-1">
@@ -58,14 +76,36 @@ function ConfigField({ id, field, label, hint, value, error, onChange, children,
                     inputMode={field === "repetitions" ? "numeric" : "text"}
                     value={value}
                     onChange={(event) => {
+                        announceStep.current = false;
+                        setAnnouncement("");
                         onChange(field, event.target.value);
+                    }}
+                    onKeyDown={(event) => {
+                        if (event.key !== "ArrowUp" && event.key !== "ArrowDown") return;
+                        event.preventDefault();
+                        const amount = event.shiftKey ? 10 : 1;
+                        announceStep.current = true;
+                        onChange(field, stepFieldValue(field, value, event.key === "ArrowUp" ? amount : -amount));
                     }}
                     aria-invalid={Boolean(error)}
                     aria-describedby={`${hintId}${error ? ` ${errorId}` : ""}`}
                     className="min-w-0 flex-1"
                 />
-                {action}
+                <ConfigStepper
+                    field={field}
+                    inputId={id}
+                    value={value}
+                    label={label.toLowerCase()}
+                    onStep={(next) => {
+                        announceStep.current = true;
+                        onChange(field, next);
+                    }}
+                />
+                {action ?? <span aria-hidden="true" className="size-11 shrink-0" />}
             </div>
+            <p role="status" className="sr-only">
+                {announcement}
+            </p>
             <p id={hintId} className="text-muted-foreground text-sm">
                 {hint}
             </p>
@@ -132,7 +172,7 @@ export default function DrillConfigForm({
         <form onSubmit={handleSubmit} noValidate className="space-y-5">
             <TooltipProvider>
                 {leading}
-                <p className="text-muted-foreground text-sm">Enter times in m:ss format (for example, 0:05).</p>
+                <p className="text-muted-foreground text-sm">Enter times in m:ss format (for example, 0:05). Use the arrows, or ↑ and ↓ in a field (Shift for 10).</p>
                 <ConfigField
                     id={`${id}-preparation`}
                     field="preparation"

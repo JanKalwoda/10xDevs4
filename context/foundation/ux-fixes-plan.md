@@ -26,7 +26,7 @@ Po zamknięciu kolejki S-03…S-13 użytkownik zgłosił 14 poprawek UX. Dotycz�
 | `/timers` | Nowy ekran listy zapisanych timerów (przeniesiony z `/dashboard`), strona startowa zalogowanego po wejściu i odświeżeniu; chroniony, `private, no-store`. |
 | Po zapisie nowego timera | Przejście na `/{id}` zapisanego timera (zamiast pozostania na `/create` z komunikatem). Edycja zostaje na `/{id}/edit` z komunikatem „Saved". |
 | Linki „Back to dashboard" | Zmiana na „Back to timers" → `/timers`. Przekierowanie po usunięciu → `/timers`. |
-| Widok biegu | Czas odliczany wyżej; „Repetition X of N" bezpośrednio pod czasem; okienko Current: nazwa fazy w pierwszej linii, czas w osobnej, bez numeru powtórzenia; okienko Next: większy napis „Next", nazwa i czas następnej fazy w osobnej linii poniżej. |
+| Widok biegu | Czas odliczany wyżej; „Repetition X of N" bezpośrednio pod czasem; okienko Current (S-21, jak Next): większy napis „Current", pod nim „Nazwa · czas" w jednej linii (Standby: sama nazwa), bez numeru powtórzenia; okienko Next: większy napis „Next", pod nim „Nazwa · czas" następnej fazy. |
 | Preparation | Pod czasem „Repetition X of N", gdzie X to numer nadchodzącego powtórzenia (także po wznowieniu przygotowania). |
 | Odsłuch sygnałów | Sama ikona głośnika na końcu wiersza z inputem; opis jako tooltip. Mobile: dotknięcie ikony odtwarza dźwięk i pokazuje ten sam opis na kilka sekund (live region), powód wyłączenia (np. Rest 0:00) pokazuje dotknięcie wyłączonej ikony (`aria-disabled`). |
 | Usuwanie konta (RODO) | Osobny slice `proposed` (S-20), bez implementacji; otwarte pytania poniżej. |
@@ -75,6 +75,12 @@ Kolejność: **S-16 → S-17 → S-18 → S-19**; S-20 tylko w roadmapie. S-16 n
 - `SignalPreviewControl.tsx`, `DrillConfigForm.tsx`: `ConfigField` z wierszem `flex items-center gap-2` (input + przycisk-ikona `Volume2` na końcu; Standby przy wierszu checkboxa Random start). `aria-label` („Play exercise signal"), `aria-disabled` zamiast `disabled`, opis w tooltipie i `aria-describedby`; błąd audio jako widoczny `Alert` pod wierszem.
 - Fixtures i screenshoty (`SignalPreviewFixtures.tsx`, `CreateDrillFixtures.tsx`, `EditDrillFixtures.tsx`, `TimerUiPreview.tsx`); brak overflow przy 390 px.
 - Recenzent: Sonnet 5.5 (medium).
+
+### S-21 ux-fixes-round-2
+- Poprawki po testach ręcznych S-16–S-19: link „Back to timers” na `/create` → `/timers`, tooltip bez `text-balance` (bez pustej połowy), wyłączona ikona odsłuchu bez zmiany koloru przy hoverze; okienko Current jak Next (FR-018).
+- Stepper ▼/▲ (FR-020): `ConfigStepper.tsx`, logika w `src/lib/drill-stepper.ts` i `drill-step-repeat.ts`. Układ wybiera `any-pointer-coarse:` (wbudowany wariant Tailwinda): kolumna 2 × 22 px na komputerze (wiersze 44 px, Preparation i Repetitions rosną z 36 px), dwa przyciski 44 px obok siebie na dotyku. Strzałki mają `tabIndex={-1}`, klawiatura używa ↑/↓ w polu (Shift = 10); `aria-disabled` na granicy; ogłoszenie wartości przez `sr-only` `role="status"`.
+- Kompromis WCAG 2.5.8 (cel minimum 24 × 24 px): przyciski 22 px wysokości na komputerze korzystają z wyjątku „Equivalent” — ta sama funkcja jest dostępna przez pole tekstowe i ↑/↓ w polu; na dotyku cele mają 44 px.
+- Fixtures: `ConfigStepperFixtures.tsx` (default, disabled na obu granicach, error, loading; empty N/A, bo pole puste to stan error); bramka: `context/changes/ux-fixes-round-2/screenshots/ux-fixes-round-2-visual-gate.mjs` (siedem stanów × jasny/ciemny × 1280/390 × wskaźnik fine/coarse) oraz regresja skryptów S-18 i S-19.
 
 ### S-20 account-deletion (proposed)
 Tylko wpis w roadmapie. Otwarte pytania: soft-delete 30 dni czy natychmiast, klucz service role po stronie serwera (dziś brak), mechanizm czyszczący (job), eksport danych, treść informacyjna dla użytkownika.

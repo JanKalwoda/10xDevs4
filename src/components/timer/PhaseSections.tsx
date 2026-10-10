@@ -1,8 +1,21 @@
-import { nextPhaseBody, type PhaseSections as PhaseSectionsModel } from "@/lib/drill-phase-sections";
+import { useId } from "react";
+import { currentPhaseBody, nextPhaseBody, type PhaseSections as PhaseSectionsModel } from "@/lib/drill-phase-sections";
 
 interface PhaseSectionsProps {
     sections: PhaseSectionsModel;
     initializing: boolean;
+}
+
+function PhaseBox({ label, body }: { label: string; body: string }) {
+    const id = useId();
+    return (
+        <div role="group" aria-labelledby={id} className="bg-muted border-border rounded-lg border px-4 py-3">
+            <p id={id} className="text-foreground text-xl font-semibold">
+                {label}
+            </p>
+            <p className="text-foreground text-lg font-medium tabular-nums">{body}</p>
+        </div>
+    );
 }
 
 export default function PhaseSections({ sections, initializing }: PhaseSectionsProps) {
@@ -21,16 +34,8 @@ export default function PhaseSections({ sections, initializing }: PhaseSectionsP
                 </div>
                 <p className="text-muted-foreground min-h-7 text-lg">{repetition}</p>
             </div>
-            <div>
-                <h2 className="text-foreground text-xl font-semibold">{current.name}</h2>
-                <p className="text-muted-foreground min-h-6 text-base tabular-nums" aria-hidden={current.time ? undefined : true}>
-                    {current.time}
-                </p>
-            </div>
-            <div role="group" aria-label="Next phase" className="bg-muted border-border rounded-lg border px-4 py-3">
-                <p className="text-foreground text-xl font-semibold">Next</p>
-                <p className="text-foreground text-lg font-medium tabular-nums">{nextPhaseBody(next)}</p>
-            </div>
+            <PhaseBox label="Current" body={currentPhaseBody(current)} />
+            <PhaseBox label="Next" body={nextPhaseBody(next)} />
         </div>
     );
 }
