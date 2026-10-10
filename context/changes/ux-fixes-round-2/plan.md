@@ -380,12 +380,12 @@ Brak migracji bazy danych i zmian API. Stepper działa na istniejących tekstowy
 
 #### Automated
 
-- [ ] 3.1 Testy `drill-stepper` i `drill-step-repeat` oraz istniejące przechodzą
-- [ ] 3.2 Lint, kontrakt, typy i build przechodzą
+- [x] 3.1 Testy `drill-stepper` i `drill-step-repeat` oraz istniejące przechodzą — 2c30fa2
+- [x] 3.2 Lint, kontrakt, typy i build przechodzą — 2c30fa2
 
 #### Manual
 
-- [ ] 3.3 Moduły `src/lib` nie importują Reacta ani DOM
+- [x] 3.3 Moduły `src/lib` nie importują Reacta ani DOM — script, not human (grep over imports, no React or DOM) — 2c30fa2
 
 ### Phase 4: Stepper w formularzu (oba układy, klawiatura)
 
