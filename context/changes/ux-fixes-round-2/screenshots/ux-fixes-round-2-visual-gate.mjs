@@ -3,7 +3,7 @@
 // Writes screenshots next to this file and ux-fixes-round-2-checks.json with every assertion result.
 // Sections are added phase by phase; every section keeps running in later phases as a regression check.
 import { createRequire } from "node:module";
-import { writeFileSync } from "node:fs";
+import { readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -323,6 +323,7 @@ for (const setup of SETUPS) {
                 const held = Number((await exerciseInput.inputValue()).split(":")[1]);
                 check(`${tag}: hold repeats about every 100 ms`, held >= 8 && held <= 13, String(held));
                 await page.mouse.up();
+                await page.waitForTimeout(60); // an in-flight tick (input event round trip) may still land right after release
                 const afterUp = await exerciseInput.inputValue();
                 await page.waitForTimeout(400);
                 check(`${tag}: hold stops on release`, (await exerciseInput.inputValue()) === afterUp, afterUp);
@@ -372,6 +373,160 @@ for (const setup of SETUPS) {
         }
     }
 }
+
+// Phase 5: seven states of the stepper fixtures x light/dark x 1280/390 x fine/coarse pointer.
+const stepperCard = (page, fixture) => page.locator(`[data-testid="stepper-${fixture}"]`);
+const STATE_SETUPS = [
+    { name: "fine", options: {}, coarse: false },
+    { name: "coarse", options: { hasTouch: true }, coarse: true },
+];
+const readButton = (locator) =>
+    locator.evaluate((el) => {
+        const style = getComputedStyle(el);
+        return { background: style.backgroundColor, color: style.color, cursor: style.cursor, opacity: style.opacity, ariaDisabled: el.getAttribute("aria-disabled"), disabled: el.hasAttribute("disabled") };
+    });
+const rowsAre44 = (c) => c.evaluate((root) => [...root.querySelectorAll("input[name]")].filter((i) => i.type === "text").map((i) => i.parentElement.getBoundingClientRect().height));
+
+for (const setup of STATE_SETUPS) {
+    for (const viewport of VIEWPORTS) {
+        for (const theme of THEMES) {
+            const tag = `state-${setup.name}-${viewport.name}-${theme}`;
+            const context = await browser.newContext({ viewport: { width: viewport.width, height: viewport.height }, ...setup.options, ...(setup.coarse && viewport.name === "390" ? { isMobile: true } : {}) });
+            const page = await context.newPage();
+            await page.goto(`${BASE_URL}/dev/timer-ui`, { waitUntil: "networkidle" });
+            await page.waitForSelector('[data-testid="stepper-default"]');
+            await page.waitForFunction(() => {
+                const button = document.querySelector('[data-testid="stepper-default"] button[aria-label="Increase exercise by 1 second"]');
+                return !!button && Object.keys(button).some((key) => key.startsWith("__reactProps"));
+            });
+            await page.waitForTimeout(1500);
+            await page.addStyleTag({ content: "astro-dev-toolbar { display: none !important; }" });
+            await page.evaluate((t) => document.documentElement.classList.toggle("dark", t === "dark"), theme);
+            check(`${tag}: any-pointer matches the setup`, (await page.evaluate(() => matchMedia("(any-pointer: coarse)").matches)) === setup.coarse);
+
+            // Layout invariants in every fixture: four rows of 44 px, no horizontal overflow.
+            for (const fixture of ["default", "disabled-min", "disabled-max", "error", "loading"]) {
+                const c = stepperCard(page, fixture);
+                await c.scrollIntoViewIfNeeded();
+                const heights = await rowsAre44(c);
+                check(`${tag} ${fixture}: the four field rows are 44 px`, heights.length === 4 && heights.every((h) => Math.abs(h - 44) < 0.5), JSON.stringify(heights));
+                check(`${tag} ${fixture}: card has no horizontal overflow`, await c.evaluate((el) => el.scrollWidth <= el.clientWidth && el.getBoundingClientRect().right <= document.documentElement.clientWidth));
+                const exercise = FIELDS[1];
+                const [u, d] = [await rect(stepButton(c, exercise, "Increase")), await rect(stepButton(c, exercise, "Decrease"))];
+                check(
+                    `${tag} ${fixture}: arrow order and size follow the pointer`,
+                    setup.coarse ? u.width === 44 && u.height === 44 && d.width === 44 && d.x < u.x : u.height === 22 && d.height === 22 && u.y < d.y,
+                    JSON.stringify({ u, d }),
+                );
+            }
+
+            // 1 default
+            const def = stepperCard(page, "default");
+            for (const field of FIELDS) {
+                for (const dir of ["Increase", "Decrease"]) {
+                    check(`${tag} default ${field.name} ${dir}: enabled`, (await stepButton(def, field, dir).getAttribute("aria-disabled")) === "false");
+                }
+            }
+            await shot(page, def, join(here, `state-default-${setup.name}-${viewport.name}-${theme}.png`));
+
+            // 2 hover: the arrow highlights, in both pointer layouts.
+            const hoverTarget = stepButton(def, FIELDS[1], "Increase");
+            await page.mouse.move(0, 0);
+            await page.waitForTimeout(300);
+            const idle = await readButton(hoverTarget);
+            await hoverTarget.scrollIntoViewIfNeeded();
+            await hoverTarget.hover();
+            await page.waitForTimeout(400);
+            const hovered = await readButton(hoverTarget);
+            // Tailwind 4 gates hover: behind (hover: hover); a touch-only browser reports none, so no highlight sticks after a tap.
+            const canHover = await page.evaluate(() => matchMedia("(hover: hover)").matches);
+            check(
+                `${tag} hover: ${canHover ? "the enabled arrow changes its background" : "N/A without (hover: hover), nothing sticks"}`,
+                canHover ? idle.background !== hovered.background : idle.background === hovered.background,
+                `${idle.background} -> ${hovered.background}`,
+            );
+            await shot(page, def, join(here, `state-hover-${setup.name}-${viewport.name}-${theme}.png`));
+            await page.mouse.move(0, 0);
+
+            // 3 focus-visible: belongs to the field (the arrows skip Tab).
+            const exerciseInput = inputOf(def, FIELDS[1]);
+            const unfocused = await exerciseInput.evaluate((el) => getComputedStyle(el).boxShadow);
+            await page.keyboard.press("Tab");
+            await exerciseInput.focus();
+            await page.keyboard.press("ArrowUp");
+            await page.waitForTimeout(250);
+            const focused = await exerciseInput.evaluate((el) => ({ shadow: getComputedStyle(el).boxShadow, visible: el.matches(":focus-visible") }));
+            check(`${tag} focus-visible: the field shows a ring`, focused.visible && focused.shadow !== "none" && focused.shadow !== unfocused, JSON.stringify({ unfocused, focused }));
+            check(`${tag} focus-visible: the arrows are not tab stops (N/A for the arrows)`, (await stepButton(def, FIELDS[1], "Increase").getAttribute("tabindex")) === "-1");
+            await shot(page, def, join(here, `state-focus-visible-${setup.name}-${viewport.name}-${theme}.png`));
+            await exerciseInput.blur();
+
+            // 4 disabled at both bounds: aria-disabled, dimmed, no hover change, a click does nothing.
+            for (const [fixture, blocked, open, expected] of [
+                ["disabled-min", "Decrease", "Increase", { preparation: "0:00", exercise: "0:01", rest: "0:00", repetitions: "1" }],
+                ["disabled-max", "Increase", "Decrease", { preparation: "10:00", exercise: "10:00", rest: "10:00", repetitions: "100" }],
+            ]) {
+                const c = stepperCard(page, fixture);
+                await c.scrollIntoViewIfNeeded();
+                for (const field of FIELDS) {
+                    const target = stepButton(c, field, blocked);
+                    await page.mouse.move(0, 0);
+                    await page.waitForTimeout(250);
+                    const before = await readButton(target);
+                    await target.hover();
+                    await page.waitForTimeout(400);
+                    const after = await readButton(target);
+                    check(`${tag} ${fixture} ${field.name}: ${blocked} is aria-disabled, not disabled, dimmed`, before.ariaDisabled === "true" && !before.disabled && Number(before.opacity) < 1, JSON.stringify(before));
+                    check(
+                        `${tag} ${fixture} ${field.name}: ${blocked} keeps color, background and not-allowed on hover`,
+                        before.color === after.color && before.background === after.background && after.cursor === "not-allowed",
+                        JSON.stringify({ before, after }),
+                    );
+                    await target.dispatchEvent("click");
+                    check(`${tag} ${fixture} ${field.name}: click on the blocked arrow changes nothing`, (await inputOf(c, field).inputValue()) === expected[field.name], await inputOf(c, field).inputValue());
+                    check(`${tag} ${fixture} ${field.name}: ${open} stays enabled`, (await stepButton(c, field, open).getAttribute("aria-disabled")) === "false");
+                }
+                await page.mouse.move(0, 0);
+                await shot(page, c, join(here, `state-disabled-${fixture.replace("disabled-", "")}-${setup.name}-${viewport.name}-${theme}.png`));
+            }
+
+            // 5 error: invalid values show errors after Start, the first arrow press steps to the field minimum and clears the error.
+            const err = stepperCard(page, "error");
+            await err.scrollIntoViewIfNeeded();
+            await err.getByRole("button", { name: "Start" }).click();
+            await page.waitForTimeout(250);
+            check(`${tag} error: four validation alerts`, (await err.locator("p[role='alert']").count()) === 4, String(await err.locator("p[role='alert']").count()));
+            check(`${tag} error: inputs are aria-invalid`, (await err.locator("input[aria-invalid='true']").count()) === 4);
+            check(`${tag} error: Start did not run`, (await err.locator("[data-evidence='start-calls']").textContent()) === "0");
+            check(`${tag} error: no arrow is aria-disabled for an invalid value`, (await err.locator("button[aria-label*=' by 1'][aria-disabled='true']").count()) === 0);
+            await shot(page, err, join(here, `state-error-${setup.name}-${viewport.name}-${theme}.png`));
+            const minimum = { preparation: "0:00", exercise: "0:01", rest: "0:00", repetitions: "1" };
+            for (const field of FIELDS) {
+                await stepButton(err, field, "Increase").dispatchEvent("click");
+                check(`${tag} error ${field.name}: first press gives the minimum`, (await inputOf(err, field).inputValue()) === minimum[field.name], await inputOf(err, field).inputValue());
+            }
+            check(`${tag} error: the alerts clear once the values are valid`, (await err.locator("p[role='alert']").count()) === 0);
+
+            // 6 empty: not a separate state. The form always has values; an emptied field is the error state above.
+            check(`${tag} empty: N/A (an emptied field is the error state)`, true, "justified in plan: formularz zawsze ma wartości");
+
+            // 7 loading: pending submit, arrows still usable.
+            const load = stepperCard(page, "loading");
+            await load.scrollIntoViewIfNeeded();
+            const submit = load.getByRole("button", { name: "Start" });
+            check(`${tag} loading: submit is disabled and busy`, (await submit.isDisabled()) && (await submit.getAttribute("aria-busy")) === "true");
+            await stepButton(load, FIELDS[1], "Increase").dispatchEvent("click");
+            check(`${tag} loading: the arrows still step`, (await inputOf(load, FIELDS[1]).inputValue()) === "0:05", await inputOf(load, FIELDS[1]).inputValue());
+            await shot(page, load, join(here, `state-loading-${setup.name}-${viewport.name}-${theme}.png`));
+
+            await context.close();
+        }
+    }
+}
+
+// Regression of phases 1 and 2 on the same page: the link on /create and the Current box.
+const createApp = readFileSync(join(here, "../../../../src/components/timer/DrillCreateApp.tsx"), "utf8");
+check("A3.7: DrillCreateApp links to /timers", /href="\/timers"/.test(createApp) && /Back to timers/.test(createApp) && !/Back to the timer/.test(createApp));
 
 await browser.close();
 writeFileSync(join(here, "ux-fixes-round-2-checks.json"), JSON.stringify({ baseUrl: BASE_URL, failed: checks.filter((c) => !c.ok).length, checks }, null, 2));

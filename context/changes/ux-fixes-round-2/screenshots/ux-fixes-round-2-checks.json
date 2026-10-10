@@ -2350,7 +2350,7 @@
     {
       "name": "fine-1280-light: hold repeats about every 100 ms",
       "ok": true,
-      "detail": "11"
+      "detail": "10"
     },
     {
       "name": "fine-1280-light: hold stops on release",
@@ -2540,12 +2540,12 @@
     {
       "name": "fine-1280-dark: hold repeats about every 100 ms",
       "ok": true,
-      "detail": "11"
+      "detail": "10"
     },
     {
       "name": "fine-1280-dark: hold stops on release",
       "ok": true,
-      "detail": "0:11"
+      "detail": "0:10"
     },
     {
       "name": "fine-1280-dark: hold stops when the pointer leaves",
@@ -3380,12 +3380,12 @@
     {
       "name": "mouse-touch-1280-light: hold repeats about every 100 ms",
       "ok": true,
-      "detail": "11"
+      "detail": "10"
     },
     {
       "name": "mouse-touch-1280-light: hold stops on release",
       "ok": true,
-      "detail": "0:11"
+      "detail": "0:10"
     },
     {
       "name": "mouse-touch-1280-light: hold stops when the pointer leaves",
@@ -3611,6 +3611,2851 @@
       "name": "mouse-touch-1280-dark: Repetitions ArrowDown gives a whole number",
       "ok": true,
       "detail": "99"
+    },
+    {
+      "name": "state-fine-1280-light: any-pointer matches the setup",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-fine-1280-light default: the four field rows are 44 px",
+      "ok": true,
+      "detail": "[44,44,44,44]"
+    },
+    {
+      "name": "state-fine-1280-light default: card has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-fine-1280-light default: arrow order and size follow the pointer",
+      "ok": true,
+      "detail": "{\"u\":{\"x\":328.328125,\"y\":338,\"width\":32,\"height\":22},\"d\":{\"x\":328.328125,\"y\":360,\"width\":32,\"height\":22}}"
+    },
+    {
+      "name": "state-fine-1280-light disabled-min: the four field rows are 44 px",
+      "ok": true,
+      "detail": "[44,44,44,44]"
+    },
+    {
+      "name": "state-fine-1280-light disabled-min: card has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-fine-1280-light disabled-min: arrow order and size follow the pointer",
+      "ok": true,
+      "detail": "{\"u\":{\"x\":709.65625,\"y\":358,\"width\":32,\"height\":22},\"d\":{\"x\":709.65625,\"y\":380,\"width\":32,\"height\":22}}"
+    },
+    {
+      "name": "state-fine-1280-light disabled-max: the four field rows are 44 px",
+      "ok": true,
+      "detail": "[44,44,44,44]"
+    },
+    {
+      "name": "state-fine-1280-light disabled-max: card has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-fine-1280-light disabled-max: arrow order and size follow the pointer",
+      "ok": true,
+      "detail": "{\"u\":{\"x\":1091,\"y\":358,\"width\":32,\"height\":22},\"d\":{\"x\":1091,\"y\":380,\"width\":32,\"height\":22}}"
+    },
+    {
+      "name": "state-fine-1280-light error: the four field rows are 44 px",
+      "ok": true,
+      "detail": "[44,44,44,44]"
+    },
+    {
+      "name": "state-fine-1280-light error: card has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-fine-1280-light error: arrow order and size follow the pointer",
+      "ok": true,
+      "detail": "{\"u\":{\"x\":328.328125,\"y\":395,\"width\":32,\"height\":22},\"d\":{\"x\":328.328125,\"y\":417,\"width\":32,\"height\":22}}"
+    },
+    {
+      "name": "state-fine-1280-light loading: the four field rows are 44 px",
+      "ok": true,
+      "detail": "[44,44,44,44]"
+    },
+    {
+      "name": "state-fine-1280-light loading: card has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-fine-1280-light loading: arrow order and size follow the pointer",
+      "ok": true,
+      "detail": "{\"u\":{\"x\":709.65625,\"y\":375,\"width\":32,\"height\":22},\"d\":{\"x\":709.65625,\"y\":397,\"width\":32,\"height\":22}}"
+    },
+    {
+      "name": "state-fine-1280-light default preparation Increase: enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-fine-1280-light default preparation Decrease: enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-fine-1280-light default exercise Increase: enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-fine-1280-light default exercise Decrease: enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-fine-1280-light default rest Increase: enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-fine-1280-light default rest Decrease: enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-fine-1280-light default repetitions Increase: enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-fine-1280-light default repetitions Decrease: enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-fine-1280-light hover: the enabled arrow changes its background",
+      "ok": true,
+      "detail": "oklch(0.9751 0.0127 244.251) -> oklch(0.9505 0.0507 163.051)"
+    },
+    {
+      "name": "state-fine-1280-light focus-visible: the field shows a ring",
+      "ok": true,
+      "detail": "{\"unfocused\":\"rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.05) 0px 4px 8px -1px\",\"focused\":{\"shadow\":\"rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, oklab(0.27 -0.0646748 0.0379759 / 0.5) 0px 0px 0px 2px, rgba(0, 0, 0, 0.05) 0px 4px 8px -1px\",\"visible\":true}}"
+    },
+    {
+      "name": "state-fine-1280-light focus-visible: the arrows are not tab stops (N/A for the arrows)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-fine-1280-light disabled-min preparation: Decrease is aria-disabled, not disabled, dimmed",
+      "ok": true,
+      "detail": "{\"background\":\"oklch(0.9751 0.0127 244.251)\",\"color\":\"oklch(0.3729 0.0306 259.733)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false}"
+    },
+    {
+      "name": "state-fine-1280-light disabled-min preparation: Decrease keeps color, background and not-allowed on hover",
+      "ok": true,
+      "detail": "{\"before\":{\"background\":\"oklch(0.9751 0.0127 244.251)\",\"color\":\"oklch(0.3729 0.0306 259.733)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false},\"after\":{\"background\":\"oklch(0.9751 0.0127 244.251)\",\"color\":\"oklch(0.3729 0.0306 259.733)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false}}"
+    },
+    {
+      "name": "state-fine-1280-light disabled-min preparation: click on the blocked arrow changes nothing",
+      "ok": true,
+      "detail": "0:00"
+    },
+    {
+      "name": "state-fine-1280-light disabled-min preparation: Increase stays enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-fine-1280-light disabled-min exercise: Decrease is aria-disabled, not disabled, dimmed",
+      "ok": true,
+      "detail": "{\"background\":\"oklch(0.9751 0.0127 244.251)\",\"color\":\"oklch(0.3729 0.0306 259.733)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false}"
+    },
+    {
+      "name": "state-fine-1280-light disabled-min exercise: Decrease keeps color, background and not-allowed on hover",
+      "ok": true,
+      "detail": "{\"before\":{\"background\":\"oklch(0.9751 0.0127 244.251)\",\"color\":\"oklch(0.3729 0.0306 259.733)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false},\"after\":{\"background\":\"oklch(0.9751 0.0127 244.251)\",\"color\":\"oklch(0.3729 0.0306 259.733)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false}}"
+    },
+    {
+      "name": "state-fine-1280-light disabled-min exercise: click on the blocked arrow changes nothing",
+      "ok": true,
+      "detail": "0:01"
+    },
+    {
+      "name": "state-fine-1280-light disabled-min exercise: Increase stays enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-fine-1280-light disabled-min rest: Decrease is aria-disabled, not disabled, dimmed",
+      "ok": true,
+      "detail": "{\"background\":\"oklch(0.9751 0.0127 244.251)\",\"color\":\"oklch(0.3729 0.0306 259.733)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false}"
+    },
+    {
+      "name": "state-fine-1280-light disabled-min rest: Decrease keeps color, background and not-allowed on hover",
+      "ok": true,
+      "detail": "{\"before\":{\"background\":\"oklch(0.9751 0.0127 244.251)\",\"color\":\"oklch(0.3729 0.0306 259.733)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false},\"after\":{\"background\":\"oklch(0.9751 0.0127 244.251)\",\"color\":\"oklch(0.3729 0.0306 259.733)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false}}"
+    },
+    {
+      "name": "state-fine-1280-light disabled-min rest: click on the blocked arrow changes nothing",
+      "ok": true,
+      "detail": "0:00"
+    },
+    {
+      "name": "state-fine-1280-light disabled-min rest: Increase stays enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-fine-1280-light disabled-min repetitions: Decrease is aria-disabled, not disabled, dimmed",
+      "ok": true,
+      "detail": "{\"background\":\"oklch(0.9751 0.0127 244.251)\",\"color\":\"oklch(0.3729 0.0306 259.733)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false}"
+    },
+    {
+      "name": "state-fine-1280-light disabled-min repetitions: Decrease keeps color, background and not-allowed on hover",
+      "ok": true,
+      "detail": "{\"before\":{\"background\":\"oklch(0.9751 0.0127 244.251)\",\"color\":\"oklch(0.3729 0.0306 259.733)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false},\"after\":{\"background\":\"oklch(0.9751 0.0127 244.251)\",\"color\":\"oklch(0.3729 0.0306 259.733)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false}}"
+    },
+    {
+      "name": "state-fine-1280-light disabled-min repetitions: click on the blocked arrow changes nothing",
+      "ok": true,
+      "detail": "1"
+    },
+    {
+      "name": "state-fine-1280-light disabled-min repetitions: Increase stays enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-fine-1280-light disabled-max preparation: Increase is aria-disabled, not disabled, dimmed",
+      "ok": true,
+      "detail": "{\"background\":\"oklch(0.9751 0.0127 244.251)\",\"color\":\"oklch(0.3729 0.0306 259.733)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false}"
+    },
+    {
+      "name": "state-fine-1280-light disabled-max preparation: Increase keeps color, background and not-allowed on hover",
+      "ok": true,
+      "detail": "{\"before\":{\"background\":\"oklch(0.9751 0.0127 244.251)\",\"color\":\"oklch(0.3729 0.0306 259.733)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false},\"after\":{\"background\":\"oklch(0.9751 0.0127 244.251)\",\"color\":\"oklch(0.3729 0.0306 259.733)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false}}"
+    },
+    {
+      "name": "state-fine-1280-light disabled-max preparation: click on the blocked arrow changes nothing",
+      "ok": true,
+      "detail": "10:00"
+    },
+    {
+      "name": "state-fine-1280-light disabled-max preparation: Decrease stays enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-fine-1280-light disabled-max exercise: Increase is aria-disabled, not disabled, dimmed",
+      "ok": true,
+      "detail": "{\"background\":\"oklch(0.9751 0.0127 244.251)\",\"color\":\"oklch(0.3729 0.0306 259.733)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false}"
+    },
+    {
+      "name": "state-fine-1280-light disabled-max exercise: Increase keeps color, background and not-allowed on hover",
+      "ok": true,
+      "detail": "{\"before\":{\"background\":\"oklch(0.9751 0.0127 244.251)\",\"color\":\"oklch(0.3729 0.0306 259.733)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false},\"after\":{\"background\":\"oklch(0.9751 0.0127 244.251)\",\"color\":\"oklch(0.3729 0.0306 259.733)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false}}"
+    },
+    {
+      "name": "state-fine-1280-light disabled-max exercise: click on the blocked arrow changes nothing",
+      "ok": true,
+      "detail": "10:00"
+    },
+    {
+      "name": "state-fine-1280-light disabled-max exercise: Decrease stays enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-fine-1280-light disabled-max rest: Increase is aria-disabled, not disabled, dimmed",
+      "ok": true,
+      "detail": "{\"background\":\"oklch(0.9751 0.0127 244.251)\",\"color\":\"oklch(0.3729 0.0306 259.733)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false}"
+    },
+    {
+      "name": "state-fine-1280-light disabled-max rest: Increase keeps color, background and not-allowed on hover",
+      "ok": true,
+      "detail": "{\"before\":{\"background\":\"oklch(0.9751 0.0127 244.251)\",\"color\":\"oklch(0.3729 0.0306 259.733)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false},\"after\":{\"background\":\"oklch(0.9751 0.0127 244.251)\",\"color\":\"oklch(0.3729 0.0306 259.733)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false}}"
+    },
+    {
+      "name": "state-fine-1280-light disabled-max rest: click on the blocked arrow changes nothing",
+      "ok": true,
+      "detail": "10:00"
+    },
+    {
+      "name": "state-fine-1280-light disabled-max rest: Decrease stays enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-fine-1280-light disabled-max repetitions: Increase is aria-disabled, not disabled, dimmed",
+      "ok": true,
+      "detail": "{\"background\":\"oklch(0.9751 0.0127 244.251)\",\"color\":\"oklch(0.3729 0.0306 259.733)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false}"
+    },
+    {
+      "name": "state-fine-1280-light disabled-max repetitions: Increase keeps color, background and not-allowed on hover",
+      "ok": true,
+      "detail": "{\"before\":{\"background\":\"oklch(0.9751 0.0127 244.251)\",\"color\":\"oklch(0.3729 0.0306 259.733)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false},\"after\":{\"background\":\"oklch(0.9751 0.0127 244.251)\",\"color\":\"oklch(0.3729 0.0306 259.733)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false}}"
+    },
+    {
+      "name": "state-fine-1280-light disabled-max repetitions: click on the blocked arrow changes nothing",
+      "ok": true,
+      "detail": "100"
+    },
+    {
+      "name": "state-fine-1280-light disabled-max repetitions: Decrease stays enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-fine-1280-light error: four validation alerts",
+      "ok": true,
+      "detail": "4"
+    },
+    {
+      "name": "state-fine-1280-light error: inputs are aria-invalid",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-fine-1280-light error: Start did not run",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-fine-1280-light error: no arrow is aria-disabled for an invalid value",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-fine-1280-light error preparation: first press gives the minimum",
+      "ok": true,
+      "detail": "0:00"
+    },
+    {
+      "name": "state-fine-1280-light error exercise: first press gives the minimum",
+      "ok": true,
+      "detail": "0:01"
+    },
+    {
+      "name": "state-fine-1280-light error rest: first press gives the minimum",
+      "ok": true,
+      "detail": "0:00"
+    },
+    {
+      "name": "state-fine-1280-light error repetitions: first press gives the minimum",
+      "ok": true,
+      "detail": "1"
+    },
+    {
+      "name": "state-fine-1280-light error: the alerts clear once the values are valid",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-fine-1280-light empty: N/A (an emptied field is the error state)",
+      "ok": true,
+      "detail": "justified in plan: formularz zawsze ma wartości"
+    },
+    {
+      "name": "state-fine-1280-light loading: submit is disabled and busy",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-fine-1280-light loading: the arrows still step",
+      "ok": true,
+      "detail": "0:05"
+    },
+    {
+      "name": "state-fine-1280-dark: any-pointer matches the setup",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-fine-1280-dark default: the four field rows are 44 px",
+      "ok": true,
+      "detail": "[44,44,44,44]"
+    },
+    {
+      "name": "state-fine-1280-dark default: card has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-fine-1280-dark default: arrow order and size follow the pointer",
+      "ok": true,
+      "detail": "{\"u\":{\"x\":328.328125,\"y\":338,\"width\":32,\"height\":22},\"d\":{\"x\":328.328125,\"y\":360,\"width\":32,\"height\":22}}"
+    },
+    {
+      "name": "state-fine-1280-dark disabled-min: the four field rows are 44 px",
+      "ok": true,
+      "detail": "[44,44,44,44]"
+    },
+    {
+      "name": "state-fine-1280-dark disabled-min: card has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-fine-1280-dark disabled-min: arrow order and size follow the pointer",
+      "ok": true,
+      "detail": "{\"u\":{\"x\":709.65625,\"y\":358,\"width\":32,\"height\":22},\"d\":{\"x\":709.65625,\"y\":380,\"width\":32,\"height\":22}}"
+    },
+    {
+      "name": "state-fine-1280-dark disabled-max: the four field rows are 44 px",
+      "ok": true,
+      "detail": "[44,44,44,44]"
+    },
+    {
+      "name": "state-fine-1280-dark disabled-max: card has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-fine-1280-dark disabled-max: arrow order and size follow the pointer",
+      "ok": true,
+      "detail": "{\"u\":{\"x\":1091,\"y\":358,\"width\":32,\"height\":22},\"d\":{\"x\":1091,\"y\":380,\"width\":32,\"height\":22}}"
+    },
+    {
+      "name": "state-fine-1280-dark error: the four field rows are 44 px",
+      "ok": true,
+      "detail": "[44,44,44,44]"
+    },
+    {
+      "name": "state-fine-1280-dark error: card has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-fine-1280-dark error: arrow order and size follow the pointer",
+      "ok": true,
+      "detail": "{\"u\":{\"x\":328.328125,\"y\":395,\"width\":32,\"height\":22},\"d\":{\"x\":328.328125,\"y\":417,\"width\":32,\"height\":22}}"
+    },
+    {
+      "name": "state-fine-1280-dark loading: the four field rows are 44 px",
+      "ok": true,
+      "detail": "[44,44,44,44]"
+    },
+    {
+      "name": "state-fine-1280-dark loading: card has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-fine-1280-dark loading: arrow order and size follow the pointer",
+      "ok": true,
+      "detail": "{\"u\":{\"x\":709.65625,\"y\":375,\"width\":32,\"height\":22},\"d\":{\"x\":709.65625,\"y\":397,\"width\":32,\"height\":22}}"
+    },
+    {
+      "name": "state-fine-1280-dark default preparation Increase: enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-fine-1280-dark default preparation Decrease: enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-fine-1280-dark default exercise Increase: enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-fine-1280-dark default exercise Decrease: enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-fine-1280-dark default rest Increase: enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-fine-1280-dark default rest Decrease: enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-fine-1280-dark default repetitions Increase: enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-fine-1280-dark default repetitions Decrease: enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-fine-1280-dark hover: the enabled arrow changes its background",
+      "ok": true,
+      "detail": "oklab(0.4461 -0.00600482 -0.0256053 / 0.3) -> oklab(0.4461 -0.00600482 -0.0256053 / 0.5)"
+    },
+    {
+      "name": "state-fine-1280-dark focus-visible: the field shows a ring",
+      "ok": true,
+      "detail": "{\"unfocused\":\"rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.05) 0px 4px 8px -1px\",\"focused\":{\"shadow\":\"rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, oklab(0.7729 -0.146966 0.0443071 / 0.5) 0px 0px 0px 2px, rgba(0, 0, 0, 0.05) 0px 4px 8px -1px\",\"visible\":true}}"
+    },
+    {
+      "name": "state-fine-1280-dark focus-visible: the arrows are not tab stops (N/A for the arrows)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-fine-1280-dark disabled-min preparation: Decrease is aria-disabled, not disabled, dimmed",
+      "ok": true,
+      "detail": "{\"background\":\"oklab(0.4461 -0.00600482 -0.0256053 / 0.3)\",\"color\":\"oklch(0.8717 0.0093 258.338)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false}"
+    },
+    {
+      "name": "state-fine-1280-dark disabled-min preparation: Decrease keeps color, background and not-allowed on hover",
+      "ok": true,
+      "detail": "{\"before\":{\"background\":\"oklab(0.4461 -0.00600482 -0.0256053 / 0.3)\",\"color\":\"oklch(0.8717 0.0093 258.338)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false},\"after\":{\"background\":\"oklab(0.4461 -0.00600482 -0.0256053 / 0.3)\",\"color\":\"oklch(0.8717 0.0093 258.338)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false}}"
+    },
+    {
+      "name": "state-fine-1280-dark disabled-min preparation: click on the blocked arrow changes nothing",
+      "ok": true,
+      "detail": "0:00"
+    },
+    {
+      "name": "state-fine-1280-dark disabled-min preparation: Increase stays enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-fine-1280-dark disabled-min exercise: Decrease is aria-disabled, not disabled, dimmed",
+      "ok": true,
+      "detail": "{\"background\":\"oklab(0.4461 -0.00600482 -0.0256053 / 0.3)\",\"color\":\"oklch(0.8717 0.0093 258.338)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false}"
+    },
+    {
+      "name": "state-fine-1280-dark disabled-min exercise: Decrease keeps color, background and not-allowed on hover",
+      "ok": true,
+      "detail": "{\"before\":{\"background\":\"oklab(0.4461 -0.00600482 -0.0256053 / 0.3)\",\"color\":\"oklch(0.8717 0.0093 258.338)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false},\"after\":{\"background\":\"oklab(0.4461 -0.00600482 -0.0256053 / 0.3)\",\"color\":\"oklch(0.8717 0.0093 258.338)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false}}"
+    },
+    {
+      "name": "state-fine-1280-dark disabled-min exercise: click on the blocked arrow changes nothing",
+      "ok": true,
+      "detail": "0:01"
+    },
+    {
+      "name": "state-fine-1280-dark disabled-min exercise: Increase stays enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-fine-1280-dark disabled-min rest: Decrease is aria-disabled, not disabled, dimmed",
+      "ok": true,
+      "detail": "{\"background\":\"oklab(0.4461 -0.00600482 -0.0256053 / 0.3)\",\"color\":\"oklch(0.8717 0.0093 258.338)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false}"
+    },
+    {
+      "name": "state-fine-1280-dark disabled-min rest: Decrease keeps color, background and not-allowed on hover",
+      "ok": true,
+      "detail": "{\"before\":{\"background\":\"oklab(0.4461 -0.00600482 -0.0256053 / 0.3)\",\"color\":\"oklch(0.8717 0.0093 258.338)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false},\"after\":{\"background\":\"oklab(0.4461 -0.00600482 -0.0256053 / 0.3)\",\"color\":\"oklch(0.8717 0.0093 258.338)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false}}"
+    },
+    {
+      "name": "state-fine-1280-dark disabled-min rest: click on the blocked arrow changes nothing",
+      "ok": true,
+      "detail": "0:00"
+    },
+    {
+      "name": "state-fine-1280-dark disabled-min rest: Increase stays enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-fine-1280-dark disabled-min repetitions: Decrease is aria-disabled, not disabled, dimmed",
+      "ok": true,
+      "detail": "{\"background\":\"oklab(0.4461 -0.00600482 -0.0256053 / 0.3)\",\"color\":\"oklch(0.8717 0.0093 258.338)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false}"
+    },
+    {
+      "name": "state-fine-1280-dark disabled-min repetitions: Decrease keeps color, background and not-allowed on hover",
+      "ok": true,
+      "detail": "{\"before\":{\"background\":\"oklab(0.4461 -0.00600482 -0.0256053 / 0.3)\",\"color\":\"oklch(0.8717 0.0093 258.338)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false},\"after\":{\"background\":\"oklab(0.4461 -0.00600482 -0.0256053 / 0.3)\",\"color\":\"oklch(0.8717 0.0093 258.338)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false}}"
+    },
+    {
+      "name": "state-fine-1280-dark disabled-min repetitions: click on the blocked arrow changes nothing",
+      "ok": true,
+      "detail": "1"
+    },
+    {
+      "name": "state-fine-1280-dark disabled-min repetitions: Increase stays enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-fine-1280-dark disabled-max preparation: Increase is aria-disabled, not disabled, dimmed",
+      "ok": true,
+      "detail": "{\"background\":\"oklab(0.4461 -0.00600482 -0.0256053 / 0.3)\",\"color\":\"oklch(0.8717 0.0093 258.338)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false}"
+    },
+    {
+      "name": "state-fine-1280-dark disabled-max preparation: Increase keeps color, background and not-allowed on hover",
+      "ok": true,
+      "detail": "{\"before\":{\"background\":\"oklab(0.4461 -0.00600482 -0.0256053 / 0.3)\",\"color\":\"oklch(0.8717 0.0093 258.338)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false},\"after\":{\"background\":\"oklab(0.4461 -0.00600482 -0.0256053 / 0.3)\",\"color\":\"oklch(0.8717 0.0093 258.338)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false}}"
+    },
+    {
+      "name": "state-fine-1280-dark disabled-max preparation: click on the blocked arrow changes nothing",
+      "ok": true,
+      "detail": "10:00"
+    },
+    {
+      "name": "state-fine-1280-dark disabled-max preparation: Decrease stays enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-fine-1280-dark disabled-max exercise: Increase is aria-disabled, not disabled, dimmed",
+      "ok": true,
+      "detail": "{\"background\":\"oklab(0.4461 -0.00600482 -0.0256053 / 0.3)\",\"color\":\"oklch(0.8717 0.0093 258.338)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false}"
+    },
+    {
+      "name": "state-fine-1280-dark disabled-max exercise: Increase keeps color, background and not-allowed on hover",
+      "ok": true,
+      "detail": "{\"before\":{\"background\":\"oklab(0.4461 -0.00600482 -0.0256053 / 0.3)\",\"color\":\"oklch(0.8717 0.0093 258.338)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false},\"after\":{\"background\":\"oklab(0.4461 -0.00600482 -0.0256053 / 0.3)\",\"color\":\"oklch(0.8717 0.0093 258.338)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false}}"
+    },
+    {
+      "name": "state-fine-1280-dark disabled-max exercise: click on the blocked arrow changes nothing",
+      "ok": true,
+      "detail": "10:00"
+    },
+    {
+      "name": "state-fine-1280-dark disabled-max exercise: Decrease stays enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-fine-1280-dark disabled-max rest: Increase is aria-disabled, not disabled, dimmed",
+      "ok": true,
+      "detail": "{\"background\":\"oklab(0.4461 -0.00600482 -0.0256053 / 0.3)\",\"color\":\"oklch(0.8717 0.0093 258.338)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false}"
+    },
+    {
+      "name": "state-fine-1280-dark disabled-max rest: Increase keeps color, background and not-allowed on hover",
+      "ok": true,
+      "detail": "{\"before\":{\"background\":\"oklab(0.4461 -0.00600482 -0.0256053 / 0.3)\",\"color\":\"oklch(0.8717 0.0093 258.338)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false},\"after\":{\"background\":\"oklab(0.4461 -0.00600482 -0.0256053 / 0.3)\",\"color\":\"oklch(0.8717 0.0093 258.338)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false}}"
+    },
+    {
+      "name": "state-fine-1280-dark disabled-max rest: click on the blocked arrow changes nothing",
+      "ok": true,
+      "detail": "10:00"
+    },
+    {
+      "name": "state-fine-1280-dark disabled-max rest: Decrease stays enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-fine-1280-dark disabled-max repetitions: Increase is aria-disabled, not disabled, dimmed",
+      "ok": true,
+      "detail": "{\"background\":\"oklab(0.4461 -0.00600482 -0.0256053 / 0.3)\",\"color\":\"oklch(0.8717 0.0093 258.338)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false}"
+    },
+    {
+      "name": "state-fine-1280-dark disabled-max repetitions: Increase keeps color, background and not-allowed on hover",
+      "ok": true,
+      "detail": "{\"before\":{\"background\":\"oklab(0.4461 -0.00600482 -0.0256053 / 0.3)\",\"color\":\"oklch(0.8717 0.0093 258.338)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false},\"after\":{\"background\":\"oklab(0.4461 -0.00600482 -0.0256053 / 0.3)\",\"color\":\"oklch(0.8717 0.0093 258.338)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false}}"
+    },
+    {
+      "name": "state-fine-1280-dark disabled-max repetitions: click on the blocked arrow changes nothing",
+      "ok": true,
+      "detail": "100"
+    },
+    {
+      "name": "state-fine-1280-dark disabled-max repetitions: Decrease stays enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-fine-1280-dark error: four validation alerts",
+      "ok": true,
+      "detail": "4"
+    },
+    {
+      "name": "state-fine-1280-dark error: inputs are aria-invalid",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-fine-1280-dark error: Start did not run",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-fine-1280-dark error: no arrow is aria-disabled for an invalid value",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-fine-1280-dark error preparation: first press gives the minimum",
+      "ok": true,
+      "detail": "0:00"
+    },
+    {
+      "name": "state-fine-1280-dark error exercise: first press gives the minimum",
+      "ok": true,
+      "detail": "0:01"
+    },
+    {
+      "name": "state-fine-1280-dark error rest: first press gives the minimum",
+      "ok": true,
+      "detail": "0:00"
+    },
+    {
+      "name": "state-fine-1280-dark error repetitions: first press gives the minimum",
+      "ok": true,
+      "detail": "1"
+    },
+    {
+      "name": "state-fine-1280-dark error: the alerts clear once the values are valid",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-fine-1280-dark empty: N/A (an emptied field is the error state)",
+      "ok": true,
+      "detail": "justified in plan: formularz zawsze ma wartości"
+    },
+    {
+      "name": "state-fine-1280-dark loading: submit is disabled and busy",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-fine-1280-dark loading: the arrows still step",
+      "ok": true,
+      "detail": "0:05"
+    },
+    {
+      "name": "state-fine-390-light: any-pointer matches the setup",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-fine-390-light default: the four field rows are 44 px",
+      "ok": true,
+      "detail": "[44,44,44,44]"
+    },
+    {
+      "name": "state-fine-390-light default: card has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-fine-390-light default: arrow order and size follow the pointer",
+      "ok": true,
+      "detail": "{\"u\":{\"x\":265,\"y\":320,\"width\":32,\"height\":22},\"d\":{\"x\":265,\"y\":342,\"width\":32,\"height\":22}}"
+    },
+    {
+      "name": "state-fine-390-light disabled-min: the four field rows are 44 px",
+      "ok": true,
+      "detail": "[44,44,44,44]"
+    },
+    {
+      "name": "state-fine-390-light disabled-min: card has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-fine-390-light disabled-min: arrow order and size follow the pointer",
+      "ok": true,
+      "detail": "{\"u\":{\"x\":265,\"y\":330,\"width\":32,\"height\":22},\"d\":{\"x\":265,\"y\":352,\"width\":32,\"height\":22}}"
+    },
+    {
+      "name": "state-fine-390-light disabled-max: the four field rows are 44 px",
+      "ok": true,
+      "detail": "[44,44,44,44]"
+    },
+    {
+      "name": "state-fine-390-light disabled-max: card has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-fine-390-light disabled-max: arrow order and size follow the pointer",
+      "ok": true,
+      "detail": "{\"u\":{\"x\":265,\"y\":330,\"width\":32,\"height\":22},\"d\":{\"x\":265,\"y\":352,\"width\":32,\"height\":22}}"
+    },
+    {
+      "name": "state-fine-390-light error: the four field rows are 44 px",
+      "ok": true,
+      "detail": "[44,44,44,44]"
+    },
+    {
+      "name": "state-fine-390-light error: card has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-fine-390-light error: arrow order and size follow the pointer",
+      "ok": true,
+      "detail": "{\"u\":{\"x\":265,\"y\":340,\"width\":32,\"height\":22},\"d\":{\"x\":265,\"y\":362,\"width\":32,\"height\":22}}"
+    },
+    {
+      "name": "state-fine-390-light loading: the four field rows are 44 px",
+      "ok": true,
+      "detail": "[44,44,44,44]"
+    },
+    {
+      "name": "state-fine-390-light loading: card has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-fine-390-light loading: arrow order and size follow the pointer",
+      "ok": true,
+      "detail": "{\"u\":{\"x\":265,\"y\":330,\"width\":32,\"height\":22},\"d\":{\"x\":265,\"y\":352,\"width\":32,\"height\":22}}"
+    },
+    {
+      "name": "state-fine-390-light default preparation Increase: enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-fine-390-light default preparation Decrease: enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-fine-390-light default exercise Increase: enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-fine-390-light default exercise Decrease: enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-fine-390-light default rest Increase: enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-fine-390-light default rest Decrease: enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-fine-390-light default repetitions Increase: enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-fine-390-light default repetitions Decrease: enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-fine-390-light hover: the enabled arrow changes its background",
+      "ok": true,
+      "detail": "oklch(0.9751 0.0127 244.251) -> oklch(0.9505 0.0507 163.051)"
+    },
+    {
+      "name": "state-fine-390-light focus-visible: the field shows a ring",
+      "ok": true,
+      "detail": "{\"unfocused\":\"rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.05) 0px 4px 8px -1px\",\"focused\":{\"shadow\":\"rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, oklab(0.27 -0.0646748 0.0379759 / 0.5) 0px 0px 0px 2px, rgba(0, 0, 0, 0.05) 0px 4px 8px -1px\",\"visible\":true}}"
+    },
+    {
+      "name": "state-fine-390-light focus-visible: the arrows are not tab stops (N/A for the arrows)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-fine-390-light disabled-min preparation: Decrease is aria-disabled, not disabled, dimmed",
+      "ok": true,
+      "detail": "{\"background\":\"oklch(0.9751 0.0127 244.251)\",\"color\":\"oklch(0.3729 0.0306 259.733)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false}"
+    },
+    {
+      "name": "state-fine-390-light disabled-min preparation: Decrease keeps color, background and not-allowed on hover",
+      "ok": true,
+      "detail": "{\"before\":{\"background\":\"oklch(0.9751 0.0127 244.251)\",\"color\":\"oklch(0.3729 0.0306 259.733)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false},\"after\":{\"background\":\"oklch(0.9751 0.0127 244.251)\",\"color\":\"oklch(0.3729 0.0306 259.733)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false}}"
+    },
+    {
+      "name": "state-fine-390-light disabled-min preparation: click on the blocked arrow changes nothing",
+      "ok": true,
+      "detail": "0:00"
+    },
+    {
+      "name": "state-fine-390-light disabled-min preparation: Increase stays enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-fine-390-light disabled-min exercise: Decrease is aria-disabled, not disabled, dimmed",
+      "ok": true,
+      "detail": "{\"background\":\"oklch(0.9751 0.0127 244.251)\",\"color\":\"oklch(0.3729 0.0306 259.733)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false}"
+    },
+    {
+      "name": "state-fine-390-light disabled-min exercise: Decrease keeps color, background and not-allowed on hover",
+      "ok": true,
+      "detail": "{\"before\":{\"background\":\"oklch(0.9751 0.0127 244.251)\",\"color\":\"oklch(0.3729 0.0306 259.733)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false},\"after\":{\"background\":\"oklch(0.9751 0.0127 244.251)\",\"color\":\"oklch(0.3729 0.0306 259.733)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false}}"
+    },
+    {
+      "name": "state-fine-390-light disabled-min exercise: click on the blocked arrow changes nothing",
+      "ok": true,
+      "detail": "0:01"
+    },
+    {
+      "name": "state-fine-390-light disabled-min exercise: Increase stays enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-fine-390-light disabled-min rest: Decrease is aria-disabled, not disabled, dimmed",
+      "ok": true,
+      "detail": "{\"background\":\"oklch(0.9751 0.0127 244.251)\",\"color\":\"oklch(0.3729 0.0306 259.733)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false}"
+    },
+    {
+      "name": "state-fine-390-light disabled-min rest: Decrease keeps color, background and not-allowed on hover",
+      "ok": true,
+      "detail": "{\"before\":{\"background\":\"oklch(0.9751 0.0127 244.251)\",\"color\":\"oklch(0.3729 0.0306 259.733)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false},\"after\":{\"background\":\"oklch(0.9751 0.0127 244.251)\",\"color\":\"oklch(0.3729 0.0306 259.733)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false}}"
+    },
+    {
+      "name": "state-fine-390-light disabled-min rest: click on the blocked arrow changes nothing",
+      "ok": true,
+      "detail": "0:00"
+    },
+    {
+      "name": "state-fine-390-light disabled-min rest: Increase stays enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-fine-390-light disabled-min repetitions: Decrease is aria-disabled, not disabled, dimmed",
+      "ok": true,
+      "detail": "{\"background\":\"oklch(0.9751 0.0127 244.251)\",\"color\":\"oklch(0.3729 0.0306 259.733)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false}"
+    },
+    {
+      "name": "state-fine-390-light disabled-min repetitions: Decrease keeps color, background and not-allowed on hover",
+      "ok": true,
+      "detail": "{\"before\":{\"background\":\"oklch(0.9751 0.0127 244.251)\",\"color\":\"oklch(0.3729 0.0306 259.733)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false},\"after\":{\"background\":\"oklch(0.9751 0.0127 244.251)\",\"color\":\"oklch(0.3729 0.0306 259.733)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false}}"
+    },
+    {
+      "name": "state-fine-390-light disabled-min repetitions: click on the blocked arrow changes nothing",
+      "ok": true,
+      "detail": "1"
+    },
+    {
+      "name": "state-fine-390-light disabled-min repetitions: Increase stays enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-fine-390-light disabled-max preparation: Increase is aria-disabled, not disabled, dimmed",
+      "ok": true,
+      "detail": "{\"background\":\"oklch(0.9751 0.0127 244.251)\",\"color\":\"oklch(0.3729 0.0306 259.733)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false}"
+    },
+    {
+      "name": "state-fine-390-light disabled-max preparation: Increase keeps color, background and not-allowed on hover",
+      "ok": true,
+      "detail": "{\"before\":{\"background\":\"oklch(0.9751 0.0127 244.251)\",\"color\":\"oklch(0.3729 0.0306 259.733)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false},\"after\":{\"background\":\"oklch(0.9751 0.0127 244.251)\",\"color\":\"oklch(0.3729 0.0306 259.733)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false}}"
+    },
+    {
+      "name": "state-fine-390-light disabled-max preparation: click on the blocked arrow changes nothing",
+      "ok": true,
+      "detail": "10:00"
+    },
+    {
+      "name": "state-fine-390-light disabled-max preparation: Decrease stays enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-fine-390-light disabled-max exercise: Increase is aria-disabled, not disabled, dimmed",
+      "ok": true,
+      "detail": "{\"background\":\"oklch(0.9751 0.0127 244.251)\",\"color\":\"oklch(0.3729 0.0306 259.733)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false}"
+    },
+    {
+      "name": "state-fine-390-light disabled-max exercise: Increase keeps color, background and not-allowed on hover",
+      "ok": true,
+      "detail": "{\"before\":{\"background\":\"oklch(0.9751 0.0127 244.251)\",\"color\":\"oklch(0.3729 0.0306 259.733)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false},\"after\":{\"background\":\"oklch(0.9751 0.0127 244.251)\",\"color\":\"oklch(0.3729 0.0306 259.733)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false}}"
+    },
+    {
+      "name": "state-fine-390-light disabled-max exercise: click on the blocked arrow changes nothing",
+      "ok": true,
+      "detail": "10:00"
+    },
+    {
+      "name": "state-fine-390-light disabled-max exercise: Decrease stays enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-fine-390-light disabled-max rest: Increase is aria-disabled, not disabled, dimmed",
+      "ok": true,
+      "detail": "{\"background\":\"oklch(0.9751 0.0127 244.251)\",\"color\":\"oklch(0.3729 0.0306 259.733)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false}"
+    },
+    {
+      "name": "state-fine-390-light disabled-max rest: Increase keeps color, background and not-allowed on hover",
+      "ok": true,
+      "detail": "{\"before\":{\"background\":\"oklch(0.9751 0.0127 244.251)\",\"color\":\"oklch(0.3729 0.0306 259.733)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false},\"after\":{\"background\":\"oklch(0.9751 0.0127 244.251)\",\"color\":\"oklch(0.3729 0.0306 259.733)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false}}"
+    },
+    {
+      "name": "state-fine-390-light disabled-max rest: click on the blocked arrow changes nothing",
+      "ok": true,
+      "detail": "10:00"
+    },
+    {
+      "name": "state-fine-390-light disabled-max rest: Decrease stays enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-fine-390-light disabled-max repetitions: Increase is aria-disabled, not disabled, dimmed",
+      "ok": true,
+      "detail": "{\"background\":\"oklch(0.9751 0.0127 244.251)\",\"color\":\"oklch(0.3729 0.0306 259.733)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false}"
+    },
+    {
+      "name": "state-fine-390-light disabled-max repetitions: Increase keeps color, background and not-allowed on hover",
+      "ok": true,
+      "detail": "{\"before\":{\"background\":\"oklch(0.9751 0.0127 244.251)\",\"color\":\"oklch(0.3729 0.0306 259.733)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false},\"after\":{\"background\":\"oklch(0.9751 0.0127 244.251)\",\"color\":\"oklch(0.3729 0.0306 259.733)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false}}"
+    },
+    {
+      "name": "state-fine-390-light disabled-max repetitions: click on the blocked arrow changes nothing",
+      "ok": true,
+      "detail": "100"
+    },
+    {
+      "name": "state-fine-390-light disabled-max repetitions: Decrease stays enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-fine-390-light error: four validation alerts",
+      "ok": true,
+      "detail": "4"
+    },
+    {
+      "name": "state-fine-390-light error: inputs are aria-invalid",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-fine-390-light error: Start did not run",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-fine-390-light error: no arrow is aria-disabled for an invalid value",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-fine-390-light error preparation: first press gives the minimum",
+      "ok": true,
+      "detail": "0:00"
+    },
+    {
+      "name": "state-fine-390-light error exercise: first press gives the minimum",
+      "ok": true,
+      "detail": "0:01"
+    },
+    {
+      "name": "state-fine-390-light error rest: first press gives the minimum",
+      "ok": true,
+      "detail": "0:00"
+    },
+    {
+      "name": "state-fine-390-light error repetitions: first press gives the minimum",
+      "ok": true,
+      "detail": "1"
+    },
+    {
+      "name": "state-fine-390-light error: the alerts clear once the values are valid",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-fine-390-light empty: N/A (an emptied field is the error state)",
+      "ok": true,
+      "detail": "justified in plan: formularz zawsze ma wartości"
+    },
+    {
+      "name": "state-fine-390-light loading: submit is disabled and busy",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-fine-390-light loading: the arrows still step",
+      "ok": true,
+      "detail": "0:05"
+    },
+    {
+      "name": "state-fine-390-dark: any-pointer matches the setup",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-fine-390-dark default: the four field rows are 44 px",
+      "ok": true,
+      "detail": "[44,44,44,44]"
+    },
+    {
+      "name": "state-fine-390-dark default: card has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-fine-390-dark default: arrow order and size follow the pointer",
+      "ok": true,
+      "detail": "{\"u\":{\"x\":265,\"y\":320,\"width\":32,\"height\":22},\"d\":{\"x\":265,\"y\":342,\"width\":32,\"height\":22}}"
+    },
+    {
+      "name": "state-fine-390-dark disabled-min: the four field rows are 44 px",
+      "ok": true,
+      "detail": "[44,44,44,44]"
+    },
+    {
+      "name": "state-fine-390-dark disabled-min: card has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-fine-390-dark disabled-min: arrow order and size follow the pointer",
+      "ok": true,
+      "detail": "{\"u\":{\"x\":265,\"y\":330,\"width\":32,\"height\":22},\"d\":{\"x\":265,\"y\":352,\"width\":32,\"height\":22}}"
+    },
+    {
+      "name": "state-fine-390-dark disabled-max: the four field rows are 44 px",
+      "ok": true,
+      "detail": "[44,44,44,44]"
+    },
+    {
+      "name": "state-fine-390-dark disabled-max: card has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-fine-390-dark disabled-max: arrow order and size follow the pointer",
+      "ok": true,
+      "detail": "{\"u\":{\"x\":265,\"y\":330,\"width\":32,\"height\":22},\"d\":{\"x\":265,\"y\":352,\"width\":32,\"height\":22}}"
+    },
+    {
+      "name": "state-fine-390-dark error: the four field rows are 44 px",
+      "ok": true,
+      "detail": "[44,44,44,44]"
+    },
+    {
+      "name": "state-fine-390-dark error: card has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-fine-390-dark error: arrow order and size follow the pointer",
+      "ok": true,
+      "detail": "{\"u\":{\"x\":265,\"y\":340,\"width\":32,\"height\":22},\"d\":{\"x\":265,\"y\":362,\"width\":32,\"height\":22}}"
+    },
+    {
+      "name": "state-fine-390-dark loading: the four field rows are 44 px",
+      "ok": true,
+      "detail": "[44,44,44,44]"
+    },
+    {
+      "name": "state-fine-390-dark loading: card has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-fine-390-dark loading: arrow order and size follow the pointer",
+      "ok": true,
+      "detail": "{\"u\":{\"x\":265,\"y\":330,\"width\":32,\"height\":22},\"d\":{\"x\":265,\"y\":352,\"width\":32,\"height\":22}}"
+    },
+    {
+      "name": "state-fine-390-dark default preparation Increase: enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-fine-390-dark default preparation Decrease: enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-fine-390-dark default exercise Increase: enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-fine-390-dark default exercise Decrease: enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-fine-390-dark default rest Increase: enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-fine-390-dark default rest Decrease: enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-fine-390-dark default repetitions Increase: enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-fine-390-dark default repetitions Decrease: enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-fine-390-dark hover: the enabled arrow changes its background",
+      "ok": true,
+      "detail": "oklab(0.4461 -0.00600482 -0.0256053 / 0.3) -> oklab(0.4461 -0.00600482 -0.0256053 / 0.5)"
+    },
+    {
+      "name": "state-fine-390-dark focus-visible: the field shows a ring",
+      "ok": true,
+      "detail": "{\"unfocused\":\"rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.05) 0px 4px 8px -1px\",\"focused\":{\"shadow\":\"rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, oklab(0.7729 -0.146966 0.0443071 / 0.5) 0px 0px 0px 2px, rgba(0, 0, 0, 0.05) 0px 4px 8px -1px\",\"visible\":true}}"
+    },
+    {
+      "name": "state-fine-390-dark focus-visible: the arrows are not tab stops (N/A for the arrows)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-fine-390-dark disabled-min preparation: Decrease is aria-disabled, not disabled, dimmed",
+      "ok": true,
+      "detail": "{\"background\":\"oklab(0.4461 -0.00600482 -0.0256053 / 0.3)\",\"color\":\"oklch(0.8717 0.0093 258.338)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false}"
+    },
+    {
+      "name": "state-fine-390-dark disabled-min preparation: Decrease keeps color, background and not-allowed on hover",
+      "ok": true,
+      "detail": "{\"before\":{\"background\":\"oklab(0.4461 -0.00600482 -0.0256053 / 0.3)\",\"color\":\"oklch(0.8717 0.0093 258.338)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false},\"after\":{\"background\":\"oklab(0.4461 -0.00600482 -0.0256053 / 0.3)\",\"color\":\"oklch(0.8717 0.0093 258.338)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false}}"
+    },
+    {
+      "name": "state-fine-390-dark disabled-min preparation: click on the blocked arrow changes nothing",
+      "ok": true,
+      "detail": "0:00"
+    },
+    {
+      "name": "state-fine-390-dark disabled-min preparation: Increase stays enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-fine-390-dark disabled-min exercise: Decrease is aria-disabled, not disabled, dimmed",
+      "ok": true,
+      "detail": "{\"background\":\"oklab(0.4461 -0.00600482 -0.0256053 / 0.3)\",\"color\":\"oklch(0.8717 0.0093 258.338)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false}"
+    },
+    {
+      "name": "state-fine-390-dark disabled-min exercise: Decrease keeps color, background and not-allowed on hover",
+      "ok": true,
+      "detail": "{\"before\":{\"background\":\"oklab(0.4461 -0.00600482 -0.0256053 / 0.3)\",\"color\":\"oklch(0.8717 0.0093 258.338)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false},\"after\":{\"background\":\"oklab(0.4461 -0.00600482 -0.0256053 / 0.3)\",\"color\":\"oklch(0.8717 0.0093 258.338)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false}}"
+    },
+    {
+      "name": "state-fine-390-dark disabled-min exercise: click on the blocked arrow changes nothing",
+      "ok": true,
+      "detail": "0:01"
+    },
+    {
+      "name": "state-fine-390-dark disabled-min exercise: Increase stays enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-fine-390-dark disabled-min rest: Decrease is aria-disabled, not disabled, dimmed",
+      "ok": true,
+      "detail": "{\"background\":\"oklab(0.4461 -0.00600482 -0.0256053 / 0.3)\",\"color\":\"oklch(0.8717 0.0093 258.338)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false}"
+    },
+    {
+      "name": "state-fine-390-dark disabled-min rest: Decrease keeps color, background and not-allowed on hover",
+      "ok": true,
+      "detail": "{\"before\":{\"background\":\"oklab(0.4461 -0.00600482 -0.0256053 / 0.3)\",\"color\":\"oklch(0.8717 0.0093 258.338)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false},\"after\":{\"background\":\"oklab(0.4461 -0.00600482 -0.0256053 / 0.3)\",\"color\":\"oklch(0.8717 0.0093 258.338)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false}}"
+    },
+    {
+      "name": "state-fine-390-dark disabled-min rest: click on the blocked arrow changes nothing",
+      "ok": true,
+      "detail": "0:00"
+    },
+    {
+      "name": "state-fine-390-dark disabled-min rest: Increase stays enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-fine-390-dark disabled-min repetitions: Decrease is aria-disabled, not disabled, dimmed",
+      "ok": true,
+      "detail": "{\"background\":\"oklab(0.4461 -0.00600482 -0.0256053 / 0.3)\",\"color\":\"oklch(0.8717 0.0093 258.338)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false}"
+    },
+    {
+      "name": "state-fine-390-dark disabled-min repetitions: Decrease keeps color, background and not-allowed on hover",
+      "ok": true,
+      "detail": "{\"before\":{\"background\":\"oklab(0.4461 -0.00600482 -0.0256053 / 0.3)\",\"color\":\"oklch(0.8717 0.0093 258.338)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false},\"after\":{\"background\":\"oklab(0.4461 -0.00600482 -0.0256053 / 0.3)\",\"color\":\"oklch(0.8717 0.0093 258.338)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false}}"
+    },
+    {
+      "name": "state-fine-390-dark disabled-min repetitions: click on the blocked arrow changes nothing",
+      "ok": true,
+      "detail": "1"
+    },
+    {
+      "name": "state-fine-390-dark disabled-min repetitions: Increase stays enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-fine-390-dark disabled-max preparation: Increase is aria-disabled, not disabled, dimmed",
+      "ok": true,
+      "detail": "{\"background\":\"oklab(0.4461 -0.00600482 -0.0256053 / 0.3)\",\"color\":\"oklch(0.8717 0.0093 258.338)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false}"
+    },
+    {
+      "name": "state-fine-390-dark disabled-max preparation: Increase keeps color, background and not-allowed on hover",
+      "ok": true,
+      "detail": "{\"before\":{\"background\":\"oklab(0.4461 -0.00600482 -0.0256053 / 0.3)\",\"color\":\"oklch(0.8717 0.0093 258.338)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false},\"after\":{\"background\":\"oklab(0.4461 -0.00600482 -0.0256053 / 0.3)\",\"color\":\"oklch(0.8717 0.0093 258.338)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false}}"
+    },
+    {
+      "name": "state-fine-390-dark disabled-max preparation: click on the blocked arrow changes nothing",
+      "ok": true,
+      "detail": "10:00"
+    },
+    {
+      "name": "state-fine-390-dark disabled-max preparation: Decrease stays enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-fine-390-dark disabled-max exercise: Increase is aria-disabled, not disabled, dimmed",
+      "ok": true,
+      "detail": "{\"background\":\"oklab(0.4461 -0.00600482 -0.0256053 / 0.3)\",\"color\":\"oklch(0.8717 0.0093 258.338)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false}"
+    },
+    {
+      "name": "state-fine-390-dark disabled-max exercise: Increase keeps color, background and not-allowed on hover",
+      "ok": true,
+      "detail": "{\"before\":{\"background\":\"oklab(0.4461 -0.00600482 -0.0256053 / 0.3)\",\"color\":\"oklch(0.8717 0.0093 258.338)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false},\"after\":{\"background\":\"oklab(0.4461 -0.00600482 -0.0256053 / 0.3)\",\"color\":\"oklch(0.8717 0.0093 258.338)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false}}"
+    },
+    {
+      "name": "state-fine-390-dark disabled-max exercise: click on the blocked arrow changes nothing",
+      "ok": true,
+      "detail": "10:00"
+    },
+    {
+      "name": "state-fine-390-dark disabled-max exercise: Decrease stays enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-fine-390-dark disabled-max rest: Increase is aria-disabled, not disabled, dimmed",
+      "ok": true,
+      "detail": "{\"background\":\"oklab(0.4461 -0.00600482 -0.0256053 / 0.3)\",\"color\":\"oklch(0.8717 0.0093 258.338)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false}"
+    },
+    {
+      "name": "state-fine-390-dark disabled-max rest: Increase keeps color, background and not-allowed on hover",
+      "ok": true,
+      "detail": "{\"before\":{\"background\":\"oklab(0.4461 -0.00600482 -0.0256053 / 0.3)\",\"color\":\"oklch(0.8717 0.0093 258.338)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false},\"after\":{\"background\":\"oklab(0.4461 -0.00600482 -0.0256053 / 0.3)\",\"color\":\"oklch(0.8717 0.0093 258.338)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false}}"
+    },
+    {
+      "name": "state-fine-390-dark disabled-max rest: click on the blocked arrow changes nothing",
+      "ok": true,
+      "detail": "10:00"
+    },
+    {
+      "name": "state-fine-390-dark disabled-max rest: Decrease stays enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-fine-390-dark disabled-max repetitions: Increase is aria-disabled, not disabled, dimmed",
+      "ok": true,
+      "detail": "{\"background\":\"oklab(0.4461 -0.00600482 -0.0256053 / 0.3)\",\"color\":\"oklch(0.8717 0.0093 258.338)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false}"
+    },
+    {
+      "name": "state-fine-390-dark disabled-max repetitions: Increase keeps color, background and not-allowed on hover",
+      "ok": true,
+      "detail": "{\"before\":{\"background\":\"oklab(0.4461 -0.00600482 -0.0256053 / 0.3)\",\"color\":\"oklch(0.8717 0.0093 258.338)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false},\"after\":{\"background\":\"oklab(0.4461 -0.00600482 -0.0256053 / 0.3)\",\"color\":\"oklch(0.8717 0.0093 258.338)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false}}"
+    },
+    {
+      "name": "state-fine-390-dark disabled-max repetitions: click on the blocked arrow changes nothing",
+      "ok": true,
+      "detail": "100"
+    },
+    {
+      "name": "state-fine-390-dark disabled-max repetitions: Decrease stays enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-fine-390-dark error: four validation alerts",
+      "ok": true,
+      "detail": "4"
+    },
+    {
+      "name": "state-fine-390-dark error: inputs are aria-invalid",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-fine-390-dark error: Start did not run",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-fine-390-dark error: no arrow is aria-disabled for an invalid value",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-fine-390-dark error preparation: first press gives the minimum",
+      "ok": true,
+      "detail": "0:00"
+    },
+    {
+      "name": "state-fine-390-dark error exercise: first press gives the minimum",
+      "ok": true,
+      "detail": "0:01"
+    },
+    {
+      "name": "state-fine-390-dark error rest: first press gives the minimum",
+      "ok": true,
+      "detail": "0:00"
+    },
+    {
+      "name": "state-fine-390-dark error repetitions: first press gives the minimum",
+      "ok": true,
+      "detail": "1"
+    },
+    {
+      "name": "state-fine-390-dark error: the alerts clear once the values are valid",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-fine-390-dark empty: N/A (an emptied field is the error state)",
+      "ok": true,
+      "detail": "justified in plan: formularz zawsze ma wartości"
+    },
+    {
+      "name": "state-fine-390-dark loading: submit is disabled and busy",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-fine-390-dark loading: the arrows still step",
+      "ok": true,
+      "detail": "0:05"
+    },
+    {
+      "name": "state-coarse-1280-light: any-pointer matches the setup",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-coarse-1280-light default: the four field rows are 44 px",
+      "ok": true,
+      "detail": "[44,44,44,44]"
+    },
+    {
+      "name": "state-coarse-1280-light default: card has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-coarse-1280-light default: arrow order and size follow the pointer",
+      "ok": true,
+      "detail": "{\"u\":{\"x\":316.328125,\"y\":338,\"width\":44,\"height\":44},\"d\":{\"x\":264.328125,\"y\":338,\"width\":44,\"height\":44}}"
+    },
+    {
+      "name": "state-coarse-1280-light disabled-min: the four field rows are 44 px",
+      "ok": true,
+      "detail": "[44,44,44,44]"
+    },
+    {
+      "name": "state-coarse-1280-light disabled-min: card has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-coarse-1280-light disabled-min: arrow order and size follow the pointer",
+      "ok": true,
+      "detail": "{\"u\":{\"x\":697.65625,\"y\":358,\"width\":44,\"height\":44},\"d\":{\"x\":645.65625,\"y\":358,\"width\":44,\"height\":44}}"
+    },
+    {
+      "name": "state-coarse-1280-light disabled-max: the four field rows are 44 px",
+      "ok": true,
+      "detail": "[44,44,44,44]"
+    },
+    {
+      "name": "state-coarse-1280-light disabled-max: card has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-coarse-1280-light disabled-max: arrow order and size follow the pointer",
+      "ok": true,
+      "detail": "{\"u\":{\"x\":1079,\"y\":358,\"width\":44,\"height\":44},\"d\":{\"x\":1027,\"y\":358,\"width\":44,\"height\":44}}"
+    },
+    {
+      "name": "state-coarse-1280-light error: the four field rows are 44 px",
+      "ok": true,
+      "detail": "[44,44,44,44]"
+    },
+    {
+      "name": "state-coarse-1280-light error: card has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-coarse-1280-light error: arrow order and size follow the pointer",
+      "ok": true,
+      "detail": "{\"u\":{\"x\":316.328125,\"y\":395,\"width\":44,\"height\":44},\"d\":{\"x\":264.328125,\"y\":395,\"width\":44,\"height\":44}}"
+    },
+    {
+      "name": "state-coarse-1280-light loading: the four field rows are 44 px",
+      "ok": true,
+      "detail": "[44,44,44,44]"
+    },
+    {
+      "name": "state-coarse-1280-light loading: card has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-coarse-1280-light loading: arrow order and size follow the pointer",
+      "ok": true,
+      "detail": "{\"u\":{\"x\":697.65625,\"y\":375,\"width\":44,\"height\":44},\"d\":{\"x\":645.65625,\"y\":375,\"width\":44,\"height\":44}}"
+    },
+    {
+      "name": "state-coarse-1280-light default preparation Increase: enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-coarse-1280-light default preparation Decrease: enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-coarse-1280-light default exercise Increase: enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-coarse-1280-light default exercise Decrease: enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-coarse-1280-light default rest Increase: enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-coarse-1280-light default rest Decrease: enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-coarse-1280-light default repetitions Increase: enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-coarse-1280-light default repetitions Decrease: enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-coarse-1280-light hover: N/A without (hover: hover), nothing sticks",
+      "ok": true,
+      "detail": "oklch(0.9751 0.0127 244.251) -> oklch(0.9751 0.0127 244.251)"
+    },
+    {
+      "name": "state-coarse-1280-light focus-visible: the field shows a ring",
+      "ok": true,
+      "detail": "{\"unfocused\":\"rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.05) 0px 4px 8px -1px\",\"focused\":{\"shadow\":\"rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, oklab(0.27 -0.0646748 0.0379759 / 0.5) 0px 0px 0px 2px, rgba(0, 0, 0, 0.05) 0px 4px 8px -1px\",\"visible\":true}}"
+    },
+    {
+      "name": "state-coarse-1280-light focus-visible: the arrows are not tab stops (N/A for the arrows)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-coarse-1280-light disabled-min preparation: Decrease is aria-disabled, not disabled, dimmed",
+      "ok": true,
+      "detail": "{\"background\":\"oklch(0.9751 0.0127 244.251)\",\"color\":\"oklch(0.3729 0.0306 259.733)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false}"
+    },
+    {
+      "name": "state-coarse-1280-light disabled-min preparation: Decrease keeps color, background and not-allowed on hover",
+      "ok": true,
+      "detail": "{\"before\":{\"background\":\"oklch(0.9751 0.0127 244.251)\",\"color\":\"oklch(0.3729 0.0306 259.733)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false},\"after\":{\"background\":\"oklch(0.9751 0.0127 244.251)\",\"color\":\"oklch(0.3729 0.0306 259.733)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false}}"
+    },
+    {
+      "name": "state-coarse-1280-light disabled-min preparation: click on the blocked arrow changes nothing",
+      "ok": true,
+      "detail": "0:00"
+    },
+    {
+      "name": "state-coarse-1280-light disabled-min preparation: Increase stays enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-coarse-1280-light disabled-min exercise: Decrease is aria-disabled, not disabled, dimmed",
+      "ok": true,
+      "detail": "{\"background\":\"oklch(0.9751 0.0127 244.251)\",\"color\":\"oklch(0.3729 0.0306 259.733)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false}"
+    },
+    {
+      "name": "state-coarse-1280-light disabled-min exercise: Decrease keeps color, background and not-allowed on hover",
+      "ok": true,
+      "detail": "{\"before\":{\"background\":\"oklch(0.9751 0.0127 244.251)\",\"color\":\"oklch(0.3729 0.0306 259.733)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false},\"after\":{\"background\":\"oklch(0.9751 0.0127 244.251)\",\"color\":\"oklch(0.3729 0.0306 259.733)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false}}"
+    },
+    {
+      "name": "state-coarse-1280-light disabled-min exercise: click on the blocked arrow changes nothing",
+      "ok": true,
+      "detail": "0:01"
+    },
+    {
+      "name": "state-coarse-1280-light disabled-min exercise: Increase stays enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-coarse-1280-light disabled-min rest: Decrease is aria-disabled, not disabled, dimmed",
+      "ok": true,
+      "detail": "{\"background\":\"oklch(0.9751 0.0127 244.251)\",\"color\":\"oklch(0.3729 0.0306 259.733)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false}"
+    },
+    {
+      "name": "state-coarse-1280-light disabled-min rest: Decrease keeps color, background and not-allowed on hover",
+      "ok": true,
+      "detail": "{\"before\":{\"background\":\"oklch(0.9751 0.0127 244.251)\",\"color\":\"oklch(0.3729 0.0306 259.733)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false},\"after\":{\"background\":\"oklch(0.9751 0.0127 244.251)\",\"color\":\"oklch(0.3729 0.0306 259.733)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false}}"
+    },
+    {
+      "name": "state-coarse-1280-light disabled-min rest: click on the blocked arrow changes nothing",
+      "ok": true,
+      "detail": "0:00"
+    },
+    {
+      "name": "state-coarse-1280-light disabled-min rest: Increase stays enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-coarse-1280-light disabled-min repetitions: Decrease is aria-disabled, not disabled, dimmed",
+      "ok": true,
+      "detail": "{\"background\":\"oklch(0.9751 0.0127 244.251)\",\"color\":\"oklch(0.3729 0.0306 259.733)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false}"
+    },
+    {
+      "name": "state-coarse-1280-light disabled-min repetitions: Decrease keeps color, background and not-allowed on hover",
+      "ok": true,
+      "detail": "{\"before\":{\"background\":\"oklch(0.9751 0.0127 244.251)\",\"color\":\"oklch(0.3729 0.0306 259.733)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false},\"after\":{\"background\":\"oklch(0.9751 0.0127 244.251)\",\"color\":\"oklch(0.3729 0.0306 259.733)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false}}"
+    },
+    {
+      "name": "state-coarse-1280-light disabled-min repetitions: click on the blocked arrow changes nothing",
+      "ok": true,
+      "detail": "1"
+    },
+    {
+      "name": "state-coarse-1280-light disabled-min repetitions: Increase stays enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-coarse-1280-light disabled-max preparation: Increase is aria-disabled, not disabled, dimmed",
+      "ok": true,
+      "detail": "{\"background\":\"oklch(0.9751 0.0127 244.251)\",\"color\":\"oklch(0.3729 0.0306 259.733)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false}"
+    },
+    {
+      "name": "state-coarse-1280-light disabled-max preparation: Increase keeps color, background and not-allowed on hover",
+      "ok": true,
+      "detail": "{\"before\":{\"background\":\"oklch(0.9751 0.0127 244.251)\",\"color\":\"oklch(0.3729 0.0306 259.733)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false},\"after\":{\"background\":\"oklch(0.9751 0.0127 244.251)\",\"color\":\"oklch(0.3729 0.0306 259.733)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false}}"
+    },
+    {
+      "name": "state-coarse-1280-light disabled-max preparation: click on the blocked arrow changes nothing",
+      "ok": true,
+      "detail": "10:00"
+    },
+    {
+      "name": "state-coarse-1280-light disabled-max preparation: Decrease stays enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-coarse-1280-light disabled-max exercise: Increase is aria-disabled, not disabled, dimmed",
+      "ok": true,
+      "detail": "{\"background\":\"oklch(0.9751 0.0127 244.251)\",\"color\":\"oklch(0.3729 0.0306 259.733)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false}"
+    },
+    {
+      "name": "state-coarse-1280-light disabled-max exercise: Increase keeps color, background and not-allowed on hover",
+      "ok": true,
+      "detail": "{\"before\":{\"background\":\"oklch(0.9751 0.0127 244.251)\",\"color\":\"oklch(0.3729 0.0306 259.733)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false},\"after\":{\"background\":\"oklch(0.9751 0.0127 244.251)\",\"color\":\"oklch(0.3729 0.0306 259.733)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false}}"
+    },
+    {
+      "name": "state-coarse-1280-light disabled-max exercise: click on the blocked arrow changes nothing",
+      "ok": true,
+      "detail": "10:00"
+    },
+    {
+      "name": "state-coarse-1280-light disabled-max exercise: Decrease stays enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-coarse-1280-light disabled-max rest: Increase is aria-disabled, not disabled, dimmed",
+      "ok": true,
+      "detail": "{\"background\":\"oklch(0.9751 0.0127 244.251)\",\"color\":\"oklch(0.3729 0.0306 259.733)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false}"
+    },
+    {
+      "name": "state-coarse-1280-light disabled-max rest: Increase keeps color, background and not-allowed on hover",
+      "ok": true,
+      "detail": "{\"before\":{\"background\":\"oklch(0.9751 0.0127 244.251)\",\"color\":\"oklch(0.3729 0.0306 259.733)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false},\"after\":{\"background\":\"oklch(0.9751 0.0127 244.251)\",\"color\":\"oklch(0.3729 0.0306 259.733)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false}}"
+    },
+    {
+      "name": "state-coarse-1280-light disabled-max rest: click on the blocked arrow changes nothing",
+      "ok": true,
+      "detail": "10:00"
+    },
+    {
+      "name": "state-coarse-1280-light disabled-max rest: Decrease stays enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-coarse-1280-light disabled-max repetitions: Increase is aria-disabled, not disabled, dimmed",
+      "ok": true,
+      "detail": "{\"background\":\"oklch(0.9751 0.0127 244.251)\",\"color\":\"oklch(0.3729 0.0306 259.733)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false}"
+    },
+    {
+      "name": "state-coarse-1280-light disabled-max repetitions: Increase keeps color, background and not-allowed on hover",
+      "ok": true,
+      "detail": "{\"before\":{\"background\":\"oklch(0.9751 0.0127 244.251)\",\"color\":\"oklch(0.3729 0.0306 259.733)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false},\"after\":{\"background\":\"oklch(0.9751 0.0127 244.251)\",\"color\":\"oklch(0.3729 0.0306 259.733)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false}}"
+    },
+    {
+      "name": "state-coarse-1280-light disabled-max repetitions: click on the blocked arrow changes nothing",
+      "ok": true,
+      "detail": "100"
+    },
+    {
+      "name": "state-coarse-1280-light disabled-max repetitions: Decrease stays enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-coarse-1280-light error: four validation alerts",
+      "ok": true,
+      "detail": "4"
+    },
+    {
+      "name": "state-coarse-1280-light error: inputs are aria-invalid",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-coarse-1280-light error: Start did not run",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-coarse-1280-light error: no arrow is aria-disabled for an invalid value",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-coarse-1280-light error preparation: first press gives the minimum",
+      "ok": true,
+      "detail": "0:00"
+    },
+    {
+      "name": "state-coarse-1280-light error exercise: first press gives the minimum",
+      "ok": true,
+      "detail": "0:01"
+    },
+    {
+      "name": "state-coarse-1280-light error rest: first press gives the minimum",
+      "ok": true,
+      "detail": "0:00"
+    },
+    {
+      "name": "state-coarse-1280-light error repetitions: first press gives the minimum",
+      "ok": true,
+      "detail": "1"
+    },
+    {
+      "name": "state-coarse-1280-light error: the alerts clear once the values are valid",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-coarse-1280-light empty: N/A (an emptied field is the error state)",
+      "ok": true,
+      "detail": "justified in plan: formularz zawsze ma wartości"
+    },
+    {
+      "name": "state-coarse-1280-light loading: submit is disabled and busy",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-coarse-1280-light loading: the arrows still step",
+      "ok": true,
+      "detail": "0:05"
+    },
+    {
+      "name": "state-coarse-1280-dark: any-pointer matches the setup",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-coarse-1280-dark default: the four field rows are 44 px",
+      "ok": true,
+      "detail": "[44,44,44,44]"
+    },
+    {
+      "name": "state-coarse-1280-dark default: card has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-coarse-1280-dark default: arrow order and size follow the pointer",
+      "ok": true,
+      "detail": "{\"u\":{\"x\":316.328125,\"y\":338,\"width\":44,\"height\":44},\"d\":{\"x\":264.328125,\"y\":338,\"width\":44,\"height\":44}}"
+    },
+    {
+      "name": "state-coarse-1280-dark disabled-min: the four field rows are 44 px",
+      "ok": true,
+      "detail": "[44,44,44,44]"
+    },
+    {
+      "name": "state-coarse-1280-dark disabled-min: card has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-coarse-1280-dark disabled-min: arrow order and size follow the pointer",
+      "ok": true,
+      "detail": "{\"u\":{\"x\":697.65625,\"y\":358,\"width\":44,\"height\":44},\"d\":{\"x\":645.65625,\"y\":358,\"width\":44,\"height\":44}}"
+    },
+    {
+      "name": "state-coarse-1280-dark disabled-max: the four field rows are 44 px",
+      "ok": true,
+      "detail": "[44,44,44,44]"
+    },
+    {
+      "name": "state-coarse-1280-dark disabled-max: card has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-coarse-1280-dark disabled-max: arrow order and size follow the pointer",
+      "ok": true,
+      "detail": "{\"u\":{\"x\":1079,\"y\":358,\"width\":44,\"height\":44},\"d\":{\"x\":1027,\"y\":358,\"width\":44,\"height\":44}}"
+    },
+    {
+      "name": "state-coarse-1280-dark error: the four field rows are 44 px",
+      "ok": true,
+      "detail": "[44,44,44,44]"
+    },
+    {
+      "name": "state-coarse-1280-dark error: card has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-coarse-1280-dark error: arrow order and size follow the pointer",
+      "ok": true,
+      "detail": "{\"u\":{\"x\":316.328125,\"y\":395,\"width\":44,\"height\":44},\"d\":{\"x\":264.328125,\"y\":395,\"width\":44,\"height\":44}}"
+    },
+    {
+      "name": "state-coarse-1280-dark loading: the four field rows are 44 px",
+      "ok": true,
+      "detail": "[44,44,44,44]"
+    },
+    {
+      "name": "state-coarse-1280-dark loading: card has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-coarse-1280-dark loading: arrow order and size follow the pointer",
+      "ok": true,
+      "detail": "{\"u\":{\"x\":697.65625,\"y\":375,\"width\":44,\"height\":44},\"d\":{\"x\":645.65625,\"y\":375,\"width\":44,\"height\":44}}"
+    },
+    {
+      "name": "state-coarse-1280-dark default preparation Increase: enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-coarse-1280-dark default preparation Decrease: enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-coarse-1280-dark default exercise Increase: enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-coarse-1280-dark default exercise Decrease: enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-coarse-1280-dark default rest Increase: enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-coarse-1280-dark default rest Decrease: enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-coarse-1280-dark default repetitions Increase: enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-coarse-1280-dark default repetitions Decrease: enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-coarse-1280-dark hover: N/A without (hover: hover), nothing sticks",
+      "ok": true,
+      "detail": "oklab(0.4461 -0.00600482 -0.0256053 / 0.3) -> oklab(0.4461 -0.00600482 -0.0256053 / 0.3)"
+    },
+    {
+      "name": "state-coarse-1280-dark focus-visible: the field shows a ring",
+      "ok": true,
+      "detail": "{\"unfocused\":\"rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.05) 0px 4px 8px -1px\",\"focused\":{\"shadow\":\"rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, oklab(0.7729 -0.146966 0.0443071 / 0.5) 0px 0px 0px 2px, rgba(0, 0, 0, 0.05) 0px 4px 8px -1px\",\"visible\":true}}"
+    },
+    {
+      "name": "state-coarse-1280-dark focus-visible: the arrows are not tab stops (N/A for the arrows)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-coarse-1280-dark disabled-min preparation: Decrease is aria-disabled, not disabled, dimmed",
+      "ok": true,
+      "detail": "{\"background\":\"oklab(0.4461 -0.00600482 -0.0256053 / 0.3)\",\"color\":\"oklch(0.8717 0.0093 258.338)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false}"
+    },
+    {
+      "name": "state-coarse-1280-dark disabled-min preparation: Decrease keeps color, background and not-allowed on hover",
+      "ok": true,
+      "detail": "{\"before\":{\"background\":\"oklab(0.4461 -0.00600482 -0.0256053 / 0.3)\",\"color\":\"oklch(0.8717 0.0093 258.338)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false},\"after\":{\"background\":\"oklab(0.4461 -0.00600482 -0.0256053 / 0.3)\",\"color\":\"oklch(0.8717 0.0093 258.338)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false}}"
+    },
+    {
+      "name": "state-coarse-1280-dark disabled-min preparation: click on the blocked arrow changes nothing",
+      "ok": true,
+      "detail": "0:00"
+    },
+    {
+      "name": "state-coarse-1280-dark disabled-min preparation: Increase stays enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-coarse-1280-dark disabled-min exercise: Decrease is aria-disabled, not disabled, dimmed",
+      "ok": true,
+      "detail": "{\"background\":\"oklab(0.4461 -0.00600482 -0.0256053 / 0.3)\",\"color\":\"oklch(0.8717 0.0093 258.338)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false}"
+    },
+    {
+      "name": "state-coarse-1280-dark disabled-min exercise: Decrease keeps color, background and not-allowed on hover",
+      "ok": true,
+      "detail": "{\"before\":{\"background\":\"oklab(0.4461 -0.00600482 -0.0256053 / 0.3)\",\"color\":\"oklch(0.8717 0.0093 258.338)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false},\"after\":{\"background\":\"oklab(0.4461 -0.00600482 -0.0256053 / 0.3)\",\"color\":\"oklch(0.8717 0.0093 258.338)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false}}"
+    },
+    {
+      "name": "state-coarse-1280-dark disabled-min exercise: click on the blocked arrow changes nothing",
+      "ok": true,
+      "detail": "0:01"
+    },
+    {
+      "name": "state-coarse-1280-dark disabled-min exercise: Increase stays enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-coarse-1280-dark disabled-min rest: Decrease is aria-disabled, not disabled, dimmed",
+      "ok": true,
+      "detail": "{\"background\":\"oklab(0.4461 -0.00600482 -0.0256053 / 0.3)\",\"color\":\"oklch(0.8717 0.0093 258.338)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false}"
+    },
+    {
+      "name": "state-coarse-1280-dark disabled-min rest: Decrease keeps color, background and not-allowed on hover",
+      "ok": true,
+      "detail": "{\"before\":{\"background\":\"oklab(0.4461 -0.00600482 -0.0256053 / 0.3)\",\"color\":\"oklch(0.8717 0.0093 258.338)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false},\"after\":{\"background\":\"oklab(0.4461 -0.00600482 -0.0256053 / 0.3)\",\"color\":\"oklch(0.8717 0.0093 258.338)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false}}"
+    },
+    {
+      "name": "state-coarse-1280-dark disabled-min rest: click on the blocked arrow changes nothing",
+      "ok": true,
+      "detail": "0:00"
+    },
+    {
+      "name": "state-coarse-1280-dark disabled-min rest: Increase stays enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-coarse-1280-dark disabled-min repetitions: Decrease is aria-disabled, not disabled, dimmed",
+      "ok": true,
+      "detail": "{\"background\":\"oklab(0.4461 -0.00600482 -0.0256053 / 0.3)\",\"color\":\"oklch(0.8717 0.0093 258.338)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false}"
+    },
+    {
+      "name": "state-coarse-1280-dark disabled-min repetitions: Decrease keeps color, background and not-allowed on hover",
+      "ok": true,
+      "detail": "{\"before\":{\"background\":\"oklab(0.4461 -0.00600482 -0.0256053 / 0.3)\",\"color\":\"oklch(0.8717 0.0093 258.338)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false},\"after\":{\"background\":\"oklab(0.4461 -0.00600482 -0.0256053 / 0.3)\",\"color\":\"oklch(0.8717 0.0093 258.338)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false}}"
+    },
+    {
+      "name": "state-coarse-1280-dark disabled-min repetitions: click on the blocked arrow changes nothing",
+      "ok": true,
+      "detail": "1"
+    },
+    {
+      "name": "state-coarse-1280-dark disabled-min repetitions: Increase stays enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-coarse-1280-dark disabled-max preparation: Increase is aria-disabled, not disabled, dimmed",
+      "ok": true,
+      "detail": "{\"background\":\"oklab(0.4461 -0.00600482 -0.0256053 / 0.3)\",\"color\":\"oklch(0.8717 0.0093 258.338)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false}"
+    },
+    {
+      "name": "state-coarse-1280-dark disabled-max preparation: Increase keeps color, background and not-allowed on hover",
+      "ok": true,
+      "detail": "{\"before\":{\"background\":\"oklab(0.4461 -0.00600482 -0.0256053 / 0.3)\",\"color\":\"oklch(0.8717 0.0093 258.338)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false},\"after\":{\"background\":\"oklab(0.4461 -0.00600482 -0.0256053 / 0.3)\",\"color\":\"oklch(0.8717 0.0093 258.338)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false}}"
+    },
+    {
+      "name": "state-coarse-1280-dark disabled-max preparation: click on the blocked arrow changes nothing",
+      "ok": true,
+      "detail": "10:00"
+    },
+    {
+      "name": "state-coarse-1280-dark disabled-max preparation: Decrease stays enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-coarse-1280-dark disabled-max exercise: Increase is aria-disabled, not disabled, dimmed",
+      "ok": true,
+      "detail": "{\"background\":\"oklab(0.4461 -0.00600482 -0.0256053 / 0.3)\",\"color\":\"oklch(0.8717 0.0093 258.338)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false}"
+    },
+    {
+      "name": "state-coarse-1280-dark disabled-max exercise: Increase keeps color, background and not-allowed on hover",
+      "ok": true,
+      "detail": "{\"before\":{\"background\":\"oklab(0.4461 -0.00600482 -0.0256053 / 0.3)\",\"color\":\"oklch(0.8717 0.0093 258.338)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false},\"after\":{\"background\":\"oklab(0.4461 -0.00600482 -0.0256053 / 0.3)\",\"color\":\"oklch(0.8717 0.0093 258.338)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false}}"
+    },
+    {
+      "name": "state-coarse-1280-dark disabled-max exercise: click on the blocked arrow changes nothing",
+      "ok": true,
+      "detail": "10:00"
+    },
+    {
+      "name": "state-coarse-1280-dark disabled-max exercise: Decrease stays enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-coarse-1280-dark disabled-max rest: Increase is aria-disabled, not disabled, dimmed",
+      "ok": true,
+      "detail": "{\"background\":\"oklab(0.4461 -0.00600482 -0.0256053 / 0.3)\",\"color\":\"oklch(0.8717 0.0093 258.338)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false}"
+    },
+    {
+      "name": "state-coarse-1280-dark disabled-max rest: Increase keeps color, background and not-allowed on hover",
+      "ok": true,
+      "detail": "{\"before\":{\"background\":\"oklab(0.4461 -0.00600482 -0.0256053 / 0.3)\",\"color\":\"oklch(0.8717 0.0093 258.338)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false},\"after\":{\"background\":\"oklab(0.4461 -0.00600482 -0.0256053 / 0.3)\",\"color\":\"oklch(0.8717 0.0093 258.338)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false}}"
+    },
+    {
+      "name": "state-coarse-1280-dark disabled-max rest: click on the blocked arrow changes nothing",
+      "ok": true,
+      "detail": "10:00"
+    },
+    {
+      "name": "state-coarse-1280-dark disabled-max rest: Decrease stays enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-coarse-1280-dark disabled-max repetitions: Increase is aria-disabled, not disabled, dimmed",
+      "ok": true,
+      "detail": "{\"background\":\"oklab(0.4461 -0.00600482 -0.0256053 / 0.3)\",\"color\":\"oklch(0.8717 0.0093 258.338)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false}"
+    },
+    {
+      "name": "state-coarse-1280-dark disabled-max repetitions: Increase keeps color, background and not-allowed on hover",
+      "ok": true,
+      "detail": "{\"before\":{\"background\":\"oklab(0.4461 -0.00600482 -0.0256053 / 0.3)\",\"color\":\"oklch(0.8717 0.0093 258.338)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false},\"after\":{\"background\":\"oklab(0.4461 -0.00600482 -0.0256053 / 0.3)\",\"color\":\"oklch(0.8717 0.0093 258.338)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false}}"
+    },
+    {
+      "name": "state-coarse-1280-dark disabled-max repetitions: click on the blocked arrow changes nothing",
+      "ok": true,
+      "detail": "100"
+    },
+    {
+      "name": "state-coarse-1280-dark disabled-max repetitions: Decrease stays enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-coarse-1280-dark error: four validation alerts",
+      "ok": true,
+      "detail": "4"
+    },
+    {
+      "name": "state-coarse-1280-dark error: inputs are aria-invalid",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-coarse-1280-dark error: Start did not run",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-coarse-1280-dark error: no arrow is aria-disabled for an invalid value",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-coarse-1280-dark error preparation: first press gives the minimum",
+      "ok": true,
+      "detail": "0:00"
+    },
+    {
+      "name": "state-coarse-1280-dark error exercise: first press gives the minimum",
+      "ok": true,
+      "detail": "0:01"
+    },
+    {
+      "name": "state-coarse-1280-dark error rest: first press gives the minimum",
+      "ok": true,
+      "detail": "0:00"
+    },
+    {
+      "name": "state-coarse-1280-dark error repetitions: first press gives the minimum",
+      "ok": true,
+      "detail": "1"
+    },
+    {
+      "name": "state-coarse-1280-dark error: the alerts clear once the values are valid",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-coarse-1280-dark empty: N/A (an emptied field is the error state)",
+      "ok": true,
+      "detail": "justified in plan: formularz zawsze ma wartości"
+    },
+    {
+      "name": "state-coarse-1280-dark loading: submit is disabled and busy",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-coarse-1280-dark loading: the arrows still step",
+      "ok": true,
+      "detail": "0:05"
+    },
+    {
+      "name": "state-coarse-390-light: any-pointer matches the setup",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-coarse-390-light default: the four field rows are 44 px",
+      "ok": true,
+      "detail": "[44,44,44,44]"
+    },
+    {
+      "name": "state-coarse-390-light default: card has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-coarse-390-light default: arrow order and size follow the pointer",
+      "ok": true,
+      "detail": "{\"u\":{\"x\":253,\"y\":346,\"width\":44,\"height\":44},\"d\":{\"x\":201,\"y\":346,\"width\":44,\"height\":44}}"
+    },
+    {
+      "name": "state-coarse-390-light disabled-min: the four field rows are 44 px",
+      "ok": true,
+      "detail": "[44,44,44,44]"
+    },
+    {
+      "name": "state-coarse-390-light disabled-min: card has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-coarse-390-light disabled-min: arrow order and size follow the pointer",
+      "ok": true,
+      "detail": "{\"u\":{\"x\":253,\"y\":391,\"width\":44,\"height\":44},\"d\":{\"x\":201,\"y\":391,\"width\":44,\"height\":44}}"
+    },
+    {
+      "name": "state-coarse-390-light disabled-max: the four field rows are 44 px",
+      "ok": true,
+      "detail": "[44,44,44,44]"
+    },
+    {
+      "name": "state-coarse-390-light disabled-max: card has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-coarse-390-light disabled-max: arrow order and size follow the pointer",
+      "ok": true,
+      "detail": "{\"u\":{\"x\":253,\"y\":356,\"width\":44,\"height\":44},\"d\":{\"x\":201,\"y\":356,\"width\":44,\"height\":44}}"
+    },
+    {
+      "name": "state-coarse-390-light error: the four field rows are 44 px",
+      "ok": true,
+      "detail": "[44,44,44,44]"
+    },
+    {
+      "name": "state-coarse-390-light error: card has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-coarse-390-light error: arrow order and size follow the pointer",
+      "ok": true,
+      "detail": "{\"u\":{\"x\":253,\"y\":391,\"width\":44,\"height\":44},\"d\":{\"x\":201,\"y\":391,\"width\":44,\"height\":44}}"
+    },
+    {
+      "name": "state-coarse-390-light loading: the four field rows are 44 px",
+      "ok": true,
+      "detail": "[44,44,44,44]"
+    },
+    {
+      "name": "state-coarse-390-light loading: card has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-coarse-390-light loading: arrow order and size follow the pointer",
+      "ok": true,
+      "detail": "{\"u\":{\"x\":253,\"y\":356,\"width\":44,\"height\":44},\"d\":{\"x\":201,\"y\":356,\"width\":44,\"height\":44}}"
+    },
+    {
+      "name": "state-coarse-390-light default preparation Increase: enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-coarse-390-light default preparation Decrease: enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-coarse-390-light default exercise Increase: enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-coarse-390-light default exercise Decrease: enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-coarse-390-light default rest Increase: enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-coarse-390-light default rest Decrease: enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-coarse-390-light default repetitions Increase: enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-coarse-390-light default repetitions Decrease: enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-coarse-390-light hover: N/A without (hover: hover), nothing sticks",
+      "ok": true,
+      "detail": "oklch(0.9751 0.0127 244.251) -> oklch(0.9751 0.0127 244.251)"
+    },
+    {
+      "name": "state-coarse-390-light focus-visible: the field shows a ring",
+      "ok": true,
+      "detail": "{\"unfocused\":\"rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.05) 0px 4px 8px -1px\",\"focused\":{\"shadow\":\"rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, oklab(0.27 -0.0646748 0.0379759 / 0.5) 0px 0px 0px 2px, rgba(0, 0, 0, 0.05) 0px 4px 8px -1px\",\"visible\":true}}"
+    },
+    {
+      "name": "state-coarse-390-light focus-visible: the arrows are not tab stops (N/A for the arrows)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-coarse-390-light disabled-min preparation: Decrease is aria-disabled, not disabled, dimmed",
+      "ok": true,
+      "detail": "{\"background\":\"oklch(0.9751 0.0127 244.251)\",\"color\":\"oklch(0.3729 0.0306 259.733)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false}"
+    },
+    {
+      "name": "state-coarse-390-light disabled-min preparation: Decrease keeps color, background and not-allowed on hover",
+      "ok": true,
+      "detail": "{\"before\":{\"background\":\"oklch(0.9751 0.0127 244.251)\",\"color\":\"oklch(0.3729 0.0306 259.733)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false},\"after\":{\"background\":\"oklch(0.9751 0.0127 244.251)\",\"color\":\"oklch(0.3729 0.0306 259.733)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false}}"
+    },
+    {
+      "name": "state-coarse-390-light disabled-min preparation: click on the blocked arrow changes nothing",
+      "ok": true,
+      "detail": "0:00"
+    },
+    {
+      "name": "state-coarse-390-light disabled-min preparation: Increase stays enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-coarse-390-light disabled-min exercise: Decrease is aria-disabled, not disabled, dimmed",
+      "ok": true,
+      "detail": "{\"background\":\"oklch(0.9751 0.0127 244.251)\",\"color\":\"oklch(0.3729 0.0306 259.733)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false}"
+    },
+    {
+      "name": "state-coarse-390-light disabled-min exercise: Decrease keeps color, background and not-allowed on hover",
+      "ok": true,
+      "detail": "{\"before\":{\"background\":\"oklch(0.9751 0.0127 244.251)\",\"color\":\"oklch(0.3729 0.0306 259.733)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false},\"after\":{\"background\":\"oklch(0.9751 0.0127 244.251)\",\"color\":\"oklch(0.3729 0.0306 259.733)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false}}"
+    },
+    {
+      "name": "state-coarse-390-light disabled-min exercise: click on the blocked arrow changes nothing",
+      "ok": true,
+      "detail": "0:01"
+    },
+    {
+      "name": "state-coarse-390-light disabled-min exercise: Increase stays enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-coarse-390-light disabled-min rest: Decrease is aria-disabled, not disabled, dimmed",
+      "ok": true,
+      "detail": "{\"background\":\"oklch(0.9751 0.0127 244.251)\",\"color\":\"oklch(0.3729 0.0306 259.733)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false}"
+    },
+    {
+      "name": "state-coarse-390-light disabled-min rest: Decrease keeps color, background and not-allowed on hover",
+      "ok": true,
+      "detail": "{\"before\":{\"background\":\"oklch(0.9751 0.0127 244.251)\",\"color\":\"oklch(0.3729 0.0306 259.733)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false},\"after\":{\"background\":\"oklch(0.9751 0.0127 244.251)\",\"color\":\"oklch(0.3729 0.0306 259.733)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false}}"
+    },
+    {
+      "name": "state-coarse-390-light disabled-min rest: click on the blocked arrow changes nothing",
+      "ok": true,
+      "detail": "0:00"
+    },
+    {
+      "name": "state-coarse-390-light disabled-min rest: Increase stays enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-coarse-390-light disabled-min repetitions: Decrease is aria-disabled, not disabled, dimmed",
+      "ok": true,
+      "detail": "{\"background\":\"oklch(0.9751 0.0127 244.251)\",\"color\":\"oklch(0.3729 0.0306 259.733)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false}"
+    },
+    {
+      "name": "state-coarse-390-light disabled-min repetitions: Decrease keeps color, background and not-allowed on hover",
+      "ok": true,
+      "detail": "{\"before\":{\"background\":\"oklch(0.9751 0.0127 244.251)\",\"color\":\"oklch(0.3729 0.0306 259.733)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false},\"after\":{\"background\":\"oklch(0.9751 0.0127 244.251)\",\"color\":\"oklch(0.3729 0.0306 259.733)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false}}"
+    },
+    {
+      "name": "state-coarse-390-light disabled-min repetitions: click on the blocked arrow changes nothing",
+      "ok": true,
+      "detail": "1"
+    },
+    {
+      "name": "state-coarse-390-light disabled-min repetitions: Increase stays enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-coarse-390-light disabled-max preparation: Increase is aria-disabled, not disabled, dimmed",
+      "ok": true,
+      "detail": "{\"background\":\"oklch(0.9751 0.0127 244.251)\",\"color\":\"oklch(0.3729 0.0306 259.733)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false}"
+    },
+    {
+      "name": "state-coarse-390-light disabled-max preparation: Increase keeps color, background and not-allowed on hover",
+      "ok": true,
+      "detail": "{\"before\":{\"background\":\"oklch(0.9751 0.0127 244.251)\",\"color\":\"oklch(0.3729 0.0306 259.733)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false},\"after\":{\"background\":\"oklch(0.9751 0.0127 244.251)\",\"color\":\"oklch(0.3729 0.0306 259.733)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false}}"
+    },
+    {
+      "name": "state-coarse-390-light disabled-max preparation: click on the blocked arrow changes nothing",
+      "ok": true,
+      "detail": "10:00"
+    },
+    {
+      "name": "state-coarse-390-light disabled-max preparation: Decrease stays enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-coarse-390-light disabled-max exercise: Increase is aria-disabled, not disabled, dimmed",
+      "ok": true,
+      "detail": "{\"background\":\"oklch(0.9751 0.0127 244.251)\",\"color\":\"oklch(0.3729 0.0306 259.733)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false}"
+    },
+    {
+      "name": "state-coarse-390-light disabled-max exercise: Increase keeps color, background and not-allowed on hover",
+      "ok": true,
+      "detail": "{\"before\":{\"background\":\"oklch(0.9751 0.0127 244.251)\",\"color\":\"oklch(0.3729 0.0306 259.733)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false},\"after\":{\"background\":\"oklch(0.9751 0.0127 244.251)\",\"color\":\"oklch(0.3729 0.0306 259.733)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false}}"
+    },
+    {
+      "name": "state-coarse-390-light disabled-max exercise: click on the blocked arrow changes nothing",
+      "ok": true,
+      "detail": "10:00"
+    },
+    {
+      "name": "state-coarse-390-light disabled-max exercise: Decrease stays enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-coarse-390-light disabled-max rest: Increase is aria-disabled, not disabled, dimmed",
+      "ok": true,
+      "detail": "{\"background\":\"oklch(0.9751 0.0127 244.251)\",\"color\":\"oklch(0.3729 0.0306 259.733)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false}"
+    },
+    {
+      "name": "state-coarse-390-light disabled-max rest: Increase keeps color, background and not-allowed on hover",
+      "ok": true,
+      "detail": "{\"before\":{\"background\":\"oklch(0.9751 0.0127 244.251)\",\"color\":\"oklch(0.3729 0.0306 259.733)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false},\"after\":{\"background\":\"oklch(0.9751 0.0127 244.251)\",\"color\":\"oklch(0.3729 0.0306 259.733)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false}}"
+    },
+    {
+      "name": "state-coarse-390-light disabled-max rest: click on the blocked arrow changes nothing",
+      "ok": true,
+      "detail": "10:00"
+    },
+    {
+      "name": "state-coarse-390-light disabled-max rest: Decrease stays enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-coarse-390-light disabled-max repetitions: Increase is aria-disabled, not disabled, dimmed",
+      "ok": true,
+      "detail": "{\"background\":\"oklch(0.9751 0.0127 244.251)\",\"color\":\"oklch(0.3729 0.0306 259.733)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false}"
+    },
+    {
+      "name": "state-coarse-390-light disabled-max repetitions: Increase keeps color, background and not-allowed on hover",
+      "ok": true,
+      "detail": "{\"before\":{\"background\":\"oklch(0.9751 0.0127 244.251)\",\"color\":\"oklch(0.3729 0.0306 259.733)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false},\"after\":{\"background\":\"oklch(0.9751 0.0127 244.251)\",\"color\":\"oklch(0.3729 0.0306 259.733)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false}}"
+    },
+    {
+      "name": "state-coarse-390-light disabled-max repetitions: click on the blocked arrow changes nothing",
+      "ok": true,
+      "detail": "100"
+    },
+    {
+      "name": "state-coarse-390-light disabled-max repetitions: Decrease stays enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-coarse-390-light error: four validation alerts",
+      "ok": true,
+      "detail": "4"
+    },
+    {
+      "name": "state-coarse-390-light error: inputs are aria-invalid",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-coarse-390-light error: Start did not run",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-coarse-390-light error: no arrow is aria-disabled for an invalid value",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-coarse-390-light error preparation: first press gives the minimum",
+      "ok": true,
+      "detail": "0:00"
+    },
+    {
+      "name": "state-coarse-390-light error exercise: first press gives the minimum",
+      "ok": true,
+      "detail": "0:01"
+    },
+    {
+      "name": "state-coarse-390-light error rest: first press gives the minimum",
+      "ok": true,
+      "detail": "0:00"
+    },
+    {
+      "name": "state-coarse-390-light error repetitions: first press gives the minimum",
+      "ok": true,
+      "detail": "1"
+    },
+    {
+      "name": "state-coarse-390-light error: the alerts clear once the values are valid",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-coarse-390-light empty: N/A (an emptied field is the error state)",
+      "ok": true,
+      "detail": "justified in plan: formularz zawsze ma wartości"
+    },
+    {
+      "name": "state-coarse-390-light loading: submit is disabled and busy",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-coarse-390-light loading: the arrows still step",
+      "ok": true,
+      "detail": "0:05"
+    },
+    {
+      "name": "state-coarse-390-dark: any-pointer matches the setup",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-coarse-390-dark default: the four field rows are 44 px",
+      "ok": true,
+      "detail": "[44,44,44,44]"
+    },
+    {
+      "name": "state-coarse-390-dark default: card has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-coarse-390-dark default: arrow order and size follow the pointer",
+      "ok": true,
+      "detail": "{\"u\":{\"x\":253,\"y\":346,\"width\":44,\"height\":44},\"d\":{\"x\":201,\"y\":346,\"width\":44,\"height\":44}}"
+    },
+    {
+      "name": "state-coarse-390-dark disabled-min: the four field rows are 44 px",
+      "ok": true,
+      "detail": "[44,44,44,44]"
+    },
+    {
+      "name": "state-coarse-390-dark disabled-min: card has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-coarse-390-dark disabled-min: arrow order and size follow the pointer",
+      "ok": true,
+      "detail": "{\"u\":{\"x\":253,\"y\":391,\"width\":44,\"height\":44},\"d\":{\"x\":201,\"y\":391,\"width\":44,\"height\":44}}"
+    },
+    {
+      "name": "state-coarse-390-dark disabled-max: the four field rows are 44 px",
+      "ok": true,
+      "detail": "[44,44,44,44]"
+    },
+    {
+      "name": "state-coarse-390-dark disabled-max: card has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-coarse-390-dark disabled-max: arrow order and size follow the pointer",
+      "ok": true,
+      "detail": "{\"u\":{\"x\":253,\"y\":356,\"width\":44,\"height\":44},\"d\":{\"x\":201,\"y\":356,\"width\":44,\"height\":44}}"
+    },
+    {
+      "name": "state-coarse-390-dark error: the four field rows are 44 px",
+      "ok": true,
+      "detail": "[44,44,44,44]"
+    },
+    {
+      "name": "state-coarse-390-dark error: card has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-coarse-390-dark error: arrow order and size follow the pointer",
+      "ok": true,
+      "detail": "{\"u\":{\"x\":253,\"y\":391,\"width\":44,\"height\":44},\"d\":{\"x\":201,\"y\":391,\"width\":44,\"height\":44}}"
+    },
+    {
+      "name": "state-coarse-390-dark loading: the four field rows are 44 px",
+      "ok": true,
+      "detail": "[44,44,44,44]"
+    },
+    {
+      "name": "state-coarse-390-dark loading: card has no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-coarse-390-dark loading: arrow order and size follow the pointer",
+      "ok": true,
+      "detail": "{\"u\":{\"x\":253,\"y\":356,\"width\":44,\"height\":44},\"d\":{\"x\":201,\"y\":356,\"width\":44,\"height\":44}}"
+    },
+    {
+      "name": "state-coarse-390-dark default preparation Increase: enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-coarse-390-dark default preparation Decrease: enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-coarse-390-dark default exercise Increase: enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-coarse-390-dark default exercise Decrease: enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-coarse-390-dark default rest Increase: enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-coarse-390-dark default rest Decrease: enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-coarse-390-dark default repetitions Increase: enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-coarse-390-dark default repetitions Decrease: enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-coarse-390-dark hover: N/A without (hover: hover), nothing sticks",
+      "ok": true,
+      "detail": "oklab(0.4461 -0.00600482 -0.0256053 / 0.3) -> oklab(0.4461 -0.00600482 -0.0256053 / 0.3)"
+    },
+    {
+      "name": "state-coarse-390-dark focus-visible: the field shows a ring",
+      "ok": true,
+      "detail": "{\"unfocused\":\"rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.05) 0px 4px 8px -1px\",\"focused\":{\"shadow\":\"rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, oklab(0.7729 -0.146966 0.0443071 / 0.5) 0px 0px 0px 2px, rgba(0, 0, 0, 0.05) 0px 4px 8px -1px\",\"visible\":true}}"
+    },
+    {
+      "name": "state-coarse-390-dark focus-visible: the arrows are not tab stops (N/A for the arrows)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-coarse-390-dark disabled-min preparation: Decrease is aria-disabled, not disabled, dimmed",
+      "ok": true,
+      "detail": "{\"background\":\"oklab(0.4461 -0.00600482 -0.0256053 / 0.3)\",\"color\":\"oklch(0.8717 0.0093 258.338)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false}"
+    },
+    {
+      "name": "state-coarse-390-dark disabled-min preparation: Decrease keeps color, background and not-allowed on hover",
+      "ok": true,
+      "detail": "{\"before\":{\"background\":\"oklab(0.4461 -0.00600482 -0.0256053 / 0.3)\",\"color\":\"oklch(0.8717 0.0093 258.338)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false},\"after\":{\"background\":\"oklab(0.4461 -0.00600482 -0.0256053 / 0.3)\",\"color\":\"oklch(0.8717 0.0093 258.338)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false}}"
+    },
+    {
+      "name": "state-coarse-390-dark disabled-min preparation: click on the blocked arrow changes nothing",
+      "ok": true,
+      "detail": "0:00"
+    },
+    {
+      "name": "state-coarse-390-dark disabled-min preparation: Increase stays enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-coarse-390-dark disabled-min exercise: Decrease is aria-disabled, not disabled, dimmed",
+      "ok": true,
+      "detail": "{\"background\":\"oklab(0.4461 -0.00600482 -0.0256053 / 0.3)\",\"color\":\"oklch(0.8717 0.0093 258.338)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false}"
+    },
+    {
+      "name": "state-coarse-390-dark disabled-min exercise: Decrease keeps color, background and not-allowed on hover",
+      "ok": true,
+      "detail": "{\"before\":{\"background\":\"oklab(0.4461 -0.00600482 -0.0256053 / 0.3)\",\"color\":\"oklch(0.8717 0.0093 258.338)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false},\"after\":{\"background\":\"oklab(0.4461 -0.00600482 -0.0256053 / 0.3)\",\"color\":\"oklch(0.8717 0.0093 258.338)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false}}"
+    },
+    {
+      "name": "state-coarse-390-dark disabled-min exercise: click on the blocked arrow changes nothing",
+      "ok": true,
+      "detail": "0:01"
+    },
+    {
+      "name": "state-coarse-390-dark disabled-min exercise: Increase stays enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-coarse-390-dark disabled-min rest: Decrease is aria-disabled, not disabled, dimmed",
+      "ok": true,
+      "detail": "{\"background\":\"oklab(0.4461 -0.00600482 -0.0256053 / 0.3)\",\"color\":\"oklch(0.8717 0.0093 258.338)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false}"
+    },
+    {
+      "name": "state-coarse-390-dark disabled-min rest: Decrease keeps color, background and not-allowed on hover",
+      "ok": true,
+      "detail": "{\"before\":{\"background\":\"oklab(0.4461 -0.00600482 -0.0256053 / 0.3)\",\"color\":\"oklch(0.8717 0.0093 258.338)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false},\"after\":{\"background\":\"oklab(0.4461 -0.00600482 -0.0256053 / 0.3)\",\"color\":\"oklch(0.8717 0.0093 258.338)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false}}"
+    },
+    {
+      "name": "state-coarse-390-dark disabled-min rest: click on the blocked arrow changes nothing",
+      "ok": true,
+      "detail": "0:00"
+    },
+    {
+      "name": "state-coarse-390-dark disabled-min rest: Increase stays enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-coarse-390-dark disabled-min repetitions: Decrease is aria-disabled, not disabled, dimmed",
+      "ok": true,
+      "detail": "{\"background\":\"oklab(0.4461 -0.00600482 -0.0256053 / 0.3)\",\"color\":\"oklch(0.8717 0.0093 258.338)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false}"
+    },
+    {
+      "name": "state-coarse-390-dark disabled-min repetitions: Decrease keeps color, background and not-allowed on hover",
+      "ok": true,
+      "detail": "{\"before\":{\"background\":\"oklab(0.4461 -0.00600482 -0.0256053 / 0.3)\",\"color\":\"oklch(0.8717 0.0093 258.338)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false},\"after\":{\"background\":\"oklab(0.4461 -0.00600482 -0.0256053 / 0.3)\",\"color\":\"oklch(0.8717 0.0093 258.338)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false}}"
+    },
+    {
+      "name": "state-coarse-390-dark disabled-min repetitions: click on the blocked arrow changes nothing",
+      "ok": true,
+      "detail": "1"
+    },
+    {
+      "name": "state-coarse-390-dark disabled-min repetitions: Increase stays enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-coarse-390-dark disabled-max preparation: Increase is aria-disabled, not disabled, dimmed",
+      "ok": true,
+      "detail": "{\"background\":\"oklab(0.4461 -0.00600482 -0.0256053 / 0.3)\",\"color\":\"oklch(0.8717 0.0093 258.338)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false}"
+    },
+    {
+      "name": "state-coarse-390-dark disabled-max preparation: Increase keeps color, background and not-allowed on hover",
+      "ok": true,
+      "detail": "{\"before\":{\"background\":\"oklab(0.4461 -0.00600482 -0.0256053 / 0.3)\",\"color\":\"oklch(0.8717 0.0093 258.338)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false},\"after\":{\"background\":\"oklab(0.4461 -0.00600482 -0.0256053 / 0.3)\",\"color\":\"oklch(0.8717 0.0093 258.338)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false}}"
+    },
+    {
+      "name": "state-coarse-390-dark disabled-max preparation: click on the blocked arrow changes nothing",
+      "ok": true,
+      "detail": "10:00"
+    },
+    {
+      "name": "state-coarse-390-dark disabled-max preparation: Decrease stays enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-coarse-390-dark disabled-max exercise: Increase is aria-disabled, not disabled, dimmed",
+      "ok": true,
+      "detail": "{\"background\":\"oklab(0.4461 -0.00600482 -0.0256053 / 0.3)\",\"color\":\"oklch(0.8717 0.0093 258.338)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false}"
+    },
+    {
+      "name": "state-coarse-390-dark disabled-max exercise: Increase keeps color, background and not-allowed on hover",
+      "ok": true,
+      "detail": "{\"before\":{\"background\":\"oklab(0.4461 -0.00600482 -0.0256053 / 0.3)\",\"color\":\"oklch(0.8717 0.0093 258.338)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false},\"after\":{\"background\":\"oklab(0.4461 -0.00600482 -0.0256053 / 0.3)\",\"color\":\"oklch(0.8717 0.0093 258.338)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false}}"
+    },
+    {
+      "name": "state-coarse-390-dark disabled-max exercise: click on the blocked arrow changes nothing",
+      "ok": true,
+      "detail": "10:00"
+    },
+    {
+      "name": "state-coarse-390-dark disabled-max exercise: Decrease stays enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-coarse-390-dark disabled-max rest: Increase is aria-disabled, not disabled, dimmed",
+      "ok": true,
+      "detail": "{\"background\":\"oklab(0.4461 -0.00600482 -0.0256053 / 0.3)\",\"color\":\"oklch(0.8717 0.0093 258.338)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false}"
+    },
+    {
+      "name": "state-coarse-390-dark disabled-max rest: Increase keeps color, background and not-allowed on hover",
+      "ok": true,
+      "detail": "{\"before\":{\"background\":\"oklab(0.4461 -0.00600482 -0.0256053 / 0.3)\",\"color\":\"oklch(0.8717 0.0093 258.338)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false},\"after\":{\"background\":\"oklab(0.4461 -0.00600482 -0.0256053 / 0.3)\",\"color\":\"oklch(0.8717 0.0093 258.338)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false}}"
+    },
+    {
+      "name": "state-coarse-390-dark disabled-max rest: click on the blocked arrow changes nothing",
+      "ok": true,
+      "detail": "10:00"
+    },
+    {
+      "name": "state-coarse-390-dark disabled-max rest: Decrease stays enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-coarse-390-dark disabled-max repetitions: Increase is aria-disabled, not disabled, dimmed",
+      "ok": true,
+      "detail": "{\"background\":\"oklab(0.4461 -0.00600482 -0.0256053 / 0.3)\",\"color\":\"oklch(0.8717 0.0093 258.338)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false}"
+    },
+    {
+      "name": "state-coarse-390-dark disabled-max repetitions: Increase keeps color, background and not-allowed on hover",
+      "ok": true,
+      "detail": "{\"before\":{\"background\":\"oklab(0.4461 -0.00600482 -0.0256053 / 0.3)\",\"color\":\"oklch(0.8717 0.0093 258.338)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false},\"after\":{\"background\":\"oklab(0.4461 -0.00600482 -0.0256053 / 0.3)\",\"color\":\"oklch(0.8717 0.0093 258.338)\",\"cursor\":\"not-allowed\",\"opacity\":\"0.5\",\"ariaDisabled\":\"true\",\"disabled\":false}}"
+    },
+    {
+      "name": "state-coarse-390-dark disabled-max repetitions: click on the blocked arrow changes nothing",
+      "ok": true,
+      "detail": "100"
+    },
+    {
+      "name": "state-coarse-390-dark disabled-max repetitions: Decrease stays enabled",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-coarse-390-dark error: four validation alerts",
+      "ok": true,
+      "detail": "4"
+    },
+    {
+      "name": "state-coarse-390-dark error: inputs are aria-invalid",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-coarse-390-dark error: Start did not run",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-coarse-390-dark error: no arrow is aria-disabled for an invalid value",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-coarse-390-dark error preparation: first press gives the minimum",
+      "ok": true,
+      "detail": "0:00"
+    },
+    {
+      "name": "state-coarse-390-dark error exercise: first press gives the minimum",
+      "ok": true,
+      "detail": "0:01"
+    },
+    {
+      "name": "state-coarse-390-dark error rest: first press gives the minimum",
+      "ok": true,
+      "detail": "0:00"
+    },
+    {
+      "name": "state-coarse-390-dark error repetitions: first press gives the minimum",
+      "ok": true,
+      "detail": "1"
+    },
+    {
+      "name": "state-coarse-390-dark error: the alerts clear once the values are valid",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-coarse-390-dark empty: N/A (an emptied field is the error state)",
+      "ok": true,
+      "detail": "justified in plan: formularz zawsze ma wartości"
+    },
+    {
+      "name": "state-coarse-390-dark loading: submit is disabled and busy",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "state-coarse-390-dark loading: the arrows still step",
+      "ok": true,
+      "detail": "0:05"
+    },
+    {
+      "name": "A3.7: DrillCreateApp links to /timers",
+      "ok": true,
+      "detail": ""
     }
   ]
 }

@@ -135,7 +135,7 @@
     {
       "name": "1280-light: exercise icon hitbox >= 44px",
       "ok": true,
-      "detail": "{\"x\":368.328125,\"y\":-9040,\"width\":44,\"height\":44}"
+      "detail": "{\"x\":368.328125,\"y\":-10863,\"width\":44,\"height\":44}"
     },
     {
       "name": "1280-light: exercise has aria-describedby text and no disabled attribute",
@@ -145,7 +145,7 @@
     {
       "name": "1280-light: rest icon hitbox >= 44px",
       "ok": true,
-      "detail": "{\"x\":368.328125,\"y\":-8934,\"width\":44,\"height\":44}"
+      "detail": "{\"x\":368.328125,\"y\":-10757,\"width\":44,\"height\":44}"
     },
     {
       "name": "1280-light: rest has aria-describedby text and no disabled attribute",
@@ -155,7 +155,7 @@
     {
       "name": "1280-light: Standby icon hitbox >= 44px",
       "ok": true,
-      "detail": "{\"x\":368.328125,\"y\":-8740,\"width\":44,\"height\":44}"
+      "detail": "{\"x\":368.328125,\"y\":-10563,\"width\":44,\"height\":44}"
     },
     {
       "name": "1280-light: Standby has aria-describedby text and no disabled attribute",
@@ -400,7 +400,7 @@
     {
       "name": "1280-dark: exercise icon hitbox >= 44px",
       "ok": true,
-      "detail": "{\"x\":368.328125,\"y\":-9043,\"width\":44,\"height\":44}"
+      "detail": "{\"x\":368.328125,\"y\":-10863,\"width\":44,\"height\":44}"
     },
     {
       "name": "1280-dark: exercise has aria-describedby text and no disabled attribute",
@@ -410,7 +410,7 @@
     {
       "name": "1280-dark: rest icon hitbox >= 44px",
       "ok": true,
-      "detail": "{\"x\":368.328125,\"y\":-8937,\"width\":44,\"height\":44}"
+      "detail": "{\"x\":368.328125,\"y\":-10757,\"width\":44,\"height\":44}"
     },
     {
       "name": "1280-dark: rest has aria-describedby text and no disabled attribute",
@@ -420,7 +420,7 @@
     {
       "name": "1280-dark: Standby icon hitbox >= 44px",
       "ok": true,
-      "detail": "{\"x\":368.328125,\"y\":-8743,\"width\":44,\"height\":44}"
+      "detail": "{\"x\":368.328125,\"y\":-10563,\"width\":44,\"height\":44}"
     },
     {
       "name": "1280-dark: Standby has aria-describedby text and no disabled attribute",
@@ -665,7 +665,7 @@
     {
       "name": "390-light: exercise icon hitbox >= 44px",
       "ok": true,
-      "detail": "{\"x\":305,\"y\":-24637,\"width\":44,\"height\":44}"
+      "detail": "{\"x\":305,\"y\":-29048,\"width\":44,\"height\":44}"
     },
     {
       "name": "390-light: exercise has aria-describedby text and no disabled attribute",
@@ -675,7 +675,7 @@
     {
       "name": "390-light: rest icon hitbox >= 44px",
       "ok": true,
-      "detail": "{\"x\":305,\"y\":-24531,\"width\":44,\"height\":44}"
+      "detail": "{\"x\":305,\"y\":-28942,\"width\":44,\"height\":44}"
     },
     {
       "name": "390-light: rest has aria-describedby text and no disabled attribute",
@@ -685,7 +685,7 @@
     {
       "name": "390-light: Standby icon hitbox >= 44px",
       "ok": true,
-      "detail": "{\"x\":305,\"y\":-24337,\"width\":44,\"height\":44}"
+      "detail": "{\"x\":305,\"y\":-28748,\"width\":44,\"height\":44}"
     },
     {
       "name": "390-light: Standby has aria-describedby text and no disabled attribute",
@@ -930,7 +930,7 @@
     {
       "name": "390-dark: exercise icon hitbox >= 44px",
       "ok": true,
-      "detail": "{\"x\":305,\"y\":-24637,\"width\":44,\"height\":44}"
+      "detail": "{\"x\":305,\"y\":-29048,\"width\":44,\"height\":44}"
     },
     {
       "name": "390-dark: exercise has aria-describedby text and no disabled attribute",
@@ -940,7 +940,7 @@
     {
       "name": "390-dark: rest icon hitbox >= 44px",
       "ok": true,
-      "detail": "{\"x\":305,\"y\":-24531,\"width\":44,\"height\":44}"
+      "detail": "{\"x\":305,\"y\":-28942,\"width\":44,\"height\":44}"
     },
     {
       "name": "390-dark: rest has aria-describedby text and no disabled attribute",
@@ -950,7 +950,7 @@
     {
       "name": "390-dark: Standby icon hitbox >= 44px",
       "ok": true,
-      "detail": "{\"x\":305,\"y\":-24337,\"width\":44,\"height\":44}"
+      "detail": "{\"x\":305,\"y\":-28748,\"width\":44,\"height\":44}"
     },
     {
       "name": "390-dark: Standby has aria-describedby text and no disabled attribute",

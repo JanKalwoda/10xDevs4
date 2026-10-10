@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import DrillConfigForm from "@/components/timer/DrillConfigForm";
 import SignalPreviewFixtures from "@/components/timer/SignalPreviewFixtures";
+import ConfigStepperFixtures from "@/components/timer/ConfigStepperFixtures";
 import PhaseSectionsFixtures from "@/components/timer/PhaseSectionsFixtures";
 import CreateDrillFixtures from "@/components/timer/CreateDrillFixtures";
 import EditDrillFixtures from "@/components/timer/EditDrillFixtures";
@@ -1194,6 +1195,7 @@ export default function TimerUiPreview() {
                 </Card>
             </section>
             <SignalPreviewFixtures />
+            <ConfigStepperFixtures />
             <PhaseSectionsFixtures />
             <CreateDrillFixtures />
             <EditDrillFixtures />
