@@ -278,13 +278,13 @@ Brak zmian danych. Usunięcie `CLICK_AFTER_POINTER_MS` i `handledByPointer` nie 
 
 #### Automated
 
-- [ ] 1.1 Testy kontrolera gestu i repeatera (w tym click po >100 ms = 1 krok) przechodzą
-- [ ] 1.2 Lint, typy i build przechodzą
-- [ ] 1.3 Skrypt bramki: 1 klik myszą i 1 tap = 1 krok, także z opóźnionym click, kończy się kodem 0
+- [x] 1.1 Testy kontrolera gestu i repeatera (w tym click po >100 ms = 1 krok) przechodzą — 2c466b4
+- [x] 1.2 Lint, typy i build przechodzą — 2c466b4
+- [x] 1.3 Skrypt bramki: 1 klik myszą i 1 tap = 1 krok, także z opóźnionym click, kończy się kodem 0 — 2c466b4
 
 #### Manual
 
-- [ ] 1.4 Jeden klik/tap zmienia wartość o 1, przytrzymanie powtarza — script, not human
+- [x] 1.4 Jeden klik/tap zmienia wartość o 1, przytrzymanie powtarza — script, not human (23/23 checks: mysz, tap, tap CDP przy primary fine, click 300 ms po pointerup, hold) — 2c466b4
 
 ### Phase 2: Strzałki w polu i układ wg głównego wskaźnika
 
