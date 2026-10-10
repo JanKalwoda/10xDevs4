@@ -18,10 +18,12 @@ Link „Back to timers" → `/timers`; tooltip dopasowany do tekstu; wyłączona
 
 | Decision | Choice | Why (1 sentence) | Source |
 | --- | --- | --- | --- |
-| Układy steppera | `pointer-coarse:` / `pointer-fine:` z Tailwind 4.3 | Wbudowane warianty, bez `@custom-variant` i wartości arbitralnych | Plan |
+| Układy steppera | Duży przy `any-pointer-coarse:`, kompaktowy domyślnie (Tailwind 4.3) | Hybrydy z dotykiem dostają cele 44 px, bez `@custom-variant` | Review planu |
 | Wysokość na komputerze | `h-5.5` × 2 = 44 px | Równa wysokości ikony głośnika, wiersze Exercise/Rest nie rosną | Plan |
 | WCAG 2.5.8 na komputerze | Wyjątek „Equivalent" (pole tekstowe i ↑/↓) | Cel 22 px nie spełnia 24 px; ta sama funkcja jest dostępna większym celem | Plan (do potwierdzenia) |
-| Krok z myszy/dotyku | Na `pointerdown`; `click` tylko dla klawiatury (`detail === 0`) | Unika podwójnego kroku | Plan |
+| Krok z myszy/dotyku | Na `pointerdown` + `touch-none` + `setPointerCapture`; `click` stepuje tylko bez flagi `handledByPointer` | Brak kroków od przewijania, działa z AT | Review planu |
+| Tabulator | Strzałki `tabIndex={-1}`; ↑/↓ w polu; `role="status"` z ostatnią wartością | Brak 8 przystanków, czytnik słyszy zmianę | Review planu |
+| Wysokość wierszy na komputerze | Wszystkie cztery 44 px | Decyzja użytkownika | Użytkownik |
 | Granica zakresu | `aria-disabled`, nie `disabled` | Zachowuje fokus przy przytrzymaniu, jak w odsłuchu | Plan |
 | Pusta/błędna wartość | Pierwsze naciśnięcie daje minimum pola (oba kierunki); poprawna poza zakresem zaciska się | Jednoznaczny wynik w formacie `m:ss` | Plan (do potwierdzenia) |
 | Powtarzanie | 400 ms pauzy, potem co 100 ms, bez przyspieszania | Zgodnie z wymaganiem, prosto testowalne | Plan |
@@ -55,8 +57,8 @@ Czysty `drill-stepper.ts` (następna wartość, granice) i `drill-step-repeat.ts
 
 - Cel 22 px na komputerze nie spełnia WCAG 2.5.8 bez wyjątku „Equivalent".
 - Wiersze Preparation i Repetitions rosną z 36 do 44 px.
-- Urządzenia hybrydowe (ekran dotykowy + mysz) dostają układ wg głównego wskaźnika (`pointer`).
-- Dodatkowe 8 przycisków w kolejności tabulatora.
+- Urządzenia hybrydowe (dotyk + mysz) dostają układ duży (`any-pointer-coarse`).
+- `touch-none` uniemożliwia rozpoczęcie przewijania palcem na samym przycisku.
 
 ## Success Criteria (Summary)
 

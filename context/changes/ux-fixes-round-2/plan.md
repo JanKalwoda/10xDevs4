@@ -20,16 +20,16 @@ S-21 (FR-018 zmieniony, nowe FR-020; dotyka FR-004/FR-019): trzy poprawki po tes
 - Tooltip bez pustej połowy w każdej szerokości (pudełko dopasowuje się do tekstu aż do `max-w-xs`).
 - Wyłączona ikona odsłuchu przy hoverze zachowuje kolor ikony, tło i `cursor-not-allowed`.
 - Widok biegu: Current i Next to dwa identyczne pudełka (`role="group"`): na górze większa etykieta („Current" / „Next"), pod nią jedna linia „Nazwa · czas" (w Standby sama nazwa, bez czasu — także w Current). Powtórzenie „Repetition X of N" nadal pod czasem, `role="timer"` tylko na głównej liczbie, wszystkie linie mają stałą wysokość, więc czas i pasek przycisków się nie przesuwają.
-- Każde z pól Preparation, Exercise, Rest (krok 1 s) i Repetitions (krok 1) ma dwa przyciski ▼/▲ (`ChevronDown`/`ChevronUp`, outline `Button`, tokeny, `aria-label`, `aria-controls`). Dotyk (`pointer: coarse`): obok siebie `▼ ▲` po prawej stronie pola, przed ikoną głośnika, każdy 44 px, bez overflow przy 390 px. Komputer (`pointer: fine`): `▲` nad `▼` w jednej kolumnie 2 × 22 px, bez zwiększania wysokości wierszy z ikoną głośnika (44 px). Przytrzymanie powtarza zmianę (pauza, potem co ok. 0,1 s); puszczenie, wyjście wskaźnika, utrata fokusu i odmontowanie zatrzymują. W polu ↑/↓ zmieniają o 1, z Shift o 10. Na granicy zakresu odpowiednia strzałka jest `aria-disabled`; pusta/błędna wartość startuje od minimum pola; wynik zawsze `m:ss` (czasy) lub liczba całkowita przez `onValuesChange`.
+- Każde z pól Preparation, Exercise, Rest (krok 1 s) i Repetitions (krok 1) ma dwa przyciski ▼/▲ (`ChevronDown`/`ChevronUp`, outline `Button`, tokeny, `aria-label`, `aria-controls`). Dotyk (każde urządzenie wskazujące dotykowe, `any-pointer: coarse`): obok siebie `▼ ▲` po prawej stronie pola, przed ikoną głośnika, każdy 44 px, bez overflow przy 390 px. Komputer (domyślnie, bez dotyku): `▲` nad `▼` w jednej kolumnie 2 × 22 px, bez zwiększania wysokości wierszy z ikoną głośnika (44 px); wszystkie cztery wiersze mają na komputerze 44 px (Preparation i Repetitions rosną z 36 px — decyzja użytkownika). Przytrzymanie powtarza zmianę (pauza, potem co ok. 0,1 s); puszczenie, wyjście wskaźnika, utrata przechwytu wskaźnika, utrata fokusu i odmontowanie zatrzymują. Strzałki są dla myszy, dotyku i technologii asystujących (`tabIndex={-1}`); klawiatura używa ↑/↓ w polu. Nowa wartość jest ogłaszana przez `sr-only` `role="status"`, a akapit nad formularzem wspomina o ↑/↓ i Shift. W polu ↑/↓ zmieniają o 1, z Shift o 10. Na granicy zakresu odpowiednia strzałka jest `aria-disabled`; pusta/błędna wartość startuje od minimum pola; wynik zawsze `m:ss` (czasy) lub liczba całkowita przez `onValuesChange`.
 - Weryfikacja: `npx astro sync`, `npm run lint`, `npm test`, `node --test scripts/eslint-rules/*.test.mjs`, `npx astro check`, `npm run build`, bramka wizualna `/dev/timer-ui` (skrypt Playwright, 7 stanów × jasny/ciemny × 1280/390; „script, not human"). Smoke lokalny nie działa (brak Mailpit) — potwierdza go CI.
 
 ### Key Discoveries:
 
-- Pointer media query wbudowane w Tailwind 4.3 (`pointer-coarse:`, `pointer-fine:`) wystarczą do dwóch układów bez `@custom-variant` i bez wartości arbitralnych (`global.css:4`, brak innych wariantów).
+- Warianty wbudowane w Tailwind 4.3.3 (`any-pointer-coarse:`, `any-pointer-fine:`, `pointer-coarse:`, `pointer-fine:`; potwierdzone w `node_modules/tailwindcss/dist/lib.js`) wystarczą do dwóch układów bez `@custom-variant` i bez wartości arbitralnych. Układ duży wybieramy przy `any-pointer-coarse:` (laptop z dotykiem i myszą też dostaje cele 44 px), kompaktowy jest domyślny. Playwright `hasTouch` + `isMobile` ustawia też `any-pointer: coarse`; scenariusz „mysz + dotyk” emulujemy osobnym kontekstem (tylko `hasTouch`).
 - Wysokość kolumny 2 × `h-5.5` = 44 px = wysokość `size-11` ikony głośnika, więc wiersze Exercise/Rest nie rosną (`SignalPreviewControl.tsx:77`). Wiersze Preparation/Repetitions rosną z 36 do 44 px (`Input` `h-9`), co jest nieuniknione także na dotyku (cel 44 px).
 - WCAG 2.5.8 (24 × 24 px) nie jest spełnione przez cel 22 px wysokości; skorzystamy z wyjątku „Equivalent": ta sama funkcja jest dostępna przez cel spełniający kryterium — pole tekstowe (wpisanie wartości) i klawisze ↑/↓ w polu. Kompromis opisany w AGENTS.md; na dotyku cele mają 44 px.
-- Kliknięcie przycisku po `pointerdown` podwoiłoby krok; mysz/dotyk stepują na `pointerdown`, a `click` obsługuje tylko klawiaturę (`event.detail === 0`).
-- Tryb `aria-disabled` (jak w odsłuchu) zamiast `disabled` zachowuje fokus, gdy przycisk osiąga granicę podczas przytrzymania lub użycia klawiatury.
+- Kliknięcie po `pointerdown` podwoiłoby krok, a `click.detail === 0` jest zawodne dla technologii asystujących; mysz/dotyk stepują na `pointerdown` i ustawiają flagę `handledByPointer` w refie, a `click` stepuje tylko gdy flaga nie jest ustawiona (klawiatura, VoiceOver, TalkBack, Voice Control). `touch-none` na przyciskach wyłącza gest przewijania z celu (brak kroków od scrolla), `setPointerCapture` + `onLostPointerCapture` zatrzymują powtarzanie.
+- Tryb `aria-disabled` (jak w odsłuchu) zamiast `disabled` zachowuje fokus, gdy przycisk osiąga granicę podczas przytrzymania. Strzałki mają `tabIndex={-1}`: klawiatura ma ↑/↓ w polu (to też „Equivalent” dla 2.5.8), więc nie ma 8 dodatkowych przystanków ani niezgodności kolejności fokusu z układem wizualnym.
 - `react-hooks` v7 w lincie zabrania zapisu `ref.current` w trakcie renderu; „najnowsza wartość" dla powtarzacza trafia do refa w efekcie (`useEffect`/`useLayoutEffect`).
 - Tajność Standby: model nie ma żadnych danych o losowym oczekiwaniu; w Current Standby nadal `time: null`, a testy różnicowe 1 s vs 5 s przechodzą bez zmian logiki (zmienia się tylko renderowanie).
 
@@ -126,7 +126,7 @@ Zmiana FR-018: Current w widoku biegu ma pudełko, etykietę i linię „Nazwa �
 
 **Intent**: Wspólne pudełko `bg-muted border-border rounded-lg border px-4 py-3` z `role="group"`, etykietą `text-xl font-semibold` i linią treści `text-lg font-medium tabular-nums` używane przez Current i Next (`aria-label` „Current phase" / „Next phase"); usunąć osobne `h2` i linię czasu Current. Zachować czas, `role="timer"` tylko na głównej liczbie, „Repetition X of N" pod czasem.
 
-**Contract**: Obie linie treści mają jedną linię tekstu (bez zawijania przy 390 px dla najdłuższego „Preparation · 10:00"); stałe wysokości: linia Current nie znika w Standby (nazwa zostaje), więc brak skoków pasku przycisków. Sprawdzić `aria-live`/headings: `h2` zniknie, więc strukturę nagłówków sprawdzić w `DrillApp`/`DrillTimerView` (sekcja ma `aria-label`).
+**Contract**: Pudełko Current ma `aria-labelledby` wskazujące widoczną etykietę „Current” (nazwa grupy bez duplikatu z `aria-label="Current drill phase"` sekcji); Next analogicznie („Next”). Brak `h2` jest świadomą decyzją (sekcja ma etykietę, a pudełka są grupami). Obie linie treści mają jedną linię tekstu (bez zawijania przy 390 px dla najdłuższego „Preparation · 10:00"); stałe wysokości: linia Current nie znika w Standby (nazwa zostaje), więc brak skoków pasku przycisków. Sprawdzić `aria-live`/headings: `h2` zniknie, więc strukturę nagłówków sprawdzić w `DrillApp`/`DrillTimerView` (sekcja ma `aria-label`).
 
 #### 3. Dokumentacja wymagania i fixtures
 
@@ -136,7 +136,15 @@ Zmiana FR-018: Current w widoku biegu ma pudełko, etykietę i linię „Nazwa �
 
 **Contract**: FR-018 zmienia tylko opis Current; pozostałe zdania bez zmian. EOL plików zachowany.
 
-#### 4. Asercje w skrypcie bramki
+#### 4. Aktualizacja skryptu S-18
+
+**File**: `context/changes/run-view-layout/screenshots/run-view-visual-gate.mjs`
+
+**Intent**: Faza 2 usuwa `h2` z Current, a skrypt S-18 (`:58,70`) szuka `h2` i kolejności `rep → h2 → group`; zaktualizować go tak, by Current był grupą (`[role="group"]` z etykietą „Current”), kolejność to `time → repetition → Current → Next`, a treść Current jest jedną linią jak w Next.
+
+**Contract**: Skrypt kończy się kodem 0 po fazie 2 (zrzuty S-18 odświeżone tylko tam, gdzie Current się zmienił); jest to skrypt uruchamiany w regresji 5.3.
+
+#### 5. Asercje w skrypcie bramki S-21
 
 **File**: `context/changes/ux-fixes-round-2/screenshots/ux-fixes-round-2-visual-gate.mjs`
 
@@ -191,7 +199,7 @@ Moduły bez UI w `src/lib` z testami `npm test` i cienki hook; jeszcze bez zmian
 
 **Intent**: Utworzyć powtarzacz w `useState`, z realnymi `setTimeout`/`setInterval` i `dispose()` w cleanup (odporne na StrictMode), jak `useSignalHint.ts`.
 
-**Contract**: Zwraca `{ start, stop }`; odmontowanie zatrzymuje powtarzanie. Zapis „najnowszej wartości" w refie robi komponent w efekcie (reguła `react-hooks` v7).
+**Contract**: Zwraca `{ start, stop }`; hook trzyma ref `latest` z `{ value, onStep }` aktualizowany w `useLayoutEffect` (reguła `react-hooks` v7 zabrania zapisu w renderze), a `start` przyjmuje krok czytający `latest`, więc powtarzanie nigdy nie używa starej kopii wartości ani callbacka; odmontowanie zatrzymuje powtarzanie. Test w `drill-step-repeat.test.ts`: krok, który zwraca `false` po zewnętrznej zmianie wartości, kończy powtarzanie.
 
 ### Success Criteria:
 
@@ -220,9 +228,9 @@ Podłączyć logikę do `ConfigField` i dodać przyciski w dwóch układach wska
 
 **File**: `src/components/timer/ConfigStepper.tsx`
 
-**Intent**: Dwa przyciski (▲ zwiększ, ▼ zmniejsz) ze współdzielonym `Button variant="outline"`, ikony `ChevronUp`/`ChevronDown` (`aria-hidden`), tokeny semantyczne, `aria-controls={inputId}`, `aria-label` („Increase exercise by 1 second", „Decrease repetitions by 1" itd.), `aria-disabled` na granicy (z blokadą hovera jak w odsłuchu: `aria-disabled:hover:*`, `aria-disabled:cursor-not-allowed aria-disabled:opacity-50`), `touch-manipulation select-none` i `onContextMenu` blokujące menu przy długim dotyku.
+**Intent**: Dwa przyciski (▲ zwiększ, ▼ zmniejsz) ze współdzielonym `Button variant="outline"`, ikony lucide `ChevronUp`/`ChevronDown` (`aria-hidden`), tokeny semantyczne, `aria-controls={inputId}`, `aria-label` („Increase exercise by 1 second", „Decrease repetitions by 1" itd.), `tabIndex={-1}`, `aria-disabled` na granicy (z blokadą hovera jak w odsłuchu: `aria-disabled:hover:*`, `aria-disabled:cursor-not-allowed aria-disabled:opacity-50`), `touch-none select-none` i `onContextMenu` blokujące menu przy długim dotyku (iOS `-webkit-touch-callout`: wystarczy `select-none`).
 
-**Contract**: Props: `field`, `inputId`, `value`, `onStep(next: string)`. Układ: kontener `flex flex-col pointer-coarse:flex-row-reverse`, DOM ▲ potem ▼ (kolejność tabulatora: ▲, ▼; na dotyku wizualnie `▼ ▲`). Rozmiary: `pointer-fine` — `h-5.5 w-8` (22 px, kolumna 44 px, zaokrąglenia tak, by dwa przyciski tworzyły jedną kolumnę: górny `rounded-b-none`, dolny `rounded-t-none`, bez podwójnej ramki); `pointer-coarse:size-11` (44 px), `pointer-coarse:rounded-md`. Zdarzenia: `onPointerDown` (tylko przycisk główny / dotyk) → `useStepRepeat.start`; `onPointerUp`, `onPointerCancel`, `onPointerLeave`, `onBlur` → `stop`; `onClick` stepuje tylko gdy `event.detail === 0` (klawiatura), żeby nie dublować kroku. Krok czyta najnowszą wartość z refa aktualizowanego w efekcie. Przy braku kroku (granica) przycisk jest `aria-disabled` i nic nie robi.
+**Contract**: Props: `field`, `inputId`, `value`, `label`, `onStep(next: string)`. Układ: kontener `flex flex-col any-pointer-coarse:flex-row-reverse`, DOM ▲ potem ▼ (na dotyku wizualnie `▼ ▲`; tabulator nie dotyczy, bo `tabIndex={-1}`). Rozmiary: domyślnie `h-5.5 w-8` (22 px, kolumna dokładnie 44 px: dolny przycisk `border-t-0`, górny `rounded-b-none`, dolny `rounded-t-none`, `shadow-none`, oba `relative focus-visible:z-10` dla widocznego ringu); `any-pointer-coarse:size-11` (44 px) z pełnym obramowaniem, `rounded-md` i `shadow-xs`. Zdarzenia: `onPointerDown` (tylko przycisk główny / dotyk): `setPointerCapture`, flaga `handledByPointer = true` w refie, `useStepRepeat.start`; `onPointerUp`, `onPointerCancel`, `onLostPointerCapture`, `onPointerLeave`, `onBlur` → `stop` i zerowanie flagi; `onClick` stepuje tylko gdy `handledByPointer` nie jest ustawiona (klawiatura, AT, Voice Control), w przeciwnym razie zeruje flagę i nic nie robi. Krok czyta najnowszą wartość przez ref hooka. Na granicy przycisk jest `aria-disabled` i nic nie robi. Komunikat dla czytników: `sr-only` `role="status"` (w `ConfigField`, obecny w DOM przed zmianą) z ostatnią wartością, np. „Exercise 0:06"; aktualizowany ok. 300 ms po `stop` (pojedynczy krok: po tym samym opóźnieniu), czyszczony przy zmianie pola.
 
 #### 2. Podłączenie w polu i klawisze ↑/↓
 
@@ -230,14 +238,14 @@ Podłączyć logikę do `ConfigField` i dodać przyciski w dwóch układach wska
 
 **Intent**: `ConfigField` renderuje `ConfigStepper` w wierszu między `Input` a `action` dla czterech pól; `Input` dostaje `onKeyDown`: `ArrowUp`/`ArrowDown` → `preventDefault`, zmiana o 1 (z Shift o 10) przez `stepFieldValue` i `handleChange` (czyści błąd pola, przechodzi przez `onValuesChange`).
 
-**Contract**: `ConfigField` przekazuje `field` do logiki; kolejność w wierszu: `Input`, stepper, `action`. Preparation i Repetitions (bez ikony głośnika) też mają stepper; ich wiersze rosną do 44 px (świadomy kompromis, uzgodniony). Brak zmian w walidacji, podpowiedziach i `PREPARATION_NO_SOUND`. Przy 390 px brak overflow: dotyk `Input` + 2×44 + ikona 44 + odstępy mieści się w karcie `max-w-md`.
+**Contract**: `ConfigField` przekazuje `field` do logiki; kolejność w wierszu: `Input`, stepper, `action`. Preparation i Repetitions (bez ikony głośnika) też mają stepper; ich wiersze rosną do 44 px na komputerze (decyzja użytkownika; na dotyku cel 44 px i tak to wymusza). Akapit „Enter times in m:ss format (for example, 0:05).” dostaje zdanie „Use the arrows, or ↑ and ↓ in a field (Shift for 10).” Brak zmian w walidacji, podpowiedziach i `PREPARATION_NO_SOUND`. Przy 390 px brak overflow: dotyk `Input` + 2×44 + ikona 44 + odstępy mieści się w karcie `max-w-md`.
 
 ### Success Criteria:
 
 #### Automated Verification:
 
 - Pełna bramka: `npx astro sync && npm run lint && npm test && node --test scripts/eslint-rules/*.test.mjs && npx astro check && npm run build`
-- Skrypt wizualny: układ komputera (kolumna ▲ nad ▼, wysokość wiersza Exercise/Rest/Random start 44 px, każdy przycisk 22 px) i dotyku (`hasTouch` + `isMobile`, `pointer: coarse`: obok siebie ▼ ▲ po lewej od ikony, 44 px, `scrollWidth <= clientWidth` przy 390 px)
+- Skrypt wizualny: układ komputera (kolumna ▲ nad ▼, kolumna dokładnie 44 px, każdy przycisk 22 px, wszystkie cztery wiersze 44 px, brak podwójnej ramki), dotyku (`hasTouch` + `isMobile`: obok siebie ▼ ▲ po lewej od ikony, 44 px, `scrollWidth <= clientWidth` przy 390 px), „mysz + dotyk” (kontekst tylko `hasTouch`: układ duży), `click` bez `pointerdown` (`dispatchEvent`) stepuje, `pointerdown` + `click` stepuje raz, `sr-only` status ma ostatnią wartość, zdanie o ↑/↓ w akapicie
 
 #### Manual Verification:
 
@@ -261,7 +269,7 @@ Production-backed fixtures steppera, pełny przebieg 7 stanów i dokumentacja re
 
 **File**: `src/components/timer/ConfigStepperFixtures.tsx`, `src/components/timer/TimerUiPreview.tsx`
 
-**Intent**: Fixtures na prawdziwym `DrillConfigForm`, z `data-testid`/`data-visual-state`: default; disabled na granicy (Exercise 0:01, Rest i Preparation 10:00, Repetitions 1 i 100); error (błędne/puste wartości: błąd walidacji i pierwsze naciśnięcie sprowadza do minimum); loading (przycisk submit/pending, jak w istniejących fixtures formularza); empty — N/A (formularz zawsze ma wartości; pusty input to stan error); hover, focus-visible wymusza skrypt. Układ komputera/dotyku wybiera kontekst przeglądarki skryptu (media `pointer`), nie prop.
+**Intent**: Fixtures na prawdziwym `DrillConfigForm`, z `data-testid`/`data-visual-state`: default; disabled na granicy (Exercise 0:01, Rest i Preparation 10:00, Repetitions 1 i 100); error (błędne/puste wartości: błąd walidacji i pierwsze naciśnięcie sprowadza do minimum); loading (przycisk submit/pending, jak w istniejących fixtures formularza); empty — N/A (formularz zawsze ma wartości; pusty input to stan error); hover, focus-visible wymusza skrypt; focus-visible dotyczy pola (↑/↓), a nie strzałek — strzałki mają `tabIndex={-1}`, więc ich focus-visible jest N/A (dostępne klawiaturą przez ↑/↓ w polu; ring po kliknięciu myszą nie jest focus-visible). Układ komputera/dotyku wybiera kontekst przeglądarki skryptu (media `pointer`), nie prop.
 
 **Contract**: `TimerUiPreview.tsx` montuje nową sekcję obok `SignalPreviewFixtures`. Opisy w `SignalPreviewFixtures.tsx`, `CreateDrillFixtures.tsx`, `EditDrillFixtures.tsx` są poprawne bez zmian (ten sam formularz); sprawdzić, czy asercje starych skryptów (S-19, S-18) nadal przechodzą po dołożeniu steppera, i odświeżyć tylko zrzuty, w których układ się zmienił.
 
@@ -287,7 +295,7 @@ Production-backed fixtures steppera, pełny przebieg 7 stanów i dokumentacja re
 
 - Pełna bramka: `npx astro sync && npm run lint && npm test && node --test scripts/eslint-rules/*.test.mjs && npx astro check && npm run build`
 - Skrypt wizualny kończy się kodem 0 (7 stanów × motywy × szerokości × układy): `npm run dev` + `PLAYWRIGHT_PATH=<path> node context/changes/ux-fixes-round-2/screenshots/ux-fixes-round-2-visual-gate.mjs`
-- Regresja skryptów S-19 i S-18 (`signal-preview-visual-gate.mjs`, `run-view-visual-gate.mjs`) kończy się kodem 0
+- Regresja skryptów S-19 i zaktualizowanego S-18 (`signal-preview-visual-gate.mjs`, `run-view-visual-gate.mjs`) kończy się kodem 0
 
 #### Manual Verification:
 
@@ -361,6 +369,7 @@ Brak migracji bazy danych i zmian API. Stepper działa na istniejących tekstowy
 - [ ] 2.1 Testy modelu (w tym różnicowe Standby) przechodzą
 - [ ] 2.2 Lint, kontrakt, typy i build przechodzą
 - [ ] 2.3 Skrypt wizualny (Current jak Next, Standby bez czasu, stałe pozycje) kończy się kodem 0
+- [ ] 2.6 Skrypt S-18 `run-view-visual-gate.mjs` zaktualizowany (Current jako grupa) i kończy się kodem 0
 
 #### Manual
 
@@ -389,6 +398,7 @@ Brak migracji bazy danych i zmian API. Stepper działa na istniejących tekstowy
 
 - [ ] 4.3 Kliknięcie, przytrzymanie i zatrzymanie powtarzania działają zgodnie z wymaganiem
 - [ ] 4.4 ↑/↓, Shift i granice zakresu działają zgodnie z wymaganiem
+- [ ] 4.5 Ogłoszenie wartości (`role="status"`) i wzmianka o ↑/↓ w akapicie potwierdzone skryptem
 
 ### Phase 5: Fixtures, pełna bramka wizualna i dokumentacja
 
