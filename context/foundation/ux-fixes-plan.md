@@ -76,6 +76,12 @@ Kolejność: **S-16 → S-17 → S-18 → S-19**; S-20 tylko w roadmapie. S-16 n
 - Fixtures i screenshoty (`SignalPreviewFixtures.tsx`, `CreateDrillFixtures.tsx`, `EditDrillFixtures.tsx`, `TimerUiPreview.tsx`); brak overflow przy 390 px.
 - Recenzent: Sonnet 5.5 (medium).
 
+### S-21 ux-fixes-round-2
+- Poprawki po testach ręcznych S-16–S-19: link „Back to timers” na `/create` → `/timers`, tooltip bez `text-balance` (bez pustej połowy), wyłączona ikona odsłuchu bez zmiany koloru przy hoverze; okienko Current jak Next (FR-018).
+- Stepper ▼/▲ (FR-020): `ConfigStepper.tsx`, logika w `src/lib/drill-stepper.ts` i `drill-step-repeat.ts`. Układ wybiera `any-pointer-coarse:` (wbudowany wariant Tailwinda): kolumna 2 × 22 px na komputerze (wiersze 44 px, Preparation i Repetitions rosną z 36 px), dwa przyciski 44 px obok siebie na dotyku. Strzałki mają `tabIndex={-1}`, klawiatura używa ↑/↓ w polu (Shift = 10); `aria-disabled` na granicy; ogłoszenie wartości przez `sr-only` `role="status"`.
+- Kompromis WCAG 2.5.8 (cel minimum 24 × 24 px): przyciski 22 px wysokości na komputerze korzystają z wyjątku „Equivalent” — ta sama funkcja jest dostępna przez pole tekstowe i ↑/↓ w polu; na dotyku cele mają 44 px.
+- Fixtures: `ConfigStepperFixtures.tsx` (default, disabled na obu granicach, error, loading; empty N/A, bo pole puste to stan error); bramka: `context/changes/ux-fixes-round-2/screenshots/ux-fixes-round-2-visual-gate.mjs` (siedem stanów × jasny/ciemny × 1280/390 × wskaźnik fine/coarse) oraz regresja skryptów S-18 i S-19.
+
 ### S-20 account-deletion (proposed)
 Tylko wpis w roadmapie. Otwarte pytania: soft-delete 30 dni czy natychmiast, klucz service role po stronie serwera (dziś brak), mechanizm czyszczący (job), eksport danych, treść informacyjna dla użytkownika.
 

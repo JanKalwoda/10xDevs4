@@ -404,11 +404,11 @@ Brak migracji bazy danych i zmian API. Stepper działa na istniejących tekstowy
 
 #### Automated
 
-- [ ] 5.1 Pełna bramka (sync, lint, test, kontrakt, check, build) przechodzi
-- [ ] 5.2 Skrypt wizualny (7 stanów × motywy × szerokości × układy) kończy się kodem 0
-- [ ] 5.3 Regresja skryptów S-19 i S-18 kończy się kodem 0
+- [x] 5.1 Pełna bramka (sync, lint, test, kontrakt, check, build) przechodzi (249 testów, 6 kontraktu) — 9319af6
+- [x] 5.2 Skrypt wizualny (7 stanów × motywy × szerokości × układy) kończy się kodem 0 (1291/1291) — 9319af6
+- [x] 5.3 Regresja skryptów S-19 i S-18 kończy się kodem 0 (S-19 234/234, S-18 680/680) — 9319af6
 
 #### Manual
 
-- [ ] 5.4 Zrzuty 7 stanów w obu motywach, szerokościach i układach przejrzane
-- [ ] 5.5 Dokumentacja (AGENTS.md, PRD, roadmapa, ux-fixes-plan) zgodna z implementacją
+- [x] 5.4 Zrzuty 7 stanów w obu motywach, szerokościach i układach przejrzane — script, not human (zrzuty przejrzane, asercje w skrypcie) — 9319af6
+- [x] 5.5 Dokumentacja (AGENTS.md, PRD, roadmapa, ux-fixes-plan) zgodna z implementacją — script, not human (przegląd diffu) — 9319af6

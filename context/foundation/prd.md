@@ -103,7 +103,7 @@ Pierwszym użytkownikiem jest autor projektu, ćwiczący strzelanie na sucho. Si
 
 ## Functional Requirements
 
-Pierwotne wymagania FR-001–FR-012 zostały potwierdzone jako must-have i przeszły rundę wyzwania Sokratesowego. Na prośbę użytkownika dodano FR-013–FR-014 do zakresu MVP, a po pierwszej kolejce implementacji (2026-10-08) FR-015–FR-019 z poprawek UX (zob. `context/foundation/ux-fixes-plan.md`); szczegóły wymagające rozstrzygnięcia zapisano w Open Questions.
+Pierwotne wymagania FR-001–FR-012 zostały potwierdzone jako must-have i przeszły rundę wyzwania Sokratesowego. Na prośbę użytkownika dodano FR-013–FR-014 do zakresu MVP, a po pierwszej kolejce implementacji (2026-10-08) FR-015–FR-020 z poprawek UX (zob. `context/foundation/ux-fixes-plan.md`); szczegóły wymagające rozstrzygnięcia zapisano w Open Questions.
 
 ### Konfiguracja i przebieg timera
 
@@ -150,6 +150,7 @@ Pierwotne wymagania FR-001–FR-012 zostały potwierdzone jako must-have i przes
 
 - FR-018: W widoku przebiegu odliczany czas jest wyeksponowany u góry, bezpośrednio pod nim widać numer bieżącego i maksymalnego powtórzenia („Repetition X of N", także w przygotowaniu i Standby), okienko aktualnej fazy (Current) ma wygląd okienka następnej fazy: wyraźniejszy napis „Current", pod nim „Nazwa · czas" w jednej linii (w Standby sama nazwa, bez czasu; bez numeru powtórzenia), a okienko następnej fazy ma analogicznie napis „Next" i „Nazwa · czas". Priority: must-have
 - FR-019: Odsłuch sygnału w formularzu konfiguracji jest przyciskiem z samą ikoną głośnika, umieszczonym na końcu wiersza pola czasu (dla Standby przy opcji losowego startu); opis znaczenia sygnału i powód wyłączenia są dostępne w tooltipie, a na urządzeniach dotykowych pojawiają się po dotknięciu ikony. Priority: must-have
+- FR-020: Pola Preparation, Exercise, Rest i Repetitions w formularzu konfiguracji mają przyciski ▼/▲ zmieniające wartość o 1 sekundę (czasy) lub o 1 (powtórzenia) w granicach zakresu pola, z wynikiem w formacie m:ss lub liczbą całkowitą; przytrzymanie powtarza zmianę, a puszczenie, wyjście wskaźnika i utrata fokusu ją zatrzymują. Na urządzeniu z dotykiem przyciski mają 44 px i stoją obok siebie (▼ ▲) przed ikoną głośnika, na komputerze tworzą kolumnę ▲ nad ▼ o wysokości wiersza (44 px). Na granicy zakresu odpowiednia strzałka jest aria-disabled, pusta lub błędna wartość startuje od minimum pola, a w polu klawisze ↑/↓ zmieniają wartość o 1 (z Shift o 10). Nowa wartość jest ogłaszana czytnikom ekranu. Priority: must-have
 
 ## Non-Functional Requirements
 

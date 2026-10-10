@@ -1,7 +1,7 @@
 ---
 change_id: ux-fixes-round-2
 title: UX fixes round 2 (S-21)
-status: plan_reviewed
+status: implemented
 created: 2026-10-10
 updated: 2026-10-10
 archived_at: null
