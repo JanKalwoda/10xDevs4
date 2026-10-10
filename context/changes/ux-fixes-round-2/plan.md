@@ -391,14 +391,14 @@ Brak migracji bazy danych i zmian API. Stepper działa na istniejących tekstowy
 
 #### Automated
 
-- [x] 4.1 Pełna bramka (sync, lint, test, kontrakt, check, build) przechodzi
-- [x] 4.2 Skrypt wizualny: układ komputera i dotyku, rozmiary, wysokość wiersza, brak overflow (722/722; S-18 680/680, S-19 234/234)
+- [x] 4.1 Pełna bramka (sync, lint, test, kontrakt, check, build) przechodzi — f6abe51
+- [x] 4.2 Skrypt wizualny: układ komputera i dotyku, rozmiary, wysokość wiersza, brak overflow (722/722; S-18 680/680, S-19 234/234) — f6abe51
 
 #### Manual
 
-- [x] 4.3 Kliknięcie, przytrzymanie i zatrzymanie powtarzania działają zgodnie z wymaganiem — script, not human (Playwright mouse/touch, release, leave, blur)
-- [x] 4.4 ↑/↓, Shift i granice zakresu działają zgodnie z wymaganiem — script, not human
-- [x] 4.5 Ogłoszenie wartości (`role="status"`) i wzmianka o ↑/↓ w akapicie potwierdzone skryptem
+- [x] 4.3 Kliknięcie, przytrzymanie i zatrzymanie powtarzania działają zgodnie z wymaganiem — script, not human (Playwright mouse/touch, release, leave, blur) — f6abe51
+- [x] 4.4 ↑/↓, Shift i granice zakresu działają zgodnie z wymaganiem — script, not human — f6abe51
+- [x] 4.5 Ogłoszenie wartości (`role="status"`) i wzmianka o ↑/↓ w akapicie potwierdzone skryptem — f6abe51
 
 ### Phase 5: Fixtures, pełna bramka wizualna i dokumentacja
 
