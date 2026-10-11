@@ -62,6 +62,7 @@ npm run dev
 - `npm run lint:fix` - Auto-fix ESLint issues
 - `npm run format` - Run Prettier
 - `npm run smoke` - Smoke test the auth flow against a running server (`BASE_URL`, defaults to `http://localhost:4321`)
+- `npm run test:integration` - HTTP integration suite (`tests/integration/`: guest access, redirects, ownership, API validation) against a running app and local Supabase with Mailpit (`BASE_URL`, `MAILPIT_URL`)
 
 ## Project Structure
 
@@ -193,7 +194,7 @@ npm run dev            # or: npm run build && npm run preview
 SMOKE_MODE=local BASE_URL=http://localhost:4321 npm run smoke
 ```
 
-Local mode needs local Supabase with email confirmation disabled. For production, set `SMOKE_MODE=remote`, `BASE_URL`, `SMOKE_EMAIL`, and `SMOKE_PASSWORD` in the process environment. Production email confirmation stays enabled.
+Local mode covers the sign-in flow only (new and existing account, top bar, sign-out); route protection, ownership and API validation live in `tests/integration/` (`npm run test:integration`, needs a running app, local Supabase and Mailpit; a sign-in failure usually means the local auth limit of 30 per 5 minutes, so wait 5 minutes and rerun). Local mode needs local Supabase with email confirmation disabled. For production, set `SMOKE_MODE=remote`, `BASE_URL`, `SMOKE_EMAIL`, and `SMOKE_PASSWORD` in the process environment. Production email confirmation stays enabled.
 
 > **Note:** this script exists primarily to guard the development of the starter itself — it is a fast sanity check that dependency upgrades did not break the build, the Cloudflare adapter or the Supabase auth flow. It is **not** a substitute for a real test suite. Once you build your own product on top of this starter, add proper tests (unit, integration, end-to-end) suited to your application.
 
@@ -202,7 +203,7 @@ Local mode needs local Supabase with email confirmation disabled. For production
 GitHub Actions runs two jobs on every push and PR to `main`:
 
 - **ci** — lint, `astro check` and build without production credentials.
-- **smoke** — starts a local Supabase via the Supabase CLI, builds, serves the production preview on the Cloudflare runtime and runs `npm run smoke` against it. No secrets required.
+- **smoke** — starts a local Supabase via the Supabase CLI, builds, serves the production preview on the Cloudflare runtime and runs `npm run smoke`, then `npm run test:integration` (separate steps) against it, and checks that `/dev/timer-ui` is 404. No secrets required.
 - **deploy** — after both checks pass on a push to `main`, deploys with Wrangler only when the repository variable `PRODUCTION_DEPLOY_ENABLED` is `true`. The `production` environment holds the scoped Cloudflare token, account ID, smoke account credentials, and `PRODUCTION_URL` variable. Worker Supabase credentials stay in Cloudflare.
 
 ## License

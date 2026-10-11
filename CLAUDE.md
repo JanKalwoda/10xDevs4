@@ -204,6 +204,8 @@ All pages are server-rendered by default. API routes must export `const prerende
 
 `npx supabase test db` (pgTAP, `supabase/tests/database/`) covers table RLS, grants and constraints and runs in the `smoke` job; add a test there for every new table or policy.
 
+`tests/integration/` (`npm run test:integration`, job `smoke`): trasy, ochrona, własność i walidacja API; dodaj przypadek dla każdej nowej trasy chronionej lub endpointu, używaj istniejących kont pliku i sklasyfikuj stronę w `src/lib/route-inventory.test.ts`; błąd logowania w zestawie oznacza zwykle limit auth: odczekaj 5 minut i uruchom ponownie (`context/foundation/test-plan.md` §6.2).
+
 ## Account-entry UI
 
 - Account-entry pages and the account links in the top bar use semantic tokens from src/styles/global.css and existing primitives from src/components/ui; avoid palette classes, literal colors, and arbitrary dimensions. npm run lint enforces this on the auth views and root shell. Keep visual evidence in context/archive/2026-10-03-enter-account-by-email-link/screenshots/.
