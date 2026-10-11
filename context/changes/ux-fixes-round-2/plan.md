@@ -359,8 +359,8 @@ Brak migracji bazy danych i zmian API. Stepper działa na istniejących tekstowy
 
 #### Manual
 
-- [x] 1.4 Link powrotu na `/create` prowadzi do `/timers` — script, not human (href asserted in smoke and markup; user confirms in the manual list) — 18f49cd
-- [x] 1.5 Tooltip bez pustej prawej połowy przy 1280 i 390 px — script, not human (tooltip gap <= 7 px, screenshots reviewed) — 18f49cd
+- [x] 1.4 Link powrotu na `/create` prowadzi do `/timers` — script, not human (href asserted in smoke and markup; user confirms in the manual list) — 18f49cd; user manual checklist 2026-10-11: R1-R5, S1-S10, T1-T5, then U1-U8, V1-V4 after S-22 pass
+- [x] 1.5 Tooltip bez pustej prawej połowy przy 1280 i 390 px — script, not human (tooltip gap <= 7 px, screenshots reviewed) — 18f49cd; user manual checklist 2026-10-11: R1-R5, S1-S10, T1-T5, then U1-U8, V1-V4 after S-22 pass
 
 ### Phase 2: Okienko Current jak Next
 
@@ -373,8 +373,8 @@ Brak migracji bazy danych i zmian API. Stepper działa na istniejących tekstowy
 
 #### Manual
 
-- [x] 2.4 Current wygląda jak Next we wszystkich scenariuszach i motywach — script, not human (style equality asserted, screenshots reviewed) — 867be5f
-- [x] 2.5 Czas i pasek przycisków nie skaczą między fazami — script, not human (positions compared across all scenarios) — 867be5f
+- [x] 2.4 Current wygląda jak Next we wszystkich scenariuszach i motywach — script, not human (style equality asserted, screenshots reviewed) — 867be5f; user manual checklist 2026-10-11: R1-R5, S1-S10, T1-T5, then U1-U8, V1-V4 after S-22 pass
+- [x] 2.5 Czas i pasek przycisków nie skaczą między fazami — script, not human (positions compared across all scenarios) — 867be5f; user manual checklist 2026-10-11: R1-R5, S1-S10, T1-T5, then U1-U8, V1-V4 after S-22 pass
 
 ### Phase 3: Czysta logika steppera i powtarzacza
 
@@ -385,7 +385,7 @@ Brak migracji bazy danych i zmian API. Stepper działa na istniejących tekstowy
 
 #### Manual
 
-- [x] 3.3 Moduły `src/lib` nie importują Reacta ani DOM — script, not human (grep over imports, no React or DOM) — 2c30fa2
+- [x] 3.3 Moduły `src/lib` nie importują Reacta ani DOM — script, not human (grep over imports, no React or DOM) — 2c30fa2; user manual checklist 2026-10-11: R1-R5, S1-S10, T1-T5, then U1-U8, V1-V4 after S-22 pass
 
 ### Phase 4: Stepper w formularzu (oba układy, klawiatura)
 
@@ -396,9 +396,9 @@ Brak migracji bazy danych i zmian API. Stepper działa na istniejących tekstowy
 
 #### Manual
 
-- [x] 4.3 Kliknięcie, przytrzymanie i zatrzymanie powtarzania działają zgodnie z wymaganiem — script, not human (Playwright mouse/touch, release, leave, blur) — f6abe51
-- [x] 4.4 ↑/↓, Shift i granice zakresu działają zgodnie z wymaganiem — script, not human — f6abe51
-- [x] 4.5 Ogłoszenie wartości (`role="status"`) i wzmianka o ↑/↓ w akapicie potwierdzone skryptem — f6abe51
+- [x] 4.3 Kliknięcie, przytrzymanie i zatrzymanie powtarzania działają zgodnie z wymaganiem — script, not human (Playwright mouse/touch, release, leave, blur) — f6abe51; user manual checklist 2026-10-11: R1-R5, S1-S10, T1-T5, then U1-U8, V1-V4 after S-22 pass
+- [x] 4.4 ↑/↓, Shift i granice zakresu działają zgodnie z wymaganiem — script, not human — f6abe51; user manual checklist 2026-10-11: R1-R5, S1-S10, T1-T5, then U1-U8, V1-V4 after S-22 pass
+- [x] 4.5 Ogłoszenie wartości (`role="status"`) i wzmianka o ↑/↓ w akapicie potwierdzone skryptem — f6abe51; user manual checklist 2026-10-11: R1-R5, S1-S10, T1-T5, then U1-U8, V1-V4 after S-22 pass
 
 ### Phase 5: Fixtures, pełna bramka wizualna i dokumentacja
 
@@ -410,8 +410,8 @@ Brak migracji bazy danych i zmian API. Stepper działa na istniejących tekstowy
 
 #### Manual
 
-- [x] 5.4 Zrzuty 7 stanów w obu motywach, szerokościach i układach przejrzane — script, not human (zrzuty przejrzane, asercje w skrypcie) — 9319af6
-- [x] 5.5 Dokumentacja (AGENTS.md, PRD, roadmapa, ux-fixes-plan) zgodna z implementacją — script, not human (przegląd diffu) — 9319af6
+- [x] 5.4 Zrzuty 7 stanów w obu motywach, szerokościach i układach przejrzane — script, not human (zrzuty przejrzane, asercje w skrypcie) — 9319af6; user manual checklist 2026-10-11: R1-R5, S1-S10, T1-T5, then U1-U8, V1-V4 after S-22 pass
+- [x] 5.5 Dokumentacja (AGENTS.md, PRD, roadmapa, ux-fixes-plan) zgodna z implementacją — script, not human (przegląd diffu) — 9319af6; user manual checklist 2026-10-11: R1-R5, S1-S10, T1-T5, then U1-U8, V1-V4 after S-22 pass
 
 ### Impl-review fixes (F1–F5)
 

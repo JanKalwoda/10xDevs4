@@ -249,10 +249,10 @@ None (no database or API change). Rollback is a revert of the three commits.
 
 #### Manual
 
-- [x] 1.8 On `/` at 390 px the bar does not overlap the card and the page does not scroll when the card fits (verified by Playwright script, 2026-10-08, screenshots/checks.json; the card is ~1014 px tall, so it was checked at 390x1300, and at 844 the scroll height equals bar + card + padding, no extra bar height)
-- [x] 1.9 Scroll `/create` at 390 px to the bottom: the bar stays at the top (verified by Playwright script, 2026-10-08, screenshots/checks.json, signed in, 390x400 viewport scrolled 885 px, bar top 0)
-- [x] 1.10 Guest and signed-in bars show the right items; sign-in pages show no bar (verified by Playwright script, 2026-10-08, screenshots/checks.json)
-- [x] 1.11 The toggle switches light/dark everywhere and persists; the icon is correct on first paint in dark mode (verified by Playwright script, 2026-10-08, screenshots/checks.json; first paint with 6x CPU throttle shows only the Sun icon)
+- [x] 1.8 On `/` at 390 px the bar does not overlap the card and the page does not scroll when the card fits (verified by Playwright script, 2026-10-08, screenshots/checks.json; the card is ~1014 px tall, so it was checked at 390x1300, and at 844 the scroll height equals bar + card + padding, no extra bar height); user manual checklist 2026-10-11: A1, A2, B1 pass
+- [x] 1.9 Scroll `/create` at 390 px to the bottom: the bar stays at the top (verified by Playwright script, 2026-10-08, screenshots/checks.json, signed in, 390x400 viewport scrolled 885 px, bar top 0); user manual checklist 2026-10-11: A1, A2, B1 pass
+- [x] 1.10 Guest and signed-in bars show the right items; sign-in pages show no bar (verified by Playwright script, 2026-10-08, screenshots/checks.json); user manual checklist 2026-10-11: A1, A2, B1 pass
+- [x] 1.11 The toggle switches light/dark everywhere and persists; the icon is correct on first paint in dark mode (verified by Playwright script, 2026-10-08, screenshots/checks.json; first paint with 6x CPU throttle shows only the Sun icon); user manual checklist 2026-10-11: A1, A2, B1 pass
 
 ### Phase 2: Callback button
 
@@ -262,7 +262,7 @@ None (no database or API change). Rollback is a revert of the three commits.
 
 #### Manual
 
-- [x] 2.2 `/auth/callback` shows `Back to the timer` as an outline button, no top bar (verified by Playwright script, 2026-10-08, screenshots/checks.json)
+- [x] 2.2 `/auth/callback` shows `Back to the timer` as an outline button, no top bar (verified by Playwright script, 2026-10-08, screenshots/checks.json); user manual checklist 2026-10-11: A1, A2, B1 pass
 
 ### Phase 3: Preview fixtures, screenshots, docs, cleanup
 
@@ -273,5 +273,5 @@ None (no database or API change). Rollback is a revert of the three commits.
 
 #### Manual
 
-- [x] 3.3 Screenshots reviewed: contrast, focus-visible, no overflow at 390 px in both themes (reviewed with Read; found the long email overlapping the toggle at 390 px, fixed in ea71060 and re-shot; overlap390 script check passes) — ea71060
-- [x] 3.4 `/dev/timer-ui` shows the bar fixtures; production `/dev/timer-ui` stays 404 (fixtures in screenshots/fixtures-topbar-*; production preview answered 404, 2026-10-08) — ea71060
+- [x] 3.3 Screenshots reviewed: contrast, focus-visible, no overflow at 390 px in both themes (reviewed with Read; found the long email overlapping the toggle at 390 px, fixed in ea71060 and re-shot; overlap390 script check passes) — ea71060; user manual checklist 2026-10-11: A1, A2, B1 pass
+- [x] 3.4 `/dev/timer-ui` shows the bar fixtures; production `/dev/timer-ui` stays 404 (fixtures in screenshots/fixtures-topbar-*; production preview answered 404, 2026-10-08) — ea71060; user manual checklist 2026-10-11: A1, A2, B1 pass

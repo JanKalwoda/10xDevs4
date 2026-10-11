@@ -284,7 +284,7 @@ Brak zmian danych. Usunięcie `CLICK_AFTER_POINTER_MS` i `handledByPointer` nie 
 
 #### Manual
 
-- [x] 1.4 Jeden klik/tap zmienia wartość o 1, przytrzymanie powtarza — script, not human (23/23 checks: mysz, tap, tap CDP przy primary fine, click 300 ms po pointerup, hold) — 2c466b4
+- [x] 1.4 Jeden klik/tap zmienia wartość o 1, przytrzymanie powtarza — script, not human (23/23 checks: mysz, tap, tap CDP przy primary fine, click 300 ms po pointerup, hold) — 2c466b4; user manual checklist 2026-10-11: U1-U8, V1-V4 pass
 
 ### Phase 2: Strzałki w polu i układ wg głównego wskaźnika
 
@@ -295,7 +295,7 @@ Brak zmian danych. Usunięcie `CLICK_AFTER_POINTER_MS` i `handledByPointer` nie 
 
 #### Manual
 
-- [x] 2.3 Wygląd jak natywny spinner w jasnym i ciemnym motywie przy 1280 i 390 px — script, not human (74/74 checks, zrzuty fine i coarse przejrzane; pełne zrzuty light/dark w fazie 4) — 6e3cf21
+- [x] 2.3 Wygląd jak natywny spinner w jasnym i ciemnym motywie przy 1280 i 390 px — script, not human (74/74 checks, zrzuty fine i coarse przejrzane; pełne zrzuty light/dark w fazie 4) — 6e3cf21; user manual checklist 2026-10-11: U1-U8, V1-V4 pass
 
 ### Phase 3: Tooltip na komputerze i okienko Current
 
@@ -306,7 +306,7 @@ Brak zmian danych. Usunięcie `CLICK_AFTER_POINTER_MS` i `handledByPointer` nie 
 
 #### Manual
 
-- [x] 3.3 Tooltip i Current wyglądają zgodnie z decyzją — script, not human (zrzuty current-*, checks 188/188) — b3ebf57
+- [x] 3.3 Tooltip i Current wyglądają zgodnie z decyzją — script, not human (zrzuty current-*, checks 188/188) — b3ebf57; user manual checklist 2026-10-11: U1-U8, V1-V4 pass
 
 ### Phase 4: Fixtures, bramka wizualna i dokumentacja
 
@@ -317,4 +317,4 @@ Brak zmian danych. Usunięcie `CLICK_AFTER_POINTER_MS` i `handledByPointer` nie 
 
 #### Manual
 
-- [ ] 4.3 Zrzuty przejrzane, dokumentacja zgodna z implementacją — przekazane do ręcznej checklisty użytkownika (nie wykonane przez człowieka; checki skryptem: script, not human)
+- [x] 4.3 Zrzuty przejrzane, dokumentacja zgodna z implementacją — screenshots and docs checked by script (script, not human); the user checked the result in the app; user manual checklist 2026-10-11: U1-U8, V1-V4 pass

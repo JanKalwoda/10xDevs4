@@ -200,5 +200,5 @@ Brak migracji ani zmian API.
 
 #### Manual
 
-- [ ] 3.3 Przegląd zrzutów w folderze zmiany (jasny/ciemny, 1280/390; default, hover, focus-visible, disabled, error, loading; empty N/A)
-- [ ] 3.4 Pozycja przycisków paska identyczna z ostrzeżeniami i bez nich, także przy Standby
+- [x] 3.3 Przegląd zrzutów w folderze zmiany (jasny/ciemny, 1280/390; default, hover, focus-visible, disabled, error, loading; empty N/A) — the user checked it in the app (screenshots themselves not reviewed by a human); user manual checklist 2026-10-11: A4, B3, R2, U8, V4 pass
+- [x] 3.4 Pozycja przycisków paska identyczna z ostrzeżeniami i bez nich, także przy Standby — the user checked it in the app (screenshots themselves not reviewed by a human); user manual checklist 2026-10-11: A4, B3, R2, U8, V4 pass

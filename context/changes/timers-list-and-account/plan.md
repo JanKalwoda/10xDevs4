@@ -333,7 +333,7 @@ No data changes. Old bookmarks of `/dashboard` now open the account page; the ba
 
 #### Manual
 
-- [x] 1.6 Signed in, `/timers` lists timers and `/dashboard` shows only account info — checked by Playwright script on local dev + local Supabase, not by a human (checks.json)
+- [x] 1.6 Signed in, `/timers` lists timers and `/dashboard` shows only account info — checked by Playwright script on local dev + local Supabase, not by a human (checks.json); user manual checklist 2026-10-11: A2, A3, B2 pass
 
 ### Phase 2: Default login target and `Back to timers` links
 
@@ -347,7 +347,7 @@ No data changes. Old bookmarks of `/dashboard` now open the account page; the ba
 
 #### Manual
 
-- [x] 2.5 Sign-in without `next` produces a callback link whose `next` is `/timers` (smoke step with a link request without `next`; CI is the execution) - CI smoke (run 37854194146), not local
+- [x] 2.5 Sign-in without `next` produces a callback link whose `next` is `/timers` (smoke step with a link request without `next`; CI is the execution) - CI smoke (run 37854194146), not local; user manual checklist 2026-10-11: A2, A3, B2 pass
 
 ### Phase 3: Create redirects to `/{id}`
 
@@ -360,7 +360,7 @@ No data changes. Old bookmarks of `/dashboard` now open the account page; the ba
 
 #### Manual
 
-- [x] 3.4 Creating a timer lands on `/{id}` and Back does not show a stuck `Saving…` form — checked by Playwright script (1280 and 390), not by a human
+- [x] 3.4 Creating a timer lands on `/{id}` and Back does not show a stuck `Saving…` form — checked by Playwright script (1280 and 390), not by a human; user manual checklist 2026-10-11: A2, A3, B2 pass
 
 ### Phase 4: Smoke, docs, visual gate
 
@@ -376,5 +376,5 @@ No data changes. Old bookmarks of `/dashboard` now open the account page; the ba
 
 #### Manual
 
-- [x] 4.8 Screenshots reviewed for both themes and widths — captured by script and viewed by the dev agent (Read), not by a human; `context/changes/timers-list-and-account/screenshots/`
-- [ ] 4.9 After deploy: `/` 200, `/dev/timer-ui` 404, `/timers` and `/dashboard` 302 for a guest
+- [x] 4.8 Screenshots reviewed for both themes and widths — captured by script and viewed by the dev agent (Read), not by a human; `context/changes/timers-list-and-account/screenshots/`; user manual checklist 2026-10-11: A2, A3, B2 pass
+- [x] 4.9 After deploy: `/` 200, `/dev/timer-ui` 404, `/timers` and `/dashboard` 302 for a guest — checked by the coordinator with curl against production after the deploys of 29e8139 and f215cab (2026-10-11), not by a human; user manual checklist 2026-10-11: A2, A3, B2 pass
