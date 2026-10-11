@@ -219,8 +219,8 @@ Brak; zmiana lokalnego tooling, bez wpływu na CI i produkcję.
 
 #### Automated
 
-- [x] 3.1 `npm run lint` i `npm test` przechodzą, diff §1–§3 test-planu pusty
+- [x] 3.1 `npm run lint` i `npm test` przechodzą, diff §1–§3 test-planu pusty — 3b332d1
 
 #### Manual
 
-- [x] 3.2 Nowa osoba potrafi z §6 uruchomić przebieg na jednym module (script, not human)
+- [x] 3.2 Nowa osoba potrafi z §6 uruchomić przebieg na jednym module (script, not human) — 3b332d1
