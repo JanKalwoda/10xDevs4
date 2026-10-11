@@ -57,10 +57,10 @@ Obecny timer HIIT pozwala ustawić fazy i powtórzenia, lecz jego przewidywalny 
 | S-12 | edit-saved-drill | Użytkownik zmienia własną zapisaną konfigurację | S-10 | FR-012 | done |
 | S-13 | delete-saved-drill | Użytkownik usuwa własną konfigurację po potwierdzeniu | S-10 | FR-012 | done |
 | S-14 | align-bluetooth-audio | Użytkownik ze słuchawkami Bluetooth wyrównuje widok faz ze słyszanymi sygnałami | S-02 | FR-002, FR-004, FR-005 | blocked |
-| S-16 | app-top-bar | Top bar z kontem i motywem | yes | done |
-| S-17 | timers-list-and-account | Lista timerów, dane konta i przejście po zapisie | yes | done |
-| S-18 | run-view-layout | Układ widoku biegu | yes | done |
-| S-19 | signal-preview-icon | Ikona odsłuchu z tooltipem | yes | done |
+| S-16 | app-top-bar | Top bar z kontem i motywem | yes | Zob. `context/foundation/ux-fixes-plan.md`. |
+| S-17 | timers-list-and-account | Lista timerów, dane konta i przejście po zapisie | yes | Po S-16; zob. `ux-fixes-plan.md`. |
+| S-18 | run-view-layout | Układ widoku biegu | yes | Po S-04; zob. `ux-fixes-plan.md`. |
+| S-19 | signal-preview-icon | Ikona odsłuchu z tooltipem | yes | Po S-03; zob. `ux-fixes-plan.md`. |
 | S-20 | account-deletion | Usuwanie konta (RODO) | no | Wymaga decyzji o przetrzymaniu i kluczu service role. |
 | S-16 | app-top-bar | Użytkownik widzi przyklejony top bar z emailem, Sign in/Sign out i przełącznikiem motywu | S-09 | FR-015 | done |
 | S-17 | timers-list-and-account | Użytkownik ma osobny ekran listy timerów, stronę danych konta i po zapisie trafia do zapisanego timera | S-16, S-11, S-12, S-13 | FR-011, FR-016, FR-017 | done |
