@@ -1,10 +1,10 @@
 ---
 change_id: app-top-bar
 title: Sticky top bar with account and theme toggle
-status: impl_reviewed
+status: archived
 created: 2026-10-08
-updated: 2026-10-08
-archived_at: null
+updated: 2026-10-11
+archived_at: 2026-10-11T11:12:37Z
 ---
 
 ## Notes

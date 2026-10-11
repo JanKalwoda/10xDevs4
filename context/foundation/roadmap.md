@@ -3,7 +3,7 @@ project: "DryFire Drill Timer"
 version: 1
 status: draft
 created: 2026-09-23
-updated: 2026-10-09
+updated: 2026-10-11
 prd_version: 1
 main_goal: speed
 top_blocker: capacity
@@ -57,12 +57,12 @@ Obecny timer HIIT pozwala ustawić fazy i powtórzenia, lecz jego przewidywalny 
 | S-12 | edit-saved-drill | Użytkownik zmienia własną zapisaną konfigurację | S-10 | FR-012 | done |
 | S-13 | delete-saved-drill | Użytkownik usuwa własną konfigurację po potwierdzeniu | S-10 | FR-012 | done |
 | S-14 | align-bluetooth-audio | Użytkownik ze słuchawkami Bluetooth wyrównuje widok faz ze słyszanymi sygnałami | S-02 | FR-002, FR-004, FR-005 | blocked |
-| S-16 | app-top-bar | Top bar z kontem i motywem | yes | Zob. `context/foundation/ux-fixes-plan.md`. |
+| S-16 | app-top-bar | Top bar z kontem i motywem | yes | done |
 | S-17 | timers-list-and-account | Lista timerów, dane konta i przejście po zapisie | yes | Po S-16; zob. `ux-fixes-plan.md`. |
 | S-18 | run-view-layout | Układ widoku biegu | yes | Po S-04; zob. `ux-fixes-plan.md`. |
 | S-19 | signal-preview-icon | Ikona odsłuchu z tooltipem | yes | Po S-03; zob. `ux-fixes-plan.md`. |
 | S-20 | account-deletion | Usuwanie konta (RODO) | no | Wymaga decyzji o przetrzymaniu i kluczu service role. |
-| S-16 | app-top-bar | Użytkownik widzi przyklejony top bar z emailem, Sign in/Sign out i przełącznikiem motywu | S-09 | FR-015 | in-progress |
+| S-16 | app-top-bar | Użytkownik widzi przyklejony top bar z emailem, Sign in/Sign out i przełącznikiem motywu | S-09 | FR-015 | done |
 | S-17 | timers-list-and-account | Użytkownik ma osobny ekran listy timerów, stronę danych konta i po zapisie trafia do zapisanego timera | S-16, S-11, S-12, S-13 | FR-011, FR-016, FR-017 | in-progress |
 | S-18 | run-view-layout | Użytkownik widzi w biegu czas wyżej, powtórzenie pod czasem oraz czytelniejsze okienka Current i Next | S-04 | FR-013, FR-018 | in-progress |
 | S-19 | signal-preview-icon | Użytkownik odsłuchuje sygnał ikoną głośnika w wierszu pola, a opis widzi w tooltipie | S-03 | FR-004, FR-019 | in-progress |
@@ -296,7 +296,7 @@ Brak osobnych Foundations. Konfigurację danych, ochronę własności i weryfika
 - **Blockers:** —
 - **Unknowns:** —
 - **Risk:** Email trafia do HTML każdej strony z paskiem, więc strony z paskiem (w tym `/` i 404) muszą mieć `Cache-Control: private, no-store`; sticky pasek nie może dawać dodatkowego przewijania ani przesuwać układu karty.
-- **Status:** in-progress
+- **Status:** done
 
 ### S-17: Lista timerów i dane konta
 
@@ -426,3 +426,4 @@ Brak zamkniętych kamieni milowych.
 - **S-11: Zalogowany użytkownik po wejściu lub odświeżeniu strony `/dashboard` (strona startowa zalogowanego) widzi listę własnych nazwanych konfiguracji z parametrami albo tekst informujący, że nie ma jeszcze zapisanych timerów; pod `/{id_timera}` otwiera szczegóły i uruchamia wybraną konfigurację.** — Archived 2026-10-08 → `context/archive/2026-10-07-open-saved-drill/`. Lesson: —.
 - **S-12: Zalogowany użytkownik zmienia nazwę i parametry jednej zapisanej konfiguracji (bez kolorów faz) bez modyfikowania innych; unikalność nazwy per użytkownik i limit 200 znaków obowiązują także przy edycji.** — Archived 2026-10-08 → `context/archive/2026-10-07-edit-saved-drill/`. Lesson: —.
 - **S-13: Zalogowany użytkownik usuwa własną konfigurację dopiero po potwierdzeniu pokazującym jej nazwę.** — Archived 2026-10-08 → `context/archive/2026-10-07-delete-saved-drill/`. Lesson: —.
+- **S-16: Na każdej stronie poza stronami logowania użytkownik widzi przyklejony do góry, zawsze widoczny pasek: dla zalogowanego email (link do `/dashboard`), link „Timers", przełącznik motywu jasny/ciemny i „Sign out"; dla gościa „Sign in" i przełącznik motywu. Pasek zastępuje pływający link konta i przełączniki motywu w kartach, więc „Sign in" nie nachodzi na kartę timera na telefonie. „Back to the timer" na stronie callback jest przyciskiem.** — Archived 2026-10-11 → `context/archive/2026-10-08-app-top-bar/`. Lesson: —.
