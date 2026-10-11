@@ -1,0 +1,40 @@
+{
+  "$schema": "./node_modules/@stryker-mutator/core/schema/stryker-schema.json",
+  "_comment": "Lokalna bramka na zadanie, nie CI. Moduly podawaj przez --mutate, np. npx stryker run --mutate \"src/lib/protected-routes.ts\". Zakres linii (plik:od-do) jest kruchy: po edycji pliku trzeba go zaktualizowac.",
+  "testRunner": "tap",
+  "plugins": [
+    "@stryker-mutator/tap-runner"
+  ],
+  "tap": {
+    "testFiles": [
+      "src/lib/protected-routes.test.ts",
+      "src/lib/email-auth.test.ts",
+      "src/lib/services/drill-configurations.test.ts"
+    ],
+    "nodeArgs": [
+      "--test-reporter=tap"
+    ]
+  },
+  "coverageAnalysis": "perTest",
+  "reporters": [
+    "clear-text",
+    "progress",
+    "html"
+  ],
+  "htmlReporter": {
+    "fileName": "reports/mutation/mutation.html"
+  },
+  "thresholds": {
+    "high": 80,
+    "low": 60
+  },
+  "tempDirName": ".stryker-tmp",
+  "ignorePatterns": [
+    "context",
+    "dist",
+    ".astro",
+    ".wrangler",
+    "reports"
+  ],
+  "_comment_tap": "tap.nodeArgs: tylko --test-reporter=tap. NIE dodawac --test: plik testowy idzie wtedy do podprocesu bez hooka Strykera i kazdy mutant jest NoCoverage."
+}

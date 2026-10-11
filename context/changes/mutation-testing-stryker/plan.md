@@ -192,15 +192,15 @@ Brak; zmiana lokalnego tooling, bez wpływu na CI i produkcję.
 
 #### Automated
 
-- [ ] 1.1 Instalacja czysta (`npm install`)
-- [ ] 1.2 Przebieg na protected-routes.ts kończy się sukcesem dry runu
-- [ ] 1.3 Raport HTML powstał, a git go nie widzi
-- [ ] 1.4 `npm run lint` i `npm test` przechodzą
+- [x] 1.1 Instalacja czysta (`npm install`)
+- [x] 1.2 Przebieg na protected-routes.ts kończy się sukcesem dry runu
+- [x] 1.3 Raport HTML powstał, a git go nie widzi
+- [x] 1.4 `npm run lint` i `npm test` przechodzą
 
 #### Manual
 
-- [ ] 1.5 Raport HTML otwiera się i pokazuje mutanty protected-routes.ts z wynikiem > 0%
-- [ ] 1.6 Zanotowane wersje, czas przebiegu i użycie natywnego TS bez tsx
+- [x] 1.5 Raport HTML otwiera się i pokazuje mutanty protected-routes.ts z wynikiem > 0% (script, not human)
+- [x] 1.6 Zanotowane wersje, czas przebiegu i użycie natywnego TS bez tsx (script, not human)
 
 ### Phase 2: Przegląd mutantów i asercje dla trzech modułów
 
