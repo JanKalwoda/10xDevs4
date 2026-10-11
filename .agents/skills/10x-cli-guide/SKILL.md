@@ -1,6 +1,6 @@
 ---
 name: 10x-cli-guide
-description: "Use when the user wants to download, use or update 10xDevs CLI skills, choose a helper installation channel, inspect course content, switch tool profiles or troubleshoot CLI/auth/content conflicts. Guides filtered get → an actual agent task → sync while preserving local work and course/tool/language context. For first installation or authentication preparation, use an available 10x-cli-setup copy. Does not implement CLI runtime or grant course access."
+description: "Use when the user wants to download, use or update 10xDevs CLI skills, choose a helper installation channel, inspect course content, switch tool profiles, see what changed in 10x-toolkit releases (changelog) or troubleshoot CLI/auth/content conflicts. Guides filtered get → an actual agent task → sync while preserving local work and course/tool/language context. For first installation or authentication preparation, use an available 10x-cli-setup copy. Does not implement CLI runtime or grant course access."
 ---
 
 # 10x-cli: download, use, update
@@ -41,8 +41,16 @@ verified global/standalone executable:
 10x_cli get --help
 10x_cli sync --help
 10x_cli auth --status
-10x_cli list --course 10xdevs4
+10x_cli list
 ```
+
+Leave `--course` out of these commands: the CLI reads the edition from
+`.10x-cli.json` when the directory is already bound, otherwise from the live API
+recommendation (the highest edition the account can reach). `get` prints
+`Course: <slug> (<reason>)`; check it once before the first write. Use
+`--course <slug>` only to inspect another entitled edition on purpose — a bound
+project cannot be rewritten to a different edition (`course_mismatch`), so v4
+starts in a new empty directory.
 
 Check source/release evidence for lesson reference, skill filter and lesson-scoped sync, then use the
 filtered preview below to check the endpoint. Do not treat a successful help exit as
@@ -79,16 +87,21 @@ refresh transparently; re-login is needed only when refresh cannot recover them.
 
 The launch exercise follows lesson 1, “Od pomysłu do PRD”, using its existing
 10xCards example. `10x-plan` is not part of this launch demonstration.
-After checking each name's capability and availability, download three separate
-complete selected skill trees. Inspect each dry-run before its corresponding write:
+Prepare all four lesson skills: `10x-idea-check`, `10x-init`, `10x-shape` and
+`10x-prd`. Idea assessment is optional to run; its files should still be available
+when preparing lesson 1. If the user requested only a specific skill, retain that
+narrower scope. After checking each name's capability and availability, download
+four separate complete selected skill trees. Inspect each dry-run before its corresponding write:
 
 ```bash
-10x_cli get m1l1 --type skills --name 10x-init --course 10xdevs4 --tool claude-code --lang pl --dry-run
-10x_cli get m1l1 --type skills --name 10x-init --course 10xdevs4 --tool claude-code --lang pl
-10x_cli get m1l1 --type skills --name 10x-shape --course 10xdevs4 --tool claude-code --lang pl --dry-run
-10x_cli get m1l1 --type skills --name 10x-shape --course 10xdevs4 --tool claude-code --lang pl
-10x_cli get m1l1 --type skills --name 10x-prd --course 10xdevs4 --tool claude-code --lang pl --dry-run
-10x_cli get m1l1 --type skills --name 10x-prd --course 10xdevs4 --tool claude-code --lang pl
+10x_cli get m1l1 --type skills --name 10x-idea-check --tool claude-code --lang pl --dry-run
+10x_cli get m1l1 --type skills --name 10x-idea-check --tool claude-code --lang pl
+10x_cli get m1l1 --type skills --name 10x-init --tool claude-code --lang pl --dry-run
+10x_cli get m1l1 --type skills --name 10x-init --tool claude-code --lang pl
+10x_cli get m1l1 --type skills --name 10x-shape --tool claude-code --lang pl --dry-run
+10x_cli get m1l1 --type skills --name 10x-shape --tool claude-code --lang pl
+10x_cli get m1l1 --type skills --name 10x-prd --tool claude-code --lang pl --dry-run
+10x_cli get m1l1 --type skills --name 10x-prd --tool claude-code --lang pl
 ```
 
 Inspect each report and the complete supporting tree, not just SKILL.md. In the
@@ -96,6 +109,11 @@ chosen macOS/zsh exercise directory, each of these checks must succeed before us
 (stop on any failure; do not infer success from the last check alone):
 
 ```bash
+test -s .claude/skills/10x-idea-check/SKILL.md
+test -s .claude/skills/10x-idea-check/references/examples.md
+test -s .claude/skills/10x-idea-check/references/assessment-guide.md
+test -s .claude/skills/10x-idea-check/references/10xdevs-4-dates.md
+test -s .claude/skills/10x-idea-check/references/10xdevs-4-certification.md
 test -s .claude/skills/10x-init/SKILL.md
 test -s .claude/skills/10x-shape/SKILL.md
 test -s .claude/skills/10x-shape/references/prd-schema.md
@@ -108,14 +126,14 @@ own directory. A standalone PRD tree is insufficient. Read all installed
 entrypoints and every reference they require; the paths above are the known
 source minimum, not permission to discard extra files from a published bundle.
 Also inspect `.claude/.10x-cli-manifest.json`: `lessons.m1l1.skills` must include
-all three names, with file hashes in `files.skills`. These are lesson-owned
+all four names, with file hashes in `files.skills`. These are lesson-owned
 partial downloads, not independent owners. Inspect `.10x-cli.json` for the course
 binding; partial downloads do not establish a complete lesson release identity.
 
 CLI 1.21.0 is published with v4 and filtered skill downloads; production m1l1 EN/PL
-contains init/shape/prd and their references. These revised helpers are a separate
+contains idea-check/init/shape/prd and their references. These revised helpers are a separate
 source change, not proof that their course copies have been published.
-Verify all three names against the actual selected release. If any name, schema,
+Verify all four names against the actual selected release. If any name, schema,
 owner or release is missing/mismatched, preserve the precise error and stop the
 exercise; never silently substitute a whole lesson, another course or filtered get.
 
@@ -128,8 +146,8 @@ missing prerequisite and obtain the supported route from the lesson/release owne
 before that step. Do not invent a rule command or download a full lesson to bypass
 it. Do not overwrite an existing project rule.
 
-For browsing use `10x_cli list m1 --course 10xdevs4`. The commands above filter
-one lesson by skill name; `get 10x-init` is not supported. `--print` is inspection:
+For browsing use `10x_cli list m1`. The commands above filter one lesson by skill
+name; `get 10x-init` is not supported. `--print` is inspection:
 TTY Markdown can contain only SKILL.md; non-TTY output is a JSON envelope. Never
 redirect print output into SKILL.md as a package installation.
 
@@ -140,7 +158,11 @@ the learner's actual answers from lesson 1. If those inputs are absent, ask for
 them; do not invent product requirements, a replacement task.md or a ready-made
 plan. Keep private lesson text out of public fixtures and transcripts.
 Do not assume native slash/$ discovery or automatic activation from npm install.
-Give the agent explicit local paths and work through these steps separately:
+Give the agent explicit local paths. If the learner wants to assess whether an
+idea fits their experience, time and course goals, first read
+`.claude/skills/10x-idea-check/SKILL.md` and its references and follow that skill.
+Do not make assessment a prerequisite when the learner is ready to shape.
+Then work through these steps separately:
 
 1. Read `.claude/skills/10x-init/SKILL.md` and follow it in the chosen project.
    Inspect the create-if-absent context/changes, context/archive and
@@ -166,32 +188,50 @@ two canonical output filenames instead of forcing an overwrite.
 
 ## Update
 
-Use the same runner, directory, course, tool and language. Sync updates entire
-downloaded lessons, including m1l1 after these filtered gets. Its preview may
+Use the same runner, directory, tool and language; the edition stays the project's
+own, so `sync` needs no `--course` either. Sync updates entire downloaded lessons,
+including m1l1 after these filtered gets. Its preview may
 include other skills, prompts, configs and course rules. Inspect that expanded
 scope and apply only when the user accepts it; to update only one skill, repeat
 its filtered preview/get instead. Do not use sync as a hidden rule prerequisite
 workaround:
 
 ```bash
-10x_cli sync --course 10xdevs4 --tool claude-code --lang pl --dry-run
-10x_cli sync --course 10xdevs4 --tool claude-code --lang pl
+10x_cli sync --tool claude-code --lang pl --dry-run
+10x_cli sync --tool claude-code --lang pl
 ```
 
 Normal sync refreshes the full lessons recorded in the manifest, not just the
-three selected skills. `--all` broadens scope to unlocked lessons and is not needed
+four selected skills. `--all` broadens scope to unlocked lessons and is not needed
 for this exercise. Missing managed files should be repaired; local edits should
 remain visible as conflicts or preserved files. Read all report outcomes and
 resource counts even if exit is 0: skipped conflicts alone are not process errors.
 Do not equate an unchanged remote digest with intact local files.
 
 For one conflicting skill, inspect the diff and back up local work before retrying
-its filtered get in an interactive terminal with the same course/tool/lang. Preserve
-the user's resolution choice. If a CLI hint omits context, restore these flags in
-your proposed command. Never run automatic `--force`; it can overwrite local
+its filtered get in an interactive terminal, from the same directory and with the
+same tool/lang. Preserve the user's resolution choice. If a CLI hint omits context,
+restore these flags in your proposed command. Never run automatic `--force`; it can overwrite local
 skill/prompt edits and does not bypass protected rules or safe removal. Config
 templates remain create-only. Cleanup preserves modified/untracked files and
 files owned elsewhere; do not manually sweep a skill directory after sync.
+
+To see what changed in the course toolkit itself, use `changelog`. This command
+is **unreleased**: check the actual runner's `changelog --help` first.
+
+```bash
+10x_cli changelog                      # toolkit releases since this project's last sync
+10x_cli changelog --since v2.55.0      # releases after a version
+10x_cli changelog --course 10xdevs4    # another course than this project's
+10x_cli changelog --since 2026-10-01   # releases from that UTC day on
+```
+
+It lists toolkit release notes (skills, prompts, rules, config templates per
+release), not this project's files: `sync --dry-run` remains the authority for
+what would be downloaded. A successful sync (or full unfiltered get) records the
+newest toolkit version in the project manifest as the baseline; without it the
+command falls back to the last applied lesson's date, or shows the latest 5
+releases. "No toolkit changes" with exit 0 is normal. It never writes files.
 
 Three updates are independent: changing the npm/binary version updates the CLI;
 repeating pinned public `skills add` with a deliberately chosen new retained SHA
@@ -237,8 +277,10 @@ other-agent walkthrough. Translate shell syntax to the user's actual shell.
 
 Run `10x_cli doctor --json` when diagnosis is useful; inspect its complete
 `data.overall` and `data.checks` as well as exit status. It checks the configured
-profile, not a `--tool` or `--course` argument. Before first get, a missing tool
-directory can be expected; explain only that failure and keep other failures
+profile, not a `--tool` or `--course` argument. Its auth check reports the resolved
+edition and selection reason (`details.course`, `details.selectionReason`) — that is
+the self-check for which edition this directory is on. Before first get, a missing
+tool directory can be expected; explain only that failure and keep other failures
 visible. Doctor exit 78 can coexist with outer JSON `status: "ok"`.
 
 | Symptom | Next step |
@@ -251,7 +293,9 @@ visible. Doctor exit 78 can coexist with outer JSON `status: "ok"`.
 | Denied course access | Confirm selected course and membership; changing tool/reinstalling does not grant access. |
 | Locked or unpublished v4 | Inspect module availability/release evidence; do not bypass the gate or fall back to v3. |
 | Unsupported name/missing index | Verify exact CLI package and content release; preserve the error for the release owner. |
+| `changelog_unsupported` | The backend does not serve the toolkit changelog yet; sync/get still work. Retry later; do not treat it as a content failure. |
 | Network/API failure | Keep diagnostics, retry the same context when service returns; no config reset. |
+| Missing `10x-idea-check` after setup | Older helper journeys selected only init/shape/prd. Check the actual commands, selected profile path and manifest; use the idea-check preview/get above to add its complete tree. If the files already exist, read that exact SKILL.md and check the agent's discovery/reload behavior before reinstalling. An absent slash command alone does not prove missing files. |
 | Wrong directory/profile | Recheck cwd and explicit flags; a fresh project may legitimately have no tool directory. |
 | Signature/release mismatch | Preserve failure and source identity; do not disable verification or reuse unrelated bytes. |
 | Edition/manifest conflict | Preserve binding and manifests for repair; use a separate v4 project rather than deleting them. |

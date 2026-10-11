@@ -2,8 +2,8 @@
   "package": "@przeprogramowani/10x-cli",
   "version": "1.21.0",
   "manifestVersion": 3,
-  "lastApplied": "2026-10-05T20:34:06.935Z",
-  "lessonId": "m2l5",
+  "lastApplied": "2026-10-11T12:39:36.448Z",
+  "lessonId": "m3l1",
   "course": "10xdevs4",
   "tool": "codex",
   "files": {
@@ -285,6 +285,16 @@
           "SKILL.md": "9e214350b9e7f06e63ee50435abfbc2db959cbceb299fad16fea2023932324b6",
           "references/ui-quality-checklist.md": "de2f830b52f5de2bd480f6b283cb23598190958c9b8f868b0322494188b7e0e4"
         }
+      },
+      "10x-test-plan": {
+        "files": [
+          "SKILL.md",
+          "references/test-plan-schema.md"
+        ],
+        "contentHashes": {
+          "SKILL.md": "127be91495606ecbbd5b79cfdad40519e3c55bc1c39d77eb7c245b9bc0352091",
+          "references/test-plan-schema.md": "4969dc97be7cb32abd9789e3ff1e3d0e4b95e1180d23dd0a656031591eb421a3"
+        }
       }
     },
     "prompts": [
@@ -306,7 +316,7 @@
   },
   "lessons": {
     "m1l1": {
-      "appliedAt": "2026-09-14T20:55:49.331Z",
+      "appliedAt": "2026-10-11T12:39:29.145Z",
       "skills": {
         "10x-init": {
           "files": [
@@ -336,17 +346,18 @@
       },
       "prompts": [],
       "configs": [],
+      "catalogContentHash": "36c898d4223a4259467c7e8b8bd3b204ec6f15ad048d3fd830858e598f99e2d4",
       "representation": {
         "lang": "pl",
         "tool": "codex",
         "courseRules": true,
         "rules": true
       },
-      "installedReleaseId": "r-01931641e2446d2c391ae2a5580585d7b137173dca2b63b9a85ed32388155a66",
-      "installedManifestHash": "1ec3800cfa5c5d37754debba7e9172f32e71330ee1a29531d6ec8fff1c4bfaaa"
+      "installedReleaseId": "r-46042df8c5bf0889600972bbf020ca32aafa72c844b5e196533afbc6a496c215",
+      "installedManifestHash": "435038f6a11d77a290a66c602b41b5a174750691d0f8249f282a4f843d5e255a"
     },
     "m1l2": {
-      "appliedAt": "2026-09-17T19:50:56.215Z",
+      "appliedAt": "2026-10-11T12:39:29.648Z",
       "skills": {
         "10x-idea-check": {
           "files": [
@@ -400,11 +411,18 @@
         "skill-explainer.md"
       ],
       "configs": [],
-      "installedReleaseId": "r-01931641e2446d2c391ae2a5580585d7b137173dca2b63b9a85ed32388155a66",
-      "installedManifestHash": "1ec3800cfa5c5d37754debba7e9172f32e71330ee1a29531d6ec8fff1c4bfaaa"
+      "catalogContentHash": "5ac7eed9c6f76052ffc65f4dc318342eeabe43d0979c6cb91209f92be9d8f876",
+      "representation": {
+        "lang": "pl",
+        "tool": "codex",
+        "courseRules": true,
+        "rules": true
+      },
+      "installedReleaseId": "r-46042df8c5bf0889600972bbf020ca32aafa72c844b5e196533afbc6a496c215",
+      "installedManifestHash": "435038f6a11d77a290a66c602b41b5a174750691d0f8249f282a4f843d5e255a"
     },
     "m1l3": {
-      "appliedAt": "2026-09-18T21:02:50.216Z",
+      "appliedAt": "2026-10-11T12:39:30.136Z",
       "skills": {
         "10x-idea-check": {
           "files": [
@@ -476,11 +494,18 @@
         "skill-explainer.md"
       ],
       "configs": [],
-      "installedReleaseId": "r-01931641e2446d2c391ae2a5580585d7b137173dca2b63b9a85ed32388155a66",
-      "installedManifestHash": "1ec3800cfa5c5d37754debba7e9172f32e71330ee1a29531d6ec8fff1c4bfaaa"
+      "catalogContentHash": "e08f967c47fd5d76bdf3288cdcca43d326a59a0a6808151a0aac5b5b6b2d460e",
+      "representation": {
+        "lang": "pl",
+        "tool": "codex",
+        "courseRules": true,
+        "rules": true
+      },
+      "installedReleaseId": "r-46042df8c5bf0889600972bbf020ca32aafa72c844b5e196533afbc6a496c215",
+      "installedManifestHash": "435038f6a11d77a290a66c602b41b5a174750691d0f8249f282a4f843d5e255a"
     },
     "m1l4": {
-      "appliedAt": "2026-09-19T22:09:31.783Z",
+      "appliedAt": "2026-10-11T12:39:30.629Z",
       "skills": {
         "10x-idea-check": {
           "files": [
@@ -567,11 +592,18 @@
         "skill-explainer.md"
       ],
       "configs": [],
-      "installedReleaseId": "r-01931641e2446d2c391ae2a5580585d7b137173dca2b63b9a85ed32388155a66",
-      "installedManifestHash": "1ec3800cfa5c5d37754debba7e9172f32e71330ee1a29531d6ec8fff1c4bfaaa"
+      "catalogContentHash": "728a619b6f455ce79a6b09ba12f7a9a88cd6a721edbc07c707e43e588eff786b",
+      "representation": {
+        "lang": "pl",
+        "tool": "codex",
+        "courseRules": true,
+        "rules": true
+      },
+      "installedReleaseId": "r-46042df8c5bf0889600972bbf020ca32aafa72c844b5e196533afbc6a496c215",
+      "installedManifestHash": "435038f6a11d77a290a66c602b41b5a174750691d0f8249f282a4f843d5e255a"
     },
     "m1l5": {
-      "appliedAt": "2026-09-20T20:24:27.729Z",
+      "appliedAt": "2026-10-11T12:39:31.186Z",
       "skills": {
         "10x-idea-check": {
           "files": [
@@ -668,11 +700,18 @@
         "m1l5-4-store-plan.md"
       ],
       "configs": [],
-      "installedReleaseId": "r-53b4e172ba8f908f75dd003db30a30e8bb73aa66b01351a337ee5e3d24f724a5",
-      "installedManifestHash": "71375b33229734587abdd3540485ea38153aded925b5629ce5f71ec2d467abac"
+      "catalogContentHash": "404206912a1a333cc4f2d973aff105eca9614c4213d7dc292ff45e7240676ed2",
+      "representation": {
+        "lang": "pl",
+        "tool": "codex",
+        "courseRules": true,
+        "rules": true
+      },
+      "installedReleaseId": "r-46042df8c5bf0889600972bbf020ca32aafa72c844b5e196533afbc6a496c215",
+      "installedManifestHash": "435038f6a11d77a290a66c602b41b5a174750691d0f8249f282a4f843d5e255a"
     },
     "m2l1": {
-      "appliedAt": "2026-09-23T19:17:36.145Z",
+      "appliedAt": "2026-10-11T12:39:31.792Z",
       "skills": {
         "10x-idea-check": {
           "files": [
@@ -775,11 +814,18 @@
         "m1l5-4-store-plan.md"
       ],
       "configs": [],
-      "installedReleaseId": "r-dd5c2b4bc3f63fee918d09330c676f31479453b6f6754ca1c13902646d33baca",
-      "installedManifestHash": "f22f7bf334f0e79bf8b7f095943940825d772c1c39d3613ae7d8531f4803c37f"
+      "catalogContentHash": "01122b43862d9e98cc413ed717fe2fd771af29092d63ece47096364815a70b25",
+      "representation": {
+        "lang": "pl",
+        "tool": "codex",
+        "courseRules": true,
+        "rules": true
+      },
+      "installedReleaseId": "r-46042df8c5bf0889600972bbf020ca32aafa72c844b5e196533afbc6a496c215",
+      "installedManifestHash": "435038f6a11d77a290a66c602b41b5a174750691d0f8249f282a4f843d5e255a"
     },
     "m2l2": {
-      "appliedAt": "2026-09-24T18:23:11.931Z",
+      "appliedAt": "2026-10-11T12:39:32.536Z",
       "skills": {
         "10x-idea-check": {
           "files": [
@@ -925,11 +971,18 @@
         "m1l5-4-store-plan.md"
       ],
       "configs": [],
-      "installedReleaseId": "r-dd5c2b4bc3f63fee918d09330c676f31479453b6f6754ca1c13902646d33baca",
-      "installedManifestHash": "f22f7bf334f0e79bf8b7f095943940825d772c1c39d3613ae7d8531f4803c37f"
+      "catalogContentHash": "ec76b1d426dca88a4b7d76868f2bb0b92b0a1aed6a718b9781c5f8c263c11bc3",
+      "representation": {
+        "lang": "pl",
+        "tool": "codex",
+        "courseRules": true,
+        "rules": true
+      },
+      "installedReleaseId": "r-46042df8c5bf0889600972bbf020ca32aafa72c844b5e196533afbc6a496c215",
+      "installedManifestHash": "435038f6a11d77a290a66c602b41b5a174750691d0f8249f282a4f843d5e255a"
     },
     "m2l3": {
-      "appliedAt": "2026-09-28T20:03:06.835Z",
+      "appliedAt": "2026-10-11T12:39:33.344Z",
       "skills": {
         "10x-idea-check": {
           "files": [
@@ -1081,11 +1134,18 @@
         "m1l5-4-store-plan.md"
       ],
       "configs": [],
-      "installedReleaseId": "r-ca3701970cba6fc3667f1f4f40d4c759193ab12ea17f5ddadb13f1d32706e805",
-      "installedManifestHash": "af0beb2ee7f7f2e44a0ae20c7ccc90c1cb34885b68219a3a15a6630156f4c6b7"
+      "catalogContentHash": "bab424b6164d80b348659e94d8066505ae1fdede3f1e864c94cfe4365c5553ce",
+      "representation": {
+        "lang": "pl",
+        "tool": "codex",
+        "courseRules": true,
+        "rules": true
+      },
+      "installedReleaseId": "r-46042df8c5bf0889600972bbf020ca32aafa72c844b5e196533afbc6a496c215",
+      "installedManifestHash": "435038f6a11d77a290a66c602b41b5a174750691d0f8249f282a4f843d5e255a"
     },
     "m2l4": {
-      "appliedAt": "2026-09-30T18:21:57.036Z",
+      "appliedAt": "2026-10-11T12:39:34.369Z",
       "skills": {
         "10x-idea-check": {
           "files": [
@@ -1252,11 +1312,18 @@
         "m1l5-4-store-plan.md"
       ],
       "configs": [],
-      "installedReleaseId": "r-d1f9bce872e7d91757645310e888811d078b3fea9992467260294498106ccf12",
-      "installedManifestHash": "b6bb453e3356ab8804d39712908ca55c920ba8221c1e64041976d19f1ef57832"
+      "catalogContentHash": "4a8d8b6bd5aa3f4e90fe9223b3bb60821a66701d752111abfa7d6bd1d58823e2",
+      "representation": {
+        "lang": "pl",
+        "tool": "codex",
+        "courseRules": true,
+        "rules": true
+      },
+      "installedReleaseId": "r-46042df8c5bf0889600972bbf020ca32aafa72c844b5e196533afbc6a496c215",
+      "installedManifestHash": "435038f6a11d77a290a66c602b41b5a174750691d0f8249f282a4f843d5e255a"
     },
     "m2l5": {
-      "appliedAt": "2026-10-05T20:34:06.935Z",
+      "appliedAt": "2026-10-11T12:39:35.267Z",
       "skills": {
         "10x-idea-check": {
           "files": [
@@ -1429,20 +1496,215 @@
         "m1l5-4-store-plan.md"
       ],
       "configs": [],
+      "catalogContentHash": "d27ec6fa79ca6266360f9ad3c0912b0d5145e023098fdae90e703f045fb20cb9",
       "representation": {
         "lang": "pl",
         "tool": "codex",
         "courseRules": true,
         "rules": true
       },
-      "installedReleaseId": "r-e3cd8fdea52c4c80b2eb59d2099c814305c6108bc14ae6fc6587080e4f39a1ea",
-      "installedManifestHash": "7da604e9ad0e4eb07da59a5d763159e9611e628e5afd3ed0a79f43f59fa792a9"
+      "installedReleaseId": "r-46042df8c5bf0889600972bbf020ca32aafa72c844b5e196533afbc6a496c215",
+      "installedManifestHash": "435038f6a11d77a290a66c602b41b5a174750691d0f8249f282a4f843d5e255a"
+    },
+    "m3l1": {
+      "appliedAt": "2026-10-11T12:39:36.448Z",
+      "skills": {
+        "10x-idea-check": {
+          "files": [
+            "SKILL.md",
+            "references/10xdevs-4-certification.md",
+            "references/10xdevs-4-dates.md",
+            "references/assessment-guide.md",
+            "references/examples.md"
+          ]
+        },
+        "10x-init": {
+          "files": [
+            "SKILL.md"
+          ]
+        },
+        "10x-shape": {
+          "files": [
+            "SKILL.md",
+            "references/prd-schema.md"
+          ]
+        },
+        "10x-prd": {
+          "files": [
+            "SKILL.md"
+          ]
+        },
+        "10x-tech-stack-selector": {
+          "files": [
+            "SKILL.md",
+            "references/agent-friendly-criteria.md",
+            "references/decision-flow.md",
+            "references/eval-cases.md",
+            "references/handoff-schema.md",
+            "references/residual-interview.md",
+            "references/starter-registry.yaml"
+          ]
+        },
+        "10x-stack-assess": {
+          "files": [
+            "SKILL.md",
+            "references/agent-friendly-criteria.md",
+            "references/decision-flow.md",
+            "references/eval-cases.md",
+            "references/handoff-schema.md",
+            "references/residual-interview.md",
+            "references/starter-registry.yaml"
+          ]
+        },
+        "10x-bootstrapper": {
+          "files": [
+            "SKILL.md",
+            "references/bootstrapper-config.yaml",
+            "references/handoff-consumer.md",
+            "references/post-scaffold-verification.md",
+            "references/pre-scaffold-verification.md",
+            "references/refusal-protocol.md",
+            "references/scaffold-merge.md",
+            "references/verification-log-schema.md"
+          ]
+        },
+        "10x-health-check": {
+          "files": [
+            "SKILL.md",
+            "references/health-check-schema.md"
+          ]
+        },
+        "10x-agents-md": {
+          "files": [
+            "SKILL.md"
+          ]
+        },
+        "10x-rule-review": {
+          "files": [
+            "SKILL.md"
+          ]
+        },
+        "10x-lesson": {
+          "files": [
+            "SKILL.md"
+          ]
+        },
+        "10x-infra-research": {
+          "files": [
+            "SKILL.md",
+            "references/agent-friendly-criteria.md"
+          ]
+        },
+        "10x-roadmap": {
+          "files": [
+            "SKILL.md",
+            "references/milestone-state.md"
+          ]
+        },
+        "10x-new": {
+          "files": [
+            "SKILL.md",
+            "references/change-md.md"
+          ]
+        },
+        "10x-plan": {
+          "files": [
+            "SKILL.md",
+            "references/plan-persistence.md",
+            "references/plan-templates.md",
+            "references/progress-format.md",
+            "references/question-examples.md",
+            "references/task-orchestration.md",
+            "scripts/metadata-guard.mjs",
+            "scripts/metadata-guard.test.mjs"
+          ]
+        },
+        "10x-plan-review": {
+          "files": [
+            "SKILL.md",
+            "references/progress-format.md"
+          ]
+        },
+        "10x-implement": {
+          "files": [
+            "SKILL.md",
+            "references/implementation-discipline.md",
+            "references/progress-format.md"
+          ]
+        },
+        "10x-archive": {
+          "files": [
+            "SKILL.md",
+            "references/archive-sha.md"
+          ]
+        },
+        "10x-status": {
+          "files": [
+            "SKILL.md",
+            "references/progress-format.md"
+          ]
+        },
+        "10x-impl-review": {
+          "files": [
+            "SKILL.md",
+            "references/progress-format.md"
+          ]
+        },
+        "10x-frame": {
+          "files": [
+            "SKILL.md"
+          ]
+        },
+        "10x-research": {
+          "files": [
+            "SKILL.md",
+            "references/research-document.md",
+            "references/task-orchestration.md",
+            "scripts/metadata-guard.mjs",
+            "scripts/prose-json-check.mjs",
+            "scripts/prose-json-check.test.mjs"
+          ]
+        },
+        "10x-ui": {
+          "files": [
+            "SKILL.md",
+            "references/ui-quality-checklist.md"
+          ]
+        },
+        "10x-test-plan": {
+          "files": [
+            "SKILL.md",
+            "references/test-plan-schema.md"
+          ]
+        }
+      },
+      "prompts": [
+        "skill-explainer.md",
+        "m1l5-1-plan-integration.md",
+        "m1l5-2-constrain-approach.md",
+        "m1l5-3-extend-prerequisites.md",
+        "m1l5-4-store-plan.md"
+      ],
+      "configs": [],
+      "catalogContentHash": "bdf47ba37a6d7395de52bab28c18d49f6d54bddf7c04d1083f50feec0bdf6168",
+      "representation": {
+        "lang": "pl",
+        "tool": "codex",
+        "courseRules": true,
+        "rules": true
+      },
+      "installedReleaseId": "r-46042df8c5bf0889600972bbf020ca32aafa72c844b5e196533afbc6a496c215",
+      "installedManifestHash": "435038f6a11d77a290a66c602b41b5a174750691d0f8249f282a4f843d5e255a"
     }
   },
   "managedRules": {
     "path": "AGENTS.md",
     "begin": "<!-- BEGIN @przeprogramowani/10x-cli -->",
     "end": "<!-- END @przeprogramowani/10x-cli -->",
-    "upstreamHash": "e0ab73674fd5f9b3a4c9e89ee3cb60f0a01101d28b5105d888538ab5c18d04ac"
+    "upstreamHash": "2ce13161214b16d9792c594bf892dcc1e9743d6a63c03e0ca99cea9c43cbf8b0"
+  },
+  "toolkit": {
+    "version": "v2.59.3",
+    "recordedAt": "2026-10-11T12:39:36.566Z"
   }
 }

@@ -66,19 +66,27 @@ substitute its exact executable for `10x_cli`; no reinstall is required.
 10x_cli sync --help
 10x_cli auth --help
 10x_cli auth --status
-10x_cli list --course 10xdevs4
+10x_cli list
 ```
 
 Run commands from the intended project root. The target guided context is
-`--course 10xdevs4 --tool claude-code --lang pl`; preserve it in downloads,
-previews, updates and recovery. `list` takes `--course`, not tool/lang flags.
+`--tool claude-code --lang pl` with no `--course`; preserve those two flags in
+downloads, previews, updates and recovery and let the edition come from the
+project. Pass `--course <slug>` only for a deliberate look at another entitled
+edition (`list`, `get --print`); `list` takes `--course`, not tool/lang flags.
 Use another context only when the user chose it. Record any language fallback
 reported by the CLI rather than calling English output Polish.
 
 The project edition is stored in `.10x-cli.json` after a validated write and shared
 across profiles; existing supported manifests also carry edition information.
-Course selection is explicit flag → project edition → live API recommendation.
-An explicit course does not authorize changing a bound project's edition. Retain
+Course selection is explicit flag → project edition → live API recommendation, so
+a bare command stays on the project's edition and a fresh directory gets the
+highest edition the account can reach. `get` prints the resolved pair
+(`Course: 10xdevs4 (backend_recommendation)`); `doctor`'s auth check reports the
+same one (`details.course` and `details.selectionReason` under `--json`). Read that
+instead of forcing a flag. An explicit course does not authorize changing a bound
+project's edition — writing another edition into a bound directory fails with
+`course_mismatch`, so a new edition belongs in a new empty directory. Retain
 the v3 project and start a separate v4 directory for this journey. Preserve unknown,
 corrupt or conflicting manifests; never delete a binding to force migration.
 
@@ -162,7 +170,7 @@ already managed by CLI should be used/updated through CLI, not overwritten here.
 ### CLI channel
 
 Use this channel after setup/auth and only with verified skill-filter support and
-available v4 content. These helpers and the launch chain `10x-init`, `10x-shape`, `10x-prd` belong to m1l1
+available v4 content. These helpers and the lesson skills `10x-idea-check`, `10x-init`, `10x-shape`, `10x-prd` belong to m1l1
 and inherit course membership and module availability. Their source membership
 does not prove that the content has been published or unlocked.
 
@@ -170,10 +178,10 @@ In a separate project from the public copies, or after the explicit takeover
 below, use the same verified `10x_cli` runner:
 
 ```bash
-10x_cli get m1l1 --type skills --name 10x-cli-setup --course 10xdevs4 --tool claude-code --lang pl --dry-run
-10x_cli get m1l1 --type skills --name 10x-cli-setup --course 10xdevs4 --tool claude-code --lang pl
-10x_cli get m1l1 --type skills --name 10x-cli-guide --course 10xdevs4 --tool claude-code --lang pl --dry-run
-10x_cli get m1l1 --type skills --name 10x-cli-guide --course 10xdevs4 --tool claude-code --lang pl
+10x_cli get m1l1 --type skills --name 10x-cli-setup --tool claude-code --lang pl --dry-run
+10x_cli get m1l1 --type skills --name 10x-cli-setup --tool claude-code --lang pl
+10x_cli get m1l1 --type skills --name 10x-cli-guide --tool claude-code --lang pl --dry-run
+10x_cli get m1l1 --type skills --name 10x-cli-guide --tool claude-code --lang pl
 ```
 
 Each successful filtered skill download should materialize
@@ -201,23 +209,34 @@ place two updaters over the same files. Normal use does not require any takeover
 
 ## Download, use, update
 
-The launch example is lesson 1's existing 10xCards: init → shape → PRD.
+Prepare lesson 1's four skills, including `10x-idea-check` with its references.
+The launch example remains the existing 10xCards: init → shape → PRD.
+Idea assessment is optional to run before that chain; install its tree during
+lesson setup so the learner can use it. Retain a narrower scope when the user
+explicitly requested only a specific skill.
 `10x-plan` is not available for the launch demonstration. After capability and
 content checks for each name, inspect each preview before its corresponding write:
 
 ```bash
-10x_cli get m1l1 --type skills --name 10x-init --course 10xdevs4 --tool claude-code --lang pl --dry-run
-10x_cli get m1l1 --type skills --name 10x-init --course 10xdevs4 --tool claude-code --lang pl
-10x_cli get m1l1 --type skills --name 10x-shape --course 10xdevs4 --tool claude-code --lang pl --dry-run
-10x_cli get m1l1 --type skills --name 10x-shape --course 10xdevs4 --tool claude-code --lang pl
-10x_cli get m1l1 --type skills --name 10x-prd --course 10xdevs4 --tool claude-code --lang pl --dry-run
-10x_cli get m1l1 --type skills --name 10x-prd --course 10xdevs4 --tool claude-code --lang pl
+10x_cli get m1l1 --type skills --name 10x-idea-check --tool claude-code --lang pl --dry-run
+10x_cli get m1l1 --type skills --name 10x-idea-check --tool claude-code --lang pl
+10x_cli get m1l1 --type skills --name 10x-init --tool claude-code --lang pl --dry-run
+10x_cli get m1l1 --type skills --name 10x-init --tool claude-code --lang pl
+10x_cli get m1l1 --type skills --name 10x-shape --tool claude-code --lang pl --dry-run
+10x_cli get m1l1 --type skills --name 10x-shape --tool claude-code --lang pl
+10x_cli get m1l1 --type skills --name 10x-prd --tool claude-code --lang pl --dry-run
+10x_cli get m1l1 --type skills --name 10x-prd --tool claude-code --lang pl
 ```
 
-Require the complete three trees and inspect each installed entrypoint/reference.
+Require the complete four trees and inspect each installed entrypoint/reference.
 All checks below must succeed before use; stop on any failure:
 
 ```bash
+test -s .claude/skills/10x-idea-check/SKILL.md
+test -s .claude/skills/10x-idea-check/references/examples.md
+test -s .claude/skills/10x-idea-check/references/assessment-guide.md
+test -s .claude/skills/10x-idea-check/references/10xdevs-4-dates.md
+test -s .claude/skills/10x-idea-check/references/10xdevs-4-certification.md
 test -s .claude/skills/10x-init/SKILL.md
 test -s .claude/skills/10x-shape/SKILL.md
 test -s .claude/skills/10x-shape/references/prd-schema.md
@@ -227,11 +246,11 @@ test -s .claude/skills/10x-prd/../10x-shape/references/prd-schema.md
 
 PRD reads `../10x-shape/references/prd-schema.md` relative to its SKILL.md;
 isolated PRD download is insufficient. These are the source minimum: preserve
-additional supporting files in the selected release. Inspect all three names in
+additional supporting files in the selected release. Inspect all four names in
 `lessons.m1l1.skills`, their hashes in `files.skills`, and the project edition
 binding. Partial downloads do not establish complete lesson freshness/release identity.
 Membership in source is candidate evidence; actual filtered availability, full PL
-references and release identity still need verification for all three names.
+references and release identity still need verification for all four names.
 
 `CLAUDE-m1l1` is a separate lesson rule and is not included in these filtered gets.
 The inspected three skill sources do not require it for the chain. This is not
@@ -240,8 +259,10 @@ require it, inspect an existing rule's provenance, or report the missing
 prerequisite and ask the lesson/release owner for a supported route before that
 step. Never invent a command, overwrite a rule or fall back to full lesson get.
 
-Have the agent explicitly read each installed SKILL.md and its references in
-order: init preserves/scaffolds context directories; shape conducts the actual
+If the learner wants to assess their idea before shaping, have the agent read
+`.claude/skills/10x-idea-check/SKILL.md` and its references and follow that skill.
+A learner ready to shape can skip assessment. Then read the chain's entrypoints
+and references in order: init preserves/scaffolds context directories; shape conducts the actual
 10xCards discovery with the learner and writes
 `context/foundation/shape-notes.md`; after the learner approves those notes, PRD
 uses them and the sibling schema to produce `context/foundation/prd.md`.
@@ -252,14 +273,14 @@ work. Stop at PRD, without stack selection or implementation. Download alone is
 not use; native slash/$ discovery needs separate agent evidence. Keep private
 lesson text out of public fixtures. The guide supplies the detailed agent steps.
 
-Sync below refreshes entire recorded lessons, not only the three skill filters.
+Sync below refreshes entire recorded lessons, not only the four skill filters.
 Preview may include other skills, prompts, configs and course rules; apply only
 when the user accepts that scope. For a narrow update, repeat the selected skill
 filter instead. Never use sync to silently bypass a missing lesson-rule prerequisite.
 
 ```bash
-10x_cli sync --course 10xdevs4 --tool claude-code --lang pl --dry-run
-10x_cli sync --course 10xdevs4 --tool claude-code --lang pl
+10x_cli sync --tool claude-code --lang pl --dry-run
+10x_cli sync --tool claude-code --lang pl
 ```
 
 Normal sync refreshes downloaded owners, including the full lessons that own previously downloaded skills. Avoid `--all` for this small journey. Inspect updated,
