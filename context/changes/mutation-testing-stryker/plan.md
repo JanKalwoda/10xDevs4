@@ -206,10 +206,10 @@ Brak; zmiana lokalnego tooling, bez wpływu na CI i produkcję.
 
 #### Automated
 
-- [x] 2.1 `npm test` przechodzi
-- [x] 2.2 Przebiegi trzech modułów kończą się sukcesem
-- [x] 2.3 Brak przetrwałych mutantów oznaczonych „zabić” po ponownym przebiegu
-- [x] 2.4 `npm run lint` przechodzi
+- [x] 2.1 `npm test` przechodzi — 9d7cb58
+- [x] 2.2 Przebiegi trzech modułów kończą się sukcesem — 9d7cb58
+- [x] 2.3 Brak przetrwałych mutantów oznaczonych „zabić” po ponownym przebiegu — 9d7cb58
+- [x] 2.4 `npm run lint` przechodzi — 9d7cb58
 
 #### Manual
 
