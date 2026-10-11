@@ -132,6 +132,11 @@ For each change:
 
 Do not commit changes directly to `main`.
 
+## Research
+
+- Podczas `/10x-research` szukaj bibliotek i źródeł przez MCP exa; dokumentację bibliotek pobieraj skillem find-docs (Context7, `npx ctx7@latest`) i zapisuj ją jako `context/docs/<biblioteka>.md` (library ID, zapytania, data pobrania, link do źródła).
+- Krótkie podsumowanie wyników researchu (odpowiedzi, decyzje, źródła) dopisuj do `## Notes` w `change.md` zmiany.
+
 ## UI
 
 - Design tokens: `src/styles/global.css` (`:root`, `.dark`, `@theme inline`). Every new color must have its own token. Never use hardcoded color values.
@@ -205,6 +210,8 @@ All pages are server-rendered by default. API routes must export `const prerende
 `npx supabase test db` (pgTAP, `supabase/tests/database/`) covers table RLS, grants and constraints and runs in the `smoke` job; add a test there for every new table or policy.
 
 `tests/integration/` (`npm run test:integration`, job `smoke`): trasy, ochrona, własność i walidacja API; dodaj przypadek dla każdej nowej trasy chronionej lub endpointu, używaj istniejących kont pliku i sklasyfikuj stronę w `src/lib/route-inventory.test.ts`; błąd logowania w zestawie oznacza zwykle limit auth: odczekaj 5 minut i uruchom ponownie (`context/foundation/test-plan.md` §6.2).
+
+`npm run test:mutation` (StrykerJS, `stryker.config.json`): mutation testing lokalnie i na żądanie po fazie ryzyka, np. `npx stryker run --mutate "src/lib/protected-routes.ts"`; nie jest bramką CI (przepis i reguły przeglądu: `context/foundation/test-plan.md` §6.7).
 
 ## Account-entry UI
 
