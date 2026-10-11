@@ -66,7 +66,9 @@ Kolejność „najpierw wspólny klient, potem przypadki, na końcu cięcie smok
 | `tests/integration/ownership.test.mjs` | #1, #2 (sfałszowane ciasteczko, gość na prawdziwym id), #5 (linki SSR, zapis → `/{id}`) | A, B |
 | `tests/integration/api-validation.test.mjs` | #6 | V, L (limit) |
 
-Razem 4 logowania z zestawu i 2 ze smoke, czyli ok. 6 z limitu 30 na 5 min.
+Razem 5 wysyłek linku (4 logowania zestawu + 1 kontrola pozytywna w `redirects`) i 2 ze smoke, czyli ok. 7 z limitu 30 na 5 min.
+
+> **Odstępstwo (impl-review F8)**: pierwotnie policzono 4 + 2. Kontrola pozytywna `POST /api/auth/signin` z bezpiecznym `next` wysyła prawdziwy link i zużywa limit, więc budżet to 5 wysyłek + 2 smoke.
 
 Wyrocznie pochodzą ze źródeł, nie z kodu:
 - PRD Access Control, Guardrails i NFR „dostępne wyłącznie właścicielowi” (#1, #2);
@@ -157,7 +159,11 @@ Nazwy wewnętrzne dobiera implementujący.
 
 **Intent**: Pierwszy test sprawdza, że cel jest lokalny i aplikacja odpowiada (`GET /` → 200). Skrypt npm uruchamia cały katalog.
 
-**Contract**: `"test:integration": "node --test tests/integration/*.test.mjs"`. Zmienne `BASE_URL` (domyślnie `http://localhost:4321`) i `MAILPIT_URL` (domyślnie `http://localhost:55324`).
+**Contract**: `"test:integration": "node --test tests/integration/*.test.mjs"`.
+
+> **Odstępstwo (impl-review F5)**: skrypt dostał `--test-timeout=180000`, a `send()` i odczyt Mailpit `AbortSignal.timeout(15_000)`, żeby zawieszony preview kończył się porażką, nie wisiał do limitu joba. Job `smoke` ma `timeout-minutes: 20`.
+
+Zmienne `BASE_URL` (domyślnie `http://localhost:4321`) i `MAILPIT_URL` (domyślnie `http://localhost:55324`).
 
 #### 4. Lint dla zestawu
 
@@ -166,6 +172,8 @@ Nazwy wewnętrzne dobiera implementujący.
 **Intent**: Objąć `tests/**/*.mjs` tą samą konfiguracją co `scripts/**/*.mjs` (bez reguł typowanych, globalne Node), żeby `npm run lint` przechodził.
 
 **Contract**: `scriptsConfig.files` zawiera `"tests/**/*.mjs"`.
+
+> **Odstępstwo (impl-review F7)**: dodatkowo `.claude/**` w `globalIgnores` (commit a6663d0). Skille i prompty 10x w `.claude/` to narzędzia agentów, nie kod aplikacji, i failowały lint już na HEAD; precedens: `.agents/**`. Dodano też globalną `AbortSignal` do `scriptsConfig` (F5).
 
 ### Success Criteria:
 
@@ -211,6 +219,7 @@ Przypadki bez konta: każda metoda gościa na każdej stronie chronionej, 401 z 
   - status 302, `Location` ze ścieżką `/auth/signin`, puste ciało;
   - `next` (jeśli jest) jest bezpieczną ścieżką lokalną: zaczyna się od `/`, nie od `//`.
   - Dokładnej wartości `next` dla wariantów nie sprawdzamy: wyrocznią jest „brak treści”, nie normalizacja.
+  - > **Odstępstwo (impl-review F2)**: dla `//timers` preview odpowiada 200 ze stroną główną, a nie 302 (najpewniej czyta `//timers` jak URL z hostem `timers`; to zachowanie warstwy runtime, nie produktu). Test akceptuje dwa wyniki zgodne z wyrocznią „brak treści chronionej”: 302 do `/auth/signin` z pustym ciałem albo 200 bez znaczników strony chronionej (`Saved timers`, `Create a timer`, `Save timer`, nagłówek `Timers`) i z treścią strony głównej (`Drill timer`). Równość bajt w bajt z `/` była zbyt krucha (przestałaby działać przy każdym elemencie strony głównej zależnym od żądania).
 - API bez sesji:
   - `POST /api/drills`, `PUT /api/drills/{losowy uuid}` i `DELETE /api/drills/{losowy uuid}` dają 401 `{ok:false, code:"unauthorized"}` z `no-store`;
   - `/not-a-uuid` i `/not-a-uuid/edit` dają 404 bez `Location`, bajt w bajt identyczne (status, ciało, `cache-control`, `content-type`, `referrer-policy`).
@@ -312,8 +321,7 @@ Przenosimy wszystkie kroki własności i ścieżek właściciela ze smoke do nie
     - klient z nazwami ciasteczek A i wartością `garbage`, potem klient z wartością A zmodyfikowaną o jeden znak w tokenie;
     - `/timers` i `/{id A}` dają 302 na `/auth/signin`, `PUT /api/drills/{id A}` daje 401;
     - A widzi timer niezmieniony.
-
-### Success Criteria:
+  - > **Odstępstwo (impl-review F1)**: sam `/timers`, `/{id}` i PUT nie wykrywają regresji `getSession()` zamiast `getUser()` w middleware, bo druga linia obrony (PostgREST odrzuca zły podpis) też daje „gość”. Test ma trzeci wariant „fabricated session” (poprawny kształt, przyszłe `expires_at`, bez ważnego podpisu) oraz asercje na powierzchniach zależnych tylko od middleware: `/dashboard` (302 na `/auth/signin?next=%2Fdashboard`, puste ciało) i pasek górny na `/` (`Sign in`, bez e-maila z sesji). Sprawdzone mutantem `getSession()` w `src/middleware.ts`: warianty „one character” i „fabricated” czerwienieją (mutant nie został zacommitowany).
 
 #### Automated Verification:
 
@@ -419,6 +427,8 @@ Usuwamy z lokalnego smoke kroki przeniesione do zestawu (według tabeli), zostaw
 - Proces preview uruchomiony w tle żyje do końca joba. Gdyby się okazało inaczej, wrócić do jednego kroku z `set -e`, zachowując kolejność.
 - Job `deploy` i job `ci` bez zmian.
 
+> **Odstępstwo (impl-review F6, F5)**: krok preview ma `id: preview`, a trzy kolejne kroki `if: ${{ !cancelled() && steps.preview.outcome == 'success' }}`, więc błąd smoke nie ukrywa wyniku zestawu ani sprawdzenia 404. Job `smoke` ma `timeout-minutes: 20`.
+
 ### Success Criteria:
 
 #### Automated Verification:
@@ -458,7 +468,7 @@ Zapisujemy wzorzec jako kanoniczną odpowiedź na pytanie „jak dodać test tra
   - testy referencyjne (`ownership.test.mjs` „foreign details page”, `guest-access.test.mjs`);
   - klient `scripts/lib/app-client.mjs` (jeden klient na konto, `rawRequest` dla wariantów);
   - zasady: wyrocznia ze źródła, porównanie „foreign == missing” bajt w bajt, unikalne nazwy na test, bez service-role i mocków bazy;
-  - **ponowne używanie kont**: nowy przypadek używa kont już logowanych w swoim pliku (A, B, V, L) i własnych timerów z unikalnymi nazwami; nowe konto tylko wtedy, gdy przypadek wymaga stanu konta (np. limit 50). Obecny budżet to 4 logowania zestawu + 2 smoke, czyli ok. 6 z 30 na przebieg, a w CI każdy przebieg startuje od zera;
+  - **ponowne używanie kont**: nowy przypadek używa kont już logowanych w swoim pliku (A, B, V, L) i własnych timerów z unikalnymi nazwami; nowe konto tylko wtedy, gdy przypadek wymaga stanu konta (np. limit 50). Obecny budżet to 5 wysyłek linku (4 logowania zestawu + 1 kontrola pozytywna `redirects`) + 2 smoke, czyli ok. 7 z 30 na przebieg, a w CI każdy przebieg startuje od zera;
   - **błąd logowania = najpierw odczekaj 5 minut**: komunikat o limicie auth oznacza przekroczenie 30 logowań lub weryfikacji na 5 min na IP (ok. 5 szybkich przebiegów lokalnie albo kilka worktree na jednym lokalnym Supabase). Odczekać 5 minut i uruchomić ponownie, zanim zacznie się szukać błędu w kodzie;
   - nowa strona wymaga klasyfikacji w `src/lib/route-inventory.test.ts`;
   - uruchomienie: `npx supabase start`, `npm run build && npm run preview`, `npm run test:integration`.

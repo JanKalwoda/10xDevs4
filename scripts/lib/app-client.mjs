@@ -12,6 +12,8 @@ export const DRILL_DEFAULTS = { preparation: "0:05", exercise: "0:04", rest: "0:
 const EMAIL_SUBJECT = "Your Drill Me sign-in link";
 const LOCAL_APP_ORIGINS = ["http://localhost:4321", "http://localhost:4323"];
 const SNAPSHOT_HEADERS = ["cache-control", "content-type", "referrer-policy"];
+// A hung app or Mailpit must fail the test, not hold the run until the CI job limit.
+const REQUEST_TIMEOUT_MS = 15_000;
 
 export const AUTH_LIMIT_MESSAGE =
     "Sign-in failed (no email / link rejected). Most likely the local Supabase auth limit (30 sign-ins or verifications per 5 min per IP) was hit, not an app bug: wait 5 minutes and run again before debugging.";
@@ -109,7 +111,7 @@ export function createAppClient(appOrigin, initialCookies = {}) {
     async function send(target, init) {
         let response;
         try {
-            response = await fetch(target, { redirect: "manual", ...init });
+            response = await fetch(target, { redirect: "manual", signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS), ...init });
         } catch {
             throw new Error("app request failed");
         }
@@ -192,7 +194,7 @@ export function createMailpit(mailpitUrl, { timeoutMs = 20_000 } = {}) {
     async function json(path) {
         let response;
         try {
-            response = await fetch(new URL(path, mailpitUrl), { redirect: "error" });
+            response = await fetch(new URL(path, mailpitUrl), { redirect: "error", signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS) });
         } catch {
             throw new Error("Mailpit request failed");
         }

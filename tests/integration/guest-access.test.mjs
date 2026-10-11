@@ -5,7 +5,7 @@ import assert from "node:assert/strict";
 import { randomUUID } from "node:crypto";
 import { test } from "node:test";
 import { URL } from "node:url";
-import { createAppClient, resolveLocalTargets } from "../../scripts/lib/app-client.mjs";
+import { createAppClient, resolveLocalTargets, visibleText } from "../../scripts/lib/app-client.mjs";
 
 const { appOrigin } = resolveLocalTargets(process.env);
 const guest = createAppClient(appOrigin);
@@ -13,6 +13,10 @@ const id = randomUUID();
 
 const PROTECTED_PATHS = ["/dashboard", "/create", "/timers", "/timers?x=1", "/" + id, "/" + id + "/edit"];
 const METHODS = ["GET", "POST", "HEAD"];
+// Text only the timers list and the create page show, and the heading of the public home page (what a guest may see).
+const PROTECTED_PAGE_MARKERS = ["Saved timers", "Create a timer", "Save timer"];
+const TIMERS_HEADING = /<h1[^>]*>\s*Timers\s*<\/h1>/;
+const HOME_MARKER = "Drill timer";
 
 function failure(method, path, response) {
     return method + " " + path + " -> " + String(response.status);
@@ -60,15 +64,25 @@ test("path variants cannot slip past the guard in the runtime", async (t) => {
         });
     }
 
-    // The runtime router does not route "//timers" to the timers page: it serves the public home page.
-    // The oracle is "no protected content", so the response must be exactly what a guest gets on "/".
-    await t.test("//timers serves only the public home page", async () => {
-        const home = await (await guest.request("/")).text();
+    // "//timers" is not a path the runtime router maps to the timers page: the preview serves the public home page for it
+    // (probably it reads the string as a URL with the host "timers"), while a front that normalises it answers with the sign-in redirect.
+    // The oracle (PRD Access Control) is "a guest gets no protected content", so both answers are accepted and nothing else.
+    await t.test("//timers gives a guest the sign-in redirect or only the public home page", async () => {
         // Built from the raw string: new URL("//timers", origin) would turn it into a host.
         const response = await guest.rawRequest(appOrigin + "//timers");
+        const text = await response.text();
 
-        assert.equal(response.status, 200);
-        assert.equal(await response.text(), home);
+        if (response.status === 302) {
+            assert.ok((response.headers.get("location") ?? "").startsWith("/auth/signin"), "//timers must redirect to sign-in");
+            assert.equal(text, "", "//timers must have no body");
+            return;
+        }
+
+        assert.equal(response.status, 200, "//timers must be the sign-in redirect or the public page");
+        const visible = visibleText(text);
+        for (const marker of PROTECTED_PAGE_MARKERS) assert.ok(!visible.includes(marker), "//timers must not show '" + marker + "'");
+        assert.ok(!TIMERS_HEADING.test(text), "//timers must not render the timers heading");
+        assert.ok(visible.includes(HOME_MARKER), "//timers must be the public home page");
     });
 });
 

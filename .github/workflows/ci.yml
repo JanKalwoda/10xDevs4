@@ -25,6 +25,7 @@ jobs:
 
   smoke:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -54,16 +55,20 @@ jobs:
           cp .env .dev.vars
       - run: npm run build
       - name: Start production preview
+        id: preview
         run: |
           npm run preview -- --port 4321 &
           for i in $(seq 1 60); do curl -sf -o /dev/null http://localhost:4321/ && exit 0; sleep 1; done
           echo "Preview did not start on port 4321"
           exit 1
       - name: Run local Mailpit smoke against production preview
+        if: ${{ !cancelled() && steps.preview.outcome == 'success' }}
         run: SMOKE_MODE=local BASE_URL=http://localhost:4321 MAILPIT_URL=http://localhost:55324 npm run smoke
       - name: Run integration suite against production preview
+        if: ${{ !cancelled() && steps.preview.outcome == 'success' }}
         run: BASE_URL=http://localhost:4321 MAILPIT_URL=http://localhost:55324 npm run test:integration
       - name: Production preview hides the dev timer UI
+        if: ${{ !cancelled() && steps.preview.outcome == 'success' }}
         run: test "$(curl -s -o /dev/null -w '%{http_code}' http://localhost:4321/dev/timer-ui)" = 404
       - if: always()
         run: supabase stop --no-backup

@@ -21,7 +21,7 @@ function hiddenNext(markup) {
 }
 
 async function mailTo(address) {
-    const response = await fetch(new URL("/api/v1/search?query=" + encodeURIComponent("to:" + address), mailpitUrl));
+    const response = await fetch(new URL("/api/v1/search?query=" + encodeURIComponent("to:" + address), mailpitUrl), { signal: AbortSignal.timeout(15_000) });
     assert.equal(response.status, 200);
     return (await response.json()).messages_count ?? 0;
 }
@@ -138,4 +138,13 @@ test("POST /api/auth/signin positive control: a safe next is accepted", async ()
 
     assert.equal(response.status, 200);
     assert.equal((await response.json()).ok, true);
+
+    // The same send proves that mailTo() can see a mail at all, so the zero counts above are not a search that matches nothing.
+    const deadline = Date.now() + 10_000;
+    let received = await mailTo(email);
+    while (received < 1 && Date.now() < deadline) {
+        await setTimeout(250);
+        received = await mailTo(email);
+    }
+    assert.ok(received >= 1, "the Mailpit search finds the mail of the accepted request");
 });

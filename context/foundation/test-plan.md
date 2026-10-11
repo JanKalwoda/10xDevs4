@@ -149,7 +149,7 @@ the relevant rollout phase ships; before that, the sub-section reads
   - „foreign == missing” porównuj bajt w bajt (status, ciało, nagłówki) oraz sprawdzaj `no-store`;
   - każdy test tworzy własne timery z unikalną nazwą (`<test>-<uuid>`);
   - bez klucza service-role i bez mocków bazy; POST na stronę wysyłaj z `Origin` aplikacji.
-- **Reuse accounts**: nowy przypadek używa kont już logowanych w swoim pliku (A, B, V, L) i własnych timerów; nowe konto tylko gdy przypadek wymaga stanu konta (np. limit 50). Budżet: 4 logowania zestawu + 2 smoke, ok. 6 z 30 na przebieg; w CI każdy przebieg startuje od zera.
+- **Reuse accounts**: nowy przypadek używa kont już logowanych w swoim pliku (A, B, V, L) i własnych timerów; nowe konto tylko gdy przypadek wymaga stanu konta (np. limit 50). Budżet: 5 wysyłek linku (4 logowania zestawu + 1 kontrola pozytywna w `redirects`) + 2 smoke, ok. 7 z 30 na przebieg; w CI każdy przebieg startuje od zera.
 - **Sign-in failure = wait 5 minutes first**: komunikat o limicie auth oznacza przekroczenie 30 logowań lub weryfikacji na 5 min na IP (ok. 5 szybkich przebiegów lokalnie albo kilka worktree na jednym Supabase). Odczekaj 5 minut i uruchom ponownie, zanim zaczniesz szukać błędu w kodzie.
 - **New page**: sklasyfikuj ją w `src/lib/route-inventory.test.ts` (inaczej `npm test` failuje z jej ścieżką) i dodaj przypadek gościa w `guest-access`.
 - **Run locally**: `npx supabase start`, `npm run build && npm run preview`, potem `npm run test:integration` (`BASE_URL` domyślnie `http://localhost:4321`, `MAILPIT_URL` `http://localhost:55324`). Pojedynczy test: `node --test --test-name-pattern="<nazwa>" tests/integration/ownership.test.mjs`.

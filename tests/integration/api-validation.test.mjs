@@ -39,8 +39,13 @@ function uniqueName(label) {
     return label + "-" + randomUUID();
 }
 
+// Every answer of the save and edit API carries user data or a refusal about it, so none may be cached (smoke checked it on each one).
 async function send(client, path, { method, body, contentType }) {
     const response = await client.request(path, { method, json: body, contentType });
+    assert.ok(
+        response.headers.get("cache-control")?.includes("no-store"),
+        method + " " + path.replace(/[0-9a-f-]{36}/, "<uuid>") + " -> " + String(response.status) + " must be no-store",
+    );
     return { status: response.status, body: await response.json().catch(() => null), headers: response.headers };
 }
 

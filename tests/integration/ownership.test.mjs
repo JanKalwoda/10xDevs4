@@ -95,6 +95,7 @@ test("owner save: 201 with the stored configuration, then /{id} shows the timer"
     const name = uniqueName("save");
     const response = await a.request("/api/drills", { method: "POST", json: { name, ...DRILL_DEFAULTS, preparation: "0:05", exercise: "0:04", rest: "0:02", repetitions: "3" } });
     assert.equal(response.status, 201);
+    assert.ok(response.headers.get("cache-control")?.includes("no-store"), "POST 201 is no-store");
     const body = await response.json();
     assert.equal(body.ok, true);
     assert.equal(body.drill.name, name);
@@ -138,6 +139,7 @@ test("owner navigation links: the lists, /create, /{id} and /{id}/edit link wher
 
     const create = await page(a, "/create");
     assert.equal(create.response.status, 200);
+    assert.ok(visibleText(create.markup).includes("Save timer"), "/create renders the save form");
     assertLink(create.markup, "/timers", "Back to timers", "/create");
     assert.ok(!visibleText(create.markup).includes("Back to the timer"), "/create has no link to the default timer");
 
@@ -351,13 +353,23 @@ test("guest on a real id: sign-in redirects and 401 from a client without a sess
     assert.equal((await a.request("/" + mine.id)).status, 200);
 });
 
-// A copy of A's session with one character of the access token's signature changed.
-// The session cookie is one cookie or numbered chunks (".0", ".1"); the copy carries it as one cookie.
-function tamperedSession(cookies) {
+// The name of the session cookie ("sb-<ref>-auth-token") whether it is one cookie or numbered chunks (".0", ".1").
+function sessionCookieBase(cookies) {
     const base = Object.keys(cookies)
         .map((cookie) => cookie.match(/^(.*-auth-token)(\.\d+)?$/)?.[1])
         .find(Boolean);
     assert.ok(base, "A has a session cookie");
+    return base;
+}
+
+function encodeSession(session) {
+    return "base64-" + Buffer.from(JSON.stringify(session), "utf8").toString("base64url");
+}
+
+// A copy of A's session with one character of the access token's signature changed.
+// The session cookie is one cookie or numbered chunks (".0", ".1"); the copy carries it as one cookie.
+function tamperedSession(cookies) {
+    const base = sessionCookieBase(cookies);
     const chunks = Object.keys(cookies)
         .filter((cookie) => cookie === base || cookie.startsWith(base + "."))
         .sort((left, right) => Number(left.slice(base.length + 1) || 0) - Number(right.slice(base.length + 1) || 0));
@@ -370,10 +382,32 @@ function tamperedSession(cookies) {
     session.access_token = token.slice(0, position) + (token[position] === "A" ? "B" : "A") + token.slice(position + 1);
 
     const rest = Object.fromEntries(Object.entries(cookies).filter(([cookie]) => !chunks.includes(cookie)));
-    return { ...rest, [base]: "base64-" + Buffer.from(JSON.stringify(session), "utf8").toString("base64url") };
+    return { ...rest, [base]: encodeSession(session) };
 }
 
-test("forged session is a guest: garbage and tampered tokens get the sign-in redirect and 401, and A's timer is unchanged", async (t) => {
+const FABRICATED_EMAIL = "fabricated-" + randomUUID() + "@example.com";
+
+// A session that was never issued: the right shape and a future expiry, no valid signature and no account behind it.
+// getSession() accepts it (it checks the fields and expires_at and reads the user from this JSON, never the signature);
+// getUser() asks the auth server and gets 401.
+function fabricatedSession(cookies) {
+    const now = Math.floor(Date.now() / 1000);
+    return {
+        [sessionCookieBase(cookies)]: encodeSession({
+            access_token: "forged.access.token",
+            token_type: "bearer",
+            expires_in: 3600,
+            expires_at: now + 3600,
+            refresh_token: "forged-refresh",
+            user: { id: randomUUID(), aud: "authenticated", role: "authenticated", email: FABRICATED_EMAIL },
+        }),
+    };
+}
+
+// Why /dashboard and the top bar, not only /timers, /{id} and PUT: those three read the database, and PostgREST rejects a bad
+// signature on its own, so they answer "guest" even when the middleware wrongly trusts the cookie (getSession() instead of getUser()).
+// Only /dashboard (renders the email, no database read) and the top bar on every page depend on the middleware alone.
+test("forged session is a guest: garbage, tampered and fabricated sessions get the sign-in redirect and 401, and A's timer is unchanged", async (t) => {
     const mine = await createTimer(a, "forged");
     const before = await listEntry(a, mine.id);
     const real = a.cookies();
@@ -384,16 +418,32 @@ test("forged session is a guest: garbage and tampered tokens get the sign-in red
         const copy = a.withCookies(real);
         assert.equal((await copy.request("/timers")).status, 200);
         assert.equal((await copy.request("/" + mine.id)).status, 200);
+        assert.equal((await copy.request("/dashboard")).status, 200);
+        assert.ok(
+            visibleText(await (await copy.request("/")).text())
+                .toLowerCase()
+                .includes(emailA.toLowerCase()),
+            "the top bar shows the account of a real session",
+        );
     });
 
-    for (const [label, cookies] of [
-        ["garbage token", garbage],
-        ["token changed by one character", tamperedSession(real)],
+    for (const [label, cookies, leakedEmail] of [
+        ["garbage token", garbage, emailA],
+        ["token changed by one character", tamperedSession(real), emailA],
+        ["fabricated session (valid shape, no valid signature)", fabricatedSession(real), FABRICATED_EMAIL],
     ]) {
         await t.test(label, async () => {
             const forged = a.withCookies(cookies);
             await assertGuestRedirect(forged, "/timers");
             await assertGuestRedirect(forged, "/" + mine.id);
+
+            const dashboard = await forged.request("/dashboard");
+            assert.equal(dashboard.status, 302);
+            assert.equal(dashboard.headers.get("location"), "/auth/signin?next=%2Fdashboard");
+            assert.equal(await dashboard.text(), "", "/dashboard has no body");
+
+            const home = visibleText(await (await forged.request("/")).text());
+            assert.ok(home.includes("Sign in") && !home.toLowerCase().includes(leakedEmail.toLowerCase()), "the top bar treats the session as a guest");
 
             const put = await forged.request("/api/drills/" + mine.id, { method: "PUT", json: { name: "Forged edit", ...DRILL_DEFAULTS } });
             assert.equal(put.status, 401);
