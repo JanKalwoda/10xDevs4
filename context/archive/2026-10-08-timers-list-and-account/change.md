@@ -1,10 +1,10 @@
 ---
 change_id: timers-list-and-account
 title: Timers list screen and account page
-status: impl_reviewed
+status: archived
 created: 2026-10-08
-updated: 2026-10-09
-archived_at: null
+updated: 2026-10-11
+archived_at: 2026-10-11T11:12:38Z
 ---
 
 ## Notes
