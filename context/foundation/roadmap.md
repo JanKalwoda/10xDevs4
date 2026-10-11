@@ -59,12 +59,12 @@ Obecny timer HIIT pozwala ustawić fazy i powtórzenia, lecz jego przewidywalny 
 | S-14 | align-bluetooth-audio | Użytkownik ze słuchawkami Bluetooth wyrównuje widok faz ze słyszanymi sygnałami | S-02 | FR-002, FR-004, FR-005 | blocked |
 | S-16 | app-top-bar | Top bar z kontem i motywem | yes | done |
 | S-17 | timers-list-and-account | Lista timerów, dane konta i przejście po zapisie | yes | done |
-| S-18 | run-view-layout | Układ widoku biegu | yes | Po S-04; zob. `ux-fixes-plan.md`. |
+| S-18 | run-view-layout | Układ widoku biegu | yes | done |
 | S-19 | signal-preview-icon | Ikona odsłuchu z tooltipem | yes | Po S-03; zob. `ux-fixes-plan.md`. |
 | S-20 | account-deletion | Usuwanie konta (RODO) | no | Wymaga decyzji o przetrzymaniu i kluczu service role. |
 | S-16 | app-top-bar | Użytkownik widzi przyklejony top bar z emailem, Sign in/Sign out i przełącznikiem motywu | S-09 | FR-015 | done |
 | S-17 | timers-list-and-account | Użytkownik ma osobny ekran listy timerów, stronę danych konta i po zapisie trafia do zapisanego timera | S-16, S-11, S-12, S-13 | FR-011, FR-016, FR-017 | done |
-| S-18 | run-view-layout | Użytkownik widzi w biegu czas wyżej, powtórzenie pod czasem oraz czytelniejsze okienka Current i Next | S-04 | FR-013, FR-018 | in-progress |
+| S-18 | run-view-layout | Użytkownik widzi w biegu czas wyżej, powtórzenie pod czasem oraz czytelniejsze okienka Current i Next | S-04 | FR-013, FR-018 | done |
 | S-19 | signal-preview-icon | Użytkownik odsłuchuje sygnał ikoną głośnika w wierszu pola, a opis widzi w tooltipie | S-03 | FR-004, FR-019 | in-progress |
 | S-20 | account-deletion | Użytkownik usuwa swoje konto z okresem przetrzymania zgodnym z RODO | S-09, S-17 | — | proposed |
 | S-21 | ux-fixes-round-2 | Użytkownik ma poprawione drobne błędy S-16–S-19, okienko Current w widoku biegu jak Next oraz strzałki zmiany wartości w formularzu timera | S-17, S-18, S-19 | FR-018, FR-020 | done |
@@ -320,7 +320,7 @@ Brak osobnych Foundations. Konfigurację danych, ochronę własności i weryfika
 - **Blockers:** —
 - **Unknowns:** —
 - **Risk:** Przemodelowanie `buildPhaseSections` nie może ujawnić długości losowego Standby ani przesuwać przycisków paska; numer powtórzenia w Preparation wymaga danych z `DrillDisplay`.
-- **Status:** in-progress
+- **Status:** done
 
 ### S-19: Ikona odsłuchu sygnału z tooltipem
 
@@ -428,3 +428,4 @@ Brak zamkniętych kamieni milowych.
 - **S-13: Zalogowany użytkownik usuwa własną konfigurację dopiero po potwierdzeniu pokazującym jej nazwę.** — Archived 2026-10-08 → `context/archive/2026-10-07-delete-saved-drill/`. Lesson: —.
 - **S-16: Na każdej stronie poza stronami logowania użytkownik widzi przyklejony do góry, zawsze widoczny pasek: dla zalogowanego email (link do `/dashboard`), link „Timers", przełącznik motywu jasny/ciemny i „Sign out"; dla gościa „Sign in" i przełącznik motywu. Pasek zastępuje pływający link konta i przełączniki motywu w kartach, więc „Sign in" nie nachodzi na kartę timera na telefonie. „Back to the timer" na stronie callback jest przyciskiem.** — Archived 2026-10-11 → `context/archive/2026-10-08-app-top-bar/`. Lesson: —.
 - **S-17: Zalogowany użytkownik widzi listę zapisanych timerów na osobnym ekranie `/timers` (strona startowa po wejściu i odświeżeniu), a `/dashboard` pokazuje dane konta (na razie email). Po zalogowaniu link prowadzi do listy („Continue to your timers"), a po zapisie nowego timera użytkownik trafia na widok zapisanego timera `/{id}`. Linki powrotu i przekierowanie po usunięciu kierują do `/timers`.** — Archived 2026-10-11 → `context/archive/2026-10-08-timers-list-and-account/`. Lesson: —.
+- **S-18: W widoku biegu odliczany czas jest wyżej, tuż pod nim widać „Repetition X of N" (także w Preparation i Standby), okienko bieżącej fazy ma nazwę w pierwszej linii i czas w osobnej linii bez numeru powtórzenia, a okienko następnej fazy ma większy napis „Next" oraz nazwę i czas w osobnej linii.** — Archived 2026-10-11 → `context/archive/2026-10-09-run-view-layout/`. Lesson: —.
