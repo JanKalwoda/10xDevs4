@@ -1,0 +1,181 @@
+# Test Plan
+
+> Phased test rollout for this project. Strategy is frozen at the top
+> (§1–§5); cookbook patterns at the bottom (§6) fill in as phases ship.
+> Read before writing any new test.
+>
+> Refresh: re-run `/10x-test-plan --refresh` when stale (see §8).
+>
+> Last updated: 2026-10-11
+
+## 1. Strategy
+
+Tests follow three non-negotiable principles for this project:
+
+1. **Cost × signal.** The cheapest test that gives a real signal for the
+   risk wins. Do not promote to e2e because e2e "feels safer." Do not put a
+   vision model on top of a deterministic visual diff that already catches
+   the regression.
+2. **User concerns are first-class evidence.** Risks anchored in "the
+   team is worried about X, and the failure would surface somewhere in
+   <area>" carry the same weight as PRD lines or hot-spot data.
+3. **Risks are scenarios, not code locations.** This plan documents *what
+   could fail* and *why we believe it's likely* — drawn from documents,
+   interview, and codebase *signal* (churn, structure, test base). It does
+   NOT claim to know which line owns the failure. That knowledge is
+   produced by `/10x-research` during each rollout phase. If the plan and
+   research disagree about where the failure lives, research is the
+   ground truth.
+
+Kontekst projektu: autor nie czyta biegle Astro ani Reacta i weryfikuje aplikację ręcznie (wywiad P3). Dlatego wyrocznia każdego testu pochodzi z PRD, roadmapy lub wywiadu — nigdy z bieżącego zachowania kodu — a asercje opisują zachowanie widoczne dla użytkownika.
+
+Hot-spot scope used for likelihood weighting: `src/`, `supabase/`, `scripts/` (30 dni do 2026-10-11, 77 commitów w zakresie).
+
+## 2. Risk Map
+
+The top failure scenarios this project must protect against, ordered by
+risk = impact × likelihood. Risks are failure scenarios in user / business
+terms, not test names. The Source column cites the *evidence that surfaced
+this risk* — never a specific file as "where the failure lives" (that is
+research's job, see §1 principle #3).
+
+| # | Risk (failure scenario) | Impact | Likelihood | Source (evidence — not anchor) |
+|---|---|---|---|---|
+| 1 | Zalogowany użytkownik widzi, edytuje albo usuwa cudzy zapisany timer (na stronie lub przez API) albo odpowiedź dla cudzego id różni się od odpowiedzi dla nieistniejącego id | High | Medium | PRD §Success Criteria/Guardrails, §NFR „dostępne wyłącznie właścicielowi”; interview Q1, Q4; hot-spot dir `src/lib/services` (21 zmian/30d), `src/pages/api` (13) |
+| 2 | Niezalogowany użytkownik dostaje treść albo wykonuje zapis, edycję lub usunięcie na trasach chronionych (lista, konto, tworzenie, szczegóły, edycja, API zapisu i usuwania) zamiast przekierowania lub odmowy | High | Medium | PRD §Access Control; interview Q1, Q4; hot-spot dir `src/pages/auth` (18), `src/pages/api` (13) |
+| 3 | Brak sygnału dźwiękowego startu ćwiczenia lub Standby na starcie, po wznowieniu albo po powrocie z zablokowanego ekranu lub innej aplikacji | High | High | PRD FR-004, FR-006, §NFR błąd sygnału ≤ 0,2 s; interview Q1, Q2 (już się zdarzyło); archive `2026-10-01-recover-timer-audio`; hot-spot dir `src/components/timer` (111) |
+| 4 | Przebieg pokazuje złą fazę, czas lub numer powtórzenia, wznowienie zaczyna złe powtórzenie albo Standby ujawnia pozostały czas lub moment startu | High | High | PRD US-01, US-02, FR-003, FR-006, Guardrail Standby; interview Q3; hot-spot dir `src/lib` (114), `src/components/timer` (111) |
+| 5 | Przekierowanie lub link prowadzi w złe miejsce (po zalogowaniu nie na listę timerów, po zapisie nie na zapisany timer, z edycji lub po usunięciu nie tam, gdzie trzeba) albo parametr powrotu przekierowuje poza aplikację | Medium | High | PRD FR-011, FR-017; roadmap S-17 Risk; interview Q4; hot-spot dir `src/pages/auth` (18) |
+| 6 | Formularz lub API przyjmuje nieprawidłową konfigurację (wartości poza zakresem, pusta lub za długa nazwa, przekroczony limit konfiguracji) albo jedno kliknięcie strzałki zmienia wartość o więcej niż jeden krok | Medium | Medium | PRD FR-001, FR-020; roadmap S-10 (limity 200 znaków / 50 konfiguracji); archive `2026-10-11-ux-fixes-round-3`; interview Q2, Q3 |
+| 7 | Na kluczowym ekranie (formularz, widok biegu, tworzenie, szczegóły, edycja, lista) na komputerze (1280 px) albo telefonie (390 px) pole lub treść wychodzi poza ekran, a przyciski są zasłonięte, za małe do trafienia albo nie reagują na klik lub dotyk | Medium | High | PRD §NFR responsywność („bez przewijania w poziomie”, „odporne na przypadkowe dotknięcia”), FR-020; interview Q3 + uwaga do briefu; archive `2026-10-11-ux-fixes-round-3`; hot-spot dir `src/components/timer` (111) |
+
+### Risk Response Guidance
+
+| Risk | What would prove protection | Must challenge | Context `/10x-research` must ground | Likely cheapest layer | Anti-pattern to avoid |
+|------|-----------------------------|----------------|--------------------------------------|-----------------------|-----------------------|
+| #1 | Użytkownik B dostaje identyczną odpowiedź 404 dla timera użytkownika A przy odczycie, edycji, usunięciu, na stronie szczegółów i edycji, a dane A pozostają niezmienione | „Testy RLS w bazie oznaczają, że aplikacja jest bezpieczna” | dwa konta na lokalnym Supabase, kształt sesji w ciasteczkach, tłumaczenie błędów bazy na 404 | integracja HTTP przeciw lokalnemu Supabase | mock klienta bazy (test sprawdza mock, nie politykę dostępu) |
+| #2 | Każda chroniona trasa i metoda bez sesji kończy się przekierowaniem do logowania lub odmową, bez treści i bez zmiany w bazie | „Lista chronionych tras jest kompletna” oraz „GET wystarczy” | pełna lista tras i metod, zachowanie ochrony tras w runtime Cloudflare | integracja HTTP | test tylko jednej strony GET |
+| #3 | Po Start, po wznowieniu i po powrocie z ukrytej karty sygnał zostaje zaplanowany w momencie zgodnym z PRD, a wyjście audio jest aktywne | „Test jednostkowy planowania oznacza, że dźwięk zagra w przeglądarce” | granica audio, wymóg gestu użytkownika, zdarzenia widoczności, istniejące porty testowe | e2e w przeglądarce z obserwacją granicy audio | asercja na mocku przepisanym z implementacji |
+| #4 | Krótka konfiguracja (np. 1 s / 1 s / 1 s, 2 powtórzenia, losowy start) daje sekwencję faz, czasów, powtórzeń i podglądu Next zgodną z PRD; w Standby nigdzie nie ma czasu | „Bieżący wynik kodu jest poprawnym oczekiwaniem” | sterowanie zegarem i losowaniem, istniejące testy logiki przebiegu | test komponentu z fałszywym zegarem, potem jeden przebieg e2e | wyrocznia skopiowana z logiki produkcyjnej zamiast z PRD |
+| #5 | Każde przejście (logowanie, zapis, edycja, usunięcie, linki powrotu) kończy się na adresie z PRD; obcy adres w parametrze powrotu jest odrzucany | „Ścieżka szczęśliwa logowania pokrywa wszystkie przejścia” | przepływ magic link przez lokalną skrzynkę, obsługa parametru powrotu | integracja HTTP (kod i nagłówek Location) + e2e przejść UI | sprawdzenie samego kodu przekierowania bez celu |
+| #6 | API odrzuca wartości spoza zakresu niezależnie od klienta; pojedynczy klik lub dotyk strzałki daje dokładnie jeden krok | „Walidacja w formularzu wystarcza” | reguły walidacji po stronie serwera vs formularz, model zdarzeń wskaźnika | integracja API + test komponentu | testowanie tylko poprawnych wartości |
+| #7 | W obu szerokościach brak poziomego scrolla, każde pole i przycisk mieści się w oknie, główne przyciski (Start, Pause/Resume, Cancel, Restart, strzałki, Save, Delete) mają pole trafienia ≥ 44 px przy dotyku, nie są przykryte, a jedno kliknięcie wywołuje jedną akcję | „Dobrze wygląda na zrzucie, więc działa” oraz „działa myszką, więc działa dotykiem” | istniejące ręczne skrypty bramek wizualnych, fixtures podglądu deweloperskiego, emulacja wskaźnika fine/coarse | deterministyczne pomiary geometrii w e2e na dwóch viewportach; opcjonalnie przegląd multimodalny 1–2 ekranów | snapshot pikselowy każdej strony albo model wizyjny tam, gdzie wystarcza pomiar |
+
+## 3. Phased Rollout
+
+Each row is a discrete rollout phase that will open its own change folder
+via `/10x-new`. Status moves left-to-right through the values below; the
+orchestrator updates Status as artifacts appear on disk.
+
+| # | Phase name | Goal (one line) | Risks covered | Test types | Status | Change folder |
+|---|---|---|---|---|---|---|
+| 1 | Access and ownership boundaries | Udowodnić izolację właściciela, ochronę tras dla gościa, cele przekierowań i walidację API na najtańszej warstwie | #1, #2, #5, #6 | integration (HTTP vs lokalny Supabase) | change opened | `context/changes/testing-access-boundaries/` |
+| 2 | Run flow and form behaviour | Udowodnić sekwencję faz, sygnałów, pauzy i wznowienia oraz krok strzałek bez prawdziwej przeglądarki | #3, #4, #6 | component + integration (fałszywy zegar i audio) | not started | — |
+| 3 | Critical-path browser smoke | Minimalny smoke w przeglądarce: formularz, pełny przebieg z dźwiękiem, pauza i wznowienie, logowanie, zapis, edycja, usunięcie | #3, #4, #5 | e2e | not started | — |
+| 4 | Key-screen layout and tap-target check | Brak wychodzenia poza ekran i trafialne przyciski na kluczowych ekranach dla 1280 i 390 px (fine i coarse); domknięcie bramek CI | #7, cross-cutting | e2e geometry checks, optional multimodal review, gates | not started | — |
+
+## 4. Stack
+
+The classic test base for this project. AI-native tools (if any) carry a
+`checked:` date so future readers can see which lines need re-verification.
+Recommendations in this section must be grounded in local manifests/configs
+plus the MCP/tools actually exposed in the current session.
+
+Profil bazy testów: `sparse` — runner `node --test` (bez pliku konfiguracyjnego), 27 plików testów jednostkowych skupionych w `src/lib` i `src/lib/services`, 2 testy reguł ESLint, 1 test pgTAP, skrypt smoke HTTP; komponenty, trasy API, ochrona tras i przepływy w przeglądarce nie mają testów automatycznych.
+
+| Layer | Tool | Version | Notes |
+|---|---|---|---|
+| unit | Node test runner (`node --test`) | Node 24.21.0 | istniejące testy czystej logiki; uruchamiane w CI przez `npm test` |
+| database (RLS, granty, ograniczenia) | pgTAP przez Supabase CLI | supabase ^2.23.4 | `supabase/tests/database/`, job `smoke` w CI |
+| HTTP smoke | `scripts/smoke.mjs` | n/a | przepływ auth przez Mailpit na podglądzie produkcyjnym; punkt wyjścia dla fazy 1 |
+| integration (trasy, ochrona, własność) | none yet — see Phase 1 | — | narzędzie wybiera `/10x-research` fazy 1 |
+| component (React) | none yet — see Phase 2 | — | środowisko DOM i sterowanie zegarem do ustalenia w fazie 2 |
+| e2e | none yet — see Phase 3 (Playwright jako przykład kategorii — checked: 2026-10-11) | — | dziś tylko ręczne skrypty bramek wizualnych poza CI, Playwright nie jest zależnością |
+| layout / tap targets | none yet — see Phase 4 | — | pomiary geometrii na 1280 i 390 px |
+| (optional) AI-native | przegląd multimodalny zrzutów 1–2 ekranów (np. Claude z wizją — checked: 2026-10-11) | n/a | When NOT to use: gdy deterministyczny pomiar overflow i rozmiaru celu wykrywa regresję; nie do logiki przebiegu ani dźwięku |
+
+**Stack grounding tools (current session):**
+- Docs: none (Context7 / docs MCP not available in current session) — wersje z `package.json` i `.nvmrc`; checked: 2026-10-11
+- Search: WebSearch dostępny, nieużyty — wybór narzędzi zostawiony do `/10x-research` faz; checked: 2026-10-11
+- Runtime/browser: wtyczka terminal-browser i Claude in Chrome dostępne — możliwe do ręcznej weryfikacji, nie jako bramka CI; checked: 2026-10-11
+- Provider/platform: none (brak MCP GitHub / Supabase / Cloudflare) — CLI `gh`, `supabase`, `wrangler` w repo; checked: 2026-10-11
+
+Use docs MCPs for current framework/library APIs and setup details. Use
+search MCPs for discovery or current status only, then prefer official docs
+as the evidence. Do not use MCP docs/search to infer code failure anchors;
+those belong in per-phase `/10x-research`.
+
+## 5. Quality Gates
+
+The full set of gates that must pass before a change reaches production.
+"Required after §3 Phase <N>" means the gate is enforced once that rollout
+phase lands; before that, the gate is `planned`.
+
+| Gate | Where | Required? | Catches |
+|---|---|---|---|
+| lint (w tym kontrakt UI) + `astro check` | local + CI (`ci`) | required (wired) | dryf składni, typów i tokenów UI |
+| unit (`npm test`) | local + CI (`ci`) | required (wired) | regresje czystej logiki |
+| pgTAP (`supabase test db`) | CI (`smoke`) | required (wired) | RLS, granty, ograniczenia tabel |
+| HTTP smoke auth | CI (`smoke`) | required (wired) | zepsuty przepływ logowania na podglądzie produkcyjnym |
+| integration: trasy, własność, przekierowania, walidacja API | local + CI | required after §3 Phase 1 | ryzyka #1, #2, #5, #6 |
+| component: przebieg i formularz | local + CI | required after §3 Phase 2 | ryzyka #3, #4, #6 |
+| e2e na krytycznych przepływach | CI on PR | required after §3 Phase 3 | ryzyka #3, #4, #5 w przeglądarce |
+| layout i tap targets (1280 / 390 px) | CI on PR | required after §3 Phase 4 | ryzyko #7 |
+| multimodal visual review (1–2 ekrany) | local / on demand | optional after §3 Phase 4 | problemy wizualne, których pomiar nie łapie |
+| post-edit hook | local (agent loop) | recommended after §3 Phase 2 | regresje logiki w czasie edycji; nie zastępuje CI |
+| pre-prod smoke (publiczne trasy) | po deployu (`deploy`) | required (wired) | błędy specyficzne dla produkcji |
+
+## 6. Cookbook Patterns
+
+How to add new tests in this project. Each sub-section is filled in once
+the relevant rollout phase ships; before that, the sub-section reads
+"TBD — see §3 Phase <N>."
+
+### 6.1 Adding a unit test
+
+- **Location**: obok modułu w `src/lib/` lub `src/lib/services/`, plik `<module>.test.ts`.
+- **Reference test**: dowolny istniejący `src/lib/*.test.ts`.
+- **Run locally**: `npm test`.
+- Uzupełnienie konwencji (wyrocznia z PRD, sterowanie zegarem) — TBD — see §3 Phase 2.
+
+### 6.2 Adding a test for a protected route or ownership boundary
+
+- TBD — see §3 Phase 1 (wzorzec: dwa konta, cudzy id daje ten sam 404 co nieistniejący, gość dostaje przekierowanie bez zmiany w bazie).
+
+### 6.3 Adding a test for run flow or form behaviour
+
+- TBD — see §3 Phase 2 (wzorzec: sekwencja faz i sygnałów z PRD przy fałszywym zegarze; jedno kliknięcie = jeden krok).
+
+### 6.4 Adding an e2e critical-path test
+
+- TBD — see §3 Phase 3 (wzorzec: minimalny przebieg z dźwiękiem, pauza i wznowienie, przejścia po zapisie, edycji i usunięciu).
+
+### 6.5 Adding a layout / tap-target check for a screen
+
+- TBD — see §3 Phase 4 (wzorzec: brak poziomego scrolla i trafialne przyciski na 1280 i 390 px, fine i coarse).
+
+### 6.6 Per-rollout-phase notes
+
+(Po każdej fazie 2–3 linie o tym, czego faza nauczyła.)
+
+## 7. What We Deliberately Don't Test
+
+Exclusions agreed during the rollout (Phase 2 interview, Q5). Future
+contributors should respect these unless the underlying assumption changes.
+
+- **Pomiar opóźnienia dźwięku przez Bluetooth** — bez sprzętu i metody pomiaru automatyczny test byłby fikcją (roadmap S-14 blocked); zostaje ręczna weryfikacja. Re-evaluate, gdy S-14 dostanie metodę kalibracji i pomiaru. (Source: Phase 2 interview Q5.)
+- **Wszystkie kombinacje pól, przycisków i stanów** — testujemy minimalny zestaw kluczowych ekranów i przepływów; pełną macierz stanów obsługują fixtures podglądu deweloperskiego i ręczne bramki wizualne. Re-evaluate, gdy regresja przejdzie przez minimalny zestaw. (Source: Phase 2 interview Q5.)
+- **Kolory faz i usuwanie konta** — funkcje nie istnieją (S-05 deferred, S-20 proposed). Re-evaluate przy ich implementacji. (Source: roadmap.)
+
+## 8. Freshness Ledger
+
+- Strategy (§1–§5) last reviewed: 2026-10-11
+- Stack versions last verified: 2026-10-11
+- AI-native tool references last verified: 2026-10-11
+
+Refresh (`/10x-test-plan --refresh`) when:
+
+- a new top-3 risk surfaces from the roadmap or archive,
+- a recommended tool's `checked:` date is older than three months,
+- the project's tech stack changes (new framework, new test runner),
+- §7 negative-space no longer matches what the team believes.
