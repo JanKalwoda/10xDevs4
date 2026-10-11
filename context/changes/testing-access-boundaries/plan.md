@@ -571,13 +571,13 @@ Brak zmian w bazie i sekretach. Przeniesienie asercji odbywa się bez okna bez p
 
 #### Automated
 
-- [x] 3.1 Lint passes: `npm run lint`
-- [x] 3.2 Ownership integration tests pass against the running app: `npm run test:integration`
-- [x] 3.3 Each ownership test passes when run alone: `node --test --test-name-pattern="<test name>" tests/integration/ownership.test.mjs` (checked for at least the foreign and owner delete cases)
+- [x] 3.1 Lint passes: `npm run lint` — e0b7bb1
+- [x] 3.2 Ownership integration tests pass against the running app: `npm run test:integration` — e0b7bb1
+- [x] 3.3 Each ownership test passes when run alone: `node --test --test-name-pattern="<test name>" tests/integration/ownership.test.mjs` (checked for at least the foreign and owner delete cases) — e0b7bb1
 
 #### Manual
 
-- [x] 3.4 Every ownership row of the "smoke step → new test" table (L11–L15, L19 owner part, L21–L27, L36) has a named test with the same assertions (script, not human)
+- [x] 3.4 Every ownership row of the "smoke step → new test" table (L11–L15, L19 owner part, L21–L27, L36) has a named test with the same assertions (script, not human) — e0b7bb1
 
 ### Phase 4: #6 walidacja API i limit 50
 
