@@ -609,11 +609,11 @@ Brak zmian w bazie i sekretach. Przeniesienie asercji odbywa się bez okna bez p
 
 #### Automated
 
-- [x] 6.1 Lint and format checks pass: `npm run lint`
-- [x] 6.2 `test-plan.md §6.2` no longer contains "TBD"
+- [x] 6.1 Lint and format checks pass: `npm run lint` — 31c8066
+- [x] 6.2 `test-plan.md §6.2` no longer contains "TBD" — 31c8066
 
 #### Manual
 
 - [ ] 6.3 A reader can add a test for a new protected route using only `test-plan.md §6.2` (reference test, helper, run command, auth budget)
-- [x] 6.4 §4 and §5 rows describe the wired integration layer and match the CI job (script, not human)
-- [x] 6.5 §6.2 states the account-reuse rule and the "wait 5 minutes and rerun on a sign-in failure" instruction, and the CLAUDE.md/AGENTS.md CI line points to it (script, not human)
+- [x] 6.4 §4 and §5 rows describe the wired integration layer and match the CI job (script, not human) — 31c8066
+- [x] 6.5 §6.2 states the account-reuse rule and the "wait 5 minutes and rerun on a sign-in failure" instruction, and the CLAUDE.md/AGENTS.md CI line points to it (script, not human) — 31c8066
