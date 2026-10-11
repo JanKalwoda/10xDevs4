@@ -1,10 +1,10 @@
 ---
 change_id: signal-preview-icon
 title: Signal preview as a speaker icon with tooltip
-status: impl_reviewed
+status: archived
 created: 2026-10-09
-updated: 2026-10-09
-archived_at: null
+updated: 2026-10-11
+archived_at: 2026-10-11T11:12:41Z
 ---
 
 ## Notes
