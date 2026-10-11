@@ -1,7 +1,7 @@
 ---
 change_id: testing-access-boundaries
 title: Test rollout phase 1 — access, ownership, redirect and API validation boundaries
-status: preparing
+status: planned
 created: 2026-10-11
 updated: 2026-10-11
 archived_at: null
