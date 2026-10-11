@@ -46,8 +46,9 @@ export default function ConfigStepperFixtures() {
         <section aria-label="Config stepper examples" className="space-y-4">
             <h2 className="text-xl font-semibold">Config stepper</h2>
             <p className="text-muted-foreground text-sm">
-                Production configuration form. The layout follows the pointer of the browser: a 22 px column for a mouse, two 44 px buttons when any pointer is coarse. Hover is
-                driven by the visual gate; focus-visible belongs to the field (↑/↓), because the arrows skip Tab.
+                Production configuration form. The arrows sit inside the frame of the field and the layout follows the primary pointer: a 22 px column for a fine pointer (a touch
+                laptop included), two 44 px buttons side by side when the primary pointer is coarse. Hover is driven by the visual gate; focus-visible belongs to the field (↑/↓),
+                because the arrows skip Tab.
             </p>
             <div className="grid gap-6 lg:grid-cols-3">
                 <StepperFixture title="Default" description="Mid-range values; every arrow is enabled." fixture="default" visualState="default" initial={DEFAULT_VALUES} />

@@ -194,7 +194,14 @@ for (const viewport of VIEWPORTS) {
         for (const r of rows) {
             check(`${tag} ${r.id}: Current and Next boxes exist`, !!r.current && !!r.next);
             if (!r.current || !r.next) continue;
-            check(`${tag} ${r.id}: Current has the same box style as Next`, r.current.style === r.next.style, `${r.current.style} vs ${r.next.style}`);
+            // S-22 (ux-fixes-round-3): Current has no frame and no fill, Next keeps both; width, radius and padding stay the same.
+            const [curBg, curBorder, curWidth, ...curRest] = r.current.style.split("|");
+            const [nextBg, nextBorder, nextWidth, ...nextRest] = r.next.style.split("|");
+            check(
+                `${tag} ${r.id}: Current is unframed and unfilled, Next keeps its frame; same border width, radius and padding`,
+                curBg === "rgba(0, 0, 0, 0)" && curBorder === "rgba(0, 0, 0, 0)" && nextBg !== "rgba(0, 0, 0, 0)" && nextBorder !== "rgba(0, 0, 0, 0)" && curWidth === nextWidth && curRest.join("|") === nextRest.join("|"),
+                `${r.current.style} vs ${r.next.style}`,
+            );
             check(`${tag} ${r.id}: label larger than body`, r.current.labelSize > r.current.bodySize && r.next.labelSize > r.next.bodySize);
             check(`${tag} ${r.id}: Current and Next bodies are one line`, r.current.oneLine && r.next.oneLine, `${r.current.text} / ${r.next.text}`);
             check(`${tag} ${r.id}: Current and Next boxes have equal height`, Math.abs(r.current.height - r.next.height) < 0.5, `${r.current.height} vs ${r.next.height}`);
@@ -266,7 +273,8 @@ for (const setup of SETUPS) {
                     (await up.count()) === 1 && (await down.count()) === 1 && (await up.getAttribute("tabindex")) === "-1" && (await down.getAttribute("aria-controls")) === inputId,
                 );
                 const [u, d] = [await rect(up), await rect(down)];
-                const row = await rect(input.locator(".."));
+                // S-22: the arrows sit inside the frame of the field (shadcn InputGroup, 44 px with a 1 px border), so the column is 42 px inside it.
+                const row = await rect(input.locator("xpath=ancestor::*[@data-slot='input-group'][1]"));
                 const column = await rect(up.locator(".."));
                 check(`${tag} ${field.name}: row is 44 px`, Math.abs(row.height - 44) < 0.5, String(row.height));
                 if (setup.coarse) {
@@ -276,13 +284,15 @@ for (const setup of SETUPS) {
                         JSON.stringify({ u, d }),
                     );
                 } else {
+                    // S-22: two halves of the 42 px inside the frame (about 21 px each), up above down.
                     check(
-                        `${tag} ${field.name}: column is 44 px, buttons 22 px, up above down`,
-                        column.height === 44 && u.height === 22 && d.height === 22 && u.y < d.y && Math.abs(d.y - (u.y + u.height)) < 0.5,
+                        `${tag} ${field.name}: column is 42 px inside the frame, buttons about 21 px, up above down`,
+                        Math.abs(column.height - 42) < 0.5 && u.height >= 20 && d.height >= 20 && Math.abs(u.height + d.height - 42) < 0.5 && u.y < d.y && Math.abs(d.y - (u.y + u.height)) < 0.5,
                         JSON.stringify({ column, u, d }),
                     );
-                    const border = await down.evaluate((el) => getComputedStyle(el).borderTopWidth);
-                    check(`${tag} ${field.name}: no double border between the buttons`, border === "0px", border);
+                    // One separator line between the buttons (on the down button), never two.
+                    const borders = [await up.evaluate((el) => getComputedStyle(el).borderTopWidth), await down.evaluate((el) => getComputedStyle(el).borderTopWidth)];
+                    check(`${tag} ${field.name}: exactly one separator line between the buttons`, borders[0] === "0px" && borders[1] === "1px", JSON.stringify(borders));
                 }
             }
             const exercise = FIELDS[1];
@@ -321,7 +331,8 @@ for (const setup of SETUPS) {
                 let box = await press();
                 await page.waitForTimeout(200);
                 const early = await exerciseInput.inputValue();
-                check(`${tag}: hold makes one step before the delay`, early === "0:02", early);
+                // S-22: the single step now comes from the click on release; a press only arms the repeat after the 400 ms pause.
+                check(`${tag}: nothing steps during the 400 ms pause of a hold`, early === "0:01", early);
                 await page.waitForTimeout(1100);
                 const held = Number((await exerciseInput.inputValue()).split(":")[1]);
                 check(`${tag}: hold repeats about every 100 ms`, held >= 8 && held <= 13, String(held));
@@ -421,7 +432,8 @@ for (const setup of STATE_SETUPS) {
                 const [u, d] = [await rect(stepButton(c, exercise, "Increase")), await rect(stepButton(c, exercise, "Decrease"))];
                 check(
                     `${tag} ${fixture}: arrow order and size follow the pointer`,
-                    setup.coarse ? u.width === 44 && u.height === 44 && d.width === 44 && d.x < u.x : u.height === 22 && d.height === 22 && u.y < d.y,
+                    // S-22: the layout follows the primary pointer, not any-pointer; the fixed-pointer states below are fine (column) or coarse (row).
+                    setup.coarse ? u.width === 44 && u.height === 44 && d.width === 44 && d.x < u.x : u.height >= 20 && d.height >= 20 && u.height + d.height <= 42.5 && u.y < d.y,
                     JSON.stringify({ u, d }),
                 );
             }

@@ -312,8 +312,8 @@ Brak zmian danych. Usunięcie `CLICK_AFTER_POINTER_MS` i `handledByPointer` nie 
 
 #### Automated
 
-- [ ] 4.1 Pełna bramka (sync, lint, test, kontrakt, check, build) przechodzi
-- [ ] 4.2 Skrypt S-22 (7 stanów, motywy, szerokości, trzy setupy) i regresje S-18/S-19 kończą się kodem 0
+- [x] 4.1 Pełna bramka (sync, lint, test, kontrakt, check, build) przechodzi
+- [x] 4.2 Skrypt S-22 (7 stanów, motywy, szerokości, trzy setupy) i regresje S-18/S-19 kończą się kodem 0
 
 #### Manual
 
