@@ -583,13 +583,13 @@ Brak zmian w bazie i sekretach. Przeniesienie asercji odbywa się bez okna bez p
 
 #### Automated
 
-- [x] 4.1 Lint passes: `npm run lint`
-- [x] 4.2 Validation and limit integration tests pass against the running app: `npm run test:integration`
-- [x] 4.3 Full suite stays within the auth budget: two consecutive `npm run test:integration` runs within 5 minutes both pass
+- [x] 4.1 Lint passes: `npm run lint` — 184b88e
+- [x] 4.2 Validation and limit integration tests pass against the running app: `npm run test:integration` — 184b88e
+- [x] 4.3 Full suite stays within the auth budget: two consecutive `npm run test:integration` runs within 5 minutes both pass — 184b88e
 
 #### Manual
 
-- [x] 4.4 Every #6 row of the "smoke step → new test" table (L12 validation part, L16–L19 limit part) has a named test with the same assertions (script, not human)
+- [x] 4.4 Every #6 row of the "smoke step → new test" table (L12 validation part, L16–L19 limit part) has a named test with the same assertions (script, not human) — 184b88e
 
 ### Phase 5: Odchudzenie smoke i bramka CI
 
