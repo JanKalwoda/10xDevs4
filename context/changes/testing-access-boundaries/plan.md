@@ -595,15 +595,15 @@ Brak zmian w bazie i sekretach. Przeniesienie asercji odbywa się bez okna bez p
 
 #### Automated
 
-- [ ] 5.1 Lint passes: `npm run lint`
-- [ ] 5.2 Local smoke passes with the reduced step list: `SMOKE_MODE=local BASE_URL=http://localhost:4321 npm run smoke`
-- [ ] 5.3 Integration suite passes: `npm run test:integration`
+- [x] 5.1 Lint passes: `npm run lint`
+- [x] 5.2 Local smoke passes with the reduced step list: `SMOKE_MODE=local BASE_URL=http://localhost:4321 npm run smoke`
+- [x] 5.3 Integration suite passes: `npm run test:integration`
 - [ ] 5.4 CI on the PR is green, with separate "smoke" and "integration suite" steps in job `smoke`
 
 #### Manual
 
-- [ ] 5.5 Every row of the "smoke step → new test" table is either still in smoke or has its named integration test (row-by-row check against the final files)
-- [ ] 5.6 `runRemoteSmoke` diff is empty apart from imports, so the `deploy` gate is not weakened
+- [x] 5.5 Every row of the "smoke step → new test" table is either still in smoke or has its named integration test (row-by-row check against the final files) (script, not human)
+- [x] 5.6 `runRemoteSmoke` diff is empty apart from imports, so the `deploy` gate is not weakened (script, not human)
 
 ### Phase 6: Cookbook §6.2, Stack §4 i dokumentacja
 
