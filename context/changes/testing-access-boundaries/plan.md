@@ -542,17 +542,17 @@ Brak zmian w bazie i sekretach. Przeniesienie asercji odbywa się bez okna bez p
 
 #### Automated
 
-- [x] 1.1 Lint passes: `npm run lint`
-- [x] 1.2 Unit tests pass: `npm test`
-- [x] 1.3 Type check passes: `npx astro check`
-- [x] 1.4 Local smoke still passes against a running app with local Supabase: `SMOKE_MODE=local BASE_URL=http://localhost:4321 npm run smoke`
-- [x] 1.5 Integration skeleton passes: `npm run test:integration`
-- [x] 1.6 Integration suite fails with a clear message when `BASE_URL` is not a local origin: `BASE_URL=https://example.com npm run test:integration`
+- [x] 1.1 Lint passes: `npm run lint` — a6663d0
+- [x] 1.2 Unit tests pass: `npm test` — a6663d0
+- [x] 1.3 Type check passes: `npx astro check` — a6663d0
+- [x] 1.4 Local smoke still passes against a running app with local Supabase: `SMOKE_MODE=local BASE_URL=http://localhost:4321 npm run smoke` — a6663d0
+- [x] 1.5 Integration skeleton passes: `npm run test:integration` — a6663d0
+- [x] 1.6 Integration suite fails with a clear message when `BASE_URL` is not a local origin: `BASE_URL=https://example.com npm run test:integration` — a6663d0
 
 #### Manual
 
-- [x] 1.7 Smoke output lists the same step names in the same order as before the refactor (script, not human)
-- [x] 1.8 A sign-in failure (simulated once, e.g. with a wrong `MAILPIT_URL` port so no email arrives) prints the auth-limit message with the instruction to wait 5 minutes, without email, token or cookie values (script, not human)
+- [x] 1.7 Smoke output lists the same step names in the same order as before the refactor (script, not human) — a6663d0
+- [x] 1.8 A sign-in failure (simulated once, e.g. with a wrong `MAILPIT_URL` port so no email arrives) prints the auth-limit message with the instruction to wait 5 minutes, without email, token or cookie values (script, not human) — a6663d0
 
 ### Phase 2: #2 gość, obcy `next` (#5) i inwentarz tras
 
