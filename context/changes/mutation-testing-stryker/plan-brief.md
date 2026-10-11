@@ -24,7 +24,7 @@ Dodajemy StrykerJS jako lokalną bramkę na żądanie dla testów jednostkowych,
 | Zakres walidacji | zakres linii 53–117 | cały plik 45%, 271 NoCoverage; zakres wymaga aktualizacji po zmianach | Research |
 | Próg | thresholds bez `break` | nie bramka | Plan |
 | Mutanty ignorowane | `mutation-review.md` + skrót w §6 | uzasadnienie świadomego pominięcia | Plan |
-| Sandbox | `ignorePatterns` bez `supabase/`, `src/pages/auth/` | testy czytają te pliki | Research |
+| Sandbox | `ignorePatterns` bez `src/` i `supabase/` | testy czytają te pliki | Research |
 
 ## Scope
 
@@ -48,8 +48,8 @@ Stryker kopiuje repo do `.stryker-tmp`, instrumentuje wskazany `.ts`, tap runner
 
 ## Open Risks & Assumptions
 
-- Dry run `email-auth` w prawdziwym repo do potwierdzenia.
-- Składnia zakresu linii / komentarze w JSON do potwierdzenia przez ctx7.
+- Dry run `email-auth`: przyczyna znaleziona (w kopii spike'u brakowało plików czytanych przez test), do potwierdzenia w repo.
+- Komentarze w JSON przez `_comment` (do potwierdzenia uruchomieniem); mutacji po funkcji brak — tylko zakres linii.
 
 ## Success Criteria (Summary)
 

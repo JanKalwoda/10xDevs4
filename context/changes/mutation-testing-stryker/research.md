@@ -39,3 +39,20 @@ Przegląd mutantów: „czy ta zmiana zaszkodziłaby użytkownikowi/firmie?” �
 - `.gitignore` zasila też `includeIgnoreFile` w `eslint.config.js` (linia 83), więc wpis `.stryker-tmp/` i `reports/` w `.gitignore` wystarcza dla ESLint; dodatkowy `globalIgnores` zbędny (do potwierdzenia lintem).
 - Biblioteczna dokumentacja przez `npx ctx7@latest` nie była pobrana w tej sesji (spike oparty na kodzie zainstalowanego pakietu); faza 1 ma ją pobrać dla składni `--mutate` z zakresem linii i `ignorePatterns`.
 - Limit auth 30/5 min i rebuild preview nie dotyczą warstwy jednostkowej — stąd „When NOT to use” dla integracji HTTP.
+
+## Uzupełnienie 2026-10-11: odpowiedzi ze źródeł (a–d)
+
+Źródła: dokumentacja Context7 `/stryker-mutator/stryker-js` (docs/configuration.md, docs/config-file.md), strona `https://stryker-mutator.io/docs/stryker-js/tap-runner/` (exa), `https://github.com/stryker-mutator/stryker-js/issues/5421` (exa) oraz drugi spike (ten sam sandbox poza repo).
+
+**(a) Zakres linii.** Potwierdzone: zakres dopisuje się do ścieżki, `plik:start[:kol]-koniec[:kol]`, np. `src/app.js:1-11`, `src/app.js:5:4-6:4`; zakresu nie wolno łączyć z globem w jednym wpisie (docs/configuration.md, opcja `mutate`). Mutacji po nazwie funkcji w tej dokumentacji nie ma (sprawdzone: opis `mutate` i przykłady zakresów) → **zostajemy przy zakresie linii**; jego kruchość (przesunięcie po edycji pliku) trzeba opisać w konfiguracji i §6. Drugi spike: `--mutate "src/lib/email-auth.ts:25-53"` (`isSafeNextPath`, `email-auth.ts:25`) → 38 zabitych, 23 przetrwałe, 3 NoCoverage, wynik 59,38%; to realny materiał do przeglądu w fazie 2.
+
+**(b) Komentarze w `stryker.config.json`.** Dokumentacja podaje konwencję właściwości `_comment` (`"_comment": "..."` w JSON; docs/config-file.md); konfigurację można też napisać w pliku JS (eksportującym obiekt). Wybór: JSON z `$schema` i `_comment` (klucz z `_comment` w nazwie nie jest opcją); jeśli walidacja schematu odrzuci nieznany klucz, przejść na `stryker.config.mjs`. Do potwierdzenia w fazie 1 uruchomieniem.
+
+**(c) Tap runner.** Strona tap-runner: runner uruchamia pliki z `tap.testFiles` przez `node` z `tap.nodeArgs` jako dodatkowymi argumentami; domyślnie dopisuje `--test-reporter=tap`, `-r <hook>` i plik testowy na końcu (placeholdery `{{hookFile}}`, `{{testFile}}`); `testFiles` domyślnie szuka plików `*.test.*`/`*.spec.*`. Dokumentacja przykładowo podaje `--import tsx` dla TS, ale nie wymaga tsx, gdy Node uruchamia `.ts` natywnie (potwierdza to spike). Issue #5421 (open w momencie sprawdzenia) opisuje ten sam objaw „wszystkie mutanty not covered” dla `node --test`. **Potwierdzenie spike'a:** plik testowy ma być uruchamiany bezpośrednio, a nie przez `--test`; poprawka planu: `nodeArgs` może zawierać wyłącznie `--test-reporter=tap` (jawnie, dla czytelności) i nie może zawierać `--test`. Ograniczenie: granularność = plik testowy (issue #5421 prosi o perTest na poziomie testu; brak).
+
+**(d) Przyczyna padnięcia dry runu `email-auth`.** Znaleziona: test czyta z dysku `src/pages/api/auth/callback.ts` (`email-auth.test.ts:260`), `src/pages/auth/callback.astro` (`:250`), `supabase/config.toml` i `supabase/templates/magic_link.html` (`:308-309`). W pierwszym spike'u brakowało `src/pages/api/auth/callback.ts` w kopii. Po dokopiowaniu: `node --test` 0 porażek i dry run Strykera zakończony sukcesem. Wniosek: w prawdziwym repo sandbox ma te pliki, o ile `ignorePatterns` ich nie wyklucza — **`ignorePatterns` nie może obejmować `supabase/`, `src/pages/` ani `src/`**; ryzyko zamknięte, w fazie 1 tylko potwierdzić w repo.
+
+### Skutki dla planu
+- Faza 1: `_comment` zamiast komentarzy, `$schema`; `nodeArgs` tylko `--test-reporter=tap`; `ignorePatterns` jak w planie (bez `src/`, `supabase/`).
+- Faza 2: `email-auth.ts` zakres `25-53` (przeliczyć po zmianach pliku) daje 23 przetrwałe do przeglądu.
+- Brak zmian w liczbie faz.

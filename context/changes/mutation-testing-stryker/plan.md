@@ -30,7 +30,7 @@ Wprowadzamy StrykerJS (`@stryker-mutator/core` + `@stryker-mutator/tap-runner`) 
 
 ## Implementation Approach
 
-Trzy fazy: (1) infrastruktura + dowód na najmniejszym module, (2) przegląd i asercje dla trzech modułów, (3) dokumentacja. Wyrocznie z tabeli w `research.md` (PRD FR-001, FR-011, FR-017, Access Control, test-plan Risk #2/#5/#6); komunikatów i kosmetyki nie przypinamy. Dokumentację biblioteki (składnia `--mutate` z zakresem linii, `ignorePatterns`, reportery, thresholds) pobieramy przez `npx ctx7@latest` (library → docs). Zakres linii jest kruchy po zmianach pliku — udokumentować konieczność aktualizacji (komentarz przy konfiguracji/skrypcie i §6); mutowanie po nazwie funkcji tylko jeśli Stryker to umożliwia (sprawdzić w ctx7), w przeciwnym razie zostajemy przy liniach.
+Trzy fazy: (1) infrastruktura + dowód na najmniejszym module, (2) przegląd i asercje dla trzech modułów, (3) dokumentacja. Wyrocznie z tabeli w `research.md` (PRD FR-001, FR-011, FR-017, Access Control, test-plan Risk #2/#5/#6); komunikatów i kosmetyki nie przypinamy. Dokumentację biblioteki (składnia `--mutate` z zakresem linii, `ignorePatterns`, reportery, thresholds) pobieramy przez `npx ctx7@latest` (library → docs). Zakres linii jest kruchy po zmianach pliku — udokumentować konieczność aktualizacji (komentarz przy konfiguracji/skrypcie i §6); Stryker nie oferuje mutowania po nazwie funkcji (dokumentacja `mutate`: tylko zakres `plik:start[:kol]-koniec[:kol]`, bez łączenia z globem), więc zostajemy przy liniach.
 
 ## Phase 1: Instalacja, konfiguracja i pierwszy przebieg
 
@@ -54,7 +54,7 @@ Zależności, `stryker.config.json`, skrypt, ignory, przebieg na `protected-rout
 
 **Intent**: Konfiguracja tap runnera z opisem nieoczywistych wymagań (nodeArgs bez `--test`, kruchy zakres linii).
 
-**Contract**: `testRunner: "tap"`, `plugins`, `tap.testFiles` = pliki testowe trzech modułów, `tap.nodeArgs: ["--test-reporter=tap"]` (komentarz przy konfiguracji, jeśli format pozwala; w przeciwnym razie opis w README i test-plan §6), `coverageAnalysis: "perTest"`, `reporters: ["clear-text","progress","html"]`, `htmlReporter.fileName: "reports/mutation/mutation.html"`, `thresholds` high 80 / low 60 **bez `break`**, `tempDirName: ".stryker-tmp"`, `ignorePatterns` (`context`, `dist`, `.astro`, `.wrangler`, `reports`; zostają `supabase/` i `src/pages/auth/`). Moduły podawane przez `--mutate`.
+**Contract**: `testRunner: "tap"`, `plugins`, `tap.testFiles` = pliki testowe trzech modułów, `tap.nodeArgs: ["--test-reporter=tap"]` (nie dodawać `--test`; uzasadnienie w kluczach `_comment` — konwencja komentarzy w JSON ze Strykera, z `$schema`; jeśli schemat odrzuci klucz, przejść na `stryker.config.mjs`; dodatkowo opis w README i test-plan §6), `coverageAnalysis: "perTest"`, `reporters: ["clear-text","progress","html"]`, `htmlReporter.fileName: "reports/mutation/mutation.html"`, `thresholds` high 80 / low 60 **bez `break`**, `tempDirName: ".stryker-tmp"`, `ignorePatterns` (`context`, `dist`, `.astro`, `.wrangler`, `reports`; NIE wykluczać `src/` ani `supabase/` — `email-auth.test.ts` czyta `src/pages/api/auth/callback.ts`, `src/pages/auth/callback.astro`, `supabase/config.toml`, `supabase/templates/magic_link.html`). Moduły podawane przez `--mutate`.
 
 #### 3. Ignory
 
@@ -111,7 +111,7 @@ Przebieg i przegląd dla `protected-routes.ts` (#2), `isSafeNextPath` w `email-a
 #### Automated Verification:
 
 - `npm test` przechodzi
-- Przebiegi trzech modułów kończą się sukcesem: `npx stryker run --mutate "src/lib/protected-routes.ts"`, `--mutate "src/lib/email-auth.ts:<zakres isSafeNextPath>"`, `--mutate "src/lib/services/drill-configurations.ts:53-117"`
+- Przebiegi trzech modułów kończą się sukcesem: `npx stryker run --mutate "src/lib/protected-routes.ts"`, `--mutate "src/lib/email-auth.ts:25-53"` (zakres `isSafeNextPath`; w spike'u 23 przetrwałe do przeglądu), `--mutate "src/lib/services/drill-configurations.ts:53-117"`
 - Brak przetrwałych mutantów oznaczonych `zabić` w `mutation-review.md` po ponownym przebiegu
 - `npm run lint` przechodzi
 
