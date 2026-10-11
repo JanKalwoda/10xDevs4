@@ -211,7 +211,7 @@ All pages are server-rendered by default. API routes must export `const prerende
 
 `tests/integration/` (`npm run test:integration`, job `smoke`): trasy, ochrona, własność i walidacja API; dodaj przypadek dla każdej nowej trasy chronionej lub endpointu, używaj istniejących kont pliku i sklasyfikuj stronę w `src/lib/route-inventory.test.ts`; błąd logowania w zestawie oznacza zwykle limit auth: odczekaj 5 minut i uruchom ponownie (`context/foundation/test-plan.md` §6.2).
 
-`npm run test:mutation` (StrykerJS, `stryker.config.json`): mutation testing lokalnie i na żądanie po fazie ryzyka, np. `npx stryker run --mutate "src/lib/protected-routes.ts"`; nie jest bramką CI (przepis i reguły przeglądu: `context/foundation/test-plan.md` §6.7).
+`npm run test:mutation` (StrykerJS, `stryker.config.json`): mutation testing lokalnie i na żądanie po fazie ryzyka, goły skrypt mutuje trzy moduły ryzyk z konfiguracji, inny moduł: `npm run test:mutation -- --mutate "src/lib/protected-routes.ts"`; nie jest bramką CI (przepis i reguły przeglądu: `context/foundation/test-plan.md` §6.7).
 
 ## Account-entry UI
 

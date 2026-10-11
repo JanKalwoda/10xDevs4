@@ -80,7 +80,7 @@ void test("safe next rejects a very long path and accepts an ordinary one with a
 });
 
 void test("safe next rejects whitespace at either edge", () => {
-    for (const next of ["/dashboard ", " /dashboard", "/dashboard ", " /dashboard"]) {
+    for (const next of ["/dashboard ", " /dashboard", "/dashboard\u00a0", "\u00a0/dashboard"]) {
         assert.equal(isSafeNextPath(next), false, JSON.stringify(next) + " should be rejected");
     }
 });

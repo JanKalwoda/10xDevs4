@@ -147,6 +147,12 @@ Zapisanie przepisu i bramki bez zmiany §1–§3.
 
 **Contract**: bez innych zmian w tych plikach.
 
+#### 3. Addendum (po impl-review, F6)
+
+**Files**: `CLAUDE.md`, `AGENTS.md`, `context/docs/README.md`
+
+**Intent**: Na prośbę użytkownika (przekazaną przez koordynatora) faza 3 dodała też sekcję „Research” (exa, find-docs/Context7, `context/docs/<biblioteka>.md`, podsumowanie w `change.md` `## Notes`) w CLAUDE.md i AGENTS.md oraz `context/docs/README.md`. To wykracza poza pierwotne „bez innych zmian w tych plikach”.
+
 ### Success Criteria:
 
 #### Automated Verification:
