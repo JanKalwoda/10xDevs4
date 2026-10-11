@@ -10,7 +10,6 @@ function InputGroup({ className, ...props }: React.ComponentProps<"div">) {
     return (
         <div
             data-slot="input-group"
-            role="group"
             className={cn(
                 "group/input-group border-input dark:bg-input/30 relative flex h-9 w-full min-w-0 items-center rounded-md border shadow-xs transition-[color,box-shadow] outline-none",
                 "has-[[data-slot=input-group-control]:focus-visible]:border-ring has-[[data-slot=input-group-control]:focus-visible]:ring-ring/50 has-[[data-slot=input-group-control]:focus-visible]:ring-2",
@@ -23,7 +22,7 @@ function InputGroup({ className, ...props }: React.ComponentProps<"div">) {
 }
 
 function InputGroupAddon({ className, ...props }: React.ComponentProps<"div">) {
-    return <div data-slot="input-group-addon" role="group" className={cn("order-last flex h-full shrink-0 items-center", className)} {...props} />;
+    return <div data-slot="input-group-addon" className={cn("order-last flex h-full shrink-0 items-center", className)} {...props} />;
 }
 
 function InputGroupInput({ className, ...props }: React.ComponentProps<"input">) {

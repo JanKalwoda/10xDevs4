@@ -317,4 +317,4 @@ Brak zmian danych. Usunięcie `CLICK_AFTER_POINTER_MS` i `handledByPointer` nie 
 
 #### Manual
 
-- [ ] 4.3 Zrzuty przejrzane, dokumentacja zgodna z implementacją — script, not human
+- [ ] 4.3 Zrzuty przejrzane, dokumentacja zgodna z implementacją — przekazane do ręcznej checklisty użytkownika (nie wykonane przez człowieka; checki skryptem: script, not human)
