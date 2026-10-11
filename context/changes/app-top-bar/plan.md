@@ -273,5 +273,5 @@ None (no database or API change). Rollback is a revert of the three commits.
 
 #### Manual
 
-- [x] 3.3 Screenshots reviewed: contrast, focus-visible, no overflow at 390 px in both themes (reviewed with Read; found the long email overlapping the toggle at 390 px, fixed in ea71060 and re-shot; overlap390 script check passes) — ea71060; user manual checklist 2026-10-11: A1, A2, B1 pass
-- [x] 3.4 `/dev/timer-ui` shows the bar fixtures; production `/dev/timer-ui` stays 404 (fixtures in screenshots/fixtures-topbar-*; production preview answered 404, 2026-10-08) — ea71060; user manual checklist 2026-10-11: A1, A2, B1 pass
+- [x] 3.3 Screenshots reviewed: contrast, focus-visible, no overflow at 390 px in both themes (reviewed with Read; found the long email overlapping the toggle at 390 px, fixed in ea71060 and re-shot; overlap390 script check passes); user manual checklist 2026-10-11: A1, A2, B1 pass — ea71060
+- [x] 3.4 `/dev/timer-ui` shows the bar fixtures; production `/dev/timer-ui` stays 404 (fixtures in screenshots/fixtures-topbar-*; production preview answered 404, 2026-10-08); user manual checklist 2026-10-11: A1, A2, B1 pass — ea71060
