@@ -940,6 +940,7 @@ function HeldMountedRestartFixture() {
                                 key={scenario}
                                 type="button"
                                 variant="outline"
+                                className="h-auto whitespace-normal"
                                 data-restart-scenario={scenario}
                                 onClick={() => {
                                     lab.start(scenario);

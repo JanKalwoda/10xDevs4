@@ -26,7 +26,7 @@ Po zamknięciu kolejki S-03…S-13 użytkownik zgłosił 14 poprawek UX. Dotycz�
 | `/timers` | Nowy ekran listy zapisanych timerów (przeniesiony z `/dashboard`), strona startowa zalogowanego po wejściu i odświeżeniu; chroniony, `private, no-store`. |
 | Po zapisie nowego timera | Przejście na `/{id}` zapisanego timera (zamiast pozostania na `/create` z komunikatem). Edycja zostaje na `/{id}/edit` z komunikatem „Saved". |
 | Linki „Back to dashboard" | Zmiana na „Back to timers" → `/timers`. Przekierowanie po usunięciu → `/timers`. |
-| Widok biegu | Czas odliczany wyżej; „Repetition X of N" bezpośrednio pod czasem; okienko Current (S-21, jak Next): większy napis „Current", pod nim „Nazwa · czas" w jednej linii (Standby: sama nazwa), bez numeru powtórzenia; okienko Next: większy napis „Next", pod nim „Nazwa · czas" następnej fazy. |
+| Widok biegu | Czas odliczany wyżej; „Repetition X of N" bezpośrednio pod czasem; okienko Current (S-22: bez ramki i bez tła, te same odstępy i stała wysokość co Next): większy napis „Current", pod nim „Nazwa · czas" w jednej linii (Standby: sama nazwa), bez numeru powtórzenia; okienko Next: większy napis „Next", pod nim „Nazwa · czas" następnej fazy. |
 | Preparation | Pod czasem „Repetition X of N", gdzie X to numer nadchodzącego powtórzenia (także po wznowieniu przygotowania). |
 | Odsłuch sygnałów | Sama ikona głośnika na końcu wiersza z inputem; opis jako tooltip. Mobile: dotknięcie ikony odtwarza dźwięk i pokazuje ten sam opis na kilka sekund (live region), powód wyłączenia (np. Rest 0:00) pokazuje dotknięcie wyłączonej ikony (`aria-disabled`). |
 | Usuwanie konta (RODO) | Osobny slice `proposed` (S-20), bez implementacji; otwarte pytania poniżej. |
@@ -78,7 +78,7 @@ Kolejność: **S-16 → S-17 → S-18 → S-19**; S-20 tylko w roadmapie. S-16 n
 
 ### S-21 ux-fixes-round-2
 - Poprawki po testach ręcznych S-16–S-19: link „Back to timers” na `/create` → `/timers`, tooltip bez `text-balance` (bez pustej połowy), wyłączona ikona odsłuchu bez zmiany koloru przy hoverze; okienko Current jak Next (FR-018).
-- Stepper ▼/▲ (FR-020): `ConfigStepper.tsx`, logika w `src/lib/drill-stepper.ts` i `drill-step-repeat.ts`. Układ wybiera `any-pointer-coarse:` (wbudowany wariant Tailwinda): kolumna 2 × 22 px na komputerze (wiersze 44 px, Preparation i Repetitions rosną z 36 px), dwa przyciski 44 px obok siebie na dotyku. Strzałki mają `tabIndex={-1}`, klawiatura używa ↑/↓ w polu (Shift = 10); `aria-disabled` na granicy; ogłoszenie wartości przez `sr-only` `role="status"`.
+- Stepper ▼/▲ (FR-020, stan z S-21; zastąpiony w S-22, zob. niżej): `ConfigStepper.tsx`, logika w `src/lib/drill-stepper.ts` i `drill-step-repeat.ts`. Układ wybiera `any-pointer-coarse:` (wbudowany wariant Tailwinda): kolumna 2 × 22 px na komputerze (wiersze 44 px, Preparation i Repetitions rosną z 36 px), dwa przyciski 44 px obok siebie na dotyku. Strzałki mają `tabIndex={-1}`, klawiatura używa ↑/↓ w polu (Shift = 10); `aria-disabled` na granicy; ogłoszenie wartości przez `sr-only` `role="status"`.
 - Kompromis WCAG 2.5.8 (cel minimum 24 × 24 px): przyciski 22 px wysokości na komputerze korzystają z wyjątku „Equivalent” — ta sama funkcja jest dostępna przez pole tekstowe i ↑/↓ w polu; na dotyku cele mają 44 px.
 - Fixtures: `ConfigStepperFixtures.tsx` (default, disabled na obu granicach, error, loading; empty N/A, bo pole puste to stan error); bramka: `context/changes/ux-fixes-round-2/screenshots/ux-fixes-round-2-visual-gate.mjs` (siedem stanów × jasny/ciemny × 1280/390 × wskaźnik fine/coarse) oraz regresja skryptów S-18 i S-19.
 
@@ -90,3 +90,10 @@ Ten sam workflow co S-03…S-13: agent `dev` (Sonnet 5.5, medium) w panelu Herdr
 
 ## Weryfikacja (każdy slice)
 `npx astro sync`, `npm run lint`, `npm test`, `node --test scripts/eslint-rules/*.test.mjs`, `npx astro check`, `npm run build`; wizualna bramka `/dev/timer-ui` (stany, jasny/ciemny, 1280/390, screenshoty w folderze zmiany); smoke w CI; po wdrożeniu kontrola produkcji (`/` 200, `/dev/timer-ui` 404, `/timers` i `/dashboard` 302 dla gościa).
+
+### S-22 ux-fixes-round-3
+- Podwójny krok strzałek (FR-020): przyczyną był wyścig oparty o czas (krok na `pointerdown` i drugi z `click`, flaga kasowana timerem 100 ms). Teraz krok zawsze pochodzi z `click`, a `pointerdown` tylko uzbraja powtarzanie po pauzie 400 ms; jeśli powtarzanie ruszyło, następny `click` jest pomijany (flagę kasuje ten `click`, nie timer). Logika: `src/lib/drill-step-press.ts` i `drill-step-repeat.ts` (`arm`), hook `useStepRepeat`. Zmiana UX: pojedynczy krok następuje przy puszczeniu, powtarzanie po 400 ms.
+- Strzałki wewnątrz ramki pola (shadcn `input-group`, `InputGroupInput` + `InputGroupAddon`): jedna kontrolka z jednym focus ringiem. Układ wybiera główny wskaźnik (domyślnie fine, `pointer-coarse:` dla coarse), nie `any-pointer`: komputer (także laptop z ekranem dotykowym) ▲ nad ▼ w kolumnie (po ok. 21 px wewnątrz ramki 44 px z obwódką 1 px), telefon ▼ ▲ obok siebie po 44 px z separatorami; ikona głośnika zostaje poza polem.
+- WCAG 2.5.8: ok. 21 px wysokości na głównym wskaźniku precyzyjnym korzysta z wyjątku „Equivalent” (pole tekstowe i ↑/↓ w polu); główny wskaźnik coarse dostaje cele 44 px.
+- Tooltip odsłuchu: `md:max-w-md` (448 px) od `md`, `max-w-xs` poniżej; okienko Current bez ramki i tła (FR-018), Next bez zmian.
+- Bramka: `context/changes/ux-fixes-round-3/screenshots/ux-fixes-round-3-visual-gate.mjs` (1 klik/tap = 1 krok, siedem stanów × jasny/ciemny × 1280/390 × fine, coarse i fine + dotyk, tooltipy, Current/Next, brak overflow na `/dev/timer-ui` oraz na `/`, `/create`, `/{id}/edit`, `/{id}`, `/timers` i w widoku biegu przy 390 px) oraz regresja skryptów S-18, S-19 i S-21 (nieaktualne asercje S-21 zaktualizowane).

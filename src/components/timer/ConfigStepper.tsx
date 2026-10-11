@@ -1,12 +1,10 @@
-import { useEffect, useRef, type PointerEvent } from "react";
+import type { MouseEvent, PointerEvent } from "react";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { InputGroupAddon } from "@/components/ui/input-group";
 import { useStepRepeat } from "@/components/hooks/useStepRepeat";
 import { cn } from "@/lib/utils";
-import { canStep, stepFieldValue, type StepDirection, type StepperField } from "@/lib/drill-stepper";
-
-/** The click that follows a pointer press is ignored for this long after the pointer is released. */
-const CLICK_AFTER_POINTER_MS = 100;
+import { canStep, type StepDirection, type StepperField } from "@/lib/drill-stepper";
 
 interface ConfigStepperProps {
     field: StepperField;
@@ -17,78 +15,66 @@ interface ConfigStepperProps {
     onStep: (next: string) => void;
 }
 
+// Inside the field frame. Default (primary pointer is fine, also a touch laptop): a column of two halves of the row.
+// Primary pointer coarse: two 44 px buttons side by side, extended over the frame border (-my-px) to a full 44 px target.
 const BUTTON_CLASS =
-    "relative h-5.5 w-8 touch-none select-none rounded-none p-0 shadow-none focus-visible:z-10 any-pointer-coarse:size-11 any-pointer-coarse:rounded-md any-pointer-coarse:border-t any-pointer-coarse:shadow-xs aria-disabled:cursor-not-allowed aria-disabled:opacity-50 aria-disabled:hover:bg-background aria-disabled:hover:text-foreground dark:aria-disabled:hover:bg-input/30";
+    "relative w-8 flex-1 touch-none select-none rounded-none border-0 p-0 shadow-none focus-visible:z-10 pointer-coarse:-my-px pointer-coarse:size-11 pointer-coarse:flex-none aria-disabled:cursor-not-allowed aria-disabled:opacity-50 aria-disabled:hover:bg-transparent aria-disabled:hover:text-foreground dark:aria-disabled:hover:bg-transparent";
 
 /**
- * Up/down buttons for one field: a 2 x 22 px column for a mouse, two 44 px buttons side by side when any pointer is
- * coarse. Mouse and touch step on pointerdown and repeat while held; a click without a preceding pointer press
- * (keyboard, screen reader, voice control) steps once. Keyboard users have ↑/↓ in the field, so the buttons skip Tab.
+ * Up/down buttons inside the frame of one field, at its right edge like a native spinner: a column (up above down)
+ * when the primary pointer is fine, two 44 px buttons side by side (down, up) when it is coarse. A single step always comes from the click (mouse, touch, keyboard, screen reader, voice control); holding the
+ * button repeats after a pause. Keyboard users have ↑/↓ in the field, so the buttons skip Tab.
  */
 export default function ConfigStepper({ field, inputId, value, label, onStep }: ConfigStepperProps) {
-    const { start, stop } = useStepRepeat(field, value, onStep);
-    const handledByPointer = useRef(false);
-    const clearTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
-
-    useEffect(
-        () => () => {
-            clearTimeout(clearTimer.current);
-        },
-        [],
-    );
-
-    function release() {
-        stop();
-        clearTimeout(clearTimer.current);
-        clearTimer.current = setTimeout(() => {
-            handledByPointer.current = false;
-        }, CLICK_AFTER_POINTER_MS);
-    }
+    const press = useStepRepeat(field, value, onStep);
 
     function handlePointerDown(direction: StepDirection, event: PointerEvent<HTMLButtonElement>) {
         if (event.pointerType === "mouse" && event.button !== 0) return;
-        clearTimeout(clearTimer.current);
-        handledByPointer.current = true;
         try {
             event.currentTarget.setPointerCapture(event.pointerId);
         } catch {
-            // A synthesized or already ended pointer cannot be captured; stepping still works without it.
+            // A synthesized or already ended pointer cannot be captured; the press works without it.
         }
-        start(direction);
+        press.pointerDown(direction);
+    }
+
+    function isInside(event: PointerEvent<HTMLButtonElement>) {
+        const rect = event.currentTarget.getBoundingClientRect();
+        return event.clientX >= rect.left && event.clientX <= rect.right && event.clientY >= rect.top && event.clientY <= rect.bottom;
     }
 
     // A captured pointer never fires pointerleave, so leaving the button is detected here.
     function handlePointerMove(event: PointerEvent<HTMLButtonElement>) {
         if (!event.currentTarget.hasPointerCapture(event.pointerId)) return;
-        const rect = event.currentTarget.getBoundingClientRect();
-        const inside = event.clientX >= rect.left && event.clientX <= rect.right && event.clientY >= rect.top && event.clientY <= rect.bottom;
-        if (!inside) {
+        if (!isInside(event)) {
             event.currentTarget.releasePointerCapture(event.pointerId);
-            release();
+            press.pointerAbort();
         }
     }
 
-    function handleClick(direction: StepDirection) {
-        if (handledByPointer.current) {
-            handledByPointer.current = false;
-            return;
-        }
-        if (canStep(field, value, direction)) onStep(stepFieldValue(field, value, direction === "up" ? 1 : -1));
+    function handleClick(direction: StepDirection, event: MouseEvent<HTMLButtonElement>) {
+        // detail is 0 for a click from the keyboard or from assistive technology.
+        press.click(direction, event.detail > 0);
     }
 
     const unit = field === "repetitions" ? "" : " second";
     const buttons: { direction: StepDirection; name: string; Icon: typeof ChevronUp; className: string }[] = [
-        { direction: "up", name: "Increase", Icon: ChevronUp, className: "rounded-t-md" },
-        { direction: "down", name: "Decrease", Icon: ChevronDown, className: "rounded-b-md border-t-0" },
+        { direction: "up", name: "Increase", Icon: ChevronUp, className: "rounded-tr-md pointer-coarse:rounded-r-md" },
+        {
+            direction: "down",
+            name: "Decrease",
+            Icon: ChevronDown,
+            className: "border-input rounded-br-md border-t pointer-coarse:rounded-none pointer-coarse:border-t-0 pointer-coarse:border-r",
+        },
     ];
 
     return (
-        <div className="flex shrink-0 flex-col any-pointer-coarse:flex-row-reverse any-pointer-coarse:gap-2">
+        <InputGroupAddon className="border-input flex-col border-l pointer-coarse:flex-row-reverse">
             {buttons.map(({ direction, name, Icon, className }) => (
                 <Button
                     key={direction}
                     type="button"
-                    variant="outline"
+                    variant="ghost"
                     size="icon"
                     tabIndex={-1}
                     className={cn(BUTTON_CLASS, className)}
@@ -99,24 +85,23 @@ export default function ConfigStepper({ field, inputId, value, label, onStep }: 
                         handlePointerDown(direction, event);
                     }}
                     onPointerMove={handlePointerMove}
-                    onPointerUp={release}
-                    onPointerCancel={release}
-                    onLostPointerCapture={release}
-                    onPointerLeave={release}
-                    onBlur={() => {
-                        stop();
-                        handledByPointer.current = false;
+                    onPointerUp={(event) => {
+                        press.pointerUp(isInside(event));
                     }}
+                    onPointerCancel={press.pointerAbort}
+                    onLostPointerCapture={press.pointerAbort}
+                    onPointerLeave={press.pointerAbort}
+                    onBlur={press.blur}
                     onContextMenu={(event) => {
                         event.preventDefault();
                     }}
-                    onClick={() => {
-                        handleClick(direction);
+                    onClick={(event) => {
+                        handleClick(direction, event);
                     }}
                 >
                     <Icon aria-hidden="true" />
                 </Button>
             ))}
-        </div>
+        </InputGroupAddon>
     );
 }

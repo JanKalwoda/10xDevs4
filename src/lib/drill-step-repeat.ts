@@ -5,6 +5,11 @@ export const REPEAT_INTERVAL_MS = 100;
 export interface StepRepeater {
     /** Runs `step` now, then repeats it while held; `step` returns false at a bound, which stops the repeat. */
     start: (step: () => boolean) => void;
+    /**
+     * Waits the delay first: nothing runs on the press itself. After the delay `onFire` is called once (the hold
+     * has begun), then `step` runs and repeats; a `step` that returns false at a bound ends the repeat.
+     */
+    arm: (step: () => boolean, onFire?: () => void) => void;
     stop: () => void;
     dispose: () => void;
 }
@@ -49,6 +54,20 @@ export function createStepRepeater({
             if (disposed || !step()) return;
             delayHandle = setTimer(() => {
                 hasDelay = false;
+                intervalHandle = setIntervalTimer(() => {
+                    if (!step()) stop();
+                }, intervalMs);
+                hasInterval = true;
+            }, delayMs);
+            hasDelay = true;
+        },
+        arm(step, onFire) {
+            stop();
+            if (disposed) return;
+            delayHandle = setTimer(() => {
+                hasDelay = false;
+                onFire?.();
+                if (!step()) return;
                 intervalHandle = setIntervalTimer(() => {
                     if (!step()) stop();
                 }, intervalMs);
