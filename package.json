@@ -9,6 +9,7 @@
     "astro": "astro",
     "lint": "eslint .",
     "test": "node --test src/lib/*.test.ts src/lib/services/*.test.ts",
+    "test:integration": "node --test tests/integration/*.test.mjs",
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
     "smoke": "node scripts/smoke.mjs"

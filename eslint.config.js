@@ -73,7 +73,7 @@ const astroConfig = defineConfig({
 });
 
 const scriptsConfig = defineConfig({
-    files: ["scripts/**/*.mjs"],
+    files: ["scripts/**/*.mjs", "tests/**/*.mjs"],
     extends: [tseslint.configs.disableTypeChecked],
     languageOptions: { globals: { console: true, process: true, fetch: true, URLSearchParams: true } },
     rules: { "no-console": "off" },
@@ -83,6 +83,7 @@ export default defineConfig(
     includeIgnoreFile(gitignorePath),
     globalIgnores([
         ".agents/**",
+        ".claude/**",
         "context/archive/2026-10-09-run-view-layout/screenshots/*.mjs",
         "context/archive/2026-10-09-signal-preview-icon/screenshots/signal-preview-visual-gate.mjs",
         "context/archive/2026-10-10-ux-fixes-round-2/screenshots/ux-fixes-round-2-visual-gate.mjs",

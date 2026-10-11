@@ -2,176 +2,40 @@
 // Run with SMOKE_MODE=local|remote and BASE_URL pointing at the app preview.
 
 import { randomUUID } from "node:crypto";
-import { setTimeout } from "node:timers/promises";
-import { URL } from "node:url";
+import {
+    DRILL_DEFAULTS,
+    RETRY_MESSAGE,
+    SignInError,
+    UUID_PATTERN,
+    callbackFromMessage,
+    confirmLink as confirmLinkWith,
+    createAppClient,
+    createMailpit,
+    decodeHtmlAttribute,
+    ensure,
+    parseAppOrigin,
+    requestEmailLink as requestEmailLinkWith,
+    resolveLocalTargets,
+    responseLocation as responseLocationOf,
+    signIn,
+    visibleText,
+} from "./lib/app-client.mjs";
 
 const mode = process.env.SMOKE_MODE ?? "local";
 if (!["local", "remote"].includes(mode)) throw new Error("SMOKE_MODE must be local or remote");
 if (mode === "remote" && !process.env.BASE_URL) throw new Error("Remote smoke requires BASE_URL");
 
-const baseUrl = new URL(process.env.BASE_URL ?? "http://localhost:4321");
-if (!["http:", "https:"].includes(baseUrl.protocol) || baseUrl.username || baseUrl.password || baseUrl.search || baseUrl.hash) {
-    throw new Error("BASE_URL must be a public app origin");
-}
-const appOrigin = baseUrl.origin;
-const localAppOrigins = ["http://localhost:4321", "http://localhost:4323"];
-if (mode === "local" && !localAppOrigins.includes(appOrigin)) {
-    throw new Error("Local smoke requires a configured localhost app origin");
-}
-const mailpitUrl = new URL(process.env.MAILPIT_URL ?? "http://localhost:55324");
-if (
-    mode === "local" &&
-    (mailpitUrl.protocol !== "http:" ||
-        !["localhost", "127.0.0.1", "[::1]"].includes(mailpitUrl.hostname) ||
-        mailpitUrl.username ||
-        mailpitUrl.password ||
-        mailpitUrl.search ||
-        mailpitUrl.hash)
-) {
-    throw new Error("Local smoke requires a local Mailpit URL");
-}
-
-const NEUTRAL_MESSAGE = "If an account can use this email, a sign-in link will arrive shortly.";
-const RETRY_MESSAGE = "This sign-in link is invalid or expired. Request a new link.";
-const EMAIL_SUBJECT = "Your Drill Me sign-in link";
-const cookieJar = new Map();
-const receivedMessageIds = new Set();
+const { appOrigin, mailpitUrl } = mode === "local" ? resolveLocalTargets(process.env) : { appOrigin: parseAppOrigin(process.env.BASE_URL), mailpitUrl: null };
+const client = createAppClient(appOrigin);
+const mailpit = mailpitUrl ? createMailpit(mailpitUrl) : null;
+const appRequest = client.request;
+const originRequest = client.originRequest;
+const snapshot = client.snapshot;
+const responseLocation = (response) => responseLocationOf(response, appOrigin);
+const requestEmailLink = (email, next) => requestEmailLinkWith(client, email, next);
+const confirmLink = (link) => confirmLinkWith(client, link);
+const waitForEmail = (email) => mailpit.waitForEmail(email);
 let activeStep = "smoke setup";
-
-function ensure(condition) {
-    if (!condition) throw new Error("verification failed");
-}
-
-function cookieHeader() {
-    return [...cookieJar.entries()].map(([name, value]) => name + "=" + value).join("; ");
-}
-
-function storeCookies(response) {
-    for (const raw of response.headers.getSetCookie()) {
-        const [pair, ...attrs] = raw.split(";");
-        const separator = pair.indexOf("=");
-        if (separator < 1) continue;
-
-        const name = pair.slice(0, separator).trim();
-        const value = pair.slice(separator + 1);
-        const expiredByAge = attrs.some((attr) => /^max-age=0$/i.test(attr.trim()));
-        const expiresAttribute = attrs.find((attr) => /^expires=/i.test(attr.trim()));
-        const expiredByDate = expiresAttribute && Date.parse(expiresAttribute.slice(expiresAttribute.indexOf("=") + 1)) <= Date.now();
-
-        if (expiredByAge || expiredByDate) cookieJar.delete(name);
-        else cookieJar.set(name, value);
-    }
-}
-
-async function appRequest(path, { method = "GET", form, json, contentType } = {}) {
-    const target = new URL(path, appOrigin);
-    if (target.origin !== appOrigin) throw new Error("app origin mismatch");
-
-    let response;
-    try {
-        response = await fetch(target, {
-            method,
-            redirect: "manual",
-            headers: {
-                Cookie: cookieHeader(),
-                Origin: appOrigin,
-                ...(form ? { "Content-Type": "application/x-www-form-urlencoded" } : {}),
-                ...(json !== undefined ? { "Content-Type": contentType ?? "application/json" } : {}),
-            },
-            body: form ? new URLSearchParams(form).toString() : json !== undefined ? JSON.stringify(json) : undefined,
-        });
-    } catch {
-        throw new Error("app request failed");
-    }
-
-    storeCookies(response);
-    return response;
-}
-
-// An unsafe request with a chosen Origin (or none): Astro checkOrigin must answer 403 before the handler runs.
-async function originRequest(path, { method, origin }) {
-    const target = new URL(path, appOrigin);
-    if (target.origin !== appOrigin) throw new Error("app origin mismatch");
-    let response;
-    try {
-        response = await fetch(target, { method, redirect: "manual", headers: { Cookie: cookieHeader(), ...(origin ? { Origin: origin } : {}) } });
-    } catch {
-        throw new Error("app request failed");
-    }
-    storeCookies(response);
-    return response;
-}
-
-async function mailpitJson(path) {
-    let response;
-    try {
-        response = await fetch(new URL(path, mailpitUrl), { redirect: "error" });
-    } catch {
-        throw new Error("Mailpit request failed");
-    }
-    ensure(response.ok);
-
-    try {
-        return await response.json();
-    } catch {
-        throw new Error("Mailpit response was invalid");
-    }
-}
-
-function recipientsContain(message, email) {
-    return Array.isArray(message.To) && message.To.some((recipient) => (recipient?.Address ?? recipient?.Email)?.toLowerCase() === email.toLowerCase());
-}
-
-async function waitForEmail(email) {
-    const deadline = Date.now() + 20_000;
-    while (Date.now() < deadline) {
-        const messages = await mailpitJson("/api/v1/messages?limit=50");
-        const summary = (messages.messages ?? []).find((message) => message.ID && !receivedMessageIds.has(message.ID) && recipientsContain(message, email));
-        if (summary) {
-            receivedMessageIds.add(summary.ID);
-            const message = await mailpitJson("/api/v1/message/" + encodeURIComponent(summary.ID));
-            ensure(message.Subject === EMAIL_SUBJECT);
-            ensure(typeof message.HTML === "string");
-            ensure(message.HTML.includes("Use this one-time link to sign in to Drill Me:"));
-            ensure(message.HTML.includes("Continue to Drill Me"));
-            return message;
-        }
-        await setTimeout(250);
-    }
-    throw new Error("email was not received");
-}
-
-function decodeHtmlAttribute(value) {
-    return value
-        .replace(/&amp;/gi, "&")
-        .replace(/&quot;/gi, '"')
-        .replace(/&#39;/gi, "'")
-        .replace(/&#x([0-9a-f]+);/gi, (_, code) => String.fromCodePoint(Number.parseInt(code, 16)))
-        .replace(/&#([0-9]+);/g, (_, code) => String.fromCodePoint(Number.parseInt(code, 10)));
-}
-
-function callbackFromMessage(message) {
-    const links = [...message.HTML.matchAll(/\bhref\s*=\s*(?:"([^"]+)"|'([^']+)')/gi)].map((match) => decodeHtmlAttribute(match[1] ?? match[2]));
-    const href = links.find((value) => value.includes("/auth/callback"));
-    ensure(href);
-
-    let callback;
-    try {
-        callback = new URL(href);
-    } catch {
-        throw new Error("email callback link was invalid");
-    }
-    ensure(callback.origin === appOrigin);
-    ensure(callback.pathname === "/auth/callback");
-    ensure(callback.searchParams.get("type") === "email");
-
-    const tokenHash = callback.searchParams.get("token_hash");
-    const next = callback.searchParams.get("next") ?? "/";
-    ensure(tokenHash && !/\s/.test(tokenHash));
-    ensure(next === "/" || next === "/dashboard" || next === "/timers");
-
-    return { path: callback.pathname + callback.search, tokenHash, next };
-}
 
 function accountNavMarkup(markup) {
     const accountNav = [...markup.matchAll(/<nav\b((?:"[^"]*"|'[^']*'|[^'">])*)>([\s\S]*?)<\/nav>/gi)].find(([, attributes]) => {
@@ -222,51 +86,11 @@ async function verifyBarredPagesNoStore() {
     }
 }
 
-function responseLocation(response) {
-    const location = response.headers.get("location");
-    if (!location) return null;
-    try {
-        const url = new URL(location, appOrigin);
-        return url.origin === appOrigin ? url : null;
-    } catch {
-        return null;
-    }
-}
-
 async function runStep(name, action) {
     activeStep = name;
     const result = await action();
     console.log("PASS  " + name);
     return result;
-}
-
-async function requestEmailLink(email, next) {
-    const response = await appRequest("/api/auth/signin", {
-        method: "POST",
-        form: next === undefined ? { email } : { email, next },
-    });
-    ensure(response.status === 200);
-    const body = await response.json().catch(() => null);
-    ensure(body?.ok === true && body.message === NEUTRAL_MESSAGE);
-}
-
-async function confirmLink(link) {
-    const page = await appRequest(link.path);
-    ensure(page.status === 200);
-    ensure(page.headers.get("cache-control")?.includes("no-store"));
-    ensure(page.headers.get("referrer-policy") === "no-referrer");
-    const markup = await page.text();
-    ensure(markup.includes('id="email-link-confirmation"'));
-    ensure(markup.includes("Continue to your timers"));
-
-    const response = await appRequest("/api/auth/callback", {
-        method: "POST",
-        form: { token_hash: link.tokenHash, type: "email", next: link.next },
-    });
-    ensure(response.status === 303);
-    const location = responseLocation(response);
-    ensure(location?.pathname === link.next);
-    ensure(cookieJar.size > 0);
 }
 
 // The h1 of AccountDetails: the top bar has <nav aria-label="Account"> and the <title>, so a bare "Account" proves nothing.
@@ -316,12 +140,9 @@ async function verifyAccountPageHasNoList(accountEmail) {
     ensure(!text.includes("You have no saved timers yet."));
 }
 
-const UUID_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/;
 const PARAMETER_LINE = "Prep 0:05 · Exercise 0:04 · Rest 0:02 · 3 reps";
 // Set from the 201 response of POST /api/drills before the first user signs out.
 let savedDrill = null;
-
-const DRILL_DEFAULTS = { preparation: "0:05", exercise: "0:04", rest: "0:02", repetitions: "3", randomStartEnabled: false };
 
 async function saveDrill(name, overrides = {}, options = {}) {
     const response = await appRequest("/api/drills", { method: "POST", json: { name, ...DRILL_DEFAULTS, ...overrides }, ...options });
@@ -407,21 +228,6 @@ async function verifyDrillLimit() {
 
     const overLimit = await saveDrill("Smoke over the limit");
     ensure(overLimit.status === 409 && overLimit.body.code === "limit_reached");
-}
-
-function visibleText(markup) {
-    return decodeHtmlAttribute(markup.replace(/<!--[\s\S]*?-->/g, "").replace(/<[^>]*>/g, " ")).replace(/\s+/g, " ");
-}
-
-async function snapshot(path) {
-    const response = await appRequest(path);
-    const raw = await response.text();
-    return {
-        status: response.status,
-        raw,
-        location: response.headers.get("location"),
-        headers: ["cache-control", "content-type", "referrer-policy"].map((name) => response.headers.get(name)),
-    };
 }
 
 async function verifyOwnSavedDrillPages() {
@@ -709,13 +515,6 @@ async function verifyForeignDelete() {
     ensure(foreign.raw === put.raw);
 }
 
-async function signInNewAccount(email) {
-    await requestEmailLink(email, "/timers");
-    const link = callbackFromMessage(await waitForEmail(email));
-    await confirmLink(link);
-    return link;
-}
-
 async function neutralRetryForCallback(location) {
     ensure(location?.pathname === "/auth/callback");
     ensure(location.searchParams.get("error") === "invalid");
@@ -812,7 +611,7 @@ async function runLocalSmoke() {
 
     const newAccountLink = await runStep("Mailpit receives the new-account confirmation email", async () => {
         const message = await waitForEmail(email);
-        const link = callbackFromMessage(message);
+        const link = callbackFromMessage(message, appOrigin);
         ensure(link.next === "/timers");
         return link;
     });
@@ -861,7 +660,7 @@ async function runLocalSmoke() {
     await runStep("anonymous DELETE is 401", () => verifyGuestDelete(savedDrill.id));
 
     const otherEmail = "smoke-other-" + Date.now() + "-" + randomUUID() + "@example.com";
-    await runStep("a second, distinct account signs in", () => signInNewAccount(otherEmail));
+    await runStep("a second, distinct account signs in", () => signIn(client, mailpit, otherEmail));
     await runStep("second account gets identical 404s for a foreign and a random id and sees none of the first user's timers", verifyForeignSavedDrillPages);
     await runStep("second account's PUT and /edit page give identical 404s for a foreign, a random and a malformed id", verifyForeignEdit);
     await runStep("second account DELETE gives identical 404s for a foreign, a random and a malformed id", verifyForeignDelete);
@@ -879,7 +678,7 @@ async function runLocalSmoke() {
     await runStep("existing-account email request returns the same neutral result", () => requestEmailLink(email, "/"));
     const existingAccountLink = await runStep("Mailpit receives the existing-account magic-link email", async () => {
         const message = await waitForEmail(email);
-        return callbackFromMessage(message);
+        return callbackFromMessage(message, appOrigin);
     });
 
     await runStep("existing-account confirmation GET leaves the link unconsumed", async () => {
@@ -937,7 +736,8 @@ try {
     if (mode === "remote") await runRemoteSmoke();
     else await runLocalSmoke();
     console.log("\nAll smoke steps passed.");
-} catch {
-    console.log("FAIL  " + activeStep + " (details suppressed to protect email and token data)");
+} catch (error) {
+    // Only a SignInError carries a message that is safe to print; every other detail stays suppressed.
+    console.log("FAIL  " + activeStep + (error instanceof SignInError ? ": " + error.message : " (details suppressed to protect email and token data)"));
     process.exitCode = 1;
 }
