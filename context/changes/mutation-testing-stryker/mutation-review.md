@@ -16,7 +16,7 @@ Kryterium decyzji (CLAUDE.md, „Testowanie mutacyjne”): „czy ta zmiana zasz
 | Moduł | Zakres | Przed | Po | Przetrwałe po ponownym przebiegu |
 |---|---|---|---|---|
 | `src/lib/protected-routes.ts` | cały plik | 100% (36/36) | bez zmian | 0 |
-| `src/lib/email-auth.ts` | `25-53` (`isSafeNextPath`, schemat) | 59,38% (23 przetrwałe + 3 NoCoverage) | 13 (10 przetrwałych + 3 NoCoverage), wszystkie `ignoruj` | 0 oznaczonych `zabić` |
+| `src/lib/email-auth.ts` | `25-53` (`isSafeNextPath`, schemat) | 59,38% (23 przetrwałe + 3 NoCoverage) | 78,13% (po korekcie granicy 2048: 11 przetrwałych + 3 NoCoverage), wszystkie `ignoruj` | 0 oznaczonych `zabić` |
 | `src/lib/services/drill-configurations.ts` | `53-117` (walidacja) | 81,13% (20 przetrwałych) | 82,08% (19 przetrwałych), wszystkie `ignoruj` | 0 oznaczonych `zabić` |
 
 Czasy przebiegów: `email-auth` ok. 30 s, `drill-configurations` ok. 27 s (Windows, 7 procesów).
@@ -30,7 +30,8 @@ Brak przetrwałych mutantów; nic do przeglądu.
 | Mutant (linia) | Decyzja | Dlaczego |
 |---|---|---|
 | L27 `typeof value !== "string"` → `false`; `typeof… \|\| …` → `false`; `\|\|` → `&&` (3 warianty) | zabić | Wartość spoza stringa (`null`, `undefined`, `42`, `{}`, tablica) musi zostać odrzucona, a nie rzucić `TypeError` (funkcja przyjmuje `unknown`, kontrakt „odrzuca obcy adres”, test-plan Risk #5). Test: `safe next rejects anything that is not a string without throwing`. |
-| L29 `value.length > 2048` → `false` i `>= 2048` | zabić | Research (FR-017/Risk #5): dokładnie 2048 znaków akceptowane, 2049 odrzucone; bez limitu `next` o dowolnej długości trafia do cookie/URL. Test: `accepts exactly 2048 characters and rejects one more`. |
+| L29 `value.length > 2048` → `false` | zabić | Bez limitu długości `next` o dowolnej długości trafia do cookie/URL (test-plan Risk #5). Asercja właściwości, bez przypinania stałej: `next` z 10 000 znaków jest odrzucany, a zwykła ścieżka z zapytaniem ~200 znaków przyjmowana. Test: `rejects a very long path and accepts an ordinary one with a medium query`. |
+| L29 `value.length >= 2048` | ignoruj | Kosmetyczny: PRD i test-plan nie podają liczby 2048 (to stała implementacji); granica o jeden znak nie szkodzi użytkownikowi, a test przypinający stałą byłby testem vibe (CLAUDE.md). |
 | L30 `value !== value.trim()` → `false` / `value.trim()` → `value` (oraz warianty L27 `\|\|` → `&&` zależne od tej gałęzi) | zabić | Białe znaki na brzegach (`"/dashboard "`, NBSP) muszą być odrzucone; parser URL po cichu je obcina lub koduje, więc bez tej gałęzi do przekierowania trafiłby nieznormalizowany `next`. Test: `rejects whitespace at either edge`. |
 | L35 regex `(?![0-9a-f]{2})` → `(?![0-9a-f])` | zabić | `%1`, `%1z` to niepoprawne ucieczki (research: „niepoprawne `%`”); mogą zepsuć dekodowanie `decodeURIComponent` dalej. Test: `rejects an incomplete or non-hex percent escape`. |
 | L35 regex → `(?![^0-9a-f]{2})` | zabić | Ten mutant odrzucałby poprawne ucieczki (`%C3%A9`, `%20`); poprawne zakodowane ścieżki lokalne muszą przejść. Test: `…accepts a valid one`. |

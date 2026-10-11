@@ -74,9 +74,9 @@ void test("safe next rejects anything that is not a string without throwing", ()
     }
 });
 
-void test("safe next accepts exactly 2048 characters and rejects one more", () => {
-    assert.equal(isSafeNextPath("/" + "a".repeat(2047)), true);
-    assert.equal(isSafeNextPath("/" + "a".repeat(2048)), false);
+void test("safe next rejects a very long path and accepts an ordinary one with a medium query", () => {
+    assert.equal(isSafeNextPath("/" + "a".repeat(10_000)), false);
+    assert.equal(isSafeNextPath("/timers?q=" + "a".repeat(200)), true);
 });
 
 void test("safe next rejects whitespace at either edge", () => {
