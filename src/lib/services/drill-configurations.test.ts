@@ -167,6 +167,18 @@ void test("wrong types, missing fields, unknown keys and non-objects are validat
     }
 });
 
+void test("invalid values without unknown keys get the generic validation message, not the unknown-fields one", () => {
+    for (const input of [
+        { ...validRequest, repetitions: "0" },
+        { ...validRequest, name: "" },
+        { ...validRequest, name: 42 },
+        { ...validRequest, randomStartEnabled: "yes" },
+    ]) {
+        const result = validateSaveDrillRequest(input);
+        assert.equal(!result.valid && result.message, SAVE_DRILL_MESSAGES.validation, JSON.stringify(input));
+    }
+});
+
 void test("a successful save sends seconds and the session user, and returns the DTO", async () => {
     const inserted: DrillConfigurationInsert[] = [];
     const result = await saveDrillConfiguration(storeReturning({ data: storedRow, error: null }, inserted), USER_ID, { ...validRequest, name: " Morning draw " });
