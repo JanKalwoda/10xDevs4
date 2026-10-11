@@ -69,7 +69,7 @@ orchestrator updates Status as artifacts appear on disk.
 
 | # | Phase name | Goal (one line) | Risks covered | Test types | Status | Change folder |
 |---|---|---|---|---|---|---|
-| 1 | Access and ownership boundaries | Udowodnić izolację właściciela, ochronę tras dla gościa, cele przekierowań i walidację API na najtańszej warstwie | #1, #2, #5, #6 | integration (HTTP vs lokalny Supabase) | change opened | `context/changes/testing-access-boundaries/` |
+| 1 | Access and ownership boundaries | Udowodnić izolację właściciela, ochronę tras dla gościa, cele przekierowań i walidację API na najtańszej warstwie | #1, #2, #5, #6 | integration (HTTP vs lokalny Supabase) | researched | `context/changes/testing-access-boundaries/` |
 | 2 | Run flow and form behaviour | Udowodnić sekwencję faz, sygnałów, pauzy i wznowienia oraz krok strzałek bez prawdziwej przeglądarki | #3, #4, #6 | component + integration (fałszywy zegar i audio) | not started | — |
 | 3 | Critical-path browser smoke | Minimalny smoke w przeglądarce: formularz, pełny przebieg z dźwiękiem, pauza i wznowienie, logowanie, zapis, edycja, usunięcie | #3, #4, #5 | e2e | not started | — |
 | 4 | Key-screen layout and tap-target check | Brak wychodzenia poza ekran i trafialne przyciski na kluczowych ekranach dla 1280 i 390 px (fine i coarse); domknięcie bramek CI | #7, cross-cutting | e2e geometry checks, optional multimodal review, gates | not started | — |
@@ -81,7 +81,7 @@ The classic test base for this project. AI-native tools (if any) carry a
 Recommendations in this section must be grounded in local manifests/configs
 plus the MCP/tools actually exposed in the current session.
 
-Profil bazy testów: `sparse` — runner `node --test` (bez pliku konfiguracyjnego), 27 plików testów jednostkowych skupionych w `src/lib` i `src/lib/services`, 2 testy reguł ESLint, 1 test pgTAP, skrypt smoke HTTP; komponenty, trasy API, ochrona tras i przepływy w przeglądarce nie mają testów automatycznych.
+Profil bazy testów: `sparse` — runner `node --test` (bez pliku konfiguracyjnego), 27 plików testów jednostkowych skupionych w `src/lib` i `src/lib/services`, 2 testy reguł ESLint, 1 test pgTAP, skrypt smoke HTTP (tylko przepływ logowania), 5 plików integracyjnych HTTP (`tests/integration/`: trasy, ochrona, własność, przekierowania, walidacja API); komponenty i przepływy w przeglądarce nie mają testów automatycznych.
 
 | Layer | Tool | Version | Notes |
 |---|---|---|---|
@@ -116,8 +116,8 @@ phase lands; before that, the gate is `planned`.
 | lint (w tym kontrakt UI) + `astro check` | local + CI (`ci`) | required (wired) | dryf składni, typów i tokenów UI |
 | unit (`npm test`) | local + CI (`ci`) | required (wired) | regresje czystej logiki |
 | pgTAP (`supabase test db`) | CI (`smoke`) | required (wired) | RLS, granty, ograniczenia tabel |
-| HTTP smoke auth | CI (`smoke`) | required (wired) | zepsuty przepływ logowania na podglądzie produkcyjnym |
-| integration: trasy, własność, przekierowania, walidacja API | local + CI | required after §3 Phase 1 | ryzyka #1, #2, #5, #6 |
+| HTTP smoke auth (tylko logowanie) | CI (`smoke`) | required (wired) | zepsuty przepływ logowania na podglądzie produkcyjnym |
+| integration: trasy, własność, przekierowania, walidacja API | local + CI (`smoke`) | required (wired) | ryzyka #1, #2, #5, #6 |
 | component: przebieg i formularz | local + CI | required after §3 Phase 2 | ryzyka #3, #4, #6 |
 | e2e na krytycznych przepływach | CI on PR | required after §3 Phase 3 | ryzyka #3, #4, #5 w przeglądarce |
 | layout i tap targets (1280 / 390 px) | CI on PR | required after §3 Phase 4 | ryzyko #7 |
@@ -140,7 +140,19 @@ the relevant rollout phase ships; before that, the sub-section reads
 
 ### 6.2 Adding a test for a protected route or ownership boundary
 
-- TBD — see §3 Phase 1 (wzorzec: dwa konta, cudzy id daje ten sam 404 co nieistniejący, gość dostaje przekierowanie bez zmiany w bazie).
+- **Location**: `tests/integration/<ryzyko>.test.mjs` (`node:test`, jeden plik = jeden proces, konta wspólne tylko w obrębie pliku). Istniejące: `guest-access`, `redirects`, `ownership`, `api-validation` (+ `environment`).
+- **Naming**: nazwa testu opisuje zachowanie, np. „foreign details page: B gets the same 404 for A's timer as for a random, malformed or nested path”; warianty jako podtesty `t.test` w pętli, nie kopie.
+- **Reference tests**: `ownership.test.mjs` „foreign details page” (dwa konta, cudzy id == nieistniejący) i `guest-access.test.mjs` (gość, każda metoda i ścieżka).
+- **Helper**: `scripts/lib/app-client.mjs` — `createAppClient` (jeden klient i słoik ciasteczek na konto), `rawRequest` dla wariantów ścieżek (`//timers`), `createMailpit`, `signIn`, `resolveLocalTargets` (tylko lokalne originy).
+- **Rules**:
+  - wyrocznia ze źródła (PRD Access Control i Guardrails, FR-011/017, roadmap), nie z odczytu kodu;
+  - „foreign == missing” porównuj bajt w bajt (status, ciało, nagłówki) oraz sprawdzaj `no-store`;
+  - każdy test tworzy własne timery z unikalną nazwą (`<test>-<uuid>`);
+  - bez klucza service-role i bez mocków bazy; POST na stronę wysyłaj z `Origin` aplikacji.
+- **Reuse accounts**: nowy przypadek używa kont już logowanych w swoim pliku (A, B, V, L) i własnych timerów; nowe konto tylko gdy przypadek wymaga stanu konta (np. limit 50). Budżet: 5 wysyłek linku (4 logowania zestawu + 1 kontrola pozytywna w `redirects`) + 2 smoke, ok. 7 z 30 na przebieg; w CI każdy przebieg startuje od zera.
+- **Sign-in failure = wait 5 minutes first**: komunikat o limicie auth oznacza przekroczenie 30 logowań lub weryfikacji na 5 min na IP (ok. 5 szybkich przebiegów lokalnie albo kilka worktree na jednym Supabase). Odczekaj 5 minut i uruchom ponownie, zanim zaczniesz szukać błędu w kodzie.
+- **New page**: sklasyfikuj ją w `src/lib/route-inventory.test.ts` (inaczej `npm test` failuje z jej ścieżką) i dodaj przypadek gościa w `guest-access`.
+- **Run locally**: `npx supabase start`, `npm run build && npm run preview`, potem `npm run test:integration` (`BASE_URL` domyślnie `http://localhost:4321`, `MAILPIT_URL` `http://localhost:55324`). Pojedynczy test: `node --test --test-name-pattern="<nazwa>" tests/integration/ownership.test.mjs`.
 
 ### 6.3 Adding a test for run flow or form behaviour
 
@@ -157,6 +169,10 @@ the relevant rollout phase ships; before that, the sub-section reads
 ### 6.6 Per-rollout-phase notes
 
 (Po każdej fazie 2–3 linie o tym, czego faza nauczyła.)
+
+- **Phase 1 (access boundaries)**: warstwa „HTTP vs lokalny Supabase” już istniała w smoke; potrzebne było jej wydzielenie do klienta i niezależnych plików, a smoke zostało przy logowaniu.
+- Limit auth lokalnego Supabase (30 / 5 min / IP) nie wygląda jak błąd (neutralne 200, `error=invalid`), więc `signIn` ma jeden czytelny komunikat; planuj budżet logowań.
+- Dodatkowo inwentarz tras w `npm test` zamyka lukę „nowa strona bez ochrony”.
 
 ## 7. What We Deliberately Don't Test
 
