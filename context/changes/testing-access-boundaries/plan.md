@@ -558,14 +558,14 @@ Brak zmian w bazie i sekretach. Przeniesienie asercji odbywa się bez okna bez p
 
 #### Automated
 
-- [x] 2.1 Lint passes: `npm run lint`
-- [x] 2.2 Unit tests including the route inventory pass: `npm test`
-- [x] 2.3 Guest and redirect integration tests pass against the running app: `npm run test:integration`
-- [x] 2.4 Route inventory fails with the file path when a new page file is added to `src/pages/` without being classified (checked once with a temporary file, then removed)
+- [x] 2.1 Lint passes: `npm run lint` — f3a095c
+- [x] 2.2 Unit tests including the route inventory pass: `npm test` — f3a095c
+- [x] 2.3 Guest and redirect integration tests pass against the running app: `npm run test:integration` — f3a095c
+- [x] 2.4 Route inventory fails with the file path when a new page file is added to `src/pages/` without being classified (checked once with a temporary file, then removed) — f3a095c
 
 #### Manual
 
-- [x] 2.5 Each foreign-`next` consumer has a passing positive control, so a consumer that ignores `next` entirely would fail the suite (script, not human)
+- [x] 2.5 Each foreign-`next` consumer has a passing positive control, so a consumer that ignores `next` entirely would fail the suite (script, not human) — f3a095c
 
 ### Phase 3: #1 własność (konta A i B) i linki SSR
 
