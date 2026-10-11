@@ -219,7 +219,7 @@ Brak migracji bazy danych i zmian API.
 
 #### Manual
 
-- [x] 1.5 Klasy `tooltip.tsx` używają tylko tokenów semantycznych — verified by coordinator (code read)
+- [x] 1.5 Klasy `tooltip.tsx` używają tylko tokenów semantycznych — verified by coordinator (code read); user manual checklist 2026-10-11: A5, B4, R3-R5, U7 pass
 
 ### Phase 2: Wiersz z ikoną odsłuchu, tooltip i dotyk
 
@@ -231,8 +231,8 @@ Brak migracji bazy danych i zmian API.
 
 #### Manual
 
-- [x] 2.4 Ikona jest na końcu wiersza Exercise/Rest/Random start, bez pełnych akapitów pod polami — script, not human (gate: icon at end of input row; screenshots reviewed) 017b32f
-- [x] 2.5 Hover i fokus pokazują opis; wyłączona ikona pokazuje powód i nie odtwarza — script, not human (gate: hover, focus, disabled reason, no play) 017b32f
+- [x] 2.4 Ikona jest na końcu wiersza Exercise/Rest/Random start, bez pełnych akapitów pod polami — script, not human (gate: icon at end of input row; screenshots reviewed) 017b32f; user manual checklist 2026-10-11: A5, B4, R3-R5, U7 pass
+- [x] 2.5 Hover i fokus pokazują opis; wyłączona ikona pokazuje powód i nie odtwarza — script, not human (gate: hover, focus, disabled reason, no play) 017b32f; user manual checklist 2026-10-11: A5, B4, R3-R5, U7 pass
 
 ### Phase 3: Fixtures, bramka wizualna i dokumentacja
 
@@ -243,4 +243,4 @@ Brak migracji bazy danych i zmian API.
 
 #### Manual
 
-- [x] 3.3 Zrzuty 7 stanów w obu motywach i szerokościach przejrzane — script, not human; screenshots reviewed 017b32f
+- [x] 3.3 Zrzuty 7 stanów w obu motywach i szerokościach przejrzane — script, not human; screenshots reviewed 017b32f; user manual checklist 2026-10-11: A5, B4, R3-R5, U7 pass
