@@ -68,7 +68,7 @@ Obecny timer HIIT pozwala ustawić fazy i powtórzenia, lecz jego przewidywalny 
 | S-19 | signal-preview-icon | Użytkownik odsłuchuje sygnał ikoną głośnika w wierszu pola, a opis widzi w tooltipie | S-03 | FR-004, FR-019 | done |
 | S-20 | account-deletion | Użytkownik usuwa swoje konto z okresem przetrzymania zgodnym z RODO | S-09, S-17 | — | proposed |
 | S-21 | ux-fixes-round-2 | Użytkownik ma poprawione drobne błędy S-16–S-19, okienko Current w widoku biegu jak Next oraz strzałki zmiany wartości w formularzu timera | S-17, S-18, S-19 | FR-018, FR-020 | done |
-| S-22 | ux-fixes-round-3 | Użytkownik klika strzałki wartości dokładnie o 1 krok, ma je wbudowane w pole (układ wg głównego wskaźnika), czyta opisy w szerszym tooltipie na komputerze i widzi okienko Current bez ramki i tła | S-21 | FR-018, FR-019, FR-020 | in-progress |
+| S-22 | ux-fixes-round-3 | Użytkownik klika strzałki wartości dokładnie o 1 krok, ma je wbudowane w pole (układ wg głównego wskaźnika), czyta opisy w szerszym tooltipie na komputerze i widzi okienko Current bez ramki i tła | S-21 | FR-018, FR-019, FR-020 | done |
 
 ## Streams
 
@@ -369,7 +369,7 @@ Brak osobnych Foundations. Konfigurację danych, ochronę własności i weryfika
 - **Blockers:** —
 - **Unknowns:** —
 - **Risk:** Układ sterowany głównym wskaźnikiem musi zmieścić się w 390 px (najdłuższe wartości); zmiana logiki kroku nie może zepsuć powtarzania ani dostępności klawiatury/AT.
-- **Status:** in-progress
+- **Status:** done
 
 ## Backlog Handoff
 
@@ -431,3 +431,4 @@ Brak zamkniętych kamieni milowych.
 - **S-18: W widoku biegu odliczany czas jest wyżej, tuż pod nim widać „Repetition X of N" (także w Preparation i Standby), okienko bieżącej fazy ma nazwę w pierwszej linii i czas w osobnej linii bez numeru powtórzenia, a okienko następnej fazy ma większy napis „Next" oraz nazwę i czas w osobnej linii.** — Archived 2026-10-11 → `context/archive/2026-10-09-run-view-layout/`. Lesson: —.
 - **S-19: Odsłuch sygnału to sama ikona głośnika na końcu wiersza z polem czasu (Standby przy opcji Random start); opis znaczenia i powód wyłączenia są w tooltipie, a na telefonie dotknięcie ikony odtwarza dźwięk i pokazuje ten sam opis na kilka sekund.** — Archived 2026-10-11 → `context/archive/2026-10-09-signal-preview-icon/`. Lesson: —.
 - **S-21: Link „Back to timers” na `/create` prowadzi do `/timers`; tooltip bez pustej połowy; wyłączona ikona odsłuchu nie zmienia koloru przy hoverze; okienko Current w widoku biegu wygląda jak Next (etykieta „Current”, pod nią „Nazwa · czas”, w Standby z losową długością sama nazwa); pola Preparation, Exercise, Rest i Repetitions mają strzałki ▲/▼ (przytrzymanie powtarza, ↑/↓ i Shift+↑/↓ w polu).** — Archived 2026-10-11 → `context/archive/2026-10-10-ux-fixes-round-2/`. Lesson: —.
+- **S-22: Pojedynczy klik lub dotknięcie strzałki zmienia wartość dokładnie o 1 (bez wyścigu opartego o czas); strzałki ▲/▼ są wewnątrz ramki pola (komputer: kolumna; telefon: obok siebie po 44 px, wg głównego wskaźnika `pointer-coarse:`, także na laptopie dotykowym); tooltip odsłuchu na komputerze szerszy (do `max-w-md`) bez pustej części; okienko Current bez ramki i tła, Next bez zmian.** — Archived 2026-10-11 → `context/archive/2026-10-11-ux-fixes-round-3/`. Lesson: —.
