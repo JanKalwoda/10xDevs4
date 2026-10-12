@@ -416,13 +416,13 @@ Nie dotyczy (bez zmian kodu produkcyjnego i danych).
 
 #### Automated
 
-- [x] 5.1 Cały zestaw jednostkowy przechodzi
-- [x] 5.2 Lint przechodzi
-- [x] 5.3 Typecheck przechodzi
-- [x] 5.4 Testy reguł ESLint przechodzą
-- [x] 5.5 Diff test-plan.md dotyka tylko §3, §6.3 i §6.6
+- [x] 5.1 Cały zestaw jednostkowy przechodzi — 14e145a
+- [x] 5.2 Lint przechodzi — 14e145a
+- [x] 5.3 Typecheck przechodzi — 14e145a
+- [x] 5.4 Testy reguł ESLint przechodzą — 14e145a
+- [x] 5.5 Diff test-plan.md dotyka tylko §3, §6.3 i §6.6 — 14e145a
 
 #### Manual
 
-- [x] 5.6 Koordynator potwierdza, że §6.3 wystarcza do napisania nowego testu przebiegu
-- [x] 5.7 (opcjonalnie) Stryker na drill-run.ts uruchomiony i przetrwałe mutanty opisane
+- [x] 5.6 Koordynator potwierdza, że §6.3 wystarcza do napisania nowego testu przebiegu — 14e145a
+- [x] 5.7 (opcjonalnie) Stryker na drill-run.ts uruchomiony i przetrwałe mutanty opisane — 14e145a
