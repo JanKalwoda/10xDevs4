@@ -388,15 +388,15 @@ Nie dotyczy (bez zmian kodu produkcyjnego i danych).
 
 #### Automated
 
-- [ ] 3.1 Testy sygnałów przechodzą
-- [ ] 3.2 Cały zestaw jednostkowy przechodzi
-- [ ] 3.3 Lint przechodzi
-- [ ] 3.4 Typecheck przechodzi
-- [ ] 3.5 Testy reguł ESLint przechodzą
+- [x] 3.1 Testy sygnałów przechodzą
+- [x] 3.2 Cały zestaw jednostkowy przechodzi
+- [x] 3.3 Lint przechodzi
+- [x] 3.4 Typecheck przechodzi
+- [x] 3.5 Testy reguł ESLint przechodzą
 
 #### Manual
 
-- [ ] 3.6 Kontrola regresji: oczekiwanie od pierwszego dźwięku i wznowienie bez nowego portu dają czerwony test
+- [x] 3.6 Kontrola regresji: oczekiwanie od pierwszego dźwięku i wznowienie bez nowego portu dają czerwony test
 
 ### Phase 4: #6 kontrakt strzałki z parserem i zakresami PRD
 

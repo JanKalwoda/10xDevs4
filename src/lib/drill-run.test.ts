@@ -112,7 +112,7 @@ void test("scheduled cues keep exact boundaries and a full wait after the second
     assert.equal(audio.cues[1].at, audio.cues[0].end);
     assert.equal(audio.cues[0].end, 0.3);
     assert.ok(Math.abs(audio.cues[1].end - 0.45) < 0.001);
-    assert.ok(Math.abs(audio.cues[2].at - (audio.cues[1].end + 1)) < 0.2);
+    assert.ok(Math.abs(audio.cues[2].at - (audio.cues[1].end + 1)) < 0.001);
     assert.equal(audio.cues[3].at, audio.cues[2].at + 4);
     assert.ok(Math.abs(audio.cues[3].end - audio.cues[3].at - 0.35) < 0.001);
     clock.advance(5.8); // One callback crosses Standby and exercise boundaries.
