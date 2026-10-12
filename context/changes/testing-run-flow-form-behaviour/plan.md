@@ -402,15 +402,15 @@ Nie dotyczy (bez zmian kodu produkcyjnego i danych).
 
 #### Automated
 
-- [ ] 4.1 Kontrakt strzałki przechodzi
-- [ ] 4.2 Cały zestaw jednostkowy przechodzi
-- [ ] 4.3 Lint przechodzi
-- [ ] 4.4 Typecheck przechodzi
-- [ ] 4.5 Testy reguł ESLint przechodzą
+- [x] 4.1 Kontrakt strzałki przechodzi
+- [x] 4.2 Cały zestaw jednostkowy przechodzi
+- [x] 4.3 Lint przechodzi
+- [x] 4.4 Typecheck przechodzi
+- [x] 4.5 Testy reguł ESLint przechodzą
 
 #### Manual
 
-- [ ] 4.6 Kontrola regresji: zepsucie minimum ćwiczenia i maksimum powtórzeń w strzałce daje czerwony test
+- [x] 4.6 Kontrola regresji: zepsucie minimum ćwiczenia i maksimum powtórzeń w strzałce daje czerwony test
 
 ### Phase 5: Cookbook §6.3, notatka §6.6, status §3 i opcjonalny Stryker
 
