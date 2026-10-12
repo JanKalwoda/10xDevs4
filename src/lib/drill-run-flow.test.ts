@@ -8,7 +8,7 @@ import type { DrillConfiguration } from "../types.ts";
 // Oracle: PRD US-01, US-02, FR-001, FR-002, FR-018 and the Standby guardrail. Every expectation below is a literal
 // from the PRD (order of phases, full configured times, "Repetition X of N", Next preview), never read from the code.
 // Two exceptions: "Drill complete" is the UI copy of the PRD's end-of-drill preview, and the runs are silent
-// (audio = null), so a Standby lasts exactly the drawn wait (FR-002 leaves no sound time to add).
+// (audio = null), so a Standby lasts exactly the drawn wait (FR-002: without sound, Standby is the drawn time).
 
 class FakeClock implements DrillClock {
     time = 0;

@@ -85,7 +85,7 @@ Bramki (przed i po poprawkach): `npm test` 306/306, `npm run lint` czysty, `npx 
 - **Location**: src/lib/drill-run-flow.test.ts (oś czasu z `audio = null`)
 - **Detail**: Przy `audio = null` Standby trwa dokładnie wylosowane oczekiwanie. FR-002 mówi tylko, że czas dźwięków nie wlicza się do 1–5 s; o ciszy PRD milczy. Literalne chwile kodują to zachowanie.
 - **Fix**: Komentarz wyroczni opisuje wyjątek (bez zmiany oczekiwań); pytanie o regułę do koordynatora/użytkownika.
-- **Decision**: ACCEPTED — udokumentowane, pytanie przekazane koordynatorowi
+- **Decision**: ACCEPTED — reguła potwierdzona przez użytkownika 2026-10-12: bez dźwięku Standby trwa dokładnie wylosowany czas; dopisana do PRD FR-002, oczekiwania testów bez zmian
 
 ### F7 — „Drill complete” to tekst UI, nie literał PRD
 
