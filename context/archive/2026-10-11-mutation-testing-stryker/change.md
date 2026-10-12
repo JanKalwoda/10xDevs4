@@ -1,10 +1,10 @@
 ---
 change_id: mutation-testing-stryker
 title: StrykerJS mutation testing as a selective quality gate
-status: impl_reviewed
+status: archived
 created: 2026-10-11
-updated: 2026-10-11
-archived_at: null
+updated: 2026-10-12
+archived_at: 2026-10-12T16:39:55Z
 ---
 
 ## Notes
