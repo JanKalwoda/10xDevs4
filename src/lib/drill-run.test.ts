@@ -226,7 +226,12 @@ void test("exercise and rest failure retain their remaining duration", () => {
 
 void test("hide cancels cues, freezes, and resume from repetition 2 or final keeps target", () => {
     for (const repetition of [2, 3]) {
-        const { clock, audio, run } = make({ ...configuration, preparationSeconds: 2 });
+        let draw = 0; // 1.00 s waits until the pause
+        let draws = 0;
+        const { clock, audio, run } = make({ ...configuration, preparationSeconds: 2 }, () => {
+            draws++;
+            return draw;
+        });
         clock.advance(2);
         run.tick();
         while (audio.cues.filter(({ cue }) => cue === "exercise").length < repetition) {
@@ -247,16 +252,28 @@ void test("hide cancels cues, freezes, and resume from repetition 2 or final kee
         assert.ok(stale);
         clock.fireStale(stale);
         assert.equal(run.display.phase && "repetition" in run.display.phase ? run.display.phase.repetition : null, repetition);
+        const drawsBeforeResume = draws;
+        draw = 0.999; // the new wait must be drawn again: 5.00 s
         run.resume();
         assert.equal(run.display.phase?.kind, "preparation");
         clock.advance(102);
         run.tick();
         assert.deepEqual(run.display.phase, { kind: "standby", repetition });
+        assert.ok(draws > drawsBeforeResume, "resume draws a new wait");
+        const resumedSecondSound = audio.cues.filter(({ cue }) => cue === "standby-second").at(-1);
+        const resumedExercise = audio.cues.filter(({ cue }) => cue === "exercise").at(-1);
+        assert.ok(resumedSecondSound && resumedExercise);
+        assert.ok(Math.abs(resumedExercise.at - resumedSecondSound.end - 5) < 0.001, "the resumed Standby waits 5.00 s, not the old 1.00 s");
     }
 });
 
 void test("hidden Standby resumes through preparation to the same repetition", () => {
-    const { clock, audio, run } = make({ ...configuration, preparationSeconds: 2 });
+    let draw = 0;
+    let draws = 0;
+    const { clock, audio, run } = make({ ...configuration, preparationSeconds: 2 }, () => {
+        draws++;
+        return draw;
+    });
     clock.advance(2);
     run.tick();
     const firstRest = audio.cues.find(({ cue }) => cue === "rest");
@@ -267,11 +284,18 @@ void test("hidden Standby resumes through preparation to the same repetition", (
     clock.advance(target.at + 0.1);
     run.tick();
     run.hide();
+    const drawsBeforeResume = draws;
+    draw = 0.999;
     run.resume();
     assert.deepEqual(run.display.phase, { kind: "preparation", durationSeconds: 2 });
     clock.advance(target.at + 2.1);
     run.tick();
     assert.deepEqual(run.display.phase, { kind: "standby", repetition: 2 });
+    assert.ok(draws > drawsBeforeResume, "resume draws a new wait");
+    const resumedSecondSound = audio.cues.filter(({ cue }) => cue === "standby-second").at(-1);
+    const resumedExercise = audio.cues.filter(({ cue }) => cue === "exercise").at(-1);
+    assert.ok(resumedSecondSound && resumedExercise);
+    assert.ok(Math.abs(resumedExercise.at - resumedSecondSound.end - 5) < 0.001, "the resumed Standby waits 5.00 s, not the old 1.00 s");
 });
 
 void test("interrupted preparation and rest retain remaining time without replaying a cue", () => {

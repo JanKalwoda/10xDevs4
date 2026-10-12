@@ -374,15 +374,15 @@ Nie dotyczy (bez zmian kodu produkcyjnego i danych).
 
 #### Automated
 
-- [ ] 2.1 Testy sekwencji i wznowienia przechodzą
-- [ ] 2.2 Cały zestaw jednostkowy przechodzi
-- [ ] 2.3 Lint przechodzi
-- [ ] 2.4 Typecheck przechodzi
-- [ ] 2.5 Testy reguł ESLint przechodzą
+- [x] 2.1 Testy sekwencji i wznowienia przechodzą
+- [x] 2.2 Cały zestaw jednostkowy przechodzi
+- [x] 2.3 Lint przechodzi
+- [x] 2.4 Typecheck przechodzi
+- [x] 2.5 Testy reguł ESLint przechodzą
 
 #### Manual
 
-- [ ] 2.6 Kontrola regresji: wznowienie z pozostałym czasem i złe powtórzenie dają czerwony test
+- [x] 2.6 Kontrola regresji: wznowienie z pozostałym czasem i złe powtórzenie dają czerwony test
 
 ### Phase 3: #3 sygnały przez prawdziwy createDrillAudio (Start, wznowienie, powrót z ukrytej karty)
 

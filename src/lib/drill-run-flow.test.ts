@@ -209,3 +209,170 @@ void test("Standby shows no time anywhere, and a 1.00 s and a 5.00 s wait look i
     assert.equal(kindOf(short.run), "exercise", "the 1.00 s wait ended");
     assert.equal(kindOf(long.run), "standby", "the 5.00 s wait is still running");
 });
+
+// Phase 2 oracle: PRD FR-006 and Business Logic. Resuming from Standby or Exercise adds a full Preparation and restarts
+// the same repetition with a new random draw; Preparation and Rest continue with their remaining time.
+
+function keyOf(run: DrillRun): string {
+    const phase = run.display.phase;
+    if (!phase) return "end";
+    return "repetition" in phase ? `${phase.kind}#${phase.repetition}` : phase.kind;
+}
+
+/** Ticks in quarter seconds up to `until` and appends every change of phase to `seen`. */
+function drive(clock: FakeClock, run: DrillRun, until: number, seen: string[]) {
+    const note = () => {
+        const key = keyOf(run);
+        if (seen[seen.length - 1] !== key) seen.push(key);
+    };
+    note();
+    while (clock.time < until) {
+        clock.time = Math.min(until, clock.time + 0.25);
+        run.tick();
+        note();
+    }
+}
+
+interface PauseCase {
+    name: string;
+    configuration: DrillConfiguration;
+    draws: number[];
+    pauseAt: number;
+    /** Phase and view the paused run must keep showing. */
+    paused: { key: string; main: string };
+    sequence: string[];
+    drawsTotal: number;
+}
+
+const pauseCases: PauseCase[] = [
+    {
+        name: "pause in Exercise repetition 2 restarts it after a full Preparation with a new Standby draw",
+        configuration: config({ preparationSeconds: 2, exerciseSeconds: 3, restSeconds: 2, repetitions: 3, randomStartEnabled: true }),
+        draws: [SHORT_WAIT, SHORT_WAIT, LONG_WAIT, SHORT_WAIT],
+        pauseAt: 10,
+        paused: { key: "exercise#2", main: "0:02" },
+        sequence: [
+            "preparation",
+            "standby#1",
+            "exercise#1",
+            "rest#1",
+            "standby#2",
+            "exercise#2",
+            "preparation",
+            "standby#2",
+            "exercise#2",
+            "rest#2",
+            "standby#3",
+            "exercise#3",
+            "rest#3",
+            "end",
+        ],
+        drawsTotal: 4,
+    },
+    {
+        name: "pause in Standby repetition 2 restarts it after a full Preparation with a new Standby draw",
+        configuration: config({ preparationSeconds: 2, exerciseSeconds: 3, restSeconds: 2, repetitions: 3, randomStartEnabled: true }),
+        draws: [SHORT_WAIT, SHORT_WAIT, LONG_WAIT, SHORT_WAIT],
+        pauseAt: 8.5,
+        paused: { key: "standby#2", main: "standby" },
+        sequence: ["preparation", "standby#1", "exercise#1", "rest#1", "standby#2", "preparation", "standby#2", "exercise#2", "rest#2", "standby#3", "exercise#3", "rest#3", "end"],
+        drawsTotal: 4,
+    },
+    {
+        name: "pause in Exercise repetition 2 without random start restarts the same Exercise after a full Preparation",
+        configuration: config({ preparationSeconds: 2, exerciseSeconds: 3, restSeconds: 2, repetitions: 3 }),
+        draws: [],
+        pauseAt: 8,
+        paused: { key: "exercise#2", main: "0:02" },
+        sequence: ["preparation", "exercise#1", "rest#1", "exercise#2", "preparation", "exercise#2", "rest#2", "exercise#3", "rest#3", "end"],
+        drawsTotal: 0,
+    },
+    {
+        name: "pause in the last Exercise keeps the finished repetitions and ends after the last Rest",
+        configuration: config({ preparationSeconds: 2, exerciseSeconds: 3, restSeconds: 2, repetitions: 2 }),
+        draws: [],
+        pauseAt: 8,
+        paused: { key: "exercise#2", main: "0:02" },
+        sequence: ["preparation", "exercise#1", "rest#1", "exercise#2", "preparation", "exercise#2", "rest#2", "end"],
+        drawsTotal: 0,
+    },
+    {
+        name: "Preparation 0 s: pause in Exercise repetition 2 without random start resumes straight into the full Exercise",
+        configuration: config({ preparationSeconds: 0, exerciseSeconds: 3, restSeconds: 2, repetitions: 2 }),
+        draws: [],
+        pauseAt: 6,
+        paused: { key: "exercise#2", main: "0:02" },
+        sequence: ["exercise#1", "rest#1", "exercise#2", "rest#2", "end"],
+        drawsTotal: 0,
+    },
+    {
+        name: "Preparation 0 s: pause in Exercise repetition 2 with random start resumes into a Standby with a new draw",
+        configuration: config({ preparationSeconds: 0, exerciseSeconds: 3, restSeconds: 2, repetitions: 2, randomStartEnabled: true }),
+        draws: [SHORT_WAIT, SHORT_WAIT, LONG_WAIT],
+        pauseAt: 8,
+        paused: { key: "exercise#2", main: "0:02" },
+        sequence: ["standby#1", "exercise#1", "rest#1", "standby#2", "exercise#2", "standby#2", "exercise#2", "rest#2", "end"],
+        drawsTotal: 3,
+    },
+    {
+        name: "pause in Rest keeps the remaining Rest time and then continues with the next repetition",
+        configuration: config({ preparationSeconds: 2, exerciseSeconds: 3, restSeconds: 2, repetitions: 2 }),
+        draws: [],
+        pauseAt: 6,
+        paused: { key: "rest#1", main: "0:01" },
+        sequence: ["preparation", "exercise#1", "rest#1", "exercise#2", "rest#2", "end"],
+        drawsTotal: 0,
+    },
+    {
+        name: "pause in Preparation keeps the remaining Preparation time",
+        configuration: config({ preparationSeconds: 2, exerciseSeconds: 3, restSeconds: 2, repetitions: 2 }),
+        draws: [],
+        pauseAt: 1,
+        paused: { key: "preparation", main: "0:01" },
+        sequence: ["preparation", "exercise#1", "rest#1", "exercise#2", "rest#2", "end"],
+        drawsTotal: 0,
+    },
+];
+
+for (const pauseCase of pauseCases)
+    void test(pauseCase.name, () => {
+        const { configuration } = pauseCase;
+        const { clock, run, draws } = makeRun(configuration, pauseCase.draws);
+        const seen: string[] = [];
+        drive(clock, run, pauseCase.pauseAt, seen);
+        run.hide();
+        assert.equal(run.display.paused, true);
+        assert.equal(keyOf(run), pauseCase.paused.key);
+        assert.equal(viewOf(run, configuration.repetitions)?.main, pauseCase.paused.main);
+        const drawsAtPause = draws.calls;
+        clock.time = pauseCase.pauseAt + 40; // time spent paused counts for nothing
+        run.tick();
+        assert.equal(keyOf(run), pauseCase.paused.key, "nothing moves while paused");
+        assert.equal(draws.calls, drawsAtPause, "no draw while paused");
+        run.resume();
+        assert.equal(run.display.paused, false);
+        drive(clock, run, clock.time + 40, seen);
+        assert.deepEqual(seen, pauseCase.sequence);
+        assert.equal(draws.calls, pauseCase.drawsTotal);
+    });
+
+void test("after resume from Exercise: Preparation shows the resumed repetition, the new 5.00 s Standby shows no time, then the full Exercise", () => {
+    const configuration = config({ preparationSeconds: 2, exerciseSeconds: 3, restSeconds: 2, repetitions: 3, randomStartEnabled: true });
+    const { clock, run, draws } = makeRun(configuration, [SHORT_WAIT, SHORT_WAIT, LONG_WAIT, SHORT_WAIT]);
+    goTo(clock, run, 10); // one second into Exercise repetition 2
+    run.hide();
+    clock.time = 14;
+    run.resume();
+    const at = (offset: number) => {
+        goTo(clock, run, 14 + offset);
+        return viewOf(run, 3);
+    };
+    assert.deepEqual(at(0), { main: "0:02", repetition: "Repetition 2 of 3", current: "Preparation · 0:02", next: "Standby" });
+    assert.equal(draws.calls, 2, "the new draw happens when Standby starts, not at resume");
+    for (const offset of [2, 3, 4, 5, 6])
+        assert.deepEqual(at(offset), { main: "standby", repetition: "Repetition 2 of 3", current: "Standby", next: "Exercise · 0:03" }, `+${offset}s`);
+    assert.equal(draws.calls, 3);
+    assert.deepEqual(at(7), { main: "0:03", repetition: "Repetition 2 of 3", current: "Exercise · 0:03", next: "Rest · 0:02" });
+    assert.deepEqual(at(9), { main: "0:01", repetition: "Repetition 2 of 3", current: "Exercise · 0:03", next: "Rest · 0:02" });
+    assert.deepEqual(at(10), { main: "0:02", repetition: "Repetition 2 of 3", current: "Rest · 0:02", next: "Standby" });
+});
