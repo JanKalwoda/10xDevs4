@@ -92,6 +92,7 @@ Profil bazy testów: `sparse` — runner `node --test` (bez pliku konfiguracyjne
 | component (React) | none yet — see Phase 2 | — | środowisko DOM i sterowanie zegarem do ustalenia w fazie 2 |
 | e2e | none yet — see Phase 3 (Playwright jako przykład kategorii — checked: 2026-10-11) | — | dziś tylko ręczne skrypty bramek wizualnych poza CI, Playwright nie jest zależnością |
 | layout / tap targets | none yet — see Phase 4 | — | pomiary geometrii na 1280 i 390 px |
+| mutation (unit) | StrykerJS (tap runner) | @stryker-mutator/core 10.0.0, tap-runner 10.0.0 — checked: 2026-10-11 | lokalnie, na żądanie, `npm run test:mutation`; moduły `protected-routes.ts`, `isSafeNextPath`, walidacja w `drill-configurations.ts`. When NOT to use: warstwa integracyjna HTTP — rebuild preview i limit auth 30/5 min |
 | (optional) AI-native | przegląd multimodalny zrzutów 1–2 ekranów (np. Claude z wizją — checked: 2026-10-11) | n/a | When NOT to use: gdy deterministyczny pomiar overflow i rozmiaru celu wykrywa regresję; nie do logiki przebiegu ani dźwięku |
 
 **Stack grounding tools (current session):**
@@ -123,6 +124,7 @@ phase lands; before that, the gate is `planned`.
 | layout i tap targets (1280 / 390 px) | CI on PR | required after §3 Phase 4 | ryzyko #7 |
 | multimodal visual review (1–2 ekrany) | local / on demand | optional after §3 Phase 4 | problemy wizualne, których pomiar nie łapie |
 | post-edit hook | local (agent loop) | recommended after §3 Phase 2 | regresje logiki w czasie edycji; nie zastępuje CI |
+| mutation (`npm run test:mutation`) | local, on demand po fazie rolloutu | optional | testy, które przechodzą mimo zepsutej logiki (przetrwałe mutanty); nie bramka CI |
 | pre-prod smoke (publiczne trasy) | po deployu (`deploy`) | required (wired) | błędy specyficzne dla produkcji |
 
 ## 6. Cookbook Patterns
@@ -173,6 +175,15 @@ the relevant rollout phase ships; before that, the sub-section reads
 - **Phase 1 (access boundaries)**: warstwa „HTTP vs lokalny Supabase” już istniała w smoke; potrzebne było jej wydzielenie do klienta i niezależnych plików, a smoke zostało przy logowaniu.
 - Limit auth lokalnego Supabase (30 / 5 min / IP) nie wygląda jak błąd (neutralne 200, `error=invalid`), więc `signIn` ma jeden czytelny komunikat; planuj budżet logowań.
 - Dodatkowo inwentarz tras w `npm test` zamyka lukę „nowa strona bez ochrony”.
+
+### 6.7 Running a mutation check on a module (Stryker)
+
+- **When**: lokalnie, na żądanie, po fazie ryzyka, gdy testy jednostkowe są zielone. Nie w CI i nie przy każdym commicie; nie gonimy 100%.
+- **Run**: `npx stryker run --mutate "src/lib/protected-routes.ts"` (cały plik) albo z zakresem linii, np. `--mutate "src/lib/email-auth.ts:25-53"` (`isSafeNextPath`) i `--mutate "src/lib/services/drill-configurations.ts:53-117"` (walidacja). Goły `npm run test:mutation` mutuje domyślne `mutate` z konfiguracji (te trzy moduły); inny moduł: `npm run test:mutation -- --mutate "<plik>"`. Raport HTML: `reports/mutation/mutation.html` (poza gitem, `.stryker-tmp/` też).
+- **Config** (`stryker.config.json`): runner `tap`, `tap.testFiles` = te same globy co `npm test` (`src/lib/*.test.ts`, `src/lib/services/*.test.ts`), `coverageAnalysis: "perTest"`. `tap.nodeArgs` musi być dokładnie `["--test-reporter=tap"]` **bez `--test`**: z `--test` plik testowy idzie do podprocesu bez hooka Strykera i każdy mutant jest `NoCoverage`. Pliki `.ts` działają przez natywny type stripping Node 24, bez `tsx`.
+- **Warning**: zakres linii (`plik:od-do`) jest kruchy — po edycji pliku z walidacją zaktualizuj go (Stryker nie mutuje po nazwie funkcji ani nie łączy zakresu z globem).
+- **Review rule**: dla każdego przetrwałego mutanta zapytaj „czy ta zmiana zaszkodziłaby użytkownikowi lub firmie?”. Tak → asercja z wartością z wyroczni (PRD, test-plan), nie z logiki modułu. Nie (równoważny, kosmetyczny, treść komunikatu) → `ignoruj` z jednozdaniowym uzasadnieniem. Test przypinający szczegół implementacji tylko po to, by zabić kosmetyczny mutant, jest testem vibe.
+- **Where to record**: tabela `moduł | mutant | decyzja | dlaczego` w `context/changes/<change-id>/mutation-review.md`. Przykład: `context/changes/mutation-testing-stryker/mutation-review.md` (dokumentacja biblioteki: `context/docs/stryker-js.md`).
 
 ## 7. What We Deliberately Don't Test
 

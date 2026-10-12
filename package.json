@@ -9,6 +9,7 @@
     "astro": "astro",
     "lint": "eslint .",
     "test": "node --test src/lib/*.test.ts src/lib/services/*.test.ts",
+    "test:mutation": "stryker run",
     "test:integration": "node --test --test-timeout=180000 tests/integration/*.test.mjs",
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
@@ -41,6 +42,8 @@
   "devDependencies": {
     "@eslint/compat": "^2.1.1",
     "@eslint/js": "^10.0.1",
+    "@stryker-mutator/core": "^10.0.0",
+    "@stryker-mutator/tap-runner": "^10.0.0",
     "eslint": "^10.10.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-astro": "^3.1.0",

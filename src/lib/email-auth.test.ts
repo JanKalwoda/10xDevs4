@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
+import { inspect } from "node:util";
 
 import {
     EMAIL_LINK_PAGE_HEADERS,
@@ -64,6 +65,32 @@ void test("safe next accepts local paths and rejects absolute, scheme-relative, 
         "/dashboard\n",
     ]) {
         assert.equal(isSafeNextPath(next), false, JSON.stringify(next) + " should be rejected");
+    }
+});
+
+void test("safe next rejects anything that is not a string without throwing", () => {
+    for (const next of [undefined, null, 42, true, {}, ["/dashboard"]]) {
+        assert.equal(isSafeNextPath(next), false, inspect(next) + " should be rejected");
+    }
+});
+
+void test("safe next rejects a very long path and accepts an ordinary one with a medium query", () => {
+    assert.equal(isSafeNextPath("/" + "a".repeat(10_000)), false);
+    assert.equal(isSafeNextPath("/timers?q=" + "a".repeat(200)), true);
+});
+
+void test("safe next rejects whitespace at either edge", () => {
+    for (const next of ["/dashboard ", " /dashboard", "/dashboard\u00a0", "\u00a0/dashboard"]) {
+        assert.equal(isSafeNextPath(next), false, JSON.stringify(next) + " should be rejected");
+    }
+});
+
+void test("safe next rejects an incomplete or non-hex percent escape and accepts a valid one", () => {
+    for (const next of ["/bad%1", "/bad%1z", "/bad%zz", "/a?q=%zz"]) {
+        assert.equal(isSafeNextPath(next), false, next + " should be rejected");
+    }
+    for (const next of ["/caf%C3%A9", "/a%20b?x=%41"]) {
+        assert.equal(isSafeNextPath(next), true, next + " should be safe");
     }
 });
 

@@ -63,6 +63,7 @@ npm run dev
 - `npm run format` - Run Prettier
 - `npm run smoke` - Smoke test the auth flow against a running server (`BASE_URL`, defaults to `http://localhost:4321`)
 - `npm run test:integration` - HTTP integration suite (`tests/integration/`: guest access, redirects, ownership, API validation) against a running app and local Supabase with Mailpit (`BASE_URL`, `MAILPIT_URL`)
+- `npm run test:mutation` - StrykerJS mutation testing, local and on demand (not in CI); bare run mutates the three risk modules from `stryker.config.json`; another module: `npm run test:mutation -- --mutate "src/lib/protected-routes.ts"`; HTML report in `reports/mutation/` (see `context/foundation/test-plan.md` §6.7)
 
 ## Project Structure
 
