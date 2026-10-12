@@ -7,6 +7,8 @@ import type { DrillConfiguration } from "../types.ts";
 
 // Oracle: PRD US-01, US-02, FR-001, FR-002, FR-018 and the Standby guardrail. Every expectation below is a literal
 // from the PRD (order of phases, full configured times, "Repetition X of N", Next preview), never read from the code.
+// Two exceptions: "Drill complete" is the UI copy of the PRD's end-of-drill preview, and the runs are silent
+// (audio = null), so a Standby lasts exactly the drawn wait (FR-002 leaves no sound time to add).
 
 class FakeClock implements DrillClock {
     time = 0;
@@ -240,6 +242,8 @@ interface PauseCase {
     pauseAt: number;
     /** Phase and view the paused run must keep showing. */
     paused: { key: string; main: string };
+    /** FR-006: the phase right after resume, its main section, and the phase that follows after `seconds`. */
+    afterResume?: { key: string; main: string; seconds: number; next: string };
     sequence: string[];
     drawsTotal: number;
 }
@@ -284,6 +288,7 @@ const pauseCases: PauseCase[] = [
         draws: [],
         pauseAt: 8,
         paused: { key: "exercise#2", main: "0:02" },
+        afterResume: { key: "preparation", main: "0:02", seconds: 2, next: "exercise#2" },
         sequence: ["preparation", "exercise#1", "rest#1", "exercise#2", "preparation", "exercise#2", "rest#2", "exercise#3", "rest#3", "end"],
         drawsTotal: 0,
     },
@@ -302,6 +307,7 @@ const pauseCases: PauseCase[] = [
         draws: [],
         pauseAt: 6,
         paused: { key: "exercise#2", main: "0:02" },
+        afterResume: { key: "exercise#2", main: "0:03", seconds: 3, next: "rest#2" },
         sequence: ["exercise#1", "rest#1", "exercise#2", "rest#2", "end"],
         drawsTotal: 0,
     },
@@ -320,6 +326,7 @@ const pauseCases: PauseCase[] = [
         draws: [],
         pauseAt: 6,
         paused: { key: "rest#1", main: "0:01" },
+        afterResume: { key: "rest#1", main: "0:01", seconds: 1, next: "exercise#2" },
         sequence: ["preparation", "exercise#1", "rest#1", "exercise#2", "rest#2", "end"],
         drawsTotal: 0,
     },
@@ -329,6 +336,7 @@ const pauseCases: PauseCase[] = [
         draws: [],
         pauseAt: 1,
         paused: { key: "preparation", main: "0:01" },
+        afterResume: { key: "preparation", main: "0:01", seconds: 1, next: "exercise#1" },
         sequence: ["preparation", "exercise#1", "rest#1", "exercise#2", "rest#2", "end"],
         drawsTotal: 0,
     },
@@ -351,6 +359,15 @@ for (const pauseCase of pauseCases)
         assert.equal(draws.calls, drawsAtPause, "no draw while paused");
         run.resume();
         assert.equal(run.display.paused, false);
+        const { afterResume } = pauseCase;
+        if (afterResume) {
+            assert.equal(keyOf(run), afterResume.key, "phase right after resume");
+            assert.equal(viewOf(run, configuration.repetitions)?.main, afterResume.main, "its time right after resume");
+            drive(clock, run, clock.time + afterResume.seconds - 0.25, seen);
+            assert.equal(keyOf(run), afterResume.key, "still running just before its time is up");
+            drive(clock, run, clock.time + 0.25, seen);
+            assert.equal(keyOf(run), afterResume.next, "the next phase starts when its time is up");
+        }
         drive(clock, run, clock.time + 40, seen);
         assert.deepEqual(seen, pauseCase.sequence);
         assert.equal(draws.calls, pauseCase.drawsTotal);

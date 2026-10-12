@@ -254,14 +254,15 @@ void test("hide cancels cues, freezes, and resume from repetition 2 or final kee
         assert.equal(run.display.phase && "repetition" in run.display.phase ? run.display.phase.repetition : null, repetition);
         const drawsBeforeResume = draws;
         draw = 0.999; // the new wait must be drawn again: 5.00 s
+        const scheduledBeforeResume = audio.cues.length;
         run.resume();
         assert.equal(run.display.phase?.kind, "preparation");
         clock.advance(102);
         run.tick();
         assert.deepEqual(run.display.phase, { kind: "standby", repetition });
         assert.ok(draws > drawsBeforeResume, "resume draws a new wait");
-        const resumedSecondSound = audio.cues.filter(({ cue }) => cue === "standby-second").at(-1);
-        const resumedExercise = audio.cues.filter(({ cue }) => cue === "exercise").at(-1);
+        const resumedSecondSound = audio.cues.slice(scheduledBeforeResume).find(({ cue }) => cue === "standby-second");
+        const resumedExercise = audio.cues.slice(scheduledBeforeResume).find(({ cue }) => cue === "exercise");
         assert.ok(resumedSecondSound && resumedExercise);
         assert.ok(Math.abs(resumedExercise.at - resumedSecondSound.end - 5) < 0.001, "the resumed Standby waits 5.00 s, not the old 1.00 s");
     }
@@ -286,14 +287,15 @@ void test("hidden Standby resumes through preparation to the same repetition", (
     run.hide();
     const drawsBeforeResume = draws;
     draw = 0.999;
+    const scheduledBeforeResume = audio.cues.length;
     run.resume();
     assert.deepEqual(run.display.phase, { kind: "preparation", durationSeconds: 2 });
     clock.advance(target.at + 2.1);
     run.tick();
     assert.deepEqual(run.display.phase, { kind: "standby", repetition: 2 });
     assert.ok(draws > drawsBeforeResume, "resume draws a new wait");
-    const resumedSecondSound = audio.cues.filter(({ cue }) => cue === "standby-second").at(-1);
-    const resumedExercise = audio.cues.filter(({ cue }) => cue === "exercise").at(-1);
+    const resumedSecondSound = audio.cues.slice(scheduledBeforeResume).find(({ cue }) => cue === "standby-second");
+    const resumedExercise = audio.cues.slice(scheduledBeforeResume).find(({ cue }) => cue === "exercise");
     assert.ok(resumedSecondSound && resumedExercise);
     assert.ok(Math.abs(resumedExercise.at - resumedSecondSound.end - 5) < 0.001, "the resumed Standby waits 5.00 s, not the old 1.00 s");
 });

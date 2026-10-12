@@ -8,7 +8,8 @@ import type { DrillConfiguration } from "../types.ts";
 // Oracle: PRD FR-004 (two short Standby sounds in a different tonality than the long Exercise sound, one short Rest
 // sound), FR-002 (the wait counts from the end of the second Standby sound), NFR (cue moment error <= 0.2 s) and FR-006
 // (resume re-arms the signals; Preparation and Rest are not re-announced). Sounds are read from the fake Web Audio
-// oscillators, so the test sees what reaches Web Audio, not module constants.
+// oscillators, so the test sees what reaches Web Audio, not module constants. The fake clock and the fake context share
+// one exact axis, so moments are checked to 0.001 s: the 0.2 s NFR budget is for real output, not for scheduling logic.
 
 class FakeClock implements DrillClock {
     time = 0;
@@ -202,7 +203,7 @@ void test("random start: no sound in Preparation, two Standby sounds then the Ex
     goTo(clock, run, 20);
     const sounds = soundsOf(FakeContext.instances[0]);
     assert.equal(sounds.length, 8, "4 sounds per repetition, none for Preparation");
-    near(sounds[0].start, 1, 0.2, "first Standby sound at the end of Preparation");
+    near(sounds[0].start, 1, 0.001, "first Standby sound at the end of Preparation");
     const first = checkRepetition(sounds, 0, { random: true, wait: 1, exerciseSeconds: 3, rest: true });
     const second = checkRepetition(sounds, first.next, { random: true, wait: 5, exerciseSeconds: 3, rest: true });
     assert.ok(first.rest);
@@ -215,7 +216,7 @@ void test("Preparation 0 s and Rest 0 s: Standby sounds at the very start, no Re
     goTo(clock, run, 20);
     const sounds = soundsOf(FakeContext.instances[0]);
     assert.equal(sounds.length, 6, "3 sounds per repetition: no Preparation and no Rest sound");
-    near(sounds[0].start, 0, 0.2, "first Standby sound at the Start");
+    near(sounds[0].start, 0, 0.001, "first Standby sound at the Start");
     const first = checkRepetition(sounds, 0, { random: true, wait: 5, exerciseSeconds: 2, rest: false });
     const second = checkRepetition(sounds, first.next, { random: true, wait: 1, exerciseSeconds: 2, rest: false });
     near(second.first.start - first.exercise.start, 2, 0.001, "next Standby starts when the Exercise time is over");
@@ -226,7 +227,7 @@ void test("no random start: only Exercise and Rest sounds, the first at the end 
     goTo(clock, run, 20);
     const sounds = soundsOf(FakeContext.instances[0]);
     assert.equal(sounds.length, 2);
-    near(sounds[0].start, 1, 0.2, "Exercise sound at the end of Preparation");
+    near(sounds[0].start, 1, 0.001, "Exercise sound at the end of Preparation");
     checkRepetition(sounds, 0, { random: false, exerciseSeconds: 2, rest: true });
 });
 
@@ -253,7 +254,7 @@ void test("return from a hidden tab in Exercise: old sounds are stopped, a fresh
     assert.equal(old.closed, true, "the old context is closed");
     assert.equal(run.display.audioAvailable, true);
     const sounds = soundsOf(FakeContext.instances[1]);
-    near(sounds[0].start, 11, 0.2, "Standby sounds right after the full 1 s Preparation");
+    near(sounds[0].start, 11, 0.001, "Standby sounds right after the full 1 s Preparation");
     const repetition = checkRepetition(sounds, 0, { random: true, wait: 5, exerciseSeconds: 4, rest: true });
     assert.equal(repetition.exercise.cancelled, false);
 });
@@ -270,7 +271,7 @@ void test("return from a hidden tab in Rest: Rest is not announced again, the ne
     await run.resumeWithAudio(() => createDrillAudio());
     const sounds = soundsOf(FakeContext.instances[1]);
     assert.ok(sounds.length > 0);
-    near(sounds[0].start, 30 + 2.5, 0.2, "the next sound is Standby after the remaining 2.5 s of Rest");
+    near(sounds[0].start, 30 + 2.5, 0.001, "the next sound is Standby after the remaining 2.5 s of Rest");
     assert.equal(sounds[0].pitch, oldSounds[0].pitch, "it is the first Standby sound, not a second Rest sound");
     assert.notEqual(sounds[0].pitch, oldSounds[3].pitch);
 });
@@ -292,8 +293,8 @@ void test("a context that never reaches running gives no audio: the drill runs s
     await run.resumeWithAudio(() => createDrillAudio());
     assert.equal(run.display.audioAvailable, true);
     const sounds = soundsOf(FakeContext.instances[1]);
-    assert.ok(sounds.length >= 2, "Exercise and Rest sounds are scheduled again");
-    near(sounds[0].start, 6, 0.2, "Exercise sound after the full 1 s Preparation");
+    checkRepetition(sounds, 0, { random: false, exerciseSeconds: 4, rest: true });
+    near(sounds[0].start, 6, 0.001, "Exercise sound after the full 1 s Preparation");
 });
 
 void test("without Web Audio the drill runs through every phase on time and without sound", async (t) => {
