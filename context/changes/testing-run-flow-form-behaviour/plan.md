@@ -360,15 +360,15 @@ Nie dotyczy (bez zmian kodu produkcyjnego i danych).
 
 #### Automated
 
-- [x] 1.1 Nowe testy sekwencji przechodzą
-- [x] 1.2 Cały zestaw jednostkowy przechodzi
-- [x] 1.3 Lint (z kontraktem UI) przechodzi
-- [x] 1.4 Typecheck przechodzi
-- [x] 1.5 Testy reguł ESLint przechodzą
+- [x] 1.1 Nowe testy sekwencji przechodzą — 6f9f6eb
+- [x] 1.2 Cały zestaw jednostkowy przechodzi — 6f9f6eb
+- [x] 1.3 Lint (z kontraktem UI) przechodzi — 6f9f6eb
+- [x] 1.4 Typecheck przechodzi — 6f9f6eb
+- [x] 1.5 Testy reguł ESLint przechodzą — 6f9f6eb
 
 #### Manual
 
-- [x] 1.6 Kontrola regresji: zepsucie pomijania odpoczynku 0 s i ukrycia czasu Standby daje czerwony test
+- [x] 1.6 Kontrola regresji: zepsucie pomijania odpoczynku 0 s i ukrycia czasu Standby daje czerwony test — 6f9f6eb
 
 ### Phase 2: #4 pauza i wznowienie według FR-006
 
