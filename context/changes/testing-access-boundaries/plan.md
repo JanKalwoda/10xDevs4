@@ -191,6 +191,8 @@ Zmienne `BASE_URL` (domyślnie `http://localhost:4321`) i `MAILPIT_URL` (domyśl
 - Smoke output lists the same step names in the same order as before the refactor
 - A sign-in failure (simulated once, e.g. with a wrong `MAILPIT_URL` port so no email arrives) prints the auth-limit message with the instruction to wait 5 minutes, without email, token or cookie values
 
+> **Uwaga (przegląd ręczny 2026-10-12)**: zły port `MAILPIT_URL` nie symuluje „mail nie dotarł”, tylko niedostępny Mailpit. Wtedy zestaw zgłasza `Mailpit request failed` (świadome odstępstwo fazy 1: komunikat o limicie auth byłby mylący), a testy `redirects` pokazują surowe `fetch failed` / `ECONNREFUSED`. Komunikat o limicie auth pojawia się tylko, gdy Mailpit odpowiada, a mail nie dociera. W obu przypadkach wyjście nie zawiera e-maila, tokenu ani ciasteczek (sprawdzone ręcznie).
+
 **Implementation Note**: Po zakończeniu fazy i przejściu weryfikacji automatycznej zatrzymaj się na ręczne potwierdzenie przed następną fazą.
 
 ---
@@ -624,6 +626,6 @@ Brak zmian w bazie i sekretach. Przeniesienie asercji odbywa się bez okna bez p
 
 #### Manual
 
-- [ ] 6.3 A reader can add a test for a new protected route using only `test-plan.md §6.2` (reference test, helper, run command, auth budget)
+- [x] 6.3 A reader can add a test for a new protected route using only `test-plan.md §6.2` (reference test, helper, run command, auth budget) (human, 2026-10-12)
 - [x] 6.4 §4 and §5 rows describe the wired integration layer and match the CI job (script, not human) — 31c8066
 - [x] 6.5 §6.2 states the account-reuse rule and the "wait 5 minutes and rerun on a sign-in failure" instruction, and the CLAUDE.md/AGENTS.md CI line points to it (script, not human) — 31c8066

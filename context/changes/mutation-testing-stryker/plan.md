@@ -219,7 +219,7 @@ Brak; zmiana lokalnego tooling, bez wpływu na CI i produkcję.
 
 #### Manual
 
-- [ ] 2.5 Każdy „ignoruj” ma uzasadnienie, przegląd zgodny z wyrocznią ze źródeł
+- [x] 2.5 Każdy „ignoruj” ma uzasadnienie, przegląd zgodny z wyrocznią ze źródeł (human, 2026-10-12: poprawione L32 i L97)
 
 ### Phase 3: Dokumentacja i cookbook
 
