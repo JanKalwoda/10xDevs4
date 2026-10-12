@@ -374,15 +374,15 @@ Nie dotyczy (bez zmian kodu produkcyjnego i danych).
 
 #### Automated
 
-- [x] 2.1 Testy sekwencji i wznowienia przechodzą
-- [x] 2.2 Cały zestaw jednostkowy przechodzi
-- [x] 2.3 Lint przechodzi
-- [x] 2.4 Typecheck przechodzi
-- [x] 2.5 Testy reguł ESLint przechodzą
+- [x] 2.1 Testy sekwencji i wznowienia przechodzą — c96d86d
+- [x] 2.2 Cały zestaw jednostkowy przechodzi — c96d86d
+- [x] 2.3 Lint przechodzi — c96d86d
+- [x] 2.4 Typecheck przechodzi — c96d86d
+- [x] 2.5 Testy reguł ESLint przechodzą — c96d86d
 
 #### Manual
 
-- [x] 2.6 Kontrola regresji: wznowienie z pozostałym czasem i złe powtórzenie dają czerwony test
+- [x] 2.6 Kontrola regresji: wznowienie z pozostałym czasem i złe powtórzenie dają czerwony test — c96d86d
 
 ### Phase 3: #3 sygnały przez prawdziwy createDrillAudio (Start, wznowienie, powrót z ukrytej karty)
 
