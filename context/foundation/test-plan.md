@@ -81,15 +81,15 @@ The classic test base for this project. AI-native tools (if any) carry a
 Recommendations in this section must be grounded in local manifests/configs
 plus the MCP/tools actually exposed in the current session.
 
-Profil bazy testów: `sparse` — runner `node --test` (bez pliku konfiguracyjnego), 27 plików testów jednostkowych skupionych w `src/lib` i `src/lib/services`, 2 testy reguł ESLint, 1 test pgTAP, skrypt smoke HTTP (tylko przepływ logowania), 5 plików integracyjnych HTTP (`tests/integration/`: trasy, ochrona, własność, przekierowania, walidacja API); komponenty i przepływy w przeglądarce nie mają testów automatycznych.
+Profil bazy testów: `sparse` — runner `node --test` (bez pliku konfiguracyjnego), 31 plików testów w `src/lib` i `src/lib/services` (w tym 3 testy przebiegu z fazy 2: sekwencja i pauza, sygnały, kontrakt strzałki), 2 testy reguł ESLint, 1 test pgTAP, skrypt smoke HTTP (tylko przepływ logowania), 5 plików integracyjnych HTTP (`tests/integration/`: trasy, ochrona, własność, przekierowania, walidacja API); okablowanie komponentów React i przepływy w przeglądarce nie mają testów automatycznych (faza 3).
 
 | Layer | Tool | Version | Notes |
 |---|---|---|---|
 | unit | Node test runner (`node --test`) | Node 24.21.0 | istniejące testy czystej logiki; uruchamiane w CI przez `npm test` |
 | database (RLS, granty, ograniczenia) | pgTAP przez Supabase CLI | supabase ^2.23.4 | `supabase/tests/database/`, job `smoke` w CI |
 | HTTP smoke | `scripts/smoke.mjs` | n/a | przepływ auth przez Mailpit na podglądzie produkcyjnym; punkt wyjścia dla fazy 1 |
-| integration (trasy, ochrona, własność) | none yet — see Phase 1 | — | narzędzie wybiera `/10x-research` fazy 1 |
-| component (React) | none yet — see Phase 2 | — | środowisko DOM i sterowanie zegarem do ustalenia w fazie 2 |
+| integration (trasy, ochrona, własność) | Node test runner (`node --test`) + `scripts/lib/app-client.mjs`, HTTP vs lokalny Supabase | Node 24.21.0 | `tests/integration/`, `npm run test:integration`, job `smoke` w CI; wzorzec §6.2 (faza 1) |
+| run-level (przebieg, sygnały, strzałki) | Node test runner (`node --test`) z fałszywym zegarem, `AudioContext` i losowaniem | Node 24.21.0 | `src/lib/drill-run-*.test.ts`, `drill-stepper-contract.test.ts`, w `npm test`; wzorzec §6.3 (faza 2). Bez DOM i bez nowych zależności: okablowanie React (`.tsx`) należy do e2e (Phase 3) |
 | e2e | none yet — see Phase 3 (Playwright jako przykład kategorii — checked: 2026-10-11) | — | dziś tylko ręczne skrypty bramek wizualnych poza CI, Playwright nie jest zależnością |
 | layout / tap targets | none yet — see Phase 4 | — | pomiary geometrii na 1280 i 390 px |
 | mutation (unit) | StrykerJS (tap runner) | @stryker-mutator/core 10.0.0, tap-runner 10.0.0 — checked: 2026-10-11 | lokalnie, na żądanie, `npm run test:mutation`; moduły `protected-routes.ts`, `isSafeNextPath`, walidacja w `drill-configurations.ts`. When NOT to use: warstwa integracyjna HTTP — rebuild preview i limit auth 30/5 min |
@@ -119,7 +119,7 @@ phase lands; before that, the gate is `planned`.
 | pgTAP (`supabase test db`) | CI (`smoke`) | required (wired) | RLS, granty, ograniczenia tabel |
 | HTTP smoke auth (tylko logowanie) | CI (`smoke`) | required (wired) | zepsuty przepływ logowania na podglądzie produkcyjnym |
 | integration: trasy, własność, przekierowania, walidacja API | local + CI (`smoke`) | required (wired) | ryzyka #1, #2, #5, #6 |
-| component: przebieg i formularz | local + CI | required after §3 Phase 2 | ryzyka #3, #4, #6 |
+| run-level: przebieg i formularz (w `npm test`) | local + CI (`ci`) | required (wired) | ryzyka #3, #4, #6 w logice przebiegu; okablowanie React — e2e (Phase 3) |
 | e2e na krytycznych przepływach | CI on PR | required after §3 Phase 3 | ryzyka #3, #4, #5 w przeglądarce |
 | layout i tap targets (1280 / 390 px) | CI on PR | required after §3 Phase 4 | ryzyko #7 |
 | multimodal visual review (1–2 ekrany) | local / on demand | optional after §3 Phase 4 | problemy wizualne, których pomiar nie łapie |
