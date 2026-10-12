@@ -69,7 +69,7 @@ orchestrator updates Status as artifacts appear on disk.
 
 | # | Phase name | Goal (one line) | Risks covered | Test types | Status | Change folder |
 |---|---|---|---|---|---|---|
-| 1 | Access and ownership boundaries | Udowodnić izolację właściciela, ochronę tras dla gościa, cele przekierowań i walidację API na najtańszej warstwie | #1, #2, #5, #6 | integration (HTTP vs lokalny Supabase) | researched | `context/changes/testing-access-boundaries/` |
+| 1 | Access and ownership boundaries | Udowodnić izolację właściciela, ochronę tras dla gościa, cele przekierowań i walidację API na najtańszej warstwie | #1, #2, #5, #6 | integration (HTTP vs lokalny Supabase) | researched | `context/archive/2026-10-11-testing-access-boundaries/` |
 | 2 | Run flow and form behaviour | Udowodnić sekwencję faz, sygnałów, pauzy i wznowienia oraz krok strzałek bez prawdziwej przeglądarki | #3, #4, #6 | component + integration (fałszywy zegar i audio) | not started | — |
 | 3 | Critical-path browser smoke | Minimalny smoke w przeglądarce: formularz, pełny przebieg z dźwiękiem, pauza i wznowienie, logowanie, zapis, edycja, usunięcie | #3, #4, #5 | e2e | not started | — |
 | 4 | Key-screen layout and tap-target check | Brak wychodzenia poza ekran i trafialne przyciski na kluczowych ekranach dla 1280 i 390 px (fine i coarse); domknięcie bramek CI | #7, cross-cutting | e2e geometry checks, optional multimodal review, gates | not started | — |
@@ -183,7 +183,7 @@ the relevant rollout phase ships; before that, the sub-section reads
 - **Config** (`stryker.config.json`): runner `tap`, `tap.testFiles` = te same globy co `npm test` (`src/lib/*.test.ts`, `src/lib/services/*.test.ts`), `coverageAnalysis: "perTest"`. `tap.nodeArgs` musi być dokładnie `["--test-reporter=tap"]` **bez `--test`**: z `--test` plik testowy idzie do podprocesu bez hooka Strykera i każdy mutant jest `NoCoverage`. Pliki `.ts` działają przez natywny type stripping Node 24, bez `tsx`.
 - **Warning**: zakres linii (`plik:od-do`) jest kruchy — po edycji pliku z walidacją zaktualizuj go (Stryker nie mutuje po nazwie funkcji ani nie łączy zakresu z globem).
 - **Review rule**: dla każdego przetrwałego mutanta zapytaj „czy ta zmiana zaszkodziłaby użytkownikowi lub firmie?”. Tak → asercja z wartością z wyroczni (PRD, test-plan), nie z logiki modułu. Nie (równoważny, kosmetyczny, treść komunikatu) → `ignoruj` z jednozdaniowym uzasadnieniem. Test przypinający szczegół implementacji tylko po to, by zabić kosmetyczny mutant, jest testem vibe.
-- **Where to record**: tabela `moduł | mutant | decyzja | dlaczego` w `context/changes/<change-id>/mutation-review.md`. Przykład: `context/changes/mutation-testing-stryker/mutation-review.md` (dokumentacja biblioteki: `context/docs/stryker-js.md`).
+- **Where to record**: tabela `moduł | mutant | decyzja | dlaczego` w `context/changes/<change-id>/mutation-review.md`. Przykład: `context/archive/2026-10-11-mutation-testing-stryker/mutation-review.md` (dokumentacja biblioteki: `context/docs/stryker-js.md`).
 
 ## 7. What We Deliberately Don't Test
 
