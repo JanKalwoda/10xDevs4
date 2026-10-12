@@ -6,7 +6,7 @@
 >
 > Refresh: re-run `/10x-test-plan --refresh` when stale (see §8).
 >
-> Last updated: 2026-10-11
+> Last updated: 2026-10-12
 
 ## 1. Strategy
 
@@ -69,7 +69,7 @@ orchestrator updates Status as artifacts appear on disk.
 
 | # | Phase name | Goal (one line) | Risks covered | Test types | Status | Change folder |
 |---|---|---|---|---|---|---|
-| 1 | Access and ownership boundaries | Udowodnić izolację właściciela, ochronę tras dla gościa, cele przekierowań i walidację API na najtańszej warstwie | #1, #2, #5, #6 | integration (HTTP vs lokalny Supabase) | researched | `context/archive/2026-10-11-testing-access-boundaries/` |
+| 1 | Access and ownership boundaries | Udowodnić izolację właściciela, ochronę tras dla gościa, cele przekierowań i walidację API na najtańszej warstwie | #1, #2, #5, #6 | integration (HTTP vs lokalny Supabase) | complete | `context/archive/2026-10-11-testing-access-boundaries/` |
 | 2 | Run flow and form behaviour | Udowodnić sekwencję faz, sygnałów, pauzy i wznowienia oraz krok strzałek bez prawdziwej przeglądarki | #3, #4, #6 | component + integration (fałszywy zegar i audio) | not started | — |
 | 3 | Critical-path browser smoke | Minimalny smoke w przeglądarce: formularz, pełny przebieg z dźwiękiem, pauza i wznowienie, logowanie, zapis, edycja, usunięcie | #3, #4, #5 | e2e | not started | — |
 | 4 | Key-screen layout and tap-target check | Brak wychodzenia poza ekran i trafialne przyciski na kluczowych ekranach dla 1280 i 390 px (fine i coarse); domknięcie bramek CI | #7, cross-cutting | e2e geometry checks, optional multimodal review, gates | not started | — |
