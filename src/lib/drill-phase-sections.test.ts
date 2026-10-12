@@ -100,7 +100,18 @@ void test("initial display shows the first real phase and its successor", () => 
     assert.equal(initialDrillDisplay(config({ preparationSeconds: 0, repetitions: 1, restSeconds: 0 })).next, null);
 });
 
-void test("next equals the phase a real DrillRun shows afterwards, for every combination", () => {
+/** US-01 order: Preparation once if positive, then per repetition Standby (random start), Exercise, Rest if positive. */
+function prdSequence(preparationSeconds: number, restSeconds: number, randomStartEnabled: boolean, repetitions: number): string[] {
+    const keys = preparationSeconds > 0 ? ["preparation"] : [];
+    for (let repetition = 1; repetition <= repetitions; repetition++) {
+        if (randomStartEnabled) keys.push(`standby#${repetition}`);
+        keys.push(`exercise#${repetition}`);
+        if (restSeconds > 0) keys.push(`rest#${repetition}`);
+    }
+    return keys;
+}
+
+void test("every combination follows the PRD invariants: optional phases only when configured, one Exercise per repetition, the end has no next", () => {
     for (const preparationSeconds of [0, 3])
         for (const restSeconds of [0, 2])
             for (const randomStartEnabled of [false, true])
@@ -113,16 +124,23 @@ void test("next equals the phase a real DrillRun shows afterwards, for every com
                         if (!seen.length || key(seen[seen.length - 1].phase) !== key(phase)) seen.push({ phase, next });
                         advance(clock, run, 0.05);
                     }
-                    assert.ok(seen.length >= repetitions, label);
-                    seen.forEach((entry, index) => {
-                        const following = seen[index + 1]?.phase ?? null;
-                        assert.ok(same(entry.next, following), `${label}: after ${key(entry.phase)} expected ${JSON.stringify(following)}, got ${JSON.stringify(entry.next)}`);
-                    });
                     const kinds = seen.map(({ phase }) => phase.kind);
-                    assert.equal(kinds.includes("preparation"), preparationSeconds > 0, label);
-                    assert.equal(kinds.includes("rest"), restSeconds > 0, label);
-                    assert.equal(kinds.includes("standby"), randomStartEnabled, label);
+                    const count = (kind: string) => kinds.filter((item) => item === kind).length;
+                    assert.equal(count("preparation"), preparationSeconds > 0 ? 1 : 0, label);
+                    assert.equal(count("standby"), randomStartEnabled ? repetitions : 0, label);
+                    assert.equal(count("exercise"), repetitions, label);
+                    assert.equal(count("rest"), restSeconds > 0 ? repetitions : 0, label);
                     assert.equal(seen[seen.length - 1].next, null, label);
+                    // FR-013: Next always previews the phase that follows in the PRD order.
+                    const expected = prdSequence(preparationSeconds, restSeconds, randomStartEnabled, repetitions);
+                    assert.deepEqual(
+                        seen.map(({ phase }) => key(phase)),
+                        expected,
+                        label,
+                    );
+                    seen.slice(0, -1).forEach(({ next }, index) => {
+                        assert.equal(next && key(next), expected[index + 1], `${label} #${index}`);
+                    });
                 }
 });
 
@@ -202,7 +220,7 @@ void test("Standby shows no time and display keys cannot carry the wait", () => 
 
 void test("a 1 s and a 5 s Standby wait produce identical views until the wait ends", () => {
     const short = makeRun(config({ preparationSeconds: 0, randomStartEnabled: true }), () => 0);
-    const long = makeRun(config({ preparationSeconds: 0, randomStartEnabled: true }), () => 1);
+    const long = makeRun(config({ preparationSeconds: 0, randomStartEnabled: true }), () => 0.999);
     for (let step = 0; step < 19; step++) {
         const a = short.run.display;
         const b = long.run.display;

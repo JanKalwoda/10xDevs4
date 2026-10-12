@@ -70,7 +70,7 @@ orchestrator updates Status as artifacts appear on disk.
 | # | Phase name | Goal (one line) | Risks covered | Test types | Status | Change folder |
 |---|---|---|---|---|---|---|
 | 1 | Access and ownership boundaries | Udowodnić izolację właściciela, ochronę tras dla gościa, cele przekierowań i walidację API na najtańszej warstwie | #1, #2, #5, #6 | integration (HTTP vs lokalny Supabase) | complete | `context/archive/2026-10-11-testing-access-boundaries/` |
-| 2 | Run flow and form behaviour | Udowodnić sekwencję faz, sygnałów, pauzy i wznowienia oraz krok strzałek bez prawdziwej przeglądarki | #3, #4, #6 | component + integration (fałszywy zegar i audio) | not started | — |
+| 2 | Run flow and form behaviour | Udowodnić sekwencję faz, sygnałów, pauzy i wznowienia oraz krok strzałek bez prawdziwej przeglądarki | #3, #4, #6 | component + integration (fałszywy zegar i audio) | complete | `context/changes/testing-run-flow-form-behaviour/` |
 | 3 | Critical-path browser smoke | Minimalny smoke w przeglądarce: formularz, pełny przebieg z dźwiękiem, pauza i wznowienie, logowanie, zapis, edycja, usunięcie | #3, #4, #5 | e2e | not started | — |
 | 4 | Key-screen layout and tap-target check | Brak wychodzenia poza ekran i trafialne przyciski na kluczowych ekranach dla 1280 i 390 px (fine i coarse); domknięcie bramek CI | #7, cross-cutting | e2e geometry checks, optional multimodal review, gates | not started | — |
 
@@ -158,7 +158,23 @@ the relevant rollout phase ships; before that, the sub-section reads
 
 ### 6.3 Adding a test for run flow or form behaviour
 
-- TBD — see §3 Phase 2 (wzorzec: sekwencja faz i sygnałów z PRD przy fałszywym zegarze; jedno kliknięcie = jeden krok).
+- **Location**: `src/lib/<obszar>.test.ts` (`node --test`, bez DOM i bez nowych zależności; `npm test` łapie je globem `src/lib/*.test.ts`). Istniejące: `drill-run-flow.test.ts` (sekwencja faz, pauza i wznowienie), `drill-run-signals.test.ts` (sygnały), `drill-stepper-contract.test.ts` (strzałka ↔ parser).
+- **Granica**: składa się prawdziwe moduły z `src/lib` (`DrillRun`, `buildPhaseSections`, `createDrillAudio`, `stepFieldValue`, `parseDrillTime`), a fałszywe są tylko granice. `.tsx` nie da się zaimportować w `node --test` (brak DOM i loadera JSX), więc okablowanie React (Resume, widoczność karty, gest Start, handlery wskaźnika strzałki) należy do e2e (§3 Phase 3), nie do DOM w `node --test`.
+- **Fałszywki lokalne w pliku** (bez wspólnego modułu pomocniczego, jak w reszcie repo):
+  - zegar: `FakeClock implements DrillClock` z `advance`; po każdym przesunięciu `run.tick()`;
+  - losowanie: skryptowana kolejka wartości z krańców zakresu PRD (`0` → 1,00 s, `0.999` → 5,00 s), z licznikiem wywołań; wartość `1` jest zabroniona (poza `[0,1)`). Stały `() => 0` nie odróżnia „nowego” losowania od „starego”;
+  - audio: fałszywy `AudioContext` podstawiony jako `globalThis.AudioContext`, rejestrujący oscylatory (`frequency.value`, `start`, `stop`); `performance.now` zamockowane przez `t.mock.method(performance, "now", …)` i powiązane z `currentTime` (jedna oś czasu, inaczej `Math.max(…, currentTime)` planuje wszystko na „teraz”); `node:test` `mock.timers` nie mockuje `performance.now()`. `createDrillAudio` jest asynchroniczne: `await` przed `new DrillRun` i przed asercją po `resumeWithAudio`.
+- **Rules**:
+  - wyrocznia z PRD (US-01, US-02, FR-001–FR-006, FR-018, FR-020), jako literały i relacje; nigdy `nextDrillPhase`, `STEPPER_LIMITS`, `CUE_DURATION`, `CUE_PITCH` ani wzór losowania;
+  - nazwa testu opisuje zachowanie z PRD, np. „pause in Exercise restarts the same repetition after full preparation with a new Standby draw”; warianty jako pętla `for … of` nad tabelą przypadków, nie kopie;
+  - czas próbkuj na starcie fazy i w pełnych sekundach od jej początku, nigdy na granicy z poprzednią fazą (PRD nie ustala zaokrąglenia ceil/floor);
+  - sygnały: relacje (ton Standby ≠ ton ćwiczenia, ćwiczenie dłuższe od pozostałych, oczekiwanie liczone od końca drugiego dźwięku Standby ze ścisłą tolerancją 0,001 s, moment dźwięku ≤ 0,2 s), nie stałe modułu; sprawdzaj Standby pierwszego i kolejnego powtórzenia;
+  - strzałka: przejdź cały zakres każdego pola i sprawdź, że każdą wartość przyjmuje ten sam parser co API, a granice to literały z PRD (`0–600`, `1–600`, `0–600`, `1–100`);
+  - sygnały: przygotowanie i pominięty odpoczynek 0 s nie mają sygnału dźwiękowego (PRD FR-004);
+  - sygnały: po wznowieniu przygotowanie i odpoczynek kontynuują pozostały czas bez ponawiania sygnału początku fazy (PRD FR-006);
+  - Standby nigdy nie pokazuje czasu oczekiwania (także w pauzie i w przygotowaniu po wznowieniu).
+- **Reference tests**: `drill-run-flow.test.ts` (tabela osi czasu A–D i przypadki pauzy), `drill-run-signals.test.ts` (powrót z ukrytej karty, kontekst, który nie wstaje), `drill-stepper-contract.test.ts`.
+- **Run locally**: `npm test`; pojedynczy plik: `node --test src/lib/drill-run-flow.test.ts`. Kontrola, że test coś chroni: zepsuj jedną linię produkcyjną, test ma zrobić się czerwony, przywróć (`git diff` pusty); opcjonalnie §6.7 na `src/lib/drill-run.ts`.
 
 ### 6.4 Adding an e2e critical-path test
 
@@ -175,6 +191,8 @@ the relevant rollout phase ships; before that, the sub-section reads
 - **Phase 1 (access boundaries)**: warstwa „HTTP vs lokalny Supabase” już istniała w smoke; potrzebne było jej wydzielenie do klienta i niezależnych plików, a smoke zostało przy logowaniu.
 - Limit auth lokalnego Supabase (30 / 5 min / IP) nie wygląda jak błąd (neutralne 200, `error=invalid`), więc `signIn` ma jeden czytelny komunikat; planuj budżet logowań.
 - Dodatkowo inwentarz tras w `npm test` zamyka lukę „nowa strona bez ochrony”.
+- **Phase 2 (run flow and form)**: cała logika przebiegu jest czystym TS z portami, więc „component” w tej fazie to run-level integration w `node --test` (prawdziwy `DrillRun` + model widoku + `createDrillAudio`, fałszywe tylko zegar, losowanie i `AudioContext`); okablowanie `.tsx` zostaje do e2e (Phase 3).
+- Najczęstsze pułapki: stały `random` (wznowienie z ponownie użytym losowaniem przechodzi), tolerancja 0,2 s nieodróżniająca końca pierwszego od drugiego dźwięku Standby, test lustrzany podglądu Next oraz zegar Web Audio niepowiązany z `performance.now`. Każdy z nich naprawiono w istniejących testach i opisano w §6.3.
 
 ### 6.7 Running a mutation check on a module (Stryker)
 

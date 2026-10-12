@@ -1,5 +1,5 @@
 // Risk #6: the save and edit API accepts only a valid configuration, whatever client sends it.
-// Oracle: PRD FR-001 and roadmap S-10 (name 1-200 characters, exercise at least 0:01, repetitions 1-100, rest at most 59:59,
+// Oracle: PRD FR-001 and roadmap S-10 (name 1-200 characters, exercise at least 0:01, repetitions 1-100, rest 0-600 s (at most 10:00),
 // unique name per user, at most 50 timers per user). The boundary matrix stays in the unit tests (drill-configurations.test.ts,
 // drill-update.test.ts); here one HTTP case per error class proves the route really calls the validator and that a refusal leaves no trace.
 // Two accounts per run (V for validation, L for the limit); every test creates its own timers with unique names.
