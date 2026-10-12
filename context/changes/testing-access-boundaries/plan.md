@@ -626,6 +626,6 @@ Brak zmian w bazie i sekretach. Przeniesienie asercji odbywa się bez okna bez p
 
 #### Manual
 
-- [x] 6.3 A reader can add a test for a new protected route using only `test-plan.md §6.2` (reference test, helper, run command, auth budget) (human, 2026-10-12)
+- [x] 6.3 A reader can add a test for a new protected route using only `test-plan.md §6.2` (reference test, helper, run command, auth budget) (human, 2026-10-12) — df7e6cf
 - [x] 6.4 §4 and §5 rows describe the wired integration layer and match the CI job (script, not human) — 31c8066
 - [x] 6.5 §6.2 states the account-reuse rule and the "wait 5 minutes and rerun on a sign-in failure" instruction, and the CLAUDE.md/AGENTS.md CI line points to it (script, not human) — 31c8066
