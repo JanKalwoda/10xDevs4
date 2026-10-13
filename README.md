@@ -63,6 +63,8 @@ npm run dev
 - `npm run format` - Run Prettier
 - `npm run smoke` - Smoke test the auth flow against a running server (`BASE_URL`, defaults to `http://localhost:4321`)
 - `npm run test:integration` - HTTP integration suite (`tests/integration/`: guest access, redirects, ownership, API validation) against a running app and local Supabase with Mailpit (`BASE_URL`, `MAILPIT_URL`)
+- `npm run test:hooks` - Proof for the Claude Code hooks in `.claude/hooks/` (per-edit lint and related tests, end-of-turn sweep); runs in throwaway git repos with stub linters, also in CI (`ci` job)
+- Git hooks (Husky, installed by `npm install` through `prepare`): pre-commit runs `lint-staged` (ESLint/Prettier on staged files) and `npm test`; pre-push runs `npx astro check` and `npm run test:hooks`. Integration and e2e stay in CI (they need a local Supabase).
 - `npm run test:mutation` - StrykerJS mutation testing, local and on demand (not in CI); bare run mutates the three risk modules from `stryker.config.json`; another module: `npm run test:mutation -- --mutate "src/lib/protected-routes.ts"`; HTML report in `reports/mutation/` (see `context/foundation/test-plan.md` §6.7)
 
 ## Project Structure
@@ -132,9 +134,9 @@ Application tables are defined by timestamped migrations in `supabase/migrations
 
 If you prefer to use a hosted Supabase project, add these variables to your `.env` and `.dev.vars` files:
 
-| Variable       | Description                                                |
-| -------------- | ---------------------------------------------------------- |
-| `SUPABASE_URL` | Project URL from Supabase dashboard → Settings → API       |
+| Variable       | Description                                                          |
+| -------------- | -------------------------------------------------------------------- |
+| `SUPABASE_URL` | Project URL from Supabase dashboard → Settings → API                 |
 | `SUPABASE_KEY` | `sb_publishable_*` key from Supabase dashboard → Settings → API Keys |
 
 ```
@@ -154,15 +156,15 @@ Users can then sign in immediately after sign-up without clicking a confirmation
 
 ### Auth routes
 
-| Route                 | Description                                                             |
-| --------------------- | ----------------------------------------------------------------------- |
-| `/auth/signin`        | Email/password sign-in form                                             |
-| `/auth/signup`        | Email/password sign-up form                                             |
-| `/auth/confirm-email` | Post-signup "check your inbox" page                                     |
-| `/timers`             | Protected: your saved timers (newest first) and a link to create one; the default landing page after sign-in (redirects to `/auth/signin` if unauthenticated) |
-| `/dashboard`          | Protected: account page (signed-in email, link to `/timers`, `Sign out`; no timers list) |
+| Route                 | Description                                                                                                                                                                         |
+| --------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `/auth/signin`        | Email/password sign-in form                                                                                                                                                         |
+| `/auth/signup`        | Email/password sign-up form                                                                                                                                                         |
+| `/auth/confirm-email` | Post-signup "check your inbox" page                                                                                                                                                 |
+| `/timers`             | Protected: your saved timers (newest first) and a link to create one; the default landing page after sign-in (redirects to `/auth/signin` if unauthenticated)                       |
+| `/dashboard`          | Protected: account page (signed-in email, link to `/timers`, `Sign out`; no timers list)                                                                                            |
 | `/{id}`               | Protected: one saved timer (UUID only, read-only details + Start, `Edit timer` and `Delete timer` with a confirmation dialog); foreign, unknown or non-UUID paths give the same 404 |
-| `/{id}/edit`          | Protected: edit one saved timer (name and parameters, the `/create` form prefilled, `Save changes`); foreign, unknown or non-UUID paths give the same 404 |
+| `/{id}/edit`          | Protected: edit one saved timer (name and parameters, the `/create` form prefilled, `Save changes`); foreign, unknown or non-UUID paths give the same 404                           |
 
 API: `POST /api/drills` saves a timer, `PUT /api/drills/{id}` replaces the name and parameters of one of your timers (the full body, validated exactly like save; a duplicate name answers 409, foreign, missing and non-UUID ids the same 404; last write wins). `DELETE /api/drills/{id}` deletes one of your timers (204, empty body; foreign, missing, already deleted and non-UUID ids the same 404; the browser must send the app `Origin`, otherwise Astro answers 403). `POST` and `PUT` require `Content-Type: application/json`; `DELETE` has no body, ignores the content type and never answers 415.
 
@@ -210,4 +212,7 @@ GitHub Actions runs two jobs on every push and PR to `main`:
 ## License
 
 MIT
+
+```
+
 ```
