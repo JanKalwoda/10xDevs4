@@ -11,6 +11,7 @@
     "test": "node --test src/lib/*.test.ts src/lib/services/*.test.ts",
     "test:mutation": "stryker run",
     "test:integration": "node --test --test-timeout=180000 tests/integration/*.test.mjs",
+    "test:hooks": "node --test scripts/agent-hooks.test.mjs",
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
     "smoke": "node scripts/smoke.mjs"
