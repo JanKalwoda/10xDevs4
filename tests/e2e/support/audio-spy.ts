@@ -2,13 +2,17 @@ import type { Page } from "@playwright/test";
 
 // A pass-through observer of the browser audio boundary: every AudioContext the page creates is the
 // real one (the sound still plays); the spy only records its state and each tone the app starts on it.
-// `start` / `end` are seconds on the page's performance clock, comparable with `createdAt`, which is
-// the moment of the user gesture (the app creates its context synchronously in the Start or Resume click).
+// `start` / `end` are the exact times the app scheduled, in seconds of that context's audio clock: compare
+// tones of one context with them. `startOnPageClock` maps the start to the page's performance clock, to
+// compare with `createdAt`, the moment of the user gesture (the app creates its context synchronously in the
+// Start or Resume click). The audio clock advances in output-buffer steps (about 20 ms on a CI runner), so
+// that mapping is only that precise.
 
 export interface RecordedTone {
     frequency: number;
     start: number;
     end: number;
+    startOnPageClock: number;
     /** The context clock has passed the tone's start, so the output really rendered it. */
     reached: boolean;
 }
@@ -23,7 +27,7 @@ interface SpyTone {
     frequency: number;
     start: number;
     end: number;
-    contextStart: number;
+    startOnPageClock: number;
 }
 
 interface SpyRecord {
@@ -54,15 +58,16 @@ export async function installAudioSpy(page: Page): Promise<void> {
                     const start = oscillator.start.bind(oscillator);
                     const stop = oscillator.stop.bind(oscillator);
                     let tone: SpyTone | undefined;
-                    const toPageClock = (when: number) => performance.now() / 1000 - this.currentTime + Math.max(when, this.currentTime);
                     oscillator.start = (when = 0) => {
-                        tone = { frequency: oscillator.frequency.value, start: toPageClock(when), end: Number.NaN, contextStart: Math.max(when, this.currentTime) };
+                        // A time in the past plays now, as Web Audio does.
+                        const at = Math.max(when, this.currentTime);
+                        tone = { frequency: oscillator.frequency.value, start: at, end: Number.NaN, startOnPageClock: performance.now() / 1000 - this.currentTime + at };
                         record.tones.push(tone);
                         start(when);
                     };
                     oscillator.stop = (when = 0) => {
                         // The first stop is the planned end; a later one is the app cancelling the tone.
-                        if (tone && Number.isNaN(tone.end)) tone.end = toPageClock(when);
+                        if (tone && Number.isNaN(tone.end)) tone.end = Math.max(when, this.currentTime);
                         stop(when);
                     };
                     return oscillator;
@@ -77,7 +82,7 @@ export async function readAudioContexts(page: Page): Promise<RecordedAudioContex
         (window.__audioSpy ?? []).map(({ createdAt, context, tones }) => ({
             createdAt,
             state: context.state,
-            tones: tones.map(({ frequency, start, end, contextStart }) => ({ frequency, start, end, reached: context.currentTime >= contextStart })),
+            tones: tones.map((tone) => ({ ...tone, reached: context.currentTime >= tone.start })),
         })),
     );
 }

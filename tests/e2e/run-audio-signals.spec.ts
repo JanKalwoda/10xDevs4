@@ -14,8 +14,8 @@ import { setPageHidden } from "./support/page-visibility";
 
 const PREPARATION_SECONDS = 1;
 const SIGNAL_TOLERANCE_SECONDS = 0.2;
-// Standby waits are drawn every 0.01 s; the spy reads two clocks, so allow that much drift on contiguity.
-const CLOCK_SLACK_SECONDS = 0.01;
+// Tones of one context are compared on its audio clock, exactly as scheduled; this only absorbs float rounding.
+const FLOAT_SLACK_SECONDS = 0.001;
 
 // The run is guest-only: it creates no data, so there is nothing to clean up.
 test.use({ storageState: { cookies: [], origins: [] } });
@@ -45,19 +45,19 @@ async function expectSignalsAfterGesture(page: Page, gesture: number) {
 
     const [first, second, exercise] = current.tones;
     expect(current.tones, "only the Standby pair and the exercise start sound, no sound for the preparation").toHaveLength(3);
-    // Preparation has no sound: the first Standby sound starts when the full preparation ends.
-    expect(first.start - current.createdAt).toBeGreaterThanOrEqual(PREPARATION_SECONDS - CLOCK_SLACK_SECONDS);
-    expect(first.start - current.createdAt).toBeLessThanOrEqual(PREPARATION_SECONDS + SIGNAL_TOLERANCE_SECONDS);
+    // Preparation has no sound: the first Standby sound starts when the full preparation ends, within the PRD's
+    // 0.2 s (measured from the gesture on the page clock, which is only as precise as the audio buffer step).
+    expect(Math.abs(first.startOnPageClock - current.createdAt - PREPARATION_SECONDS)).toBeLessThanOrEqual(SIGNAL_TOLERANCE_SECONDS);
     // Standby: two short sounds, one right after the other, in a different pitch than the exercise start.
-    expect(Math.abs(second.start - first.end)).toBeLessThanOrEqual(CLOCK_SLACK_SECONDS);
+    expect(Math.abs(second.start - first.end)).toBeLessThanOrEqual(FLOAT_SLACK_SECONDS);
     expect(first.frequency).not.toBe(exercise.frequency);
     expect(second.frequency).not.toBe(exercise.frequency);
     // The exercise start is one long sound, longer than either Standby sound.
     expect(exercise.end - exercise.start).toBeGreaterThan(first.end - first.start);
     expect(exercise.end - exercise.start).toBeGreaterThan(second.end - second.start);
     // The hidden wait of 1–5 s counts from the end of the second Standby sound.
-    expect(exercise.start - second.end).toBeGreaterThanOrEqual(1 - CLOCK_SLACK_SECONDS);
-    expect(exercise.start - second.end).toBeLessThanOrEqual(5 + CLOCK_SLACK_SECONDS);
+    expect(exercise.start - second.end).toBeGreaterThanOrEqual(1 - FLOAT_SLACK_SECONDS);
+    expect(exercise.start - second.end).toBeLessThanOrEqual(5 + FLOAT_SLACK_SECONDS);
 }
 
 test.describe("risk #3: run audio signals", () => {
