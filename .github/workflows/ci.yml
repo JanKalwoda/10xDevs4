@@ -25,7 +25,7 @@ jobs:
 
   smoke:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -70,6 +70,27 @@ jobs:
       - name: Production preview hides the dev timer UI
         if: ${{ !cancelled() && steps.preview.outcome == 'success' }}
         run: test "$(curl -s -o /dev/null -w '%{http_code}' http://localhost:4321/dev/timer-ui)" = 404
+      - name: Install Playwright Chromium
+        run: npx playwright install --with-deps chromium
+      # Playwright's webServer builds and serves its own production preview. 4321 is taken by the preview above,
+      # so E2E uses 4323, which supabase/config.toml allows as a magic-link redirect. The setup project signs in
+      # through Mailpit with a fresh local account.
+      - name: Run E2E suite (Playwright)
+        if: ${{ !cancelled() }}
+        run: npx playwright test
+        env:
+          E2E_PORT: 4323
+          E2E_USERNAME: e2e@example.com
+          MAILPIT_URL: http://localhost:55324
+      - name: Upload Playwright report
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: |
+            playwright-report/
+            test-results/
+          retention-days: 7
       - if: always()
         run: supabase stop --no-backup
 
