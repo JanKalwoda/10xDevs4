@@ -157,6 +157,7 @@ additional_redirect_urls = [
   "https://127.0.0.1:3000",
   "http://localhost:4321/auth/callback*",
   "http://localhost:4323/auth/callback*",
+  "http://localhost:3333/auth/callback*",
 ]
 # How long tokens are valid for, in seconds. Defaults to 3600 (1 hour), maximum 604,800 (1 week).
 jwt_expiry = 3600

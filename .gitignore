@@ -29,3 +29,11 @@ pnpm-debug.log*
 # mutation testing (StrykerJS)
 reports/
 .stryker-tmp/
+
+# Playwright
+playwright/.auth/
+test-results/
+playwright-report/
+blob-report/
+playwright/.cache/
+.playwright-cli/
