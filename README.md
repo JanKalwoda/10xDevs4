@@ -206,7 +206,7 @@ Local mode covers the sign-in flow only (new and existing account, top bar, sign
 GitHub Actions runs two jobs on every push and PR to `main`:
 
 - **ci** — lint, `astro check` and build without production credentials.
-- **smoke** — starts a local Supabase via the Supabase CLI, builds, serves the production preview on the Cloudflare runtime and runs `npm run smoke`, then `npm run test:integration` (separate steps) against it, checks that `/dev/timer-ui` is 404, then runs the Playwright E2E suite (`npx playwright test`, `tests/e2e/`; its own preview on port 4323, sign-in through Mailpit, report uploaded as an artifact on failure). No secrets required.
+- **smoke** — starts a local Supabase via the Supabase CLI, builds, serves the production preview on the Cloudflare runtime and runs `npm run smoke`, then `npm run test:integration` (separate steps) against it, checks that `/dev/timer-ui` is 404, then stops that preview (Astro allows one per project) and runs the Playwright E2E suite (`npx playwright test`, `tests/e2e/`; its own preview on port 4323, sign-in through Mailpit, report uploaded as an artifact on failure). No secrets required.
 - **deploy** — after both checks pass on a push to `main`, deploys with Wrangler only when the repository variable `PRODUCTION_DEPLOY_ENABLED` is `true`. The `production` environment holds the scoped Cloudflare token, account ID, smoke account credentials, and `PRODUCTION_URL` variable. Worker Supabase credentials stay in Cloudflare.
 
 ## License

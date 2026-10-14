@@ -70,11 +70,19 @@ jobs:
       - name: Production preview hides the dev timer UI
         if: ${{ !cancelled() && steps.preview.outcome == 'success' }}
         run: test "$(curl -s -o /dev/null -w '%{http_code}' http://localhost:4321/dev/timer-ui)" = 404
+      # Astro allows one `astro preview` per project (a lock file), so the smoke preview must stop before
+      # Playwright's webServer can start its own.
+      - name: Stop the smoke preview
+        if: ${{ !cancelled() }}
+        run: |
+          npx astro preview stop
+          for i in $(seq 1 30); do curl -s -o /dev/null http://localhost:4321/ || exit 0; sleep 1; done
+          echo "Smoke preview still answers on port 4321"
+          exit 1
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
-      # Playwright's webServer builds and serves its own production preview. 4321 is taken by the preview above,
-      # so E2E uses 4323, which supabase/config.toml allows as a magic-link redirect. The setup project signs in
-      # through Mailpit with a fresh local account.
+      # Playwright's webServer builds and serves its own production preview on 4323, which supabase/config.toml
+      # allows as a magic-link redirect. The setup project signs in through Mailpit with a fresh local account.
       - name: Run E2E suite (Playwright)
         if: ${{ !cancelled() }}
         run: npx playwright test
