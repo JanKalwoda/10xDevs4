@@ -20,6 +20,8 @@ test("saving a new timer opens its page and deleting it returns to the timers li
 
     await page.waitForURL(SAVED_TIMER_PATH);
     await expect(page.getByRole("heading", { level: 1, name: timerName })).toBeVisible();
+    // The saved-timer page is server-rendered first: a click before its island hydrates opens no dialog.
+    await waitForHydration(page);
 
     // Cleanup is also the second transition of the risk, so it is asserted: a failed delete turns the run red.
     await page.getByRole("button", { name: "Delete timer" }).click();
