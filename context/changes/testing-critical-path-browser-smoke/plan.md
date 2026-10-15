@@ -231,16 +231,18 @@ The three specs add roughly 10–20 s to the CI E2E step (one more magic-link ro
 
 #### Manual
 
-- [ ] 1.5 The spec reads as the PRD flow (guest → sign-in → back on `/create`) and has no CSS/XPath locators or sleeps
+- [x] 1.5 The spec reads as the PRD flow (guest → sign-in → back on `/create`) and has no CSS/XPath locators or sleeps — 6ee0a7c
 
 ### Phase 2: Form — one arrow click is one step, keyboard steps (wiring for risk #6)
 
+> Model: Sonnet 5.5
+
 #### Automated
 
-- [ ] 2.1 The new spec passes: `npx playwright test tests/e2e/config-form-stepper.spec.ts`
-- [ ] 2.2 The full suite passes: `npx playwright test`
-- [ ] 2.3 Lint passes: `npm run lint`
-- [ ] 2.4 Deliberate breakage: making `onPointerDown` in `ConfigStepper.tsx` also take a step (one press = two steps) turns the spec red; after the revert `git diff` on `src/` is empty
+- [x] 2.1 The new spec passes: `npx playwright test tests/e2e/config-form-stepper.spec.ts` — c92b797
+- [x] 2.2 The full suite passes: `npx playwright test` — c92b797
+- [x] 2.3 Lint passes: `npm run lint` — c92b797
+- [x] 2.4 Deliberate breakage: making `onPointerDown` in `ConfigStepper.tsx` also take a step (one press = two steps) turns the spec red; after the revert `git diff` on `src/` is empty — c92b797
 
 #### Manual
 
