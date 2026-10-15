@@ -318,7 +318,7 @@ Brak danych do migracji. Wycofanie: usunięcie projektu `mobile-coarse` i dwóch
 
 #### Automated
 
-- [x] 3.1 Formatowanie dokumentów
+- [x] 3.1 Formatowanie dokumentów — ae20466
 - [ ] 3.2 PR do main ma zielone ci i smoke z testami mobile-coarse
 - [ ] 3.3 Ruleset wymaga checków
 
