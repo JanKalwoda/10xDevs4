@@ -189,7 +189,24 @@ the relevant rollout phase ships; before that, the sub-section reads
     - `config-form-stepper.spec.ts` — jedno kliknięcie strzałki = jeden krok; ↑/↓ o 1, Shift o 10.
     - `saved-timer-navigation.spec.ts` — z listy do zapisanego timera, jego edycji i z powrotem; każdy link i „Save changes” kończy się na właściwym adresie.
     - `saved-timer-start.spec.ts` — Start na zapisanym timerze uruchamia zapisaną konfigurację, nie wartości domyślne.
-- **Helpers** (`tests/e2e/support/`): `hydration` (`waitForHydration`), `audio-spy` (`installAudioSpy`, `readAudioContexts`), `page-visibility` (`setPageHidden`), `run-view` (`recordRunUntilCompleted`, `parseRunView`), `mailpit` (`snapshotInbox`).
+- **Session**: projekt `chromium` w `playwright.config.ts` startuje **zalogowany** (`storageState: "playwright/.auth/user.json"`, zapisany przez `auth.setup.ts` dla `E2E_USERNAME`); spec, który ma działać jako gość, nadpisuje to na poziomie pliku: `test.use({ storageState: { cookies: [], origins: [] } })`.
+- **Helpers** (`tests/e2e/support/`, import `./support/<plik>`):
+    - `waitForHydration(page)` — czeka, aż wszystkie wyspy React na stronie się nawodnią; wołaj po `page.goto` przed pierwszym kliknięciem.
+    - `installAudioSpy(page)` przed `page.goto`, potem `readAudioContexts(page)` → lista kontekstów z ich stanem i zaplanowanymi tonami.
+    - `setPageHidden(page, true | false)` — emuluje ukrycie i powrót karty (headless Chromium zawsze raportuje stronę jako widoczną).
+    - `recordRunUntilCompleted(page, onView, deadlineMs)` → kolejne różne `RunView` (`countdown`, `headline`, `repetition`, `current`, `next`, `paused`, `completed`, `raw`) aż do końca biegu; `onView` może klikać Pause/Resume i zwraca `true`, żeby przerwać wcześniej. `parseRunView(ariaSnapshot)` czyta jeden widok.
+    - `snapshotInbox(request, { username, mailpitUrl, baseURL })` — wołaj **przed** wysłaniem formularza logowania; zwraca funkcję, której `await` daje link `/auth/callback` z nowej wiadomości (sprawdzony origin).
+- **Test data (API)**: tworzenie zapisanego timera:
+    ```ts
+    const origin = new URL(baseURL ?? "").origin;
+    const created = await page.request.post("/api/drills", {
+        headers: { Origin: origin },
+        data: { name: `E2E <area> ${Date.now()}`, preparation: "0:05", exercise: "0:04", rest: "0:02", repetitions: "3", randomStartEnabled: false },
+    });
+    expect(created.status()).toBe(201);
+    const id = ((await created.json()) as { drill: { id: string } }).drill.id; // strona: `/${id}`, edycja: `/${id}/edit`
+    ```
+    Czasy to tekst `m:ss`, powtórzenia tekst liczby, tak jak w formularzu. Sprzątanie w `afterEach`: `expect(await page.request.delete(`/api/drills/${id}`, { headers: { Origin: origin } })).toBeOK()`.
 - **Rules**:
     - lokatory po roli i etykiecie (`getByRole`, `getByLabel`, `getByText`); bez selektorów CSS, XPath i struktury DOM; `getByTestId` tylko przy niejednoznacznych atrybutach dostępności;
     - bez `page.waitForTimeout()`: czekaj na stan (`toBeVisible`, `waitForURL`, `waitForResponse`);

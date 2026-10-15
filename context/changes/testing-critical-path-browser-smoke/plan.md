@@ -274,4 +274,4 @@ The three specs add roughly 10–20 s to the CI E2E step (one more magic-link ro
 
 #### Manual
 
-- [ ] 4.3 §6.4 alone is enough to add a new e2e spec without reading the other specs first
+- [x] 4.3 §6.4 alone is enough to add a new e2e spec without reading the other specs first — reviewed 2026-10-15; §6.4 gained Session, helper signatures and the API test-data recipe
