@@ -220,12 +220,14 @@ The three specs add roughly 10–20 s to the CI E2E step (one more magic-link ro
 
 ### Phase 1: Return address after sign-in (risk #5)
 
+> Model: Sonnet 5.5
+
 #### Automated
 
-- [ ] 1.1 The new spec passes: `npx playwright test tests/e2e/auth-return-address.spec.ts`
-- [ ] 1.2 The full suite passes, setup included: `npx playwright test`
-- [ ] 1.3 Lint passes: `npm run lint`
-- [ ] 1.4 Deliberate breakage: making the callback page script (`src/pages/auth/callback.astro`) always `window.location.assign("/timers")` turns the spec red at its final `/create` assertion; after the revert `git diff` on `src/` is empty
+- [x] 1.1 The new spec passes: `npx playwright test tests/e2e/auth-return-address.spec.ts` — 6ee0a7c
+- [x] 1.2 The full suite passes, setup included: `npx playwright test` — 6ee0a7c
+- [x] 1.3 Lint passes: `npm run lint` — 6ee0a7c
+- [x] 1.4 Deliberate breakage: making the callback page script (`src/pages/auth/callback.astro`) always `window.location.assign("/timers")` turns the spec red at its final `/create` assertion; after the revert `git diff` on `src/` is empty — 6ee0a7c
 
 #### Manual
 
