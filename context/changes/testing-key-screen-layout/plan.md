@@ -283,17 +283,19 @@ Brak danych do migracji. Wycofanie: usunięcie projektu `mobile-coarse` i dwóch
 
 ### Phase 1: Coarse project and key-screen geometry
 
+> Model: Sonnet 5.5
+
 #### Automated
 
-- [ ] 1.1 Nowa specyfikacja przechodzi w obu projektach
-- [ ] 1.2 Projekt coarse uruchamia tylko specyfikacje kluczowych ekranów
-- [ ] 1.3 Cały zestaw e2e zielony
-- [ ] 1.4 Lint przechodzi
+- [x] 1.1 Nowa specyfikacja przechodzi w obu projektach — b88efdf
+- [x] 1.2 Projekt coarse uruchamia tylko specyfikacje kluczowych ekranów — b88efdf
+- [x] 1.3 Cały zestaw e2e zielony — b88efdf
+- [x] 1.4 Lint przechodzi — b88efdf
 
 #### Manual
 
-- [ ] 1.5 Celowe zepsucie układu daje czerwony test z listą winowajców, git diff -- src/ pusty
-- [ ] 1.6 Przegląd specyfikacji względem pięciu antywzorców /10x-e2e
+- [x] 1.5 Celowe zepsucie układu daje czerwony test z listą winowajców, git diff -- src/ pusty — b88efdf
+- [x] 1.6 Przegląd specyfikacji względem pięciu antywzorców /10x-e2e — b88efdf
 
 ### Phase 2: One click or tap is one action
 
