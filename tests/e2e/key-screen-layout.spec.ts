@@ -165,6 +165,7 @@ test("the timers list fits the window with the longest name", async ({ page, bas
     await createTimer(page, baseURL, name, BOUNDARY);
 
     await page.goto("/timers");
+    await waitForHydration(page);
     await expectCoarsePointer(page, coarse);
 
     // The stamp (4th word) is unique per run, so the card is found by it.
