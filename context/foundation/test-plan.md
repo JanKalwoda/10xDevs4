@@ -6,7 +6,7 @@
 >
 > Refresh: re-run `/10x-test-plan --refresh` when stale (see §8).
 >
-> Last updated: 2026-10-12
+> Last updated: 2026-10-15
 
 ## 1. Strategy
 
@@ -67,12 +67,12 @@ Each row is a discrete rollout phase that will open its own change folder
 via `/10x-new`. Status moves left-to-right through the values below; the
 orchestrator updates Status as artifacts appear on disk.
 
-| #   | Phase name                             | Goal (one line)                                                                                                                  | Risks covered     | Test types                                             | Status      | Change folder                                                 |
-| --- | -------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- | ----------------- | ------------------------------------------------------ | ----------- | ------------------------------------------------------------- |
-| 1   | Access and ownership boundaries        | Udowodnić izolację właściciela, ochronę tras dla gościa, cele przekierowań i walidację API na najtańszej warstwie                | #1, #2, #5, #6    | integration (HTTP vs lokalny Supabase)                 | complete    | `context/archive/2026-10-11-testing-access-boundaries/`       |
-| 2   | Run flow and form behaviour            | Udowodnić sekwencję faz, sygnałów, pauzy i wznowienia oraz krok strzałek bez prawdziwej przeglądarki                             | #3, #4, #6        | component + integration (fałszywy zegar i audio)       | complete    | `context/archive/2026-10-12-testing-run-flow-form-behaviour/` |
-| 3   | Critical-path browser smoke            | Minimalny smoke w przeglądarce: formularz, pełny przebieg z dźwiękiem, pauza i wznowienie, logowanie, zapis, edycja, usunięcie   | #3, #4, #5        | e2e                                                    | planned     | `context/changes/testing-critical-path-browser-smoke/`        |
-| 4   | Key-screen layout and tap-target check | Brak wychodzenia poza ekran i trafialne przyciski na kluczowych ekranach dla 1280 i 390 px (fine i coarse); domknięcie bramek CI | #7, cross-cutting | e2e geometry checks, optional multimodal review, gates | not started | —                                                             |
+| #   | Phase name                             | Goal (one line)                                                                                                                  | Risks covered                           | Test types                                             | Status      | Change folder                                                 |
+| --- | -------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------- | ------------------------------------------------------ | ----------- | ------------------------------------------------------------- |
+| 1   | Access and ownership boundaries        | Udowodnić izolację właściciela, ochronę tras dla gościa, cele przekierowań i walidację API na najtańszej warstwie                | #1, #2, #5, #6                          | integration (HTTP vs lokalny Supabase)                 | complete    | `context/archive/2026-10-11-testing-access-boundaries/`       |
+| 2   | Run flow and form behaviour            | Udowodnić sekwencję faz, sygnałów, pauzy i wznowienia oraz krok strzałek bez prawdziwej przeglądarki                             | #3, #4, #6                              | component + integration (fałszywy zegar i audio)       | complete    | `context/archive/2026-10-12-testing-run-flow-form-behaviour/` |
+| 3   | Critical-path browser smoke            | Minimalny smoke w przeglądarce: formularz, pełny przebieg z dźwiękiem, pauza i wznowienie, logowanie, zapis, edycja, usunięcie   | #3, #4, #5 + #6 wiring (arrow/keyboard) | e2e                                                    | complete    | `context/changes/testing-critical-path-browser-smoke/`        |
+| 4   | Key-screen layout and tap-target check | Brak wychodzenia poza ekran i trafialne przyciski na kluczowych ekranach dla 1280 i 390 px (fine i coarse); domknięcie bramek CI | #7, cross-cutting                       | e2e geometry checks, optional multimodal review, gates | not started | —                                                             |
 
 ## 4. Stack
 
@@ -81,7 +81,7 @@ The classic test base for this project. AI-native tools (if any) carry a
 Recommendations in this section must be grounded in local manifests/configs
 plus the MCP/tools actually exposed in the current session.
 
-Profil bazy testów: `sparse` — runner `node --test` (bez pliku konfiguracyjnego), 31 plików testów w `src/lib` i `src/lib/services` (w tym 3 testy przebiegu z fazy 2: sekwencja i pauza, sygnały, kontrakt strzałki), 2 testy reguł ESLint, 1 test pgTAP, skrypt smoke HTTP (tylko przepływ logowania), 5 plików integracyjnych HTTP (`tests/integration/`: trasy, ochrona, własność, przekierowania, walidacja API); okablowanie komponentów React i przepływy w przeglądarce nie mają testów automatycznych (faza 3).
+Profil bazy testów: `sparse` — runner `node --test` (bez pliku konfiguracyjnego), 31 plików testów w `src/lib` i `src/lib/services` (w tym 3 testy przebiegu z fazy 2: sekwencja i pauza, sygnały, kontrakt strzałki), 2 testy reguł ESLint, 1 test pgTAP, skrypt smoke HTTP (tylko przepływ logowania), 5 plików integracyjnych HTTP (`tests/integration/`: trasy, ochrona, własność, przekierowania, walidacja API); 7 specyfikacji e2e i projekt uwierzytelniania `setup` (`tests/e2e/`, Playwright; patrz §6.4).
 
 | Layer                                   | Tool                                                                                      | Version                                                               | Notes                                                                                                                                                                                                                    |
 | --------------------------------------- | ----------------------------------------------------------------------------------------- | --------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
@@ -89,8 +89,8 @@ Profil bazy testów: `sparse` — runner `node --test` (bez pliku konfiguracyjne
 | database (RLS, granty, ograniczenia)    | pgTAP przez Supabase CLI                                                                  | supabase ^2.23.4                                                      | `supabase/tests/database/`, job `smoke` w CI                                                                                                                                                                             |
 | HTTP smoke                              | `scripts/smoke.mjs`                                                                       | n/a                                                                   | przepływ auth przez Mailpit na podglądzie produkcyjnym; punkt wyjścia dla fazy 1                                                                                                                                         |
 | integration (trasy, ochrona, własność)  | Node test runner (`node --test`) + `scripts/lib/app-client.mjs`, HTTP vs lokalny Supabase | Node 24.21.0                                                          | `tests/integration/`, `npm run test:integration`, job `smoke` w CI; wzorzec §6.2 (faza 1)                                                                                                                                |
-| run-level (przebieg, sygnały, strzałki) | Node test runner (`node --test`) z fałszywym zegarem, `AudioContext` i losowaniem         | Node 24.21.0                                                          | `src/lib/drill-run-*.test.ts`, `drill-stepper-contract.test.ts`, w `npm test`; wzorzec §6.3 (faza 2). Bez DOM i bez nowych zależności: okablowanie React (`.tsx`) należy do e2e (Phase 3)                                |
-| e2e                                     | none yet — see Phase 3 (Playwright jako przykład kategorii — checked: 2026-10-11)         | —                                                                     | dziś tylko ręczne skrypty bramek wizualnych poza CI, Playwright nie jest zależnością                                                                                                                                     |
+| run-level (przebieg, sygnały, strzałki) | Node test runner (`node --test`) z fałszywym zegarem, `AudioContext` i losowaniem         | Node 24.21.0                                                          | `src/lib/drill-run-*.test.ts`, `drill-stepper-contract.test.ts`, w `npm test`; wzorzec §6.3 (faza 2). Bez DOM i bez nowych zależności: okablowanie React (`.tsx`) należy do e2e (§6.4)                                   |
+| e2e                                     | Playwright Test                                                                           | @playwright/test 1.64.1 — checked: 2026-10-15                         | `tests/e2e/`, `npx playwright test`, job `smoke` w CI; reguły i uruchomienie w §6.4                                                                                                                                      |
 | layout / tap targets                    | none yet — see Phase 4                                                                    | —                                                                     | pomiary geometrii na 1280 i 390 px                                                                                                                                                                                       |
 | mutation (unit)                         | StrykerJS (tap runner)                                                                    | @stryker-mutator/core 10.0.0, tap-runner 10.0.0 — checked: 2026-10-11 | lokalnie, na żądanie, `npm run test:mutation`; moduły `protected-routes.ts`, `isSafeNextPath`, walidacja w `drill-configurations.ts`. When NOT to use: warstwa integracyjna HTTP — rebuild preview i limit auth 30/5 min |
 | (optional) AI-native                    | przegląd multimodalny zrzutów 1–2 ekranów (np. Claude z wizją — checked: 2026-10-11)      | n/a                                                                   | When NOT to use: gdy deterministyczny pomiar overflow i rozmiaru celu wykrywa regresję; nie do logiki przebiegu ani dźwięku                                                                                              |
@@ -113,20 +113,20 @@ The full set of gates that must pass before a change reaches production.
 "Required after §3 Phase <N>" means the gate is enforced once that rollout
 phase lands; before that, the gate is `planned`.
 
-| Gate                                                        | Where                               | Required?                                                            | Catches                                                                          |
-| ----------------------------------------------------------- | ----------------------------------- | -------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
-| lint (w tym kontrakt UI) + `astro check`                    | local + CI (`ci`)                   | required (wired)                                                     | dryf składni, typów i tokenów UI                                                 |
-| unit (`npm test`)                                           | local + CI (`ci`)                   | required (wired)                                                     | regresje czystej logiki                                                          |
-| pgTAP (`supabase test db`)                                  | CI (`smoke`)                        | required (wired)                                                     | RLS, granty, ograniczenia tabel                                                  |
-| HTTP smoke auth (tylko logowanie)                           | CI (`smoke`)                        | required (wired)                                                     | zepsuty przepływ logowania na podglądzie produkcyjnym                            |
-| integration: trasy, własność, przekierowania, walidacja API | local + CI (`smoke`)                | required (wired)                                                     | ryzyka #1, #2, #5, #6                                                            |
-| run-level: przebieg i formularz (w `npm test`)              | local + CI (`ci`)                   | required (wired)                                                     | ryzyka #3, #4, #6 w logice przebiegu; okablowanie React — e2e (Phase 3)          |
-| e2e na krytycznych przepływach                              | CI (`smoke`, `npx playwright test`) | required (wired; specs for #3, #4 and seed #5, full Phase 3 pending) | ryzyka #3, #4, #5 w przeglądarce                                                 |
-| layout i tap targets (1280 / 390 px)                        | CI on PR                            | required after §3 Phase 4                                            | ryzyko #7                                                                        |
-| multimodal visual review (1–2 ekrany)                       | local / on demand                   | optional after §3 Phase 4                                            | problemy wizualne, których pomiar nie łapie                                      |
-| post-edit hook                                              | local (agent loop)                  | recommended after §3 Phase 2                                         | regresje logiki w czasie edycji; nie zastępuje CI                                |
-| mutation (`npm run test:mutation`)                          | local, on demand po fazie rolloutu  | optional                                                             | testy, które przechodzą mimo zepsutej logiki (przetrwałe mutanty); nie bramka CI |
-| pre-prod smoke (publiczne trasy)                            | po deployu (`deploy`)               | required (wired)                                                     | błędy specyficzne dla produkcji                                                  |
+| Gate                                                        | Where                               | Required?                    | Catches                                                                          |
+| ----------------------------------------------------------- | ----------------------------------- | ---------------------------- | -------------------------------------------------------------------------------- |
+| lint (w tym kontrakt UI) + `astro check`                    | local + CI (`ci`)                   | required (wired)             | dryf składni, typów i tokenów UI                                                 |
+| unit (`npm test`)                                           | local + CI (`ci`)                   | required (wired)             | regresje czystej logiki                                                          |
+| pgTAP (`supabase test db`)                                  | CI (`smoke`)                        | required (wired)             | RLS, granty, ograniczenia tabel                                                  |
+| HTTP smoke auth (tylko logowanie)                           | CI (`smoke`)                        | required (wired)             | zepsuty przepływ logowania na podglądzie produkcyjnym                            |
+| integration: trasy, własność, przekierowania, walidacja API | local + CI (`smoke`)                | required (wired)             | ryzyka #1, #2, #5, #6                                                            |
+| run-level: przebieg i formularz (w `npm test`)              | local + CI (`ci`)                   | required (wired)             | ryzyka #3, #4, #6 w logice przebiegu; okablowanie React — e2e (§6.4)             |
+| e2e na krytycznych przepływach                              | CI (`smoke`, `npx playwright test`) | required (wired)             | ryzyka #3, #4, #5 w przeglądarce; #6 wiring (strzałki, klawiatura)               |
+| layout i tap targets (1280 / 390 px)                        | CI on PR                            | required after §3 Phase 4    | ryzyko #7                                                                        |
+| multimodal visual review (1–2 ekrany)                       | local / on demand                   | optional after §3 Phase 4    | problemy wizualne, których pomiar nie łapie                                      |
+| post-edit hook                                              | local (agent loop)                  | recommended after §3 Phase 2 | regresje logiki w czasie edycji; nie zastępuje CI                                |
+| mutation (`npm run test:mutation`)                          | local, on demand po fazie rolloutu  | optional                     | testy, które przechodzą mimo zepsutej logiki (przetrwałe mutanty); nie bramka CI |
+| pre-prod smoke (publiczne trasy)                            | po deployu (`deploy`)               | required (wired)             | błędy specyficzne dla produkcji                                                  |
 
 ## 6. Cookbook Patterns
 
@@ -160,7 +160,7 @@ the relevant rollout phase ships; before that, the sub-section reads
 ### 6.3 Adding a test for run flow or form behaviour
 
 - **Location**: `src/lib/<obszar>.test.ts` (`node --test`, bez DOM i bez nowych zależności; `npm test` łapie je globem `src/lib/*.test.ts`). Istniejące: `drill-run-flow.test.ts` (sekwencja faz, pauza i wznowienie), `drill-run-signals.test.ts` (sygnały), `drill-stepper-contract.test.ts` (strzałka ↔ parser).
-- **Granica**: składa się prawdziwe moduły z `src/lib` (`DrillRun`, `buildPhaseSections`, `createDrillAudio`, `stepFieldValue`, `parseDrillTime`), a fałszywe są tylko granice. `.tsx` nie da się zaimportować w `node --test` (brak DOM i loadera JSX), więc okablowanie React (Resume, widoczność karty, gest Start, handlery wskaźnika strzałki) należy do e2e (§3 Phase 3), nie do DOM w `node --test`.
+- **Granica**: składa się prawdziwe moduły z `src/lib` (`DrillRun`, `buildPhaseSections`, `createDrillAudio`, `stepFieldValue`, `parseDrillTime`), a fałszywe są tylko granice. `.tsx` nie da się zaimportować w `node --test` (brak DOM i loadera JSX), więc okablowanie React (Resume, widoczność karty, gest Start, handlery wskaźnika strzałki) należy do e2e (§6.4), nie do DOM w `node --test`.
 - **Fałszywki lokalne w pliku** (bez wspólnego modułu pomocniczego, jak w reszcie repo):
     - zegar: `FakeClock implements DrillClock` z `advance`; po każdym przesunięciu `run.tick()`;
     - losowanie: skryptowana kolejka wartości z krańców zakresu PRD (`0` → 1,00 s, `0.999` → 5,00 s), z licznikiem wywołań; wartość `1` jest zabroniona (poza `[0,1)`). Stały `() => 0` nie odróżnia „nowego” losowania od „starego”;
@@ -179,7 +179,28 @@ the relevant rollout phase ships; before that, the sub-section reads
 
 ### 6.4 Adding an e2e critical-path test
 
-- TBD — see §3 Phase 3 (wzorzec: minimalny przebieg z dźwiękiem, pauza i wznowienie, przejścia po zapisie, edycji i usunięciu).
+- **Location/naming**: `tests/e2e/<area>-<behaviour>.spec.ts`. Nagłówek pliku to trzy linie: `// risk: test-plan.md #<n> — facet: …`, `// seed: …`, `// Oracle: …` (PRD, FR, roadmap, literały z wyroczni, nie z kodu).
+- **Reference specs** (wszystkie siedem, jedna linia każdy):
+    - `seed.spec.ts` — zapis nowego timera otwiera `/{id}`, usunięcie wraca na `/timers` (wzorzec: lokatory, czekanie na stan, sprzątanie).
+    - `auth.setup.ts` — projekt `setup`: logowanie linkiem magicznym przez UI i skrzynkę Mailpit; domyślne lądowanie na `/timers`.
+    - `auth-return-address.spec.ts` — gość z `/create` loguje się i wraca na `/create` (parametr `next`, sprawdzany cel, nie tylko kod przekierowania).
+    - `run-phase-sequence.spec.ts` — krótka konfiguracja daje literalną sekwencję faz, czasów i powtórzeń; Standby bez czasu; pauza wznawia to samo powtórzenie.
+    - `run-audio-signals.spec.ts` — Start, wznowienie i powrót z ukrytej strony: sygnał zaplanowany wg PRD, wyjście audio aktywne (obserwacja przez spy, nie mock z implementacji).
+    - `config-form-stepper.spec.ts` — jedno kliknięcie strzałki = jeden krok; ↑/↓ o 1, Shift o 10.
+    - `saved-timer-navigation.spec.ts` — z listy do zapisanego timera, jego edycji i z powrotem; każdy link i „Save changes” kończy się na właściwym adresie.
+    - `saved-timer-start.spec.ts` — Start na zapisanym timerze uruchamia zapisaną konfigurację, nie wartości domyślne.
+- **Helpers** (`tests/e2e/support/`): `hydration` (`waitForHydration`), `audio-spy` (`installAudioSpy`, `readAudioContexts`), `page-visibility` (`setPageHidden`), `run-view` (`recordRunUntilCompleted`, `parseRunView`), `mailpit` (`snapshotInbox`).
+- **Rules**:
+    - lokatory po roli i etykiecie (`getByRole`, `getByLabel`, `getByText`); bez selektorów CSS, XPath i struktury DOM; `getByTestId` tylko przy niejednoznacznych atrybutach dostępności;
+    - bez `page.waitForTimeout()`: czekaj na stan (`toBeVisible`, `waitForURL`, `waitForResponse`);
+    - przebieg, który nic nie tworzy, używa gościa (`storageState: { cookies: [], origins: [] }`); dane tworzy przez API (`page.request.post("/api/drills")` z nagłówkiem `Origin` aplikacji), a sprzątanie to `DELETE` z asercją `toBeOK()`;
+    - kliknięcie niebędące idempotentnym zapisem (albo wykonywane przed hydracją) poprzedź `waitForHydration`; Playwright nie ponawia kliknięć, a kliknięcie przed hydracją nic nie robi;
+    - dźwięk obserwujemy przez przezroczysty spy `AudioContext`; widoczność karty emulujemy na dokumencie (`setPageHidden`);
+    - widok biegu czytamy tylko przez `ariaSnapshot` (`parseRunView`), nie przez tekst wizualny;
+    - budżet poczty: każde logowanie w e2e to jedna wysyłka; dziś 2 na przebieg (`auth.setup.ts` i `auth-return-address.spec.ts`);
+    - unikalne nazwy z sufiksem `Date.now()`, żeby równoległe przebiegi i ponowne uruchomienia nie kolidowały.
+- **Run**: `npx supabase start` (lokalny stos), `.env.e2e` z `E2E_USERNAME`, `MAILPIT_URL` i opcjonalnie `E2E_PORT` (plik jest ignorowany przez git); cały zestaw `npx playwright test`, pojedynczy plik `npx playwright test tests/e2e/<plik>.spec.ts`. W CI raport trafia do artefaktu `playwright-report` przy błędzie.
+- **Verify**: złam jedną linię produkcyjną, którą spec chroni; spec ma być czerwony; przywróć i sprawdź `git diff -- src/` (pusty).
 
 ### 6.5 Adding a layout / tap-target check for a screen
 
@@ -193,6 +214,8 @@ the relevant rollout phase ships; before that, the sub-section reads
 - Limit auth lokalnego Supabase (30 / 5 min / IP) nie wygląda jak błąd (neutralne 200, `error=invalid`), więc `signIn` ma jeden czytelny komunikat; planuj budżet logowań.
 - Dodatkowo inwentarz tras w `npm test` zamyka lukę „nowa strona bez ochrony”.
 - **Phase 2 (run flow and form)**: cała logika przebiegu jest czystym TS z portami, więc „component” w tej fazie to run-level integration w `node --test` (prawdziwy `DrillRun` + model widoku + `createDrillAudio`, fałszywe tylko zegar, losowanie i `AudioContext`); okablowanie `.tsx` zostaje do e2e (Phase 3).
+- **Phase 3 (critical-path browser smoke)**: większość specyfikacji powstała z samodzielnych przebiegów `/10x-e2e`; jedyną luką między warstwami były przeglądarkowe przeskoki adresu powrotu (logowanie z `next`), które dopiero spec `auth-return-address` zamknął.
+- Pułapki fazy: widoczność w headless (emulowana na dokumencie), hydracja przed kliknięciami bez efektu, wspólna skrzynka Mailpit (liczy się tylko wiadomość nadesłana po wysłaniu formularza).
 - Najczęstsze pułapki: stały `random` (wznowienie z ponownie użytym losowaniem przechodzi), tolerancja 0,2 s nieodróżniająca końca pierwszego od drugiego dźwięku Standby, test lustrzany podglądu Next oraz zegar Web Audio niepowiązany z `performance.now`. Każdy z nich naprawiono w istniejących testach i opisano w §6.3.
 
 ### 6.7 Running a mutation check on a module (Stryker)
@@ -216,7 +239,7 @@ contributors should respect these unless the underlying assumption changes.
 ## 8. Freshness Ledger
 
 - Strategy (§1–§5) last reviewed: 2026-10-11
-- Stack versions last verified: 2026-10-11
+- Stack versions last verified: 2026-10-15
 - AI-native tool references last verified: 2026-10-11
 
 Refresh (`/10x-test-plan --refresh`) when:
