@@ -39,17 +39,31 @@ test("Start on a saved timer runs the saved parameters", async ({ page, baseURL 
     await page.getByRole("button", { name: "Start", exact: true }).click();
 
     const main = page.getByRole("main");
-    const view = async () => parseRunView(await main.ariaSnapshot());
+    // Sample every 100 ms and keep the view that matched, so the 1 s preparation cannot slip between two reads.
+    let seen = parseRunView("");
+    async function viewOf(phase: string) {
+        await expect
+            .poll(
+                async () => {
+                    seen = parseRunView(await main.ariaSnapshot());
+                    return seen.current?.split(" · ")[0] ?? null;
+                },
+                { intervals: [100], timeout: 15_000 },
+            )
+            .toBe(phase);
+        return seen;
+    }
 
     // Preparation of repetition 1 of 2 announces the saved exercise next (no Standby: random start is off).
-    await expect.poll(async () => (await view()).current, { timeout: 15_000 }).toBe("Preparation · 0:01");
-    const preparation = await view();
+    const preparation = await viewOf("Preparation");
+    expect(preparation.current).toBe("Preparation · 0:01");
     expect(preparation.repetition).toBe("Repetition 1 of 2");
     expect(preparation.next).toBe("Exercise · 0:07");
 
-    // The exercise starts at its full saved time.
-    await expect.poll(async () => (await view()).current, { timeout: 15_000 }).toBe("Exercise · 0:07");
-    const exercise = await view();
+    // The exercise shows its saved time and its countdown starts at that full time.
+    const exercise = await viewOf("Exercise");
+    expect(exercise.current).toBe("Exercise · 0:07");
+    expect(exercise.countdown).toBe("0:07");
     expect(exercise.repetition).toBe("Repetition 1 of 2");
 
     // Leave the run: Cancel returns to the saved timer.

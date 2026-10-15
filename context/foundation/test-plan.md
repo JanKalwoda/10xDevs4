@@ -180,7 +180,7 @@ the relevant rollout phase ships; before that, the sub-section reads
 ### 6.4 Adding an e2e critical-path test
 
 - **Location/naming**: `tests/e2e/<area>-<behaviour>.spec.ts`. Nagłówek pliku to trzy linie: `// risk: test-plan.md #<n> — facet: …`, `// seed: …`, `// Oracle: …` (PRD, FR, roadmap, literały z wyroczni, nie z kodu).
-- **Reference specs** (wszystkie siedem, jedna linia każdy):
+- **Reference specs** (siedem specyfikacji i projekt `setup`, jedna linia każdy):
     - `seed.spec.ts` — zapis nowego timera otwiera `/{id}`, usunięcie wraca na `/timers` (wzorzec: lokatory, czekanie na stan, sprzątanie).
     - `auth.setup.ts` — projekt `setup`: logowanie linkiem magicznym przez UI i skrzynkę Mailpit; domyślne lądowanie na `/timers`.
     - `auth-return-address.spec.ts` — gość z `/create` loguje się i wraca na `/create` (parametr `next`, sprawdzany cel, nie tylko kod przekierowania).
@@ -193,10 +193,11 @@ the relevant rollout phase ships; before that, the sub-section reads
 - **Rules**:
     - lokatory po roli i etykiecie (`getByRole`, `getByLabel`, `getByText`); bez selektorów CSS, XPath i struktury DOM; `getByTestId` tylko przy niejednoznacznych atrybutach dostępności;
     - bez `page.waitForTimeout()`: czekaj na stan (`toBeVisible`, `waitForURL`, `waitForResponse`);
-    - przebieg, który nic nie tworzy, używa gościa (`storageState: { cookies: [], origins: [] }`); dane tworzy przez API (`page.request.post("/api/drills")` z nagłówkiem `Origin` aplikacji), a sprzątanie to `DELETE` z asercją `toBeOK()`;
+    - przebieg, który nic nie tworzy, używa gościa (`storageState: { cookies: [], origins: [] }`); dane tworzy przez API (`page.request.post("/api/drills")` z nagłówkiem `Origin` aplikacji), a sprzątanie to `DELETE` z tym samym nagłówkiem `Origin` (bez niego Astro odpowiada 403) i asercją `toBeOK()` w `afterEach`;
     - kliknięcie niebędące idempotentnym zapisem (albo wykonywane przed hydracją) poprzedź `waitForHydration`; Playwright nie ponawia kliknięć, a kliknięcie przed hydracją nic nie robi;
     - dźwięk obserwujemy przez przezroczysty spy `AudioContext`; widoczność karty emulujemy na dokumencie (`setPageHidden`);
     - widok biegu czytamy tylko przez `ariaSnapshot` (`parseRunView`), nie przez tekst wizualny;
+    - logowanie w spec: `snapshotInbox` przed wysłaniem formularza, potem link z nowej wiadomości (wspólna skrzynka Mailpit);
     - budżet poczty: każde logowanie w e2e to jedna wysyłka; dziś 2 na przebieg (`auth.setup.ts` i `auth-return-address.spec.ts`);
     - unikalne nazwy z sufiksem `Date.now()`, żeby równoległe przebiegi i ponowne uruchomienia nie kolidowały.
 - **Run**: `npx supabase start` (lokalny stos), `.env.e2e` z `E2E_USERNAME`, `MAILPIT_URL` i opcjonalnie `E2E_PORT` (plik jest ignorowany przez git); cały zestaw `npx playwright test`, pojedynczy plik `npx playwright test tests/e2e/<plik>.spec.ts`. W CI raport trafia do artefaktu `playwright-report` przy błędzie.
