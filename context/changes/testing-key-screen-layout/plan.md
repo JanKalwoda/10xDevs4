@@ -299,16 +299,18 @@ Brak danych do migracji. Wycofanie: usunięcie projektu `mobile-coarse` i dwóch
 
 ### Phase 2: One click or tap is one action
 
+> Model: Sonnet 5.5
+
 #### Automated
 
-- [ ] 2.1 Specyfikacja przechodzi w obu projektach (test.fail jako expected failure)
-- [ ] 2.2 Cały zestaw e2e zielony
-- [ ] 2.3 Lint przechodzi
+- [x] 2.1 Specyfikacja przechodzi w obu projektach (test.fail jako expected failure) — a5e909a
+- [x] 2.2 Cały zestaw e2e zielony — a5e909a
+- [x] 2.3 Lint przechodzi — a5e909a
 
 #### Manual
 
-- [ ] 2.4 Celowe zepsucie blokady daje czerwony test, git diff -- src/ pusty
-- [ ] 2.5 Każdy test.fail() wskazuje istniejącą nową zmianę
+- [x] 2.4 Celowe zepsucie blokady daje czerwony test, git diff -- src/ pusty — a5e909a
+- [x] 2.5 Każdy test.fail() wskazuje istniejącą nową zmianę — a5e909a
 
 ### Phase 3: Close the quality gates
 

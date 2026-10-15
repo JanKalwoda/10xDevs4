@@ -19,3 +19,8 @@ Open a change folder for rollout Phase 4 of context/foundation/test-plan.md: "Ke
 - **Jedno kliknięcie:** pojedynczy klik = jedna akcja; podwójny klik/tap daje dwie akcje dla Start, Restart, Pause (wnioskowanie z kodu) — decyzja, czy to część #7.
 - **Bramki:** do podłączenia „layout i tap targets” (nowy projekt Playwright 390 + `hasTouch`/`isMobile` z `testMatch`, 1280 w `chromium`); ruleset `main` nie wymaga żadnych status checków (zmiana wymaga zgody); hook po edycji już podłączony (§5 → wired); README opisuje wyłączony pre-push.
 - Źródła: `context/docs/playwright.md` (Context7 `/websites/playwright_dev`), skrypty bramek w `context/archive/2026-10-1{0,1}-ux-fixes-round-*/screenshots/`, `gh api` rulesets.
+
+### Faza 2 (2026-10-15) — podwójny klik/dotknięcie
+
+- Pomiar w przeglądarce (`key-screen-single-action.spec.ts`, projekty `chromium` i `mobile-coarse`): **Restart drill** przy podwójnym kliknięciu/dotknięciu tworzy dwa nowe biegi (3 konteksty audio zamiast 2); **Pause drill** pauzuje i od razu wznawia (bieg nie zostaje w pauzie). Start, Save timer i Delete confirm: jedna akcja.
+- Oba testy mają `test.fail()` z odnośnikiem do nowej zmiany naprawczej `fix-double-tap-run-controls`.
