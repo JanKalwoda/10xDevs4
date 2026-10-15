@@ -52,8 +52,10 @@ E2E w Playwright na podglądzie produkcyjnym jest najtańszą warstwą z realnym
 ## Critical Implementation Details
 
 - **Kolejność dla Restart/Start w biegu:** Restart i Start tworzą nowy bieg z nowym `AudioContext` (`DrillApp.tsx:107-116`); liczba kontekstów z `installAudioSpy`/`readAudioContexts` (`tests/e2e/support/audio-spy.ts`) jest obserwowalnym licznikiem „ile biegów wystartowało”, bez sięgania do kodu. Spy instaluj przed `page.goto`.
-- **Tapy tylko w `mobile-coarse`:** `tap()` rzuca bez `hasTouch`; w `chromium` używaj `click()`/`dblclick()`. Podwójne dotknięcie w coarse to dwa kolejne `tap()` bez czekania między nimi.
-- **Sticky top bar:** `scrollIntoViewIfNeeded()` może zostawić kontrolkę pod paskiem `sticky top-0 z-50` (`src/components/AppTopBar.astro:21`); sprawdzian przykrycia (`trial`) ma to wykryć, a nie omijać przez `force`.
+- **Tapy tylko w `mobile-coarse`:** `tap()` rzuca bez `hasTouch`; w `chromium` używaj `click()`/`dblclick()`.
+- **Podwójne kliknięcie/dotknięcie w jednym punkcie, bez ponownego lokalizowania:** dwa kolejne `locator.tap()` to nie podwójne dotknięcie — drugie wywołanie ponownie rozwiązuje lokator i czeka na actionability, więc po zmianie nazwy (`Pause drill` → `Resume drill`) albo odmontowaniu (Start) kończy się timeoutem, który `test.fail()` policzyłby jako „oczekiwany błąd”. W `mobile-coarse`: przed akcją odczytaj `boundingBox()` kontrolki, potem `page.touchscreen.tap(x, y)` dwa razy w środku tego pola, bez żadnej akcji na lokatorze między nimi. W `chromium`: `locator.dblclick()` (jedna kontrola actionability, oba kliknięcia w tym samym punkcie). Po podwójnej akcji nie wykonuj już akcji na lokatorach, tylko asercje (tak, by test z `test.fail()` mógł paść wyłącznie na asercji).
+- **Punkt ustalenia dla „dokładnie jednej akcji”:** `expect.poll`/`toBeVisible` kończą się na pierwszym dopasowaniu i same nie dowodzą braku drugiej akcji. Licznik czytaj dopiero w stanie, w którym druga akcja byłaby już widoczna: Save timer / Save changes / Delete — po `waitForURL` na docelową stronę i `waitForHydration` (oba kliknięcia/dotknięcia są wysłane przed nawigacją, więc ewentualne drugie żądanie jest już w liczniku `page.on("request")`); Start / Restart — po widoku „Repetition 1 of N” liczba kontekstów audio jednorazowo przez `readAudioContexts` (konteksty powstają synchronicznie w geście, `audio-spy.ts`); Pause/Resume — oba zdarzenia są dostarczone przed asercją (CDP wysyła je sekwencyjnie, React 19 opróżnia dyskretne aktualizacje synchronicznie), więc jedna asercja stanu końcowego (widoczny przycisk `Resume drill` / `Pause drill`).
+- **Sticky top bar:** Playwright przy przykrytym celu ponawia przewinięcie z innym wyrównaniem (`end`, `center`, `start`), więc `click/tap({ trial: true })` dowodzi „da się trafić przy jakimś położeniu przewinięcia” i nie da fałszywie czerwonego wyniku od paska `sticky top-0 z-50` (`src/components/AppTopBar.astro:21`); wykrywa trwałe przykrycia (np. warstwę nad kontrolką). Nie omijaj go przez `force`. Nagłówek `support/layout.ts` opisuje tę granicę.
 
 ## Phase 1: Coarse project and key-screen geometry
 
@@ -79,10 +81,10 @@ Nowy projekt `mobile-coarse` i specyfikacja `key-screen-layout.spec.ts`, która 
 
 **Contract**:
 
-- `expectNoHorizontalScroll(page)` — `documentElement.scrollWidth <= clientWidth`; przy błędzie komunikat z listą winowajców (`rect.right > innerWidth + 0.5`, tag + nazwa dostępna lub tekst, skrócone).
+- `expectNoHorizontalScroll(page)` — `documentElement.scrollWidth <= clientWidth`; przy błędzie komunikat z listą winowajców (`rect.right > document.documentElement.clientWidth + 0.5`, jak S-22 `:451`; nie `innerWidth`, bo przy `isMobile` i meta viewport bez `initial-scale` (`src/layouts/Layout.astro:22`) Chromium może pomniejszyć stronę i `innerWidth` przekroczy 390, a lista wyjdzie pusta; tag + nazwa dostępna lub tekst, skrócone).
 - `expectTarget(locator, { minSize })` — po `scrollIntoViewIfNeeded()`: `toBeInViewport({ ratio: 1 })`, `boundingBox()` w poziomie w `[0, viewportWidth]` z tolerancją 0,5 px, szerokość i wysokość ≥ `minSize`, oraz sprawdzian przykrycia `click({ trial: true })` (w coarse `tap({ trial: true })`).
 - `expectCoarsePointer(page, expected: boolean)` — `matchMedia("(pointer: coarse)").matches` zgodne z projektem; strażnik emulacji.
-- Nagłówek pliku tłumaczy, dlaczego tu jest odczyt DOM (wyjątek od reguły lokatorów §6.4, tylko w helperze).
+- Nagłówek pliku tłumaczy, dlaczego tu jest odczyt DOM (wyjątek od reguły lokatorów §6.4, tylko w helperze), oraz granicę `trial`: wykrywa trwałe przykrycie, nie przykrycie przez sticky top bar przy jednym położeniu przewinięcia (Playwright ponawia przewinięcie).
 
 #### 3. Specyfikacja geometrii kluczowych ekranów
 
@@ -96,7 +98,7 @@ Nowy projekt `mobile-coarse` i specyfikacja `key-screen-layout.spec.ts`, która 
 - Progi jako literały w specyfikacji: `TOUCH_TARGET = 44`, `MIN_TARGET = 24`. Przy coarse: Cancel drill, Restart drill, Pause drill / Resume drill i strzałki (`Increase|Decrease … by 1[ second]`) ≥ 44; Start, Save timer, Save changes, Delete timer, dialog Delete i Cancel ≥ 24. Przy fine: wszystkie wymienione ≥ 24 oprócz strzałek (tylko w oknie i nieprzykryte).
 - Dane: timer przez API z najdłuższą nazwą (200 znaków, w tym jeden ciąg bez spacji) i wartościami granicznymi (`10:00`, `10:00`, `10:00`, `100`), sprzątanie `DELETE` z `Origin` w `afterEach`.
 - Ekrany (każdy osobny test, `waitForHydration` przed pomiarem): `/` (pola z wartościami granicznymi, strzałki, głośniki, Start), `/create` (Save timer), `/{id}` (Start, Edit timer, Delete timer), dialog „Delete timer?” otwarty (Delete, Cancel; strona pod spodem nie jest mierzona), `/{id}/edit` (pola, strzałki, Save changes), `/timers` (karta timera), bieg w Preparation, w Exercise i w pauzie (Cancel drill, Restart drill, Pause drill/Resume drill). Na każdym `expectNoHorizontalScroll`.
-- Bieg krótki (np. preparation `0:01`, exercise `0:30`) — Exercise rozpoznawany przez `parseRunView` (`tests/e2e/support/run-view.ts`), bez `waitForTimeout`.
+- Stany biegu startują z `/{id}` (nagłówek `DrillApp` z długą nazwą, `SAVED_DRILL_HEADING_CLASS`, to najgorszy przypadek). Preparation: timer graniczny (preparation `10:00`), więc stan trwa dłużej niż pomiar. Exercise i pauza: osobny timer z tą samą długą nazwą (z innym sufiksem) i krótkim biegiem (preparation `0:01`, exercise `0:30`), Exercise rozpoznawany przez `parseRunView` (`tests/e2e/support/run-view.ts`), pauza mierzona po `Pause drill` (widoczny `Resume drill`); bez `waitForTimeout`.
 - Każdy test zaczyna od `expectCoarsePointer` zgodnego z projektem.
 
 ### Success Criteria:
@@ -134,7 +136,8 @@ Specyfikacja `key-screen-single-action.spec.ts`: pojedynczy klik (fine) i pojedy
 **Contract**:
 
 - Nagłówek trzech linii jak w fazie 1 (`facet: one click or tap is one action`).
-- Akcja wg projektu: `click()` w `chromium`, `tap()` w `mobile-coarse`; podwójne: `dblclick()` w `chromium`, dwa kolejne `tap()` w `mobile-coarse`.
+- Akcja wg projektu: `click()` w `chromium`, `tap()` w `mobile-coarse`; podwójne: `locator.dblclick()` w `chromium`, dwa `page.touchscreen.tap(x, y)` w środku `boundingBox()` odczytanego przed akcją w `mobile-coarse` (Critical Implementation Details: bez ponownego lokalizowania między dotknięciami).
+- Każda obserwacja „dokładnie jedna” jest czytana w punkcie ustalenia z Critical Implementation Details (docelowy URL + hydratacja dla żądań, widok „Repetition 1 of N” dla kontekstów audio, stan końcowy przycisku dla Pause/Resume), nie przez `expect.poll` na liczniku.
 - Obserwacje (wyrocznia z PRD, literały):
     - Start: dokładnie jeden bieg — jeden `AudioContext` w `readAudioContexts`, widok „Repetition 1 of N”, bieg nie jest w pauzie.
     - Pause → widok pauzy i „Resume drill”; Resume → bieg wznowiony; po każdym widok stały (jeden stan, nie przełączony z powrotem).
