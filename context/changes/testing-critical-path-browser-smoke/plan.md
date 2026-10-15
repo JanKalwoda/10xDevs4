@@ -270,7 +270,7 @@ The three specs add roughly 10–20 s to the CI E2E step (one more magic-link ro
 #### Automated
 
 - [x] 4.1 Prettier leaves the test plan unchanged: `npx prettier --check context/foundation/test-plan.md` — 34861b2
-- [ ] 4.2 After the coordinator pushes, the CI `smoke` job on PR #64 is green (`gh pr checks 64`), and its E2E step reports `8 passed` (the setup plus 7 spec tests)
+- [x] 4.2 After the coordinator pushes, the CI `smoke` job on PR #64 is green (`gh pr checks 64`), and its E2E step reports `8 passed` (the setup plus 7 spec tests) — CI run 38787667075 on c84eaa4: smoke green, E2E `8 passed`
 
 #### Manual
 
