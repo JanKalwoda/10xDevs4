@@ -30,6 +30,14 @@ export default defineConfig({
             use: { ...devices["Desktop Chrome"], storageState: "playwright/.auth/user.json" },
             dependencies: ["setup"],
         },
+        {
+            // 390 px phone with touch as the primary pointer (`hasTouch` makes Chromium report `pointer: coarse`).
+            // Runs only the key-screen specs, so the full suite is not doubled.
+            name: "mobile-coarse",
+            testMatch: /key-screen-.*\.spec\.ts/,
+            use: { ...devices["Desktop Chrome"], viewport: { width: 390, height: 844 }, hasTouch: true, isMobile: true, storageState: "playwright/.auth/user.json" },
+            dependencies: ["setup"],
+        },
     ],
     webServer: {
         // Production-like build + preview (Cloudflare runtime), on the port above.
