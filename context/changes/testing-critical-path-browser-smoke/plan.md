@@ -246,16 +246,18 @@ The three specs add roughly 10–20 s to the CI E2E step (one more magic-link ro
 
 #### Manual
 
-- [ ] 2.5 The expected values are literals derived from the PRD/contract, not from `stepFieldValue` or `STEPPER_LIMITS`
+- [x] 2.5 The expected values are literals derived from the PRD/contract, not from `stepFieldValue` or `STEPPER_LIMITS`
 
 ### Phase 3: Start a saved timer (risk #5, FR-011)
 
+> Model: Sonnet 5.5
+
 #### Automated
 
-- [ ] 3.1 The new spec passes: `npx playwright test tests/e2e/saved-timer-start.spec.ts`
-- [ ] 3.2 The full suite passes: `npx playwright test`
-- [ ] 3.3 Lint passes: `npm run lint`
-- [ ] 3.4 Deliberate breakage: making the saved-timer Start pass the default configuration instead of `drill.configuration` turns the spec red; after the revert `git diff` on `src/` is empty
+- [x] 3.1 The new spec passes: `npx playwright test tests/e2e/saved-timer-start.spec.ts` — 7a4be4b
+- [x] 3.2 The full suite passes: `npx playwright test` — 7a4be4b
+- [x] 3.3 Lint passes: `npm run lint` — 7a4be4b
+- [x] 3.4 Deliberate breakage: making the saved-timer Start pass the default configuration instead of `drill.configuration` turns the spec red; after the revert `git diff` on `src/` is empty — 7a4be4b
 
 #### Manual
 
