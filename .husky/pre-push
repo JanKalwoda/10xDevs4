@@ -1,2 +1,2 @@
-npx astro check
-npm run test:hooks
+# npx astro check
+# npm run test:hooks

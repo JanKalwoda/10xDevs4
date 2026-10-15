@@ -64,7 +64,7 @@ npm run dev
 - `npm run smoke` - Smoke test the auth flow against a running server (`BASE_URL`, defaults to `http://localhost:4321`)
 - `npm run test:integration` - HTTP integration suite (`tests/integration/`: guest access, redirects, ownership, API validation) against a running app and local Supabase with Mailpit (`BASE_URL`, `MAILPIT_URL`)
 - `npm run test:hooks` - Proof for the Claude Code hooks in `.claude/hooks/` (per-edit lint and related tests, end-of-turn sweep); runs in throwaway git repos with stub linters, also in CI (`ci` job)
-- Git hooks (Husky, installed by `npm install` through `prepare`): pre-commit runs `lint-staged` (ESLint/Prettier on staged files) and `npm test`; pre-push runs `npx astro check` and `npm run test:hooks`. Integration and e2e stay in CI (they need a local Supabase).
+- Git hooks (Husky, installed by `npm install` through `prepare`): pre-commit runs `lint-staged` (ESLint/Prettier on staged files) and `npm test`; pre-push is currently disabled (`.husky/pre-push` has its lines commented out, decision in commit a9eb5ee); `npx astro check` and `npm run test:hooks` run in CI (job `ci`). Integration and e2e stay in CI (they need a local Supabase).
 - `npm run test:mutation` - StrykerJS mutation testing, local and on demand (not in CI); bare run mutates the three risk modules from `stryker.config.json`; another module: `npm run test:mutation -- --mutate "src/lib/protected-routes.ts"`; HTML report in `reports/mutation/` (see `context/foundation/test-plan.md` §6.7)
 
 ## Project Structure
@@ -206,7 +206,7 @@ Local mode covers the sign-in flow only (new and existing account, top bar, sign
 GitHub Actions runs two jobs on every push and PR to `main`:
 
 - **ci** — lint, `astro check` and build without production credentials.
-- **smoke** — starts a local Supabase via the Supabase CLI, builds, serves the production preview on the Cloudflare runtime and runs `npm run smoke`, then `npm run test:integration` (separate steps) against it, and checks that `/dev/timer-ui` is 404. No secrets required.
+- **smoke** — starts a local Supabase via the Supabase CLI, builds, serves the production preview on the Cloudflare runtime and runs `npm run smoke`, then `npm run test:integration` (separate steps) against it, checks that `/dev/timer-ui` is 404, then stops that preview (Astro allows one per project) and runs the Playwright E2E suite (`npx playwright test`, `tests/e2e/`; the key-screen layout and single-action specs run in the `chromium` project (1280 px) and in the `mobile-coarse` project (390 px, touch); its own preview on port 4323, sign-in through Mailpit, report uploaded as an artifact on failure). No secrets required.
 - **deploy** — after both checks pass on a push to `main`, deploys with Wrangler only when the repository variable `PRODUCTION_DEPLOY_ENABLED` is `true`. The `production` environment holds the scoped Cloudflare token, account ID, smoke account credentials, and `PRODUCTION_URL` variable. Worker Supabase credentials stay in Cloudflare.
 
 ## License
