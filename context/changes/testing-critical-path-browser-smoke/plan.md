@@ -261,7 +261,7 @@ The three specs add roughly 10–20 s to the CI E2E step (one more magic-link ro
 
 #### Manual
 
-- [x] 3.5 After the run no `E2E start …` timer is left on `/timers` for the e2e user
+- [x] 3.5 After the run no `E2E start …` timer is left on `/timers` for the e2e user — 34861b2
 
 ### Phase 4: Test-plan bookkeeping and CI confirmation
 
@@ -269,7 +269,7 @@ The three specs add roughly 10–20 s to the CI E2E step (one more magic-link ro
 
 #### Automated
 
-- [x] 4.1 Prettier leaves the test plan unchanged: `npx prettier --check context/foundation/test-plan.md`
+- [x] 4.1 Prettier leaves the test plan unchanged: `npx prettier --check context/foundation/test-plan.md` — 34861b2
 - [ ] 4.2 After the coordinator pushes, the CI `smoke` job on PR #64 is green (`gh pr checks 64`), and its E2E step reports `8 passed` (the setup plus 7 spec tests)
 
 #### Manual
