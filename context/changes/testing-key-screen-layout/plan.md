@@ -314,9 +314,11 @@ Brak danych do migracji. Wycofanie: usunięcie projektu `mobile-coarse` i dwóch
 
 ### Phase 3: Close the quality gates
 
+> Model: Haiku 5.5
+
 #### Automated
 
-- [ ] 3.1 Formatowanie dokumentów
+- [x] 3.1 Formatowanie dokumentów
 - [ ] 3.2 PR do main ma zielone ci i smoke z testami mobile-coarse
 - [ ] 3.3 Ruleset wymaga checków
 
