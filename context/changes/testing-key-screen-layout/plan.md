@@ -319,10 +319,10 @@ Brak danych do migracji. Wycofanie: usunięcie projektu `mobile-coarse` i dwóch
 #### Automated
 
 - [x] 3.1 Formatowanie dokumentów — ae20466
-- [ ] 3.2 PR do main ma zielone ci i smoke z testami mobile-coarse
-- [ ] 3.3 Ruleset wymaga checków
+- [x] 3.2 PR do main ma zielone ci i smoke z testami mobile-coarse — PR #64, run 38810530462
+- [x] 3.3 Ruleset wymaga checków — ruleset 23709389
 
 #### Manual
 
-- [ ] 3.4 Zgoda na zmianę rulesetu udzielona przed krokiem 3
-- [ ] 3.5 §2 #7, §5 i §6.5 test-planu spójne z progami i specyfikacjami
+- [x] 3.4 Zgoda na zmianę rulesetu udzielona przed krokiem 3
+- [x] 3.5 §2 #7, §5 i §6.5 test-planu spójne z progami i specyfikacjami
