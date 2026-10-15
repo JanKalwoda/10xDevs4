@@ -1,7 +1,7 @@
 ---
 change_id: testing-critical-path-browser-smoke
 title: Test rollout Phase 3 — critical-path browser smoke (risks #3, #4, #5)
-status: planned
+status: plan_reviewed
 created: 2026-10-15
 updated: 2026-10-15
 archived_at: null

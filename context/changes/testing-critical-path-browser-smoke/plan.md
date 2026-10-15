@@ -74,7 +74,7 @@ Prove in the browser that a guest sent to sign-in from a protected page comes ba
 - The new spec passes: `npx playwright test tests/e2e/auth-return-address.spec.ts`
 - The full suite passes, setup included: `npx playwright test`
 - Lint passes: `npm run lint`
-- Deliberate breakage: making `SignInForm` always redirect with `next=/timers` turns the spec red; after the revert `git diff` on `src/` is empty
+- Deliberate breakage: making the callback page script (`src/pages/auth/callback.astro`) always `window.location.assign("/timers")` turns the spec red at its final `/create` assertion; after the revert `git diff` on `src/` is empty
 
 #### Manual Verification:
 
@@ -96,7 +96,7 @@ Close the Phase 2 deferral: in a real browser one click on an arrow changes the 
 
 **File**: `tests/e2e/config-form-stepper.spec.ts` (new)
 
-**Intent**: As a guest on `/`, after hydration, set Repetitions to a known value (`fill("1")`). One click on the "increase" arrow for repetitions gives `2`. ↑ in the field gives `3`, Shift+↑ gives `13`, and one click on the "decrease" arrow gives `12`. Each value is asserted with `toHaveValue`. Oracle: test-plan §2 #6 ("pojedynczy klik … daje dokładnie jeden krok"), PRD FR-001/FR-020, and the stepper contract in CLAUDE.md (↑/↓ step by 1, Shift by 10).
+**Intent**: As a guest on `/`, after hydration, set Repetitions to a known value (`fill("1")`). One click on the "increase" arrow for repetitions gives `2`. ↑ in the field gives `3`, Shift+↑ gives `13`, one click on the "decrease" arrow gives `12`, and ↓ in the field gives `11`. Each value is asserted with `toHaveValue`. Oracle: test-plan §2 #6 ("pojedynczy klik … daje dokładnie jeden krok"), PRD FR-001/FR-020, and the stepper contract in CLAUDE.md (↑/↓ step by 1, Shift by 10).
 
 **Contract**: Risk header `// risk: test-plan.md #6 — facet: arrow click and keyboard wiring (deferred from Phase 2)`. Guest `storageState`. Buttons are found by their accessible name (`getByRole("button", { name: … })`, the exact name confirmed with `playwright-cli`) and the field by `getByRole("textbox", { name: "Repetitions" })`. Fine pointer only. No data, no cleanup.
 
@@ -179,7 +179,7 @@ Record what Phase 3 delivered in `context/foundation/test-plan.md` and confirm t
 #### Automated Verification:
 
 - Prettier leaves the test plan unchanged: `npx prettier --check context/foundation/test-plan.md`
-- The CI `smoke` job on PR #64 is green, and its E2E step reports the setup plus 7 specs passed
+- After the coordinator pushes, the CI `smoke` job on PR #64 is green (`gh pr checks 64`), and its E2E step reports `8 passed` (the setup plus 7 spec tests)
 
 #### Manual Verification:
 
@@ -225,7 +225,7 @@ The three specs add roughly 10–20 s to the CI E2E step (one more magic-link ro
 - [ ] 1.1 The new spec passes: `npx playwright test tests/e2e/auth-return-address.spec.ts`
 - [ ] 1.2 The full suite passes, setup included: `npx playwright test`
 - [ ] 1.3 Lint passes: `npm run lint`
-- [ ] 1.4 Deliberate breakage: making `SignInForm` always redirect with `next=/timers` turns the spec red; after the revert `git diff` on `src/` is empty
+- [ ] 1.4 Deliberate breakage: making the callback page script (`src/pages/auth/callback.astro`) always `window.location.assign("/timers")` turns the spec red at its final `/create` assertion; after the revert `git diff` on `src/` is empty
 
 #### Manual
 
@@ -262,7 +262,7 @@ The three specs add roughly 10–20 s to the CI E2E step (one more magic-link ro
 #### Automated
 
 - [ ] 4.1 Prettier leaves the test plan unchanged: `npx prettier --check context/foundation/test-plan.md`
-- [ ] 4.2 The CI `smoke` job on PR #64 is green, and its E2E step reports the setup plus 7 specs passed
+- [ ] 4.2 After the coordinator pushes, the CI `smoke` job on PR #64 is green (`gh pr checks 64`), and its E2E step reports `8 passed` (the setup plus 7 spec tests)
 
 #### Manual
 
