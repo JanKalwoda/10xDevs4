@@ -270,16 +270,18 @@ Model: Claude Sonnet 5.5
 
 ### Phase 2: Podpięcie do biegu i testy w przeglądarce
 
+Model: Claude Sonnet 5.5
+
 #### Automated
 
-- [ ] 2.1 Specyfikacja jednej akcji przechodzi w obu projektach bez test.fail()
-- [ ] 2.2 Cały zestaw e2e przechodzi
-- [ ] 2.3 npm test, lint i astro check przechodzą
+- [x] 2.1 Specyfikacja jednej akcji przechodzi w obu projektach bez test.fail() — cc11ee1
+- [x] 2.2 Cały zestaw e2e przechodzi — cc11ee1
+- [x] 2.3 npm test, lint i astro check przechodzą — cc11ee1
 
 #### Manual
 
-- [ ] 2.4 Celowe zepsucie w restart i pause daje czerwone testy podwójnej akcji
-- [ ] 2.5 Podwójne dotknięcie Pause na 390 px zostawia pauzę, Cancel w oknie działa
+- [x] 2.4 Celowe zepsucie w restart i pause daje czerwone testy podwójnej akcji — cc11ee1
+- [x] 2.5 Podwójne dotknięcie Pause na 390 px zostawia pauzę, Cancel w oknie działa (pokryte e2e w mobile-coarse: a double Pause, Cancel stays enabled right after Pause; sprawdzenie na fizycznym telefonie w raporcie końcowym koordynatora) — cc11ee1
 
 ### Phase 3: Fixtures, bramka wizualna i kontrakt
 
