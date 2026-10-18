@@ -8,6 +8,8 @@ import { createDrillAudio, type DrillAudioPort } from "@/lib/drill-audio";
 import { createDrillWakeLockController, type WakeLockProvider, type WakeLockSentinelPort } from "@/lib/drill-wake-lock";
 import { createDrillWakeLockSession, type DrillWakeLockSession } from "@/lib/drill-wake-lock-session";
 import type { DrillConfigInput } from "@/lib/drill-timer";
+import { createDrillControlGuard } from "@/lib/drill-control-guard";
+import { browserDrillClock } from "@/lib/drill-run";
 import { createDrillRunIdentityState } from "@/lib/drill-run-identity";
 import { browserDrillVisibility } from "@/lib/drill-visibility";
 import type { DrillConfiguration, SavedDrill } from "@/types";
@@ -60,8 +62,17 @@ export default function DrillApp({ savedDrill }: { savedDrill?: SavedDrill }) {
     const [activeRun, setActiveRun] = useState<ActiveRun | null>(null);
     const [view, setView] = useState<"configuration" | "running" | "completed">("configuration");
     const [identityState] = useState(createDrillRunIdentityState);
+    const [controlGuard] = useState(() => createDrillControlGuard(browserDrillClock));
     const headingRef = useRef<HTMLHeadingElement>(null);
     const restoreFocus = useRef(false);
+
+    // reset() (not a one-way release) keeps the same guard usable when StrictMode or Fast Refresh runs this effect again.
+    useEffect(
+        () => () => {
+            controlGuard.reset();
+        },
+        [controlGuard],
+    );
 
     // Start unmounts while a run is on screen, so after Cancel or Return focus would fall to <body>; park it on the heading.
     useEffect(() => {
@@ -111,6 +122,7 @@ export default function DrillApp({ savedDrill }: { savedDrill?: SavedDrill }) {
     }, [activeRun, createActiveRun, identityState]);
 
     function start(snapshot: Readonly<DrillConfiguration>) {
+        controlGuard.arm();
         setActiveRun(createActiveRun(snapshot));
         setView("running");
     }
@@ -135,6 +147,7 @@ export default function DrillApp({ savedDrill }: { savedDrill?: SavedDrill }) {
                             onComplete={complete}
                             onCancel={cancel}
                             onRestart={restart}
+                            controlGuard={controlGuard}
                         />
                     )}
                     {view === "completed" && (

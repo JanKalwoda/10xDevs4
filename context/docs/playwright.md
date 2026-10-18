@@ -43,3 +43,9 @@ export default defineConfig({
 - `locator.tap(options)` wymaga `hasTouch: true` w kontekście; tapnięcie środka elementu przez `page.touchscreen`.
 - Opcja `trial: true` (dla `click`/`tap`): „only performs the actionability checks and skips the action” — czyli sprawdza m.in. Receives Events (brak przykrycia) bez wykonania akcji.
 - `scroll: "none"` — nie przewija elementu do widoku; akcja kończy się błędem, gdy element nie jest w viewporcie.
+
+## Zapytanie 5 (2026-10-18, zmiana `fix-double-tap-run-controls`): definicja Enabled w actionability
+
+- `npx ctx7@latest docs /websites/playwright_dev "actionability Enabled check: element is considered enabled unless disabled or aria-disabled=true descendant"` zwrócił tylko „Element is considered enabled when it is **not disabled**”; pełna lista pobrana z https://playwright.dev/docs/actionability (exa `web_fetch_exa`, 2026-10-18).
+- „Element is disabled when: it is a `<button>`, `<select>`, `<input>`, `<textarea>`, `<option>` or `<optgroup>` with a `[disabled]` attribute; … part of a `<fieldset>` with a `[disabled]` attribute; it is a descendant of an element with `[aria-disabled=true]` attribute.”
+- `locator.click()`, `dblclick()` i `tap()` czekają na Enabled; `page.touchscreen.tap(x, y)` i `page.mouse.*` nie wykonują żadnych sprawdzeń actionability.

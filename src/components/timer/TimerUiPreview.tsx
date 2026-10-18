@@ -31,6 +31,7 @@ const fixtures: {
     initializing?: boolean;
     resumePending?: boolean;
     wakeLockUnavailable?: boolean;
+    controlsLocked?: boolean;
 }[] = [
     {
         title: "Loading",
@@ -115,6 +116,28 @@ const fixtures: {
             paused: false,
             audioAvailable: false,
         },
+    },
+    {
+        title: "Controls locked active",
+        display: {
+            phase: { kind: "exercise", durationSeconds: 4, repetition: 2 },
+            remainingSeconds: 3,
+            next: { kind: "rest", durationSeconds: 2, repetition: 2 },
+            paused: false,
+            audioAvailable: true,
+        },
+        controlsLocked: true,
+    },
+    {
+        title: "Controls locked paused",
+        display: {
+            phase: { kind: "exercise", durationSeconds: 4, repetition: 2 },
+            remainingSeconds: 3,
+            next: { kind: "rest", durationSeconds: 2, repetition: 2 },
+            paused: true,
+            audioAvailable: true,
+        },
+        controlsLocked: true,
     },
 ];
 
@@ -1203,12 +1226,12 @@ export default function TimerUiPreview() {
             <SavedDrillFixtures />
             <DeleteDrillFixtures />
             <section aria-label="Timer phase state examples" className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-                {fixtures.map(({ title, display, initializing, resumePending, wakeLockUnavailable }) => (
+                {fixtures.map(({ title, display, initializing, resumePending, wakeLockUnavailable, controlsLocked }) => (
                     <Card
                         key={title}
                         data-fixture={title.toLowerCase().replaceAll(" ", "-")}
                         data-testid={`timer-${title.toLowerCase().replaceAll(" ", "-")}-fixture`}
-                        data-visual-state={initializing ? "loading" : resumePending ? "disabled" : "default"}
+                        data-visual-state={initializing ? "loading" : resumePending || controlsLocked ? "disabled" : "default"}
                     >
                         <CardHeader>
                             <CardTitle>{title} fixture</CardTitle>
@@ -1220,6 +1243,7 @@ export default function TimerUiPreview() {
                                 initializing={initializing ?? false}
                                 resumePending={resumePending ?? false}
                                 wakeLockUnavailable={wakeLockUnavailable ?? false}
+                                controlsLocked={controlsLocked ?? false}
                                 onCancel={() => {
                                     setPreviewStatus(`${title} fixture cancelled; the preview remains mounted.`);
                                 }}
