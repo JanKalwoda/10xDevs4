@@ -2,6 +2,7 @@ import { LoaderCircle, Pause, Play, RotateCcw, X } from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import PhaseSections from "@/components/timer/PhaseSections";
+import { cn } from "@/lib/utils";
 import { buildPhaseSections } from "@/lib/drill-phase-sections";
 import type { DrillDisplay } from "@/lib/drill-run";
 
@@ -10,6 +11,7 @@ interface DrillTimerViewProps {
     repetitions: number;
     initializing: boolean;
     resumePending?: boolean;
+    controlsLocked?: boolean;
     wakeLockUnavailable?: boolean;
     onCancel: () => void;
     onRestart: () => void;
@@ -22,6 +24,7 @@ export default function DrillTimerView({
     repetitions,
     initializing,
     resumePending = false,
+    controlsLocked = false,
     wakeLockUnavailable = false,
     onCancel,
     onRestart,
@@ -34,6 +37,12 @@ export default function DrillTimerView({
         !initializing && !display.audioAvailable ? "Audio unavailable; running silently." : null,
         !initializing && wakeLockUnavailable ? "Screen may lock." : null,
     ].filter((warning) => warning !== null);
+    // aria-disabled, never disabled (like DeleteDrillDialog): Playwright and AT read it, focus and geometry stay put.
+    const lockedClass = cn("size-12", "aria-disabled:pointer-events-none aria-disabled:opacity-50");
+    const guarded = (onActivate: () => void) => () => {
+        if (!controlsLocked) onActivate();
+    };
+    const ariaDisabled = controlsLocked ? true : undefined;
 
     return (
         <section aria-label="Current drill phase" className="space-y-4 text-center">
@@ -45,7 +54,16 @@ export default function DrillTimerView({
                     </Button>
                 </div>
                 <div className="justify-self-center">
-                    <Button type="button" variant="outline" size="icon" className="size-12" aria-label="Restart drill" title="Restart drill" onClick={onRestart}>
+                    <Button
+                        type="button"
+                        variant="outline"
+                        size="icon"
+                        className={lockedClass}
+                        aria-label="Restart drill"
+                        title="Restart drill"
+                        aria-disabled={ariaDisabled}
+                        onClick={guarded(onRestart)}
+                    >
                         <RotateCcw aria-hidden="true" className="size-5" />
                     </Button>
                 </div>
@@ -63,11 +81,29 @@ export default function DrillTimerView({
                             <LoaderCircle aria-hidden="true" className="size-5 motion-safe:animate-spin" />
                         </Button>
                     ) : display.paused ? (
-                        <Button type="button" variant="outline" size="icon" className="size-12" aria-label="Resume drill" title="Resume drill" onClick={onResume}>
+                        <Button
+                            type="button"
+                            variant="outline"
+                            size="icon"
+                            className={lockedClass}
+                            aria-label="Resume drill"
+                            title="Resume drill"
+                            aria-disabled={ariaDisabled}
+                            onClick={guarded(onResume)}
+                        >
                             <Play aria-hidden="true" className="size-5" />
                         </Button>
                     ) : (
-                        <Button type="button" variant="outline" size="icon" className="size-12" aria-label="Pause drill" title="Pause drill" onClick={onPause}>
+                        <Button
+                            type="button"
+                            variant="outline"
+                            size="icon"
+                            className={lockedClass}
+                            aria-label="Pause drill"
+                            title="Pause drill"
+                            aria-disabled={ariaDisabled}
+                            onClick={guarded(onPause)}
+                        >
                             <Pause aria-hidden="true" className="size-5" />
                         </Button>
                     )}

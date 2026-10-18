@@ -1,8 +1,9 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import DrillTimerView from "@/components/timer/DrillTimerView";
 import { createDrillAudio, evaluateDrillSchedule, type DrillAudioPort } from "@/lib/drill-audio";
 import { observeDrillAudioInitialization } from "@/lib/drill-audio-initializer";
 import { DrillRun, browserDrillClock, type DrillClock, type DrillDisplay } from "@/lib/drill-run";
+import { unlockedDrillControlGuard, type DrillControlGuard } from "@/lib/drill-control-guard";
 import { createDrillResumePendingState } from "@/lib/drill-resume-pending";
 import type { WakeLockStatus } from "@/lib/drill-wake-lock";
 import type { DrillWakeLockSession } from "@/lib/drill-wake-lock-session";
@@ -20,6 +21,7 @@ interface DrillTimerProps {
     clock?: DrillClock;
     visibility?: DrillVisibilityPort;
     createResumeAudio?: () => Promise<DrillAudioPort | null>;
+    controlGuard?: DrillControlGuard;
 }
 
 export default function DrillTimer({
@@ -32,7 +34,9 @@ export default function DrillTimer({
     clock = browserDrillClock,
     visibility = browserDrillVisibility,
     createResumeAudio = createDrillAudio,
+    controlGuard = unlockedDrillControlGuard,
 }: DrillTimerProps) {
+    const controlsLocked = useSyncExternalStore(controlGuard.subscribe, controlGuard.isLocked, () => false);
     const runRef = useRef<DrillRun | null>(null);
     const resumePendingRef = useRef(createDrillResumePendingState());
     const retiredIntentRef = useRef(false);
@@ -135,12 +139,14 @@ export default function DrillTimer({
     }
 
     function restart() {
+        // Ask the guard before retiring: a rejected Restart must not leave a retired, stopped run on screen.
+        if (retiredIntentRef.current || !controlGuard.tryActivate()) return;
         if (!retireIntent()) return;
         onRestart();
     }
 
     function pause() {
-        if (retiredIntentRef.current) return;
+        if (retiredIntentRef.current || !controlGuard.tryActivate()) return;
         resumePendingRef.current.invalidate();
         setResumePending(false);
         runRef.current?.hide();
@@ -150,7 +156,7 @@ export default function DrillTimer({
     function resume() {
         if (retiredIntentRef.current || visibility.isHidden()) return;
         const run = runRef.current;
-        if (!run) return;
+        if (!run || !controlGuard.tryActivate()) return;
         const attempt = resumePendingRef.current.begin();
         setResumePending(true);
         const recovery = run.resumeWithAudio(createResumeAudio);
@@ -173,6 +179,7 @@ export default function DrillTimer({
             repetitions={configuration.repetitions}
             initializing={initializing}
             resumePending={resumePending}
+            controlsLocked={controlsLocked}
             wakeLockUnavailable={wakeLockStatus === "unavailable"}
             onCancel={cancel}
             onRestart={restart}

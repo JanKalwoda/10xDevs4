@@ -2,8 +2,8 @@
 // seed: tests/e2e/seed.spec.ts
 // Oracle: PRD §NFR (touch-proof controls: one click or tap triggers exactly one action); literals only
 // Runs in two projects: `chromium` (mouse: click, dblclick) and `mobile-coarse` (touch: tap, two taps at one point).
-// A double click or tap must not run an action twice. Where the browser shows two actions the test is `test.fail()`
-// and names the repair change; the assertion stays as written (CLAUDE.md: a red test is a signal).
+// A double click or tap must not run an action twice. On the run bar, Restart and Pause/Resume are blocked for 500 ms
+// after each activation (src/lib/drill-control-guard.ts); Cancel never is.
 import { test, expect, type Locator, type Page, type TestInfo } from "@playwright/test";
 
 import { waitForHydration } from "./support/hydration";
@@ -56,6 +56,8 @@ async function actTwice(page: Page, locator: Locator, coarse: boolean): Promise<
         await locator.dblclick();
         return;
     }
+    // touchscreen.tap skips the actionability wait that click() does: the run bar is aria-disabled for 500 ms after Start.
+    await expect(locator).toBeEnabled();
     await locator.scrollIntoViewIfNeeded();
     const box = await locator.boundingBox();
     expect(box, "the control has a box").not.toBeNull();
@@ -114,6 +116,23 @@ test("Cancel returns to the saved timer, no run is left", async ({ page, baseURL
     await startRun(page, coarse);
 
     await act(page.getByRole("button", { name: "Cancel drill" }), coarse);
+
+    await expect(start(page)).toBeVisible();
+    await expect(page.getByRole("button", { name: "Pause drill" })).toHaveCount(0);
+    await expect(page.getByText("Repetition 1 of 2")).toHaveCount(0);
+});
+
+test("Cancel stays enabled right after Pause", async ({ page, baseURL }, testInfo) => {
+    const coarse = isCoarse(testInfo);
+    const { id, name } = await createTimer(page, baseURL, "cancel-locked");
+    await openSavedTimer(page, id, name);
+    await startRun(page, coarse);
+
+    await act(page.getByRole("button", { name: "Pause drill" }), coarse);
+    // Pause opened the 500 ms window; Cancel must not be part of it (a click would not notice: it waits for Enabled).
+    const cancel = page.getByRole("button", { name: "Cancel drill" });
+    await expect(cancel).not.toHaveAttribute("aria-disabled", "true");
+    await act(cancel, coarse);
 
     await expect(start(page)).toBeVisible();
     await expect(page.getByRole("button", { name: "Pause drill" })).toHaveCount(0);
@@ -212,8 +231,6 @@ test("a double Start still starts one run", async ({ page, baseURL }, testInfo) 
 });
 
 test("a double Restart still starts one new run", async ({ page, baseURL }, testInfo) => {
-    // Confirmed in the browser to run twice; repair owned by context/changes/fix-double-tap-run-controls. Assertion unchanged.
-    test.fail();
     const coarse = isCoarse(testInfo);
     await installAudioSpy(page);
     const { id, name } = await createTimer(page, baseURL, "restart2");
@@ -228,8 +245,6 @@ test("a double Restart still starts one new run", async ({ page, baseURL }, test
 });
 
 test("a double Pause leaves the run paused", async ({ page, baseURL }, testInfo) => {
-    // Confirmed in the browser to run twice; repair owned by context/changes/fix-double-tap-run-controls. Assertion unchanged.
-    test.fail();
     const coarse = isCoarse(testInfo);
     const { id, name } = await createTimer(page, baseURL, "pause2");
     await openSavedTimer(page, id, name);
