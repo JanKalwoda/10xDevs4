@@ -256,15 +256,17 @@ Nie dotyczy.
 
 ### Phase 1: Moduł blokady podwójnej aktywacji
 
+Model: Claude Sonnet 5.5
+
 #### Automated
 
-- [ ] 1.1 Testy modułu przechodzą
-- [ ] 1.2 Cały zestaw jednostkowy przechodzi
-- [ ] 1.3 Lint przechodzi
+- [x] 1.1 Testy modułu przechodzą
+- [x] 1.2 Cały zestaw jednostkowy przechodzi
+- [x] 1.3 Lint przechodzi
 
 #### Manual
 
-- [ ] 1.4 Celowe zepsucie wybudzenia albo arm() daje czerwony test
+- [x] 1.4 Celowe zepsucie wybudzenia albo arm() daje czerwony test
 
 ### Phase 2: Podpięcie do biegu i testy w przeglądarce
 
