@@ -260,13 +260,13 @@ Model: Claude Sonnet 5.5
 
 #### Automated
 
-- [x] 1.1 Testy modułu przechodzą
-- [x] 1.2 Cały zestaw jednostkowy przechodzi
-- [x] 1.3 Lint przechodzi
+- [x] 1.1 Testy modułu przechodzą — 1734966
+- [x] 1.2 Cały zestaw jednostkowy przechodzi — 1734966
+- [x] 1.3 Lint przechodzi — 1734966
 
 #### Manual
 
-- [x] 1.4 Celowe zepsucie wybudzenia albo arm() daje czerwony test
+- [x] 1.4 Celowe zepsucie wybudzenia albo arm() daje czerwony test — 1734966
 
 ### Phase 2: Podpięcie do biegu i testy w przeglądarce
 
