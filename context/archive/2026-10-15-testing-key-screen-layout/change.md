@@ -1,10 +1,10 @@
 ---
 change_id: testing-key-screen-layout
 title: Key-screen layout and tap-target check (test-plan Phase 4)
-status: impl_reviewed
+status: archived
 created: 2026-10-15
-updated: 2026-10-15
-archived_at: null
+updated: 2026-10-18
+archived_at: 2026-10-18T13:04:34Z
 ---
 
 ## Notes
