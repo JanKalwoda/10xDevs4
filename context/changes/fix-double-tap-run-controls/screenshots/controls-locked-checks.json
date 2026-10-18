@@ -1,0 +1,246 @@
+{
+    "baseUrl": "http://localhost:4321",
+    "failed": 0,
+    "checks": [
+        {
+            "name": "1280-light timer-exercise-fixture: Cancel never aria-disabled and fully opaque",
+            "ok": true,
+            "detail": "{\"ariaDisabled\":null,\"disabled\":false,\"opacity\":\"1\",\"pointerEvents\":\"auto\",\"top\":405}"
+        },
+        {
+            "name": "1280-light timer-exercise-fixture: restart active",
+            "ok": true,
+            "detail": "{\"ariaDisabled\":null,\"disabled\":false,\"opacity\":\"1\",\"pointerEvents\":\"auto\",\"top\":405}"
+        },
+        {
+            "name": "1280-light timer-exercise-fixture: toggle active",
+            "ok": true,
+            "detail": "{\"ariaDisabled\":null,\"disabled\":false,\"opacity\":\"1\",\"pointerEvents\":\"auto\",\"top\":405}"
+        },
+        {
+            "name": "1280-light timer-controls-locked-active-fixture: Cancel never aria-disabled and fully opaque",
+            "ok": true,
+            "detail": "{\"ariaDisabled\":null,\"disabled\":false,\"opacity\":\"1\",\"pointerEvents\":\"auto\",\"top\":405}"
+        },
+        {
+            "name": "1280-light timer-controls-locked-active-fixture: restart locked (aria-disabled, dimmed, no pointer)",
+            "ok": true,
+            "detail": "{\"ariaDisabled\":\"true\",\"disabled\":false,\"opacity\":\"0.5\",\"pointerEvents\":\"none\",\"top\":405}"
+        },
+        {
+            "name": "1280-light timer-controls-locked-active-fixture: toggle locked (aria-disabled, dimmed, no pointer)",
+            "ok": true,
+            "detail": "{\"ariaDisabled\":\"true\",\"disabled\":false,\"opacity\":\"0.5\",\"pointerEvents\":\"none\",\"top\":405}"
+        },
+        {
+            "name": "1280-light timer-controls-locked-paused-fixture: Cancel never aria-disabled and fully opaque",
+            "ok": true,
+            "detail": "{\"ariaDisabled\":null,\"disabled\":false,\"opacity\":\"1\",\"pointerEvents\":\"auto\",\"top\":405}"
+        },
+        {
+            "name": "1280-light timer-controls-locked-paused-fixture: restart locked (aria-disabled, dimmed, no pointer)",
+            "ok": true,
+            "detail": "{\"ariaDisabled\":\"true\",\"disabled\":false,\"opacity\":\"0.5\",\"pointerEvents\":\"none\",\"top\":405}"
+        },
+        {
+            "name": "1280-light timer-controls-locked-paused-fixture: toggle locked (aria-disabled, dimmed, no pointer)",
+            "ok": true,
+            "detail": "{\"ariaDisabled\":\"true\",\"disabled\":false,\"opacity\":\"0.5\",\"pointerEvents\":\"none\",\"top\":405}"
+        },
+        {
+            "name": "1280-light timer-exercise-fixture: bar does not move vs. active baseline",
+            "ok": true,
+            "detail": "405,405,405 vs 405,405,405"
+        },
+        {
+            "name": "1280-light timer-controls-locked-active-fixture: bar does not move vs. active baseline",
+            "ok": true,
+            "detail": "405,405,405 vs 405,405,405"
+        },
+        {
+            "name": "1280-light timer-controls-locked-paused-fixture: bar does not move vs. active baseline",
+            "ok": true,
+            "detail": "405,405,405 vs 405,405,405"
+        },
+        {
+            "name": "1280-dark timer-exercise-fixture: Cancel never aria-disabled and fully opaque",
+            "ok": true,
+            "detail": "{\"ariaDisabled\":null,\"disabled\":false,\"opacity\":\"1\",\"pointerEvents\":\"auto\",\"top\":405}"
+        },
+        {
+            "name": "1280-dark timer-exercise-fixture: restart active",
+            "ok": true,
+            "detail": "{\"ariaDisabled\":null,\"disabled\":false,\"opacity\":\"1\",\"pointerEvents\":\"auto\",\"top\":405}"
+        },
+        {
+            "name": "1280-dark timer-exercise-fixture: toggle active",
+            "ok": true,
+            "detail": "{\"ariaDisabled\":null,\"disabled\":false,\"opacity\":\"1\",\"pointerEvents\":\"auto\",\"top\":405}"
+        },
+        {
+            "name": "1280-dark timer-controls-locked-active-fixture: Cancel never aria-disabled and fully opaque",
+            "ok": true,
+            "detail": "{\"ariaDisabled\":null,\"disabled\":false,\"opacity\":\"1\",\"pointerEvents\":\"auto\",\"top\":405}"
+        },
+        {
+            "name": "1280-dark timer-controls-locked-active-fixture: restart locked (aria-disabled, dimmed, no pointer)",
+            "ok": true,
+            "detail": "{\"ariaDisabled\":\"true\",\"disabled\":false,\"opacity\":\"0.5\",\"pointerEvents\":\"none\",\"top\":405}"
+        },
+        {
+            "name": "1280-dark timer-controls-locked-active-fixture: toggle locked (aria-disabled, dimmed, no pointer)",
+            "ok": true,
+            "detail": "{\"ariaDisabled\":\"true\",\"disabled\":false,\"opacity\":\"0.5\",\"pointerEvents\":\"none\",\"top\":405}"
+        },
+        {
+            "name": "1280-dark timer-controls-locked-paused-fixture: Cancel never aria-disabled and fully opaque",
+            "ok": true,
+            "detail": "{\"ariaDisabled\":null,\"disabled\":false,\"opacity\":\"1\",\"pointerEvents\":\"auto\",\"top\":405}"
+        },
+        {
+            "name": "1280-dark timer-controls-locked-paused-fixture: restart locked (aria-disabled, dimmed, no pointer)",
+            "ok": true,
+            "detail": "{\"ariaDisabled\":\"true\",\"disabled\":false,\"opacity\":\"0.5\",\"pointerEvents\":\"none\",\"top\":405}"
+        },
+        {
+            "name": "1280-dark timer-controls-locked-paused-fixture: toggle locked (aria-disabled, dimmed, no pointer)",
+            "ok": true,
+            "detail": "{\"ariaDisabled\":\"true\",\"disabled\":false,\"opacity\":\"0.5\",\"pointerEvents\":\"none\",\"top\":405}"
+        },
+        {
+            "name": "1280-dark timer-exercise-fixture: bar does not move vs. active baseline",
+            "ok": true,
+            "detail": "405,405,405 vs 405,405,405"
+        },
+        {
+            "name": "1280-dark timer-controls-locked-active-fixture: bar does not move vs. active baseline",
+            "ok": true,
+            "detail": "405,405,405 vs 405,405,405"
+        },
+        {
+            "name": "1280-dark timer-controls-locked-paused-fixture: bar does not move vs. active baseline",
+            "ok": true,
+            "detail": "405,405,405 vs 405,405,405"
+        },
+        {
+            "name": "390-light timer-exercise-fixture: Cancel never aria-disabled and fully opaque",
+            "ok": true,
+            "detail": "{\"ariaDisabled\":null,\"disabled\":false,\"opacity\":\"1\",\"pointerEvents\":\"auto\",\"top\":389}"
+        },
+        {
+            "name": "390-light timer-exercise-fixture: restart active",
+            "ok": true,
+            "detail": "{\"ariaDisabled\":null,\"disabled\":false,\"opacity\":\"1\",\"pointerEvents\":\"auto\",\"top\":389}"
+        },
+        {
+            "name": "390-light timer-exercise-fixture: toggle active",
+            "ok": true,
+            "detail": "{\"ariaDisabled\":null,\"disabled\":false,\"opacity\":\"1\",\"pointerEvents\":\"auto\",\"top\":389}"
+        },
+        {
+            "name": "390-light timer-controls-locked-active-fixture: Cancel never aria-disabled and fully opaque",
+            "ok": true,
+            "detail": "{\"ariaDisabled\":null,\"disabled\":false,\"opacity\":\"1\",\"pointerEvents\":\"auto\",\"top\":389}"
+        },
+        {
+            "name": "390-light timer-controls-locked-active-fixture: restart locked (aria-disabled, dimmed, no pointer)",
+            "ok": true,
+            "detail": "{\"ariaDisabled\":\"true\",\"disabled\":false,\"opacity\":\"0.5\",\"pointerEvents\":\"none\",\"top\":389}"
+        },
+        {
+            "name": "390-light timer-controls-locked-active-fixture: toggle locked (aria-disabled, dimmed, no pointer)",
+            "ok": true,
+            "detail": "{\"ariaDisabled\":\"true\",\"disabled\":false,\"opacity\":\"0.5\",\"pointerEvents\":\"none\",\"top\":389}"
+        },
+        {
+            "name": "390-light timer-controls-locked-paused-fixture: Cancel never aria-disabled and fully opaque",
+            "ok": true,
+            "detail": "{\"ariaDisabled\":null,\"disabled\":false,\"opacity\":\"1\",\"pointerEvents\":\"auto\",\"top\":389}"
+        },
+        {
+            "name": "390-light timer-controls-locked-paused-fixture: restart locked (aria-disabled, dimmed, no pointer)",
+            "ok": true,
+            "detail": "{\"ariaDisabled\":\"true\",\"disabled\":false,\"opacity\":\"0.5\",\"pointerEvents\":\"none\",\"top\":389}"
+        },
+        {
+            "name": "390-light timer-controls-locked-paused-fixture: toggle locked (aria-disabled, dimmed, no pointer)",
+            "ok": true,
+            "detail": "{\"ariaDisabled\":\"true\",\"disabled\":false,\"opacity\":\"0.5\",\"pointerEvents\":\"none\",\"top\":389}"
+        },
+        {
+            "name": "390-light timer-exercise-fixture: bar does not move vs. active baseline",
+            "ok": true,
+            "detail": "389,389,389 vs 389,389,389"
+        },
+        {
+            "name": "390-light timer-controls-locked-active-fixture: bar does not move vs. active baseline",
+            "ok": true,
+            "detail": "389,389,389 vs 389,389,389"
+        },
+        {
+            "name": "390-light timer-controls-locked-paused-fixture: bar does not move vs. active baseline",
+            "ok": true,
+            "detail": "389,389,389 vs 389,389,389"
+        },
+        {
+            "name": "390-dark timer-exercise-fixture: Cancel never aria-disabled and fully opaque",
+            "ok": true,
+            "detail": "{\"ariaDisabled\":null,\"disabled\":false,\"opacity\":\"1\",\"pointerEvents\":\"auto\",\"top\":389}"
+        },
+        {
+            "name": "390-dark timer-exercise-fixture: restart active",
+            "ok": true,
+            "detail": "{\"ariaDisabled\":null,\"disabled\":false,\"opacity\":\"1\",\"pointerEvents\":\"auto\",\"top\":389}"
+        },
+        {
+            "name": "390-dark timer-exercise-fixture: toggle active",
+            "ok": true,
+            "detail": "{\"ariaDisabled\":null,\"disabled\":false,\"opacity\":\"1\",\"pointerEvents\":\"auto\",\"top\":389}"
+        },
+        {
+            "name": "390-dark timer-controls-locked-active-fixture: Cancel never aria-disabled and fully opaque",
+            "ok": true,
+            "detail": "{\"ariaDisabled\":null,\"disabled\":false,\"opacity\":\"1\",\"pointerEvents\":\"auto\",\"top\":389}"
+        },
+        {
+            "name": "390-dark timer-controls-locked-active-fixture: restart locked (aria-disabled, dimmed, no pointer)",
+            "ok": true,
+            "detail": "{\"ariaDisabled\":\"true\",\"disabled\":false,\"opacity\":\"0.5\",\"pointerEvents\":\"none\",\"top\":389}"
+        },
+        {
+            "name": "390-dark timer-controls-locked-active-fixture: toggle locked (aria-disabled, dimmed, no pointer)",
+            "ok": true,
+            "detail": "{\"ariaDisabled\":\"true\",\"disabled\":false,\"opacity\":\"0.5\",\"pointerEvents\":\"none\",\"top\":389}"
+        },
+        {
+            "name": "390-dark timer-controls-locked-paused-fixture: Cancel never aria-disabled and fully opaque",
+            "ok": true,
+            "detail": "{\"ariaDisabled\":null,\"disabled\":false,\"opacity\":\"1\",\"pointerEvents\":\"auto\",\"top\":389}"
+        },
+        {
+            "name": "390-dark timer-controls-locked-paused-fixture: restart locked (aria-disabled, dimmed, no pointer)",
+            "ok": true,
+            "detail": "{\"ariaDisabled\":\"true\",\"disabled\":false,\"opacity\":\"0.5\",\"pointerEvents\":\"none\",\"top\":389}"
+        },
+        {
+            "name": "390-dark timer-controls-locked-paused-fixture: toggle locked (aria-disabled, dimmed, no pointer)",
+            "ok": true,
+            "detail": "{\"ariaDisabled\":\"true\",\"disabled\":false,\"opacity\":\"0.5\",\"pointerEvents\":\"none\",\"top\":389}"
+        },
+        {
+            "name": "390-dark timer-exercise-fixture: bar does not move vs. active baseline",
+            "ok": true,
+            "detail": "389,389,389 vs 389,389,389"
+        },
+        {
+            "name": "390-dark timer-controls-locked-active-fixture: bar does not move vs. active baseline",
+            "ok": true,
+            "detail": "389,389,389 vs 389,389,389"
+        },
+        {
+            "name": "390-dark timer-controls-locked-paused-fixture: bar does not move vs. active baseline",
+            "ok": true,
+            "detail": "389,389,389 vs 389,389,389"
+        }
+    ]
+}
