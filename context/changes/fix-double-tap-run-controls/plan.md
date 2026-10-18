@@ -289,12 +289,12 @@ Model: Claude Sonnet 5.5
 
 #### Automated
 
-- [x] 3.1 Lint przechodzi z kontraktem timer UI
-- [x] 3.2 npm test i astro check przechodzą
-- [x] 3.3 Prettier nie zmienia dokumentów (AGENTS.md nie przechodził Prettiera już w HEAD i pozostaje poza tą zmianą; CLAUDE.md i folder zmiany czyste)
+- [x] 3.1 Lint przechodzi z kontraktem timer UI — 620e7ae
+- [x] 3.2 npm test i astro check przechodzą — 620e7ae
+- [x] 3.3 Prettier nie zmienia dokumentów (AGENTS.md nie przechodził Prettiera już w HEAD i pozostaje poza tą zmianą; CLAUDE.md i folder zmiany czyste) — 620e7ae
 
 #### Manual
 
-- [x] 3.4 Zrzuty controls locked przejrzane w jasnym i ciemnym przy 1280 i 390 px
-- [x] 3.5 CLAUDE.md i AGENTS.md mają identyczny wyjątek
-- [x] 3.6 Bramki run-view i ux-fixes-round-3 przechodzą jako regresja
+- [x] 3.4 Zrzuty controls locked przejrzane w jasnym i ciemnym przy 1280 i 390 px — 620e7ae
+- [x] 3.5 CLAUDE.md i AGENTS.md mają identyczny wyjątek — 620e7ae
+- [x] 3.6 Bramki run-view i ux-fixes-round-3 przechodzą jako regresja — 620e7ae
