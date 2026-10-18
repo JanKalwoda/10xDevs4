@@ -150,7 +150,7 @@ Właściciel tworzy blokadę i aktywuje ją przy Start, `DrillTimer` używa jej 
 
 **Intent**: Błąd jest naprawiony, więc testy podwójnej akcji mają przechodzić. Asercje zostają bez zmian (CLAUDE.md: czerwony test to sygnał).
 
-**Contract**: usunąć `test.fail()` i komentarz o zmianie naprawczej z „a double Restart still starts one new run” (`:214-228`) i „a double Pause leaves the run paused” (`:230-242`). Komentarz nagłówka (`:5-6`) zaktualizować: podwójna akcja jest blokowana przez okno 500 ms. Nowy test „Cancel stays enabled right after Pause”: po `startRun` aktywacja Pause, od razu `expect(cancel).not.toHaveAttribute("aria-disabled", "true")`, potem natychmiast Cancel i asercje jak w „Cancel returns…”. Asercja jest deterministyczna, bo Cancel nigdy nie ma tego atrybutu, a `click()` czekający na Enabled nie wykryłby zablokowanego Cancel (plan-review F3). Bez `waitForTimeout` i bez dodatkowych oczekiwań w innych specyfikacjach.
+**Contract**: usunąć `test.fail()` i komentarz o zmianie naprawczej z „a double Restart still starts one new run” (`:214-228`) i „a double Pause leaves the run paused” (`:230-242`). Komentarz nagłówka (`:5-6`) zaktualizować: podwójna akcja jest blokowana przez okno 500 ms. Nowy test „Cancel stays enabled right after Pause”: po `startRun` aktywacja Pause, od razu `expect(cancel).not.toHaveAttribute("aria-disabled", "true")`, potem natychmiast Cancel i asercje jak w „Cancel returns…”. Asercja jest deterministyczna, bo Cancel nigdy nie ma tego atrybutu, a `click()` czekający na Enabled nie wykryłby zablokowanego Cancel (plan-review F3). W `actTwice` dla dotyku przed dwoma `page.touchscreen.tap` stoi `await expect(locator).toBeEnabled()`: `touchscreen.tap` omija actionability, a pasek jest `aria-disabled` przez 500 ms po Start, więc bez tego oba dotknięcia trafiłyby w okno Startu (dopisane po impl-review F1). Bez `waitForTimeout` i bez dodatkowych oczekiwań w innych specyfikacjach.
 
 ### Success Criteria:
 
@@ -281,7 +281,7 @@ Model: Claude Sonnet 5.5
 #### Manual
 
 - [x] 2.4 Celowe zepsucie w restart i pause daje czerwone testy podwójnej akcji — cc11ee1
-- [x] 2.5 Podwójne dotknięcie Pause na 390 px zostawia pauzę, Cancel w oknie działa (pokryte e2e w mobile-coarse: a double Pause, Cancel stays enabled right after Pause; sprawdzenie na fizycznym telefonie w raporcie końcowym koordynatora) — cc11ee1
+- [x] 2.5 Podwójne dotknięcie Pause na 390 px zostawia pauzę, Cancel w oknie działa (pokryte e2e w mobile-coarse: a double Pause, Cancel stays enabled right after Pause; sprawdzenie na fizycznym telefonie (iOS Safari) do potwierdzenia przez użytkownika, impl-review F3) — cc11ee1
 
 ### Phase 3: Fixtures, bramka wizualna i kontrakt
 
