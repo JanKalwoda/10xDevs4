@@ -1,10 +1,10 @@
 ---
 change_id: fix-double-tap-run-controls
 title: Double click or tap runs Restart and Pause twice
-status: impl_reviewed
+status: archived
 created: 2026-10-15
 updated: 2026-10-18
-archived_at: null
+archived_at: 2026-10-18T15:52:01Z
 ---
 
 ## Notes
