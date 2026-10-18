@@ -291,7 +291,7 @@ Model: Claude Sonnet 5.5
 
 - [x] 3.1 Lint przechodzi z kontraktem timer UI — 620e7ae
 - [x] 3.2 npm test i astro check przechodzą — 620e7ae
-- [x] 3.3 Prettier nie zmienia dokumentów (AGENTS.md nie przechodził Prettiera już w HEAD i pozostaje poza tą zmianą; CLAUDE.md i folder zmiany czyste) — 620e7ae
+- [x] 3.3 Prettier nie zmienia dokumentów (AGENTS.md nie przechodził Prettiera już w HEAD; hook pre-commit sformatował go w 620e7ae, sama zmiana formatowania; teraz CLAUDE.md, AGENTS.md i folder zmiany czyste) — 620e7ae
 
 #### Manual
 
