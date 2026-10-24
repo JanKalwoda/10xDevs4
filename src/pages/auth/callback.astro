@@ -7,7 +7,7 @@ import { EMAIL_LINK_RETRY_MESSAGE, emailLinkCallbackPageState, setEmailLinkPageS
 
 setEmailLinkPageSecurityHeaders(Astro.response.headers);
 const state = emailLinkCallbackPageState(Astro.url.href);
-const title = state.kind === "confirm" ? "Confirm your sign-in" : "Sign-in link unavailable";
+const title = state.kind === "confirm" ? "Confirm your sign-in" : state.kind === "unavailable" ? "Sign-in temporarily unavailable" : "Sign-in link unavailable";
 ---
 
 <Layout title={title} enableTimerTheme showConfigWarnings={false} showTopBar={false}>
@@ -19,6 +19,11 @@ const title = state.kind === "confirm" ? "Confirm your sign-in" : "Sign-in link 
                     <>
                         <h1 class="text-2xl font-semibold tracking-tight">Confirm your sign-in</h1>
                         <CardDescription>Continue to finish signing in to your account.</CardDescription>
+                    </>
+                ) : state.kind === "unavailable" ? (
+                    <>
+                        <h1 class="text-2xl font-semibold tracking-tight">Sign-in temporarily unavailable</h1>
+                        <CardDescription>{state.message}</CardDescription>
                     </>
                 ) : (
                     <>

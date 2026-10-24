@@ -1,7 +1,11 @@
 import { z } from "zod";
 
+import { classifyAuthError, reportAuthError, type AuthErrorReporter } from "./auth-errors.ts";
+
 export const EMAIL_LINK_MESSAGE = "If an account can use this email, a sign-in link will arrive shortly.";
 export const EMAIL_LINK_RETRY_MESSAGE = "This sign-in link is invalid or expired. Request a new link.";
+export const EMAIL_LINK_UNAVAILABLE_MESSAGE = "We couldn't send a sign-in link right now. Please try again in a moment.";
+export const EMAIL_LINK_UNAVAILABLE_RETRY_MESSAGE = "We couldn't confirm this link right now. Please try again in a moment.";
 export const EMAIL_LINK_PAGE_HEADERS = {
     "Cache-Control": "no-store",
     "Referrer-Policy": "no-referrer",
@@ -68,7 +72,8 @@ export const emailLinkCallbackSchema = z.object({
     next: safeNextPathSchema,
 });
 
-export type EmailLinkCallbackPageState = { kind: "confirm"; tokenHash: string; next: string } | { kind: "retry"; message: string; next: string };
+export type EmailLinkCallbackPageState =
+    { kind: "confirm"; tokenHash: string; next: string } | { kind: "retry"; message: string; next: string } | { kind: "unavailable"; message: string; next: string };
 
 export function setEmailLinkPageSecurityHeaders(headers: Headers): void {
     for (const [name, value] of Object.entries(EMAIL_LINK_PAGE_HEADERS)) {
@@ -81,6 +86,10 @@ export function emailLinkCallbackPageState(url: string): EmailLinkCallbackPageSt
         const callbackUrl = new URL(url);
         const requestedNext = callbackUrl.searchParams.get("next");
         const next = isSafeNextPath(requestedNext) ? requestedNext : DEFAULT_NEXT_PATH;
+
+        if (callbackUrl.searchParams.get("error") === "unavailable") {
+            return { kind: "unavailable", message: EMAIL_LINK_UNAVAILABLE_RETRY_MESSAGE, next };
+        }
 
         if (callbackUrl.searchParams.has("error") || (callbackUrl.searchParams.has("next") && !isSafeNextPath(requestedNext))) {
             return { kind: "retry", message: EMAIL_LINK_RETRY_MESSAGE, next };
@@ -157,9 +166,15 @@ export function buildEmailRedirectTo(requestUrl: string, next: string): string |
         return null;
     }
 }
-export type EmailLinkRequestResult = { ok: true; status: 200; message: string } | { ok: false; status: 400; message: string };
 
-export async function requestEmailLink(input: unknown, requestUrl: string, auth: Pick<EmailLinkAuthPort, "signInWithOtp"> | null): Promise<EmailLinkRequestResult> {
+export type EmailLinkRequestResult = { ok: true; status: 200; message: string } | { ok: false; status: 400 | 503; message: string };
+
+export async function requestEmailLink(
+    input: unknown,
+    requestUrl: string,
+    auth: Pick<EmailLinkAuthPort, "signInWithOtp"> | null,
+    report: AuthErrorReporter = reportAuthError,
+): Promise<EmailLinkRequestResult> {
     const parsed = emailLinkRequestSchema.safeParse(input);
     if (!parsed.success) {
         return { ok: false, status: 400, message: "Enter a valid email address." };
@@ -170,47 +185,70 @@ export async function requestEmailLink(input: unknown, requestUrl: string, auth:
         return { ok: false, status: 400, message: "Enter a valid email address." };
     }
 
-    if (auth) {
-        try {
-            await auth.signInWithOtp({
-                email: parsed.data.email,
-                options: {
-                    shouldCreateUser: true,
-                    emailRedirectTo,
-                },
-            });
-        } catch {
-            // Keep provider failures account-neutral; the response must not reveal account state.
-        }
+    // A missing client is reported once per isolate by the session middleware.
+    if (!auth) {
+        return { ok: false, status: 503, message: EMAIL_LINK_UNAVAILABLE_MESSAGE };
+    }
+
+    let error: unknown;
+    try {
+        ({ error } = await auth.signInWithOtp({
+            email: parsed.data.email,
+            options: {
+                shouldCreateUser: true,
+                emailRedirectTo,
+            },
+        }));
+    } catch (thrown) {
+        error = thrown ?? new Error("signInWithOtp threw");
+    }
+
+    // The answer depends on the class of the failure, never on the address or the provider's message.
+    if (classifyAuthError("sign_in", error).kind === "unavailable") {
+        report("sign_in", error);
+        return { ok: false, status: 503, message: EMAIL_LINK_UNAVAILABLE_MESSAGE };
     }
 
     return { ok: true, status: 200, message: EMAIL_LINK_MESSAGE };
 }
 
-export type EmailLinkVerificationResult = { ok: true; next: string } | { ok: false; next: string; message: string };
+export type EmailLinkVerificationResult = { ok: true; next: string } | { ok: false; reason: "invalid" | "unavailable"; next: string; message: string };
 
-export async function verifyEmailLink(input: unknown, auth: Pick<EmailLinkAuthPort, "verifyOtp"> | null): Promise<EmailLinkVerificationResult> {
+export async function verifyEmailLink(
+    input: unknown,
+    auth: Pick<EmailLinkAuthPort, "verifyOtp"> | null,
+    report: AuthErrorReporter = reportAuthError,
+): Promise<EmailLinkVerificationResult> {
     const parsed = emailLinkCallbackSchema.safeParse(input);
     if (!parsed.success) {
-        return { ok: false, next: DEFAULT_NEXT_PATH, message: EMAIL_LINK_RETRY_MESSAGE };
+        return { ok: false, reason: "invalid", next: DEFAULT_NEXT_PATH, message: EMAIL_LINK_RETRY_MESSAGE };
     }
+    const unavailable = { ok: false, reason: "unavailable", next: parsed.data.next, message: EMAIL_LINK_UNAVAILABLE_RETRY_MESSAGE } as const;
+    // A missing client is reported once per isolate by the session middleware.
     if (!auth) {
-        return { ok: false, next: parsed.data.next, message: EMAIL_LINK_RETRY_MESSAGE };
+        return unavailable;
     }
 
+    let error: unknown;
     try {
-        const { error } = await auth.verifyOtp({
+        ({ error } = await auth.verifyOtp({
             token_hash: parsed.data.token_hash,
             type: "email",
-        });
-        if (error) {
-            return { ok: false, next: parsed.data.next, message: EMAIL_LINK_RETRY_MESSAGE };
-        }
-    } catch {
-        return { ok: false, next: parsed.data.next, message: EMAIL_LINK_RETRY_MESSAGE };
+        }));
+    } catch (thrown) {
+        error = thrown ?? new Error("verifyOtp threw");
     }
 
-    return { ok: true, next: parsed.data.next };
+    switch (classifyAuthError("callback", error).kind) {
+        case "ok":
+            return { ok: true, next: parsed.data.next };
+        case "unavailable":
+            report("callback", error);
+            return unavailable;
+        default:
+            // An expired, reused or throttled link is an expected outcome of the visitor's token, not a fault.
+            return { ok: false, reason: "invalid", next: parsed.data.next, message: EMAIL_LINK_RETRY_MESSAGE };
+    }
 }
 
 function jsonResponse(body: unknown, status: number): Response {
@@ -220,7 +258,11 @@ function jsonResponse(body: unknown, status: number): Response {
     });
 }
 
-export async function handleEmailLinkRequest(request: Request, auth: Pick<EmailLinkAuthPort, "signInWithOtp"> | null): Promise<Response> {
+export async function handleEmailLinkRequest(
+    request: Request,
+    auth: Pick<EmailLinkAuthPort, "signInWithOtp"> | null,
+    report: AuthErrorReporter = reportAuthError,
+): Promise<Response> {
     let form: FormData;
     try {
         form = await request.formData();
@@ -235,6 +277,7 @@ export async function handleEmailLinkRequest(request: Request, auth: Pick<EmailL
         },
         request.url,
         auth,
+        report,
     );
 
     return jsonResponse({ ok: result.ok, message: result.message }, result.status);
@@ -250,7 +293,7 @@ function callbackRedirect(path: string): Response {
     });
 }
 
-export async function handleEmailLinkCallback(request: Request, auth: Pick<EmailLinkAuthPort, "verifyOtp"> | null): Promise<Response> {
+export async function handleEmailLinkCallback(request: Request, auth: Pick<EmailLinkAuthPort, "verifyOtp"> | null, report: AuthErrorReporter = reportAuthError): Promise<Response> {
     let form: FormData;
     try {
         form = await request.formData();
@@ -263,9 +306,9 @@ export async function handleEmailLinkCallback(request: Request, auth: Pick<Email
         type: form.get("type"),
         next: form.get("next") ?? undefined,
     };
-    const result = await verifyEmailLink(input, auth);
+    const result = await verifyEmailLink(input, auth, report);
     if (!result.ok) {
-        const query = new URLSearchParams({ error: "invalid", next: result.next });
+        const query = new URLSearchParams({ error: result.reason, next: result.next });
         return callbackRedirect("/auth/callback?" + query.toString());
     }
 

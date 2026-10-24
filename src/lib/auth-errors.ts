@@ -77,3 +77,23 @@ export const reportAuthError: AuthErrorReporter = (step, error) => {
         extra: message ? { message } : undefined,
     });
 };
+
+export interface SignOutAuth {
+    signOut(): Promise<{ error: unknown }>;
+}
+
+/** Signs the visitor out and reports a failure; the caller redirects either way, so a failed sign-out never shows an error page. */
+export async function handleSignOut(auth: SignOutAuth | null, report: AuthErrorReporter): Promise<void> {
+    if (!auth) return;
+
+    let error: unknown;
+    try {
+        ({ error } = await auth.signOut());
+    } catch (thrown) {
+        error = thrown ?? new Error("signOut threw");
+    }
+
+    if (classifyAuthError("sign_out", error).kind !== "ok") {
+        report("sign_out", error);
+    }
+}
