@@ -326,6 +326,8 @@ export async function readLimitedText(request: Request, maxBytes: number = MAX_R
 }
 
 export interface SaveDrillRequestContext {
+    // Supabase Auth is unreachable: userId is null too, but the visitor is not a guest, so this is checked before the 401.
+    authUnavailable?: boolean;
     userId: string | null;
     store: DrillConfigurationStore | null;
     log?: DrillSaveLogger;
@@ -365,6 +367,7 @@ async function readJsonRequest(request: Request): Promise<JsonRequest> {
 
 // The whole POST /api/drills pipeline, kept free of Astro and Supabase so it can be tested with plain Requests.
 export async function handleSaveDrillRequest(request: Request, context: SaveDrillRequestContext): Promise<Response> {
+    if (context.authUnavailable) return toResponse(failure("unavailable", SAVE_DRILL_MESSAGES.unavailable));
     if (context.userId === null) return toResponse(failure("unauthorized", SAVE_DRILL_MESSAGES.unauthorized));
     if (context.store === null) return toResponse(failure("unavailable", SAVE_DRILL_MESSAGES.unavailable));
 
@@ -427,6 +430,7 @@ export interface UpdateDrillRequestContext extends SaveDrillRequestContext {
 
 // The whole PUT /api/drills/{id} pipeline. Same order as POST, with the id guard before the body is read.
 export async function handleUpdateDrillRequest(request: Request, context: UpdateDrillRequestContext): Promise<Response> {
+    if (context.authUnavailable) return toResponse(failure("unavailable", SAVE_DRILL_MESSAGES.unavailable));
     if (context.userId === null) return toResponse(failure("unauthorized", SAVE_DRILL_MESSAGES.unauthorized));
     if (context.store === null) return toResponse(failure("unavailable", SAVE_DRILL_MESSAGES.unavailable));
     if (!isDrillId(context.id)) return toResponse(failure("not_found", SAVE_DRILL_MESSAGES.not_found));
@@ -465,6 +469,7 @@ export async function deleteDrillConfiguration(store: DrillConfigurationStore, u
 }
 
 export interface DeleteDrillRequestContext {
+    authUnavailable?: boolean;
     id: string;
     userId: string | null;
     store: DrillConfigurationStore | null;
@@ -474,6 +479,7 @@ export interface DeleteDrillRequestContext {
 // The whole DELETE /api/drills/{id} pipeline: same order as PUT (401, 503, 404 for a bad id). There is no body to read or type.
 // Success is a bodiless 204 built here: toResponse is Response.json, which throws for a null-body status.
 export async function handleDeleteDrillRequest(_request: Request, context: DeleteDrillRequestContext): Promise<Response> {
+    if (context.authUnavailable) return toResponse(failure("unavailable", SAVE_DRILL_MESSAGES.unavailable));
     if (context.userId === null) return toResponse(failure("unauthorized", SAVE_DRILL_MESSAGES.unauthorized));
     if (context.store === null) return toResponse(failure("unavailable", SAVE_DRILL_MESSAGES.unavailable));
     if (!isDrillId(context.id)) return toResponse(failure("not_found", SAVE_DRILL_MESSAGES.not_found));

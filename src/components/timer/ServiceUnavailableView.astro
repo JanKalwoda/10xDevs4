@@ -1,0 +1,25 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { buttonVariants } from "@/components/ui/button";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { cn } from "@/lib/utils";
+
+// Shown instead of a protected page while Supabase Auth is unreachable: the visitor is not signed out, the service is down.
+---
+
+<Layout title="Service temporarily unavailable" enableTimerTheme showConfigWarnings={false}>
+    <meta name="robots" content="noindex" slot="head" />
+    <main class="bg-background text-foreground flex flex-1 items-center justify-center px-4 py-8">
+        <Card className="w-full max-w-md">
+            <CardHeader>
+                <h1 class="text-center text-3xl font-bold">Service temporarily unavailable</h1>
+            </CardHeader>
+            <CardContent className="space-y-5">
+                <p class="text-muted-foreground text-center text-sm">Sign-in is temporarily unavailable. Please try again in a moment.</p>
+                <a href="/" class:list={[cn(buttonVariants({ variant: "link" }), "w-full")]}>
+                    Back to the timer
+                </a>
+            </CardContent>
+        </Card>
+    </main>
+</Layout>

@@ -3,6 +3,8 @@ import { env } from "cloudflare:workers";
 import * as Sentry from "@sentry/cloudflare";
 import { wrapRequestHandler } from "@sentry/cloudflare/request";
 
+import { reportAuthError } from "@/lib/auth-errors";
+import { resolveSession } from "@/lib/auth-session";
 import { withPrivateNoStoreForHtml } from "@/lib/html-cache-control";
 import { buildSentryServerOptions } from "@/lib/sentry-server-options";
 import { createClient } from "@/lib/supabase";
@@ -24,16 +26,15 @@ export const onRequest = defineMiddleware((context, next) =>
 
             context.locals.supabase = supabase;
 
-            if (supabase) {
-                const {
-                    data: { user },
-                } = await supabase.auth.getUser();
-                context.locals.user = user ?? null;
-            } else {
-                context.locals.user = null;
-            }
+            const session = await resolveSession(supabase?.auth ?? null, reportAuthError);
+
+            context.locals.user = session.kind === "user" ? session.user : null;
+            context.locals.authUnavailable = session.kind === "unavailable";
 
             if (isProtectedPath(context.url.pathname)) {
+                // An outage is not a sign-out: do not send the visitor to sign-in, say the service is down.
+                if (context.locals.authUnavailable) return withPrivateNoStoreForHtml(await next("/service-unavailable"));
+
                 if (!context.locals.user) {
                     const requestedPath = context.url.pathname + context.url.search;
                     return guestRedirectResponse(requestedPath);

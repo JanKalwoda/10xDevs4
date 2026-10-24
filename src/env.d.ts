@@ -13,6 +13,7 @@ interface ImportMetaEnv {
 declare namespace App {
     interface Locals {
         user: import("@supabase/supabase-js").User | null;
+        authUnavailable: boolean;
         supabase: import("@supabase/supabase-js").SupabaseClient | null;
     }
 }

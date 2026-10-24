@@ -123,6 +123,7 @@ export default defineConfig(
             "src/pages/[[]id[]].astro",
             "src/pages/[[]id[]]/edit.astro",
             "src/pages/404.astro",
+            "src/pages/service-unavailable.astro",
             "src/pages/dev/timer-ui.astro",
             "src/components/ui/{input,input-group,label,checkbox,card,alert,alert-dialog,tooltip}.tsx",
         ],
