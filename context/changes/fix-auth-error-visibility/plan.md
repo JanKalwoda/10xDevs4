@@ -432,9 +432,9 @@ Brak zmian w bazie. Wdrożenie przez standardowy merge do `main`. Wycofanie prze
 
 #### Automated
 
-- [ ] 2.1 Testy `auth-errors.test.ts` (klasyfikacja i bezpieczne pola) były czerwone przed implementacją i są zielone po niej: `npm test`
-- [ ] 2.2 Lint przechodzi: `npm run lint`
-- [ ] 2.3 Typy przechodzą: `npx astro check`
+- [x] 2.1 Testy `auth-errors.test.ts` (klasyfikacja i bezpieczne pola) były czerwone przed implementacją i są zielone po niej: `npm test` — 24b390a (claude-sonnet-5-5)
+- [x] 2.2 Lint przechodzi: `npm run lint` — 24b390a (claude-sonnet-5-5)
+- [x] 2.3 Typy przechodzą: `npx astro check` — 24b390a (claude-sonnet-5-5)
 
 ### Phase 3: Stan sesji `unavailable`
 
