@@ -113,3 +113,12 @@ test("a malformed id is a plain 404 for a guest, identical on the page and the e
     assert.equal(page.location, null);
     assert.deepEqual(edit, page);
 });
+
+test("/service-unavailable without an outage is the same 404 as an unknown path", async () => {
+    const page = await guest.snapshot("/service-unavailable");
+    const unknown = await guest.snapshot("/not-a-uuid");
+
+    assert.equal(page.status, 404);
+    assert.equal(page.location, null);
+    assert.deepEqual(page, unknown);
+});

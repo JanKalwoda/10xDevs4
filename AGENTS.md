@@ -157,6 +157,7 @@ All pages are server-rendered by default. API routes must export `const prerende
 - API endpoints: `src/pages/api/auth/{signin,signup,signout}.ts`
 - Auth pages: `src/pages/auth/{signin,signup,confirm-email}.astro`
 - Protected page example: `src/pages/timers.astro`
+- Auth errors: classify every Supabase Auth `error` with `classifyAuthError(step, error)` (`src/lib/auth-errors.ts`) and report outages through the injected `AuthErrorReporter` (`reportAuthError`: only `auth.step`, error class, `status` and `code`, never an email, token or session). A guest and an expired link are expected and never reported. The `authUnavailable` state (`locals.authUnavailable`, set by `resolveSession` in `src/lib/auth-session.ts`) gives 503 on protected pages (rewrite to `/service-unavailable`) and in `/api/drills*`, never a redirect or 401. Server Sentry events carry no request bodies (`src/lib/sentry-server-options.ts`).
 
 ### Key conventions
 

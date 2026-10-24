@@ -186,7 +186,7 @@ void test("a throwing store and a malformed reply are unexpected", async () => {
 void test("handler order: 401, then 503, then 404 for a bad id, then 415, 413, 400 (store untouched until valid)", async () => {
     const calls: Call[] = [];
     const store = storeReturning({ data: updatedRow, error: null }, calls);
-    const context = { id: ID, userId: USER_ID, store };
+    const context = { authUnavailable: false, id: ID, userId: USER_ID, store };
 
     const anonymous = await handleUpdateDrillRequest(putRequest(validRequest), { ...context, userId: null });
     const noStore = await handleUpdateDrillRequest(putRequest(validRequest), { ...context, store: null });
@@ -210,7 +210,7 @@ void test("handler order: 401, then 503, then 404 for a bad id, then 415, 413, 4
 
 void test("CSRF assumption: only JSON is accepted; text/plain and form bodies are 415 without a store call", async () => {
     const calls: Call[] = [];
-    const context = { id: ID, userId: USER_ID, store: storeReturning({ data: updatedRow, error: null }, calls) };
+    const context = { authUnavailable: false, id: ID, userId: USER_ID, store: storeReturning({ data: updatedRow, error: null }, calls) };
     const body = JSON.stringify(validRequest);
 
     for (const contentType of ["text/plain", "text/plain;charset=UTF-8", "application/x-www-form-urlencoded", "multipart/form-data; boundary=x", "application/jsonp", ""]) {
@@ -227,7 +227,12 @@ void test("CSRF assumption: only JSON is accepted; text/plain and form bodies ar
 
 void test("a foreign row, a missing row and a non-UUID give byte-identical responses through the handler", async () => {
     const run = async (id: string) => {
-        const response = await handleUpdateDrillRequest(putRequest(validRequest), { id, userId: USER_ID, store: storeReturning({ data: null, error: null }) });
+        const response = await handleUpdateDrillRequest(putRequest(validRequest), {
+            authUnavailable: false,
+            id,
+            userId: USER_ID,
+            store: storeReturning({ data: null, error: null }),
+        });
         return { status: response.status, body: await response.text(), cache: response.headers.get("cache-control"), type: response.headers.get("content-type") };
     };
     const foreign = await run(ID);
@@ -241,7 +246,12 @@ void test("a foreign row, a missing row and a non-UUID give byte-identical respo
 });
 
 void test("the success body is the saved drill and is never cached", async () => {
-    const response = await handleUpdateDrillRequest(putRequest(validRequest), { id: ID, userId: USER_ID, store: storeReturning({ data: updatedRow, error: null }) });
+    const response = await handleUpdateDrillRequest(putRequest(validRequest), {
+        authUnavailable: false,
+        id: ID,
+        userId: USER_ID,
+        store: storeReturning({ data: updatedRow, error: null }),
+    });
     const body = (await response.json()) as SaveDrillResponse;
 
     assert.equal(response.status, 200);

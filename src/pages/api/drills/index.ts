@@ -8,6 +8,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
     // Reuse the client the middleware created: a second client would read the stale request cookies
     // and could refresh the session token twice.
     return handleSaveDrillRequest(request, {
+        authUnavailable: locals.authUnavailable,
         userId: locals.user?.id ?? null,
         store: locals.supabase ? createSupabaseDrillStore(locals.supabase) : null,
     });

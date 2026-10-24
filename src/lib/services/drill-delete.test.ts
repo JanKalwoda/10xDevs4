@@ -34,7 +34,7 @@ const noRow: DeleteResult = { data: null, error: null };
 
 void test("an own timer is deleted: 204, empty body, no-store, and the store gets the lower-cased id and the user", async () => {
     const calls: Call[] = [];
-    const response = await handleDeleteDrillRequest(deleteRequest(), { id: ID.toUpperCase(), userId: USER_ID, store: storeReturning(deleted, calls) });
+    const response = await handleDeleteDrillRequest(deleteRequest(), { authUnavailable: false, id: ID.toUpperCase(), userId: USER_ID, store: storeReturning(deleted, calls) });
 
     assert.equal(response.status, 204);
     assert.equal(await response.text(), "");
@@ -45,8 +45,18 @@ void test("an own timer is deleted: 204, empty body, no-store, and the store get
 void test("a request body or a text/plain content type on DELETE is ignored", async () => {
     const calls: Call[] = [];
     const store = storeReturning(deleted, calls);
-    const withBody = await handleDeleteDrillRequest(deleteRequest({ headers: { "content-type": "text/plain" }, body: "whatever" }), { id: ID, userId: USER_ID, store });
-    const withJson = await handleDeleteDrillRequest(deleteRequest({ headers: { "content-type": "application/json" }, body: "{not json" }), { id: ID, userId: USER_ID, store });
+    const withBody = await handleDeleteDrillRequest(deleteRequest({ headers: { "content-type": "text/plain" }, body: "whatever" }), {
+        authUnavailable: false,
+        id: ID,
+        userId: USER_ID,
+        store,
+    });
+    const withJson = await handleDeleteDrillRequest(deleteRequest({ headers: { "content-type": "application/json" }, body: "{not json" }), {
+        authUnavailable: false,
+        id: ID,
+        userId: USER_ID,
+        store,
+    });
 
     assert.equal(withBody.status, 204);
     assert.equal(withJson.status, 204);
@@ -55,7 +65,7 @@ void test("a request body or a text/plain content type on DELETE is ignored", as
 
 void test("foreign, missing, already deleted and non-UUID ids give the same bytes: status, body, cache-control, content-type", async () => {
     const calls: Call[] = [];
-    const context = { userId: USER_ID, store: storeReturning(noRow, calls) };
+    const context = { authUnavailable: false, userId: USER_ID, store: storeReturning(noRow, calls) };
 
     const foreign = await handleDeleteDrillRequest(deleteRequest(), { ...context, id: OTHER_ID });
     const second = await handleDeleteDrillRequest(deleteRequest(), { ...context, id: ID });
@@ -84,7 +94,7 @@ void test("foreign, missing, already deleted and non-UUID ids give the same byte
 
 void test("handler order: 401, then 503, then 404 for a bad id (store untouched)", async () => {
     const calls: Call[] = [];
-    const context = { id: ID, userId: USER_ID, store: storeReturning(deleted, calls) };
+    const context = { authUnavailable: false, id: ID, userId: USER_ID, store: storeReturning(deleted, calls) };
 
     const anonymous = await handleDeleteDrillRequest(deleteRequest(), { ...context, userId: null });
     const anonymousBadId = await handleDeleteDrillRequest(deleteRequest(), { ...context, id: "nope", userId: null });
@@ -118,7 +128,7 @@ void test("a double delete: the first answers 204, the second (zero rows) 404", 
             return Promise.resolve(result);
         },
     };
-    const context = { id: ID, userId: USER_ID, store };
+    const context = { authUnavailable: false, id: ID, userId: USER_ID, store };
 
     assert.equal((await handleDeleteDrillRequest(deleteRequest(), context)).status, 204);
     assert.equal((await handleDeleteDrillRequest(deleteRequest(), context)).status, 404);
@@ -151,7 +161,7 @@ void test("store errors: outage 503, expired session 401, anything else 500, onl
 void test("a throwing store is unexpected (500) and only the marker is logged", async () => {
     const logged: string[] = [];
     const store: DrillConfigurationStore = { ...storeReturning(noRow), delete: () => Promise.reject(new Error("network down")) };
-    const response = await handleDeleteDrillRequest(deleteRequest(), { id: ID, userId: USER_ID, store, log: (code) => logged.push(code) });
+    const response = await handleDeleteDrillRequest(deleteRequest(), { authUnavailable: false, id: ID, userId: USER_ID, store, log: (code) => logged.push(code) });
 
     assert.equal(response.status, 500);
     assert.deepEqual(logged, ["store_exception"]);

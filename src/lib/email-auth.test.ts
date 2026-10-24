@@ -3,10 +3,15 @@ import { readFile } from "node:fs/promises";
 import test from "node:test";
 import { inspect } from "node:util";
 
+import { AuthApiError, AuthRetryableFetchError } from "@supabase/supabase-js";
+
+import type { AuthStep } from "./auth-errors.ts";
 import {
     EMAIL_LINK_PAGE_HEADERS,
     EMAIL_LINK_MESSAGE,
     EMAIL_LINK_RETRY_MESSAGE,
+    EMAIL_LINK_UNAVAILABLE_MESSAGE,
+    EMAIL_LINK_UNAVAILABLE_RETRY_MESSAGE,
     buildEmailRedirectTo,
     emailLinkCallbackPageState,
     emailLinkCallbackSchema,
@@ -27,6 +32,19 @@ const callbackInput = {
     type: "email",
     next: "/dashboard?tab=drill",
 };
+
+function recordingReporter() {
+    const reports: { step: AuthStep; error: unknown }[] = [];
+    return {
+        reports,
+        report: (step: AuthStep, error: unknown) => {
+            reports.push({ step, error });
+        },
+    };
+}
+
+const SIGN_IN_URL = "https://drill.example/api/auth/signin";
+const outage = () => new AuthRetryableFetchError("fetch failed", 0);
 
 function createFormRequest(url: string, values: Record<string, string>): Request {
     const form = new FormData();
@@ -145,27 +163,105 @@ void test("new and existing account requests have the same neutral response and 
     }
 });
 
-void test("provider errors and unavailable auth remain account-neutral", async () => {
-    const providerError = await requestEmailLink({ email: "person@example.com" }, "https://drill.example/api/auth/signin", {
-        signInWithOtp: () => Promise.resolve({ error: new Error("provider detail") }),
-    });
-    const thrownError = await requestEmailLink({ email: "person@example.com" }, "https://drill.example/api/auth/signin", {
-        signInWithOtp: () => Promise.reject(new Error("provider detail")),
-    });
-    const unavailable = await requestEmailLink({ email: "person@example.com" }, "https://drill.example/api/auth/signin", null);
+void test("provider outage, configuration fault and missing auth answer 503 with one message and a report", async () => {
+    const { reports, report } = recordingReporter();
+    const retryable = await requestEmailLink({ email: "person@example.com" }, SIGN_IN_URL, { signInWithOtp: () => Promise.resolve({ error: outage() }) }, report);
+    const providerDisabled = await requestEmailLink(
+        { email: "person@example.com" },
+        SIGN_IN_URL,
+        { signInWithOtp: () => Promise.resolve({ error: new AuthApiError("detail for person@example.com", 422, "email_provider_disabled") }) },
+        report,
+    );
+    const thrown = await requestEmailLink({ email: "person@example.com" }, SIGN_IN_URL, { signInWithOtp: () => Promise.reject(new Error("provider detail")) }, report);
+    const unavailable = await requestEmailLink({ email: "person@example.com" }, SIGN_IN_URL, null, report);
 
-    assert.deepEqual(providerError, { ok: true, status: 200, message: EMAIL_LINK_MESSAGE });
-    assert.deepEqual(thrownError, providerError);
-    assert.deepEqual(unavailable, providerError);
+    const expected = { ok: false, status: 503, message: EMAIL_LINK_UNAVAILABLE_MESSAGE };
+    assert.deepEqual(retryable, expected);
+    assert.deepEqual(providerDisabled, expected);
+    assert.deepEqual(thrown, expected);
+    assert.deepEqual(unavailable, expected);
+    assert.equal(EMAIL_LINK_UNAVAILABLE_MESSAGE, "We couldn't send a sign-in link right now. Please try again in a moment.");
+    // The missing client is reported once per isolate by the session middleware, so it is not reported here.
+    assert.deepEqual(
+        reports.map(({ step }) => step),
+        ["sign_in", "sign_in", "sign_in"],
+    );
 });
 
-void test("request POST adapter returns a neutral response without account details", async () => {
-    const request = createFormRequest("https://drill.example/api/auth/signin", {
+void test("an address-dependent provider rejection stays a neutral 200 for every address and is reported", async () => {
+    const { reports, report } = recordingReporter();
+    const results = await Promise.all(
+        ["new@example.com", "blocked@example.com"].map((email) =>
+            requestEmailLink(
+                { email },
+                SIGN_IN_URL,
+                { signInWithOtp: () => Promise.resolve({ error: new AuthApiError(`detail for ${email}`, 422, "email_address_not_authorized") }) },
+                report,
+            ),
+        ),
+    );
+
+    for (const result of results) {
+        assert.deepEqual(result, { ok: true, status: 200, message: EMAIL_LINK_MESSAGE });
+    }
+    assert.deepEqual(
+        reports.map(({ step }) => step),
+        ["sign_in", "sign_in"],
+    );
+});
+
+void test("an outage gives a new and an existing account the same response", async () => {
+    const { report } = recordingReporter();
+    const responses = await Promise.all(
+        ["new@example.com", "existing@example.com"].map((email) => requestEmailLink({ email }, SIGN_IN_URL, { signInWithOtp: () => Promise.resolve({ error: outage() }) }, report)),
+    );
+
+    assert.deepEqual(responses[0], responses[1]);
+    assert.equal(responses[0]?.status, 503);
+});
+
+void test("throttling and invalid-address outcomes stay neutral and are not reported", async () => {
+    const { reports, report } = recordingReporter();
+    const errors = [
+        new AuthApiError("slow down", 429, undefined),
+        new AuthApiError("too many", 429, "over_email_send_rate_limit"),
+        new AuthApiError("bad", 400, "email_address_invalid"),
+        new AuthApiError("bad", 422, "validation_failed"),
+    ];
+
+    for (const error of errors) {
+        const result = await requestEmailLink({ email: "person@example.com" }, SIGN_IN_URL, { signInWithOtp: () => Promise.resolve({ error }) }, report);
+        assert.deepEqual(result, { ok: true, status: 200, message: EMAIL_LINK_MESSAGE });
+    }
+    assert.deepEqual(reports, []);
+});
+
+void test("request POST adapter returns 503 without provider details on an outage", async () => {
+    const { reports, report } = recordingReporter();
+    const post = (email: string) =>
+        handleEmailLinkRequest(
+            createFormRequest(SIGN_IN_URL, { email, next: "/dashboard" }),
+            { signInWithOtp: () => Promise.resolve({ error: new AuthRetryableFetchError("fetch failed for " + email, 0) }) },
+            report,
+        );
+    const first = await post("one@example.com");
+    const second = await post("two@example.com");
+
+    assert.equal(first.status, 503);
+    assert.deepEqual(await first.json(), { ok: false, message: EMAIL_LINK_UNAVAILABLE_MESSAGE });
+    assert.deepEqual(await second.json(), { ok: false, message: EMAIL_LINK_UNAVAILABLE_MESSAGE });
+    assert.equal(first.headers.get("cache-control"), "no-store");
+    assert.equal(first.headers.get("referrer-policy"), "no-referrer");
+    assert.equal(reports.length, 2);
+});
+
+void test("request POST adapter keeps the neutral 200 for an expected provider outcome", async () => {
+    const request = createFormRequest(SIGN_IN_URL, {
         email: "person@example.com",
         next: "/dashboard",
     });
     const response = await handleEmailLinkRequest(request, {
-        signInWithOtp: () => Promise.resolve({ error: new Error("account-specific provider detail") }),
+        signInWithOtp: () => Promise.resolve({ error: new AuthApiError("account-specific provider detail", 429, undefined) }),
     });
 
     assert.equal(response.status, 200);
@@ -212,7 +308,7 @@ void test("explicit callback POST delegates only the email token contract and re
 void test("invalid, expired, and reused callback tokens share a neutral retry response", async () => {
     const retryPost = () =>
         handleEmailLinkCallback(createFormRequest("https://drill.example/api/auth/callback", callbackInput), {
-            verifyOtp: () => Promise.resolve({ error: new Error("expired or already used") }),
+            verifyOtp: () => Promise.resolve({ error: new AuthApiError("expired or already used", 403, "otp_expired") }),
         });
     const first = await retryPost();
     const reused = await retryPost();
@@ -241,10 +337,9 @@ void test("invalid, expired, and reused callback tokens share a neutral retry re
     assert.equal(EMAIL_LINK_RETRY_MESSAGE, "This sign-in link is invalid or expired. Request a new link.");
 });
 
-void test("callback verifier normalizes thrown and malformed-token failures", async () => {
-    const thrown = await verifyEmailLink(callbackInput, {
-        verifyOtp: () => Promise.reject(new Error("sensitive provider detail")),
-    });
+void test("callback verifier normalizes malformed tokens and answers an outage as unavailable", async () => {
+    const { reports, report } = recordingReporter();
+    const thrown = await verifyEmailLink(callbackInput, { verifyOtp: () => Promise.reject(new Error("sensitive provider detail")) }, report);
     const malformed = await verifyEmailLink(
         { ...callbackInput, token_hash: "" },
         {
@@ -252,18 +347,60 @@ void test("callback verifier normalizes thrown and malformed-token failures", as
                 assert.fail("invalid input must not reach Supabase");
             },
         },
+        report,
+    );
+    const noAuth = await verifyEmailLink(callbackInput, null, report);
+
+    assert.deepEqual(thrown, { ok: false, reason: "unavailable", next: "/dashboard?tab=drill", message: EMAIL_LINK_UNAVAILABLE_RETRY_MESSAGE });
+    assert.deepEqual(noAuth, thrown);
+    assert.deepEqual(malformed, { ok: false, reason: "invalid", next: "/timers", message: EMAIL_LINK_RETRY_MESSAGE });
+    assert.equal(EMAIL_LINK_UNAVAILABLE_RETRY_MESSAGE, "We couldn't confirm this link right now. Please try again in a moment.");
+    // The missing client is reported once per isolate by the session middleware.
+    assert.deepEqual(
+        reports.map(({ step }) => step),
+        ["callback"],
+    );
+});
+
+void test("callback POST redirects an outage to error=unavailable and reports it without the token", async () => {
+    const { reports, report } = recordingReporter();
+    const response = await handleEmailLinkCallback(
+        createFormRequest("https://drill.example/api/auth/callback", callbackInput),
+        { verifyOtp: () => Promise.resolve({ error: outage() }) },
+        report,
     );
 
-    assert.deepEqual(thrown, {
-        ok: false,
-        next: "/dashboard?tab=drill",
-        message: EMAIL_LINK_RETRY_MESSAGE,
-    });
-    assert.deepEqual(malformed, {
-        ok: false,
-        next: "/timers",
-        message: EMAIL_LINK_RETRY_MESSAGE,
-    });
+    assert.equal(response.status, 303);
+    assert.equal(response.headers.get("location"), "/auth/callback?error=unavailable&next=%2Fdashboard%3Ftab%3Ddrill");
+    assert.equal(response.headers.get("location")?.includes("valid-token-hash"), false);
+    assert.deepEqual(
+        reports.map(({ step }) => step),
+        ["callback"],
+    );
+});
+
+void test("an expired or throttled callback link is invalid and is not reported", async () => {
+    const { reports, report } = recordingReporter();
+    for (const error of [new AuthApiError("expired", 403, "otp_expired"), new AuthApiError("slow down", 429, undefined)]) {
+        const response = await handleEmailLinkCallback(
+            createFormRequest("https://drill.example/api/auth/callback", callbackInput),
+            { verifyOtp: () => Promise.resolve({ error }) },
+            report,
+        );
+        assert.equal(response.headers.get("location"), "/auth/callback?error=invalid&next=%2Fdashboard%3Ftab%3Ddrill");
+    }
+    assert.deepEqual(reports, []);
+});
+
+void test("callback page state recognizes error=unavailable and keeps next safe", () => {
+    const state = emailLinkCallbackPageState("https://drill.example/auth/callback?error=unavailable&next=%2Ftimers");
+    assert.deepEqual(state, { kind: "unavailable", message: EMAIL_LINK_UNAVAILABLE_RETRY_MESSAGE, next: "/timers" });
+
+    const unsafe = emailLinkCallbackPageState("https://drill.example/auth/callback?error=unavailable&next=%2F%2Fevil.example");
+    assert.deepEqual(unsafe, { kind: "unavailable", message: EMAIL_LINK_UNAVAILABLE_RETRY_MESSAGE, next: "/timers" });
+
+    const invalid = emailLinkCallbackPageState("https://drill.example/auth/callback?error=invalid&next=%2Ftimers");
+    assert.equal(invalid.kind, "retry");
 });
 
 void test("callback GET prepares safe confirmation values and leaves verification to POST", async () => {

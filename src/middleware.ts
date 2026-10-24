@@ -3,28 +3,20 @@ import { env } from "cloudflare:workers";
 import * as Sentry from "@sentry/cloudflare";
 import { wrapRequestHandler } from "@sentry/cloudflare/request";
 
+import { reportAuthError } from "@/lib/auth-errors";
+import { resolveSession } from "@/lib/auth-session";
 import { withPrivateNoStoreForHtml } from "@/lib/html-cache-control";
+import { buildSentryServerOptions } from "@/lib/sentry-server-options";
 import { createClient } from "@/lib/supabase";
 import { guestRedirectResponse, isProtectedPath } from "@/lib/protected-routes";
 
 // wrapRequestHandler (unlike withSentry) does not install an async context strategy, so install it once at module load.
 Sentry.setAsyncLocalStorageAsyncContextStrategy();
 
-type SentryOptions = Parameters<typeof wrapRequestHandler>[0]["options"];
-
-const baseSentryOptions: SentryOptions = {
-    // An empty or missing DSN disables Sentry (CI overrides it with an empty value in .dev.vars).
+const sentryOptions = buildSentryServerOptions({
     dsn: env.PUBLIC_SENTRY_DSN,
     release: env.CF_VERSION_METADATA?.id,
-};
-
-const sentryOptions: SentryOptions = {
-    ...baseSentryOptions,
-    // nodejs_compat is enabled, so take the full default set instead of the reduced one.
-    defaultIntegrations: Sentry.getDefaultIntegrations(baseSentryOptions),
-    // Forward console.warn / console.error to Sentry as events.
-    integrations: (defaults) => [...defaults, Sentry.captureConsoleIntegration({ levels: ["warn", "error"] })],
-};
+});
 
 export const onRequest = defineMiddleware((context, next) =>
     // A separate scope per request, so events never mix between requests.
@@ -34,16 +26,15 @@ export const onRequest = defineMiddleware((context, next) =>
 
             context.locals.supabase = supabase;
 
-            if (supabase) {
-                const {
-                    data: { user },
-                } = await supabase.auth.getUser();
-                context.locals.user = user ?? null;
-            } else {
-                context.locals.user = null;
-            }
+            const session = await resolveSession(supabase?.auth ?? null, reportAuthError);
+
+            context.locals.user = session.kind === "user" ? session.user : null;
+            context.locals.authUnavailable = session.kind === "unavailable";
 
             if (isProtectedPath(context.url.pathname)) {
+                // An outage is not a sign-out: do not send the visitor to sign-in, say the service is down.
+                if (context.locals.authUnavailable) return withPrivateNoStoreForHtml(await next("/service-unavailable"));
+
                 if (!context.locals.user) {
                     const requestedPath = context.url.pathname + context.url.search;
                     return guestRedirectResponse(requestedPath);

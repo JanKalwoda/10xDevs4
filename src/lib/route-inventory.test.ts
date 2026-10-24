@@ -10,7 +10,7 @@ import { isProtectedPath } from "./protected-routes.ts";
 // a new page file fails here until someone decides whether it is public or protected.
 const SAMPLE_ID = "0b1c2d3e-4f50-4a6b-8c7d-9e0f1a2b3c4d";
 
-const PUBLIC_PAGES = ["/", "/404", "/auth/signin", "/auth/signup", "/auth/confirm-email", "/auth/callback", "/dev/timer-ui"];
+const PUBLIC_PAGES = ["/", "/404", "/service-unavailable", "/auth/signin", "/auth/signup", "/auth/confirm-email", "/auth/callback", "/dev/timer-ui"];
 const PUBLIC_API = ["/api/auth/callback", "/api/auth/signin", "/api/auth/signout", "/api/auth/signup"];
 // These answer 401 themselves when there is no session; the middleware does not guard them.
 const SELF_GUARDED_API = ["/api/drills", "/api/drills/" + SAMPLE_ID];

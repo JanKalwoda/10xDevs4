@@ -10,7 +10,9 @@ import {
     MAX_SAVED_DRILLS,
     SAVE_DRILL_MESSAGES,
     classifyStoreError,
+    handleDeleteDrillRequest,
     handleSaveDrillRequest,
+    handleUpdateDrillRequest,
     isJsonMediaType,
     normalizeDrillName,
     readLimitedText,
@@ -351,19 +353,41 @@ void test("the body reader accepts the cap and rejects one byte more, declared o
 
 void test("the handler answers 401 before anything else and 503 without a store", async () => {
     const store = storeReturning({ data: storedRow, error: null });
-    const anonymous = await handleSaveDrillRequest(jsonRequest(validRequest), { userId: null, store });
+    const anonymous = await handleSaveDrillRequest(jsonRequest(validRequest), { authUnavailable: false, userId: null, store });
     assert.equal(anonymous.status, 401);
     assert.deepEqual(await bodyOf(anonymous), { ok: false, code: "unauthorized", message: "Sign in to save a timer." });
     assert.equal(anonymous.headers.get("cache-control"), "no-store");
 
-    const noStore = await handleSaveDrillRequest(jsonRequest(validRequest), { userId: USER_ID, store: null });
+    const noStore = await handleSaveDrillRequest(jsonRequest(validRequest), { authUnavailable: false, userId: USER_ID, store: null });
     assert.equal(noStore.status, 503);
     assert.equal((await bodyOf(noStore)).ok, false);
 });
 
+void test("an unavailable auth is a 503 before the 401 on POST, PUT and DELETE", async () => {
+    const store = storeReturning({ data: storedRow, error: null });
+    const id = storedRow.id;
+    const calls = [
+        (authUnavailable: boolean) => handleSaveDrillRequest(jsonRequest(validRequest), { userId: null, store, authUnavailable }),
+        (authUnavailable: boolean) => handleUpdateDrillRequest(jsonRequest(validRequest), { id, userId: null, store, authUnavailable }),
+        (authUnavailable: boolean) =>
+            handleDeleteDrillRequest(new Request("http://localhost/api/drills/" + id, { method: "DELETE" }), { id, userId: null, store, authUnavailable }),
+    ];
+
+    for (const call of calls) {
+        const outage = await call(true);
+        assert.equal(outage.status, 503);
+        assert.deepEqual(await bodyOf(outage), { ok: false, code: "unavailable", message: SAVE_DRILL_MESSAGES.unavailable });
+        assert.equal(outage.headers.get("cache-control"), "no-store");
+
+        const guest = await call(false);
+        assert.equal(guest.status, 401);
+        assert.equal((await bodyOf(guest)).ok, false);
+    }
+});
+
 void test("the handler maps media type, size, JSON and validation failures", async () => {
     const inserted: DrillConfigurationInsert[] = [];
-    const context = { userId: USER_ID, store: storeReturning({ data: storedRow, error: null }, inserted) };
+    const context = { authUnavailable: false, userId: USER_ID, store: storeReturning({ data: storedRow, error: null }, inserted) };
 
     const textPlain = await handleSaveDrillRequest(jsonRequest(validRequest, { "content-type": "text/plain" }), context);
     assert.equal(textPlain.status, 415);
@@ -393,6 +417,7 @@ void test("the handler maps media type, size, JSON and validation failures", asy
 void test("the handler accepts a charset parameter and returns 201 with the DTO", async () => {
     const inserted: DrillConfigurationInsert[] = [];
     const response = await handleSaveDrillRequest(jsonRequest(validRequest, { "content-type": "application/json; charset=utf-8" }), {
+        authUnavailable: false,
         userId: USER_ID,
         store: storeReturning({ data: storedRow, error: null }, inserted),
     });

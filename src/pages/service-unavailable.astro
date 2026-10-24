@@ -1,0 +1,16 @@
+---
+import NotFoundView from "@/components/timer/NotFoundView.astro";
+import ServiceUnavailableView from "@/components/timer/ServiceUnavailableView.astro";
+
+export const prerender = false;
+
+// Rendered by the middleware as a rewrite of a protected page. Without an outage it is an ordinary 404,
+// so the page never announces a failure that is not happening.
+const unavailable = Astro.locals.authUnavailable;
+
+Astro.response.status = unavailable ? 503 : 404;
+Astro.response.headers.set("Cache-Control", "private, no-store");
+if (unavailable) Astro.response.headers.set("Retry-After", "30");
+---
+
+{unavailable ? <ServiceUnavailableView /> : <NotFoundView />}

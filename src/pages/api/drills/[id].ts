@@ -8,6 +8,7 @@ export const PUT: APIRoute = async ({ request, locals, params }) => {
     // Same client reuse as POST /api/drills: the middleware already resolved the session for this request.
     return handleUpdateDrillRequest(request, {
         id: params.id ?? "",
+        authUnavailable: locals.authUnavailable,
         userId: locals.user?.id ?? null,
         store: locals.supabase ? createSupabaseDrillStore(locals.supabase) : null,
     });
@@ -16,6 +17,7 @@ export const PUT: APIRoute = async ({ request, locals, params }) => {
 export const DELETE: APIRoute = async ({ request, locals, params }) => {
     return handleDeleteDrillRequest(request, {
         id: params.id ?? "",
+        authUnavailable: locals.authUnavailable,
         userId: locals.user?.id ?? null,
         store: locals.supabase ? createSupabaseDrillStore(locals.supabase) : null,
     });
