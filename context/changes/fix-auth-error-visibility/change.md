@@ -1,7 +1,7 @@
 ---
 change_id: fix-auth-error-visibility
 title: Fix auth error visibility
-status: implementing
+status: impl_reviewed
 created: 2026-10-24
 updated: 2026-10-24
 archived_at: null
