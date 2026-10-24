@@ -426,7 +426,7 @@ Brak zmian w bazie. Wdrożenie przez standardowy merge do `main`. Wycofanie prze
 
 #### Manual
 
-- [ ] 1.5 `npm run dev`: strona główna i `/auth/signin` ładują się bez błędów w konsoli Workera
+- [x] 1.5 `npm run dev`: strona główna i `/auth/signin` ładują się bez błędów w konsoli Workera — fdb95a1 (claude-sonnet-5-5)
 
 ### Phase 2: Klasyfikator błędów auth i port reportera
 
