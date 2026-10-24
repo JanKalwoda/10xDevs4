@@ -472,9 +472,9 @@ Brak zmian w bazie. Wdrożenie przez standardowy merge do `main`. Wycofanie prze
 
 #### Automated
 
-- [ ] 5.1 Zrzuty istnieją: `ls context/changes/fix-auth-error-visibility/screenshots/*.png` zwraca 8 plików
-- [ ] 5.2 Formatowanie dokumentów przechodzi: `npx prettier --check CLAUDE.md AGENTS.md README.md context/changes/fix-auth-error-visibility`
-- [ ] 5.3 Pełny zestaw przechodzi: `npm run lint && npm test && npx astro check && npm run build`
+- [x] 5.1 Zrzuty istnieją: `ls context/changes/fix-auth-error-visibility/screenshots/*.png` zwraca 8 plików
+- [x] 5.2 Formatowanie dokumentów przechodzi: `npx prettier --check CLAUDE.md AGENTS.md README.md context/changes/fix-auth-error-visibility`
+- [x] 5.3 Pełny zestaw przechodzi: `npm run lint && npm test && npx astro check && npm run build`
 
 #### Manual
 

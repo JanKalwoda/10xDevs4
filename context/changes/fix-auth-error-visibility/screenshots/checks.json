@@ -1,0 +1,222 @@
+[
+    {
+        "name": "service-unavailable",
+        "theme": "light",
+        "width": 1280,
+        "status": 503,
+        "expectedStatus": 503,
+        "focusTag": "A",
+        "focusText": "Back to the timer",
+        "focusRing": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, oklab(0.27 -0.0646748 0.0379759 / 0.5) 0px 0px 0px 3px, rgba(0, 0, 0, 0.05) 0px 4px 8px -1px",
+        "overflowX": false,
+        "h1": "Service temporarily unavailable",
+        "linkColor": [55, 65, 81],
+        "linkBg": [240, 248, 255],
+        "linkCardBg": [255, 255, 255],
+        "h1Color": [55, 65, 81],
+        "pColor": [107, 114, 128],
+        "bg": [255, 255, 255],
+        "contrast": {
+            "link": 10.31,
+            "h1": 10.31,
+            "p": 4.83
+        }
+    },
+    {
+        "name": "callback-unavailable",
+        "theme": "light",
+        "width": 1280,
+        "status": 200,
+        "expectedStatus": 200,
+        "focusTag": "A",
+        "focusText": "Request a new sign-in link",
+        "focusRing": "none",
+        "overflowX": false,
+        "h1": "Sign-in temporarily unavailable",
+        "linkColor": [55, 65, 81],
+        "linkBg": [240, 248, 255],
+        "linkCardBg": [255, 255, 255],
+        "h1Color": [55, 65, 81],
+        "pColor": [107, 114, 128],
+        "bg": [255, 255, 255],
+        "contrast": {
+            "link": 10.31,
+            "h1": 10.31,
+            "p": 4.83
+        }
+    },
+    {
+        "name": "signin-error",
+        "theme": "light",
+        "width": 1280,
+        "status": 503,
+        "text": "We couldn't request a sign-in link right now. Please try again.",
+        "contrast": 5.89,
+        "overflowX": false
+    },
+    {
+        "name": "service-unavailable",
+        "theme": "light",
+        "width": 390,
+        "status": 503,
+        "expectedStatus": 503,
+        "focusTag": "A",
+        "focusText": "Back to the timer",
+        "focusRing": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, oklab(0.27 -0.0646748 0.0379759 / 0.5) 0px 0px 0px 3px, rgba(0, 0, 0, 0.05) 0px 4px 8px -1px",
+        "overflowX": false,
+        "h1": "Service temporarily unavailable",
+        "linkColor": [55, 65, 81],
+        "linkBg": [240, 248, 255],
+        "linkCardBg": [255, 255, 255],
+        "h1Color": [55, 65, 81],
+        "pColor": [107, 114, 128],
+        "bg": [255, 255, 255],
+        "contrast": {
+            "link": 10.31,
+            "h1": 10.31,
+            "p": 4.83
+        }
+    },
+    {
+        "name": "callback-unavailable",
+        "theme": "light",
+        "width": 390,
+        "status": 200,
+        "expectedStatus": 200,
+        "focusTag": "A",
+        "focusText": "Request a new sign-in link",
+        "focusRing": "none",
+        "overflowX": false,
+        "h1": "Sign-in temporarily unavailable",
+        "linkColor": [55, 65, 81],
+        "linkBg": [240, 248, 255],
+        "linkCardBg": [255, 255, 255],
+        "h1Color": [55, 65, 81],
+        "pColor": [107, 114, 128],
+        "bg": [255, 255, 255],
+        "contrast": {
+            "link": 10.31,
+            "h1": 10.31,
+            "p": 4.83
+        }
+    },
+    {
+        "name": "signin-error",
+        "theme": "light",
+        "width": 390,
+        "status": 503,
+        "text": "We couldn't request a sign-in link right now. Please try again.",
+        "contrast": 5.89,
+        "overflowX": false
+    },
+    {
+        "name": "service-unavailable",
+        "theme": "dark",
+        "width": 1280,
+        "status": 503,
+        "expectedStatus": 503,
+        "focusTag": "A",
+        "focusText": "Back to the timer",
+        "focusRing": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, oklab(0.7729 -0.146966 0.0443071 / 0.5) 0px 0px 0px 3px, rgba(0, 0, 0, 0.05) 0px 4px 8px -1px",
+        "overflowX": false,
+        "h1": "Service temporarily unavailable",
+        "linkColor": [209, 213, 219],
+        "linkBg": [15, 23, 42],
+        "linkCardBg": [30, 41, 59],
+        "h1Color": [209, 213, 219],
+        "pColor": [161, 161, 170],
+        "bg": [30, 41, 59],
+        "contrast": {
+            "link": 9.93,
+            "h1": 9.93,
+            "p": 5.71
+        }
+    },
+    {
+        "name": "callback-unavailable",
+        "theme": "dark",
+        "width": 1280,
+        "status": 200,
+        "expectedStatus": 200,
+        "focusTag": "A",
+        "focusText": "Request a new sign-in link",
+        "focusRing": "none",
+        "overflowX": false,
+        "h1": "Sign-in temporarily unavailable",
+        "linkColor": [209, 213, 219],
+        "linkBg": [15, 23, 42],
+        "linkCardBg": [30, 41, 59],
+        "h1Color": [209, 213, 219],
+        "pColor": [161, 161, 170],
+        "bg": [30, 41, 59],
+        "contrast": {
+            "link": 9.93,
+            "h1": 9.93,
+            "p": 5.71
+        }
+    },
+    {
+        "name": "signin-error",
+        "theme": "dark",
+        "width": 1280,
+        "status": 503,
+        "text": "We couldn't request a sign-in link right now. Please try again.",
+        "contrast": 5.77,
+        "overflowX": false
+    },
+    {
+        "name": "service-unavailable",
+        "theme": "dark",
+        "width": 390,
+        "status": 503,
+        "expectedStatus": 503,
+        "focusTag": "A",
+        "focusText": "Back to the timer",
+        "focusRing": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, oklab(0.7729 -0.146966 0.0443071 / 0.5) 0px 0px 0px 3px, rgba(0, 0, 0, 0.05) 0px 4px 8px -1px",
+        "overflowX": false,
+        "h1": "Service temporarily unavailable",
+        "linkColor": [209, 213, 219],
+        "linkBg": [15, 23, 42],
+        "linkCardBg": [30, 41, 59],
+        "h1Color": [209, 213, 219],
+        "pColor": [161, 161, 170],
+        "bg": [30, 41, 59],
+        "contrast": {
+            "link": 9.93,
+            "h1": 9.93,
+            "p": 5.71
+        }
+    },
+    {
+        "name": "callback-unavailable",
+        "theme": "dark",
+        "width": 390,
+        "status": 200,
+        "expectedStatus": 200,
+        "focusTag": "A",
+        "focusText": "Request a new sign-in link",
+        "focusRing": "none",
+        "overflowX": false,
+        "h1": "Sign-in temporarily unavailable",
+        "linkColor": [209, 213, 219],
+        "linkBg": [15, 23, 42],
+        "linkCardBg": [30, 41, 59],
+        "h1Color": [209, 213, 219],
+        "pColor": [161, 161, 170],
+        "bg": [30, 41, 59],
+        "contrast": {
+            "link": 9.93,
+            "h1": 9.93,
+            "p": 5.71
+        }
+    },
+    {
+        "name": "signin-error",
+        "theme": "dark",
+        "width": 390,
+        "status": 503,
+        "text": "We couldn't request a sign-in link right now. Please try again.",
+        "contrast": 5.77,
+        "overflowX": false
+    }
+]
