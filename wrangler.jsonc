@@ -4,6 +4,10 @@
   "main": "@astrojs/cloudflare/entrypoints/server",
   "compatibility_date": "2026-05-08",
   "compatibility_flags": ["nodejs_compat"],
+  "vars": {
+    "PUBLIC_SENTRY_DSN": "https://35c7b461d57cca7231412df176eb1e49@o4512311850303488.ingest.de.sentry.io/4512311897030736"
+  },
+  "version_metadata": { "binding": "CF_VERSION_METADATA" },
   "assets": {
     "binding": "ASSETS",
     "directory": "./dist",

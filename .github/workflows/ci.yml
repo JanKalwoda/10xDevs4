@@ -53,6 +53,8 @@ jobs:
         run: |
           printf 'SUPABASE_URL=%s\nSUPABASE_KEY=%s\n' "$API_URL" "${PUBLISHABLE_KEY:-$ANON_KEY}" > .env
           cp .env .dev.vars
+          # Override the wrangler.jsonc DSN with an empty one, so CI errors never reach the production Sentry project.
+          echo 'PUBLIC_SENTRY_DSN=' >> .dev.vars
       - run: npm run build
       - name: Start production preview
         id: preview
@@ -119,7 +121,11 @@ jobs:
           node-version: 24.21.0
           cache: npm
       - run: npm ci
+      # PUBLIC_SENTRY_DSN is inlined into the browser bundle at build time; the auth token uploads source maps.
       - run: npm run build
+        env:
+          PUBLIC_SENTRY_DSN: ${{ vars.PUBLIC_SENTRY_DSN }}
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
       - name: Deploy Worker
         run: npx wrangler deploy
         env:
