@@ -84,7 +84,7 @@ export default defineConfig(
     globalIgnores([
         ".agents/**",
         ".claude/**",
-        "context/changes/fix-auth-error-visibility/screenshots/callback-retry-visual-gate.mjs",
+        "context/archive/2026-10-24-fix-auth-error-visibility/screenshots/callback-retry-visual-gate.mjs",
         "context/archive/2026-10-09-run-view-layout/screenshots/*.mjs",
         "context/archive/2026-10-09-signal-preview-icon/screenshots/signal-preview-visual-gate.mjs",
         "context/archive/2026-10-10-ux-fixes-round-2/screenshots/ux-fixes-round-2-visual-gate.mjs",
