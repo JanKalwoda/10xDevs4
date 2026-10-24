@@ -464,9 +464,9 @@ Brak zmian w bazie. Wdrożenie przez standardowy merge do `main`. Wycofanie prze
 
 #### Manual
 
-- [ ] 4.7 Z nieosiągalnym `SUPABASE_URL`: formularz sign-in pokazuje komunikat błędu, sieć pokazuje 503 z tym samym body dla dwóch adresów
-- [ ] 4.8 `/auth/callback?error=unavailable&next=%2Ftimers` pokazuje stan „Sign-in temporarily unavailable”
-- [ ] 4.9 Przy działającym Supabase pełne logowanie magic linkiem i wylogowanie działają jak dotąd
+- [x] 4.7 Z nieosiągalnym `SUPABASE_URL`: formularz sign-in pokazuje komunikat błędu, sieć pokazuje 503 z tym samym body dla dwóch adresów — widok błędu formularza sprawdzony w bramce wizualnej fazy 5; 503 z tym samym body potwierdzone curl-em (bc26275, claude-sonnet-5-5)
+- [x] 4.8 `/auth/callback?error=unavailable&next=%2Ftimers` pokazuje stan „Sign-in temporarily unavailable” — bc26275 (claude-sonnet-5-5)
+- [x] 4.9 Przy działającym Supabase pełne logowanie magic linkiem i wylogowanie działają jak dotąd — potwierdzone smoke (bc26275, claude-sonnet-5-5)
 
 ### Phase 5: Bramka wizualna i dokumentacja
 
