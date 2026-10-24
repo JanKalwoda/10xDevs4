@@ -440,11 +440,11 @@ Brak zmian w bazie. Wdrożenie przez standardowy merge do `main`. Wycofanie prze
 
 #### Automated
 
-- [ ] 3.1 Testy `auth-session.test.ts` i nowe przypadki w `drill-configurations.test.ts` były czerwone przed zmianą i są zielone po niej: `npm test`
-- [ ] 3.2 Inwentarz tras klasyfikuje `/service-unavailable`: `npm test`
-- [ ] 3.3 Lint (w tym `timer-ui/contract` dla nowej strony i widoku) przechodzi: `npm run lint`
-- [ ] 3.4 Typy przechodzą: `npx astro check`
-- [ ] 3.5 Testy integracyjne przechodzą, w tym niezmieniony `ownership.test.mjs` „forged session is a guest” i nowy przypadek `/service-unavailable` → 404: `npm run test:integration`
+- [x] 3.1 Testy `auth-session.test.ts` i nowe przypadki w `drill-configurations.test.ts` były czerwone przed zmianą i są zielone po niej: `npm test` — 5f56e92 (claude-sonnet-5-5)
+- [x] 3.2 Inwentarz tras klasyfikuje `/service-unavailable`: `npm test` — 5f56e92 (claude-sonnet-5-5)
+- [x] 3.3 Lint (w tym `timer-ui/contract` dla nowej strony i widoku) przechodzi: `npm run lint` — 5f56e92 (claude-sonnet-5-5)
+- [x] 3.4 Typy przechodzą: `npx astro check` — 5f56e92 (claude-sonnet-5-5)
+- [x] 3.5 Testy integracyjne przechodzą, w tym niezmieniony `ownership.test.mjs` „forged session is a guest” i nowy przypadek `/service-unavailable` → 404: `npm run test:integration` — 5f56e92 (claude-sonnet-5-5)
 
 #### Manual
 
