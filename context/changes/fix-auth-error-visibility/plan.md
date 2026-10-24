@@ -419,10 +419,10 @@ Brak zmian w bazie. Wdrożenie przez standardowy merge do `main`. Wycofanie prze
 
 #### Automated
 
-- [x] 1.1 Test `sentry-server-options.test.ts` był czerwony przed zmianą i jest zielony po niej: `npm test`
-- [x] 1.2 Lint przechodzi: `npm run lint`
-- [x] 1.3 Typy przechodzą: `npx astro check`
-- [x] 1.4 Build przechodzi: `npm run build`
+- [x] 1.1 Test `sentry-server-options.test.ts` był czerwony przed zmianą i jest zielony po niej: `npm test` — fdb95a1 (claude-sonnet-5-5)
+- [x] 1.2 Lint przechodzi: `npm run lint` — fdb95a1 (claude-sonnet-5-5)
+- [x] 1.3 Typy przechodzą: `npx astro check` — fdb95a1 (claude-sonnet-5-5)
+- [x] 1.4 Build przechodzi: `npm run build` — fdb95a1 (claude-sonnet-5-5)
 
 #### Manual
 
