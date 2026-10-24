@@ -478,5 +478,5 @@ Brak zmian w bazie. Wdrożenie przez standardowy merge do `main`. Wycofanie prze
 
 #### Manual
 
-- [ ] 5.4 Przegląd zrzutów: kontrast, układ przy 390 px bez przewijania w poziomie, widoczny fokus w obu motywach
-- [ ] 5.5 CLAUDE.md i AGENTS.md opisują regułę klasyfikacji tak samo
+- [x] 5.4 Przegląd zrzutów: kontrast, układ przy 390 px bez przewijania w poziomie, widoczny fokus w obu motywach — f4c3eae (claude-sonnet-5-5)
+- [x] 5.5 CLAUDE.md i AGENTS.md opisują regułę klasyfikacji tak samo — f4c3eae (claude-sonnet-5-5)
