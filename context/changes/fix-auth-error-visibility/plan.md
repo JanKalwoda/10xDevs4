@@ -448,8 +448,8 @@ Brak zmian w bazie. Wdrożenie przez standardowy merge do `main`. Wycofanie prze
 
 #### Manual
 
-- [ ] 3.6 Lokalnie z błędnym `SUPABASE_URL`: `/timers` daje 503 z widokiem, `/` renderuje gościa, `POST /api/drills` daje 503; po przywróceniu sesja działa
-- [ ] 3.7 Gość przy działającym Supabase: `/timers` daje 302 na `/auth/signin?next=%2Ftimers` jak dotąd
+- [x] 3.6 Lokalnie z błędnym `SUPABASE_URL`: `/timers` daje 503 z widokiem, `/` renderuje gościa, `POST /api/drills` daje 503; po przywróceniu sesja działa — powrót sesji potwierdzony zieloną integracją; awaria z sesją trwa ~30 s przez retry refresh auth-js — 5f56e92 (claude-sonnet-5-5)
+- [x] 3.7 Gość przy działającym Supabase: `/timers` daje 302 na `/auth/signin?next=%2Ftimers` jak dotąd — 5f56e92 (claude-sonnet-5-5)
 
 ### Phase 4: Sign-in, callback i sign-out
 
