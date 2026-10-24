@@ -455,12 +455,12 @@ Brak zmian w bazie. Wdrożenie przez standardowy merge do `main`. Wycofanie prze
 
 #### Automated
 
-- [x] 4.1 Nowe i zmienione testy `email-auth.test.ts` oraz test sign-out były czerwone przed zmianą i są zielone po niej: `npm test`
-- [x] 4.2 `change.md` zawiera akapit „Zmiana wymagania” przed zmianą asercji `email-auth.test.ts:148-175`
-- [x] 4.3 Lint (`account-entry-ui/contract` dla `callback.astro`) przechodzi: `npm run lint`
-- [x] 4.4 Typy przechodzą: `npx astro check`
-- [x] 4.5 Testy integracyjne przechodzą bez zmian asercji w `redirects.test.mjs`: `npm run test:integration`
-- [x] 4.6 Smoke przechodzi (sign-out → 302 `/`): `SMOKE_MODE=local BASE_URL=http://localhost:4321 npm run smoke`
+- [x] 4.1 Nowe i zmienione testy `email-auth.test.ts` oraz test sign-out były czerwone przed zmianą i są zielone po niej: `npm test` — c934f52 (claude-sonnet-5-5)
+- [x] 4.2 `change.md` zawiera akapit „Zmiana wymagania” przed zmianą asercji `email-auth.test.ts:148-175` — c934f52 (claude-sonnet-5-5)
+- [x] 4.3 Lint (`account-entry-ui/contract` dla `callback.astro`) przechodzi: `npm run lint` — c934f52 (claude-sonnet-5-5)
+- [x] 4.4 Typy przechodzą: `npx astro check` — c934f52 (claude-sonnet-5-5)
+- [x] 4.5 Testy integracyjne przechodzą bez zmian asercji w `redirects.test.mjs`: `npm run test:integration` — c934f52 (claude-sonnet-5-5)
+- [x] 4.6 Smoke przechodzi (sign-out → 302 `/`): `SMOKE_MODE=local BASE_URL=http://localhost:4321 npm run smoke` — c934f52 (claude-sonnet-5-5)
 
 #### Manual
 
