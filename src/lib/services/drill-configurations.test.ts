@@ -353,12 +353,12 @@ void test("the body reader accepts the cap and rejects one byte more, declared o
 
 void test("the handler answers 401 before anything else and 503 without a store", async () => {
     const store = storeReturning({ data: storedRow, error: null });
-    const anonymous = await handleSaveDrillRequest(jsonRequest(validRequest), { userId: null, store });
+    const anonymous = await handleSaveDrillRequest(jsonRequest(validRequest), { authUnavailable: false, userId: null, store });
     assert.equal(anonymous.status, 401);
     assert.deepEqual(await bodyOf(anonymous), { ok: false, code: "unauthorized", message: "Sign in to save a timer." });
     assert.equal(anonymous.headers.get("cache-control"), "no-store");
 
-    const noStore = await handleSaveDrillRequest(jsonRequest(validRequest), { userId: USER_ID, store: null });
+    const noStore = await handleSaveDrillRequest(jsonRequest(validRequest), { authUnavailable: false, userId: USER_ID, store: null });
     assert.equal(noStore.status, 503);
     assert.equal((await bodyOf(noStore)).ok, false);
 });
@@ -387,7 +387,7 @@ void test("an unavailable auth is a 503 before the 401 on POST, PUT and DELETE",
 
 void test("the handler maps media type, size, JSON and validation failures", async () => {
     const inserted: DrillConfigurationInsert[] = [];
-    const context = { userId: USER_ID, store: storeReturning({ data: storedRow, error: null }, inserted) };
+    const context = { authUnavailable: false, userId: USER_ID, store: storeReturning({ data: storedRow, error: null }, inserted) };
 
     const textPlain = await handleSaveDrillRequest(jsonRequest(validRequest, { "content-type": "text/plain" }), context);
     assert.equal(textPlain.status, 415);
@@ -417,6 +417,7 @@ void test("the handler maps media type, size, JSON and validation failures", asy
 void test("the handler accepts a charset parameter and returns 201 with the DTO", async () => {
     const inserted: DrillConfigurationInsert[] = [];
     const response = await handleSaveDrillRequest(jsonRequest(validRequest, { "content-type": "application/json; charset=utf-8" }), {
+        authUnavailable: false,
         userId: USER_ID,
         store: storeReturning({ data: storedRow, error: null }, inserted),
     });

@@ -327,7 +327,7 @@ export async function readLimitedText(request: Request, maxBytes: number = MAX_R
 
 export interface SaveDrillRequestContext {
     // Supabase Auth is unreachable: userId is null too, but the visitor is not a guest, so this is checked before the 401.
-    authUnavailable?: boolean;
+    authUnavailable: boolean;
     userId: string | null;
     store: DrillConfigurationStore | null;
     log?: DrillSaveLogger;
@@ -469,14 +469,14 @@ export async function deleteDrillConfiguration(store: DrillConfigurationStore, u
 }
 
 export interface DeleteDrillRequestContext {
-    authUnavailable?: boolean;
+    authUnavailable: boolean;
     id: string;
     userId: string | null;
     store: DrillConfigurationStore | null;
     log?: DrillSaveLogger;
 }
 
-// The whole DELETE /api/drills/{id} pipeline: same order as PUT (401, 503, 404 for a bad id). There is no body to read or type.
+// The whole DELETE /api/drills/{id} pipeline: same order as PUT (503 auth, 401, 503 store, 404 for a bad id). There is no body to read or type.
 // Success is a bodiless 204 built here: toResponse is Response.json, which throws for a null-body status.
 export async function handleDeleteDrillRequest(_request: Request, context: DeleteDrillRequestContext): Promise<Response> {
     if (context.authUnavailable) return toResponse(failure("unavailable", SAVE_DRILL_MESSAGES.unavailable));

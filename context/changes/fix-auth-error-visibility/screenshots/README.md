@@ -2,17 +2,18 @@
 
 Bramka wizualna zmiany `fix-auth-error-visibility`. Zrzuty zrobione Playwrightem (`@playwright/test` z `node_modules`) na `npm run dev` z nieosiągalnym `SUPABASE_URL` (`http://127.0.0.1:1` w tymczasowym `.dev.vars`, potem przywróconym). Widok 503 powstaje z ciasteczka sesji z ważnym JWT (auth-js wywołuje wtedy `/user`, które zawodzi jako `AuthRetryableFetchError`); bez ciasteczka gość jest rozpoznawany lokalnie i awarii nie widać.
 
-Skrypt bramki nie jest w repozytorium (leżałby poza listą wyjątków lint dla skryptów `.mjs`); wyniki pomiarów: `checks.json` (status HTTP, brak przewijania poziomego, kontrast tekstu z canvas).
+Skrypt bramki dla stanu `retry` jest w repozytorium (`callback-retry-visual-gate.mjs`, wyjątek lint tylko dla tego pliku; `npm run dev`, potem `PLAYWRIGHT_PATH=<katalog z node_modules/playwright> OUT=<ten folder> node callback-retry-visual-gate.mjs`; wyniki w `checks-callback-retry.json`). Skrypt pierwszej bramki (503 i formularz sign-in, nieosiągalny `SUPABASE_URL`) nie został zachowany; wyniki jego pomiarów: `checks.json` (status HTTP, brak przewijania poziomego, kontrast tekstu z canvas).
 
-## Zrzuty (8 + 4)
+## Zrzuty (8 + 4 + 4)
 
 W każdym zrzucie fokus klawiatury (Tab) stoi na głównej akcji karty.
 
-| Plik                                                    | Widok                                                                                               |
-| ------------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
-| `service-unavailable-{1280,390}-{light,dark}.png`       | `ServiceUnavailableView` (503), fokus na „Back to the timer"                                        |
-| `callback-unavailable-{1280,390}-{light,dark}.png`      | `/auth/callback?error=unavailable&next=%2Ftimers`, fokus na „Request a new sign-in link"            |
-| `signin-error/signin-error-{1280,390}-{light,dark}.png` | Formularz `/auth/signin` po 503 przy niedostępnym Supabase (komunikat błędu, przycisk znów aktywny) |
+| Plik                                                    | Widok                                                                                                                                |
+| ------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+| `service-unavailable-{1280,390}-{light,dark}.png`       | `ServiceUnavailableView` (503), fokus na „Back to the timer"                                                                         |
+| `callback-unavailable-{1280,390}-{light,dark}.png`      | `/auth/callback?error=unavailable&next=%2Ftimers`, fokus na „Request a new sign-in link"                                             |
+| `callback-retry-{1280,390}-{light,dark}.png`            | `/auth/callback?error=invalid&next=%2Ftimers` (istniejący stan `retry`, po zmianie kontrastu), fokus na „Request a new sign-in link" |
+| `signin-error/signin-error-{1280,390}-{light,dark}.png` | Formularz `/auth/signin` po 503 przy niedostępnym Supabase (komunikat błędu, przycisk znów aktywny)                                  |
 
 ## Macierz stanów
 

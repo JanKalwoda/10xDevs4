@@ -32,7 +32,7 @@ Automatyczna weryfikacja w tym przeglądzie: `npm test` 375/375, `npm run lint` 
 - **Location**: src/lib/auth-errors.ts:61-62
 - **Detail**: Komentarz zakłada, że błąd retryable to zawsze błąd transportu. W `@supabase/auth-js/dist/main/lib/fetch.js` (`handleError`) odpowiedź 500–530 z ciałem JSON staje się `AuthRetryableFetchError(_getErrorMessage(data), status)`, czyli niesie `msg`/`message`/`error_description` napisane przez serwer Auth (np. błąd SMTP lub send-email hooka przy `signInWithOtp`, który może cytować adres). Ten tekst trafia do `extra.message` w Sentry, wbrew regule „never an email”.
 - **Fix**: Wypełniać `message` tylko przy `status === 0` (prawdziwy błąd fetch); dla 5xx wystarczą `status` i `code`. Dodać przypadek do `auth-errors.test.ts` (`AuthRetryableFetchError("…user@example.com…", 500)` → brak `message`).
-- **Decision**: PENDING
+- **Decision**: FIX (2026-10-24): `message` trafia do `extra` tylko przy `status === 0`; test `safeAuthErrorFields drops the message of a retryable 5xx` (najpierw czerwony).
 
 ### F2 — Wylogowanie z martwą sesją jest raportowane jako awaria
 
@@ -42,7 +42,7 @@ Automatyczna weryfikacja w tym przeglądzie: `npm test` 375/375, `npm run lint` 
 - **Location**: src/lib/auth-errors.ts:40-41
 - **Detail**: `GoTrueClient._signOut` zwraca wcześnie `sessionError` (np. `refresh_token_not_found` z odświeżenia), gdy nie jest to `AuthSessionMissingError`. Krok `sign_out` klasyfikuje każdy błąd jako `unexpected`, więc kliknięcie „Sign out” z wygasłą sesją wysyła zdarzenie do Sentry. To szum sprzeczny z zasadą „martwa sesja nie jest raportowana” (krok `session` traktuje `DEAD_SESSION_CODES` jako `expected`). Plan zakładał, że biblioteka już filtruje 401/403/404 — dotyczy to tylko `admin.signOut`, nie błędu wczytania sesji.
 - **Fix**: W kroku `sign_out` traktować `AuthSessionMissingError` i `AuthApiError` z kodem z `DEAD_SESSION_CODES` jako `expected`; test regresji w `auth-errors.test.ts` / `auth-signout.test.ts`.
-- **Decision**: PENDING
+- **Decision**: FIX (2026-10-24): krok `sign_out` traktuje `AuthSessionMissingError` i kody `DEAD_SESSION_CODES` jako `expected`; `handleSignOut` raportuje tylko `unavailable`/`unexpected`. Testy w `auth-errors.test.ts` i `auth-signout.test.ts` (najpierw czerwone).
 
 ### F3 — Status odpowiedzi sign-in może zależeć od adresu
 
@@ -61,7 +61,7 @@ Automatyczna weryfikacja w tym przeglądzie: `npm test` 375/375, `npm run lint` 
     - Tradeoff: Pozostaje teoretyczny oracle zależny od konfiguracji dostawcy.
     - Confidence: MED — prawdziwe tylko, jeśli produkcja ma własny SMTP.
     - Blind spot: Konfiguracja SMTP produkcji nie została sprawdzona.
-- **Decision**: PENDING
+- **Decision**: FIX opcja A (2026-10-24): 503 tylko dla retryable/unknown/nie-AuthError, `email_provider_disabled`, `otp_disabled`, `signup_disabled` i braku klienta; pozostałe 4xx (`email_address_not_authorized`, `user_banned`, 401 bez `code`) to `unexpected`: neutralne 200 + raport. Zaktualizowano akapit „Zmiana wymagania” w `change.md` i testy `auth-errors.test.ts` / `email-auth.test.ts`. Plan.md (linia 128) zostaje jako zapis pierwotnej decyzji.
 
 ### F4 — Zmieniony wygląd istniejącego stanu `retry` callbacku bez zrzutów
 
@@ -71,7 +71,7 @@ Automatyczna weryfikacja w tym przeglądzie: `npm test` 375/375, `npm run lint` 
 - **Location**: src/pages/auth/callback.astro:35, :47
 - **Detail**: Poprawka kontrastu (`pt-4`, link `text-foreground underline` zamiast `text-primary hover:underline`) dotyka też istniejącego stanu `retry`, nie tylko nowego `unavailable`. Uzasadnione w `screenshots/README.md`, ale stan `retry` nie ma zrzutów po zmianie. Dodatkowo `ServiceUnavailableView` ma przycisk `outline` zamiast planowanego linku (opisane w README) oraz zrzuty `screenshots/signin-error/` i `checks.json` spoza planu; skrypt bramki nie trafił do repo, więc bramki nie da się powtórzyć.
 - **Fix**: Dodać zrzuty stanu `retry` (light/dark, 1280/390) do `screenshots/` i wpis w README; opcjonalnie dołączyć skrypt bramki.
-- **Decision**: PENDING
+- **Decision**: FIX (2026-10-24): zrzuty stanu `retry` `callback-retry-{1280,390}-{light,dark}.png` + `checks-callback-retry.json` (kontrast linku 10,31/9,93, opisu 4,83/5,71, bez przewijania poziomego), skrypt `screenshots/callback-retry-visual-gate.mjs` (wyjątek lint tylko dla tego pliku), wpis w README.
 
 ### F5 — `authUnavailable` opcjonalne i nieaktualny komentarz kolejności
 
@@ -81,7 +81,7 @@ Automatyczna weryfikacja w tym przeglądzie: `npm test` 375/375, `npm run lint` 
 - **Location**: src/lib/services/drill-configurations.ts:330, :472, :479
 - **Detail**: Plan: `authUnavailable: boolean`; jest `authUnavailable?: boolean`, więc nowa trasa, która zapomni pola, cicho traktuje auth jako dostępne. Komentarz DELETE „same order as PUT (401, 503, 404…)” nie uwzględnia nowego 503 auth na początku.
 - **Fix**: Uczynić pole wymaganym (kompilator wymusi przekazanie w trasach i testach) i poprawić komentarz na „503 auth, 401, 503 store, 404”.
-- **Decision**: PENDING
+- **Decision**: FIX (2026-10-24): `authUnavailable: boolean` wymagane w kontekstach POST/PUT/DELETE (kompilator wymusił pole w testach, trasy już je przekazują); komentarz DELETE: „503 auth, 401, 503 store, 404”.
 
 ### F6 — Zmiana asercji testów poza zakresem wskazanym w planie
 
@@ -91,7 +91,7 @@ Automatyczna weryfikacja w tym przeglądzie: `npm test` 375/375, `npm run lint` 
 - **Location**: src/lib/email-auth.test.ts (~:286, :318-341)
 - **Detail**: Plan dopuszczał zmianę asercji tylko w `:148-175`. Zmieniono też fake'i callbacku (`Error` → `AuthApiError otp_expired`) i asercję „thrown → retry” na „thrown → unavailable”. To konsekwencja reguły „nie-AuthError → unavailable” i jest zapisana w „Zmiana wymagania” w `change.md`, więc zgodna z zasadą „asercję zmienia się przy zmianie wymagania”.
 - **Fix**: Brak zmian w kodzie; dopisać w planie (addendum) zakres zmienionych asercji.
-- **Decision**: PENDING
+- **Decision**: ACCEPT (2026-10-24): obserwacja; zmiana asercji wynika ze zmiany wymagania zapisanej w `change.md`.
 
 ### F7 — Brak testu automatycznego ścieżki 503 w middleware
 
@@ -105,7 +105,7 @@ Automatyczna weryfikacja w tym przeglądzie: `npm test` 375/375, `npm run lint` 
     - Tradeoff: Kolejna mała abstrakcja; sam rewrite Astro nadal testowany tylko ręcznie.
     - Confidence: MED — wzorzec `resolveSession` już istnieje.
     - Blind spot: Nagłówki ustawiane przez stronę po rewrite nadal bez testu automatycznego.
-- **Decision**: PENDING
+- **Decision**: ACCEPT (2026-10-24): obserwacja; świadoma luka opisana w `change.md`, ścieżka 503 sprawdzona ręcznie (3.6).
 
 ### F8 — Puste tagi Sentry `auth.status` / `auth.code`
 
@@ -115,7 +115,7 @@ Automatyczna weryfikacja w tym przeglądzie: `npm test` 375/375, `npm run lint` 
 - **Location**: src/lib/auth-errors.ts:74-75
 - **Detail**: Dla błędów bez `status`/`code` (np. retryable bez kodu, `Error` spoza auth) wysyłane są tagi z pustą wartością, które Sentry może odrzucić jako nieprawidłowe dane i które utrudniają filtrowanie.
 - **Fix**: Dodawać tagi `auth.status` i `auth.code` tylko, gdy wartość istnieje.
-- **Decision**: PENDING
+- **Decision**: FIX (2026-10-24): nowa funkcja `authErrorTags` dodaje `auth.status` i `auth.code` tylko gdy wartość istnieje; test `authErrorTags leaves out status and code that do not exist` (najpierw czerwony).
 
 ### F9 — Domyślny reporter Sentry w czystym module `email-auth.ts`
 
@@ -125,4 +125,4 @@ Automatyczna weryfikacja w tym przeglądzie: `npm test` 375/375, `npm run lint` 
 - **Location**: src/lib/email-auth.ts:176, :220, :264, :296
 - **Detail**: Parametry `report = reportAuthError` sprawiają, że `email-auth.ts` importuje `@sentry/cloudflare`, a trasy `signin.ts` i `callback.ts` polegają na wartości domyślnej, podczas gdy `signout.ts` przekazuje reporter jawnie. Wzorzec `DrillSaveLogger` to port bez twardego importu dostawcy. Niespójne, ale bez wpływu na zachowanie.
 - **Fix**: Przekazywać `reportAuthError` jawnie w `signin.ts` i `callback.ts` (jak w `signout.ts`), opcjonalnie bez wartości domyślnej.
-- **Decision**: PENDING
+- **Decision**: ACCEPT (2026-10-24): obserwacja; bez wpływu na zachowanie.

@@ -204,10 +204,13 @@ export async function requestEmailLink(
     }
 
     // The answer depends on the class of the failure, never on the address or the provider's message.
-    if (classifyAuthError("sign_in", error).kind === "unavailable") {
+    const { kind } = classifyAuthError("sign_in", error);
+    if (kind === "unavailable") {
         report("sign_in", error);
         return { ok: false, status: 503, message: EMAIL_LINK_UNAVAILABLE_MESSAGE };
     }
+    // Other provider rejections may depend on the address or the account: reported, but the visitor still gets the neutral 200.
+    if (kind === "unexpected") report("sign_in", error);
 
     return { ok: true, status: 200, message: EMAIL_LINK_MESSAGE };
 }

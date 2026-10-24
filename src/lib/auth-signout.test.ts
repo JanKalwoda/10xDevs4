@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
-import { AuthRetryableFetchError } from "@supabase/supabase-js";
+import { AuthApiError, AuthRetryableFetchError, AuthSessionMissingError } from "@supabase/supabase-js";
 
 import type { AuthStep } from "./auth-errors.ts";
 import { handleSignOut } from "./auth-errors.ts";
@@ -41,6 +41,15 @@ void test("sign-out without an error or without a client reports nothing", async
 
     await handleSignOut({ signOut: () => Promise.resolve({ error: null }) }, report);
     await handleSignOut(null, report);
+
+    assert.deepEqual(reports, []);
+});
+
+void test("sign-out with a dead session is expected and not reported", async () => {
+    const { reports, report } = recordingReporter();
+
+    await handleSignOut({ signOut: () => Promise.resolve({ error: new AuthSessionMissingError() }) }, report);
+    await handleSignOut({ signOut: () => Promise.resolve({ error: new AuthApiError("gone", 400, "refresh_token_not_found") }) }, report);
 
     assert.deepEqual(reports, []);
 });

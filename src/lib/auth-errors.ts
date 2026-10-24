@@ -13,6 +13,9 @@ const DEAD_SESSION_CODES = new Set(["refresh_token_not_found", "refresh_token_al
 // Outcomes of sign-in that depend on the visitor's input or on throttling, not on the provider being broken.
 const EXPECTED_SIGN_IN_CODES = new Set(["over_email_send_rate_limit", "over_request_rate_limit", "email_address_invalid", "validation_failed"]);
 
+// Configuration faults that hit every address alike; any other sign-in 4xx may depend on the address or the account, so it must not change the status.
+const SIGN_IN_CONFIGURATION_CODES = new Set(["email_provider_disabled", "otp_disabled", "signup_disabled"]);
+
 function isUnknownAuthError(error: unknown): boolean {
     return isAuthError(error) && error.name === "AuthUnknownError";
 }
@@ -34,10 +37,14 @@ export function classifyAuthError(step: AuthStep, error: unknown): AuthErrorClas
             if (isAuthApiError(error) && (error.status === 429 || (error.code && EXPECTED_SIGN_IN_CODES.has(error.code)))) {
                 return { kind: "expected" };
             }
-            return { kind: "unavailable" };
+            if (isAuthApiError(error) && error.code && SIGN_IN_CONFIGURATION_CODES.has(error.code)) return { kind: "unavailable" };
+            return { kind: "unexpected" };
         case "callback":
             return isAuthApiError(error) ? { kind: "expected" } : { kind: "unavailable" };
         case "sign_out":
+            // Signing out a session that is already dead is what the visitor wanted.
+            if (isAuthSessionMissingError(error)) return { kind: "expected" };
+            if (isAuthApiError(error) && error.code && DEAD_SESSION_CODES.has(error.code)) return { kind: "expected" };
             return { kind: "unexpected" };
     }
 }
@@ -58,22 +65,26 @@ export function safeAuthErrorFields(error: unknown): SafeAuthErrorFields {
         if (typeof error.status === "number") fields.status = error.status;
         if (typeof error.code === "string") fields.code = error.code;
     }
-    // A retryable error is a transport failure ("fetch failed"), not text the provider wrote about an account.
-    if (isAuthRetryableFetchError(error)) fields.message = error.message;
+    // Status 0 is a transport failure ("fetch failed"); a retryable 5xx carries text the provider wrote, which may quote the email.
+    if (isAuthRetryableFetchError(error) && error.status === 0) fields.message = error.message;
     return fields;
 }
 
+/** Sentry rejects or hides empty tag values, so a missing status or code is left out. */
+export function authErrorTags(step: AuthStep, fields: SafeAuthErrorFields): Record<string, string> {
+    const tags: Record<string, string> = { "auth.step": step, "auth.error": fields.name };
+    if (fields.status !== undefined) tags["auth.status"] = String(fields.status);
+    if (fields.code) tags["auth.code"] = fields.code;
+    return tags;
+}
+
 export const reportAuthError: AuthErrorReporter = (step, error) => {
-    const { name, status, code, message } = safeAuthErrorFields(error);
+    const fields = safeAuthErrorFields(error);
+    const { message } = fields;
     // The original error is deliberately not passed on: its message and stack may carry the email or the token.
-    Sentry.captureException(new Error(`auth ${step} failed: ${name}`), {
+    Sentry.captureException(new Error(`auth ${step} failed: ${fields.name}`), {
         level: "error",
-        tags: {
-            "auth.step": step,
-            "auth.error": name,
-            "auth.status": String(status ?? ""),
-            "auth.code": code ?? "",
-        },
+        tags: authErrorTags(step, fields),
         extra: message ? { message } : undefined,
     });
 };
@@ -93,7 +104,8 @@ export async function handleSignOut(auth: SignOutAuth | null, report: AuthErrorR
         error = thrown ?? new Error("signOut threw");
     }
 
-    if (classifyAuthError("sign_out", error).kind !== "ok") {
+    const { kind } = classifyAuthError("sign_out", error);
+    if (kind === "unavailable" || kind === "unexpected") {
         report("sign_out", error);
     }
 }

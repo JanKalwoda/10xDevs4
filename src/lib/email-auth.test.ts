@@ -166,10 +166,10 @@ void test("new and existing account requests have the same neutral response and 
 void test("provider outage, configuration fault and missing auth answer 503 with one message and a report", async () => {
     const { reports, report } = recordingReporter();
     const retryable = await requestEmailLink({ email: "person@example.com" }, SIGN_IN_URL, { signInWithOtp: () => Promise.resolve({ error: outage() }) }, report);
-    const notAuthorized = await requestEmailLink(
+    const providerDisabled = await requestEmailLink(
         { email: "person@example.com" },
         SIGN_IN_URL,
-        { signInWithOtp: () => Promise.resolve({ error: new AuthApiError("detail for person@example.com", 422, "email_address_not_authorized") }) },
+        { signInWithOtp: () => Promise.resolve({ error: new AuthApiError("detail for person@example.com", 422, "email_provider_disabled") }) },
         report,
     );
     const thrown = await requestEmailLink({ email: "person@example.com" }, SIGN_IN_URL, { signInWithOtp: () => Promise.reject(new Error("provider detail")) }, report);
@@ -177,7 +177,7 @@ void test("provider outage, configuration fault and missing auth answer 503 with
 
     const expected = { ok: false, status: 503, message: EMAIL_LINK_UNAVAILABLE_MESSAGE };
     assert.deepEqual(retryable, expected);
-    assert.deepEqual(notAuthorized, expected);
+    assert.deepEqual(providerDisabled, expected);
     assert.deepEqual(thrown, expected);
     assert.deepEqual(unavailable, expected);
     assert.equal(EMAIL_LINK_UNAVAILABLE_MESSAGE, "We couldn't send a sign-in link right now. Please try again in a moment.");
@@ -185,6 +185,28 @@ void test("provider outage, configuration fault and missing auth answer 503 with
     assert.deepEqual(
         reports.map(({ step }) => step),
         ["sign_in", "sign_in", "sign_in"],
+    );
+});
+
+void test("an address-dependent provider rejection stays a neutral 200 for every address and is reported", async () => {
+    const { reports, report } = recordingReporter();
+    const results = await Promise.all(
+        ["new@example.com", "blocked@example.com"].map((email) =>
+            requestEmailLink(
+                { email },
+                SIGN_IN_URL,
+                { signInWithOtp: () => Promise.resolve({ error: new AuthApiError(`detail for ${email}`, 422, "email_address_not_authorized") }) },
+                report,
+            ),
+        ),
+    );
+
+    for (const result of results) {
+        assert.deepEqual(result, { ok: true, status: 200, message: EMAIL_LINK_MESSAGE });
+    }
+    assert.deepEqual(
+        reports.map(({ step }) => step),
+        ["sign_in", "sign_in"],
     );
 });
 
